@@ -6,41 +6,25 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     CapsuleCollider capCol;
-    DefaultPlayerActions pActions;
-    //public PlayerInput pInput;
+    public PlayerInput pInput;
 
-    //Vector3 playerVelocity;
     Vector2 mInput;
-    float pSpeed = 2f;
+    [SerializeField] float pSpeed = 2f;
     
     private void Awake()
     {
         capCol = GetComponent<CapsuleCollider>();
-        //pInput = GetComponent<PlayerInput>();
-        pActions = new DefaultPlayerActions();
-    }
-
-    private void OnEnable()
-    {
-        pActions.Player.Enable();
-    }
-    
-    private void OnDisable()
-    {
-        pActions.Player.Disable();
+        pInput = GetComponent<PlayerInput>();
     }
 
     private void Update()
     {
-        mInput = pActions.Player.Move.ReadValue<Vector2>();
         Vector3 movement = new Vector3(mInput.x, 0, mInput.y);
-        transform.Translate(movement * pSpeed * Time.deltaTime);
+        transform.Translate(movement * pSpeed * Time.deltaTime); // maybe rb movement?
     }
 
-/*    public void Move(InputAction.CallbackContext context)
+    public void Move(InputAction.CallbackContext context)
     {
-        //if (context.started) print("oog");
-        Vector2 moveValue = context.ReadValue<Vector2>();
-        transform.Translate(new Vector3(moveValue.x, 0, moveValue.y));
-    }*/
+        mInput = context.ReadValue<Vector2>();
+    }
 }
