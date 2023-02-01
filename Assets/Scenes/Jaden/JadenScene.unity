@@ -872,7 +872,7 @@ CapsuleCollider:
   m_Radius: 0.5
   m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0.04, y: 0.9, z: 0}
 --- !u!23 &1496779000
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -921,7 +921,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1496778998}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 6622264641530768373, guid: 6fc52dba551a5f74bbd0f62dd8946067, type: 3}
 --- !u!4 &1496779002
 Transform:
   m_ObjectHideFlags: 0
@@ -930,7 +930,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1496778998}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.846, y: 2.5, z: -0.5}
+  m_LocalPosition: {x: 1.846, y: 1.05, z: -0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -948,6 +948,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdca38df9ff142a4b9b515f175fa2e05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pInput: {fileID: 1496779004}
+  pSpeed: 2
 --- !u!114 &1496779004
 MonoBehaviour:
   m_ObjectHideFlags: 0
