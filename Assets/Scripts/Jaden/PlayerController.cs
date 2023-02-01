@@ -7,14 +7,17 @@ public class PlayerController : MonoBehaviour
 {
     CapsuleCollider capCol;
     public PlayerInput pInput;
+    Animator animr;
+    bool animBuffer = false;
 
     Vector2 mInput;
     [SerializeField] float pSpeed = 2f;
-    
+
     private void Awake()
     {
         capCol = GetComponent<CapsuleCollider>();
         pInput = GetComponent<PlayerInput>();
+        animr = GetComponent<Animator>();
     }
 
     private void Update()
@@ -26,5 +29,21 @@ public class PlayerController : MonoBehaviour
     public void Move(InputAction.CallbackContext context)
     {
         mInput = context.ReadValue<Vector2>();
+    }
+
+    public void Attack(InputAction.CallbackContext context)
+    {
+        animr.SetBool("isAttacking", true);
+    }
+
+    #region Minor utility functions
+    IEnumerator AnimBuffer(string animName, float duration, bool offWhenDone)
+    {
+        animr.SetBool(animName, true);
+        animBuffer = true;
+        yield return new WaitForSeconds(duration);
+        animBuffer = false;
+        if (offWhenDone) { animr.SetBool(animName, false); }
+        #endregion
     }
 }
