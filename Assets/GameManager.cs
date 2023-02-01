@@ -13,9 +13,4 @@ public class GameManager : MonoBehaviour
             Debug.Log("PlayerController found.");
         } else Debug.Log("PlayerController has not been found.");
     }
-
-    void Update()
-    {
-        
-    }
 }
