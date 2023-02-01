@@ -10,11 +10,9 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         player = FindObjectOfType<PlayerController>();
-        if (player != null)
-        {
+        if (player != null) {
             Debug.Log("PlayerController found.");
-        }
-        else Debug.Log("PlayerController has not been found.");
+        } else Debug.Log("PlayerController has not been found.");
     }
 
     // Update is called once per frame
