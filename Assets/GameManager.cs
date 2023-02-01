@@ -6,7 +6,6 @@ public class GameManager : MonoBehaviour
 {
     PlayerController player;
 
-    // Start is called before the first frame update
     void Start()
     {
         player = FindObjectOfType<PlayerController>();
@@ -15,7 +14,6 @@ public class GameManager : MonoBehaviour
         } else Debug.Log("PlayerController has not been found.");
     }
 
-    // Update is called once per frame
     void Update()
     {
         

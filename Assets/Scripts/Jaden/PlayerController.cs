@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
 
     public void Attack(InputAction.CallbackContext context)
     {
-        animr.SetBool("isAttacking", true);
+        if (animBuffer == false) StartCoroutine(AnimBuffer("isAttacking", .73f, true));
     }
 
     #region Minor utility functions
@@ -44,6 +44,6 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(duration);
         animBuffer = false;
         if (offWhenDone) { animr.SetBool(animName, false); }
-        #endregion
     }
+    #endregion
 }
