@@ -41,9 +41,6 @@ public class Enemy : MonoBehaviour
     bool didHealthChange = false;
 
     // NOTE(Roskuski): Internal references
-    MeshRenderer headMesh;
-    MeshRenderer bodyMesh;
-    MeshRenderer crestMesh;
     NavMeshAgent navAgent;
 
     // NOTE(Roskuski): External references
@@ -117,9 +114,6 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        headMesh = transform.Find("Visual/Head").GetComponent<MeshRenderer>();
-        bodyMesh = transform.Find("Visual/Body").GetComponent<MeshRenderer>();
-        crestMesh = transform.Find("Visual/Crest").GetComponent<MeshRenderer>();
         navAgent = this.GetComponent<NavMeshAgent>();
 
         gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
