@@ -120,6 +120,7 @@ public class Enemy : MonoBehaviour
         headMesh = transform.Find("Visual/Head").GetComponent<MeshRenderer>();
         bodyMesh = transform.Find("Visual/Body").GetComponent<MeshRenderer>();
         crestMesh = transform.Find("Visual/Crest").GetComponent<MeshRenderer>();
+        navAgent = this.GetComponent<NavMeshAgent>();
 
         gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
         
@@ -129,7 +130,7 @@ public class Enemy : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
-        Vector3 playerPosition = gameMan.player.transform.position;
+        Vector3 playerPosition = gameMan.player.position;
         // NOTE(Roskuski) if we're hurt, instill the fear of god into this enemy
         if (didHealthChange) {
         }

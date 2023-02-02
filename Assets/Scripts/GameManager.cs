@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public PlayerController player;
+    public Transform player;
 
     void Start()
     {
-        player = FindObjectOfType<PlayerController>();
+        player = transform.Find("/Player");
         if (player != null) {
-            Debug.Log("PlayerController found.");
-        } else Debug.Log("PlayerController has not been found.");
+            Debug.Log("Object Named Player found");
+        } else Debug.Log("Object Named Player Not found");
     }
 }
