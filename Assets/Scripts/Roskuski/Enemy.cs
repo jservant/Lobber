@@ -46,12 +46,6 @@ public class Enemy : MonoBehaviour
     // NOTE(Roskuski): External references
     GameManager gameMan;
 
-    // NOTE(Roskuski): Changing color to assist with debugging states TEMPORARY!!!
-    void ChangeColor(Color color) {
-        headMesh.material.color = color;
-        bodyMesh.material.color = color;
-    }
-
     // NOTE(Roskuski): To be called from sources of damage
     public void ReceiveDamage(int damage) {
         health -= damage;
@@ -117,9 +111,6 @@ public class Enemy : MonoBehaviour
         navAgent = this.GetComponent<NavMeshAgent>();
 
         gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
-        
-
-        crestMesh.material.color = Color.black;
     }
 
     // Update is called once per frame
