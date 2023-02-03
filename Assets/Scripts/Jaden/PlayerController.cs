@@ -44,6 +44,11 @@ public class PlayerController : MonoBehaviour
     {
         if (animBuffer == false) StartCoroutine(AnimBuffer("attack", .73f, true));
     }
+
+    public void Lob(InputAction.CallbackContext context)
+    {
+        if (animBuffer == false) StartCoroutine(AnimBuffer("lob", .73f, true));
+    }
     #endregion
 
     private void OnTriggerEnter(Collider other) // trigger SHOULD be axe hitbox
