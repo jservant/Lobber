@@ -109,7 +109,7 @@ public class Enemy : MonoBehaviour
         int rollingTotal = 0;
         for (int index = 0; index < choiceChances.Length; index += 1) {
             rollingTotal += choiceChances[index];
-            if (rollingTotal > roll) {
+            if (rollingTotal >= roll) {
                 result = index;
                 break;
             }
