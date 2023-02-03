@@ -67,6 +67,7 @@ public class Enemy : MonoBehaviour
     public void ReceiveDamage(int damage) {
         health -= damage;
         didHealthChange = true;
+        Debug.Log("Player hit! Damage dealt: " + damage + " Remaining health: " + health);
     }
 
     /* NOTE(Roskuski): 

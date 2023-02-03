@@ -8,19 +8,21 @@ public class PlayerController : MonoBehaviour
     CapsuleCollider capCol;
     BoxCollider hitbox;
     Rigidbody rb;
-    public PlayerInput pInput;
     Animator animr;
     bool animBuffer = false;
 
     Vector2 mInput;
     [SerializeField] float pSpeed = 2f;
+    [SerializeField] int damage = 5;
 
     private void Awake()
     {
         capCol = GetComponent<CapsuleCollider>();
         rb = GetComponent<Rigidbody>();
-        pInput = GetComponent<PlayerInput>();
         animr = GetComponent<Animator>();
+        hitbox = transform.Find("Axe_Controller/AxeHitbox").GetComponent<BoxCollider>();
+        if (hitbox != null) { Debug.Log("Axe hitbox found on player."); }
+        else { Debug.LogWarning("Axe hitbox not found on player."); }
     }
 
     private void Update()
@@ -30,6 +32,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    #region Player inputs
     public void Move(InputAction.CallbackContext context)
     {
         mInput = context.ReadValue<Vector2>();
@@ -39,8 +42,19 @@ public class PlayerController : MonoBehaviour
 
     public void Attack(InputAction.CallbackContext context)
     {
-        if (animBuffer == false) StartCoroutine(AnimBuffer("isAttacking", .73f, true));
+        if (animBuffer == false) StartCoroutine(AnimBuffer("attack", .73f, true));
     }
+    #endregion
+
+    private void OnTriggerEnter(Collider other) // trigger SHOULD be axe hitbox
+    {
+        if (other.gameObject.layer == 6) {//Enemy
+            other.gameObject.GetComponent<Enemy>().ReceiveDamage(damage);
+        }
+    }
+
+    //TODO(@Jaden): Add OnTriggerEnter to make axe hitbox work, remember to do hitstun coroutine on enemy
+    // so it doesn't melt their health
 
     #region Minor utility functions
     IEnumerator AnimBuffer(string animName, float duration, bool offWhenDone)
