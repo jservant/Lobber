@@ -203,13 +203,22 @@ public class Enemy : MonoBehaviour
             }
         }
         else if (directive == AiDirective.MaintainLeftFlank) {
-            // @Nexttime(Roskuski) Implment flanking!
-            //playerPosition 
-            //navAgent.SetDestination();
+            // @TODO(Roskuski): I was recommened to do this based off of camera position
+            // I want to do that, but until the player controller is function enough, I cannot.
+            // for now, I'm making it based off the rotation of the player object.
+            Vector3 delta = (Quaternion.AngleAxis(90, Vector3.up) * Vector3.right) * targetDistance;
+            navAgent.stoppingDistance = 0;
+            navAgent.SetDestination(playerPosition + delta);
         }
         else if (directive == AiDirective.MaintainRightFlank) {
+            Vector3 delta = (Quaternion.AngleAxis(-90, Vector3.up) * Vector3.right) * targetDistance;
+            navAgent.SetDestination(playerPosition + delta);
+            navAgent.stoppingDistance = 0;
         }
         else if (directive == AiDirective.MaintainBackFlank) {
+            Vector3 delta = Vector3.right * targetDistance;
+            navAgent.SetDestination(playerPosition + delta);
+            navAgent.stoppingDistance = 0;
         }
         else if (directive == AiDirective.PerformAttack) {
         }
