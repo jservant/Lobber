@@ -17,10 +17,10 @@ public class Enemy : MonoBehaviour
     // NOTE(Roskuski): Enemy ai state
 
     const int TraitMax = 1000;
-    // NOTE(Roskuski): Range[0, 2*TraitMax] How aggsive this enemy will behave. Values below TraitMax will act Defensively!
-    [SerializeField] int traitAggressive = 1000;
-    // NOTE(Roskuski): Range[0, 2*TraitMax] Prefence for attacking from the player's behind and flanks. Values below TraitMax will prefer attacking from the front!
-    [SerializeField] int traitSneaky = 1000;
+    // NOTE(Roskuski): How aggsive this enemy will behave. Values below TraitMax will act Defensively!
+    [SerializeField, Range(0, 2*TraitMax)] int traitAggressive = 1000;
+    // NOTE(Roskuski): Prefence for attacking from the player's behind and flanks. Values below TraitMax will prefer attacking from the front!
+    [SerializeField, Range(0, 2*TraitMax)] int traitSneaky = 1000;
 
     enum AiDirective {
         // Do nothing, intentionally
@@ -42,10 +42,10 @@ public class Enemy : MonoBehaviour
         // @TODO more attack states?
         // Or attack states are secondary?
     }
-    AiDirective directive;
+    [SerializeField] AiDirective directive;
     
     float spawnWait = 2;
-    float targetDistance;
+    [SerializeField] float targetDistance;
     
 
     // NOTE(Roskuski): End of ai state
