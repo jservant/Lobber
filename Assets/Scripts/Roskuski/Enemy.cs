@@ -157,7 +157,6 @@ public class Enemy : MonoBehaviour
             case AiDirective.PerformAttack:      meshWithMat.material.color = Color.red; break;
         }
         Vector3 playerPosition = gameMan.player.position;
-        Vector3 playerPosition = gameMan.player.position;
 
         // Directive Changing
         if (directive == AiDirective.Inactive) {
