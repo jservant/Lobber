@@ -116,7 +116,7 @@ public class Enemy : MonoBehaviour
         }
         
         Debug.Assert(result != -1);
-        Debug.Log(this.name + " chose " + result + " with a roll of " + roll);
+        //Debug.Log(this.name + " chose " + result + " with a roll of " + roll);
         return result;
     }
 
