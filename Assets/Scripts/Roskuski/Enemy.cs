@@ -18,42 +18,50 @@ public class Enemy : MonoBehaviour
 
     const int TraitMax = 1000;
     // NOTE(Roskuski): Range[0, 2*TraitMax] How aggsive this enemy will behave. Values below TraitMax will act Defensively!
-    int traitAggressive = 1000;
+    [SerializeField] int traitAggressive = 1000;
     // NOTE(Roskuski): Range[0, 2*TraitMax] Prefence for attacking from the player's behind and flanks. Values below TraitMax will prefer attacking from the front!
-    int traitSneaky = 1000;
+    [SerializeField] int traitSneaky = 1000;
 
     enum AiDirective {
         // Do nothing, intentionally
         Inactive,
-        // Get to, and Maintain a distance from the player.
+        
+        // Maintain a certain distance from the player
         MaintainDistance,
+        // try to Flank to the player's left
+        MaintainLeftFlank,
+        // try to Flank to the player's right
+        MaintainRightFlank,
+        // try to Flank to the player's behind
+        MaintainBackFlank,
+
+        // @TODO Stunned state
+
+        // Attack the player!
+        PerformAttack, 
+        // @TODO more attack states?
+        // Or attack states are secondary?
     }
     AiDirective directive;
     
     float spawnWait = 2;
     float targetDistance;
-    bool wantsAttack;
+    
 
     // NOTE(Roskuski): End of ai state
+
+
     public const int MaxHealth = 10;
     int health = MaxHealth;
 
     bool didHealthChange = false;
 
     // NOTE(Roskuski): Internal references
-    MeshRenderer headMesh;
-    MeshRenderer bodyMesh;
-    MeshRenderer crestMesh;
     NavMeshAgent navAgent;
+    MeshRenderer meshWithMat;
 
     // NOTE(Roskuski): External references
     GameManager gameMan;
-
-    // NOTE(Roskuski): Changing color to assist with debugging states TEMPORARY!!!
-    void ChangeColor(Color color) {
-        headMesh.material.color = color;
-        bodyMesh.material.color = color;
-    }
 
     // NOTE(Roskuski): To be called from sources of damage
     public void ReceiveDamage(int damage) {
@@ -103,53 +111,108 @@ public class Enemy : MonoBehaviour
             rollingTotal += choiceChances[index];
             if (rollingTotal > roll) {
                 result = index;
+                break;
             }
         }
         
         Debug.Assert(result != -1);
+        Debug.Log(this.name + " chose " + result + " with a roll of " + roll);
         return result;
     }
 
-    void DirectiveChange() {
-        
+    bool CanAttemptNavigation() {
+        return navAgent.pathStatus == NavMeshPathStatus.PathComplete ||
+            navAgent.pathStatus == NavMeshPathStatus.PathPartial;
+    }
+
+    float DistanceToTravel() {
+        float result = 0;
+        if (navAgent.path.corners.Length > 2) {
+            result += Vector3.Distance(this.transform.position, navAgent.path.corners[1]);
+            for (int index = 1; index < navAgent.path.corners.Length; index += 1) {
+                result += Vector3.Distance(navAgent.path.corners[index - 1], navAgent.path.corners[index]);
+            }
+        }
+        return result;
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        headMesh = transform.Find("Visual/Head").GetComponent<MeshRenderer>();
-        bodyMesh = transform.Find("Visual/Body").GetComponent<MeshRenderer>();
-        crestMesh = transform.Find("Visual/Crest").GetComponent<MeshRenderer>();
         navAgent = this.GetComponent<NavMeshAgent>();
+        meshWithMat = transform.Find("Visual/The One with the material").GetComponent<MeshRenderer>();
 
         gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
-        
-
-        crestMesh.material.color = Color.black;
     }
 
     // Update is called once per frame
     void Update() {
-        Vector3 playerPosition = gameMan.player.position;
-        // NOTE(Roskuski) if we're hurt, instill the fear of god into this enemy
-        if (didHealthChange) {
+
+        switch (directive) {
+            case AiDirective.Inactive:           meshWithMat.material.color = Color.cyan; break;
+            case AiDirective.MaintainDistance:   meshWithMat.material.color = Color.green; break;
+            case AiDirective.MaintainLeftFlank:  meshWithMat.material.color = Color.blue; break;
+            case AiDirective.MaintainRightFlank: meshWithMat.material.color = Color.yellow; break;
+            case AiDirective.MaintainBackFlank:  meshWithMat.material.color = Color.black; break;
+            case AiDirective.PerformAttack:      meshWithMat.material.color = Color.red; break;
         }
-        bool wantDirectiveChange = false;
+        Vector3 playerPosition = gameMan.player.position;
 
         // Directive Changing
         if (directive == AiDirective.Inactive) {
             spawnWait -= Time.deltaTime;
             if (spawnWait < 0) {
-                int choice = RollTraitChoice(traitAggressive, new int[]{1000, 1000}, 500);
-                if (choice == 0) { // Defensive, make wide gap
-                    //AiDirective
+                int aggressiveChoice = RollTraitChoice(traitAggressive, new int[]{1000, 1000}, 500);
+                if (aggressiveChoice == 0) { // Defensive, make wide gap
+                    
+                    targetDistance = 6;
+                    int sneakyChoice = RollTraitChoice(traitSneaky, new int[]{500, 600, 900}, 500);
+                    if (sneakyChoice == 0) { // I don't care!
+                        directive = AiDirective.MaintainDistance;
+                    }
+                    else if (sneakyChoice == 1) { // Left/Right flank
+                        // @TODO(Roskuski): Determine based off of distance to the player.
+                        int coinFlip = Random.Range(0, 2);
+                        if (coinFlip == 0) {
+                            directive = AiDirective.MaintainLeftFlank;
+                        }
+                        else {
+                            directive = AiDirective.MaintainRightFlank;
+                        }
+                    }
+                    else if (sneakyChoice == 2) { // Back flank
+                        directive = AiDirective.MaintainBackFlank;
+                    }
                 }
-                if (choice == 1) { // Agressive, make narrow gap
+                else if (aggressiveChoice == 1) { // Agressive, make narrow gap
+                    directive = AiDirective.MaintainDistance;
+                    targetDistance = 3;
                 }
             }
-            targetDistance = 2;
-            navAgent.stoppingDistance = targetDistance; // @TODO(Roskuski): aggressivly keep this in sync with targetDistance?
-            navAgent.SetDestination(playerPosition);
         }
+        else if (directive == AiDirective.MaintainDistance) {
+            navAgent.SetDestination(playerPosition); 
+            navAgent.stoppingDistance = targetDistance;
+            if (DistanceToTravel() < 0.05) {
+                int aggressiveChoice = RollTraitChoice(traitAggressive, new int[]{1250, 500}, 500);
+                int sneakyChoice = RollTraitChoice(traitSneaky, new int[]{500, 600, 900}, 500);
+                if (aggressiveChoice == 0) { // consider a flank
+                }
+                else if (aggressiveChoice == 1) { // Lets attack now!
+                }
+            }
+        }
+        else if (directive == AiDirective.MaintainLeftFlank) {
+            // @Nexttime(Roskuski) Implment flanking!
+            //playerPosition 
+            //navAgent.SetDestination();
+        }
+        else if (directive == AiDirective.MaintainRightFlank) {
+        }
+        else if (directive == AiDirective.MaintainBackFlank) {
+        }
+        else if (directive == AiDirective.PerformAttack) {
+        }
+        else { Debug.Assert(false); }
     }
 }
