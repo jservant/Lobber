@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     public Transform player;
     PlayerInput pInput;
 
-    void Start() {
+    void Awake() {
         player = transform.Find("/Player");
         if (player != null) {
             Debug.Log("Object Named Player found");
