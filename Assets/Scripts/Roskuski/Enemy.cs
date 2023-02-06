@@ -17,10 +17,10 @@ public class Enemy : MonoBehaviour
     // NOTE(Roskuski): Enemy ai state
 
     const int TraitMax = 1000;
-    // NOTE(Roskuski): Range[0, 2*TraitMax] How aggsive this enemy will behave. Values below TraitMax will act Defensively!
-    [SerializeField] int traitAggressive = 1000;
-    // NOTE(Roskuski): Range[0, 2*TraitMax] Prefence for attacking from the player's behind and flanks. Values below TraitMax will prefer attacking from the front!
-    [SerializeField] int traitSneaky = 1000;
+    // NOTE(Roskuski): How aggsive this enemy will behave. Values below TraitMax will act Defensively!
+    [SerializeField, Range(0, 2*TraitMax)] int traitAggressive = 1000;
+    // NOTE(Roskuski): Prefence for attacking from the player's behind and flanks. Values below TraitMax will prefer attacking from the front!
+    [SerializeField, Range(0, 2*TraitMax)] int traitSneaky = 1000;
 
     enum AiDirective {
         // Do nothing, intentionally
@@ -42,10 +42,10 @@ public class Enemy : MonoBehaviour
         // @TODO more attack states?
         // Or attack states are secondary?
     }
-    AiDirective directive;
+    [SerializeField] AiDirective directive;
     
     float spawnWait = 2;
-    float targetDistance;
+    [SerializeField] float targetDistance;
     
 
     // NOTE(Roskuski): End of ai state
@@ -67,6 +67,7 @@ public class Enemy : MonoBehaviour
     public void ReceiveDamage(int damage) {
         health -= damage;
         didHealthChange = true;
+        Debug.Log("Player hit! Damage dealt: " + damage + " Remaining health: " + health);
     }
 
     /* NOTE(Roskuski): 
@@ -109,14 +110,14 @@ public class Enemy : MonoBehaviour
         int rollingTotal = 0;
         for (int index = 0; index < choiceChances.Length; index += 1) {
             rollingTotal += choiceChances[index];
-            if (rollingTotal > roll) {
+            if (rollingTotal >= roll) {
                 result = index;
                 break;
             }
         }
         
         Debug.Assert(result != -1);
-        Debug.Log(this.name + " chose " + result + " with a roll of " + roll);
+        //Debug.Log(this.name + " chose " + result + " with a roll of " + roll);
         return result;
     }
 
@@ -157,6 +158,7 @@ public class Enemy : MonoBehaviour
             case AiDirective.PerformAttack:      meshWithMat.material.color = Color.red; break;
         }
         Vector3 playerPosition = gameMan.player.position;
+        Quaternion playerRotation = gameMan.player.rotation; 
 
         // Directive Changing
         if (directive == AiDirective.Inactive) {
@@ -203,13 +205,22 @@ public class Enemy : MonoBehaviour
             }
         }
         else if (directive == AiDirective.MaintainLeftFlank) {
-            // @Nexttime(Roskuski) Implment flanking!
-            //playerPosition 
-            //navAgent.SetDestination();
+            // @TODO(Roskuski): I was recommened to do this based off of camera position
+            // I want to do that, but until the player controller is function enough, I cannot.
+            // for now, I'm making it based off the rotation of the player object.
+            Vector3 delta = (Quaternion.AngleAxis(90, Vector3.up) * Vector3.right) * targetDistance;
+            navAgent.stoppingDistance = 0;
+            navAgent.SetDestination(playerPosition + delta);
         }
         else if (directive == AiDirective.MaintainRightFlank) {
+            Vector3 delta = (Quaternion.AngleAxis(-90, Vector3.up) * Vector3.right) * targetDistance;
+            navAgent.SetDestination(playerPosition + delta);
+            navAgent.stoppingDistance = 0;
         }
         else if (directive == AiDirective.MaintainBackFlank) {
+            Vector3 delta = Vector3.right * targetDistance;
+            navAgent.SetDestination(playerPosition + delta);
+            navAgent.stoppingDistance = 0;
         }
         else if (directive == AiDirective.PerformAttack) {
         }

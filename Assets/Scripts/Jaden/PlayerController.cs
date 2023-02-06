@@ -2,59 +2,85 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
     CapsuleCollider capCol;
-    BoxCollider hitbox;
     Rigidbody rb;
-    public PlayerInput pInput;
     Animator animr;
     bool animBuffer = false;
+    MeshRenderer headMesh;
 
     Vector2 mInput;
     [SerializeField] float pSpeed = 2f;
+    [SerializeField] int damage = 5;
 
     private void Awake()
     {
         capCol = GetComponent<CapsuleCollider>();
         rb = GetComponent<Rigidbody>();
-        pInput = GetComponent<PlayerInput>();
         animr = GetComponent<Animator>();
+        headMesh = transform.Find("Axe_Controller/AxeHitbox/Sphere").GetComponent<MeshRenderer>();
+        #region debug
+        if (headMesh != null) { Debug.Log("Axe headmesh found on player."); }
+        else { Debug.LogWarning("Axe headmesh not found on player."); }
+        #endregion
     }
 
     private void Update()
     {
         Vector3 movement = new Vector3(mInput.x, 0, mInput.y).normalized;
-        transform.Translate(movement * pSpeed * Time.deltaTime); // maybe rb movement?
-        //rb.velocity = movement * pSpeed * Time.deltaTime;
-        transform.rotation = Quaternion.FromToRotation(Vector3.zero, movement);
-        Debug.Log(Quaternion.LookRotation(rb.velocity, Vector3.up));
-                             //Quaternion.LookRotation(rb.velocity, Vector3.up);
-        // TODO(@Jaden): Rotate player on x axis relative to where player is moving
+        rb.MovePosition(transform.position + movement * Time.deltaTime * pSpeed);
 
-/*        //movement
-        if (movement.magnitude >= 0.1)
-        {
-            float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnVelocity, turnSpeed);
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
-
-            Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            pInput.Move(moveDirection.normalized * pSpeed * Time.deltaTime);
-        }*/
     }
 
+    #region Player inputs
     public void Move(InputAction.CallbackContext context)
     {
         mInput = context.ReadValue<Vector2>();
+        if (context.performed == true) { transform.rotation = Quaternion.LookRotation(new Vector3(mInput.x, 0, mInput.y)); }
         //Debug.Log("Move activated, current value: " + mInput);
     }
 
     public void Attack(InputAction.CallbackContext context)
     {
-        if (animBuffer == false) StartCoroutine(AnimBuffer("isAttacking", .73f, true));
+        if (animBuffer == false) StartCoroutine(AnimBuffer("attack", .73f, true));
     }
+
+    public void Lob(InputAction.CallbackContext context)
+    {
+        if (animBuffer == false) {
+            if (headMesh.enabled == true) {
+                StartCoroutine(AnimBuffer("lobThrow", .7f, true));
+                headMesh.enabled = false;
+                //TODO(@Jaden): Create a projectile
+            }
+            else StartCoroutine(AnimBuffer("lob", .73f, true));
+        }
+    }
+
+    public void Restart(InputAction.CallbackContext context)
+    {
+        Debug.Log("Restart called");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+    #endregion
+
+    private void OnTriggerEnter(Collider other) // trigger SHOULD be axe hitbox
+    {
+        if (other.gameObject.layer == 6 && animr.GetBool("lob") == false) {//Enemy
+            other.gameObject.GetComponent<Enemy>().ReceiveDamage(damage);
+        }
+        if (other.gameObject.layer == 6 && animr.GetBool("lob") == true) {
+            //todo: enemy instantly dies
+            Debug.Log("Lob landed");
+            headMesh.enabled = true;
+        }
+    }
+
+    //TODO(@Jaden): Add OnTriggerEnter to make axe hitbox work, remember to do hitstun on enemy
+    // so it doesn't melt their health
 
     #region Minor utility functions
     IEnumerator AnimBuffer(string animName, float duration, bool offWhenDone)
