@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
     CapsuleCollider capCol;
-    BoxCollider hitbox;
     Rigidbody rb;
     Animator animr;
     bool animBuffer = false;
@@ -22,12 +21,11 @@ public class PlayerController : MonoBehaviour
         capCol = GetComponent<CapsuleCollider>();
         rb = GetComponent<Rigidbody>();
         animr = GetComponent<Animator>();
-        hitbox = transform.Find("Axe_Controller/AxeHitbox").GetComponent<BoxCollider>();
         headMesh = transform.Find("Axe_Controller/AxeHitbox/Sphere").GetComponent<MeshRenderer>();
+        #region debug
         if (headMesh != null) { Debug.Log("Axe headmesh found on player."); }
         else { Debug.LogWarning("Axe headmesh not found on player."); }
-        if (hitbox != null) { Debug.Log("Axe hitbox found on player."); }
-        else { Debug.LogWarning("Axe hitbox not found on player."); }
+        #endregion
     }
 
     private void Update()
@@ -53,7 +51,11 @@ public class PlayerController : MonoBehaviour
     public void Lob(InputAction.CallbackContext context)
     {
         if (animBuffer == false) {
-            if (headMesh.enabled == true) { StartCoroutine(AnimBuffer("lobThrow", .7f, true)); headMesh.enabled = false; }
+            if (headMesh.enabled == true) {
+                StartCoroutine(AnimBuffer("lobThrow", .7f, true));
+                headMesh.enabled = false;
+                //TODO(@Jaden): Create a projectile
+            }
             else StartCoroutine(AnimBuffer("lob", .73f, true));
         }
     }
