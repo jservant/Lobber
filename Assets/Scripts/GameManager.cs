@@ -7,7 +7,8 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public Transform player;
-    PlayerInput pInput;
+
+    public List<Enemy> enemyList;
 
     void Awake() {
         player = transform.Find("/Player");

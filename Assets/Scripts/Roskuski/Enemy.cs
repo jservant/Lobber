@@ -152,11 +152,7 @@ public class Enemy : MonoBehaviour
         this.targetOffset = targetOffset;
     }
 
-    void OnTriggerEnter() {
-    }
-
-    void Start()
-    {
+    void Start() {
         navAgent = this.GetComponent<NavMeshAgent>();
         meshWithMat = transform.Find("Visual/The One with the material").GetComponent<MeshRenderer>();
         hitboxObj = transform.Find("AttackBox").gameObject;
@@ -164,6 +160,11 @@ public class Enemy : MonoBehaviour
         gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 
         hitboxObj.SetActive(false);
+        gameMan.enemyList.Add(this);
+    }
+
+    void OnDestroy() {
+        gameMan.enemyList.Remove(this);
     }
 
     void Update() {
@@ -213,6 +214,19 @@ public class Enemy : MonoBehaviour
         else if (directive == Directive.MaintainDistancePlayer) {
             navAgent.SetDestination(playerPosition + targetOffset);
             navAgent.stoppingDistance = targetDistance;
+
+            // @TODO(Roskuski) this is an okay first pass at making enemys avoid eachother.
+            // I think they should make an attempt to spread out as well, perhaps start orbiting the player in a sense?
+            // Or that the ones the flank to a particular direction should target a wider area around the player.
+            // This can be done cheeply by introducing randomness to the target location offset chosen.
+            foreach (Enemy obj in gameMan.enemyList) {
+                if (obj != this) { // ignore self
+                    float delta = Vector3.Distance(obj.transform.position, this.transform.position);
+                    if (delta <= 2) {
+                        this.transform.position += Vector3.Normalize(this.transform.position - obj.transform.position) * Mathf.Lerp(0, 2,(2 - delta)/2.0f);
+                    }
+                }
+            }
 
             if (distanceToPlayer < 3) {
                 ChangeDirective_MaintainDistancePlayer(3);
