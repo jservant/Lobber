@@ -5,10 +5,17 @@ using UnityEngine;
 public class HeadProjectile : MonoBehaviour
 {
     [SerializeField] float speed = 25f;
+    [SerializeField] int damage = 8;
 
-    // Update is called once per frame
     void Update()
     {
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == 6) {
+            other.GetComponent<Enemy>().ReceiveDamage(damage);
+        }
     }
 }

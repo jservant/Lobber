@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     GameObject headProj;
     Transform projSpawn;
     Transform projDir;
+    List<GameObject> enemiesHit;
 
     Vector2 mInput;
     [SerializeField] float speed = 2f;
@@ -23,7 +24,7 @@ public class PlayerController : MonoBehaviour
         //capCol = GetComponent<CapsuleCollider>();
         rb = GetComponent<Rigidbody>();
         animr = GetComponent<Animator>();
-        headMesh = transform.Find("Axe_Controller/AxeHitbox/Sphere").GetComponent<MeshRenderer>();
+        headMesh = transform.Find("Axe_Controller/AxeHitbox/StoredHead").GetComponent<MeshRenderer>();
         projSpawn = transform.Find("ProjSpawn");
         headProj = Resources.Load("Prefabs/HeadProjectile", typeof(GameObject)) as GameObject;
         #region debug
@@ -36,7 +37,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update() {
         Vector3 movement = new Vector3(mInput.x, 0, mInput.y).normalized;
-        this.transform.position += (movement * Time.deltaTime * speed);
+        transform.position += (movement * Time.deltaTime * speed);
 
     }
 
@@ -75,6 +76,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other) { // trigger SHOULD be axe hitbox
         if (other.gameObject.layer == 6 && animr.GetBool("lob") == false) {//Enemy
+            // if (other.gameObject ) is not in enemiesHit list
             other.gameObject.GetComponent<Enemy>().ReceiveDamage(damage);
         }
         if (other.gameObject.layer == 6 && animr.GetBool("lob") == true) {
@@ -84,7 +86,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    //TODO(@Jaden): Add OnTriggerEnter to make axe hitbox work, remember to do hitstun on enemy
+    //@TODO(Jaden): Add OnTriggerEnter to make axe hitbox work, remember to do hitstun on enemy
     // so it doesn't melt their health
 
     #region Minor utility functions
