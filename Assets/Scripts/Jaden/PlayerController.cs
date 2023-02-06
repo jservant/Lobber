@@ -11,12 +11,12 @@ public class PlayerController : MonoBehaviour
     Animator animr;
     bool animBuffer = false;
     MeshRenderer headMesh;
-    public GameObject headProj;
+    GameObject headProj;
     Transform projSpawn;
+    Transform projDir;
 
     Vector2 mInput;
     [SerializeField] float speed = 2f;
-    [SerializeField] float projSpeed = 2f;
     [SerializeField] int damage = 5;
 
     private void Awake() {
@@ -25,9 +25,12 @@ public class PlayerController : MonoBehaviour
         animr = GetComponent<Animator>();
         headMesh = transform.Find("Axe_Controller/AxeHitbox/Sphere").GetComponent<MeshRenderer>();
         projSpawn = transform.Find("ProjSpawn");
+        headProj = Resources.Load("Prefabs/HeadProjectile", typeof(GameObject)) as GameObject;
         #region debug
         if (headMesh != null) { Debug.Log("Axe headmesh found on player."); }
         else { Debug.LogWarning("Axe headmesh not found on player."); }
+        if (headProj != null) { Debug.Log("Head projectile found in Resources."); }
+        else { Debug.LogWarning("Head projectile not found in Resources."); }
         #endregion
     }
 
@@ -66,8 +69,8 @@ public class PlayerController : MonoBehaviour
 
     public void LobThrow() { // triggered in animator
         headMesh.enabled = false;
-        GameObject iHeadProj = Instantiate(headProj, projSpawn.position, new Quaternion(0,0,0,1)); // FIX THIS
-        iHeadProj.transform.Translate(new Vector3(mInput.x, 0, mInput.y) * projSpeed * Time.deltaTime);
+        GameObject iHeadProj = Instantiate(headProj, projSpawn.position, transform.rotation);
+        //iHeadProj.transform.Translate(new Vector3(mInput.x, 0, mInput.y) * projSpeed * Time.deltaTime);
     }
 
     private void OnTriggerEnter(Collider other) { // trigger SHOULD be axe hitbox
