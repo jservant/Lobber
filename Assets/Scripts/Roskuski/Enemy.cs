@@ -152,6 +152,15 @@ public class Enemy : MonoBehaviour
         this.targetOffset = targetOffset;
     }
 
+    void OnTriggerEnter(Collider other) {
+        if (other.gameObject.layer == (int)Layers.PlayerHurtbox) {
+            // @TODO(Roskuski): Debug.Log("The Player is hitting me!");
+        }
+        if (other.gameObject.layer == (int)Layers.PlayerHitbox) {
+            // @TODO(Roskuski): Debug.Log("I hit the player!"); 
+        }
+    }
+
     void Start() {
         navAgent = this.GetComponent<NavMeshAgent>();
         meshWithMat = transform.Find("Visual/The One with the material").GetComponent<MeshRenderer>();

@@ -74,15 +74,19 @@ public class PlayerController : MonoBehaviour
         //iHeadProj.transform.Translate(new Vector3(mInput.x, 0, mInput.y) * projSpeed * Time.deltaTime);
     }
 
-    private void OnTriggerEnter(Collider other) { // trigger SHOULD be axe hitbox
-        if (other.gameObject.layer == 6 && animr.GetBool("lob") == false) {//Enemy
-            // if (other.gameObject ) is not in enemiesHit list
-            other.gameObject.GetComponent<Enemy>().ReceiveDamage(damage);
+    private void OnTriggerEnter(Collider other) {
+        if (other.gameObject.layer == (int)Layers.EnemyHurtbox) {
+            // @TODO(Roskuski): Debug.Log("The enemy is hitting me");
         }
-        if (other.gameObject.layer == 6 && animr.GetBool("lob") == true) {
-            //todo: enemy instantly dies
-            Debug.Log("Lob landed");
-            headMesh.enabled = true;
+        else if (other.gameObject.layer == (int)Layers.EnemyHitbox) { 
+            if (animr.GetBool("lob") == false) {
+                other.gameObject.GetComponent<Enemy>().ReceiveDamage(damage);
+            }
+            if (animr.GetBool("lob") == true) {
+                //todo: enemy instantly dies
+                Debug.Log("Lob landed");
+                headMesh.enabled = true;
+            }
         }
     }
 
