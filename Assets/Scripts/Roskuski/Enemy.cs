@@ -12,6 +12,8 @@ using UnityEngine.AI;
  */
 
 
+// @TODO(Roskuski): At a high level: enemies which are flanking should break out of flank if they get too close to the player.
+
 public class Enemy : MonoBehaviour
 {
     // NOTE(Roskuski): Enemy ai state
@@ -22,34 +24,38 @@ public class Enemy : MonoBehaviour
     // NOTE(Roskuski): Prefence for attacking from the player's behind and flanks. Values below TraitMax will prefer attacking from the front!
     [SerializeField, Range(0, 2*TraitMax)] int traitSneaky = 1000;
 
-    enum AiDirective {
+    enum Directive {
         // Do nothing, intentionally
         Inactive,
         
-        // Maintain a certain distance from the player
-        MaintainDistance,
-        // try to Flank to the player's left
-        MaintainLeftFlank,
-        // try to Flank to the player's right
-        MaintainRightFlank,
-        // try to Flank to the player's behind
-        MaintainBackFlank,
+        // Maintain a certain distance from the player, perhaps with a certain offset
+        MaintainDistancePlayer,
 
         // @TODO Stunned state
 
         // Attack the player!
         PerformAttack, 
-        // @TODO more attack states?
-        // Or attack states are secondary?
     }
-    [SerializeField] AiDirective directive;
+    [SerializeField] Directive directive;
+
+    enum Attack {
+        None,
+        Sweep,
+        Lunge,
+    }
+    Attack currentAttack = Attack.None;
     
-    float spawnWait = 2;
-    [SerializeField] float targetDistance;
+    float inactiveWait = 2;
+    float targetDistance;
+    Vector3 targetOffset; 
+
+    int failedAttackRolls = 0;
+    float attackTimer = 1.0f; // @TODO(Roskuski) Fine tune this parameter
     
 
     // NOTE(Roskuski): End of ai state
 
+    public const float LungeSpeed = 15;
 
     public const int MaxHealth = 10;
     int health = MaxHealth;
@@ -59,6 +65,8 @@ public class Enemy : MonoBehaviour
     // NOTE(Roskuski): Internal references
     NavMeshAgent navAgent;
     MeshRenderer meshWithMat;
+    GameObject hitboxObj;
+    
 
     // NOTE(Roskuski): External references
     GameManager gameMan;
@@ -96,7 +104,7 @@ public class Enemy : MonoBehaviour
         foreach (int value in choiceChances) {
             choiceTotal += value;
         }
-        Debug.Assert(2*TraitMax + Abs(bias) == choiceTotal);
+        Debug.Assert(2*TraitMax == choiceTotal, choiceTotal + "Is not" + 2*TraitMax);
 
         int result = -1;
         int roll = Random.Range(-rollRange, rollRange + 1); // Max is exclusive in Range.Range(int,int)
@@ -127,103 +135,161 @@ public class Enemy : MonoBehaviour
     }
 
     float DistanceToTravel() {
-        float result = 0;
-        if (navAgent.path.corners.Length > 2) {
+        float result = -1;
+        if (navAgent.path.corners.Length >= 2) {
             result += Vector3.Distance(this.transform.position, navAgent.path.corners[1]);
             for (int index = 1; index < navAgent.path.corners.Length; index += 1) {
                 result += Vector3.Distance(navAgent.path.corners[index - 1], navAgent.path.corners[index]);
             }
+            result -= targetDistance;
         }
         return result;
     }
 
-    // Start is called before the first frame update
+    void ChangeDirective_MaintainDistancePlayer(float targetDistance, Vector3 targetOffset = default(Vector3)) {
+        this.directive = Directive.MaintainDistancePlayer;
+        this.targetDistance = targetDistance;
+        this.targetOffset = targetOffset;
+    }
+
+    void OnTriggerEnter() {
+    }
+
     void Start()
     {
         navAgent = this.GetComponent<NavMeshAgent>();
         meshWithMat = transform.Find("Visual/The One with the material").GetComponent<MeshRenderer>();
+        hitboxObj = transform.Find("AttackBox").gameObject;
 
         gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
+
+        hitboxObj.SetActive(false);
     }
 
-    // Update is called once per frame
     void Update() {
 
         switch (directive) {
-            case AiDirective.Inactive:           meshWithMat.material.color = Color.cyan; break;
-            case AiDirective.MaintainDistance:   meshWithMat.material.color = Color.green; break;
-            case AiDirective.MaintainLeftFlank:  meshWithMat.material.color = Color.blue; break;
-            case AiDirective.MaintainRightFlank: meshWithMat.material.color = Color.yellow; break;
-            case AiDirective.MaintainBackFlank:  meshWithMat.material.color = Color.black; break;
-            case AiDirective.PerformAttack:      meshWithMat.material.color = Color.red; break;
+            case Directive.Inactive: meshWithMat.material.color = Color.cyan; break;
+            case Directive.MaintainDistancePlayer: meshWithMat.material.color = Color.green; break;
+            case Directive.PerformAttack: meshWithMat.material.color = Color.red; break;
         }
         Vector3 playerPosition = gameMan.player.position;
         Quaternion playerRotation = gameMan.player.rotation; 
+        Vector3 deltaToPlayer = gameMan.player.position - this.transform.position;
+        float distanceToPlayer = Vector3.Distance(this.transform.position, gameMan.player.position);
 
         // Directive Changing
-        if (directive == AiDirective.Inactive) {
-            spawnWait -= Time.deltaTime;
-            if (spawnWait < 0) {
+        if (directive == Directive.Inactive) {
+            inactiveWait -= Time.deltaTime; 
+            // @TODO(Roskuski) roll for attackTimer?
+            attackTimer = 1.0f;
+            if (inactiveWait < 0) {
                 int aggressiveChoice = RollTraitChoice(traitAggressive, new int[]{1000, 1000}, 500);
                 if (aggressiveChoice == 0) { // Defensive, make wide gap
-                    
-                    targetDistance = 6;
+
                     int sneakyChoice = RollTraitChoice(traitSneaky, new int[]{500, 600, 900}, 500);
-                    if (sneakyChoice == 0) { // I don't care!
-                        directive = AiDirective.MaintainDistance;
+                    if (sneakyChoice == 0) { // I don't care, but I'm scared!
+                        ChangeDirective_MaintainDistancePlayer(6);
                     }
                     else if (sneakyChoice == 1) { // Left/Right flank
                         // @TODO(Roskuski): Determine based off of distance to the player.
                         int coinFlip = Random.Range(0, 2);
                         if (coinFlip == 0) {
-                            directive = AiDirective.MaintainLeftFlank;
+                            ChangeDirective_MaintainDistancePlayer(2, Vector3.left * 6);
                         }
                         else {
-                            directive = AiDirective.MaintainRightFlank;
+                            ChangeDirective_MaintainDistancePlayer(2, Vector3.right * 6);
                         }
                     }
                     else if (sneakyChoice == 2) { // Back flank
-                        directive = AiDirective.MaintainBackFlank;
+                        ChangeDirective_MaintainDistancePlayer(2, Vector3.back * 6);
                     }
                 }
                 else if (aggressiveChoice == 1) { // Agressive, make narrow gap
-                    directive = AiDirective.MaintainDistance;
-                    targetDistance = 3;
+                    ChangeDirective_MaintainDistancePlayer(3);
                 }
             }
         }
-        else if (directive == AiDirective.MaintainDistance) {
-            navAgent.SetDestination(playerPosition); 
+        else if (directive == Directive.MaintainDistancePlayer) {
+            navAgent.SetDestination(playerPosition + targetOffset);
             navAgent.stoppingDistance = targetDistance;
-            if (DistanceToTravel() < 0.05) {
-                int aggressiveChoice = RollTraitChoice(traitAggressive, new int[]{1250, 500}, 500);
-                int sneakyChoice = RollTraitChoice(traitSneaky, new int[]{500, 600, 900}, 500);
-                if (aggressiveChoice == 0) { // consider a flank
-                }
-                else if (aggressiveChoice == 1) { // Lets attack now!
+
+            if (distanceToPlayer < 3) {
+                ChangeDirective_MaintainDistancePlayer(3);
+            }
+
+            if (DistanceToTravel() < 1) {
+                attackTimer -= Time.deltaTime;
+                if (attackTimer <= 0) {
+                    int aggressiveChoice = RollTraitChoice(traitAggressive, new int[]{350, 350, 350, 950}, 500, failedAttackRolls * 200);
+                    switch (aggressiveChoice) {
+                        default: Debug.Assert(false); break;
+                        case 0: // fail with long wait
+                            failedAttackRolls += 1;
+                            attackTimer = 3;
+                            break;
+                        case 1: // fail with normal wait
+                            failedAttackRolls += 1;
+                            attackTimer = 1.5f;
+                            break;
+                        case 2: // fail with short wait
+                            failedAttackRolls += 1;
+                            attackTimer = 0.5f;
+                            break;
+                        case 3: // attack!
+                            failedAttackRolls = 0;
+                            directive = Directive.PerformAttack;
+                            break;
+                    }
                 }
             }
         }
-        else if (directive == AiDirective.MaintainLeftFlank) {
-            // @TODO(Roskuski): I was recommened to do this based off of camera position
-            // I want to do that, but until the player controller is function enough, I cannot.
-            // for now, I'm making it based off the rotation of the player object.
-            Vector3 delta = (Quaternion.AngleAxis(90, Vector3.up) * Vector3.right) * targetDistance;
-            navAgent.stoppingDistance = 0;
-            navAgent.SetDestination(playerPosition + delta);
-        }
-        else if (directive == AiDirective.MaintainRightFlank) {
-            Vector3 delta = (Quaternion.AngleAxis(-90, Vector3.up) * Vector3.right) * targetDistance;
-            navAgent.SetDestination(playerPosition + delta);
-            navAgent.stoppingDistance = 0;
-        }
-        else if (directive == AiDirective.MaintainBackFlank) {
-            Vector3 delta = Vector3.right * targetDistance;
-            navAgent.SetDestination(playerPosition + delta);
-            navAgent.stoppingDistance = 0;
-        }
-        else if (directive == AiDirective.PerformAttack) {
+        else if (directive == Directive.PerformAttack) {
+            switch (currentAttack) {
+                case Attack.None:
+                    navAgent.enabled = false;
+                    if (distanceToPlayer <= 4) {
+                        currentAttack = Attack.Sweep;
+                        hitboxObj.SetActive(true);
+                        attackTimer = 1.5f;
+                    }
+                    else {
+                        currentAttack = Attack.Lunge;
+                        hitboxObj.SetActive(true);
+                        attackTimer = 0.5f; 
+                    }
+                    break;
+                case Attack.Sweep:
+                    attackTimer -= Time.deltaTime;
+                    if (attackTimer < 0) {
+                        hitboxObj.SetActive(false);
+                        currentAttack = Attack.None;
+                        directive = Directive.Inactive;
+                        navAgent.enabled = true;
+                        inactiveWait = 1.0f;
+                    }
+                    break;
+                case Attack.Lunge:
+                    attackTimer -= Time.deltaTime;
+                    this.transform.position += (this.transform.rotation * Vector3.forward) * LungeSpeed * Time.deltaTime;
+                    if (attackTimer < 0) {
+                        // If we found ourselves off geometry, wait util we finish falling.
+                        if (Physics.Raycast(this.transform.position, Vector3.down, 2)) {
+                            hitboxObj.SetActive(false);
+                            currentAttack = Attack.None;
+                            directive = Directive.Inactive;
+                            inactiveWait = 1.0f;
+                            navAgent.enabled = true;
+                        }
+                    }
+                    break;
+            }
         }
         else { Debug.Assert(false); }
+
+        if (health < 0) {
+            Destroy(this.gameObject);
+        }
     }
+
 }
