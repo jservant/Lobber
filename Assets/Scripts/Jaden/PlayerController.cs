@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update() {
         Vector3 movement = new Vector3(mInput.x, 0, mInput.y).normalized;
-        rb.MovePosition(transform.position + movement * Time.deltaTime * speed);
+        this.transform.position += (movement * Time.deltaTime * speed);
 
     }
 
