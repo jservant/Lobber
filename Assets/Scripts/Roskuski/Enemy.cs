@@ -232,7 +232,7 @@ public class Enemy : MonoBehaviour
                 if (obj != this) { // ignore self
                     float delta = Vector3.Distance(obj.transform.position, this.transform.position);
                     if (delta <= 2) {
-                        this.transform.position += Vector3.Normalize(this.transform.position - obj.transform.position) * Mathf.Lerp(0, 2,(2 - delta)/2.0f);
+                        this.transform.position += Vector3.Normalize(this.transform.position - obj.transform.position) * Mathf.Lerp(0, 2,(2 - delta)/3.0f);
                     }
                 }
             }
