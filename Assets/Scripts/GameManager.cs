@@ -15,9 +15,4 @@ public class GameManager : MonoBehaviour
             Debug.Log("Object Named Player found");
         } else Debug.LogWarning("Object Named Player Not found");
     }
-
-    public void Restart(InputAction.CallbackContext context) {
-        Debug.Log("Restart called");
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
 }

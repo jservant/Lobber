@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -55,6 +56,12 @@ public class PlayerController : MonoBehaviour
             if (headMesh.enabled == true) { StartCoroutine(AnimBuffer("lobThrow", .7f, true)); headMesh.enabled = false; }
             else StartCoroutine(AnimBuffer("lob", .73f, true));
         }
+    }
+
+    public void Restart(InputAction.CallbackContext context)
+    {
+        Debug.Log("Restart called");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     #endregion
 
