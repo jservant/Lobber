@@ -13,7 +13,6 @@ public class PlayerController : MonoBehaviour
     MeshRenderer headMesh;
     GameObject headProj;
     Transform projSpawn;
-    Transform projDir;
     List<GameObject> enemiesHit;
 
     Vector2 mInput;
@@ -38,9 +37,9 @@ public class PlayerController : MonoBehaviour
         #endregion
     }
 
-    private void Update() {
+    private void FixedUpdate() {
         Vector3 movement = new Vector3(mInput.x, 0, mInput.y).normalized;
-        if (animr.GetBool("attack") == false) transform.position += (movement * Time.deltaTime * speed);
+        if (currentState != (int)States.Attacking) transform.position += (movement * Time.deltaTime * speed);
         //@TODO(Jaden): add lerp when you stop moving, also maaybe snapto?
 
     }
@@ -48,13 +47,22 @@ public class PlayerController : MonoBehaviour
     #region Player inputs
     public void Move(InputAction.CallbackContext context) {
         mInput = context.ReadValue<Vector2>();
-        if (context.performed == true) { transform.rotation = Quaternion.LookRotation(new Vector3(mInput.x, 0, mInput.y)); }
-        if (context.canceled == true) { currentState = (int)States.Idle; }
+        if (context.performed == true) { 
+            transform.rotation = Quaternion.LookRotation(new Vector3(mInput.x, 0, mInput.y));
+            animr.SetBool("walking", true);
+            currentState = (int)States.Walking;
+        }
+        if (context.canceled == true) {
+            currentState = (int)States.Idle;
+            animr.SetBool("walking", false);
+            //currentState = (int)States.Idle;
+        }
         //Debug.Log("Move activated, current value: " + mInput);
     }
 
     public void Attack(InputAction.CallbackContext context) {
         if (animBuffer == false) StartCoroutine(AnimBuffer("attack", .73f, true));
+        currentState = (int)States.Attacking;
         //transform.rotation = transform.LookAt( ) Event.current.mousePosition
         //@TODO(Jaden): have player aim at mouse when attacking
     }
@@ -63,10 +71,10 @@ public class PlayerController : MonoBehaviour
         if (animBuffer == false) {
             if (headMesh.enabled == true) {
                 StartCoroutine(AnimBuffer("lobThrow", .7f, true));
+                currentState = (int)States.Attacking;
                 // all functionality following is in LobThrow which'll be triggered in the animator
+            } else { StartCoroutine(AnimBuffer("lob", .73f, true)); currentState = (int)States.Attacking; }
             }
-            else StartCoroutine(AnimBuffer("lob", .73f, true));
-        }
     }
 
     public void Restart(InputAction.CallbackContext context) {
