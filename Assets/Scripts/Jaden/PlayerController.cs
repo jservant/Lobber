@@ -16,8 +16,15 @@ public class PlayerController : MonoBehaviour
     List<GameObject> enemiesHit;
 
     Vector2 mInput;
-    [SerializeField] float speed = 2f;
+    Vector3 movement;
+    [SerializeField] float maxSpeed = 2f;
+    float speed = 10f;
+    float acceleration = 2f;
+    float deceleration = 2f;
+    [SerializeField] float timeMoved = 0f;
+    [SerializeField] float maxSpeedTime = 2f;
     [SerializeField] int damage = 5;
+    [SerializeField] AnimationCurve lerpCurve;
     enum States { Idle, Walking, Attacking }; // not implemented yet
     int currentState = 0; 
 
@@ -38,23 +45,29 @@ public class PlayerController : MonoBehaviour
     }
 
     private void FixedUpdate() {
-        Vector3 movement = new Vector3(mInput.x, 0, mInput.y).normalized;
-        if (currentState != (int)States.Attacking) transform.position += (movement * Time.deltaTime * speed);
-        //@TODO(Jaden): add lerp when you stop moving, also maaybe snapto?
+        if (mInput != Vector2.zero) { timeMoved += Time.fixedDeltaTime; }
+        else { timeMoved -= Time.fixedDeltaTime; }
+        timeMoved = Mathf.Clamp(timeMoved, 0, maxSpeedTime);
+        if (currentState != (int)States.Attacking) transform.position += (movement * Time.deltaTime * (speed * Mathf.Lerp(0, 1, timeMoved/maxSpeedTime)));
+        //@TODO(Jaden): maaybe snapto? add normalize
+
+        //speed -= acceleration * Time.deltaTime;
     }
 
     #region Player inputs
     public void Move(InputAction.CallbackContext context) {
         mInput = context.ReadValue<Vector2>();
-        if (context.performed == true) { 
-            transform.rotation = Quaternion.LookRotation(new Vector3(mInput.x, 0, mInput.y));
+        if (context.performed == true && currentState != (int)States.Attacking) {
+            movement = new Vector3(mInput.x, 0, mInput.y);
+            transform.rotation = Quaternion.LookRotation(movement);
             animr.SetBool("walking", true);
             currentState = (int)States.Walking;
         }
         if (context.canceled == true) {
             //currentState = (int)States.Idle;
+            //movement = Vector3.zero;
             animr.SetBool("walking", false);
-            //currentState = (int)States.Idle;
+            //TODO(@Jaden): lerp movement
         }
         //Debug.Log("Move activated, current value: " + mInput);
     }
@@ -62,7 +75,17 @@ public class PlayerController : MonoBehaviour
     public void Attack(InputAction.CallbackContext context) {
         if (animBuffer == false) StartCoroutine(AnimBuffer("attack", .73f, true));
         currentState = (int)States.Attacking;
-        //transform.rotation = transform.LookAt( ) Event.current.mousePosition
+        //@TODO(Jaden): Move forward slightly when attacking
+        /*Ray ray = Camera.main.ScreenPointToRay(Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue()));
+        Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
+        float rayDistance;
+        if (groundPlane.Raycast(ray, out rayDistance))
+        {
+            Vector3 point = ray.GetPoint(rayDistance);
+            LookAt(point);
+        }*/
+        //Vector2 mousePos = );
+        //transform.rotation = Quaternion.LookRotation(new Vector3(mousePos.x, 0, mousePos.y));
         //@TODO(Jaden): have player aim at mouse when attacking
     }
 
@@ -113,5 +136,39 @@ public class PlayerController : MonoBehaviour
         animBuffer = false;
         if (offWhenDone) { animr.SetBool(animName, false); currentState = (int)States.Idle; }
     }
+/*    IEnumerator MoveLerp(float duration)
+    {
+        float elapsedTime = 0;
+        Debug.Log("Movelerp triggered");
+        Vector3 storedPos = transform.position;
+        Vector3 endPos = transform.position += new Vector3(mInput.x, 0, mInput.y);
+        Debug.Log("endPos: " + endPos);
+        float percentComplete = elapsedTime / duration;
+        while (elapsedTime < duration)
+        {
+            transform.position = Vector3.Lerp(storedPos, endPos, lerpCurve.Evaluate(percentComplete));
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        transform.position = endPos;
+
+        *//*Vector3 v = Vector3.zero;
+        transform.position = Vector3.SmoothDamp(storedPos, endPos, ref v, timeCap);*/
+
+        /*if (elapsedTime == timeCap)
+        {
+            isLerping = false;
+            elapsedTime = 0f;
+        }*//*
+        Debug.Log("Movelerp ended");
+
+    }*/
+
+    private void LookAt(Vector3 lookPoint)
+    {
+        Vector3 heightCorrectedPoint = new Vector3(lookPoint.x, transform.position.y, lookPoint.z);
+        transform.LookAt(heightCorrectedPoint);
+    }
+     
     #endregion
 }
