@@ -76,12 +76,10 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject.layer == (int)Layers.EnemyHurtbox) {
-            // @TODO(Roskuski): Debug.Log("The enemy is hitting me");
+            // NOTE(Roskuski): Debug.Log("The enemy is hitting me");
         }
         else if (other.gameObject.layer == (int)Layers.EnemyHitbox) { 
-            if (animr.GetBool("lob") == false) {
-                other.gameObject.GetComponent<Enemy>().ReceiveDamage(damage);
-            }
+            // NOTE(Roskuski): I hit the enemy!
             if (animr.GetBool("lob") == true) {
                 //todo: enemy instantly dies
                 Debug.Log("Lob landed");

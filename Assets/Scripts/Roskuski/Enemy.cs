@@ -154,10 +154,14 @@ public class Enemy : MonoBehaviour
 
     void OnTriggerEnter(Collider other) {
         if (other.gameObject.layer == (int)Layers.PlayerHurtbox) {
-            // @TODO(Roskuski): Debug.Log("The Player is hitting me!");
+            // NOTE(Roskuski): Debug.Log("The Player is hitting me!");
+            ReceiveDamage(5);
+            // @TODO(Roskuski): How do we want to pass damage here?
+            // we could *Name* the other object with the amount of damage we're dealing.
+            // passing information via object names is kinda hacky but I don't think there's a better way to pass information into here wihtout using a get component
         }
         if (other.gameObject.layer == (int)Layers.PlayerHitbox) {
-            // @TODO(Roskuski): Debug.Log("I hit the player!"); 
+            // NOTE(Roskuski): Debug.Log("I hit the player!"); 
         }
     }
 
