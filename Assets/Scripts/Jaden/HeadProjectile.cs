@@ -6,6 +6,12 @@ public class HeadProjectile : MonoBehaviour
 {
     [SerializeField] float speed = 25f;
     [SerializeField] int damage = 8;
+    [SerializeField] float lifetime = 3f;
+
+    private void Start()
+    {
+        Destroy(gameObject, lifetime);
+    }
 
     void Update()
     {
@@ -15,7 +21,9 @@ public class HeadProjectile : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == 6) {
-            other.GetComponent<Enemy>().ReceiveDamage(damage);
+            Enemy eInstance = other.GetComponent<Enemy>();
+            eInstance.ReceiveDamage(damage);
+            Destroy(gameObject);
         }
     }
 }

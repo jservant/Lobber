@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour
     Vector2 mInput;
     [SerializeField] float speed = 2f;
     [SerializeField] int damage = 5;
+    enum States { Idle, Walking, Attacking }; // not implemented yet
+    int currentState = 0; 
 
     private void Awake() {
         //capCol = GetComponent<CapsuleCollider>();
@@ -27,6 +29,7 @@ public class PlayerController : MonoBehaviour
         headMesh = transform.Find("Axe_Controller/AxeHitbox/StoredHead").GetComponent<MeshRenderer>();
         projSpawn = transform.Find("ProjSpawn");
         headProj = Resources.Load("Prefabs/HeadProjectile", typeof(GameObject)) as GameObject;
+        
         #region debug
         if (headMesh != null) { Debug.Log("Axe headmesh found on player."); }
         else { Debug.LogWarning("Axe headmesh not found on player."); }
@@ -37,7 +40,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update() {
         Vector3 movement = new Vector3(mInput.x, 0, mInput.y).normalized;
-        transform.position += (movement * Time.deltaTime * speed);
+        if (animr.GetBool("attack") == false) transform.position += (movement * Time.deltaTime * speed);
+        //@TODO(Jaden): add lerp when you stop moving, also maaybe snapto?
 
     }
 
@@ -45,11 +49,14 @@ public class PlayerController : MonoBehaviour
     public void Move(InputAction.CallbackContext context) {
         mInput = context.ReadValue<Vector2>();
         if (context.performed == true) { transform.rotation = Quaternion.LookRotation(new Vector3(mInput.x, 0, mInput.y)); }
+        if (context.canceled == true) { currentState = (int)States.Idle; }
         //Debug.Log("Move activated, current value: " + mInput);
     }
 
     public void Attack(InputAction.CallbackContext context) {
         if (animBuffer == false) StartCoroutine(AnimBuffer("attack", .73f, true));
+        //transform.rotation = transform.LookAt( ) Event.current.mousePosition
+        //@TODO(Jaden): have player aim at mouse when attacking
     }
 
     public void Lob(InputAction.CallbackContext context) {
@@ -97,7 +104,7 @@ public class PlayerController : MonoBehaviour
         animBuffer = true;
         yield return new WaitForSeconds(duration);
         animBuffer = false;
-        if (offWhenDone) { animr.SetBool(animName, false); }
+        if (offWhenDone) { animr.SetBool(animName, false); currentState = (int)States.Idle; }
     }
     #endregion
 }
