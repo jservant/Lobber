@@ -104,7 +104,7 @@ public class Enemy : MonoBehaviour
         foreach (int value in choiceChances) {
             choiceTotal += value;
         }
-        Debug.Assert(2*TraitMax == choiceTotal, choiceTotal + "Is not" + 2*TraitMax);
+        Debug.Assert(2*TraitMax == choiceTotal, choiceTotal + " Is not " + 2*TraitMax);
 
         int result = -1;
         int roll = Random.Range(-rollRange, rollRange + 1); // Max is exclusive in Range.Range(int,int)
@@ -180,7 +180,7 @@ public class Enemy : MonoBehaviour
 
         switch (directive) {
             case Directive.Inactive: meshWithMat.material.color = Color.cyan; break;
-            case Directive.MaintainDistancePlayer: meshWithMat.material.color = Color.green; break;
+            case Directive.MaintainDistancePlayer: meshWithMat.material.color = Color.white; break;
             case Directive.PerformAttack: meshWithMat.material.color = Color.red; break;
         }
         Vector3 playerPosition = gameMan.player.position;
@@ -228,11 +228,15 @@ public class Enemy : MonoBehaviour
             // I think they should make an attempt to spread out as well, perhaps start orbiting the player in a sense?
             // Or that the ones the flank to a particular direction should target a wider area around the player.
             // This can be done cheeply by introducing randomness to the target location offset chosen.
+            //
+            // @TODO(Roskuski): Make enemies try and spread out from eachother when their density is too high.
+            // we can probably just add project their next pathnode in a perpendicular direction from the player.
+            // Maybe this flows into flanking states
             foreach (Enemy obj in gameMan.enemyList) {
                 if (obj != this) { // ignore self
                     float delta = Vector3.Distance(obj.transform.position, this.transform.position);
-                    if (delta <= 2) {
-                        this.transform.position += Vector3.Normalize(this.transform.position - obj.transform.position) * Mathf.Lerp(0, 2,(2 - delta)/3.0f);
+                    if (delta <= 2) { 
+                        this.transform.position += Vector3.Normalize(this.transform.position - obj.transform.position) * Mathf.Lerp(0, 2.0f/3.0f, 2 - delta);
                     }
                 }
             }
