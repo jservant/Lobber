@@ -192,6 +192,18 @@ public class Enemy : MonoBehaviour
         Vector3 deltaToPlayer = gameMan.player.position - this.transform.position;
         float distanceToPlayer = Vector3.Distance(this.transform.position, gameMan.player.position);
 
+
+        if (distanceToPlayer < 6.25) {
+            navAgent.updateRotation = false;
+            Vector3 deltaToPlayerNoY = deltaToPlayer;
+            deltaToPlayerNoY.y = 0;
+            Quaternion rotationDelta = Quaternion.LookRotation(deltaToPlayerNoY, Vector3.up);
+            this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, rotationDelta, 180 * Time.deltaTime);
+        }
+        else {
+            navAgent.updateRotation = true;
+        }
+
         // Directive Changing
         if (directive == Directive.Inactive) {
             inactiveWait -= Time.deltaTime; 
@@ -283,7 +295,7 @@ public class Enemy : MonoBehaviour
             switch (currentAttack) {
                 case Attack.None:
                     navAgent.enabled = false;
-                    if (distanceToPlayer <= 4 && false) {
+                    if (distanceToPlayer <= 4) {
                         setCurrentAttack(Attack.Slash);
                         swordHitbox.enabled = true;
                         attackTimer = 0.733f;
