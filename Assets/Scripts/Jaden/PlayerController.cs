@@ -41,7 +41,6 @@ public class PlayerController : MonoBehaviour
         Vector3 movement = new Vector3(mInput.x, 0, mInput.y).normalized;
         if (currentState != (int)States.Attacking) transform.position += (movement * Time.deltaTime * speed);
         //@TODO(Jaden): add lerp when you stop moving, also maaybe snapto?
-
     }
 
     #region Player inputs
@@ -53,7 +52,7 @@ public class PlayerController : MonoBehaviour
             currentState = (int)States.Walking;
         }
         if (context.canceled == true) {
-            currentState = (int)States.Idle;
+            //currentState = (int)States.Idle;
             animr.SetBool("walking", false);
             //currentState = (int)States.Idle;
         }
@@ -70,10 +69,10 @@ public class PlayerController : MonoBehaviour
     public void Lob(InputAction.CallbackContext context) {
         if (animBuffer == false) {
             if (headMesh.enabled == true) {
-                StartCoroutine(AnimBuffer("lobThrow", .7f, true));
                 currentState = (int)States.Attacking;
+                StartCoroutine(AnimBuffer("lobThrow", .7f, true));
                 // all functionality following is in LobThrow which'll be triggered in the animator
-            } else { StartCoroutine(AnimBuffer("lob", .73f, true)); currentState = (int)States.Attacking; }
+            } else { currentState = (int)States.Attacking; StartCoroutine(AnimBuffer("lob", .73f, true)); }
             }
     }
 
