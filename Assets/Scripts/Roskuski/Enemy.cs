@@ -38,12 +38,13 @@ public class Enemy : MonoBehaviour
     }
     [SerializeField] Directive directive;
 
-    enum Attack {
-        None,
-        Sweep,
+    // NOTE(Roskuski): This should stay in sync with the animation controller
+    enum Attack : int {
+        None = 0,
+        Slash,
         Lunge,
     }
-    Attack currentAttack = Attack.None;
+    Attack currentAttack = Attack.None; // NOTE(Roskuski): Do not set this manually, use the setting function, as that keeps animation state insync
     
     float inactiveWait = 2;
     float targetDistance;
@@ -64,8 +65,8 @@ public class Enemy : MonoBehaviour
 
     // NOTE(Roskuski): Internal references
     NavMeshAgent navAgent;
-    MeshRenderer meshWithMat;
-    GameObject hitboxObj;
+    BoxCollider swordHitbox;
+    Animator animator;
     
 
     // NOTE(Roskuski): External references
@@ -76,6 +77,11 @@ public class Enemy : MonoBehaviour
         health -= damage;
         didHealthChange = true;
         Debug.Log("Player hit! Damage dealt: " + damage + " Remaining health: " + health);
+    }
+
+    void setCurrentAttack(Attack attack) {
+        currentAttack = attack;
+        animator.SetInteger("CurrentAttack", (int)currentAttack);
     }
 
     /* NOTE(Roskuski): 
@@ -167,12 +173,12 @@ public class Enemy : MonoBehaviour
 
     void Start() {
         navAgent = this.GetComponent<NavMeshAgent>();
-        meshWithMat = transform.Find("Visual/The One with the material").GetComponent<MeshRenderer>();
-        hitboxObj = transform.Find("AttackBox").gameObject;
+        animator = transform.Find("Visual").GetComponent<Animator>();
+        swordHitbox = transform.Find("Visual/Sword_Base_Model").GetComponent<BoxCollider>();
 
         gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 
-        hitboxObj.SetActive(false);
+        swordHitbox.enabled = false;
         gameMan.enemyList.Add(this);
     }
 
@@ -182,11 +188,6 @@ public class Enemy : MonoBehaviour
 
     void Update() {
 
-        switch (directive) {
-            case Directive.Inactive: meshWithMat.material.color = Color.cyan; break;
-            case Directive.MaintainDistancePlayer: meshWithMat.material.color = Color.white; break;
-            case Directive.PerformAttack: meshWithMat.material.color = Color.red; break;
-        }
         Vector3 playerPosition = gameMan.player.position;
         Quaternion playerRotation = gameMan.player.rotation; 
         Vector3 deltaToPlayer = gameMan.player.position - this.transform.position;
@@ -280,21 +281,21 @@ public class Enemy : MonoBehaviour
                 case Attack.None:
                     navAgent.enabled = false;
                     if (distanceToPlayer <= 4) {
-                        currentAttack = Attack.Sweep;
-                        hitboxObj.SetActive(true);
+                        setCurrentAttack(Attack.Slash);
+                        swordHitbox.enabled = true;
                         attackTimer = 1.5f;
                     }
                     else {
-                        currentAttack = Attack.Lunge;
-                        hitboxObj.SetActive(true);
+                        setCurrentAttack(Attack.Lunge);
+                        swordHitbox.enabled = true;
                         attackTimer = 0.5f; 
                     }
                     break;
-                case Attack.Sweep:
+                case Attack.Slash:
                     attackTimer -= Time.deltaTime;
                     if (attackTimer < 0) {
-                        hitboxObj.SetActive(false);
-                        currentAttack = Attack.None;
+                        swordHitbox.enabled = false;
+                        setCurrentAttack(Attack.None);
                         directive = Directive.Inactive;
                         navAgent.enabled = true;
                         inactiveWait = 1.0f;
@@ -306,8 +307,8 @@ public class Enemy : MonoBehaviour
                     if (attackTimer < 0) {
                         // If we found ourselves off geometry, wait util we finish falling.
                         if (Physics.Raycast(this.transform.position, Vector3.down, 2)) {
-                            hitboxObj.SetActive(false);
-                            currentAttack = Attack.None;
+                            swordHitbox.enabled = false;
+                            setCurrentAttack(Attack.None);
                             directive = Directive.Inactive;
                             inactiveWait = 1.0f;
                             navAgent.enabled = true;

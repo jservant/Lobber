@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject.layer == (int)Layers.EnemyHurtbox) {
-            // NOTE(Roskuski): Debug.Log("The enemy is hitting me");
+            Debug.Log("The enemy is hitting me");
         }
         else if (other.gameObject.layer == (int)Layers.EnemyHitbox) { 
             // NOTE(Roskuski): I hit the enemy!
