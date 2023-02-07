@@ -187,7 +187,6 @@ public class Enemy : MonoBehaviour
     }
 
     void Update() {
-
         Vector3 playerPosition = gameMan.player.position;
         Quaternion playerRotation = gameMan.player.rotation; 
         Vector3 deltaToPlayer = gameMan.player.position - this.transform.position;
@@ -277,18 +276,22 @@ public class Enemy : MonoBehaviour
             }
         }
         else if (directive == Directive.PerformAttack) {
+            // @TODO(Roskuski): These time values are based off of how long the animation is.
+            // It might be best to get some varibled populated at the beginning of the game that contain
+            // the length in seconds of each of these animations.
+            // Regardless, I do not want to have these magic values in the code.
             switch (currentAttack) {
                 case Attack.None:
                     navAgent.enabled = false;
-                    if (distanceToPlayer <= 4) {
+                    if (distanceToPlayer <= 4 && false) {
                         setCurrentAttack(Attack.Slash);
                         swordHitbox.enabled = true;
-                        attackTimer = 1.5f;
+                        attackTimer = 0.733f;
                     }
                     else {
                         setCurrentAttack(Attack.Lunge);
                         swordHitbox.enabled = true;
-                        attackTimer = 0.5f; 
+                        attackTimer = 0.867f; 
                     }
                     break;
                 case Attack.Slash:
@@ -303,7 +306,9 @@ public class Enemy : MonoBehaviour
                     break;
                 case Attack.Lunge:
                     attackTimer -= Time.deltaTime;
-                    this.transform.position += (this.transform.rotation * Vector3.forward) * LungeSpeed * Time.deltaTime;
+                    if (attackTimer > 0 && attackTimer < (0.867f / 2.0f)) {
+                        this.transform.position += (this.transform.rotation * Vector3.forward) * LungeSpeed * Time.deltaTime;
+                    }
                     if (attackTimer < 0) {
                         // If we found ourselves off geometry, wait util we finish falling.
                         if (Physics.Raycast(this.transform.position, Vector3.down, 2)) {
