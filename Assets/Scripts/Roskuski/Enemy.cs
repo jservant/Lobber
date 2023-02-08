@@ -23,6 +23,7 @@ public class Enemy : MonoBehaviour
     [SerializeField, Range(0, 2*TraitMax)] int traitAggressive = 1000;
     // NOTE(Roskuski): Prefence for attacking from the player's behind and flanks. Values below TraitMax will prefer attacking from the front!
     [SerializeField, Range(0, 2*TraitMax)] int traitSneaky = 1000;
+    // @TODO(Rosksuki): Pacience trait, dynamic stat: repersents how badly this enemy wants to play the game
 
     enum Directive {
         // Do nothing, intentionally
@@ -47,21 +48,24 @@ public class Enemy : MonoBehaviour
     Attack currentAttack = Attack.None; // NOTE(Roskuski): Do not set this manually, use the setting function, as that keeps animation state insync
     
     float inactiveWait = 2;
-    float targetDistance;
+    float stoppingDistance;
     Vector3 targetOffset; 
 
     int failedAttackRolls = 0;
     float attackTimer = 1.0f; // @TODO(Roskuski) Fine tune this parameter
-    
+
+    [SerializeField] Quaternion moveDirection = Quaternion.identity;
 
     // NOTE(Roskuski): End of ai state
 
-    public const float LungeSpeed = 15;
+    [SerializeField] public float LungeSpeed = 15;
 
-    public const int MaxHealth = 10;
-    int health = MaxHealth;
+    [SerializeField] public int MaxHealth = 10;
+    int health = 0;
 
-    bool didHealthChange = false;
+    // NOTE(Roskuski): copied from the default settings of navMeshAgent
+    [SerializeField] public float MoveSpeed = 3.5f;
+    [SerializeField] public float TurnSpeed = 180; // NOTE(Roskuski): in Degrees per second
 
     // NOTE(Roskuski): Internal references
     NavMeshAgent navAgent;
@@ -75,7 +79,6 @@ public class Enemy : MonoBehaviour
     // NOTE(Roskuski): To be called from sources of damage
     public void ReceiveDamage(int damage) {
         health -= damage;
-        didHealthChange = true;
         Debug.Log("Player hit! Damage dealt: " + damage + " Remaining health: " + health);
     }
 
@@ -147,14 +150,19 @@ public class Enemy : MonoBehaviour
             for (int index = 1; index < navAgent.path.corners.Length; index += 1) {
                 result += Vector3.Distance(navAgent.path.corners[index - 1], navAgent.path.corners[index]);
             }
-            result -= targetDistance;
+            result -= stoppingDistance;
         }
         return result;
     }
 
-    void ChangeDirective_MaintainDistancePlayer(float targetDistance, Vector3 targetOffset = default(Vector3)) {
+    void ChangeDirective_Inactive(float inactiveWait) {
+        this.directive = Directive.Inactive;
+        this.inactiveWait = inactiveWait;
+    }
+
+    void ChangeDirective_MaintainDistancePlayer(float stoppingDistance, Vector3 targetOffset = default(Vector3)) {
         this.directive = Directive.MaintainDistancePlayer;
-        this.targetDistance = targetDistance;
+        this.stoppingDistance = stoppingDistance;
         this.targetOffset = targetOffset;
     }
 
@@ -179,7 +187,12 @@ public class Enemy : MonoBehaviour
         gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 
         swordHitbox.enabled = false;
+        navAgent.updatePosition = false; 
+        navAgent.updateRotation = false;
+
         gameMan.enemyList.Add(this);
+
+        health = MaxHealth;
     }
 
     void OnDestroy() {
@@ -193,152 +206,220 @@ public class Enemy : MonoBehaviour
         float distanceToPlayer = Vector3.Distance(this.transform.position, gameMan.player.position);
 
 
-        if (distanceToPlayer < 6.25) {
-            navAgent.updateRotation = false;
-            Vector3 deltaToPlayerNoY = deltaToPlayer;
-            deltaToPlayerNoY.y = 0;
-            Quaternion rotationDelta = Quaternion.LookRotation(deltaToPlayerNoY, Vector3.up);
-            this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, rotationDelta, 180 * Time.deltaTime);
-        }
-        else {
-            navAgent.updateRotation = true;
-        }
-
         // Directive Changing
-        if (directive == Directive.Inactive) {
-            inactiveWait -= Time.deltaTime; 
-            // @TODO(Roskuski) roll for attackTimer?
-            attackTimer = 1.0f;
-            if (inactiveWait < 0) {
-                int aggressiveChoice = RollTraitChoice(traitAggressive, new int[]{1000, 1000}, 500);
-                if (aggressiveChoice == 0) { // Defensive, make wide gap
+        switch (directive) {
+            case Directive.Inactive:
+                inactiveWait -= Time.deltaTime; 
+                // @TODO(Roskuski) roll for attackTimer?
+                attackTimer = 1.0f;
+                if (inactiveWait < 0) {
+                    int aggressiveChoice = RollTraitChoice(traitAggressive, new int[]{1000, 1000}, 500);
+                    if (aggressiveChoice == 0) { // Defensive, make wide gap
 
-                    int sneakyChoice = RollTraitChoice(traitSneaky, new int[]{500, 600, 900}, 500);
-                    if (sneakyChoice == 0) { // I don't care, but I'm scared!
-                        ChangeDirective_MaintainDistancePlayer(6);
+                        int sneakyChoice = RollTraitChoice(traitSneaky, new int[]{500, 600, 900}, 500);
+                        if (sneakyChoice == 0) { // I don't care, but I'm scared!
+                            ChangeDirective_MaintainDistancePlayer(6);
+                        }
+                        else if (sneakyChoice == 1) { // Left/Right flank
+                            // @TODO(Roskuski): Determine based off of distance to the player.
+                            int coinFlip = Random.Range(0, 2);
+                            if (coinFlip == 0) {
+                                ChangeDirective_MaintainDistancePlayer(2, Vector3.left * 6);
+                            }
+                            else {
+                                ChangeDirective_MaintainDistancePlayer(2, Vector3.right * 6);
+                            }
+                        }
+                        else if (sneakyChoice == 2) { // Back flank
+                            ChangeDirective_MaintainDistancePlayer(2, Vector3.back * 6);
+                        }
                     }
-                    else if (sneakyChoice == 1) { // Left/Right flank
-                        // @TODO(Roskuski): Determine based off of distance to the player.
-                        int coinFlip = Random.Range(0, 2);
-                        if (coinFlip == 0) {
-                            ChangeDirective_MaintainDistancePlayer(2, Vector3.left * 6);
+                    else if (aggressiveChoice == 1) { // Agressive, make narrow gap
+                        ChangeDirective_MaintainDistancePlayer(3);
+                    }
+                }
+            break;
+            case Directive.MaintainDistancePlayer: 
+                navAgent.SetDestination(playerPosition + targetOffset);
+                navAgent.stoppingDistance = stoppingDistance;
+
+                if (CanAttemptNavigation() && navAgent.path.corners.Length >= 2) {
+                    // @TODO(Roskuski) this logic might breakdown when accounting for height. Test Test Test!
+
+                    const float NearRadius = 2;
+
+                    Vector3 nextNodeDelta = navAgent.path.corners[1] - this.transform.position;
+
+                    Collider[] nearEnemies = Physics.OverlapSphere(this.transform.position, NearRadius, Mask.Get(Layers.EnemyHitbox));
+                    Vector3[] nearEnemyDeltas = new Vector3[nearEnemies.Length - 1];
+                    for (int index = 0; index < nearEnemyDeltas.Length; index += 1) {
+                        if (nearEnemies[index].gameObject != this.gameObject) {
+                            nearEnemyDeltas[index] = nearEnemies[index].transform.position - this.transform.position;
+                        }
+                    }
+                    
+                    float[] directionWeights = new float[256]; 
+                    Quaternion angleStep = Quaternion.AngleAxis(360.0f / directionWeights.Length, Vector3.up);
+
+                    // Pathfinding phase 
+                    {
+                        Vector3 consideredDelta = Vector3.forward; 
+                        for (int index = 0; index < directionWeights.Length; index += 1) {
+                            directionWeights[index] = Vector3.Dot(nextNodeDelta.normalized, consideredDelta) + 1.0f;
+                            // NOTE(Roskuski): Advance the angle to the next index.
+                            consideredDelta = angleStep * consideredDelta;
+                        }
+                    }
+
+                    // Consider enemies
+                    {
+                        Vector3 consideredDelta = Vector3.forward; 
+                        for (int index = 0; index < directionWeights.Length; index += 1) {
+                            // NOTE(Roskuski): [0, 1] 1 is no enemy contention, 0 is maximum enemy contention
+                            float enemyMod = 1;
+                            if (nearEnemyDeltas.Length > 0) {
+                                float totalEnemyWeight = 0;
+                                for (int enemyIndex = 0; enemyIndex < nearEnemyDeltas.Length; enemyIndex += 1) {
+                                    // @TODO(Roskuski): the effect does not seem great. make the effect one one enemy extreme as POC?
+                                    // NOTE(Roskuski): According to the docs, Mathf.Lerp clamps it's thrid param
+                                    float enemyWeight = Mathf.Lerp(0, 1, nearEnemyDeltas[enemyIndex].magnitude / (NearRadius * 0.5f));
+                                    totalEnemyWeight += (Vector3.Dot(consideredDelta.normalized, nearEnemyDeltas[enemyIndex].normalized) + 1) * enemyWeight; 
+                                }
+                                totalEnemyWeight /= nearEnemyDeltas.Length;
+                                enemyMod = 1 - (totalEnemyWeight / 2);
+                            }
+                            directionWeights[index] *= enemyMod;
+
+                            // NOTE(Roskuski): Advance the angle to the next index.
+                            consideredDelta = angleStep * consideredDelta;
+                        }
+                    }
+
+                    // Bias towards current direction
+                    {
+                        Vector3 consideredDelta = Vector3.forward; 
+                        int currentDirectionIndex = -1;
+                        float bestFit = -1;
+                        for (int index = 0; index < directionWeights.Length; index += 1) {
+                            float score = Vector3.Dot(consideredDelta.normalized, this.moveDirection.normalized * Vector3.forward);
+                            if (score > bestFit) {
+                                currentDirectionIndex = index;
+                                bestFit = score;
+                            }
+
+                            // NOTE(Roskuski): Advance the angle to the next index.
+                            consideredDelta = angleStep * consideredDelta;
+                        }
+                        directionWeights[currentDirectionIndex] *= 1.1f;
+                    }
+
+                    Quaternion chosenAngle = Quaternion.identity;
+                    Quaternion consideredAngle = Quaternion.identity;
+                    float bestWeight = -2;
+                    for (int index = 0; index < directionWeights.Length; index += 1) {
+                        if (directionWeights[index] > bestWeight) {
+                            bestWeight = directionWeights[index];
+                            chosenAngle = consideredAngle;
+                        }
+                        // NOTE(Roskuski): Advance the angle to the next index.
+                        consideredAngle *= angleStep;
+                    }
+
+
+                    moveDirection = Quaternion.RotateTowards(moveDirection, chosenAngle, TurnSpeed * Time.deltaTime);
+
+                    // Rotate the visual seperately
+                    if (distanceToPlayer < 6.25) {
+                        Vector3 deltaToPlayerNoY = deltaToPlayer;
+                        deltaToPlayerNoY.y = 0;
+                        Quaternion rotationDelta = Quaternion.LookRotation(deltaToPlayerNoY, Vector3.up);
+                        this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, rotationDelta, TurnSpeed * Time.deltaTime);
+                    }
+                    else if (Quaternion.Angle(this.transform.rotation, this.moveDirection) > 2) {
+                        this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, this.moveDirection, TurnSpeed * Time.deltaTime);
+                    }
+                }
+
+                this.transform.position += moveDirection * Vector3.forward * MoveSpeed * Time.deltaTime;
+
+                if (DistanceToTravel() < 1) {
+                    attackTimer -= Time.deltaTime;
+                    if (attackTimer <= 0) {
+                        int aggressiveChoice = RollTraitChoice(traitAggressive, new int[]{350, 350, 350, 950}, 500, failedAttackRolls * 200);
+                        switch (aggressiveChoice) {
+                            default: Debug.Assert(false); break;
+                            case 0: // fail with long wait
+                                failedAttackRolls += 1;
+                                attackTimer = 3;
+                            break;
+                            case 1: // fail with normal wait
+                                failedAttackRolls += 1;
+                                attackTimer = 1.5f;
+                            break;
+                            case 2: // fail with short wait
+                                failedAttackRolls += 1;
+                                attackTimer = 0.5f;
+                            break;
+                            case 3: // attack!
+                                failedAttackRolls = 0;
+                                directive = Directive.PerformAttack;
+                            break;
+                        }
+                    }
+                }
+            break;
+            case Directive.PerformAttack:
+                // @BeforePlaytest1 @TODO(Roskuski): The current method for determining attacks sucks.
+
+                // @TODO(Roskuski): These time values are based off of how long the animation is.
+                // It might be best to get some varibled populated at the beginning of the game that contain
+                // the length in seconds of each of these animations.
+                // Regardless, I do not want to have these magic values in the code.
+                switch (currentAttack) {
+                    case Attack.None:
+                        navAgent.enabled = false;
+                        if (distanceToPlayer <= 4) {
+                            setCurrentAttack(Attack.Slash);
+                            swordHitbox.enabled = true;
+                            attackTimer = 0.733f;
                         }
                         else {
-                            ChangeDirective_MaintainDistancePlayer(2, Vector3.right * 6);
+                            setCurrentAttack(Attack.Lunge);
+                            swordHitbox.enabled = true;
+                            attackTimer = 0.867f; 
                         }
-                    }
-                    else if (sneakyChoice == 2) { // Back flank
-                        ChangeDirective_MaintainDistancePlayer(2, Vector3.back * 6);
-                    }
-                }
-                else if (aggressiveChoice == 1) { // Agressive, make narrow gap
-                    ChangeDirective_MaintainDistancePlayer(3);
-                }
-            }
-        }
-        else if (directive == Directive.MaintainDistancePlayer) {
-            navAgent.SetDestination(playerPosition + targetOffset);
-            navAgent.stoppingDistance = targetDistance;
-
-            // @TODO(Roskuski) this is an okay first pass at making enemys avoid eachother.
-            // I think they should make an attempt to spread out as well, perhaps start orbiting the player in a sense?
-            // Or that the ones the flank to a particular direction should target a wider area around the player.
-            // This can be done cheeply by introducing randomness to the target location offset chosen.
-            //
-            // @TODO(Roskuski): Make enemies try and spread out from eachother when their density is too high.
-            // we can probably just add project their next pathnode in a perpendicular direction from the player.
-            // Maybe this flows into flanking states
-            foreach (Enemy obj in gameMan.enemyList) {
-                if (obj != this) { // ignore self
-                    float delta = Vector3.Distance(obj.transform.position, this.transform.position);
-                    if (delta <= 2) { 
-                        this.transform.position += Vector3.Normalize(this.transform.position - obj.transform.position) * Mathf.Lerp(0, 2.0f/3.0f, 2 - delta);
-                    }
-                }
-            }
-
-            if (distanceToPlayer < 3) {
-                ChangeDirective_MaintainDistancePlayer(3);
-            }
-
-            if (DistanceToTravel() < 1) {
-                attackTimer -= Time.deltaTime;
-                if (attackTimer <= 0) {
-                    int aggressiveChoice = RollTraitChoice(traitAggressive, new int[]{350, 350, 350, 950}, 500, failedAttackRolls * 200);
-                    switch (aggressiveChoice) {
-                        default: Debug.Assert(false); break;
-                        case 0: // fail with long wait
-                            failedAttackRolls += 1;
-                            attackTimer = 3;
-                            break;
-                        case 1: // fail with normal wait
-                            failedAttackRolls += 1;
-                            attackTimer = 1.5f;
-                            break;
-                        case 2: // fail with short wait
-                            failedAttackRolls += 1;
-                            attackTimer = 0.5f;
-                            break;
-                        case 3: // attack!
-                            failedAttackRolls = 0;
-                            directive = Directive.PerformAttack;
-                            break;
-                    }
-                }
-            }
-        }
-        else if (directive == Directive.PerformAttack) {
-            // @TODO(Roskuski): These time values are based off of how long the animation is.
-            // It might be best to get some varibled populated at the beginning of the game that contain
-            // the length in seconds of each of these animations.
-            // Regardless, I do not want to have these magic values in the code.
-            switch (currentAttack) {
-                case Attack.None:
-                    navAgent.enabled = false;
-                    if (distanceToPlayer <= 4) {
-                        setCurrentAttack(Attack.Slash);
-                        swordHitbox.enabled = true;
-                        attackTimer = 0.733f;
-                    }
-                    else {
-                        setCurrentAttack(Attack.Lunge);
-                        swordHitbox.enabled = true;
-                        attackTimer = 0.867f; 
-                    }
-                    break;
-                case Attack.Slash:
-                    attackTimer -= Time.deltaTime;
-                    if (attackTimer < 0) {
-                        swordHitbox.enabled = false;
-                        setCurrentAttack(Attack.None);
-                        directive = Directive.Inactive;
-                        navAgent.enabled = true;
-                        inactiveWait = 1.0f;
-                    }
-                    break;
-                case Attack.Lunge:
-                    attackTimer -= Time.deltaTime;
-                    if (attackTimer > 0 && attackTimer < (0.867f / 2.0f)) {
-                        this.transform.position += (this.transform.rotation * Vector3.forward) * LungeSpeed * Time.deltaTime;
-                    }
-                    if (attackTimer < 0) {
-                        // If we found ourselves off geometry, wait util we finish falling.
-                        if (Physics.Raycast(this.transform.position, Vector3.down, 2)) {
+                        break;
+                    case Attack.Slash:
+                        attackTimer -= Time.deltaTime;
+                        if (attackTimer < 0) {
+                            swordHitbox.enabled = false;
+                            setCurrentAttack(Attack.None);
+                            directive = Directive.Inactive;
+                            navAgent.enabled = true;
+                            inactiveWait = 1.0f;
+                        }
+                        break;
+                    case Attack.Lunge:
+                        attackTimer -= Time.deltaTime;
+                        if (attackTimer > (0.867f * 0.05f) && attackTimer < (0.867f * 0.5f)) {
+                            this.transform.position += (this.transform.rotation * Vector3.forward) * LungeSpeed * Time.deltaTime;
+                        }
+                        if (attackTimer < 0) {
+                            // If we found ourselves off geometry, wait util we finish falling.
                             swordHitbox.enabled = false;
                             setCurrentAttack(Attack.None);
                             directive = Directive.Inactive;
                             inactiveWait = 1.0f;
                             navAgent.enabled = true;
                         }
-                    }
-                    break;
-            }
+                        break;
+                }
+            break;
+            default: Debug.Assert(false); break;
         }
-        else { Debug.Assert(false); }
 
         if (health < 0) {
             Destroy(this.gameObject);
         }
     }
-
 }
