@@ -50,20 +50,38 @@ public class PlayerController : MonoBehaviour
     }
 
     #region Player inputs
-    public void Move(InputAction.CallbackContext context) {
-        mInput = context.ReadValue<Vector2>();
-        if (context.performed == true && currentState != (int)States.Attacking) {
-            movement = new Vector3(mInput.x, 0, mInput.y);
-            transform.rotation = Quaternion.LookRotation(movement);
+    void Input() {
+        Vector3 storedMovement = movement;
+        if (currentState != (int)States.Attacking) {
+            mInput = moveAction.ReadValue<Vector2>();
+        }
+        if (moveAction.phase == InputActionPhase.Performed) {
+            movement = movement = new Vector3(mInput.x, 0, mInput.y);
+            transform.rotation = Quaternion.LookRotation(storedMovement);
             animr.SetBool("walking", true);
             currentState = (int)States.Walking;
+            //if (moveAction.WasReleasedThisFrame()) { animr.SetBool("walking", false); }
         }
-        if (context.canceled == true) {
-            animr.SetBool("walking", false);
-            //TODO(@Jaden): lerp movement
-        }
-        //Debug.Log("Move activated, current value: " + mInput);
+/*      put this stuff in On Press
+ *      m*/
+        if (mInput == Vector2.zero) { animr.SetBool("walking", false); }
+
     }
+
+    /*    public void Move(InputAction.CallbackContext context) {
+            mInput = context.ReadValue<Vector2>();
+            if (context.performed == true && currentState != (int)States.Attacking) {
+                movement = new Vector3(mInput.x, 0, mInput.y);
+                transform.rotation = Quaternion.LookRotation(movement);
+                animr.SetBool("walking", true);
+                currentState = (int)States.Walking;
+            }
+            if (context.canceled == true) {
+                animr.SetBool("walking", false);
+                //TODO(@Jaden): lerp movement
+            }
+            //Debug.Log("Move activated, current value: " + mInput);
+        }*/
 
     public void Attack(InputAction.CallbackContext context) {
         if (animBuffer == false) StartCoroutine(AnimBuffer("attack", .73f, true));
