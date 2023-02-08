@@ -4,8 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-public class PlayerController : MonoBehaviour
-{
+public class PlayerController : MonoBehaviour {
     //CapsuleCollider capCol;
     Rigidbody rb;
     Animator animr;
@@ -15,6 +14,12 @@ public class PlayerController : MonoBehaviour
     Transform projSpawn;
     List<GameObject> enemiesHit;
 
+    PlayerInput pInput;
+    InputActionAsset inputActions;
+    InputAction moveAction;
+    InputAction attackAction;
+    InputAction lobAction;
+
     Vector2 mInput;
     Vector3 movement;
     [SerializeField] float speed = 10f;           // top player speed
@@ -23,49 +28,53 @@ public class PlayerController : MonoBehaviour
     [SerializeField] int damage = 5;
     [SerializeField] AnimationCurve curve;
     enum States { Idle, Walking, Attacking };
-    int currentState = 0; 
+    int currentState = 0;
+    bool isGamepad;
 
-    private void Awake() {
+    private void Awake()
+    {
         //capCol = GetComponent<CapsuleCollider>();
         rb = GetComponent<Rigidbody>();
         animr = GetComponent<Animator>();
+
+        pInput = GetComponent<PlayerInput>();
+        inputActions = pInput.actions;
+        moveAction = inputActions.FindActionMap("Player").FindAction("Move");
+        attackAction = inputActions.FindActionMap("Player").FindAction("Attack");
+        lobAction = inputActions.FindActionMap("Player").FindAction("Lob");
+
         headMesh = transform.Find("Axe_Controller/AxeHitbox/StoredHead").GetComponent<MeshRenderer>();
         projSpawn = transform.Find("ProjSpawn");
         headProj = Resources.Load("Prefabs/HeadProjectile", typeof(GameObject)) as GameObject;
-        
+
         #region debug
-        if (headMesh != null) { Debug.Log("Axe headmesh found on player."); }
-        else { Debug.LogWarning("Axe headmesh not found on player."); }
-        if (headProj != null) { Debug.Log("Head projectile found in Resources."); }
-        else { Debug.LogWarning("Head projectile not found in Resources."); }
+        if (headMesh != null) { Debug.Log("Axe headmesh found on player."); } else { Debug.LogWarning("Axe headmesh not found on player."); }
+        if (headProj != null) { Debug.Log("Head projectile found in Resources."); } else { Debug.LogWarning("Head projectile not found in Resources."); }
         #endregion
     }
 
-    private void FixedUpdate() {
-        if (mInput != Vector2.zero) { timeMoved += Time.fixedDeltaTime; }
-        else { timeMoved -= Time.fixedDeltaTime; }
+    private void FixedUpdate()
+    {
+        Input();
+        if (mInput != Vector2.zero) { timeMoved += Time.fixedDeltaTime; } else { timeMoved -= Time.fixedDeltaTime; }
         timeMoved = Mathf.Clamp(timeMoved, 0, maxSpeedTime);
         if (currentState != (int)States.Attacking) transform.position += (movement * Time.fixedDeltaTime * (speed * Mathf.Lerp(0, 1, curve.Evaluate(timeMoved / maxSpeedTime)))); //.normalized;
         //@TODO(Jaden): maaybe snapto? add normalize
     }
 
     #region Player inputs
-    void Input() {
-        Vector3 storedMovement = movement;
-        if (currentState != (int)States.Attacking) {
+    void Input()
+    {
+        if (currentState != (int)States.Attacking)
+        {
             mInput = moveAction.ReadValue<Vector2>();
-        }
-        if (moveAction.phase == InputActionPhase.Performed) {
             movement = movement = new Vector3(mInput.x, 0, mInput.y);
-            transform.rotation = Quaternion.LookRotation(storedMovement);
+            transform.rotation = Quaternion.LookRotation(movement);
             animr.SetBool("walking", true);
             currentState = (int)States.Walking;
-            //if (moveAction.WasReleasedThisFrame()) { animr.SetBool("walking", false); }
+            //if (mInput == Vector2.zero) { animr.SetBool("walking", false); }
+            if (moveAction.WasReleasedThisFrame()) { animr.SetBool("walking", false); }
         }
-/*      put this stuff in On Press
- *      m*/
-        if (mInput == Vector2.zero) { animr.SetBool("walking", false); }
-
     }
 
     /*    public void Move(InputAction.CallbackContext context) {
@@ -83,44 +92,53 @@ public class PlayerController : MonoBehaviour
             //Debug.Log("Move activated, current value: " + mInput);
         }*/
 
-    public void Attack(InputAction.CallbackContext context) {
+    public void Attack(InputAction.CallbackContext context)
+    {
         if (animBuffer == false) StartCoroutine(AnimBuffer("attack", .73f, true));
         currentState = (int)States.Attacking;
         //@TODO(Jaden): Move forward slightly when attacking
-        if (context.performed) { LookAtMouse(); }
+        if (context.performed && isGamepad == false) { LookAtMouse(); }
     }
 
-    public void Lob(InputAction.CallbackContext context) {
-        if (animBuffer == false) {
-            if (headMesh.enabled == true) {
+    public void Lob(InputAction.CallbackContext context)
+    {
+        if (animBuffer == false)
+        {
+            if (headMesh.enabled == true)
+            {
                 currentState = (int)States.Attacking;
                 StartCoroutine(AnimBuffer("lobThrow", .7f, true));
                 // all functionality following is in LobThrow which'll be triggered in the animator
             } else { currentState = (int)States.Attacking; StartCoroutine(AnimBuffer("lob", .73f, true)); }
-            }
-        if (context.performed) { LookAtMouse(); }
+        }
+        if (context.performed && isGamepad == false) { LookAtMouse(); }
 
     }
 
-    public void Restart(InputAction.CallbackContext context) {
+    public void Restart(InputAction.CallbackContext context)
+    {
         Debug.Log("Restart called");
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     #endregion
 
-    public void LobThrow() { // triggered in animator
+    public void LobThrow()
+    { // triggered in animator
         headMesh.enabled = false;
         GameObject iHeadProj = Instantiate(headProj, projSpawn.position, transform.rotation);
         //iHeadProj.transform.Translate(new Vector3(mInput.x, 0, mInput.y) * projSpeed * Time.deltaTime);
     }
 
-    private void OnTriggerEnter(Collider other) {
-        if (other.gameObject.layer == (int)Layers.EnemyHurtbox) {
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == (int)Layers.EnemyHurtbox)
+        {
             Debug.Log("The enemy is hitting me");
-        }
-        else if (other.gameObject.layer == (int)Layers.EnemyHitbox) { 
+        } else if (other.gameObject.layer == (int)Layers.EnemyHitbox)
+        {
             // NOTE(Roskuski): I hit the enemy!
-            if (animr.GetBool("lob") == true) {
+            if (animr.GetBool("lob") == true)
+            {
                 //todo: enemy instantly dies
                 Debug.Log("Lob landed");
                 headMesh.enabled = true;
@@ -132,15 +150,25 @@ public class PlayerController : MonoBehaviour
     // so it doesn't melt their health
 
     #region Minor utility functions
-    IEnumerator AnimBuffer(string animName, float duration, bool offWhenDone) {
+    IEnumerator AnimBuffer(string animName, float duration, bool offWhenDone)
+    {
         animr.SetBool(animName, true);
         animBuffer = true;
         yield return new WaitForSeconds(duration);
         animBuffer = false;
-        if (offWhenDone) { animr.SetBool(animName, false); currentState = (int)States.Idle; }
+        if (offWhenDone)
+        {
+            animr.SetBool(animName, false);
+            currentState = (int)States.Idle;
+            if (animr.GetBool("walking") == true)
+            {
+
+            }
+        }
     }
 
-    void LookAtMouse() {
+    void LookAtMouse()
+    {
         Vector3 mPos = Vector3.zero;
         Plane plane = new Plane(Vector3.up, 0);
         float distance;
@@ -150,8 +178,16 @@ public class PlayerController : MonoBehaviour
             mPos = ray.GetPoint(distance);
         }
         Vector3 heightCorrectedPoint = new Vector3(mPos.x, transform.position.y, mPos.z);
+        //movement = heightCorrectedPoint;
         transform.LookAt(heightCorrectedPoint);
         //Debug.Log("heightCorrectedPoint: " + heightCorrectedPoint);
     }
+
+    public void OnDeviceChange(PlayerInput pInput)
+    {
+        isGamepad = pInput.currentControlScheme.Equals("Gamepad") ? true : false;
+    }
+    void OnEnable() { inputActions.FindActionMap("Player").Enable(); }
+    void OnDisable() { inputActions.FindActionMap("Player").Disable(); }
     #endregion
 }
