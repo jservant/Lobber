@@ -258,7 +258,7 @@ public class Enemy : MonoBehaviour
                         }
                     }
                     
-                    float[] directionWeights = new float[256]; 
+                    float[] directionWeights = new float[16]; 
                     Quaternion angleStep = Quaternion.AngleAxis(360.0f / directionWeights.Length, Vector3.up);
 
                     // Pathfinding phase 
