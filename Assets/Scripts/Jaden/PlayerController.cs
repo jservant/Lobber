@@ -17,15 +17,12 @@ public class PlayerController : MonoBehaviour
 
     Vector2 mInput;
     Vector3 movement;
-    [SerializeField] float maxSpeed = 2f;
-    float speed = 10f;
-    float acceleration = 2f;
-    float deceleration = 2f;
-    [SerializeField] float timeMoved = 0f;
-    [SerializeField] float maxSpeedTime = 2f;
+    [SerializeField] float speed = 10f;           // top player speed
+    float timeMoved = 0f;                         // how long has player been moving for?
+    [SerializeField] float maxSpeedTime = 2f;     // how long does it take for player to reach max speed?
     [SerializeField] int damage = 5;
-    [SerializeField] AnimationCurve lerpCurve;
-    enum States { Idle, Walking, Attacking }; // not implemented yet
+    [SerializeField] AnimationCurve curve;
+    enum States { Idle, Walking, Attacking };
     int currentState = 0; 
 
     private void Awake() {
@@ -48,10 +45,8 @@ public class PlayerController : MonoBehaviour
         if (mInput != Vector2.zero) { timeMoved += Time.fixedDeltaTime; }
         else { timeMoved -= Time.fixedDeltaTime; }
         timeMoved = Mathf.Clamp(timeMoved, 0, maxSpeedTime);
-        if (currentState != (int)States.Attacking) transform.position += (movement * Time.deltaTime * (speed * Mathf.Lerp(0, 1, timeMoved/maxSpeedTime)));
+        if (currentState != (int)States.Attacking) transform.position += (movement * Time.fixedDeltaTime * (speed * Mathf.Lerp(0, 1, curve.Evaluate(timeMoved / maxSpeedTime)))); //.normalized;
         //@TODO(Jaden): maaybe snapto? add normalize
-
-        //speed -= acceleration * Time.deltaTime;
     }
 
     #region Player inputs
@@ -64,8 +59,6 @@ public class PlayerController : MonoBehaviour
             currentState = (int)States.Walking;
         }
         if (context.canceled == true) {
-            //currentState = (int)States.Idle;
-            //movement = Vector3.zero;
             animr.SetBool("walking", false);
             //TODO(@Jaden): lerp movement
         }
@@ -76,17 +69,7 @@ public class PlayerController : MonoBehaviour
         if (animBuffer == false) StartCoroutine(AnimBuffer("attack", .73f, true));
         currentState = (int)States.Attacking;
         //@TODO(Jaden): Move forward slightly when attacking
-        /*Ray ray = Camera.main.ScreenPointToRay(Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue()));
-        Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
-        float rayDistance;
-        if (groundPlane.Raycast(ray, out rayDistance))
-        {
-            Vector3 point = ray.GetPoint(rayDistance);
-            LookAt(point);
-        }*/
-        //Vector2 mousePos = );
-        //transform.rotation = Quaternion.LookRotation(new Vector3(mousePos.x, 0, mousePos.y));
-        //@TODO(Jaden): have player aim at mouse when attacking
+        if (context.performed) { LookAtMouse(); }
     }
 
     public void Lob(InputAction.CallbackContext context) {
@@ -97,6 +80,8 @@ public class PlayerController : MonoBehaviour
                 // all functionality following is in LobThrow which'll be triggered in the animator
             } else { currentState = (int)States.Attacking; StartCoroutine(AnimBuffer("lob", .73f, true)); }
             }
+        if (context.performed) { LookAtMouse(); }
+
     }
 
     public void Restart(InputAction.CallbackContext context) {
@@ -136,39 +121,19 @@ public class PlayerController : MonoBehaviour
         animBuffer = false;
         if (offWhenDone) { animr.SetBool(animName, false); currentState = (int)States.Idle; }
     }
-/*    IEnumerator MoveLerp(float duration)
-    {
-        float elapsedTime = 0;
-        Debug.Log("Movelerp triggered");
-        Vector3 storedPos = transform.position;
-        Vector3 endPos = transform.position += new Vector3(mInput.x, 0, mInput.y);
-        Debug.Log("endPos: " + endPos);
-        float percentComplete = elapsedTime / duration;
-        while (elapsedTime < duration)
+
+    void LookAtMouse() {
+        Vector3 mPos = Vector3.zero;
+        Plane plane = new Plane(Vector3.up, 0);
+        float distance;
+        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+        if (plane.Raycast(ray, out distance))
         {
-            transform.position = Vector3.Lerp(storedPos, endPos, lerpCurve.Evaluate(percentComplete));
-            elapsedTime += Time.deltaTime;
-            yield return null;
+            mPos = ray.GetPoint(distance);
         }
-        transform.position = endPos;
-
-        *//*Vector3 v = Vector3.zero;
-        transform.position = Vector3.SmoothDamp(storedPos, endPos, ref v, timeCap);*/
-
-        /*if (elapsedTime == timeCap)
-        {
-            isLerping = false;
-            elapsedTime = 0f;
-        }*//*
-        Debug.Log("Movelerp ended");
-
-    }*/
-
-    private void LookAt(Vector3 lookPoint)
-    {
-        Vector3 heightCorrectedPoint = new Vector3(lookPoint.x, transform.position.y, lookPoint.z);
+        Vector3 heightCorrectedPoint = new Vector3(mPos.x, transform.position.y, mPos.z);
         transform.LookAt(heightCorrectedPoint);
+        //Debug.Log("heightCorrectedPoint: " + heightCorrectedPoint);
     }
-     
     #endregion
 }

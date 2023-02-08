@@ -1281,8 +1281,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdca38df9ff142a4b9b515f175fa2e05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
+  speed: 10
+  maxSpeedTime: 1
   damage: 5
+  curve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!95 &8270711878803104570
 Animator:
   serializedVersion: 3
