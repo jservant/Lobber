@@ -69,14 +69,14 @@ public class PlayerController : MonoBehaviour {
         {
             mInput = moveAction.ReadValue<Vector2>();
             //if (mInput == Vector2.zero) { animr.SetBool("walking", false); }
-            if (moveAction.WasReleasedThisFrame()) { animr.SetBool("walking", false); }
         }
-        if (moveAction.phase == InputActionPhase.Started ) { 
+        if (moveAction.phase == InputActionPhase.Started) { 
             movement = movement = new Vector3(mInput.x, 0, mInput.y);
             transform.rotation = Quaternion.LookRotation(movement);
             animr.SetBool("walking", true);
             currentState = (int)States.Walking;
-        }
+        } if (moveAction.WasReleasedThisFrame()) { animr.SetBool("walking", false); }
+
     }
 
     /*    public void Move(InputAction.CallbackContext context) {
