@@ -1,0 +1,51 @@
+{
+    "name": "DebugActions",
+    "maps": [
+        {
+            "name": "DebugTools",
+            "id": "2cb31f18-a3a3-47ca-9cd2-2f5a2684c6db",
+            "actions": [
+                {
+                    "name": "SpawnEnemy",
+                    "type": "Button",
+                    "id": "53605756-c6e6-40f1-83a8-7a17aa73fff1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "cd18bbd0-f78d-430b-84b8-495382e6bf51",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "M&K",
+                    "action": "SpawnEnemy",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "M&K",
+            "bindingGroup": "M&K",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}

@@ -103,7 +103,6 @@ public class PlayerController : MonoBehaviour {
                 } else { currentState = (int)States.Attacking; StartCoroutine(AnimBuffer("lob", .73f, true)); }
             }
         }
-
         #endregion
     }
 
