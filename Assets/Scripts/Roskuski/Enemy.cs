@@ -240,6 +240,7 @@ public class Enemy : MonoBehaviour
                 }
             break;
             case Directive.MaintainDistancePlayer: 
+                navAgent.nextPosition = this.transform.position;
                 navAgent.SetDestination(playerPosition + targetOffset);
                 navAgent.stoppingDistance = stoppingDistance;
 
