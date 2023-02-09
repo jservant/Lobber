@@ -26,9 +26,11 @@ public class PlayerController : MonoBehaviour {
     float timeMoved = 0f;                         // how long has player been moving for?
     [SerializeField] float maxSpeedTime = 2f;     // how long does it take for player to reach max speed?
     [SerializeField] int damage = 5;
+    [SerializeField] float turnSpeed = 0.1f;
     [SerializeField] AnimationCurve curve;
-    [SerializeField] enum States { Idle, Walking, Attacking };
+    [SerializeField] enum States { Idle, Walking, Attacking, Hitstunned };
     [SerializeField] int currentState = 0;
+    float turnVelocity;
     bool isGamepad;
 
     private void Awake()
@@ -55,15 +57,15 @@ public class PlayerController : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        Input();
+        if (currentState != (int)States.Hitstunned) { Input(); }
         if (mInput != Vector2.zero) { timeMoved += Time.fixedDeltaTime; } else { timeMoved -= Time.fixedDeltaTime; }
         timeMoved = Mathf.Clamp(timeMoved, 0, maxSpeedTime);
-        if (currentState != (int)States.Attacking) transform.position += (movement * Time.fixedDeltaTime * (speed * Mathf.Lerp(0, 1, curve.Evaluate(timeMoved / maxSpeedTime)))); //.normalized;
+        //if (currentState != (int)States.Attacking) transform.position += (movement * Time.fixedDeltaTime * (speed * Mathf.Lerp(0, 1, curve.Evaluate(timeMoved / maxSpeedTime))));
         //@TODO(Jaden): maaybe snapto? add normalize
     }
 
     #region Player inputs
-    void Input()
+    void Input() // runs in update
     {
         #region Movement
         if (currentState != (int)States.Attacking) {
@@ -74,12 +76,22 @@ public class PlayerController : MonoBehaviour {
             animr.SetBool("walking", true);
             currentState = (int)States.Walking;
             movement = movement = new Vector3(mInput.x, 0, mInput.y);
-            transform.rotation = Quaternion.LookRotation(movement);
+            //transform.rotation = Quaternion.LookRotation(movement);
         } if (moveAction.WasReleasedThisFrame() && currentState != (int)States.Attacking) {
             animr.SetBool("walking", false);
             currentState = (int)States.Idle;
         }
         else if (moveAction.WasReleasedThisFrame()) { animr.SetBool("walking", false); }
+
+        if (movement.magnitude >= 0.1f)
+        {
+            float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg; //Camera.main.transform.eulerAngles.y
+            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnVelocity, turnSpeed);
+            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+
+            Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+            transform.position += moveDirection.normalized * (speed * Mathf.Lerp(0, 1, curve.Evaluate(timeMoved / maxSpeedTime))) * Time.fixedDeltaTime;
+        }
         #endregion
 
         #region Attacking
