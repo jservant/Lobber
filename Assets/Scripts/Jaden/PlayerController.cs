@@ -27,8 +27,8 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] float maxSpeedTime = 2f;     // how long does it take for player to reach max speed?
     [SerializeField] int damage = 5;
     [SerializeField] AnimationCurve curve;
-    enum States { Idle, Walking, Attacking };
-    int currentState = 0;
+    [SerializeField] enum States { Idle, Walking, Attacking };
+    [SerializeField] int currentState = 0;
     bool isGamepad;
 
     private void Awake()
@@ -65,18 +65,46 @@ public class PlayerController : MonoBehaviour {
     #region Player inputs
     void Input()
     {
-        if (currentState != (int)States.Attacking)
-        {
+        #region Movement
+        if (currentState != (int)States.Attacking) {
             mInput = moveAction.ReadValue<Vector2>();
             //if (mInput == Vector2.zero) { animr.SetBool("walking", false); }
         }
-        if (moveAction.phase == InputActionPhase.Started) { 
-            movement = movement = new Vector3(mInput.x, 0, mInput.y);
-            transform.rotation = Quaternion.LookRotation(movement);
+        if (moveAction.phase == InputActionPhase.Started && currentState != (int)States.Attacking) {
             animr.SetBool("walking", true);
             currentState = (int)States.Walking;
-        } if (moveAction.WasReleasedThisFrame()) { animr.SetBool("walking", false); }
+            movement = movement = new Vector3(mInput.x, 0, mInput.y);
+            transform.rotation = Quaternion.LookRotation(movement);
+        } if (moveAction.WasReleasedThisFrame() && currentState != (int)States.Attacking) {
+            animr.SetBool("walking", false);
+            currentState = (int)States.Idle;
+        }
+        else if (moveAction.WasReleasedThisFrame()) { animr.SetBool("walking", false); }
+        #endregion
 
+        #region Attacking
+        if (attackAction.phase == InputActionPhase.Started) {
+            if (animBuffer == false) StartCoroutine(AnimBuffer("attack", .73f, true));
+            currentState = (int)States.Attacking;
+            //@TODO(Jaden): Move forward slightly when attacking
+            if (isGamepad == false) { LookAtMouse(); }
+        }
+        #endregion
+
+        #region Lobbing
+
+        if (lobAction.phase == InputActionPhase.Started) {
+            if (animBuffer == false) {
+                if (headMesh.enabled == true) {
+                    currentState = (int)States.Attacking;
+                    StartCoroutine(AnimBuffer("lobThrow", .7f, true));
+                    // all functionality following is in LobThrow which'll be triggered in the animator
+                } else { currentState = (int)States.Attacking; StartCoroutine(AnimBuffer("lob", .73f, true)); }
+            }
+            if (isGamepad == false) { LookAtMouse(); }
+        }
+
+        #endregion
     }
 
     /*    public void Move(InputAction.CallbackContext context) {
@@ -93,29 +121,6 @@ public class PlayerController : MonoBehaviour {
             }
             //Debug.Log("Move activated, current value: " + mInput);
         }*/
-
-    public void Attack(InputAction.CallbackContext context)
-    {
-        if (animBuffer == false) StartCoroutine(AnimBuffer("attack", .73f, true));
-        currentState = (int)States.Attacking;
-        //@TODO(Jaden): Move forward slightly when attacking
-        if (context.performed && isGamepad == false) { LookAtMouse(); }
-    }
-
-    public void Lob(InputAction.CallbackContext context)
-    {
-        if (animBuffer == false)
-        {
-            if (headMesh.enabled == true)
-            {
-                currentState = (int)States.Attacking;
-                StartCoroutine(AnimBuffer("lobThrow", .7f, true));
-                // all functionality following is in LobThrow which'll be triggered in the animator
-            } else { currentState = (int)States.Attacking; StartCoroutine(AnimBuffer("lob", .73f, true)); }
-        }
-        if (context.performed && isGamepad == false) { LookAtMouse(); }
-
-    }
 
     public void Restart(InputAction.CallbackContext context)
     {
@@ -158,17 +163,12 @@ public class PlayerController : MonoBehaviour {
         animBuffer = true;
         yield return new WaitForSeconds(duration);
         animBuffer = false;
-        if (offWhenDone)
-        {
+        if (offWhenDone) {
             animr.SetBool(animName, false);
-            currentState = (int)States.Idle;
-            if (animr.GetBool("walking") == true)
-            {
-
-            }
+            if (animr.GetBool("walking") == true) { currentState = (int)States.Walking; }
+            else currentState = (int)States.Idle;
         }
     }
-
     void LookAtMouse()
     {
         Vector3 mPos = Vector3.zero;
