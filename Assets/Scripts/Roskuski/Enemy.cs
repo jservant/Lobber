@@ -65,7 +65,7 @@ public class Enemy : MonoBehaviour
 
     // NOTE(Roskuski): copied from the default settings of navMeshAgent
     [SerializeField] public float MoveSpeed = 3.5f;
-    [SerializeField] public float TurnSpeed = 180; // NOTE(Roskuski): in Degrees per second
+    [SerializeField] public float TurnSpeed = 360; // NOTE(Roskuski): in Degrees per second
 
     // NOTE(Roskuski): Internal references
     NavMeshAgent navAgent;
@@ -205,7 +205,6 @@ public class Enemy : MonoBehaviour
         Vector3 deltaToPlayer = gameMan.player.position - this.transform.position;
         float distanceToPlayer = Vector3.Distance(this.transform.position, gameMan.player.position);
 
-
         // Directive Changing
         switch (directive) {
             case Directive.Inactive:
@@ -329,19 +328,23 @@ public class Enemy : MonoBehaviour
 
                     moveDirection = Quaternion.RotateTowards(moveDirection, chosenAngle, TurnSpeed * Time.deltaTime);
 
-                    // Rotate the visual seperately
-                    if (distanceToPlayer < 6.25) {
-                        Vector3 deltaToPlayerNoY = deltaToPlayer;
-                        deltaToPlayerNoY.y = 0;
-                        Quaternion rotationDelta = Quaternion.LookRotation(deltaToPlayerNoY, Vector3.up);
-                        this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, rotationDelta, TurnSpeed * Time.deltaTime);
-                    }
-                    else if (Quaternion.Angle(this.transform.rotation, this.moveDirection) > 2) {
-                        this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, this.moveDirection, TurnSpeed * Time.deltaTime);
-                    }
+
                 }
 
-                this.transform.position += moveDirection * Vector3.forward * MoveSpeed * Time.deltaTime;
+                float speedModifier = Mathf.Lerp(0.0f, 1,
+                        (Vector3.Distance(this.transform.position, playerPosition + targetOffset) - stoppingDistance) + 1);
+                this.transform.position += moveDirection * Vector3.forward * MoveSpeed * speedModifier * Time.deltaTime;
+
+                // Rotate the visual seperately
+                if (distanceToPlayer < 6.25 || speedModifier < 0.75f) {
+                    Vector3 deltaToPlayerNoY = deltaToPlayer;
+                    deltaToPlayerNoY.y = 0;
+                    Quaternion rotationDelta = Quaternion.LookRotation(deltaToPlayerNoY, Vector3.up);
+                    this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, rotationDelta, TurnSpeed * Time.deltaTime);
+                }
+                else if (Quaternion.Angle(this.transform.rotation, this.moveDirection) > 2) {
+                    this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, this.moveDirection, TurnSpeed * Time.deltaTime);
+                }
 
                 if (DistanceToTravel() < 1) {
                     attackTimer -= Time.deltaTime;
