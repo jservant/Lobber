@@ -14,11 +14,7 @@ public class PlayerController : MonoBehaviour {
     Transform projSpawn;
     List<GameObject> enemiesHit;
 
-    PlayerInput pInput;
-    InputActionAsset inputActions;
-    InputAction moveAction;
-    InputAction attackAction;
-    InputAction lobAction;
+    DefaultPlayerActions pActions;
 
     Vector2 mInput;
     Vector3 movement;
@@ -38,12 +34,7 @@ public class PlayerController : MonoBehaviour {
         //capCol = GetComponent<CapsuleCollider>();
         rb = GetComponent<Rigidbody>();
         animr = GetComponent<Animator>();
-
-        pInput = GetComponent<PlayerInput>();
-        inputActions = pInput.actions;
-        moveAction = inputActions.FindActionMap("Player").FindAction("Move");
-        attackAction = inputActions.FindActionMap("Player").FindAction("Attack");
-        lobAction = inputActions.FindActionMap("Player").FindAction("Lob");
+        pActions = new DefaultPlayerActions();
 
         headMesh = transform.Find("Axe_Controller/AxeHitbox/StoredHead").GetComponent<MeshRenderer>();
         projSpawn = transform.Find("ProjSpawn");
@@ -58,9 +49,12 @@ public class PlayerController : MonoBehaviour {
     private void FixedUpdate()
     {
         if (currentState != (int)States.Hitstunned) { Input(); }
-        if (mInput != Vector2.zero) { timeMoved += Time.fixedDeltaTime; } else { timeMoved -= Time.fixedDeltaTime; }
+
+        if (mInput != Vector2.zero && currentState == (int)States.Attacking) { timeMoved -= (Time.fixedDeltaTime / 2); }
+        else if (mInput != Vector2.zero ) { timeMoved += Time.fixedDeltaTime; } // && currentState != (int)States.Attacking
+        else { timeMoved -= Time.fixedDeltaTime; }
         timeMoved = Mathf.Clamp(timeMoved, 0, maxSpeedTime);
-        //if (currentState != (int)States.Attacking) transform.position += (movement * Time.fixedDeltaTime * (speed * Mathf.Lerp(0, 1, curve.Evaluate(timeMoved / maxSpeedTime))));
+
         //@TODO(Jaden): maaybe snapto? add normalize
     }
 
@@ -68,24 +62,20 @@ public class PlayerController : MonoBehaviour {
     void Input() // runs in update
     {
         #region Movement
-        if (currentState != (int)States.Attacking) {
-            mInput = moveAction.ReadValue<Vector2>();
-            //if (mInput == Vector2.zero) { animr.SetBool("walking", false); }
-        }
-        if (moveAction.phase == InputActionPhase.Started && currentState != (int)States.Attacking) {
+        if (currentState != (int)States.Attacking) { mInput = pActions.Player.Move.ReadValue<Vector2>(); }
+        if (pActions.Player.Move.phase == InputActionPhase.Started && currentState != (int)States.Attacking) {
             animr.SetBool("walking", true);
             currentState = (int)States.Walking;
             movement = movement = new Vector3(mInput.x, 0, mInput.y);
-            //transform.rotation = Quaternion.LookRotation(movement);
-        } if (moveAction.WasReleasedThisFrame() && currentState != (int)States.Attacking) {
+        } if (pActions.Player.Move.WasReleasedThisFrame() && currentState != (int)States.Attacking) {
             animr.SetBool("walking", false);
             currentState = (int)States.Idle;
         }
-        else if (moveAction.WasReleasedThisFrame()) { animr.SetBool("walking", false); }
+        else if (pActions.Player.Move.phase == InputActionPhase.Waiting) { animr.SetBool("walking", false); }
 
         if (movement.magnitude >= 0.1f)
         {
-            float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg; //Camera.main.transform.eulerAngles.y
+            float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnVelocity, turnSpeed);
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
@@ -95,17 +85,16 @@ public class PlayerController : MonoBehaviour {
         #endregion
 
         #region Attacking
-        if (attackAction.phase == InputActionPhase.Started) {
+        if (pActions.Player.Attack.WasPerformedThisFrame()) {
             if (animBuffer == false) StartCoroutine(AnimBuffer("attack", .73f, true));
             currentState = (int)States.Attacking;
             //@TODO(Jaden): Move forward slightly when attacking
-            if (isGamepad == false) { LookAtMouse(); }
         }
         #endregion
 
         #region Lobbing
 
-        if (lobAction.phase == InputActionPhase.Started) {
+        if (pActions.Player.Lob.WasPerformedThisFrame()) {
             if (animBuffer == false) {
                 if (headMesh.enabled == true) {
                     currentState = (int)States.Attacking;
@@ -113,26 +102,10 @@ public class PlayerController : MonoBehaviour {
                     // all functionality following is in LobThrow which'll be triggered in the animator
                 } else { currentState = (int)States.Attacking; StartCoroutine(AnimBuffer("lob", .73f, true)); }
             }
-            if (isGamepad == false) { LookAtMouse(); }
         }
 
         #endregion
     }
-
-    /*    public void Move(InputAction.CallbackContext context) {
-            mInput = context.ReadValue<Vector2>();
-            if (context.performed == true && currentState != (int)States.Attacking) {
-                movement = new Vector3(mInput.x, 0, mInput.y);
-                transform.rotation = Quaternion.LookRotation(movement);
-                animr.SetBool("walking", true);
-                currentState = (int)States.Walking;
-            }
-            if (context.canceled == true) {
-                animr.SetBool("walking", false);
-                //TODO(@Jaden): lerp movement
-            }
-            //Debug.Log("Move activated, current value: " + mInput);
-        }*/
 
     public void Restart(InputAction.CallbackContext context)
     {
@@ -141,14 +114,13 @@ public class PlayerController : MonoBehaviour {
     }
     #endregion
 
-    public void LobThrow()
-    { // triggered in animator
+    public void LobThrow() { // triggered in animator
         headMesh.enabled = false;
         GameObject iHeadProj = Instantiate(headProj, projSpawn.position, transform.rotation);
         //iHeadProj.transform.Translate(new Vector3(mInput.x, 0, mInput.y) * projSpeed * Time.deltaTime);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other) //@TODO(Jaden): Add i-frames and trigger hitstun state when hit
     {
         if (other.gameObject.layer == (int)Layers.EnemyHurtbox)
         {
@@ -181,7 +153,8 @@ public class PlayerController : MonoBehaviour {
             else currentState = (int)States.Idle;
         }
     }
-    void LookAtMouse()
+
+    /*void LookAtMouse()
     {
         Vector3 mPos = Vector3.zero;
         Plane plane = new Plane(Vector3.up, 0);
@@ -192,16 +165,19 @@ public class PlayerController : MonoBehaviour {
             mPos = ray.GetPoint(distance);
         }
         Vector3 heightCorrectedPoint = new Vector3(mPos.x, transform.position.y, mPos.z);
-        //movement = heightCorrectedPoint;
+        //movement = heightCorrectedPoint
+        Debug.Log("Mouse Look At point: " + heightCorrectedPoint);
         transform.LookAt(heightCorrectedPoint);
+        //movement = heightCorrectedPoint; mayb for mouse attack dashing?
         //Debug.Log("heightCorrectedPoint: " + heightCorrectedPoint);
-    }
+    }*/
 
     public void OnDeviceChange(PlayerInput pInput)
     {
         isGamepad = pInput.currentControlScheme.Equals("Gamepad") ? true : false;
+        Debug.Log("Device switched. New device: " + pInput.currentControlScheme);
     }
-    void OnEnable() { inputActions.FindActionMap("Player").Enable(); }
-    void OnDisable() { inputActions.FindActionMap("Player").Disable(); }
+    void OnEnable() { pActions.Enable(); }
+    void OnDisable() { pActions.Disable(); }
     #endregion
 }
