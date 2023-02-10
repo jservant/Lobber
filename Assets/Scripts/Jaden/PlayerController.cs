@@ -47,14 +47,27 @@ public class PlayerController : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        if (currentState != (int)States.Hitstunned) { Input(); }
-
         if (mInput != Vector2.zero && currentState == (int)States.Attacking) { timeMoved -= (Time.fixedDeltaTime / 2); }
         else if (mInput != Vector2.zero ) { timeMoved += Time.fixedDeltaTime; } // && currentState != (int)States.Attacking
         else { timeMoved -= Time.fixedDeltaTime; }
         timeMoved = Mathf.Clamp(timeMoved, 0, maxSpeedTime);
 
+        if (movement.magnitude >= 0.1f)
+        {
+            float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg;
+            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnVelocity, turnSpeed);
+            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+
+            Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+            transform.position += moveDirection.normalized * (speed * Mathf.Lerp(0, 1, curve.Evaluate(timeMoved / maxSpeedTime))) * Time.fixedDeltaTime;
+        }
+
         //@TODO(Jaden): maaybe snapto? add normalize
+    }
+
+    private void Update()
+    {
+        if (currentState != (int)States.Hitstunned) { Input(); }
     }
 
     #region Player inputs
@@ -72,20 +85,12 @@ public class PlayerController : MonoBehaviour {
         }
         else if (pActions.Player.Move.phase == InputActionPhase.Waiting) { animr.SetBool("walking", false); }
 
-        if (movement.magnitude >= 0.1f)
-        {
-            float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg;
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnVelocity, turnSpeed);
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
-
-            Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            transform.position += moveDirection.normalized * (speed * Mathf.Lerp(0, 1, curve.Evaluate(timeMoved / maxSpeedTime))) * Time.fixedDeltaTime;
-        }
         #endregion
 
         #region Attacking
         if (pActions.Player.Attack.WasPerformedThisFrame()) {
-            if (animBuffer == false) StartCoroutine(AnimBuffer("attack", .73f, true));
+            Debug.Log("Attack pressed, animBuffer bool state: " + animBuffer);
+            if (animBuffer == false) StartCoroutine(AnimBuffer("attack", .38f, true)); //.73f
             currentState = (int)States.Attacking;
             //@TODO(Jaden): Move forward slightly when attacking
         }
@@ -97,9 +102,9 @@ public class PlayerController : MonoBehaviour {
             if (animBuffer == false) {
                 if (headMesh.enabled == true) {
                     currentState = (int)States.Attacking;
-                    StartCoroutine(AnimBuffer("lobThrow", .7f, true));
+                    StartCoroutine(AnimBuffer("lobThrow", .65f, true));
                     // all functionality following is in LobThrow which'll be triggered in the animator
-                } else { currentState = (int)States.Attacking; StartCoroutine(AnimBuffer("lob", .73f, true)); }
+                } else { currentState = (int)States.Attacking; StartCoroutine(AnimBuffer("lob", .52f, true)); }
             }
         }
         #endregion
@@ -140,6 +145,7 @@ public class PlayerController : MonoBehaviour {
     #region Minor utility functions
     IEnumerator AnimBuffer(string animName, float duration, bool offWhenDone)
     {
+        if (animr.GetBool(animName) == true) yield break;
         animr.SetBool(animName, true);
         animBuffer = true;
         yield return new WaitForSeconds(duration);

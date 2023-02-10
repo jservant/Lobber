@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public bool debugTools = false;
     public Transform player;
     public GameObject enemy;
     DebugActions dActions;
@@ -25,26 +24,23 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (debugTools)
-        {
-            if (dActions.DebugTools.SpawnEnemy.WasPerformedThisFrame()) {
-                Debug.Log("clig;");
-                GameObject iEnemy = enemy;
-                Vector3 mPos = Vector3.zero;
-                Plane plane = new Plane(Vector3.up, 0);
-                float distance;
-                Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-                if (plane.Raycast(ray, out distance))
-                {
-                    mPos = ray.GetPoint(distance);
-                }
-                //Vector3 heightCorrectedPoint = new Vector3(mPos.x, transform.position.y, mPos.z);
-                //movement = heightCorrectedPoint
-                Debug.Log("Mouse Look At point: " + mPos);
-                Instantiate(iEnemy, new Vector3(mPos.x, mPos.y + 3, mPos.z), Quaternion.identity);
-                //movement = heightCorrectedPoint; mayb for mouse attack dashing?
-                //Debug.Log("heightCorrectedPoint: " + heightCorrectedPoint);
+        if (dActions.DebugTools.SpawnEnemy.WasPerformedThisFrame()) { // TAKE THIS OUT IN FINAL RELEASE
+            Debug.Log("clig;");
+            GameObject iEnemy = enemy;
+            Vector3 mPos = Vector3.zero;
+            Plane plane = new Plane(Vector3.up, 0);
+            float distance;
+            Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+            if (plane.Raycast(ray, out distance))
+            {
+                mPos = ray.GetPoint(distance);
             }
+            //Vector3 heightCorrectedPoint = new Vector3(mPos.x, transform.position.y, mPos.z);
+            //movement = heightCorrectedPoint
+            Debug.Log("Mouse Look At point: " + mPos);
+            Instantiate(iEnemy, new Vector3(mPos.x, mPos.y + 3, mPos.z), Quaternion.identity);
+            //movement = heightCorrectedPoint; mayb for mouse attack dashing?
+            //Debug.Log("heightCorrectedPoint: " + heightCorrectedPoint);
         }
     }
 
