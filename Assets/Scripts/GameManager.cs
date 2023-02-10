@@ -25,8 +25,6 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(dActions.DebugTools.SpawnEnemy.phase);
-
         if (debugTools)
         {
             if (dActions.DebugTools.SpawnEnemy.WasPerformedThisFrame()) {

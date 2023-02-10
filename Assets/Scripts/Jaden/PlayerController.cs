@@ -27,7 +27,6 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] enum States { Idle, Walking, Attacking, Hitstunned };
     [SerializeField] int currentState = 0;
     float turnVelocity;
-    bool isGamepad;
 
     private void Awake()
     {
@@ -123,14 +122,13 @@ public class PlayerController : MonoBehaviour {
     {
         if (other.gameObject.layer == (int)Layers.EnemyHurtbox)
         {
-            Debug.Log("The enemy is hitting me");
+            Debug.Log(other.gameObject.name + "is hurting the player");
         } else if (other.gameObject.layer == (int)Layers.EnemyHitbox)
         {
             // NOTE(Roskuski): I hit the enemy!
             if (animr.GetBool("lob") == true)
             {
                 //todo: enemy instantly dies
-                Debug.Log("Lob landed");
                 headMesh.enabled = true;
             }
         }
@@ -171,11 +169,6 @@ public class PlayerController : MonoBehaviour {
         //Debug.Log("heightCorrectedPoint: " + heightCorrectedPoint);
     }*/
 
-    public void OnDeviceChange(PlayerInput pInput)
-    {
-        isGamepad = pInput.currentControlScheme.Equals("Gamepad") ? true : false;
-        Debug.Log("Device switched. New device: " + pInput.currentControlScheme);
-    }
     void OnEnable() { pActions.Enable(); }
     void OnDisable() { pActions.Disable(); }
     #endregion
