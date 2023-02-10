@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public Transform player;
+    public PlayerController playerController;
     public GameObject enemy;
     DebugActions dActions;
 
@@ -14,6 +15,7 @@ public class GameManager : MonoBehaviour
 
     void Awake() {
         player = transform.Find("/Player");
+        playerController = player.GetComponent<PlayerController>();
         if (player != null) {
             Debug.Log("Object Named Player found");
         } else Debug.LogWarning("Object Named Player Not found");

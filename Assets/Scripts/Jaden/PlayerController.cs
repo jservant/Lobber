@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour {
 
     DefaultPlayerActions pActions;
 
-    Vector2 mInput;
+    public Vector2 mInput;
     Vector3 movement;
     [SerializeField] float speed = 10f;           // top player speed
     float timeMoved = 0f;                         // how long has player been moving for?
