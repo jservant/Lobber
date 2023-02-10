@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour {
     //CapsuleCollider capCol;
     Rigidbody rb;
     Animator animr;
-    bool animBuffer = false;
+    //[SerializeField] bool animBuffer = false;
     MeshRenderer headMesh;
     GameObject headProj;
     Transform projSpawn;
@@ -24,8 +24,14 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] int damage = 5;
     [SerializeField] float turnSpeed = 0.1f;
     [SerializeField] AnimationCurve curve;
+    [SerializeField] float animDuration = 0f;
+    [SerializeField] float animTimer = 0f;
     [SerializeField] enum States { Idle, Walking, Attacking, Hitstunned };
     [SerializeField] int currentState = 0;
+
+    [SerializeField] enum Attacks { None, Chop, Lob, LobThrow };
+    [SerializeField] int currentAttack = 0;
+
     float turnVelocity;
 
     private void Awake()
@@ -62,16 +68,26 @@ public class PlayerController : MonoBehaviour {
             transform.position += moveDirection.normalized * (speed * Mathf.Lerp(0, 1, curve.Evaluate(timeMoved / maxSpeedTime))) * Time.fixedDeltaTime;
         }
 
-        //@TODO(Jaden): maaybe snapto? add normalize
+        //@TODO(Jaden): maaybe snapto? 
     }
 
     private void Update()
     {
         if (currentState != (int)States.Hitstunned) { Input(); }
+        if (currentAttack != (int)Attacks.None)
+        {
+            animTimer -= Time.deltaTime;
+            if (animTimer <= 0)
+            {
+                currentAttack = (int)Attacks.None;
+                animr.SetInteger("CurrentAttack", currentAttack);
+                currentState = (int)States.Idle;
+                animTimer = 0;
+            }
+        }
     }
-
-    #region Player inputs
-    void Input() // runs in update
+        #region Player inputs
+        void Input() // runs in update
     {
         #region Movement
         if (currentState != (int)States.Attacking) { mInput = pActions.Player.Move.ReadValue<Vector2>(); }
@@ -89,8 +105,11 @@ public class PlayerController : MonoBehaviour {
 
         #region Attacking
         if (pActions.Player.Attack.WasPerformedThisFrame()) {
-            Debug.Log("Attack pressed, animBuffer bool state: " + animBuffer);
-            if (animBuffer == false) StartCoroutine(AnimBuffer("attack", .38f, true)); //.73f
+            if (currentAttack == (int)Attacks.None)
+            {
+                setCurrentAttack(Attacks.Chop, 0.367f);
+            }
+                //StartCoroutine(AnimBuffer("attack", .38f, true)); } //.73f
             currentState = (int)States.Attacking;
             //@TODO(Jaden): Move forward slightly when attacking
         }
@@ -99,12 +118,16 @@ public class PlayerController : MonoBehaviour {
         #region Lobbing
 
         if (pActions.Player.Lob.WasPerformedThisFrame()) {
-            if (animBuffer == false) {
+            if (currentAttack == (int)Attacks.None) {
                 if (headMesh.enabled == true) {
                     currentState = (int)States.Attacking;
-                    StartCoroutine(AnimBuffer("lobThrow", .65f, true));
+                    setCurrentAttack(Attacks.LobThrow, 1.067f);
+                    //StartCoroutine(AnimBuffer("lobThrow", .65f, true));
                     // all functionality following is in LobThrow which'll be triggered in the animator
-                } else { currentState = (int)States.Attacking; StartCoroutine(AnimBuffer("lob", .52f, true)); }
+                } else { 
+                    currentState = (int)States.Attacking;
+                    setCurrentAttack(Attacks.Lob, 0.433f);
+                }
             }
         }
         #endregion
@@ -143,7 +166,7 @@ public class PlayerController : MonoBehaviour {
     // so it doesn't melt their health
 
     #region Minor utility functions
-    IEnumerator AnimBuffer(string animName, float duration, bool offWhenDone)
+    /*IEnumerator AnimBuffer(string animName, float duration, bool offWhenDone)
     {
         if (animr.GetBool(animName) == true) yield break;
         animr.SetBool(animName, true);
@@ -155,7 +178,7 @@ public class PlayerController : MonoBehaviour {
             if (animr.GetBool("walking") == true) { currentState = (int)States.Walking; }
             else currentState = (int)States.Idle;
         }
-    }
+    }*/
 
     /*void LookAtMouse()
     {
@@ -174,6 +197,13 @@ public class PlayerController : MonoBehaviour {
         //movement = heightCorrectedPoint; mayb for mouse attack dashing?
         //Debug.Log("heightCorrectedPoint: " + heightCorrectedPoint);
     }*/
+
+    void setCurrentAttack(Attacks attack, float duration) 
+    {
+        currentAttack = (int)attack;
+        animr.SetInteger("CurrentAttack", currentAttack);
+        animTimer = duration;
+    }
 
     void OnEnable() { pActions.Enable(); }
     void OnDisable() { pActions.Disable(); }
