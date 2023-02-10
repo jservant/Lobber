@@ -54,24 +54,22 @@ public class Enemy : MonoBehaviour
     int failedAttackRolls = 0;
     float attackTimer = 1.0f; // @TODO(Roskuski) Fine tune this parameter
 
-    [SerializeField] Quaternion moveDirection = Quaternion.identity;
+    Quaternion moveDirection = Quaternion.identity;
 
     // NOTE(Roskuski): End of ai state
-
-    [SerializeField] public float LungeSpeed = 15;
 
     [SerializeField] public int MaxHealth = 10;
     int health = 0;
 
+    public const float LungeSpeed = 15;
     // NOTE(Roskuski): copied from the default settings of navMeshAgent
-    [SerializeField] public float MoveSpeed = 3.5f;
-    [SerializeField] public float TurnSpeed = 360; // NOTE(Roskuski): in Degrees per second
+    public const float MoveSpeed = 7f;
+    public const float TurnSpeed = 360.0f * 0.5f; // NOTE(Roskuski): in Degrees per second
 
     // NOTE(Roskuski): Internal references
     NavMeshAgent navAgent;
     BoxCollider swordHitbox;
     Animator animator;
-    
 
     // NOTE(Roskuski): External references
     GameManager gameMan;
@@ -144,15 +142,7 @@ public class Enemy : MonoBehaviour
     }
 
     float DistanceToTravel() {
-        float result = -1;
-        if (navAgent.path.corners.Length >= 2) {
-            result += Vector3.Distance(this.transform.position, navAgent.path.corners[1]);
-            for (int index = 1; index < navAgent.path.corners.Length; index += 1) {
-                result += Vector3.Distance(navAgent.path.corners[index - 1], navAgent.path.corners[index]);
-            }
-            result -= stoppingDistance;
-        }
-        return result;
+        return navAgent.remainingDistance - stoppingDistance;
     }
 
     void ChangeDirective_Inactive(float inactiveWait) {
@@ -171,7 +161,7 @@ public class Enemy : MonoBehaviour
             // NOTE(Roskuski): Debug.Log("The Player is hitting me!");
             ReceiveDamage(5);
             // @TODO(Roskuski): How do we want to pass damage here?
-            // we could *Name* the other object with the amount of damage we're dealing.
+            // we could _Name_ the other object with the amount of damage we're dealing.
             // passing information via object names is kinda hacky but I don't think there's a better way to pass information into here wihtout using a get component
         }
         if (other.gameObject.layer == (int)Layers.PlayerHitbox) {
@@ -210,48 +200,45 @@ public class Enemy : MonoBehaviour
             case Directive.Inactive:
                 inactiveWait -= Time.deltaTime; 
                 // @TODO(Roskuski) roll for attackTimer?
-                attackTimer = 1.0f;
                 if (inactiveWait < 0) {
-                    int aggressiveChoice = RollTraitChoice(traitAggressive, new int[]{1000, 1000}, 500);
-                    if (aggressiveChoice == 0) { // Defensive, make wide gap
+                    int choiceAggressive = RollTraitChoice(traitAggressive, new int[]{250, 250, 1000, 500}, 500);
+                    attackTimer = new float[]{3.0f, 2.0f, 1.0f, 0.5f}[choiceAggressive];
 
-                        int sneakyChoice = RollTraitChoice(traitSneaky, new int[]{500, 600, 900}, 500);
-                        if (sneakyChoice == 0) { // I don't care, but I'm scared!
-                            ChangeDirective_MaintainDistancePlayer(6);
-                        }
-                        else if (sneakyChoice == 1) { // Left/Right flank
-                            // @TODO(Roskuski): Determine based off of distance to the player.
-                            int coinFlip = Random.Range(0, 2);
-                            if (coinFlip == 0) {
-                                ChangeDirective_MaintainDistancePlayer(2, Vector3.left * 6);
-                            }
-                            else {
-                                ChangeDirective_MaintainDistancePlayer(2, Vector3.right * 6);
-                            }
-                        }
-                        else if (sneakyChoice == 2) { // Back flank
-                            ChangeDirective_MaintainDistancePlayer(2, Vector3.back * 6);
-                        }
-                    }
-                    else if (aggressiveChoice == 1) { // Agressive, make narrow gap
-                        ChangeDirective_MaintainDistancePlayer(3);
+                    choiceAggressive = RollTraitChoice(traitAggressive, new int[]{1000, 1000}, 500);
+                    switch (choiceAggressive) {
+                        default: Debug.Assert(false, choiceAggressive); break;
+                        case 0:
+                            ChangeDirective_MaintainDistancePlayer(10);
+                        break;
+                        case 1:
+                            ChangeDirective_MaintainDistancePlayer(4);
+                        break;
                     }
                 }
             break;
             case Directive.MaintainDistancePlayer: 
                 navAgent.nextPosition = this.transform.position;
+                
                 navAgent.SetDestination(playerPosition + targetOffset);
                 navAgent.stoppingDistance = stoppingDistance;
 
-                if (CanAttemptNavigation() && navAgent.path.corners.Length >= 2) {
-                    // @TODO(Roskuski) this logic might breakdown when accounting for height. Test Test Test!
+                bool isBackpedaling = false;
+                bool isStrafing = false; 
 
+                if (CanAttemptNavigation() && navAgent.path.corners.Length >= 2) {
                     const float NearRadius = 2;
 
                     Vector3 nextNodeDelta = navAgent.path.corners[1] - this.transform.position;
 
                     Collider[] nearEnemies = Physics.OverlapSphere(this.transform.position, NearRadius, Mask.Get(Layers.EnemyHitbox));
-                    Vector3[] nearEnemyDeltas = new Vector3[nearEnemies.Length - 1];
+                    Vector3[] nearEnemyDeltas;
+                    if (nearEnemies.Length != 0) {
+                        nearEnemyDeltas = new Vector3[nearEnemies.Length - 1];
+                    }
+                    else {
+                        nearEnemyDeltas = new Vector3[0];
+                    }
+
                     for (int index = 0; index < nearEnemyDeltas.Length; index += 1) {
                         if (nearEnemies[index].gameObject != this.gameObject) {
                             nearEnemyDeltas[index] = nearEnemies[index].transform.position - this.transform.position;
@@ -261,6 +248,8 @@ public class Enemy : MonoBehaviour
                     float[] directionWeights = new float[16]; 
                     Quaternion angleStep = Quaternion.AngleAxis(360.0f / directionWeights.Length, Vector3.up);
 
+                    // @TODO(Roskuski) @BeforePlaytest1 make pathfinding account for ledges enemies shouldn't fall off the arena
+
                     // Pathfinding phase 
                     {
                         Vector3 consideredDelta = Vector3.forward; 
@@ -268,6 +257,19 @@ public class Enemy : MonoBehaviour
                             directionWeights[index] = Vector3.Dot(nextNodeDelta.normalized, consideredDelta) + 1.0f;
                             // NOTE(Roskuski): Advance the angle to the next index.
                             consideredDelta = angleStep * consideredDelta;
+                        }
+                    }
+
+                    // Consider if the player is moving straight for me!
+                    // @TODO(Roskuski): is this a good way of determining if mInput is not inputting stuff?
+                    if (DistanceToTravel() < 1.5f) {
+                        Vector3 mInput3d = new Vector3(gameMan.playerController.mInput.x, 0, gameMan.playerController.mInput.y);
+                        if (gameMan.playerController.mInput != Vector2.zero &&
+                                (Vector3.Dot(mInput3d, this.transform.rotation * Vector3.forward) < -0.7)) {
+                            isBackpedaling = true; 
+                        }
+                        else { // Lets strafe around the player
+                            isStrafing = true; 
                         }
                     }
 
@@ -280,7 +282,6 @@ public class Enemy : MonoBehaviour
                             if (nearEnemyDeltas.Length > 0) {
                                 float totalEnemyWeight = 0;
                                 for (int enemyIndex = 0; enemyIndex < nearEnemyDeltas.Length; enemyIndex += 1) {
-                                    // @TODO(Roskuski): the effect does not seem great. make the effect one one enemy extreme as POC?
                                     // NOTE(Roskuski): According to the docs, Mathf.Lerp clamps it's thrid param
                                     float enemyWeight = Mathf.Lerp(0, 1, nearEnemyDeltas[enemyIndex].magnitude / (NearRadius * 0.5f));
                                     totalEnemyWeight += (Vector3.Dot(consideredDelta.normalized, nearEnemyDeltas[enemyIndex].normalized) + 1) * enemyWeight; 
@@ -324,16 +325,25 @@ public class Enemy : MonoBehaviour
                         // NOTE(Roskuski): Advance the angle to the next index.
                         consideredAngle *= angleStep;
                     }
-
-
                     moveDirection = Quaternion.RotateTowards(moveDirection, chosenAngle, TurnSpeed * Time.deltaTime);
-
-
                 }
 
-                float speedModifier = Mathf.Lerp(0.0f, 1,
-                        (Vector3.Distance(this.transform.position, playerPosition + targetOffset) - stoppingDistance) + 1);
-                this.transform.position += moveDirection * Vector3.forward * MoveSpeed * speedModifier * Time.deltaTime;
+
+                float speedModifier = 1.0f;
+                if (isBackpedaling) {
+                    speedModifier = Mathf.Lerp(-1.0f, 0.0f, (Vector3.Distance(this.transform.position, playerPosition + targetOffset) - stoppingDistance) + 1);
+                }
+                else {
+                    speedModifier = Mathf.Lerp(0.0f, 1, (Vector3.Distance(this.transform.position, playerPosition + targetOffset) - stoppingDistance) + 1);
+                }
+
+                if (isStrafing) {
+                    speedModifier = 0.5f;
+                    this.transform.position += moveDirection * Vector3.right * MoveSpeed * speedModifier * Time.deltaTime;
+                }
+                else {
+                    this.transform.position += moveDirection * Vector3.forward * MoveSpeed * speedModifier * Time.deltaTime;
+                }
 
                 // Rotate the visual seperately
                 if (distanceToPlayer < 6.25 || speedModifier < 0.75f) {
@@ -379,6 +389,8 @@ public class Enemy : MonoBehaviour
                 // It might be best to get some varibled populated at the beginning of the game that contain
                 // the length in seconds of each of these animations.
                 // Regardless, I do not want to have these magic values in the code.
+                // I can probably get the animation times from com while in their respective switch statments. Hopefully
+                // enough time will have pass such that the animation is now active
                 switch (currentAttack) {
                     case Attack.None:
                         navAgent.enabled = false;
