@@ -16,6 +16,7 @@ public class HeadProjectile : MonoBehaviour
     void Update()
     {
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        //transform.localEulerAngles = new Vector3(0, 5, 0);
     }
 
     private void OnTriggerEnter(Collider other)
