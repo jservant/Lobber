@@ -25,21 +25,22 @@ public class Enemy : MonoBehaviour
     [SerializeField, Range(0, 2*TraitMax)] int traitSneaky = 1000;
     // @TODO(Rosksuki): Pacience trait, dynamic stat: repersents how badly this enemy wants to play the game
 
+    // NOTE(Roskuski): This should stay in sync with the animation controller. DO NOT ADD ELEMENTS IN THE MIDDLE OF THE ENUM
     enum Directive {
         // Do nothing, intentionally
-        Inactive,
+        Inactive = 0,
         
         // Maintain a certain distance from the player, perhaps with a certain offset
         MaintainDistancePlayer,
 
-        // @TODO Stunned state
-
         // Attack the player!
         PerformAttack, 
+
+        // @TODO Stunned state
     }
     [SerializeField] Directive directive;
 
-    // NOTE(Roskuski): This should stay in sync with the animation controller
+    // NOTE(Roskuski): This should stay in sync with the animation controller. DO NOT ADD ELEMENTS IN THE MIDDLE OF THE ENUM
     enum Attack : int {
         None = 0,
         Slash,
@@ -64,7 +65,7 @@ public class Enemy : MonoBehaviour
     public const float LungeSpeed = 15;
     // NOTE(Roskuski): copied from the default settings of navMeshAgent
     public const float MoveSpeed = 7f;
-    public const float TurnSpeed = 360.0f * 0.5f; // NOTE(Roskuski): in Degrees per second
+    public const float TurnSpeed = 360.0f; // NOTE(Roskuski): in Degrees per second
 
     // NOTE(Roskuski): Internal references
     NavMeshAgent navAgent;
@@ -245,7 +246,7 @@ public class Enemy : MonoBehaviour
                         }
                     }
                     
-                    float[] directionWeights = new float[16]; 
+                    float[] directionWeights = new float[512]; 
                     Quaternion angleStep = Quaternion.AngleAxis(360.0f / directionWeights.Length, Vector3.up);
 
                     // @TODO(Roskuski) @BeforePlaytest1 make pathfinding account for ledges enemies shouldn't fall off the arena
@@ -269,7 +270,7 @@ public class Enemy : MonoBehaviour
                             isBackpedaling = true; 
                         }
                         else { // Lets strafe around the player
-                            isStrafing = true; 
+                            // @Disabled Testing ledge avoidance isStrafing = true; 
                         }
                     }
 
@@ -290,6 +291,28 @@ public class Enemy : MonoBehaviour
                                 enemyMod = 1 - (totalEnemyWeight / 2);
                             }
                             directionWeights[index] *= enemyMod;
+
+                            // NOTE(Roskuski): Advance the angle to the next index.
+                            consideredDelta = angleStep * consideredDelta;
+                        }
+                    }
+
+                    // Consider Ledges
+                    {
+                        Vector3 consideredDelta = Vector3.forward; 
+                        for (int index = 0; index < directionWeights.Length; index += 1) {
+                            float ledgeMod = 1;
+                            NavMeshHit hit;
+                            bool success = NavMesh.SamplePosition(this.transform.position + consideredDelta * MoveSpeed * Time.deltaTime, out hit, 0.5f, NavMesh.AllAreas);
+                            if (success) { 
+                                float hitDistance = Vector3.Distance(hit.position, this.transform.position);
+                                ledgeMod = hitDistance / (MoveSpeed * Time.deltaTime);
+                            }
+                            else {
+                                ledgeMod = 0;
+                            }
+
+                            directionWeights[index] *= ledgeMod;
 
                             // NOTE(Roskuski): Advance the angle to the next index.
                             consideredDelta = angleStep * consideredDelta;
@@ -329,6 +352,8 @@ public class Enemy : MonoBehaviour
                 }
 
 
+                animator.SetBool("isBackpedaling", isBackpedaling);
+
                 float speedModifier = 1.0f;
                 if (isBackpedaling) {
                     speedModifier = Mathf.Lerp(-1.0f, 0.0f, (Vector3.Distance(this.transform.position, playerPosition + targetOffset) - stoppingDistance) + 1);
@@ -357,6 +382,10 @@ public class Enemy : MonoBehaviour
                 }
 
                 if (DistanceToTravel() < 1) {
+
+                    // @TODO(Roskuski): This might look weird if the feet don't line up when we attempt to make an attack.
+                    // might want to only choose an attack when it would blend sensiably in the animation.
+                    // adding a data keyframe will make this a snap to impl.
                     attackTimer -= Time.deltaTime;
                     if (attackTimer <= 0) {
                         int aggressiveChoice = RollTraitChoice(traitAggressive, new int[]{350, 350, 350, 950}, 500, failedAttackRolls * 200);
@@ -391,6 +420,7 @@ public class Enemy : MonoBehaviour
                 // Regardless, I do not want to have these magic values in the code.
                 // I can probably get the animation times from com while in their respective switch statments. Hopefully
                 // enough time will have pass such that the animation is now active
+
                 switch (currentAttack) {
                     case Attack.None:
                         navAgent.enabled = false;
@@ -399,7 +429,7 @@ public class Enemy : MonoBehaviour
                             swordHitbox.enabled = true;
                             attackTimer = 0.733f;
                         }
-                        else {
+                        else if (false) {
                             setCurrentAttack(Attack.Lunge);
                             swordHitbox.enabled = true;
                             attackTimer = 0.867f; 
@@ -417,6 +447,7 @@ public class Enemy : MonoBehaviour
                         break;
                     case Attack.Lunge:
                         attackTimer -= Time.deltaTime;
+                        // @TODO(Roskuski): we can encode timing logic into the keyframes of the animation. This can allow us to simplify the logic here.
                         if (attackTimer > (0.867f * 0.05f) && attackTimer < (0.867f * 0.5f)) {
                             this.transform.position += (this.transform.rotation * Vector3.forward) * LungeSpeed * Time.deltaTime;
                         }
@@ -433,6 +464,8 @@ public class Enemy : MonoBehaviour
             break;
             default: Debug.Assert(false); break;
         }
+
+        animator.SetInteger("Ai Directive", (int)directive);
 
         if (health < 0) {
             Destroy(this.gameObject);
