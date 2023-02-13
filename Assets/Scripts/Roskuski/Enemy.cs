@@ -11,11 +11,12 @@ using UnityEngine.AI;
  * Enemy AI Wants: actions this AI wants to do when given the oppertunity
  */
 
-
 // @TODO(Roskuski): At a high level: enemies which are flanking should break out of flank if they get too close to the player.
 
 public class Enemy : MonoBehaviour
 {
+    static float[] AttackAnimationTimes = new float[Attack.GetNames(typeof(Attack)).Length];
+
     // NOTE(Roskuski): Enemy ai state
 
     const int TraitMax = 1000;
@@ -49,12 +50,12 @@ public class Enemy : MonoBehaviour
     Attack currentAttack = Attack.None; // NOTE(Roskuski): Do not set this manually, use the setting function, as that keeps animation state insync
     
     float inactiveWait = 2;
-    float approchDistance;
+    [SerializeField] float approchDistance;
     Vector3 targetOffset; 
     bool preferRightStrafe;
 
-    int failedAttackRolls = 0;
-    float attackTimer = 1.0f; // @TODO(Roskuski) Fine tune this parameter
+    [SerializeField] int failedAttackRolls = 0;
+    [SerializeField] float attackTimer = 1.0f; // @TODO(Roskuski) Fine tune this parameter
 
     Quaternion moveDirection = Quaternion.identity;
 
@@ -85,11 +86,6 @@ public class Enemy : MonoBehaviour
     public void ReceiveDamage(int damage) {
         health -= damage;
         Debug.Log("Player hit! Damage dealt: " + damage + " Remaining health: " + health);
-    }
-
-    void setCurrentAttack(Attack attack) {
-        currentAttack = attack;
-        animator.SetInteger("CurrentAttack", (int)currentAttack);
     }
 
     /* NOTE(Roskuski): 
@@ -161,6 +157,8 @@ public class Enemy : MonoBehaviour
     void ChangeDirective_Inactive(float inactiveWait) {
         this.directive = Directive.Inactive;
         this.inactiveWait = inactiveWait;
+        currentAttack = Attack.None;
+        animator.SetInteger("CurrentAttack", (int)Attack.None);
     }
 
     void ChangeDirective_MaintainDistancePlayer(float stoppingDistance, Vector3 targetOffset = default(Vector3)) {
@@ -169,9 +167,17 @@ public class Enemy : MonoBehaviour
         this.targetOffset = targetOffset;
     }
 
+    void ChangeDirective_PerformAttack(Attack attack) {
+        directive = Directive.PerformAttack;
+        currentAttack = attack;
+        animator.SetInteger("CurrentAttack", (int)currentAttack);
+        attackTimer = AttackAnimationTimes[(int)currentAttack];
+        failedAttackRolls = 0;
+    }
+
     // helper: logic for deteriming whigh following range is being used.
     bool UsingApprochRange(float distance) {
-        return (approchDistance >= distance - ApprochDeviance) && (approchDistance <= distance + ApprochDeviance);
+        return (approchDistance >= distance) && (approchDistance <= distance + ApprochDeviance);
     }
 
     void OnTriggerEnter(Collider other) {
@@ -204,6 +210,21 @@ public class Enemy : MonoBehaviour
 
         traitAggressive = Random.Range(0, TraitMax*2);
         traitSneaky = Random.Range(0, TraitMax*2);
+
+        // NOTE(Roskuski): populate AttackAnimationTimes once per run
+        if (AttackAnimationTimes[0] == 0) {
+            AttackAnimationTimes[0] = 10;
+            foreach (AnimationClip clip in animator.runtimeAnimatorController.animationClips) {
+                switch (clip.name) {
+                    case "Enemy_Dash":
+                        AttackAnimationTimes[(int)Attack.Lunge] = clip.length;
+                    break;
+                    case "Enemy_Slash":
+                        AttackAnimationTimes[(int)Attack.Slash] = clip.length;
+                    break;
+                }
+            }
+        }
     }
 
     void OnDestroy() {
@@ -430,7 +451,7 @@ public class Enemy : MonoBehaviour
                     this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, this.moveDirection, TurnSpeed * Time.deltaTime);
                 }
 
-                if (DistanceToTravel() < 1) {
+                if (DistanceToTravel() < 1.5f) {
 
                     // @TODO(Roskuski): This might look weird if the feet don't line up when we attempt to make an attack.
                     // might want to only choose an attack when it would blend sensiably in the animation.
@@ -444,29 +465,76 @@ public class Enemy : MonoBehaviour
                     attackTimer -= Time.deltaTime;
                     if (attackTimer <= 0) {
                         if (UsingApprochRange(LooseApprochDistance)) {
-                        }
-                        else if (UsingApprochRange(TightApprochDistance) && false) {
-                            int aggressiveChoice = RollTraitChoice(traitAggressive, new int[]{350, 350, 350, 950}, 500, failedAttackRolls * 200);
+                            int aggressiveChoice = RollTraitChoice(traitAggressive, new int[]{400, 400, 400, 400, 400}, 500, failedAttackRolls * 200);
                             switch (aggressiveChoice) {
                                 default: Debug.Assert(false); break;
-                                case 0: // 
-                                    failedAttackRolls += 1;
-                                    attackTimer = 3;
+                                case 0: // Stay where you are long
+                                    attackTimer = 2.0f;
                                 break;
-                                case 1: // fail with normal wait
-                                    failedAttackRolls += 1;
+                                case 1: // Stay where you are short
+                                    attackTimer = 1.0f;
+                                break;
+                                case 2: // Move to Close
                                     attackTimer = 1.5f;
+                                    ChangeDirective_MaintainDistancePlayer(CloseApprochDistance);
                                 break;
-                                case 2: // fail with short wait
-                                    failedAttackRolls += 1;
-                                    attackTimer = 0.5f;
+                                case 3: // Move to Tight
+                                    attackTimer = 1.5f;
+                                    ChangeDirective_MaintainDistancePlayer(TightApprochDistance);
                                 break;
-                                case 3: // attack!
-                                    failedAttackRolls = 0;
-                                    directive = Directive.PerformAttack;
+                                case 4: // Lunge
+                                    ChangeDirective_PerformAttack(Attack.Lunge);
                                 break;
                             }
                         }
+                        else if (UsingApprochRange(CloseApprochDistance)) {
+                            int aggressiveChoice = RollTraitChoice(traitAggressive, new int[]{400, 400, 400, 400, 400}, 500, failedAttackRolls * 300);
+                            switch (aggressiveChoice) {
+                                default: Debug.Assert(false); break;
+                                case 0: // fall back to loose
+                                    ChangeDirective_MaintainDistancePlayer(LooseApprochDistance);
+                                break;
+                                case 1: // Stay where you are short
+                                    attackTimer = 1.0f;
+                                break;
+                                case 2: // Move to Tight long wait
+                                    attackTimer = 2.0f;
+                                    ChangeDirective_MaintainDistancePlayer(TightApprochDistance);
+                                break;
+                                case 3: // Move to Tight short wait
+                                    attackTimer = 1.0f;
+                                    ChangeDirective_MaintainDistancePlayer(TightApprochDistance);
+                                break;
+                                case 4: // Lunge
+                                    ChangeDirective_PerformAttack(Attack.Lunge);
+                                break;
+                            }
+                        }
+                        else if (UsingApprochRange(TightApprochDistance)) {
+                            int aggressiveChoice = RollTraitChoice(traitAggressive, new int[]{400, 400, 400, 400, 400}, 500, failedAttackRolls * 400);
+                            switch (aggressiveChoice) {
+                                default: Debug.Assert(false); break;
+                                case 0: // fall back to loose
+                                    attackTimer = 1.5f;
+                                    ChangeDirective_MaintainDistancePlayer(LooseApprochDistance);
+                                break;
+                                case 1: // fall back to close long wait
+                                    attackTimer = 2.0f;
+                                    ChangeDirective_MaintainDistancePlayer(CloseApprochDistance);
+                                break;
+                                case 2: // fall back to close short wait
+                                    attackTimer = 1.0f;
+                                    ChangeDirective_MaintainDistancePlayer(CloseApprochDistance);
+                                break;
+                                case 3: // slash
+                                    ChangeDirective_PerformAttack(Attack.Slash);
+                                break;
+                                case 4: // Lunge
+                                    ChangeDirective_PerformAttack(Attack.Lunge);
+                                break;
+                            }
+                        }
+                        failedAttackRolls += 1;
                     }
                 }
             break;
@@ -482,26 +550,15 @@ public class Enemy : MonoBehaviour
 
                 switch (currentAttack) {
                     case Attack.None:
-                        navAgent.enabled = false;
-                        if (distanceToPlayer <= 4) {
-                            setCurrentAttack(Attack.Slash);
-                            swordHitbox.enabled = true;
-                            attackTimer = 0.733f;
-                        }
-                        else {
-                            setCurrentAttack(Attack.Lunge);
-                            swordHitbox.enabled = true;
-                            attackTimer = 0.867f; 
-                        }
+                        Debug.Assert(false);
                         break;
                     case Attack.Slash:
                         attackTimer -= Time.deltaTime;
                         if (attackTimer < 0) {
                             swordHitbox.enabled = false;
-                            setCurrentAttack(Attack.None);
+                            ChangeDirective_Inactive(1.0f);
                             directive = Directive.Inactive;
                             navAgent.enabled = true;
-                            inactiveWait = 1.0f;
                         }
                         break;
                     case Attack.Lunge:
@@ -513,9 +570,7 @@ public class Enemy : MonoBehaviour
                         if (attackTimer < 0) {
                             // If we found ourselves off geometry, wait util we finish falling.
                             swordHitbox.enabled = false;
-                            setCurrentAttack(Attack.None);
-                            directive = Directive.Inactive;
-                            inactiveWait = 1.0f;
+                            ChangeDirective_Inactive(1.0f);
                             navAgent.enabled = true;
                         }
                         break;
