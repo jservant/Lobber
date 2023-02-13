@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour {
     Transform projSpawn;
     List<GameObject> enemiesHit;
 
-    DefaultPlayerActions pActions;
+    public DefaultPlayerActions pActions;
 
     public Vector2 mInput;
     Vector3 movement;
@@ -60,7 +60,7 @@ public class PlayerController : MonoBehaviour {
 
         if (movement.magnitude >= 0.1f)
         {
-            float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg;
+            float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnVelocity, turnSpeed);
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
@@ -86,9 +86,14 @@ public class PlayerController : MonoBehaviour {
                 animTimer = 0;
             }
         }
+
+        Vector3 camControl = pActions.Player.CameraControl.ReadValue<Vector2>();
+
+        //Camera.main.transform.LookAt(transform);
+        //Camera.main.transform.Translate(new Vector3(camControl.x, camControl.y, 0) * Time.deltaTime);
     }
         #region Player inputs
-        void Input() // runs in update
+    void Input() // runs in update
     {
         #region Movement
         if (currentState != (int)States.Attacking) { 
