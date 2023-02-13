@@ -13,11 +13,11 @@ public class CameraRotater : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         cInput = player.pActions.Player.CameraControl.ReadValue<Vector2>();
         transform.position = player.transform.position;
         //transform.RotateAround(player.transform.position, Vector3.up, 5 * Time.deltaTime);
-        transform.Rotate(0f, cInput.x * cSpeed * Time.deltaTime, 0f, Space.World);
+        transform.Rotate(0f, cInput.x * cSpeed * Time.fixedDeltaTime, 0f, Space.World);
     }
 }
