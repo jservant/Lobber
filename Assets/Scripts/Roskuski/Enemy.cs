@@ -49,7 +49,7 @@ public class Enemy : MonoBehaviour
     Attack currentAttack = Attack.None; // NOTE(Roskuski): Do not set this manually, use the setting function, as that keeps animation state insync
     
     float inactiveWait = 2;
-    float stoppingDistance;
+    float approchDistance;
     Vector3 targetOffset; 
 
     int failedAttackRolls = 0;
@@ -66,6 +66,11 @@ public class Enemy : MonoBehaviour
     // NOTE(Roskuski): copied from the default settings of navMeshAgent
     public const float MoveSpeed = 7f;
     public const float TurnSpeed = 360.0f; // NOTE(Roskuski): in Degrees per second
+
+    public const float TightApprochDistance = 4;
+    public const float CloseApprochDistance = 6;
+    public const float LooseApprochDistance = 10; 
+    public const float ApprochDeviance = 2;
 
     // NOTE(Roskuski): Internal references
     NavMeshAgent navAgent;
@@ -115,13 +120,7 @@ public class Enemy : MonoBehaviour
         Debug.Assert(2*TraitMax == choiceTotal, choiceTotal + " Is not " + 2*TraitMax);
 
         int result = -1;
-        int roll = Random.Range(-rollRange, rollRange + 1); // Max is exclusive in Range.Range(int,int)
-        roll += bias + trait;
-        // NOTE(Roskuski): Right now when doing a trait roll, the roll is capped to the max and min trait values.
-        // There might be a reason to allow the enemies to roll beyond TraitMax and min, like when a bias would make it so, or when their trait is at an extreme and they also roll the same extreme.
-        // implmenting this will complicate the math, and slightly complicate the process of making choiceChances.
-        if (roll < 0)          { roll = 0; }
-        if (roll > 2*TraitMax) { roll = 2*TraitMax; }
+        int roll = RollTrait(trait, rollRange, bias);
 
         int rollingTotal = 0;
         for (int index = 0; index < choiceChances.Length; index += 1) {
@@ -137,13 +136,25 @@ public class Enemy : MonoBehaviour
         return result;
     }
 
+    // Yields the raw trait roll, see documentation above
+    int RollTrait(int trait, int rollRange, int bias = 0) {
+        int roll = Random.Range(-rollRange, rollRange + 1); // Max is exclusive in Range.Range(int,int)
+        roll += bias + trait;
+        // NOTE(Roskuski): Right now when doing a trait roll, the roll is capped to the max and min trait values.
+        // There might be a reason to allow the enemies to roll beyond TraitMax and min, like when a bias would make it so, or when their trait is at an extreme and they also roll the same extreme.
+        // implmenting this will complicate the math, and slightly complicate the process of making choiceChances.
+        if (roll < 0)          { roll = 0; }
+        if (roll > 2*TraitMax) { roll = 2*TraitMax; }
+        return roll;
+    }
+
     bool CanAttemptNavigation() {
         return navAgent.pathStatus == NavMeshPathStatus.PathComplete ||
             navAgent.pathStatus == NavMeshPathStatus.PathPartial;
     }
 
     float DistanceToTravel() {
-        return navAgent.remainingDistance - stoppingDistance;
+        return navAgent.remainingDistance - approchDistance;
     }
 
     void ChangeDirective_Inactive(float inactiveWait) {
@@ -153,8 +164,13 @@ public class Enemy : MonoBehaviour
 
     void ChangeDirective_MaintainDistancePlayer(float stoppingDistance, Vector3 targetOffset = default(Vector3)) {
         this.directive = Directive.MaintainDistancePlayer;
-        this.stoppingDistance = stoppingDistance;
+        this.approchDistance = stoppingDistance + Random.Range(0, ApprochDeviance);
         this.targetOffset = targetOffset;
+    }
+
+    // helper: logic for deteriming whigh following range is being used.
+    bool UsingApprochRange(float distance) {
+        return (approchDistance >= distance - ApprochDeviance) && (approchDistance <= distance + ApprochDeviance);
     }
 
     void OnTriggerEnter(Collider other) {
@@ -184,6 +200,9 @@ public class Enemy : MonoBehaviour
         gameMan.enemyList.Add(this);
 
         health = MaxHealth;
+
+        traitAggressive = Random.Range(0, TraitMax*2);
+        traitSneaky = Random.Range(0, TraitMax*2);
     }
 
     void OnDestroy() {
@@ -205,14 +224,17 @@ public class Enemy : MonoBehaviour
                     int choiceAggressive = RollTraitChoice(traitAggressive, new int[]{250, 250, 1000, 500}, 500);
                     attackTimer = new float[]{3.0f, 2.0f, 1.0f, 0.5f}[choiceAggressive];
 
-                    choiceAggressive = RollTraitChoice(traitAggressive, new int[]{1000, 1000}, 500);
+                    choiceAggressive = RollTraitChoice(traitAggressive, new int[]{500, 1000, 500}, 500);
                     switch (choiceAggressive) {
                         default: Debug.Assert(false, choiceAggressive); break;
                         case 0:
-                            ChangeDirective_MaintainDistancePlayer(10);
+                            ChangeDirective_MaintainDistancePlayer(TightApprochDistance);
                         break;
                         case 1:
-                            ChangeDirective_MaintainDistancePlayer(4);
+                            ChangeDirective_MaintainDistancePlayer(CloseApprochDistance);
+                        break;
+                        case 2:
+                            ChangeDirective_MaintainDistancePlayer(LooseApprochDistance);
                         break;
                     }
                 }
@@ -221,7 +243,7 @@ public class Enemy : MonoBehaviour
                 navAgent.nextPosition = this.transform.position;
                 
                 navAgent.SetDestination(playerPosition + targetOffset);
-                navAgent.stoppingDistance = stoppingDistance;
+                navAgent.stoppingDistance = approchDistance;
 
                 bool isBackpedaling = false;
                 bool isStrafing = false; 
@@ -246,7 +268,7 @@ public class Enemy : MonoBehaviour
                         }
                     }
                     
-                    float[] directionWeights = new float[512]; 
+                    float[] directionWeights = new float[16]; 
                     Quaternion angleStep = Quaternion.AngleAxis(360.0f / directionWeights.Length, Vector3.up);
 
                     // @TODO(Roskuski) @BeforePlaytest1 make pathfinding account for ledges enemies shouldn't fall off the arena
@@ -268,9 +290,30 @@ public class Enemy : MonoBehaviour
                         if (gameMan.playerController.mInput != Vector2.zero &&
                                 (Vector3.Dot(mInput3d, this.transform.rotation * Vector3.forward) < -0.7)) {
                             isBackpedaling = true; 
+
+                            Vector3 consideredDelta = Vector3.forward; 
+                            for (int index = 0; index < directionWeights.Length; index += 1) {
+                                float maxDot = Vector3.Dot(Quaternion.AngleAxis(180, Vector3.up) * nextNodeDelta.normalized, consideredDelta) + 1.0f;
+                                directionWeights[index] = maxDot;
+
+                                // NOTE(Roskuski): Advance the angle to the next index.
+                                consideredDelta = angleStep * consideredDelta;
+                            }
                         }
                         else { // Lets strafe around the player
-                            // @Disabled Testing ledge avoidance isStrafing = true; 
+                            isStrafing = true;
+                            // @TODO(Roskuski): Shape desired path to prefer directions which the dot is 0.5/-0.5
+                            Vector3 consideredDelta = Vector3.forward; 
+                            for (int index = 0; index < directionWeights.Length; index += 1) {
+                                float maxDot = Mathf.Max(
+                                    Vector3.Dot(Quaternion.AngleAxis(90, Vector3.up) * nextNodeDelta.normalized, consideredDelta) + 1.0f,
+                                    Vector3.Dot(Quaternion.AngleAxis(-90, Vector3.up) * nextNodeDelta.normalized, consideredDelta) + 1.0f);
+                                directionWeights[index] = maxDot;
+
+                                // NOTE(Roskuski): Advance the angle to the next index.
+                                consideredDelta = angleStep * consideredDelta;
+                            }
+
                         }
                     }
 
@@ -299,6 +342,8 @@ public class Enemy : MonoBehaviour
 
                     // Consider Ledges
                     {
+                        // @TODO(Roskuski): Currently it's very easy to convince enemies to walk off ledges by making them backpedal into them
+                        // we should prevent this from happening in 90% of the time
                         Vector3 consideredDelta = Vector3.forward; 
                         for (int index = 0; index < directionWeights.Length; index += 1) {
                             float ledgeMod = 1;
@@ -306,7 +351,7 @@ public class Enemy : MonoBehaviour
                             bool success = NavMesh.SamplePosition(this.transform.position + consideredDelta * MoveSpeed * Time.deltaTime, out hit, 0.5f, NavMesh.AllAreas);
                             if (success) { 
                                 float hitDistance = Vector3.Distance(hit.position, this.transform.position);
-                                ledgeMod = hitDistance / (MoveSpeed * Time.deltaTime);
+                                ledgeMod = Mathf.Clamp01(hitDistance / (MoveSpeed * Time.deltaTime));
                             }
                             else {
                                 ledgeMod = 0;
@@ -356,19 +401,16 @@ public class Enemy : MonoBehaviour
 
                 float speedModifier = 1.0f;
                 if (isBackpedaling) {
-                    speedModifier = Mathf.Lerp(-1.0f, 0.0f, (Vector3.Distance(this.transform.position, playerPosition + targetOffset) - stoppingDistance) + 1);
+                    speedModifier = 0.8f;
+                }
+                else if (isStrafing) {
+                    speedModifier = 0.6f;
                 }
                 else {
-                    speedModifier = Mathf.Lerp(0.0f, 1, (Vector3.Distance(this.transform.position, playerPosition + targetOffset) - stoppingDistance) + 1);
+                    speedModifier = Mathf.Lerp(0.5f, 1, (Vector3.Distance(this.transform.position, playerPosition + targetOffset) - approchDistance) + 1);
                 }
 
-                if (isStrafing) {
-                    speedModifier = 0.5f;
-                    this.transform.position += moveDirection * Vector3.right * MoveSpeed * speedModifier * Time.deltaTime;
-                }
-                else {
-                    this.transform.position += moveDirection * Vector3.forward * MoveSpeed * speedModifier * Time.deltaTime;
-                }
+                this.transform.position += moveDirection * Vector3.forward * MoveSpeed * speedModifier * Time.deltaTime;
 
                 // Rotate the visual seperately
                 if (distanceToPlayer < 6.25 || speedModifier < 0.75f) {
@@ -386,27 +428,37 @@ public class Enemy : MonoBehaviour
                     // @TODO(Roskuski): This might look weird if the feet don't line up when we attempt to make an attack.
                     // might want to only choose an attack when it would blend sensiably in the animation.
                     // adding a data keyframe will make this a snap to impl.
+                    //
+
+                    // @TODO(Roskuski): determine formation changes here before attacking
+                    // We probably want to bracket different choices based off of following distance.
+                    // should we also make following distances a random range?
+
                     attackTimer -= Time.deltaTime;
                     if (attackTimer <= 0) {
-                        int aggressiveChoice = RollTraitChoice(traitAggressive, new int[]{350, 350, 350, 950}, 500, failedAttackRolls * 200);
-                        switch (aggressiveChoice) {
-                            default: Debug.Assert(false); break;
-                            case 0: // fail with long wait
-                                failedAttackRolls += 1;
-                                attackTimer = 3;
-                            break;
-                            case 1: // fail with normal wait
-                                failedAttackRolls += 1;
-                                attackTimer = 1.5f;
-                            break;
-                            case 2: // fail with short wait
-                                failedAttackRolls += 1;
-                                attackTimer = 0.5f;
-                            break;
-                            case 3: // attack!
-                                failedAttackRolls = 0;
-                                directive = Directive.PerformAttack;
-                            break;
+                        if (UsingApprochRange(LooseApprochDistance)) {
+                        }
+                        else if (UsingApprochRange(TightApprochDistance) && false) {
+                            int aggressiveChoice = RollTraitChoice(traitAggressive, new int[]{350, 350, 350, 950}, 500, failedAttackRolls * 200);
+                            switch (aggressiveChoice) {
+                                default: Debug.Assert(false); break;
+                                case 0: // 
+                                    failedAttackRolls += 1;
+                                    attackTimer = 3;
+                                break;
+                                case 1: // fail with normal wait
+                                    failedAttackRolls += 1;
+                                    attackTimer = 1.5f;
+                                break;
+                                case 2: // fail with short wait
+                                    failedAttackRolls += 1;
+                                    attackTimer = 0.5f;
+                                break;
+                                case 3: // attack!
+                                    failedAttackRolls = 0;
+                                    directive = Directive.PerformAttack;
+                                break;
+                            }
                         }
                     }
                 }
@@ -429,7 +481,7 @@ public class Enemy : MonoBehaviour
                             swordHitbox.enabled = true;
                             attackTimer = 0.733f;
                         }
-                        else if (false) {
+                        else {
                             setCurrentAttack(Attack.Lunge);
                             swordHitbox.enabled = true;
                             attackTimer = 0.867f; 
