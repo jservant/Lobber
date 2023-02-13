@@ -160,7 +160,7 @@ public class PlayerController : MonoBehaviour {
         } else if (other.gameObject.layer == (int)Layers.EnemyHitbox)
         {
             // NOTE(Roskuski): I hit the enemy!
-            if (animr.GetBool("lob") == true)
+            if (currentAttack == (int)Attacks.Lob)
             {
                 //todo: enemy instantly dies
                 headMesh.enabled = true;
