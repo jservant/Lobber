@@ -339,7 +339,8 @@ public class Enemy : MonoBehaviour
                                 totalEnemyWeight /= nearEnemyDeltas.Length;
                                 enemyMod = 1 - (totalEnemyWeight / 2);
                             }
-                            directionWeights[index] *= enemyMod;
+                            // makes enemyMod more impactful the more enemies are around
+                            directionWeights[index] *= (enemyMod / (1 + (nearEnemyDeltas.Length)));
 
                             // NOTE(Roskuski): Advance the angle to the next index.
                             consideredDelta = angleStep * consideredDelta;
