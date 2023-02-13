@@ -80,7 +80,8 @@ public class PlayerController : MonoBehaviour {
             if (animTimer <= 0)
             {
                 currentAttack = (int)Attacks.None;
-                animr.SetInteger("CurrentAttack", currentAttack);
+                //animr.SetInteger("CurrentAttack", currentAttack);
+                animr.Play("Base Layer.Idle_Character");
                 currentState = (int)States.Idle;
                 animTimer = 0;
             }
@@ -90,24 +91,29 @@ public class PlayerController : MonoBehaviour {
         void Input() // runs in update
     {
         #region Movement
-        if (currentState != (int)States.Attacking) { mInput = pActions.Player.Move.ReadValue<Vector2>(); }
-        if (pActions.Player.Move.phase == InputActionPhase.Started && currentState != (int)States.Attacking) {
-            animr.SetBool("walking", true);
-            currentState = (int)States.Walking;
-            movement = movement = new Vector3(mInput.x, 0, mInput.y);
-        } if (pActions.Player.Move.WasReleasedThisFrame() && currentState != (int)States.Attacking) {
-            animr.SetBool("walking", false);
-            currentState = (int)States.Idle;
+        if (currentState != (int)States.Attacking) { 
+            mInput = pActions.Player.Move.ReadValue<Vector2>();
+            if (pActions.Player.Move.WasReleasedThisFrame())
+            {
+                //animr.SetBool("walking", false);
+                animr.Play("Base Layer.Idle_Character");
+                currentState = (int)States.Idle;
+            } else if (pActions.Player.Move.phase == InputActionPhase.Started) {
+                //animr.SetBool("walking", true);
+                currentState = (int)States.Walking;
+                animr.Play("Base Layer.Run_Character");
+                movement = movement = new Vector3(mInput.x, 0, mInput.y);
+            } 
+            else if (pActions.Player.Move.phase == InputActionPhase.Waiting) { animr.Play("Base Layer.Idle_Character"); }
         }
-        else if (pActions.Player.Move.phase == InputActionPhase.Waiting) { animr.SetBool("walking", false); }
-
+        
         #endregion
 
         #region Attacking
         if (pActions.Player.Attack.WasPerformedThisFrame()) {
             if (currentAttack == (int)Attacks.None)
             {
-                setCurrentAttack(Attacks.Chop, 0.367f);
+                setCurrentAttack(Attacks.Chop, "Base Layer.Attack1_Character", 0.533f); 
             }
                 //StartCoroutine(AnimBuffer("attack", .38f, true)); } //.73f
             currentState = (int)States.Attacking;
@@ -121,12 +127,12 @@ public class PlayerController : MonoBehaviour {
             if (currentAttack == (int)Attacks.None) {
                 if (headMesh.enabled == true) {
                     currentState = (int)States.Attacking;
-                    setCurrentAttack(Attacks.LobThrow, 1.067f);
+                    setCurrentAttack(Attacks.LobThrow, "Base Layer.LobThrow_Character", 1.067f);
                     //StartCoroutine(AnimBuffer("lobThrow", .65f, true));
                     // all functionality following is in LobThrow which'll be triggered in the animator
                 } else { 
                     currentState = (int)States.Attacking;
-                    setCurrentAttack(Attacks.Lob, 0.433f);
+                    setCurrentAttack(Attacks.Lob, "Base Layer.Attack2_Character", 0.533f);
                 }
             }
         }
@@ -198,9 +204,10 @@ public class PlayerController : MonoBehaviour {
         //Debug.Log("heightCorrectedPoint: " + heightCorrectedPoint);
     }*/
 
-    void setCurrentAttack(Attacks attack, float duration) 
+    void setCurrentAttack(Attacks attack, string animName, float duration) 
     {
         currentAttack = (int)attack;
+        animr.Play(animName);
         animr.SetInteger("CurrentAttack", currentAttack);
         animTimer = duration;
     }
