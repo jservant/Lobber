@@ -51,6 +51,7 @@ public class Enemy : MonoBehaviour
     float inactiveWait = 2;
     float approchDistance;
     Vector3 targetOffset; 
+    bool preferRightStrafe;
 
     int failedAttackRolls = 0;
     float attackTimer = 1.0f; // @TODO(Roskuski) Fine tune this parameter
@@ -221,6 +222,7 @@ public class Enemy : MonoBehaviour
                 inactiveWait -= Time.deltaTime; 
                 // @TODO(Roskuski) roll for attackTimer?
                 if (inactiveWait < 0) {
+                    preferRightStrafe = Random.Range(0, 2) == 1 ? true : false;
                     int choiceAggressive = RollTraitChoice(traitAggressive, new int[]{250, 250, 1000, 500}, 500);
                     attackTimer = new float[]{3.0f, 2.0f, 1.0f, 0.5f}[choiceAggressive];
 
@@ -243,7 +245,6 @@ public class Enemy : MonoBehaviour
                 navAgent.nextPosition = this.transform.position;
                 
                 navAgent.SetDestination(playerPosition + targetOffset);
-                navAgent.stoppingDistance = approchDistance;
 
                 bool isBackpedaling = false;
                 bool isStrafing = false; 
@@ -302,13 +303,18 @@ public class Enemy : MonoBehaviour
                         }
                         else { // Lets strafe around the player
                             isStrafing = true;
-                            // @TODO(Roskuski): Shape desired path to prefer directions which the dot is 0.5/-0.5
                             Vector3 consideredDelta = Vector3.forward; 
                             for (int index = 0; index < directionWeights.Length; index += 1) {
-                                float maxDot = Mathf.Max(
-                                    Vector3.Dot(Quaternion.AngleAxis(90, Vector3.up) * nextNodeDelta.normalized, consideredDelta) + 1.0f,
-                                    Vector3.Dot(Quaternion.AngleAxis(-90, Vector3.up) * nextNodeDelta.normalized, consideredDelta) + 1.0f);
-                                directionWeights[index] = maxDot;
+                                float rightScore = Vector3.Dot(Quaternion.AngleAxis(90, Vector3.up) * nextNodeDelta.normalized, consideredDelta) + 1.0f;
+                                float leftScore = Vector3.Dot(Quaternion.AngleAxis(-90, Vector3.up) * nextNodeDelta.normalized, consideredDelta) + 1.0f;
+                                if (preferRightStrafe) {
+                                    leftScore *= 0.75f;
+                                }
+                                else if (!preferRightStrafe) {
+                                    rightScore *= 0.75f;
+                                }
+
+                                directionWeights[index] = Mathf.Max(leftScore, rightScore);
 
                                 // NOTE(Roskuski): Advance the angle to the next index.
                                 consideredDelta = angleStep * consideredDelta;
