@@ -29,8 +29,8 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] enum States { Idle, Walking, Attacking, Hitstunned };
     [SerializeField] int currentState = 0;
 
-    [SerializeField] enum Attacks { None, Attack, Chop, ChopThrow };
-    [SerializeField] int currentAttack = 0;
+    [SerializeField] public enum Attacks { None, Attack, Chop, ChopThrow };
+    [SerializeField] public int currentAttack = 0;
 
     float turnVelocity;
 

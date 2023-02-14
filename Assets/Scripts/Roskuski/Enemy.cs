@@ -35,8 +35,6 @@ public class Enemy : MonoBehaviour {
 
         // Attack the player!
         PerformAttack, 
-
-        // @TODO Stunned state
     }
     [SerializeField] Directive directive;
 
@@ -60,8 +58,7 @@ public class Enemy : MonoBehaviour {
 
     // NOTE(Roskuski): End of ai state
 
-    [SerializeField] public int MaxHealth = 10;
-    int health = 0;
+    bool shouldDie = false;
 
     public const float LungeSpeed = 15;
     // NOTE(Roskuski): copied from the default settings of navMeshAgent
@@ -80,12 +77,6 @@ public class Enemy : MonoBehaviour {
 
     // NOTE(Roskuski): External references
     GameManager gameMan;
-
-    // NOTE(Roskuski): To be called from sources of damage
-    public void ReceiveDamage(int damage) {
-        health -= damage;
-        Debug.Log("Player hit! Damage dealt: " + damage + " Remaining health: " + health);
-    }
 
     /* NOTE(Roskuski): 
      * When rolling to select a chance the personality value is used as a sliding window into the total choice table.
@@ -182,11 +173,26 @@ public class Enemy : MonoBehaviour {
 
    void OnTriggerEnter(Collider other) {
         if (other.gameObject.layer == (int)Layers.PlayerHitbox) {
-            Debug.Log("The " + other.name + "is hitting me, " + gameObject.name + "!");
-            //ReceiveDamage(5);
-            // @TODO(Roskuski): How do we want to pass damage here?
-            // we could _Name_ the other object with the amount of damage we're dealing.
-            // passing information via object names is kinda hacky but I don't think there's a better way to pass information into here wihtout using a get component
+            HeadProjectile head = other.GetComponentInParent<HeadProjectile>();
+            PlayerController player = other.GetComponentInParent<PlayerController>();
+
+            if (player != null) {
+                switch (gameMan.playerController.currentAttack) {
+                    case PlayerController.Attacks.Chop:
+                        ChangeDirective_Inactive(1.0f); // @TODO(Roskuski): Scaling stun accumilation
+                    break;
+                    case PlayerController.Attacks.Lob:
+                        shouldDie = true;
+                    break;
+                    default:
+                        Debug.Log("I, " + this.name + " was hit by an unhandled attack (" + gameMan.playerController.currentAttack + ")");
+                    break;
+                }
+            }
+            else if (head != null) {
+                // @TODO(Roskuski): Head reaction
+                Debug.Log("Head Hit");
+            }
         }
     }
 
@@ -202,8 +208,6 @@ public class Enemy : MonoBehaviour {
         navAgent.updateRotation = false;
 
         gameMan.enemyList.Add(this);
-
-        health = MaxHealth;
 
         traitAggressive = Random.Range(0, TraitMax*2);
         traitSneaky = Random.Range(0, TraitMax*2);
@@ -577,7 +581,7 @@ public class Enemy : MonoBehaviour {
 
         animator.SetInteger("Ai Directive", (int)directive);
 
-        if (health < 0) {
+        if (shouldDie) {
             Destroy(this.gameObject);
         }
     }
