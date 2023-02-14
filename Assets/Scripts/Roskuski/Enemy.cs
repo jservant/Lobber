@@ -13,8 +13,7 @@ using UnityEngine.AI;
 
 // @TODO(Roskuski): At a high level: enemies which are flanking should break out of flank if they get too close to the player.
 
-public class Enemy : MonoBehaviour
-{
+public class Enemy : MonoBehaviour {
     static float[] AttackAnimationTimes = new float[Attack.GetNames(typeof(Attack)).Length];
 
     // NOTE(Roskuski): Enemy ai state
@@ -173,6 +172,7 @@ public class Enemy : MonoBehaviour
         animator.SetInteger("CurrentAttack", (int)currentAttack);
         attackTimer = AttackAnimationTimes[(int)currentAttack];
         failedAttackRolls = 0;
+        swordHitbox.enabled = true;
     }
 
     // helper: logic for deteriming whigh following range is being used.
@@ -180,23 +180,20 @@ public class Enemy : MonoBehaviour
         return (approchDistance >= distance) && (approchDistance <= distance + ApprochDeviance);
     }
 
-    void OnTriggerEnter(Collider other) {
-        if (other.gameObject.layer == (int)Layers.PlayerHurtbox) {
-            // NOTE(Roskuski): Debug.Log("The Player is hitting me!");
-            ReceiveDamage(5);
+   void OnTriggerEnter(Collider other) {
+        if (other.gameObject.layer == (int)Layers.PlayerHitbox) {
+            Debug.Log("The " + other.name + "is hitting me, " + gameObject.name + "!");
+            //ReceiveDamage(5);
             // @TODO(Roskuski): How do we want to pass damage here?
             // we could _Name_ the other object with the amount of damage we're dealing.
             // passing information via object names is kinda hacky but I don't think there's a better way to pass information into here wihtout using a get component
-        }
-        if (other.gameObject.layer == (int)Layers.PlayerHitbox) {
-            // NOTE(Roskuski): Debug.Log("I hit the player!"); 
         }
     }
 
     void Start() {
         navAgent = this.GetComponent<NavMeshAgent>();
         animator = transform.Find("Visual").GetComponent<Animator>();
-        swordHitbox = transform.Find("Visual/Sword_Base_Model").GetComponent<BoxCollider>();
+        swordHitbox = transform.Find("Visual/Weapon_Controller").GetComponent<BoxCollider>();
 
         gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 
@@ -557,7 +554,6 @@ public class Enemy : MonoBehaviour
                         if (attackTimer < 0) {
                             swordHitbox.enabled = false;
                             ChangeDirective_Inactive(1.0f);
-                            directive = Directive.Inactive;
                             navAgent.enabled = true;
                         }
                         break;

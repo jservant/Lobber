@@ -157,19 +157,10 @@ public class PlayerController : MonoBehaviour {
         //iHeadProj.transform.Translate(new Vector3(mInput.x, 0, mInput.y) * projSpeed * Time.deltaTime);
     }
 
-    private void OnTriggerEnter(Collider other) //@TODO(Jaden): Add i-frames and trigger hitstun state when hit
-    {
-        if (other.gameObject.layer == (int)Layers.EnemyHurtbox)
-        {
-            Debug.Log(other.gameObject.name + "is hurting the player");
-        } else if (other.gameObject.layer == (int)Layers.EnemyHitbox)
-        {
-            // NOTE(Roskuski): I hit the enemy!
-            if (currentAttack == (int)Attacks.Lob)
-            {
-                //todo: enemy instantly dies
-                headMesh.enabled = true;
-            }
+    //@TODO(Jaden): Add i-frames and trigger hitstun state when hit
+    private void OnTriggerEnter(Collider other) {
+        if (other.gameObject.layer == (int)Layers.EnemyHitbox) {
+            Debug.Log(other.name + " just hit me, the player!");
         }
     }
 
