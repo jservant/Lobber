@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
             Debug.Log("Object Named Player found");
         } else Debug.LogWarning("Object Named Player Not found");
 
-        enemy = Resources.Load("Prefabs/Enemies/Enemy") as GameObject;
+        enemy = Resources.Load("ActivePrefabs/Enemies/Enemy") as GameObject;
         dActions = new DebugActions();
     }
 
