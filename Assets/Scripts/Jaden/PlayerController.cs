@@ -41,9 +41,9 @@ public class PlayerController : MonoBehaviour {
         animr = GetComponent<Animator>();
         pActions = new DefaultPlayerActions();
 
-        headMesh = transform.Find("Axe_Controller/AxeHitbox/StoredHead").GetComponent<MeshRenderer>();
+        headMesh = transform.Find("Weapon_Controller/Hitbox/StoredHead").GetComponent<MeshRenderer>();
         projSpawn = transform.Find("ProjSpawn");
-        headProj = Resources.Load("Prefabs/HeadProjectile", typeof(GameObject)) as GameObject;
+        headProj = Resources.Load("ActivePrefabs/HeadProjectile", typeof(GameObject)) as GameObject;
 
         #region debug
         if (headMesh != null) { Debug.Log("Axe headmesh found on player."); } else { Debug.LogWarning("Axe headmesh not found on player."); }
@@ -81,7 +81,7 @@ public class PlayerController : MonoBehaviour {
             {
                 currentAttack = (int)Attacks.None;
                 //animr.SetInteger("CurrentAttack", currentAttack);
-                animr.Play("Base Layer.Idle_Character");
+                animr.Play("Base Layer.Character_Idle");
                 currentState = (int)States.Idle;
                 animTimer = 0;
             }
@@ -101,15 +101,15 @@ public class PlayerController : MonoBehaviour {
             if (pActions.Player.Move.WasReleasedThisFrame())
             {
                 //animr.SetBool("walking", false);
-                animr.Play("Base Layer.Idle_Character");
+                animr.Play("Base Layer.Character_Idle");
                 currentState = (int)States.Idle;
             } else if (pActions.Player.Move.phase == InputActionPhase.Started) {
                 //animr.SetBool("walking", true);
                 currentState = (int)States.Walking;
-                animr.Play("Base Layer.Run_Character");
+                animr.Play("Base Layer.Character_Run");
                 movement = movement = new Vector3(mInput.x, 0, mInput.y);
             } 
-            else if (pActions.Player.Move.phase == InputActionPhase.Waiting) { animr.Play("Base Layer.Idle_Character"); }
+            else if (pActions.Player.Move.phase == InputActionPhase.Waiting) { animr.Play("Base Layer.Character_Idle"); }
         }
         
         #endregion
@@ -118,7 +118,7 @@ public class PlayerController : MonoBehaviour {
         if (pActions.Player.Attack.WasPerformedThisFrame()) {
             if (currentAttack == (int)Attacks.None)
             {
-                setCurrentAttack(Attacks.Chop, "Base Layer.Attack1_Character", 0.533f); 
+                setCurrentAttack(Attacks.Chop, "Base Layer.Character_Attack1", 0.533f); 
             }
                 //StartCoroutine(AnimBuffer("attack", .38f, true)); } //.73f
             currentState = (int)States.Attacking;
@@ -132,12 +132,12 @@ public class PlayerController : MonoBehaviour {
             if (currentAttack == (int)Attacks.None) {
                 if (headMesh.enabled == true) {
                     currentState = (int)States.Attacking;
-                    setCurrentAttack(Attacks.LobThrow, "Base Layer.LobThrow_Character", 1.067f);
+                    setCurrentAttack(Attacks.LobThrow, "Base Layer.Character_LobThrow", 1.067f);
                     //StartCoroutine(AnimBuffer("lobThrow", .65f, true));
                     // all functionality following is in LobThrow which'll be triggered in the animator
                 } else { 
                     currentState = (int)States.Attacking;
-                    setCurrentAttack(Attacks.Lob, "Base Layer.Attack2_Character", 0.533f);
+                    setCurrentAttack(Attacks.Lob, "Base Layer.Character_Attack2", 0.533f);
                 }
             }
         }
@@ -213,7 +213,7 @@ public class PlayerController : MonoBehaviour {
     {
         currentAttack = (int)attack;
         animr.Play(animName);
-        animr.SetInteger("CurrentAttack", currentAttack);
+        //animr.SetInteger("CurrentAttack", currentAttack);
         animTimer = duration;
     }
 
