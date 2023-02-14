@@ -178,10 +178,10 @@ public class Enemy : MonoBehaviour {
 
             if (player != null) {
                 switch (gameMan.playerController.currentAttack) {
-                    case PlayerController.Attacks.Chop:
+                    case PlayerController.Attacks.Attack:
                         ChangeDirective_Inactive(1.0f); // @TODO(Roskuski): Scaling stun accumilation
                     break;
-                    case PlayerController.Attacks.Lob:
+                    case PlayerController.Attacks.Chop:
                         shouldDie = true;
                     break;
                     default:

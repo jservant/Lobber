@@ -27,10 +27,10 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] float animDuration = 0f;
     [SerializeField] float animTimer = 0f;
     [SerializeField] enum States { Idle, Walking, Attacking, Hitstunned };
-    [SerializeField] int currentState = 0;
+    [SerializeField] States currentState = 0;
 
     [SerializeField] public enum Attacks { None, Attack, Chop, ChopThrow };
-    [SerializeField] public int currentAttack = 0;
+    [SerializeField] public Attacks currentAttack = 0;
 
     float turnVelocity;
 
@@ -54,9 +54,9 @@ public class PlayerController : MonoBehaviour {
     private void FixedUpdate() // calculate movement here
     {
         // accel/decel for movement
-        if (mInput != Vector2.zero && currentState == (int)States.Attacking) { timeMoved -= (Time.fixedDeltaTime / 2); }
+        if (mInput != Vector2.zero && currentState == States.Attacking) { timeMoved -= (Time.fixedDeltaTime / 2); }
         // if attacking, reduce movement at half speed to produce sliding effect
-        else if (mInput != Vector2.zero) { timeMoved += Time.fixedDeltaTime; } // && currentState != (int)States.Attacking
+        else if (mInput != Vector2.zero) { timeMoved += Time.fixedDeltaTime; } // && currentState != States.Attacking
                                                                                // else build up speed while moving
         else { timeMoved -= Time.fixedDeltaTime; }
         // if no movement input and not attacking, decelerate
@@ -80,17 +80,17 @@ public class PlayerController : MonoBehaviour {
 
     private void Update() // calculate time and input here
     {
-        if (currentState != (int)States.Hitstunned) { Input(); }
-        if (currentAttack != (int)Attacks.None)
+        if (currentState != States.Hitstunned) { Input(); }
+        if (currentAttack != Attacks.None)
         {
             // animator controller
             animTimer -= Time.deltaTime;
             if (animTimer <= 0) // reset everything after animation is done
             {
-                currentAttack = (int)Attacks.None;
+                currentAttack = Attacks.None;
                 //animr.SetInteger("CurrentAttack", currentAttack);
                 animr.Play("Base Layer.Character_Idle");
-                currentState = (int)States.Idle;
+                currentState = States.Idle;
                 animTimer = 0;
             }
         }
@@ -101,18 +101,18 @@ public class PlayerController : MonoBehaviour {
 
     void Input() // processes input, runs in update
     {
-        if (currentState != (int)States.Attacking)
+        if (currentState != States.Attacking)
         {
             mInput = pActions.Player.Move.ReadValue<Vector2>();
             if (pActions.Player.Move.WasReleasedThisFrame())
             {
                 //animr.SetBool("walking", false);
                 animr.Play("Base Layer.Character_Idle");
-                currentState = (int)States.Idle;
+                currentState = States.Idle;
             } else if (pActions.Player.Move.phase == InputActionPhase.Started)
             {
                 //animr.SetBool("walking", true);
-                currentState = (int)States.Walking;
+                currentState = States.Walking;
                 animr.Play("Base Layer.Character_Run");
                 movement = movement = new Vector3(mInput.x, 0, mInput.y);
             } else if (pActions.Player.Move.phase == InputActionPhase.Waiting) { animr.Play("Base Layer.Character_Idle"); }
@@ -120,28 +120,28 @@ public class PlayerController : MonoBehaviour {
 
         if (pActions.Player.Attack.WasPerformedThisFrame())
         {
-            if (currentAttack == (int)Attacks.None)
+            if (currentAttack == Attacks.None)
             {
                 setCurrentAttack(Attacks.Attack, "Base Layer.Character_Attack1", 0.533f);
             }
             //StartCoroutine(AnimBuffer("attack", .38f, true)); } //.73f
-            currentState = (int)States.Attacking;
+            currentState = States.Attacking;
             //@TODO(Jaden): Move forward slightly when attacking
         }
 
         if (pActions.Player.Lob.WasPerformedThisFrame())
         {
-            if (currentAttack == (int)Attacks.None)
+            if (currentAttack == Attacks.None)
             {
                 if (headMesh.enabled == true)
                 {
-                    currentState = (int)States.Attacking;
+                    currentState = States.Attacking;
                     setCurrentAttack(Attacks.ChopThrow, "Base Layer.Character_Chop_Throw", 1.067f);
                     //StartCoroutine(AnimBuffer("lobThrow", .65f, true));
                     // all functionality following is in LobThrow which'll be triggered in the animator
                 } else
                 {
-                    currentState = (int)States.Attacking;
+                    currentState = States.Attacking;
                     setCurrentAttack(Attacks.Chop, "Base Layer.Character_Chop", 1.333f);
                 }
             }
@@ -167,13 +167,13 @@ public class PlayerController : MonoBehaviour {
         if (other.gameObject.layer == (int)Layers.EnemyHitbox)
         {
             Debug.Log(other.name + " just hit me, the player!");
-            currentState = (int)States.Hitstunned;
+            currentState = States.Hitstunned;
             animr.Play("Character_GetHit");
             animDuration = .55f;
         } else if (other.gameObject.layer == (int)Layers.EnemyHurtbox)
         {
             // NOTE(Roskuski): I hit the enemy!
-            if (currentAttack == (int)Attacks.Chop)
+            if (currentAttack == Attacks.Chop)
             {
                 //todo: enemy instantly dies
                 headMesh.enabled = true;
@@ -194,8 +194,8 @@ public class PlayerController : MonoBehaviour {
         animBuffer = false;
         if (offWhenDone) {
             animr.SetBool(animName, false);
-            if (animr.GetBool("walking") == true) { currentState = (int)States.Walking; }
-            else currentState = (int)States.Idle;
+            if (animr.GetBool("walking") == true) { currentState = States.Walking; }
+            else currentState = States.Idle;
         }
     }*/
 
@@ -219,7 +219,7 @@ public class PlayerController : MonoBehaviour {
 
     void setCurrentAttack(Attacks attack, string animName, float duration)
     {
-        currentAttack = (int)attack;
+        currentAttack = attack;
         animr.Play(animName);
         //animr.SetInteger("CurrentAttack", currentAttack);
         animTimer = duration;
