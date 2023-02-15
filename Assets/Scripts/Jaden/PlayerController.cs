@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour {
     MeshRenderer headMesh;
     GameObject headProj;
     Transform projSpawn;
+    BoxCollider axeHitbox;
     List<GameObject> enemiesHit;
 
     public DefaultPlayerActions pActions;
@@ -42,6 +43,7 @@ public class PlayerController : MonoBehaviour {
         pActions = new DefaultPlayerActions();
 
         headMesh = transform.Find("Weapon_Controller/Hitbox/StoredHead").GetComponent<MeshRenderer>();
+        axeHitbox = transform.Find("Weapon_Controller/Hitbox").GetComponent<BoxCollider>();
         projSpawn = transform.Find("ProjSpawn");
         headProj = Resources.Load("ActivePrefabs/HeadProjectile", typeof(GameObject)) as GameObject;
 
@@ -89,6 +91,7 @@ public class PlayerController : MonoBehaviour {
             animTimer -= Time.deltaTime;
             if (animTimer <= 0) // reset everything after animation is done
             {
+                if (currentAttack == Attacks.Chop) { axeHitbox.size = new Vector3(axeHitbox.size.x, axeHitbox.size.y, 50f); }
                 currentAttack = Attacks.None;
                 //animr.SetInteger("CurrentAttack", currentAttack);
                 animr.Play("Base Layer.Character_Idle");
@@ -144,6 +147,7 @@ public class PlayerController : MonoBehaviour {
                 } else
                 {
                     currentState = States.Attacking;
+                    axeHitbox.size = new Vector3(axeHitbox.size.x, axeHitbox.size.y, 120f);
                     setCurrentAttack(Attacks.Chop, "Base Layer.Character_Chop", 1.333f);
                 }
             }

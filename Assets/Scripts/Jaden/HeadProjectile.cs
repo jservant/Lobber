@@ -21,7 +21,7 @@ public class HeadProjectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 6) {
+        if (other.gameObject.layer == (int)Layers.EnemyHurtbox) {
             Enemy eInstance = other.GetComponent<Enemy>();
             //eInstance.ReceiveDamage(damage);
             Destroy(gameObject);
