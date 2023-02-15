@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
+
     //CapsuleCollider capCol;
     Rigidbody rb;
     Animator animr;
@@ -24,13 +25,12 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] int damage = 5;
     [SerializeField] float turnSpeed = 0.1f;
     [SerializeField] AnimationCurve curve;
-    [SerializeField] float animDuration = 0f;
     [SerializeField] float animTimer = 0f;
-    [SerializeField] enum States { Idle, Walking, Attacking, Hitstunned };
-    [SerializeField] States currentState = 0;
+    public enum States { Idle, Walking, Attacking, Hitstunned };
+    public States currentState = 0;
 
-    [SerializeField] public enum Attacks { None, Attack, Chop, ChopThrow };
-    [SerializeField] public Attacks currentAttack = 0;
+    public enum Attacks { None, Attack, Chop, ChopThrow };
+    public Attacks currentAttack = 0;
 
     float turnVelocity;
 
@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour {
         // accel/decel for movement
         if (mInput != Vector2.zero && currentState == States.Attacking) { timeMoved -= (Time.fixedDeltaTime / 2); }
         // if attacking, reduce movement at half speed to produce sliding effect
-        else if (mInput != Vector2.zero) { timeMoved += Time.fixedDeltaTime; } // && currentState != States.Attacking
+        else if (mInput != Vector2.zero) { timeMoved += Time.fixedDeltaTime; } // && currentState != (int)States.Attacking
                                                                                // else build up speed while moving
         else { timeMoved -= Time.fixedDeltaTime; }
         // if no movement input and not attacking, decelerate
@@ -73,6 +73,8 @@ public class PlayerController : MonoBehaviour {
             Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             transform.position += moveDirection.normalized * (speed * Mathf.Lerp(0, 1, curve.Evaluate(timeMoved / maxSpeedTime))) * Time.fixedDeltaTime;
             // this moves the player and includes the anim curve accel/decel
+        } else {
+            transform.rotation = Quaternion.Euler(0f, transform.rotation.y, 0f);
         }
 
         //@TODO(Jaden): maaybe snapto enemy? 
@@ -81,7 +83,7 @@ public class PlayerController : MonoBehaviour {
     private void Update() // calculate time and input here
     {
         if (currentState != States.Hitstunned) { Input(); }
-        if (currentAttack != Attacks.None)
+        if (currentAttack != Attacks.None || currentState == States.Hitstunned)
         {
             // animator controller
             animTimer -= Time.deltaTime;
@@ -165,13 +167,13 @@ public class PlayerController : MonoBehaviour {
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == (int)Layers.EnemyHitbox)
-        {
+        { // player is getting hit
             Debug.Log(other.name + " just hit me, the player!");
+            animTimer = .55f;
             currentState = States.Hitstunned;
             animr.Play("Character_GetHit");
-            animDuration = .55f;
         } else if (other.gameObject.layer == (int)Layers.EnemyHurtbox)
-        {
+        { // player is hitting enemy
             // NOTE(Roskuski): I hit the enemy!
             if (currentAttack == Attacks.Chop)
             {
@@ -194,8 +196,8 @@ public class PlayerController : MonoBehaviour {
         animBuffer = false;
         if (offWhenDone) {
             animr.SetBool(animName, false);
-            if (animr.GetBool("walking") == true) { currentState = States.Walking; }
-            else currentState = States.Idle;
+            if (animr.GetBool("walking") == true) { currentState = (int)States.Walking; }
+            else currentState = (int)States.Idle;
         }
     }*/
 

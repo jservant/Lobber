@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public PlayerController playerController;
     public GameObject enemy;
     DebugActions dActions;
+    public Transform[] eSpawns;
 
     public List<Enemy> enemyList;
 
@@ -29,7 +30,11 @@ public class GameManager : MonoBehaviour
         // @TODO(Roskuski): This doesn't spawn enemies in the right spot
         if (dActions.DebugTools.SpawnEnemy.WasPerformedThisFrame()) { // TAKE THIS OUT IN FINAL RELEASE
             GameObject iEnemy = enemy;
-            Vector3 mPos = Vector3.zero;
+            Transform spawn = eSpawns[Random.Range(0, eSpawns.Length)];
+            Debug.Log(iEnemy.gameObject.name + " spawned at " + spawn);
+            Instantiate(iEnemy, spawn.position, Quaternion.identity); //heightCorrectedPoint in middle
+
+            /*Vector3 mPos = Vector3.zero;
             Plane plane = new Plane(Vector3.up, 0);
             float distance;
             Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
@@ -38,9 +43,7 @@ public class GameManager : MonoBehaviour
                 mPos = ray.GetPoint(distance);
             }
             Vector3 heightCorrectedPoint = new Vector3(mPos.x, transform.position.y, mPos.z);
-            //movement = heightCorrectedPoint
-            Debug.Log("Mouse Look At point: " + mPos);
-            Instantiate(iEnemy, heightCorrectedPoint, Quaternion.identity);
+            //movement = heightCorrectedPoint*/
         }
     }
 
