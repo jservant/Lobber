@@ -230,12 +230,11 @@ public class Enemy : MonoBehaviour {
         directive = Directive.Spawn; 
         if (isSandbag) { directive = Directive.Sandbag; }
 
-        gameMan.enemyList.Add(this);
-
         traitAggressive = Random.Range(0, TraitMax*2);
         traitSneaky = Random.Range(0, TraitMax*2);
 
         // NOTE(Roskuski): populate AttackAnimationTimes once per run
+        // TODO(Roskuski): Remove this in favor of using keyframes
         if (AttackAnimationTimes[0] == 0) {
             AttackAnimationTimes[0] = 10;
             foreach (AnimationClip clip in animator.runtimeAnimatorController.animationClips) {
@@ -249,10 +248,6 @@ public class Enemy : MonoBehaviour {
                 }
             }
         }
-    }
-
-    void OnDestroy() {
-        gameMan.enemyList.Remove(this);
     }
 
     void Update() {

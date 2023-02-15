@@ -12,8 +12,6 @@ public class GameManager : MonoBehaviour
     DebugActions dActions;
     public Transform[] eSpawns;
 
-    public List<Enemy> enemyList;
-
     void Awake() {
         player = transform.Find("/Player");
         playerController = player.GetComponent<PlayerController>();
