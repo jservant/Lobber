@@ -67,6 +67,7 @@ public class Enemy : MonoBehaviour {
 
     bool shouldDie = false;
     [SerializeField] bool isSandbag = false;
+    bool isImmune = false;
 
     public const float LungeSpeed = 15;
     // NOTE(Roskuski): copied from the default settings of navMeshAgent
@@ -85,6 +86,10 @@ public class Enemy : MonoBehaviour {
 
     // NOTE(Roskuski): External references
     GameManager gameMan;
+
+    // NOTE(Roskuski): Mike West! Add your animation varibles here!
+    public bool aniVarSpawnDone;
+    // NOTE(Roskuski): End of animation variables
 
     /* NOTE(Roskuski): 
      * When rolling to select a chance the personality value is used as a sliding window into the total choice table.
@@ -185,34 +190,36 @@ public class Enemy : MonoBehaviour {
     }
 
    void OnTriggerEnter(Collider other) {
-        if (other.gameObject.layer == (int)Layers.PlayerHitbox) {
-            HeadProjectile head = other.GetComponentInParent<HeadProjectile>();
-            PlayerController player = other.GetComponentInParent<PlayerController>();
+        if (!isImmune) {
+            if (other.gameObject.layer == (int)Layers.PlayerHitbox) {
+                HeadProjectile head = other.GetComponentInParent<HeadProjectile>();
+                PlayerController player = other.GetComponentInParent<PlayerController>();
 
-            if (player != null) {
-                switch (gameMan.playerController.currentAttack) {
-                    case PlayerController.Attacks.Attack:
-                        ChangeDirective_Inactive(1.0f); // @TODO(Roskuski): Scaling stun accumilation
-                    break;
-                    case PlayerController.Attacks.Chop:
-                        shouldDie = true;
-                    break;
-                    default:
-                        Debug.Log("I, " + this.name + " was hit by an unhandled attack (" + gameMan.playerController.currentAttack + ")");
-                    break;
+                if (player != null) {
+                    switch (gameMan.playerController.currentAttack) {
+                        case PlayerController.Attacks.Attack:
+                            ChangeDirective_Inactive(1.0f); // @TODO(Roskuski): Scaling stun accumilation
+                        break;
+                        case PlayerController.Attacks.Chop:
+                            shouldDie = true;
+                        break;
+                        default:
+                            Debug.Log("I, " + this.name + " was hit by an unhandled attack (" + gameMan.playerController.currentAttack + ")");
+                        break;
+                    }
                 }
-            }
-            else if (head != null) {
-                // @TODO(Roskuski): Head reaction
-                Debug.Log("Head Hit");
+                else if (head != null) {
+                    // @TODO(Roskuski): Head reaction
+                    Debug.Log("Head Hit");
+                }
             }
         }
     }
 
     void Start() {
         navAgent = this.GetComponent<NavMeshAgent>();
-        animator = transform.Find("Visual").GetComponent<Animator>();
-        swordHitbox = transform.Find("Visual/Weapon_Controller").GetComponent<BoxCollider>();
+        animator = this.GetComponent<Animator>();
+        swordHitbox = transform.Find("Weapon_Controller").GetComponent<BoxCollider>();
 
         gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 
@@ -258,7 +265,6 @@ public class Enemy : MonoBehaviour {
         switch (directive) {
             case Directive.Inactive:
                 inactiveWait -= Time.deltaTime; 
-                // @TODO(Roskuski) roll for attackTimer?
                 if (inactiveWait < 0) {
                     if (isSandbag) { directive = Directive.Sandbag; }
                     else {
@@ -286,7 +292,11 @@ public class Enemy : MonoBehaviour {
                 // Doing nothing, with style...
             break;
             case Directive.Spawn:
-                // Doing nothing, with different style?
+                isImmune = true;
+                if (aniVarSpawnDone) {
+                    isImmune = false;
+                    ChangeDirective_Inactive(0);
+                }
             break;
             case Directive.MaintainDistancePlayer: 
                 navAgent.nextPosition = this.transform.position;
