@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
+
     //CapsuleCollider capCol;
     Rigidbody rb;
     Animator animr;
@@ -16,21 +17,20 @@ public class PlayerController : MonoBehaviour {
 
     public DefaultPlayerActions pActions;
 
-    public Vector2 mInput;
-    Vector3 movement;
+    public Vector2 mInput;                        // movement vector read from input
+    Vector3 movement;                             // actual movement vector used. mInput(x, y) = movement(x, z)
     [SerializeField] float speed = 10f;           // top player speed
     float timeMoved = 0f;                         // how long has player been moving for?
     [SerializeField] float maxSpeedTime = 2f;     // how long does it take for player to reach max speed?
     [SerializeField] int damage = 5;
     [SerializeField] float turnSpeed = 0.1f;
     [SerializeField] AnimationCurve curve;
-    [SerializeField] float animDuration = 0f;
     [SerializeField] float animTimer = 0f;
-    [SerializeField] enum States { Idle, Walking, Attacking, Hitstunned };
-    [SerializeField] int currentState = 0;
+    public enum States { Idle, Walking, Attacking, Hitstunned };
+    public States currentState = 0;
 
-    [SerializeField] enum Attacks { None, Chop, Lob, LobThrow };
-    [SerializeField] int currentAttack = 0;
+    public enum Attacks { None, Attack, Chop, ChopThrow };
+    public Attacks currentAttack = 0;
 
     float turnVelocity;
 
@@ -51,13 +51,19 @@ public class PlayerController : MonoBehaviour {
         #endregion
     }
 
-    private void FixedUpdate()
+    private void FixedUpdate() // calculate movement here
     {
-        if (mInput != Vector2.zero && currentState == (int)States.Attacking) { timeMoved -= (Time.fixedDeltaTime / 2); }
-        else if (mInput != Vector2.zero ) { timeMoved += Time.fixedDeltaTime; } // && currentState != (int)States.Attacking
+        // accel/decel for movement
+        if (mInput != Vector2.zero && currentState == States.Attacking) { timeMoved -= (Time.fixedDeltaTime / 2); }
+        // if attacking, reduce movement at half speed to produce sliding effect
+        else if (mInput != Vector2.zero) { timeMoved += Time.fixedDeltaTime; } // && currentState != (int)States.Attacking
+                                                                               // else build up speed while moving
         else { timeMoved -= Time.fixedDeltaTime; }
+        // if no movement input and not attacking, decelerate
         timeMoved = Mathf.Clamp(timeMoved, 0, maxSpeedTime);
+        // clamp accel value between 0 and a static maximum
 
+        // ryan's adapted movement code, meant to lerp player movement/rotation
         if (movement.magnitude >= 0.1f)
         {
             float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
@@ -66,106 +72,110 @@ public class PlayerController : MonoBehaviour {
 
             Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             transform.position += moveDirection.normalized * (speed * Mathf.Lerp(0, 1, curve.Evaluate(timeMoved / maxSpeedTime))) * Time.fixedDeltaTime;
+            // this moves the player and includes the anim curve accel/decel
+        } else {
+            transform.rotation = Quaternion.Euler(0f, transform.rotation.y, 0f);
         }
 
-        //@TODO(Jaden): maaybe snapto? 
+        //@TODO(Jaden): maaybe snapto enemy? 
     }
 
-    private void Update()
+    private void Update() // calculate time and input here
     {
-        if (currentState != (int)States.Hitstunned) { Input(); }
-        if (currentAttack != (int)Attacks.None)
+        if (currentState != States.Hitstunned) { Input(); }
+        if (currentAttack != Attacks.None || currentState == States.Hitstunned)
         {
+            // animator controller
             animTimer -= Time.deltaTime;
-            if (animTimer <= 0)
+            if (animTimer <= 0) // reset everything after animation is done
             {
-                currentAttack = (int)Attacks.None;
+                currentAttack = Attacks.None;
                 //animr.SetInteger("CurrentAttack", currentAttack);
                 animr.Play("Base Layer.Character_Idle");
-                currentState = (int)States.Idle;
+                currentState = States.Idle;
                 animTimer = 0;
             }
         }
 
-        Vector3 camControl = pActions.Player.CameraControl.ReadValue<Vector2>();
-
         //Camera.main.transform.LookAt(transform);
         //Camera.main.transform.Translate(new Vector3(camControl.x, camControl.y, 0) * Time.deltaTime);
     }
-        #region Player inputs
-    void Input() // runs in update
+
+    void Input() // processes input, runs in update
     {
-        #region Movement
-        if (currentState != (int)States.Attacking) { 
+        if (currentState != States.Attacking)
+        {
             mInput = pActions.Player.Move.ReadValue<Vector2>();
             if (pActions.Player.Move.WasReleasedThisFrame())
             {
                 //animr.SetBool("walking", false);
                 animr.Play("Base Layer.Character_Idle");
-                currentState = (int)States.Idle;
-            } else if (pActions.Player.Move.phase == InputActionPhase.Started) {
+                currentState = States.Idle;
+            } else if (pActions.Player.Move.phase == InputActionPhase.Started)
+            {
                 //animr.SetBool("walking", true);
-                currentState = (int)States.Walking;
+                currentState = States.Walking;
                 animr.Play("Base Layer.Character_Run");
                 movement = movement = new Vector3(mInput.x, 0, mInput.y);
-            } 
-            else if (pActions.Player.Move.phase == InputActionPhase.Waiting) { animr.Play("Base Layer.Character_Idle"); }
+            } else if (pActions.Player.Move.phase == InputActionPhase.Waiting) { animr.Play("Base Layer.Character_Idle"); }
         }
-        
-        #endregion
 
-        #region Attacking
-        if (pActions.Player.Attack.WasPerformedThisFrame()) {
-            if (currentAttack == (int)Attacks.None)
+        if (pActions.Player.Attack.WasPerformedThisFrame())
+        {
+            if (currentAttack == Attacks.None)
             {
-                setCurrentAttack(Attacks.Chop, "Base Layer.Character_Attack1", 0.533f); 
+                setCurrentAttack(Attacks.Attack, "Base Layer.Character_Attack1", 0.533f);
             }
-                //StartCoroutine(AnimBuffer("attack", .38f, true)); } //.73f
-            currentState = (int)States.Attacking;
+            //StartCoroutine(AnimBuffer("attack", .38f, true)); } //.73f
+            currentState = States.Attacking;
             //@TODO(Jaden): Move forward slightly when attacking
         }
-        #endregion
 
-        #region Lobbing
-
-        if (pActions.Player.Lob.WasPerformedThisFrame()) {
-            if (currentAttack == (int)Attacks.None) {
-                if (headMesh.enabled == true) {
-                    currentState = (int)States.Attacking;
-                    setCurrentAttack(Attacks.LobThrow, "Base Layer.Character_LobThrow", 1.067f);
+        if (pActions.Player.Lob.WasPerformedThisFrame())
+        {
+            if (currentAttack == Attacks.None)
+            {
+                if (headMesh.enabled == true)
+                {
+                    currentState = States.Attacking;
+                    setCurrentAttack(Attacks.ChopThrow, "Base Layer.Character_Chop_Throw", 1.067f);
                     //StartCoroutine(AnimBuffer("lobThrow", .65f, true));
                     // all functionality following is in LobThrow which'll be triggered in the animator
-                } else { 
-                    currentState = (int)States.Attacking;
-                    setCurrentAttack(Attacks.Lob, "Base Layer.Character_Attack2", 0.533f);
+                } else
+                {
+                    currentState = States.Attacking;
+                    setCurrentAttack(Attacks.Chop, "Base Layer.Character_Chop", 1.333f);
                 }
             }
         }
-        #endregion
+
+        if (pActions.Player.Restart.WasPerformedThisFrame())
+        {
+            Debug.Log("Restart called");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
     }
 
-    public void Restart(InputAction.CallbackContext context)
-    {
-        Debug.Log("Restart called");
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
-    #endregion
-
-    public void LobThrow() { // triggered in animator
+    public void LobThrow()
+    { // triggered in animator
         headMesh.enabled = false;
         GameObject iHeadProj = Instantiate(headProj, projSpawn.position, transform.rotation);
         //iHeadProj.transform.Translate(new Vector3(mInput.x, 0, mInput.y) * projSpeed * Time.deltaTime);
     }
 
-    private void OnTriggerEnter(Collider other) //@TODO(Jaden): Add i-frames and trigger hitstun state when hit
+    //@TODO(Jaden): Add i-frames and trigger hitstun state when hit
+    private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == (int)Layers.EnemyHurtbox)
-        {
-            Debug.Log(other.gameObject.name + "is hurting the player");
-        } else if (other.gameObject.layer == (int)Layers.EnemyHitbox)
-        {
+        if (other.gameObject.layer == (int)Layers.EnemyHitbox)
+        { // player is getting hit
+            Debug.Log(other.name + " just hit me, the player!");
+            animTimer = .55f;
+            currentState = States.Hitstunned;
+            animr.Play("Character_GetHit");
+        } else if (other.gameObject.layer == (int)Layers.EnemyHurtbox)
+        { // player is hitting enemy
             // NOTE(Roskuski): I hit the enemy!
-            if (currentAttack == (int)Attacks.Lob)
+            if (currentAttack == Attacks.Chop)
             {
                 //todo: enemy instantly dies
                 headMesh.enabled = true;
@@ -209,9 +219,9 @@ public class PlayerController : MonoBehaviour {
         //Debug.Log("heightCorrectedPoint: " + heightCorrectedPoint);
     }*/
 
-    void setCurrentAttack(Attacks attack, string animName, float duration) 
+    void setCurrentAttack(Attacks attack, string animName, float duration)
     {
-        currentAttack = (int)attack;
+        currentAttack = attack;
         animr.Play(animName);
         //animr.SetInteger("CurrentAttack", currentAttack);
         animTimer = duration;

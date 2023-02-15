@@ -23,7 +23,7 @@ public class HeadProjectile : MonoBehaviour
     {
         if (other.gameObject.layer == 6) {
             Enemy eInstance = other.GetComponent<Enemy>();
-            eInstance.ReceiveDamage(damage);
+            //eInstance.ReceiveDamage(damage);
             Destroy(gameObject);
         }
     }
