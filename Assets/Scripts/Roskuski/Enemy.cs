@@ -13,8 +13,7 @@ using UnityEngine.AI;
 
 // @TODO(Roskuski): At a high level: enemies which are flanking should break out of flank if they get too close to the player.
 
-public class Enemy : MonoBehaviour
-{
+public class Enemy : MonoBehaviour {
     static float[] AttackAnimationTimes = new float[Attack.GetNames(typeof(Attack)).Length];
 
     // NOTE(Roskuski): Enemy ai state
@@ -37,7 +36,12 @@ public class Enemy : MonoBehaviour
         // Attack the player!
         PerformAttack, 
 
-        // @TODO Stunned state
+        // Rise my child!
+        Spawn,
+    
+        // standing there... menacingly...
+        Sandbag,
+
     }
     [SerializeField] Directive directive;
 
@@ -61,8 +65,9 @@ public class Enemy : MonoBehaviour
 
     // NOTE(Roskuski): End of ai state
 
-    [SerializeField] public int MaxHealth = 10;
-    int health = 0;
+    bool shouldDie = false;
+    [SerializeField] bool isSandbag = false;
+    bool isImmune = false;
 
     public const float LungeSpeed = 15;
     // NOTE(Roskuski): copied from the default settings of navMeshAgent
@@ -82,11 +87,9 @@ public class Enemy : MonoBehaviour
     // NOTE(Roskuski): External references
     GameManager gameMan;
 
-    // NOTE(Roskuski): To be called from sources of damage
-    public void ReceiveDamage(int damage) {
-        health -= damage;
-        Debug.Log("Player hit! Damage dealt: " + damage + " Remaining health: " + health);
-    }
+    // NOTE(Roskuski): Mike West! Add your animation varibles here!
+    public bool aniVarSpawnDone;
+    // NOTE(Roskuski): End of animation variables
 
     /* NOTE(Roskuski): 
      * When rolling to select a chance the personality value is used as a sliding window into the total choice table.
@@ -167,12 +170,18 @@ public class Enemy : MonoBehaviour
         this.targetOffset = targetOffset;
     }
 
+    // Probably incorrect to try and go to this state manually
+    void ChangeDirective_Spawn() {
+        Debug.Assert(false);
+    }
+
     void ChangeDirective_PerformAttack(Attack attack) {
         directive = Directive.PerformAttack;
         currentAttack = attack;
         animator.SetInteger("CurrentAttack", (int)currentAttack);
         attackTimer = AttackAnimationTimes[(int)currentAttack];
         failedAttackRolls = 0;
+        swordHitbox.enabled = true;
     }
 
     // helper: logic for deteriming whigh following range is being used.
@@ -180,23 +189,37 @@ public class Enemy : MonoBehaviour
         return (approchDistance >= distance) && (approchDistance <= distance + ApprochDeviance);
     }
 
-    void OnTriggerEnter(Collider other) {
-        if (other.gameObject.layer == (int)Layers.PlayerHurtbox) {
-            // NOTE(Roskuski): Debug.Log("The Player is hitting me!");
-            ReceiveDamage(5);
-            // @TODO(Roskuski): How do we want to pass damage here?
-            // we could _Name_ the other object with the amount of damage we're dealing.
-            // passing information via object names is kinda hacky but I don't think there's a better way to pass information into here wihtout using a get component
-        }
-        if (other.gameObject.layer == (int)Layers.PlayerHitbox) {
-            // NOTE(Roskuski): Debug.Log("I hit the player!"); 
+   void OnTriggerEnter(Collider other) {
+        if (!isImmune) {
+            if (other.gameObject.layer == (int)Layers.PlayerHitbox) {
+                HeadProjectile head = other.GetComponentInParent<HeadProjectile>();
+                PlayerController player = other.GetComponentInParent<PlayerController>();
+
+                if (player != null) {
+                    switch (gameMan.playerController.currentAttack) {
+                        case PlayerController.Attacks.Attack:
+                            ChangeDirective_Inactive(1.0f); // @TODO(Roskuski): Scaling stun accumilation
+                        break;
+                        case PlayerController.Attacks.Chop:
+                            shouldDie = true;
+                        break;
+                        default:
+                            Debug.Log("I, " + this.name + " was hit by an unhandled attack (" + gameMan.playerController.currentAttack + ")");
+                        break;
+                    }
+                }
+                else if (head != null) {
+                    // @TODO(Roskuski): Head reaction
+                    Debug.Log("Head Hit");
+                }
+            }
         }
     }
 
     void Start() {
         navAgent = this.GetComponent<NavMeshAgent>();
-        animator = transform.Find("Visual").GetComponent<Animator>();
-        swordHitbox = transform.Find("Visual/Sword_Base_Model").GetComponent<BoxCollider>();
+        animator = this.GetComponent<Animator>();
+        swordHitbox = transform.Find("Weapon_Controller").GetComponent<BoxCollider>();
 
         gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 
@@ -204,14 +227,14 @@ public class Enemy : MonoBehaviour
         navAgent.updatePosition = false; 
         navAgent.updateRotation = false;
 
-        gameMan.enemyList.Add(this);
-
-        health = MaxHealth;
+        directive = Directive.Spawn; 
+        if (isSandbag) { directive = Directive.Sandbag; }
 
         traitAggressive = Random.Range(0, TraitMax*2);
         traitSneaky = Random.Range(0, TraitMax*2);
 
         // NOTE(Roskuski): populate AttackAnimationTimes once per run
+        // TODO(Roskuski): Remove this in favor of using keyframes
         if (AttackAnimationTimes[0] == 0) {
             AttackAnimationTimes[0] = 10;
             foreach (AnimationClip clip in animator.runtimeAnimatorController.animationClips) {
@@ -227,10 +250,6 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void OnDestroy() {
-        gameMan.enemyList.Remove(this);
-    }
-
     void Update() {
         Vector3 playerPosition = gameMan.player.position;
         Quaternion playerRotation = gameMan.player.rotation; 
@@ -241,25 +260,37 @@ public class Enemy : MonoBehaviour
         switch (directive) {
             case Directive.Inactive:
                 inactiveWait -= Time.deltaTime; 
-                // @TODO(Roskuski) roll for attackTimer?
                 if (inactiveWait < 0) {
-                    preferRightStrafe = Random.Range(0, 2) == 1 ? true : false;
-                    int choiceAggressive = RollTraitChoice(traitAggressive, new int[]{250, 250, 1000, 500}, 500);
-                    attackTimer = new float[]{3.0f, 2.0f, 1.0f, 0.5f}[choiceAggressive];
+                    if (isSandbag) { directive = Directive.Sandbag; }
+                    else {
+                        preferRightStrafe = Random.Range(0, 2) == 1 ? true : false;
+                        int choiceAggressive = RollTraitChoice(traitAggressive, new int[]{250, 250, 1000, 500}, 500);
+                        attackTimer = new float[]{3.0f, 2.0f, 1.0f, 0.5f}[choiceAggressive];
 
-                    choiceAggressive = RollTraitChoice(traitAggressive, new int[]{500, 1000, 500}, 500);
-                    switch (choiceAggressive) {
-                        default: Debug.Assert(false, choiceAggressive); break;
-                        case 0:
-                            ChangeDirective_MaintainDistancePlayer(TightApprochDistance);
-                        break;
-                        case 1:
-                            ChangeDirective_MaintainDistancePlayer(CloseApprochDistance);
-                        break;
-                        case 2:
-                            ChangeDirective_MaintainDistancePlayer(LooseApprochDistance);
-                        break;
+                        choiceAggressive = RollTraitChoice(traitAggressive, new int[]{500, 1000, 500}, 500);
+                        switch (choiceAggressive) {
+                            default: Debug.Assert(false, choiceAggressive); break;
+                            case 0:
+                                ChangeDirective_MaintainDistancePlayer(TightApprochDistance);
+                            break;
+                            case 1:
+                                ChangeDirective_MaintainDistancePlayer(CloseApprochDistance);
+                            break;
+                            case 2:
+                                ChangeDirective_MaintainDistancePlayer(LooseApprochDistance);
+                            break;
+                        }
                     }
+                }
+            break;
+            case Directive.Sandbag:
+                // Doing nothing, with style...
+            break;
+            case Directive.Spawn:
+                isImmune = true;
+                if (aniVarSpawnDone) {
+                    isImmune = false;
+                    ChangeDirective_Inactive(0);
                 }
             break;
             case Directive.MaintainDistancePlayer: 
@@ -557,7 +588,6 @@ public class Enemy : MonoBehaviour
                         if (attackTimer < 0) {
                             swordHitbox.enabled = false;
                             ChangeDirective_Inactive(1.0f);
-                            directive = Directive.Inactive;
                             navAgent.enabled = true;
                         }
                         break;
@@ -581,7 +611,7 @@ public class Enemy : MonoBehaviour
 
         animator.SetInteger("Ai Directive", (int)directive);
 
-        if (health < 0) {
+        if (shouldDie) {
             Destroy(this.gameObject);
         }
     }

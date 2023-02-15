@@ -41,7 +41,7 @@ public partial class @DebugActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""cd18bbd0-f78d-430b-84b8-495382e6bf51"",
-                    ""path"": ""<Mouse>/leftButton"",
+                    ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""M&K"",
