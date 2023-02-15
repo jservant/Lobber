@@ -35,6 +35,13 @@ public class Enemy : MonoBehaviour {
 
         // Attack the player!
         PerformAttack, 
+
+        // Rise my child!
+        Spawn,
+    
+        // standing there... menacingly...
+        Sandbag,
+
     }
     [SerializeField] Directive directive;
 
@@ -59,6 +66,7 @@ public class Enemy : MonoBehaviour {
     // NOTE(Roskuski): End of ai state
 
     bool shouldDie = false;
+    [SerializeField] bool isSandbag = false;
 
     public const float LungeSpeed = 15;
     // NOTE(Roskuski): copied from the default settings of navMeshAgent
@@ -157,6 +165,11 @@ public class Enemy : MonoBehaviour {
         this.targetOffset = targetOffset;
     }
 
+    // Probably incorrect to try and go to this state manually
+    void ChangeDirective_Spawn() {
+        Debug.Assert(false);
+    }
+
     void ChangeDirective_PerformAttack(Attack attack) {
         directive = Directive.PerformAttack;
         currentAttack = attack;
@@ -207,6 +220,9 @@ public class Enemy : MonoBehaviour {
         navAgent.updatePosition = false; 
         navAgent.updateRotation = false;
 
+        directive = Directive.Spawn; 
+        if (isSandbag) { directive = Directive.Sandbag; }
+
         gameMan.enemyList.Add(this);
 
         traitAggressive = Random.Range(0, TraitMax*2);
@@ -244,24 +260,33 @@ public class Enemy : MonoBehaviour {
                 inactiveWait -= Time.deltaTime; 
                 // @TODO(Roskuski) roll for attackTimer?
                 if (inactiveWait < 0) {
-                    preferRightStrafe = Random.Range(0, 2) == 1 ? true : false;
-                    int choiceAggressive = RollTraitChoice(traitAggressive, new int[]{250, 250, 1000, 500}, 500);
-                    attackTimer = new float[]{3.0f, 2.0f, 1.0f, 0.5f}[choiceAggressive];
+                    if (isSandbag) { directive = Directive.Sandbag; }
+                    else {
+                        preferRightStrafe = Random.Range(0, 2) == 1 ? true : false;
+                        int choiceAggressive = RollTraitChoice(traitAggressive, new int[]{250, 250, 1000, 500}, 500);
+                        attackTimer = new float[]{3.0f, 2.0f, 1.0f, 0.5f}[choiceAggressive];
 
-                    choiceAggressive = RollTraitChoice(traitAggressive, new int[]{500, 1000, 500}, 500);
-                    switch (choiceAggressive) {
-                        default: Debug.Assert(false, choiceAggressive); break;
-                        case 0:
-                            ChangeDirective_MaintainDistancePlayer(TightApprochDistance);
-                        break;
-                        case 1:
-                            ChangeDirective_MaintainDistancePlayer(CloseApprochDistance);
-                        break;
-                        case 2:
-                            ChangeDirective_MaintainDistancePlayer(LooseApprochDistance);
-                        break;
+                        choiceAggressive = RollTraitChoice(traitAggressive, new int[]{500, 1000, 500}, 500);
+                        switch (choiceAggressive) {
+                            default: Debug.Assert(false, choiceAggressive); break;
+                            case 0:
+                                ChangeDirective_MaintainDistancePlayer(TightApprochDistance);
+                            break;
+                            case 1:
+                                ChangeDirective_MaintainDistancePlayer(CloseApprochDistance);
+                            break;
+                            case 2:
+                                ChangeDirective_MaintainDistancePlayer(LooseApprochDistance);
+                            break;
+                        }
                     }
                 }
+            break;
+            case Directive.Sandbag:
+                // Doing nothing, with style...
+            break;
+            case Directive.Spawn:
+                // Doing nothing, with different style?
             break;
             case Directive.MaintainDistancePlayer: 
                 navAgent.nextPosition = this.transform.position;
