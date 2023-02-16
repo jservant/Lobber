@@ -4,12 +4,12 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
-{
+public class GameManager : MonoBehaviour {
     public Transform player;
     public PlayerController playerController;
     public GameObject enemy;
     DebugActions dActions;
+
     public Transform[] eSpawns;
 
     void Awake() {
@@ -23,8 +23,7 @@ public class GameManager : MonoBehaviour
         dActions = new DebugActions();
     }
 
-    private void Update()
-    {
+    private void Update() {
         // @TODO(Roskuski): This doesn't spawn enemies in the right spot
         if (dActions.DebugTools.SpawnEnemy.WasPerformedThisFrame()) { // TAKE THIS OUT IN FINAL RELEASE
             GameObject iEnemy = enemy;

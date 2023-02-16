@@ -16,6 +16,9 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour {
     static float[] AttackAnimationTimes = new float[Attack.GetNames(typeof(Attack)).Length];
 
+    // NOTE(@Jaden): meant for player to check distance from all enemies for homing. feel free to move
+    public static List<Transform> Enemies = new List<Transform>();
+
     // NOTE(Roskuski): Enemy ai state
 
     const int TraitMax = 1000;
@@ -216,10 +219,16 @@ public class Enemy : MonoBehaviour {
         }
     }
 
+    private void Awake()
+    {
+        Enemies.Add(gameObject.transform);
+    }
+
     void Start() {
         navAgent = this.GetComponent<NavMeshAgent>();
         animator = this.GetComponent<Animator>();
         swordHitbox = transform.Find("Weapon_Controller").GetComponent<BoxCollider>();
+
 
         gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 
@@ -300,6 +309,7 @@ public class Enemy : MonoBehaviour {
 
                 bool isBackpedaling = false;
                 bool isStrafing = false; 
+                bool isCloseToLedge = false;
 
                 if (CanAttemptNavigation() && navAgent.path.corners.Length >= 2) {
                     const float NearRadius = 2;
@@ -406,13 +416,25 @@ public class Enemy : MonoBehaviour {
                         Vector3 consideredDelta = Vector3.forward; 
                         for (int index = 0; index < directionWeights.Length; index += 1) {
                             float ledgeMod = 1;
-                            NavMeshHit hit;
-                            bool success = NavMesh.SamplePosition(this.transform.position + consideredDelta * MoveSpeed * Time.deltaTime, out hit, 0.5f, NavMesh.AllAreas);
-                            if (success) { 
-                                float hitDistance = Vector3.Distance(hit.position, this.transform.position);
-                                ledgeMod = Mathf.Clamp01(hitDistance / (MoveSpeed * Time.deltaTime));
+                            float hitDistance = 0;
+                            const int MaxQuantums = 4;
+
+                            for (int quantums = 1; quantums <= MaxQuantums; quantums += 1) {
+                                NavMeshHit hit;
+                                Vector3 testDelta = consideredDelta * MoveSpeed * Time.deltaTime * (float)quantums;
+                                if (NavMesh.SamplePosition(this.transform.position + testDelta, out hit, 0.2f, NavMesh.AllAreas)) {
+                                    hitDistance = Vector3.Distance(hit.position, this.transform.position);
+                                }
+                                else {
+                                    break;
+                                }
+                            }
+
+                            if (hitDistance > MoveSpeed * Time.deltaTime * MaxQuantums * 0.20) { 
+                                ledgeMod = Mathf.Clamp01(hitDistance / (MoveSpeed * Time.deltaTime * MaxQuantums)); // NOTE(Roskuski): the closer that hitDistance is to the max distance we are considering, the more okay we are with taking this path.
                             }
                             else {
+                                isCloseToLedge = true;
                                 ledgeMod = 0;
                             }
 
@@ -452,7 +474,13 @@ public class Enemy : MonoBehaviour {
                         // NOTE(Roskuski): Advance the angle to the next index.
                         consideredAngle *= angleStep;
                     }
-                    moveDirection = Quaternion.RotateTowards(moveDirection, chosenAngle, TurnSpeed * Time.deltaTime);
+
+                    if (isCloseToLedge) {
+                        moveDirection = Quaternion.RotateTowards(moveDirection, chosenAngle, TurnSpeed * Time.deltaTime * 10); // NOTE(Roskuski): Turn 10 times as fast if we're near a ledge, not sure how much of a difference this has
+                    }
+                    else {
+                        moveDirection = Quaternion.RotateTowards(moveDirection, chosenAngle, TurnSpeed * Time.deltaTime);
+                    }
                 }
 
 
