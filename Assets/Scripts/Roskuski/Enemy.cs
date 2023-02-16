@@ -45,6 +45,9 @@ public class Enemy : MonoBehaviour {
         // standing there... menacingly...
         Sandbag,
 
+        // Reeling back from truma
+        Stunned,
+
     }
     [SerializeField] Directive directive;
 
@@ -488,7 +491,7 @@ public class Enemy : MonoBehaviour {
 
                 float speedModifier = 1.0f;
                 if (isBackpedaling) {
-                    speedModifier = 0.8f;
+                    speedModifier = 0.65f;
                 }
                 else if (isStrafing) {
                     speedModifier = 0.6f;
