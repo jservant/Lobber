@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public PlayerController playerController;
     public GameObject enemy;
     DebugActions dActions;
+
     public Transform[] eSpawns;
 
     void Awake() {

@@ -16,6 +16,9 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour {
     static float[] AttackAnimationTimes = new float[Attack.GetNames(typeof(Attack)).Length];
 
+    // NOTE(@Jaden): meant for player to check distance from all enemies for homing. feel free to move
+    public static List<Transform> Enemies = new List<Transform>();
+
     // NOTE(Roskuski): Enemy ai state
 
     const int TraitMax = 1000;
@@ -216,10 +219,16 @@ public class Enemy : MonoBehaviour {
         }
     }
 
+    private void Awake()
+    {
+        Enemies.Add(gameObject.transform);
+    }
+
     void Start() {
         navAgent = this.GetComponent<NavMeshAgent>();
         animator = this.GetComponent<Animator>();
         swordHitbox = transform.Find("Weapon_Controller").GetComponent<BoxCollider>();
+
 
         gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 
