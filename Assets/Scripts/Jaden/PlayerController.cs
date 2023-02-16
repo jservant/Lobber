@@ -30,12 +30,14 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] float turnSpeed = 0.1f;
     [SerializeField] AnimationCurve curve;
     [SerializeField] float animTimer = 0f;
+    [SerializeField] float animDuration = 0f;
     [SerializeField] float targetSphereRadius = 2f;
     public enum States { Idle, Walking, Attacking, Hitstunned };
     public States currentState = 0;
-    public enum Attacks { None, Attack, Chop, ChopThrow };
+    public enum Attacks { None, Attack, Chop, ChopThrow, Attack2 };
     public Attacks currentAttack = 0;
 
+    public bool prepAttack = false;
     float turnVelocity;
 
     private void Awake()
@@ -93,15 +95,21 @@ public class PlayerController : MonoBehaviour {
         {
             // animator controller
             animTimer -= Time.deltaTime;
-            if (animTimer <= 0) // reset everything after animation is done
+            if (animTimer <= 0 && prepAttack == false) // reset everything after animation is done
             {
                 if (currentAttack == Attacks.Chop) { axeHitbox.size = new Vector3(axeHitbox.size.x, axeHitbox.size.y, 50f); }
                 currentAttack = Attacks.None;
                 //animr.SetInteger("CurrentAttack", currentAttack);
                 animr.Play("Base Layer.Character_Idle");
                 currentState = States.Idle;
-                animTimer = 0;
+                animTimer = 0; animDuration = 0f;
                 //TODO (@JADEN): if attacks.attack and the button was pressed immediately set animtimer again and trigger second hit of combo
+            } else if (animTimer <= 0 && prepAttack == true) {
+                animr.Play("Base Layer.Character_Attack2");
+                currentAttack = Attacks.Attack2;
+                SnapToTarget();
+                animTimer = 0.567f; animDuration = 0.567f;
+                prepAttack = false;
             }
         }
 
@@ -130,8 +138,10 @@ public class PlayerController : MonoBehaviour {
 
         if (pActions.Player.Attack.WasPerformedThisFrame())
         {
-            if (currentAttack == Attacks.None)
-            {
+            if (currentAttack == Attacks.Attack && animTimer <= animDuration / 2) {
+                prepAttack = true;
+            }
+            else if (currentAttack == Attacks.None) {
                 setCurrentAttack(Attacks.Attack, "Base Layer.Character_Attack1", 0.533f);
                 SnapToTarget();
             }
@@ -202,7 +212,7 @@ public class PlayerController : MonoBehaviour {
         if (other.gameObject.layer == (int)Layers.EnemyHitbox)
         { // player is getting hit
             Debug.Log(other.name + " just hit me, the player!");
-            animTimer = .55f;
+            animTimer = .55f; animDuration = .55f;
             currentState = States.Hitstunned;
             animr.Play("Character_GetHit");
         } else if (other.gameObject.layer == (int)Layers.EnemyHurtbox)
@@ -257,7 +267,7 @@ public class PlayerController : MonoBehaviour {
         currentAttack = attack;
         animr.Play(animName);
         //animr.SetInteger("CurrentAttack", currentAttack);
-        animTimer = duration;
+        animTimer = duration; animDuration = duration;
     }
 
     void OnEnable() { pActions.Enable(); }
