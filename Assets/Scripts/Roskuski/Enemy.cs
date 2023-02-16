@@ -163,6 +163,9 @@ public class Enemy : MonoBehaviour {
         return navAgent.remainingDistance - approchDistance;
     }
 
+    void ChangeDirective_Stunned(float stunTime) {
+    }
+
     void ChangeDirective_Inactive(float inactiveWait) {
         this.directive = Directive.Inactive;
         this.inactiveWait = inactiveWait;
@@ -530,7 +533,7 @@ public class Enemy : MonoBehaviour {
                             }
                         }
                         else if (UsingApprochRange(CloseApprochDistance)) {
-                            int aggressiveChoice = RollTraitChoice(traitAggressive, new int[]{400, 400, 400, 400, 400}, 500, failedAttackRolls * 300);
+                            int aggressiveChoice = RollTraitChoice(traitAggressive, new int[]{400, 400, 400, 400, 400}, 500, failedAttackRolls * 200);
                             switch (aggressiveChoice) {
                                 default: Debug.Assert(false); break;
                                 case 0: // fall back to loose
@@ -553,7 +556,7 @@ public class Enemy : MonoBehaviour {
                             }
                         }
                         else if (UsingApprochRange(TightApprochDistance)) {
-                            int aggressiveChoice = RollTraitChoice(traitAggressive, new int[]{400, 400, 400, 400, 400}, 500, failedAttackRolls * 400);
+                            int aggressiveChoice = RollTraitChoice(traitAggressive, new int[]{400, 400, 400, 400, 400}, 500, failedAttackRolls * 200);
                             switch (aggressiveChoice) {
                                 default: Debug.Assert(false); break;
                                 case 0: // fall back to loose
