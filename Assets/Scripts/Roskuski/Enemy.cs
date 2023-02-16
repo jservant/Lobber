@@ -16,9 +16,6 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour {
     static float[] AttackAnimationTimes = new float[Attack.GetNames(typeof(Attack)).Length];
 
-    // NOTE(@Jaden): meant for player to check distance from all enemies for homing. feel free to move
-    public static List<Transform> Enemies = new List<Transform>();
-
     // NOTE(Roskuski): Enemy ai state
 
     const int TraitMax = 1000;
@@ -47,7 +44,6 @@ public class Enemy : MonoBehaviour {
 
         // Reeling back from truma
         Stunned,
-
     }
     [SerializeField] Directive directive;
 
@@ -63,6 +59,9 @@ public class Enemy : MonoBehaviour {
     [SerializeField] float approchDistance;
     Vector3 targetOffset; 
     bool preferRightStrafe;
+
+    float stunDuration;
+    [SerializeField] float StunMax = 2;
 
     [SerializeField] int failedAttackRolls = 0;
     [SerializeField] float attackTimer = 1.0f; // @TODO(Roskuski) Fine tune this parameter
@@ -222,11 +221,6 @@ public class Enemy : MonoBehaviour {
         }
     }
 
-    private void Awake()
-    {
-        Enemies.Add(gameObject.transform);
-    }
-
     void Start() {
         navAgent = this.GetComponent<NavMeshAgent>();
         animator = this.GetComponent<Animator>();
@@ -297,6 +291,8 @@ public class Enemy : MonoBehaviour {
             break;
             case Directive.Sandbag:
                 // Doing nothing, with style...
+            break;
+            case Directive.Stunned:
             break;
             case Directive.Spawn:
                 isImmune = true;
