@@ -14,8 +14,6 @@ using UnityEngine.AI;
 // @TODO(Roskuski): At a high level: enemies which are flanking should break out of flank if they get too close to the player.
 
 public class Enemy : MonoBehaviour {
-    static float[] AttackAnimationTimes = new float[Attack.GetNames(typeof(Attack)).Length];
-
     // NOTE(Roskuski): Enemy ai state
 
     const int TraitMax = 1000;
@@ -94,6 +92,9 @@ public class Enemy : MonoBehaviour {
 
     // NOTE(Roskuski): Mike West! Add your animation varibles here!
     public bool aniVarSpawnDone;
+    public bool aniVarSlashDone;
+    public bool aniVarLungeDone;
+    public bool aniVarLungeDoLocomotion;
     // NOTE(Roskuski): End of animation variables
 
     /* NOTE(Roskuski): 
@@ -184,7 +185,6 @@ public class Enemy : MonoBehaviour {
         directive = Directive.PerformAttack;
         currentAttack = attack;
         animator.SetInteger("CurrentAttack", (int)currentAttack);
-        attackTimer = AttackAnimationTimes[(int)currentAttack];
         failedAttackRolls = 0;
         swordHitbox.enabled = true;
     }
@@ -238,22 +238,6 @@ public class Enemy : MonoBehaviour {
 
         traitAggressive = Random.Range(0, TraitMax*2);
         traitSneaky = Random.Range(0, TraitMax*2);
-
-        // NOTE(Roskuski): populate AttackAnimationTimes once per run
-        // TODO(Roskuski): Remove this in favor of using keyframes
-        if (AttackAnimationTimes[0] == 0) {
-            AttackAnimationTimes[0] = 10;
-            foreach (AnimationClip clip in animator.runtimeAnimatorController.animationClips) {
-                switch (clip.name) {
-                    case "Enemy_Dash":
-                        AttackAnimationTimes[(int)Attack.Lunge] = clip.length;
-                    break;
-                    case "Enemy_Slash":
-                        AttackAnimationTimes[(int)Attack.Slash] = clip.length;
-                    break;
-                }
-            }
-        }
     }
 
     void Update() {
@@ -332,8 +316,6 @@ public class Enemy : MonoBehaviour {
                     
                     float[] directionWeights = new float[16]; 
                     Quaternion angleStep = Quaternion.AngleAxis(360.0f / directionWeights.Length, Vector3.up);
-
-                    // @TODO(Roskuski) @BeforePlaytest1 make pathfinding account for ledges enemies shouldn't fall off the arena
 
                     // Pathfinding phase 
                     {
@@ -511,6 +493,8 @@ public class Enemy : MonoBehaviour {
 
                 if (DistanceToTravel() < 1.5f) {
 
+                    // @BeforePlaytest1 @TODO(Roskuski): The current method for determining attacks sucks.
+
                     // @TODO(Roskuski): This might look weird if the feet don't line up when we attempt to make an attack.
                     // might want to only choose an attack when it would blend sensiably in the animation.
                     // adding a data keyframe will make this a snap to impl.
@@ -597,22 +581,13 @@ public class Enemy : MonoBehaviour {
                 }
             break;
             case Directive.PerformAttack:
-                // @BeforePlaytest1 @TODO(Roskuski): The current method for determining attacks sucks.
-
-                // @TODO(Roskuski): These time values are based off of how long the animation is.
-                // It might be best to get some varibled populated at the beginning of the game that contain
-                // the length in seconds of each of these animations.
-                // Regardless, I do not want to have these magic values in the code.
-                // I can probably get the animation times from com while in their respective switch statments. Hopefully
-                // enough time will have pass such that the animation is now active
-
                 switch (currentAttack) {
                     case Attack.None:
                         Debug.Assert(false);
                         break;
                     case Attack.Slash:
                         attackTimer -= Time.deltaTime;
-                        if (attackTimer < 0) {
+                        if (aniVarSlashDone) {
                             swordHitbox.enabled = false;
                             ChangeDirective_Inactive(1.0f);
                             navAgent.enabled = true;
@@ -620,11 +595,10 @@ public class Enemy : MonoBehaviour {
                         break;
                     case Attack.Lunge:
                         attackTimer -= Time.deltaTime;
-                        // @TODO(Roskuski): we can encode timing logic into the keyframes of the animation. This can allow us to simplify the logic here.
-                        if (attackTimer > (0.867f * 0.05f) && attackTimer < (0.867f * 0.5f)) {
+                        if (aniVarLungeDoLocomotion) {
                             this.transform.position += (this.transform.rotation * Vector3.forward) * LungeSpeed * Time.deltaTime;
                         }
-                        if (attackTimer < 0) {
+                        if (aniVarLungeDone) {
                             // If we found ourselves off geometry, wait util we finish falling.
                             swordHitbox.enabled = false;
                             ChangeDirective_Inactive(1.0f);
