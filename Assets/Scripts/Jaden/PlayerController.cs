@@ -13,7 +13,10 @@ public class PlayerController : MonoBehaviour {
     MeshRenderer headMesh;
     GameObject headProj;
     Transform projSpawn;
+    [SerializeField] Transform spherePoint;
     BoxCollider axeHitbox;
+
+    Vector3 enemyTarget;
     List<GameObject> enemiesHit;
 
     public DefaultPlayerActions pActions;
@@ -27,9 +30,9 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] float turnSpeed = 0.1f;
     [SerializeField] AnimationCurve curve;
     [SerializeField] float animTimer = 0f;
+    [SerializeField] float targetSphereRadius = 2f;
     public enum States { Idle, Walking, Attacking, Hitstunned };
     public States currentState = 0;
-
     public enum Attacks { None, Attack, Chop, ChopThrow };
     public Attacks currentAttack = 0;
 
@@ -45,6 +48,7 @@ public class PlayerController : MonoBehaviour {
         headMesh = transform.Find("Weapon_Controller/Hitbox/StoredHead").GetComponent<MeshRenderer>();
         axeHitbox = transform.Find("Weapon_Controller/Hitbox").GetComponent<BoxCollider>();
         projSpawn = transform.Find("ProjSpawn");
+        spherePoint = transform.Find("SpherePoint");
         headProj = Resources.Load("ActivePrefabs/HeadProjectile", typeof(GameObject)) as GameObject;
 
         #region debug
@@ -97,6 +101,7 @@ public class PlayerController : MonoBehaviour {
                 animr.Play("Base Layer.Character_Idle");
                 currentState = States.Idle;
                 animTimer = 0;
+                //TODO (@JADEN): if attacks.attack and the button was pressed immediately set animtimer again and trigger second hit of combo
             }
         }
 
@@ -128,6 +133,7 @@ public class PlayerController : MonoBehaviour {
             if (currentAttack == Attacks.None)
             {
                 setCurrentAttack(Attacks.Attack, "Base Layer.Character_Attack1", 0.533f);
+                SnapToTarget();
             }
             //StartCoroutine(AnimBuffer("attack", .38f, true)); } //.73f
             currentState = States.Attacking;
@@ -149,6 +155,7 @@ public class PlayerController : MonoBehaviour {
                     currentState = States.Attacking;
                     axeHitbox.size = new Vector3(axeHitbox.size.x, axeHitbox.size.y, 120f);
                     setCurrentAttack(Attacks.Chop, "Base Layer.Character_Chop", 1.333f);
+                    SnapToTarget();
                 }
             }
         }
@@ -165,6 +172,28 @@ public class PlayerController : MonoBehaviour {
         headMesh.enabled = false;
         GameObject iHeadProj = Instantiate(headProj, projSpawn.position, transform.rotation);
         //iHeadProj.transform.Translate(new Vector3(mInput.x, 0, mInput.y) * projSpeed * Time.deltaTime);
+    }
+
+    void SnapToTarget() {
+        enemyTarget = Vector3.zero; // free the target vector
+        Collider[] eColliders = Physics.OverlapSphere(spherePoint.position, targetSphereRadius, Mask.Get(Layers.EnemyHurtbox));
+        // find all colliders in the sphere
+        Debug.Log("eColliders length: " + eColliders.Length);
+
+        float difference = 10f;
+        for (int index = 0; index < eColliders.Length; index += 1) { // for each v3
+            float newDifference = Vector3.Distance(transform.position, eColliders[index].transform.position);
+            if (newDifference < difference) { 
+                difference = newDifference;
+                enemyTarget = eColliders[index].transform.position;
+            }
+        }
+
+        if (enemyTarget != Vector3.zero) {
+            print("Player's position: " + transform.position + " Target enemy's position: " + enemyTarget);
+            transform.LookAt(enemyTarget); // point player at closest enemy
+            this.movement = (enemyTarget - transform.position).normalized;
+        } else { enemyTarget = movement; }
     }
 
     //@TODO(Jaden): Add i-frames and trigger hitstun state when hit
@@ -233,5 +262,11 @@ public class PlayerController : MonoBehaviour {
 
     void OnEnable() { pActions.Enable(); }
     void OnDisable() { pActions.Disable(); }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(spherePoint.position, targetSphereRadius);
+    }
     #endregion
 }
