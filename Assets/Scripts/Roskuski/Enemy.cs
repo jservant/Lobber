@@ -11,7 +11,8 @@ using UnityEngine.AI;
  * Enemy AI Wants: actions this AI wants to do when given the oppertunity
  */
 
-// @TODO(Roskuski): At a high level: enemies which are flanking should break out of flank if they get too close to the player.
+// @TODO(Roskuski): Make enemies change strafing direction mid strafe
+// @TODO(Roskuski): Make sure enemies behave well on slopes
 
 public class Enemy : MonoBehaviour {
     // NOTE(Roskuski): Enemy ai state
@@ -59,7 +60,7 @@ public class Enemy : MonoBehaviour {
     bool preferRightStrafe;
 
     float stunDuration;
-    [SerializeField] float StunMax = 2;
+    [SerializeField] float StunMax = 3.0f;
 
     [SerializeField] int failedAttackRolls = 0;
     [SerializeField] float attackTimer = 1.0f; // @TODO(Roskuski) Fine tune this parameter
@@ -164,19 +165,28 @@ public class Enemy : MonoBehaviour {
     }
 
     void ChangeDirective_Stunned(float stunTime) {
+        directive = Directive.Stunned;
+        stunDuration += stunTime * Mathf.Lerp(1, 0, this.stunDuration / StunMax);
+        if (this.stunDuration > StunMax) {
+            this.stunDuration = StunMax;
+        }
+        swordHitbox.enabled = false;
     }
 
     void ChangeDirective_Inactive(float inactiveWait) {
-        this.directive = Directive.Inactive;
-        this.inactiveWait = inactiveWait;
+        directive = Directive.Inactive;
+        inactiveWait = inactiveWait;
         currentAttack = Attack.None;
         animator.SetInteger("CurrentAttack", (int)Attack.None);
+        swordHitbox.enabled = false;
     }
 
     void ChangeDirective_MaintainDistancePlayer(float stoppingDistance, Vector3 targetOffset = default(Vector3)) {
-        this.directive = Directive.MaintainDistancePlayer;
-        this.approchDistance = stoppingDistance + Random.Range(0, ApprochDeviance);
-        this.targetOffset = targetOffset;
+        directive = Directive.MaintainDistancePlayer;
+        approchDistance = stoppingDistance + Random.Range(0, ApprochDeviance);
+        targetOffset = targetOffset;
+
+        swordHitbox.enabled = false;
     }
 
     // Probably incorrect to try and go to this state manually
@@ -206,7 +216,7 @@ public class Enemy : MonoBehaviour {
                 if (player != null) {
                     switch (gameMan.playerController.currentAttack) {
                         case PlayerController.Attacks.Attack:
-                            ChangeDirective_Inactive(1.0f); // @TODO(Roskuski): Scaling stun accumilation
+                            ChangeDirective_Stunned(1.5f);
                         break;
                         case PlayerController.Attacks.Chop:
                             shouldDie = true;
@@ -251,7 +261,7 @@ public class Enemy : MonoBehaviour {
 
         // Directive Changing
         switch (directive) {
-            case Directive.Inactive:
+            case Directive.Inactive: // using this as a generic start point for enemy AI
                 inactiveWait -= Time.deltaTime; 
                 if (inactiveWait < 0) {
                     if (isSandbag) { directive = Directive.Sandbag; }
@@ -280,6 +290,11 @@ public class Enemy : MonoBehaviour {
                 // Doing nothing, with style...
             break;
             case Directive.Stunned:
+                stunDuration -= Time.deltaTime;
+                if (stunDuration < 0) {
+                    ChangeDirective_Inactive(0);
+                    stunDuration = 0;
+                }
             break;
             case Directive.Spawn:
                 isImmune = true;
