@@ -188,7 +188,7 @@ public class PlayerController : MonoBehaviour {
         enemyTarget = Vector3.zero; // free the target vector
         Collider[] eColliders = Physics.OverlapSphere(spherePoint.position, targetSphereRadius, Mask.Get(Layers.EnemyHurtbox));
         // find all colliders in the sphere
-        Debug.Log("eColliders length: " + eColliders.Length);
+        // Debug.Log("eColliders length: " + eColliders.Length);
 
         float difference = 10f;
         for (int index = 0; index < eColliders.Length; index += 1) { // for each v3
@@ -198,7 +198,7 @@ public class PlayerController : MonoBehaviour {
                 enemyTarget = eColliders[index].transform.position;
             }
         }
-
+        if (mInput.magnitude <= 0.2f) { timeMoved = maxSpeedTime; }
         if (enemyTarget != Vector3.zero) {
             print("Player's position: " + transform.position + " Target enemy's position: " + enemyTarget);
             transform.LookAt(enemyTarget); // point player at closest enemy
