@@ -44,6 +44,23 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    public void FreezeFrames(float frames) // NOTE(Ryan): Can be called to freeze the game for x number of frames
+    {
+        // TODO(Ryan): Might need bool here to tell GameManager when game is currently frozen / unfrozen
+        var freezeDurationInSeconds = frames / 60f;
+        StartCoroutine(Freeze(freezeDurationInSeconds));
+    }
+
+    IEnumerator Freeze(float duration)
+    {
+        var original = Time.timeScale;
+        Time.timeScale = 0f;
+
+        yield return new WaitForSecondsRealtime(duration);
+
+        Time.timeScale = original;
+    }
+
     void OnEnable() { dActions.Enable(); }
     void OnDisable() { dActions.Disable(); }
 }
