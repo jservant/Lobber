@@ -97,8 +97,8 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
-  m_LightingSettings: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: c5a802a8db086f84b9615cf2ff5bb614, type: 2}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: 9b06cfe5783e3024a90b5e47b39447ed, type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -283,6 +283,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.11740375
       objectReference: {fileID: 0}
+    - target: {fileID: -8326650268890035464, guid: d0c1bdfcb69eee64e99cf8519c655514, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -1391678059535333531, guid: 69e3f2b58f883d4468ed6d885b7cf6bb, type: 3}
+    - target: {fileID: -8326650268890035464, guid: d0c1bdfcb69eee64e99cf8519c655514, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -8326650268890035464, guid: d0c1bdfcb69eee64e99cf8519c655514, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 403653f20cc5e96428727e7e75b7c05b, type: 2}
+    - target: {fileID: -8326650268890035464, guid: d0c1bdfcb69eee64e99cf8519c655514, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6a288dc88df43504dba209b3a1cec19d, type: 2}
+    - target: {fileID: -8326650268890035464, guid: d0c1bdfcb69eee64e99cf8519c655514, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: 260ce658b813e08478f753e1a35812b1, type: 2}
+    - target: {fileID: -8326650268890035464, guid: d0c1bdfcb69eee64e99cf8519c655514, type: 3}
+      propertyPath: m_Materials.Array.data[3]
+      value: 
+      objectReference: {fileID: 2100000, guid: e456a136d4648924a84f4d96908c4dd8, type: 2}
     - target: {fileID: -7921288763013983676, guid: d0c1bdfcb69eee64e99cf8519c655514, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: -19.874025
@@ -859,7 +883,7 @@ PrefabInstance:
     - target: {fileID: -5008456200197934581, guid: c66299678c0a4564eb60d4ae15892850, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: f268c6695ccab04469b540b27876e1e3, type: 2}
+      objectReference: {fileID: 2100000, guid: b1a488bd5e1eb364385102c6c6de3f56, type: 2}
     - target: {fileID: 919132149155446097, guid: c66299678c0a4564eb60d4ae15892850, type: 3}
       propertyPath: m_Name
       value: skeletontest (1)
