@@ -67,7 +67,7 @@ public class Enemy : MonoBehaviour {
 
     Quaternion moveDirection = Quaternion.identity;
 
-    float[] directionWeights = new float[16]; 
+    float[] directionWeights = new float[128]; 
 
     // NOTE(Roskuski): End of ai state
 
@@ -198,7 +198,7 @@ public class Enemy : MonoBehaviour {
     }
 
     void ChangeDirective_PerformAttack(Attack attack) {
-        directive = Directive.MaintainDistancePlayer;
+        directive = Directive.PerformAttack;
         currentAttack = attack;
         animator.SetInteger("CurrentAttack", (int)currentAttack);
         failedAttackRolls = 0;
@@ -446,8 +446,6 @@ public class Enemy : MonoBehaviour {
                         }
                     }
 
-                    // Consider Walls
-
                     // Bias towards current direction
                     {
                         Vector3 consideredDelta = Vector3.forward; 
@@ -483,6 +481,42 @@ public class Enemy : MonoBehaviour {
                     }
                     else {
                         moveDirection = Quaternion.RotateTowards(moveDirection, chosenAngle, TurnSpeed * Time.deltaTime);
+                    }
+
+                    // Swap strafing direction if we're obstructed in our current one
+                    if (isStrafing) {
+                        int bestRightIndex = -1;
+                        float bestRightScore = -1;
+                        int bestLeftIndex = -1;
+                        float bestLeftScore = -1;
+
+                        Vector3 consideredDelta = Vector3.forward; 
+                        for (int index = 0; index < directionWeights.Length; index += 1) {
+                            float rightScore = Vector3.Dot(Quaternion.AngleAxis(90, Vector3.up) * nextNodeDelta.normalized, consideredDelta) + 1.0f;
+                            float leftScore = Vector3.Dot(Quaternion.AngleAxis(-90, Vector3.up) * nextNodeDelta.normalized, consideredDelta) + 1.0f;
+                            if (rightScore > bestRightScore) {
+                                bestRightScore = rightScore;
+                                bestRightIndex = index;
+                            }
+                            else if (!preferRightStrafe) {
+                                bestLeftScore = leftScore;
+                                bestLeftIndex = index;
+                            }
+
+                            // NOTE(Roskuski): Advance the angle to the next index.
+                            consideredDelta = angleStep * consideredDelta;
+                        }
+
+                        if (preferRightStrafe) {
+                            if (directionWeights[bestRightIndex] < 0.25f) {
+                                preferRightStrafe = false;
+                            }
+                        } 
+                        else {
+                            if (directionWeights[bestLeftIndex] < 0.25f) {
+                                preferRightStrafe = true;
+                            }
+                        }
                     }
                 }
 
