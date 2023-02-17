@@ -67,6 +67,8 @@ public class Enemy : MonoBehaviour {
 
     Quaternion moveDirection = Quaternion.identity;
 
+    float[] directionWeights = new float[16]; 
+
     // NOTE(Roskuski): End of ai state
 
     bool shouldDie = false;
@@ -176,7 +178,7 @@ public class Enemy : MonoBehaviour {
 
     void ChangeDirective_Inactive(float inactiveWait) {
         directive = Directive.Inactive;
-        inactiveWait = inactiveWait;
+        this.inactiveWait = inactiveWait;
         currentAttack = Attack.None;
         animator.SetInteger("CurrentAttack", (int)Attack.None);
         swordHitbox.enabled = false;
@@ -185,7 +187,7 @@ public class Enemy : MonoBehaviour {
     void ChangeDirective_MaintainDistancePlayer(float stoppingDistance, Vector3 targetOffset = default(Vector3)) {
         directive = Directive.MaintainDistancePlayer;
         approchDistance = stoppingDistance + Random.Range(0, ApprochDeviance);
-        targetOffset = targetOffset;
+        this.targetOffset = targetOffset;
 
         swordHitbox.enabled = false;
     }
@@ -196,7 +198,7 @@ public class Enemy : MonoBehaviour {
     }
 
     void ChangeDirective_PerformAttack(Attack attack) {
-        directive = Directive.PerformAttack;
+        directive = Directive.MaintainDistancePlayer;
         currentAttack = attack;
         animator.SetInteger("CurrentAttack", (int)currentAttack);
         failedAttackRolls = 0;
@@ -333,7 +335,6 @@ public class Enemy : MonoBehaviour {
                         }
                     }
                     
-                    float[] directionWeights = new float[16]; 
                     Quaternion angleStep = Quaternion.AngleAxis(360.0f / directionWeights.Length, Vector3.up);
 
                     // Pathfinding phase 
@@ -444,6 +445,8 @@ public class Enemy : MonoBehaviour {
                             consideredDelta = angleStep * consideredDelta;
                         }
                     }
+
+                    // Consider Walls
 
                     // Bias towards current direction
                     {
@@ -633,6 +636,27 @@ public class Enemy : MonoBehaviour {
 
         if (shouldDie) {
             Destroy(this.gameObject);
+        }
+    }
+
+    void OnDrawGizmosSelected() {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawRay(transform.position + Vector3.up * 2.2f, moveDirection * Vector3.forward);
+
+        float maxWeight = 0;
+        foreach (float datum in directionWeights) {
+            maxWeight = Mathf.Max(maxWeight, datum);
+            Debug.Assert(datum >= 0);
+        }
+
+        Quaternion angleStep = Quaternion.AngleAxis(360.0f / directionWeights.Length, Vector3.up);
+        Vector3 consideredDelta = Vector3.forward; 
+        for (int index = 0; index < directionWeights.Length; index += 1) {
+            Gizmos.color = Color.Lerp(Color.red, Color.green, directionWeights[index] / maxWeight);
+            Gizmos.DrawRay(transform.position + Vector3.up * 2, consideredDelta);
+
+            // NOTE(Roskuski): Advance the angle to the next index.
+            consideredDelta = angleStep * consideredDelta;
         }
     }
 }
