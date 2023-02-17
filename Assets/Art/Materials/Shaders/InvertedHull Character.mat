@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Toon_Test
-  m_Shader: {fileID: -6465566751694194690, guid: b6ba67c3a925eeb4fb05cafb5155312a, type: 3}
+  m_Name: InvertedHull Character
+  m_Shader: {fileID: -6465566751694194690, guid: e7be1666f25a29e44be1a215232619a1, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -76,12 +76,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_3cc0f1dcad6848f4b0850b84425b6630: 1
-    - Vector1_4df2743da974477b817d2c325a85bfcf: -1.12
-    - Vector1_7775b620f8fc442ca2a28f11136826d3: 0
-    - Vector1_9351d1bf5feb4e1bbb3f2ee8b32dab91: 10
-    - Vector1_95204e72d1e54f54b964b97d30c8c504: 243
-    - Vector1_e067a049143b40f3984ddc90ea35bddb: 10
+    - Vector1_5ce37151379c4a07b6dd2f081afde940: 0.05
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -109,13 +104,13 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_331875934dd84bda8eb739c7e6ae23db: {r: 0, g: 0, b: 0, a: 0}
+    - Color_be8562ad795e4c2fb3a10aba758fa4b2: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &992656977975593593
+--- !u!114 &1703828123122298417
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
