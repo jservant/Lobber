@@ -171,6 +171,7 @@ public class Enemy : MonoBehaviour {
             this.stunDuration = StunMax;
         }
         swordHitbox.enabled = false;
+        animator.SetTrigger("wasHurt");
     }
 
     void ChangeDirective_Inactive(float inactiveWait) {
