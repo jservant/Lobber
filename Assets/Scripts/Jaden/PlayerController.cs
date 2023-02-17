@@ -79,6 +79,7 @@ public class PlayerController : MonoBehaviour {
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
             Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+
             transform.position += moveDirection.normalized * (speed * Mathf.Lerp(0, 1, curve.Evaluate(timeMoved / maxSpeedTime))) * Time.fixedDeltaTime;
             // this moves the player and includes the anim curve accel/decel
         } else {
@@ -107,6 +108,8 @@ public class PlayerController : MonoBehaviour {
             } else if (animTimer <= 0 && prepAttack == true) {
                 animr.Play("Base Layer.Character_Attack2");
                 currentAttack = Attacks.Attack2;
+                if ( pActions.Player.Move.ReadValue<Vector2>().sqrMagnitude >= 0.02 ) { mInput = pActions.Player.Move.ReadValue<Vector2>(); }
+                movement = movement = new Vector3(mInput.x, 0, mInput.y); // this and last line allow for movement between hits
                 SnapToTarget();
                 animTimer = 0.567f; animDuration = 0.567f;
                 prepAttack = false;
@@ -198,12 +201,12 @@ public class PlayerController : MonoBehaviour {
                 enemyTarget = eColliders[index].transform.position;
             }
         }
-        if (mInput.magnitude <= 0.2f) { timeMoved = maxSpeedTime; }
         if (enemyTarget != Vector3.zero) {
             print("Player's position: " + transform.position + " Target enemy's position: " + enemyTarget);
             transform.LookAt(enemyTarget); // point player at closest enemy
             this.movement = (enemyTarget - transform.position).normalized;
         } else { enemyTarget = movement; }
+        timeMoved = maxSpeedTime; // makes player move forward after attacking in tandem with ryan's code
     }
 
     //@TODO(Jaden): Add i-frames and trigger hitstun state when hit
