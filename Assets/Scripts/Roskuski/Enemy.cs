@@ -67,7 +67,7 @@ public class Enemy : MonoBehaviour {
 
     Quaternion moveDirection = Quaternion.identity;
 
-    float[] directionWeights = new float[128]; 
+    float[] directionWeights = new float[16]; 
 
     // NOTE(Roskuski): End of ai state
 
@@ -174,7 +174,6 @@ public class Enemy : MonoBehaviour {
         if (this.stunDuration > StunMax) {
             this.stunDuration = StunMax;
         }
-        swordHitbox.enabled = false;
         animator.SetTrigger("wasHurt");
     }
 
@@ -183,7 +182,6 @@ public class Enemy : MonoBehaviour {
         this.inactiveWait = inactiveWait;
         currentAttack = Attack.None;
         animator.SetInteger("CurrentAttack", (int)Attack.None);
-        swordHitbox.enabled = false;
     }
 
     void ChangeDirective_MaintainDistancePlayer(float stoppingDistance, Vector3 targetOffset = default(Vector3)) {
@@ -191,7 +189,6 @@ public class Enemy : MonoBehaviour {
         approchDistance = stoppingDistance + Random.Range(0, ApprochDeviance);
         this.targetOffset = targetOffset;
 
-        swordHitbox.enabled = false;
     }
 
     // Probably incorrect to try and go to this state manually
@@ -242,11 +239,9 @@ public class Enemy : MonoBehaviour {
     void Start() {
         navAgent = this.GetComponent<NavMeshAgent>();
         animator = this.GetComponent<Animator>();
-        swordHitbox = transform.Find("Weapon_Controller").GetComponent<BoxCollider>();
 
         gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 
-        swordHitbox.enabled = false;
         navAgent.updatePosition = false; 
         navAgent.updateRotation = false;
 
@@ -652,7 +647,6 @@ public class Enemy : MonoBehaviour {
                     case Attack.Slash:
                         attackTimer -= Time.deltaTime;
                         if (aniVarSlashDone) {
-                            swordHitbox.enabled = false;
                             ChangeDirective_Inactive(0);
                             navAgent.enabled = true;
                         }
@@ -664,7 +658,6 @@ public class Enemy : MonoBehaviour {
                         }
                         if (aniVarLungeDone) {
                             // If we found ourselves off geometry, wait util we finish falling.
-                            swordHitbox.enabled = false;
                             ChangeDirective_Inactive(1.0f);
                             navAgent.enabled = true;
                         }
