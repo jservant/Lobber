@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour {
     public DefaultPlayerActions pActions;
 
     public Vector2 mInput;                        // movement vector read from input
-    Vector3 movement;                             // actual movement vector used. mInput(x, y) = movement(x, z)
+    [SerializeField] Vector3 movement;            // actual movement vector used. mInput(x, y) = movement(x, z)
     [SerializeField] float speed = 10f;           // top player speed
     float timeMoved = 0f;                         // how long has player been moving for?
     [SerializeField] float maxSpeedTime = 2f;     // how long does it take for player to reach max speed?
@@ -76,7 +76,7 @@ public class PlayerController : MonoBehaviour {
         {
             float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnVelocity, turnSpeed);
-            transform.rotation = Quaternion.Euler(0f, targetAngle, 0f);
+            transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
 
             Vector3 moveDirection = Quaternion.Euler(0f, angle, 0f) * Vector3.forward;
