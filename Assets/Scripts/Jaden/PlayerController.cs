@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour {
     Rigidbody rb;
     Animator animr;
     MeshRenderer headMesh;
+    TrailRenderer headMeshTrail;
     GameObject headProj;
     Transform playerPointer;
     Transform projSpawn;
@@ -48,6 +49,7 @@ public class PlayerController : MonoBehaviour {
         pActions = new DefaultPlayerActions();
 
         headMesh = transform.Find("Weapon_Controller/Hitbox/StoredHead").GetComponent<MeshRenderer>();
+        headMeshTrail = transform.Find("Weapon_Controller/Hitbox/StoredHead").GetComponent<TrailRenderer>();
         axeHitbox = transform.Find("Weapon_Controller/Hitbox").GetComponent<BoxCollider>();
         projSpawn = transform.Find("ProjSpawn");
         playerPointer = transform.Find("PlayerPointer");
@@ -77,7 +79,6 @@ public class PlayerController : MonoBehaviour {
             float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnVelocity, turnSpeed);
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
-
 
             Vector3 moveDirection = Quaternion.Euler(0f, angle, 0f) * Vector3.forward;
 
@@ -186,6 +187,7 @@ public class PlayerController : MonoBehaviour {
     public void LobThrow()
     { // triggered in animator
         headMesh.enabled = false;
+        headMeshTrail.enabled = false;
         GameObject iHeadProj = Instantiate(headProj, projSpawn.position, transform.rotation);
         //iHeadProj.transform.Translate(new Vector3(mInput.x, 0, mInput.y) * projSpeed * Time.deltaTime);
     }
@@ -229,6 +231,7 @@ public class PlayerController : MonoBehaviour {
             {
                 //todo: enemy instantly dies
                 headMesh.enabled = true;
+                headMeshTrail.enabled = true;
             }
         }
     }
