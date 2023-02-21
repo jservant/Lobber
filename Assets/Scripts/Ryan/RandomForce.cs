@@ -13,7 +13,7 @@ public class RandomForce : MonoBehaviour
         var rf1 = Random.Range(-ranForce, ranForce);
         var rf2 = Random.Range(-ranForce, ranForce);
         var rf3 = Random.Range(-ranForce, ranForce);
-        rb.AddForce(0f, Mathf.Abs(rf1), 0f, ForceMode.Impulse);
+        rb.AddForce(rf1, Mathf.Abs(rf1), 0f, ForceMode.Impulse);
         
 
     }
@@ -21,6 +21,6 @@ public class RandomForce : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        rb.AddTorque(transform.up * ranForce, ForceMode.Impulse);
+        rb.AddTorque(transform.forward * ranForce, ForceMode.Impulse);
     }
 }

@@ -45,7 +45,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 64.03732, y: 43.554977, z: 34.890724}
+  m_Size: {x: 51.5, y: 37.85, z: 34.890724}
   m_Center: {x: 0.015636444, y: 21.777487, z: -4.0722504}
 --- !u!54 &28728865732147879
 Rigidbody:
@@ -184,8 +184,8 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.16009331
-  m_Center: {x: 0, y: 0.16009331, z: 0}
+  m_Radius: 23.87
+  m_Center: {x: 0, y: 20.95, z: 5.07}
 --- !u!54 &719386662593256165
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -941,10 +941,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 12.129141
-  m_Height: 60.645702
+  m_Radius: 7.5
+  m_Height: 50
   m_Direction: 0
-  m_Center: {x: -30.322851, y: 0, z: 0}
+  m_Center: {x: -25.7, y: 0, z: 0}
 --- !u!54 &3595743750713705481
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1115,8 +1115,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 64.03732, y: 31.263935, z: 37.409454}
-  m_Center: {x: -0.0019302368, y: 15.631968, z: -1.9947052}
+  m_Size: {x: 39.4, y: 29.2, z: 20}
+  m_Center: {x: -0.0019302368, y: 18.6, z: -1.9947052}
 --- !u!54 &4000245560991762518
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1252,10 +1252,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 14.16359
+  m_Radius: 8
   m_Height: 56.65436
   m_Direction: 1
-  m_Center: {x: 0, y: -28.32718, z: 0}
+  m_Center: {x: 1.3, y: -28.32718, z: -5.7}
 --- !u!54 &4287594018115299507
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1295,14 +1295,14 @@ CharacterJoint:
     bounciness: 0
     contactDistance: 0
   m_HighTwistLimit:
-    limit: 0
+    limit: 66.87062
     bounciness: 0
     contactDistance: 0
   m_SwingLimitSpring:
     spring: 0
     damper: 0
   m_Swing1Limit:
-    limit: 0
+    limit: 27.281214
     bounciness: 0
     contactDistance: 0
   m_Swing2Limit:
@@ -1393,7 +1393,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 14.447848
+  m_Radius: 6.5
   m_Height: 48.159492
   m_Direction: 1
   m_Center: {x: 0, y: -24.079746, z: 0}
@@ -1432,7 +1432,7 @@ CharacterJoint:
     spring: 0
     damper: 0
   m_LowTwistLimit:
-    limit: -20
+    limit: -71.04166
     bounciness: 0
     contactDistance: 0
   m_HighTwistLimit:
@@ -1443,7 +1443,7 @@ CharacterJoint:
     spring: 0
     damper: 0
   m_Swing1Limit:
-    limit: 30
+    limit: 38.732803
     bounciness: 0
     contactDistance: 0
   m_Swing2Limit:
@@ -1936,10 +1936,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 14.185809
+  m_Radius: 8
   m_Height: 56.743237
   m_Direction: 1
-  m_Center: {x: 0, y: -28.371618, z: 0}
+  m_Center: {x: 1.34, y: -28.3, z: -5.7}
 --- !u!54 &6777017378741369451
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1979,14 +1979,14 @@ CharacterJoint:
     bounciness: 0
     contactDistance: 0
   m_HighTwistLimit:
-    limit: 0
+    limit: 77.80001
     bounciness: 0
     contactDistance: 0
   m_SwingLimitSpring:
     spring: 0
     damper: 0
   m_Swing1Limit:
-    limit: 0
+    limit: 27.40111
     bounciness: 0
     contactDistance: 0
   m_Swing2Limit:
@@ -2340,7 +2340,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 14.447722
+  m_Radius: 6.5
   m_Height: 48.159073
   m_Direction: 1
   m_Center: {x: 0, y: -24.079536, z: 0}
@@ -2379,7 +2379,7 @@ CharacterJoint:
     spring: 0
     damper: 0
   m_LowTwistLimit:
-    limit: -20
+    limit: -70.55831
     bounciness: 0
     contactDistance: 0
   m_HighTwistLimit:
@@ -2450,10 +2450,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 12.026339
-  m_Height: 60.13169
+  m_Radius: 7.5
+  m_Height: 50
   m_Direction: 0
-  m_Center: {x: 30.065845, y: 0, z: 0}
+  m_Center: {x: 25.5, y: 0, z: 0}
 --- !u!54 &8401015053457519698
 Rigidbody:
   m_ObjectHideFlags: 0
