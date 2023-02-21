@@ -100,6 +100,9 @@ public class Enemy : MonoBehaviour {
     public bool aniVarLungeDoLocomotion;
     // NOTE(Roskuski): End of animation variables
 
+    [SerializeField] float LOOKanimatorMoveX;
+    [SerializeField] float LOOKanimatorMoveY;
+
     /* NOTE(Roskuski): 
      * When rolling to select a chance the personality value is used as a sliding window into the total choice table.
      * trait: one of the AI traits
@@ -213,7 +216,7 @@ public class Enemy : MonoBehaviour {
    void OnTriggerEnter(Collider other) {
         if (!isImmune) {
             if (other.gameObject.layer == (int)Layers.PlayerHitbox) {
-                HeadProjectile head = other.GetComponentInParent<HeadProjectile>();
+               HeadProjectile head = other.GetComponentInParent<HeadProjectile>();
                 PlayerController player = other.GetComponentInParent<PlayerController>();
                 gameMan.FreezeFrames(10); // NOTE(Ryan): tells GameManager to freeze the game for x frames;
 
@@ -242,7 +245,6 @@ public class Enemy : MonoBehaviour {
         navAgent = this.GetComponent<NavMeshAgent>();
         animator = this.GetComponent<Animator>();
         swordHitbox = transform.Find("Weapon_Controller").GetComponent<BoxCollider>();
-
 
         gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 
@@ -522,8 +524,6 @@ public class Enemy : MonoBehaviour {
                 }
 
 
-                animator.SetBool("isBackpedaling", isBackpedaling);
-
                 float speedModifier = 1.0f;
                 if (isBackpedaling) {
                     speedModifier = 0.65f;
@@ -536,6 +536,15 @@ public class Enemy : MonoBehaviour {
                 }
 
                 this.transform.position += moveDirection * Vector3.forward * MoveSpeed * speedModifier * Time.deltaTime;
+
+                { // @TODO(Roskuski): Untested
+                    Quaternion rotationDelta = moveDirection * Quaternion.Inverse(this.transform.rotation);
+                    Vector3 animatorMove = rotationDelta * Vector3.back;
+                    animator.SetFloat("movex", animatorMove.x);
+                    LOOKanimatorMoveX = animatorMove.x;
+                    animator.SetFloat("movey", animatorMove.z);
+                    LOOKanimatorMoveY = animatorMove.z;
+                }
 
                 // Rotate the visual seperately
                 if (distanceToPlayer < 6.25 || speedModifier < 0.75f) {
