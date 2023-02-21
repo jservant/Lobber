@@ -87,7 +87,6 @@ public class Enemy : MonoBehaviour {
 
     // NOTE(Roskuski): Internal references
     NavMeshAgent navAgent;
-    BoxCollider swordHitbox;
     Animator animator;
 
     // NOTE(Roskuski): External references
@@ -205,7 +204,6 @@ public class Enemy : MonoBehaviour {
         currentAttack = attack;
         animator.SetInteger("CurrentAttack", (int)currentAttack);
         failedAttackRolls = 0;
-        swordHitbox.enabled = true;
     }
 
     // helper: logic for deteriming whigh following range is being used.
