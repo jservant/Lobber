@@ -57,7 +57,7 @@ public class Enemy : MonoBehaviour {
     float inactiveWait = 2;
     [SerializeField] float approchDistance;
     Vector3 targetOffset; 
-    bool preferRightStrafe;
+    public bool preferRightStrafe;
 
     float stunDuration;
     [SerializeField] float StunMax = 3.0f;
@@ -280,13 +280,13 @@ public class Enemy : MonoBehaviour {
                         switch (choiceAggressive) {
                             default: Debug.Assert(false, choiceAggressive); break;
                             case 0:
-                                ChangeDirective_MaintainDistancePlayer(TightApprochDistance);
+                                ChangeDirective_MaintainDistancePlayer(LooseApprochDistance);
                             break;
                             case 1:
                                 ChangeDirective_MaintainDistancePlayer(CloseApprochDistance);
                             break;
                             case 2:
-                                ChangeDirective_MaintainDistancePlayer(LooseApprochDistance);
+                                ChangeDirective_MaintainDistancePlayer(TightApprochDistance);
                             break;
                         }
                     }
@@ -540,9 +540,9 @@ public class Enemy : MonoBehaviour {
                 { // @TODO(Roskuski): Untested
                     Quaternion rotationDelta = moveDirection * Quaternion.Inverse(this.transform.rotation);
                     Vector3 animatorMove = rotationDelta * Vector3.back;
-                    animator.SetFloat("movex", animatorMove.x);
+                    animator.SetFloat("moveX", animatorMove.x);
                     LOOKanimatorMoveX = animatorMove.x;
-                    animator.SetFloat("movey", animatorMove.z);
+                    animator.SetFloat("moveY", animatorMove.z);
                     LOOKanimatorMoveY = animatorMove.z;
                 }
 
@@ -655,7 +655,7 @@ public class Enemy : MonoBehaviour {
                         attackTimer -= Time.deltaTime;
                         if (aniVarSlashDone) {
                             swordHitbox.enabled = false;
-                            ChangeDirective_Inactive(1.0f);
+                            ChangeDirective_Inactive(0);
                             navAgent.enabled = true;
                         }
                         break;

@@ -49,7 +49,7 @@ AnimatorStateMachine:
     m_Position: {x: -300, y: 120, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8970284106987514966}
-    m_Position: {x: 70, y: 50, z: 0}
+    m_Position: {x: -100, y: 40, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8624107683823642899}
     m_Position: {x: -300, y: 70, z: 0}
@@ -74,7 +74,7 @@ AnimatorStateMachine:
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 90, y: 190, z: 0}
   m_EntryPosition: {x: -90, y: -90, z: 0}
-  m_ExitPosition: {x: 160, y: 0, z: 0}
+  m_ExitPosition: {x: 240, y: -280, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: -8970284106987514966}
 --- !u!1101 &-8508952801056080568
@@ -272,25 +272,25 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: isBackpedaling
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Ai Directive
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: wasHurt
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer

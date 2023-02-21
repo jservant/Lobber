@@ -61,7 +61,7 @@ Animator:
   m_GameObject: {fileID: 2369981039474322611}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: fe0d19c9218568e49a5deaa9eb7cb548, type: 2}
+  m_Controller: {fileID: 9100000, guid: 30605e5b8a7d6b6448fe6d4acb067af7, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -108,6 +108,7 @@ MonoBehaviour:
   traitSneaky: 1000
   directive: 0
   approchDistance: 0
+  preferRightStrafe: 0
   StunMax: 2
   failedAttackRolls: 0
   attackTimer: 1
@@ -116,6 +117,8 @@ MonoBehaviour:
   aniVarSlashDone: 0
   aniVarLungeDone: 0
   aniVarLungeDoLocomotion: 0
+  LOOKanimatorMoveX: 0
+  LOOKanimatorMoveY: 0
 --- !u!1001 &3180303174905500130
 PrefabInstance:
   m_ObjectHideFlags: 0
