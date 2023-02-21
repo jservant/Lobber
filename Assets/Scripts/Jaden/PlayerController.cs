@@ -9,7 +9,6 @@ public class PlayerController : MonoBehaviour {
     //CapsuleCollider capCol;
     Rigidbody rb;
     Animator animr;
-    //[SerializeField] bool animBuffer = false;
     MeshRenderer headMesh;
     GameObject headProj;
     Transform projSpawn;
@@ -64,8 +63,7 @@ public class PlayerController : MonoBehaviour {
         // accel/decel for movement
         if (mInput != Vector2.zero && currentState == States.Attacking) { timeMoved -= (Time.fixedDeltaTime / 2); }
         // if attacking, reduce movement at half speed to produce sliding effect
-        else if (mInput != Vector2.zero) { timeMoved += Time.fixedDeltaTime; } // && currentState != (int)States.Attacking
-                                                                               // else build up speed while moving
+        else if (mInput != Vector2.zero) { timeMoved += Time.fixedDeltaTime; } // else build up speed while moving
         else { timeMoved -= Time.fixedDeltaTime; }
         // if no movement input and not attacking, decelerate
         timeMoved = Mathf.Clamp(timeMoved, 0, maxSpeedTime);
@@ -81,9 +79,10 @@ public class PlayerController : MonoBehaviour {
             Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
 
             transform.position += moveDirection.normalized * (speed * Mathf.Lerp(0, 1, curve.Evaluate(timeMoved / maxSpeedTime))) * Time.fixedDeltaTime;
-            // this moves the player and includes the anim curve accel/decel
-        } else {
+            spherePoint.localPosition = movement;
+        } else { 
             transform.rotation = Quaternion.Euler(0f, transform.rotation.y, 0f);
+            spherePoint.position = Vector3.zero;
         }
 
         //@TODO(Jaden): maaybe snapto enemy? 
@@ -148,7 +147,6 @@ public class PlayerController : MonoBehaviour {
                 setCurrentAttack(Attacks.Attack, "Base Layer.Character_Attack1", 0.533f);
                 SnapToTarget();
             }
-            //StartCoroutine(AnimBuffer("attack", .38f, true)); } //.73f
             currentState = States.Attacking;
             //@TODO(Jaden): Move forward slightly when attacking
         }
@@ -161,7 +159,6 @@ public class PlayerController : MonoBehaviour {
                 {
                     currentState = States.Attacking;
                     setCurrentAttack(Attacks.ChopThrow, "Base Layer.Character_Chop_Throw", 1.067f);
-                    //StartCoroutine(AnimBuffer("lobThrow", .65f, true));
                     // all functionality following is in LobThrow which'll be triggered in the animator
                 } else
                 {
