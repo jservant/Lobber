@@ -215,7 +215,7 @@ public class Enemy : MonoBehaviour {
             if (other.gameObject.layer == (int)Layers.PlayerHitbox) {
                 HeadProjectile head = other.GetComponentInParent<HeadProjectile>();
                 PlayerController player = other.GetComponentInParent<PlayerController>();
-                gameMan.FreezeFrames(10f); // NOTE(Ryan): tells GameManager to freeze the game for x frames;
+                gameMan.FreezeFrames(10); // NOTE(Ryan): tells GameManager to freeze the game for x frames;
 
                 if (player != null) {
                     switch (gameMan.playerController.currentAttack) {

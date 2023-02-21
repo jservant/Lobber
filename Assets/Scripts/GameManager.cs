@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour {
 
     public Transform[] eSpawns;
 
+    float frozenTime = 0;
+
     void Awake() {
         player = transform.Find("/Player");
         playerController = player.GetComponent<PlayerController>();
@@ -23,7 +25,16 @@ public class GameManager : MonoBehaviour {
         dActions = new DebugActions();
     }
 
+
     private void Update() {
+        if (frozenTime > 0) {
+            Time.timeScale = 0.0f;
+            frozenTime -= Time.unscaledDeltaTime;
+        }
+        else {
+            Time.timeScale = 1.0f;
+        }
+
         // @TODO(Roskuski): This doesn't spawn enemies in the right spot
         if (dActions.DebugTools.SpawnEnemy.WasPerformedThisFrame()) { // TAKE THIS OUT IN FINAL RELEASE
             GameObject iEnemy = enemy;
@@ -44,21 +55,10 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    public void FreezeFrames(float frames) // NOTE(Ryan): Can be called to freeze the game for x number of frames
-    {
-        // TODO(Ryan): Might need bool here to tell GameManager when game is currently frozen / unfrozen
-        var freezeDurationInSeconds = frames / 60f;
-        StartCoroutine(Freeze(freezeDurationInSeconds));
-    }
-
-    IEnumerator Freeze(float duration)
-    {
-        var original = Time.timeScale;
-        Time.timeScale = 0f;
-
-        yield return new WaitForSecondsRealtime(duration);
-
-        Time.timeScale = original;
+    // NOTE(Ryan): Can be called to freeze the game for the time specified.
+    // Frames60 is the amount of time, based on a 16.66ms long frame
+    public void FreezeFrames(int Frames60) {
+        frozenTime += (float)(Frames60) / 60.0f;
     }
 
     void OnEnable() { dActions.Enable(); }
