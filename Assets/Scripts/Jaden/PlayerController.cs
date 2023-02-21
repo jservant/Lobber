@@ -72,7 +72,7 @@ public class PlayerController : MonoBehaviour {
         // clamp accel value between 0 and a static maximum
 
         // ryan's adapted movement code, meant to lerp player movement/rotation
-        if (movement.magnitude >= 0.1f)
+        if (movement.magnitude >= 0.1f && currentState != States.Hitstunned)
         {
             float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnVelocity, turnSpeed);
