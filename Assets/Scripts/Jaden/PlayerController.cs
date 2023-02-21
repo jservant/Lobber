@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour {
     Animator animr;
     MeshRenderer headMesh;
     GameObject headProj;
+    Transform playerPointer;
     Transform projSpawn;
     [SerializeField] Transform spherePoint;
     BoxCollider axeHitbox;
@@ -49,7 +50,8 @@ public class PlayerController : MonoBehaviour {
         headMesh = transform.Find("Weapon_Controller/Hitbox/StoredHead").GetComponent<MeshRenderer>();
         axeHitbox = transform.Find("Weapon_Controller/Hitbox").GetComponent<BoxCollider>();
         projSpawn = transform.Find("ProjSpawn");
-        spherePoint = transform.Find("SpherePoint");
+        playerPointer = transform.Find("PlayerPointer");
+        spherePoint = transform.Find("PlayerPointer/SpherePoint");
         headProj = Resources.Load("ActivePrefabs/HeadProjectile", typeof(GameObject)) as GameObject;
 
         #region debug
@@ -74,15 +76,14 @@ public class PlayerController : MonoBehaviour {
         {
             float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnVelocity, turnSpeed);
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+            transform.rotation = Quaternion.Euler(0f, targetAngle, 0f);
 
-            Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+
+            Vector3 moveDirection = Quaternion.Euler(0f, angle, 0f) * Vector3.forward;
 
             transform.position += moveDirection.normalized * (speed * Mathf.Lerp(0, 1, curve.Evaluate(timeMoved / maxSpeedTime))) * Time.fixedDeltaTime;
-            spherePoint.localPosition = movement;
         } else { 
             transform.rotation = Quaternion.Euler(0f, transform.rotation.y, 0f);
-            spherePoint.position = Vector3.zero;
         }
 
         //@TODO(Jaden): maaybe snapto enemy? 
@@ -114,6 +115,11 @@ public class PlayerController : MonoBehaviour {
                 prepAttack = false;
             }
         }
+
+        Vector2 trueInput = pActions.Player.Move.ReadValue<Vector2>();
+            //reads input even when player is attacking or hitstunned
+        float pointerAngle = Mathf.Atan2(trueInput.x, trueInput.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
+        playerPointer.rotation = Quaternion.Euler(0f, pointerAngle, 0f);
 
         //Camera.main.transform.LookAt(transform);
         //Camera.main.transform.Translate(new Vector3(camControl.x, camControl.y, 0) * Time.deltaTime);
@@ -201,6 +207,7 @@ public class PlayerController : MonoBehaviour {
         if (enemyTarget != Vector3.zero) {
             print("Player's position: " + transform.position + " Target enemy's position: " + enemyTarget);
             transform.LookAt(enemyTarget); // point player at closest enemy
+                //TODO(@Jaden): doesn't work right when camera is rotated?
             this.movement = (enemyTarget - transform.position).normalized;
         } else { enemyTarget = movement; }
         timeMoved = maxSpeedTime; // makes player move forward after attacking in tandem with ryan's code
@@ -273,7 +280,7 @@ public class PlayerController : MonoBehaviour {
     void OnEnable() { pActions.Enable(); }
     void OnDisable() { pActions.Disable(); }
 
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(spherePoint.position, targetSphereRadius);
