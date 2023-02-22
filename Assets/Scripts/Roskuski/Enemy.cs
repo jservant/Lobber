@@ -14,15 +14,27 @@ using UnityEngine.AI;
 // @TODO(Roskuski): Make enemies change strafing direction mid strafe
 // @TODO(Roskuski): Make sure enemies behave well on slopes
 
+
 public class Enemy : MonoBehaviour {
 	// NOTE(Roskuski): Enemy ai state
 
 	const int TraitMax = 1000;
-	// NOTE(Roskuski): How aggsive this enemy will behave. Values below TraitMax will act Defensively!
-	[SerializeField, Range(0, 2 * TraitMax)] int traitAggressive = 1000;
-	// NOTE(Roskuski): Prefence for attacking from the player's behind and flanks. Values below TraitMax will prefer attacking from the front!
-	[SerializeField, Range(0, 2 * TraitMax)] int traitSneaky = 1000;
-	// @TODO(Rosksuki): Pacience trait, dynamic stat: repersents how badly this enemy wants to play the game
+
+	class ChoiceEntry {
+		public float baseWeight;
+		public float[] traitMod = new float[System.Enum.GetNames(typeof(TraitKind)).Length];
+		public ChoiceEntry(float baseWeight, float[] traitMod) {
+			this.baseWeight = baseWeight;
+			this.traitMod = traitMod;
+		}
+	}
+	enum TraitKind {
+		Aggressive = 0, // NOTE(Roskuski): How aggsive this enemy will behave. Values below TraitMax will act Defensively!
+		Sneaky,
+		// @TODO(Rosksuki): Pacience trait, dynamic stat: repersents how badly this enemy wants to play the game
+	}
+	float[] traits = new float[System.Enum.GetNames(typeof(TraitKind)).Length];
+
 
 	// NOTE(Roskuski): This should stay in sync with the animation controller. DO NOT ADD ELEMENTS IN THE MIDDLE OF THE ENUM
 	enum Directive {
@@ -55,15 +67,16 @@ public class Enemy : MonoBehaviour {
 	Attack currentAttack = Attack.None; // NOTE(Roskuski): Do not set this manually, use the setting function, as that keeps animation state insync
 
 	float inactiveWait = 2;
-	[SerializeField] float approchDistance;
+	float approchDistance;
 	Vector3 targetOffset;
 	public bool preferRightStrafe;
 
 	float stunDuration;
 	[SerializeField] float StunMax = 3.0f;
 
-	[SerializeField] int failedAttackRolls = 0;
-	[SerializeField] float attackTimer = 1.0f; // @TODO(Roskuski) Fine tune this parameter
+	int failedAttackRolls = 0;
+	float attackTimer = 1.0f; // @TODO(Roskuski) Fine tune this parameter
+
 
 	Quaternion moveDirection = Quaternion.identity;
 
@@ -75,7 +88,7 @@ public class Enemy : MonoBehaviour {
 	[SerializeField] bool isSandbag = false;
 	bool isImmune = false;
 
-	public const float LungeSpeed = 15;
+	public const float LungeSpeed = 15f;
 	// NOTE(Roskuski): copied from the default settings of navMeshAgent
 	public const float MoveSpeed = 7f;
 	public const float TurnSpeed = 360.0f; // NOTE(Roskuski): in Degrees per second
@@ -99,64 +112,33 @@ public class Enemy : MonoBehaviour {
 	public bool aniVarLungeDoLocomotion;
 	// NOTE(Roskuski): End of animation variables
 
-	[SerializeField] float LOOKanimatorMoveX;
-	[SerializeField] float LOOKanimatorMoveY;
-
-	/* NOTE(Roskuski): 
-     * When rolling to select a chance the personality value is used as a sliding window into the total choice table.
-     * trait: one of the AI traits
-     * rollRange: controls the random roll from -rollRange to rollRange.
-     * bias: value to add to the trait roll
-     * choiceChances: array of lengths each choice takes up, see notes below
-     * return: Index of the choice that we rolled
-     *
-     * choiceChances fill chances starting from the left most side of the choice "tape"
-     * it is invalid to call this function without having a choice for every possible roll
-     *
-     *                                                           Enemy Trait Value
-     *                                             roll range min|   roll range max
-     *                    trait of zero\                   |     |     |                   /trait of max
-     * Enemy Trait Space                |------------------[-----x--*--]------------------|
-     *                                                              |
-     * Choice Chances                   |------|----------|---------*------|--------|-----|
-     *                                  choice1           choice3   |               choice5
-     *                                         choice2              |      choice4         
-     *                                                              roll + bias 
-     */
-	int RollTraitChoice(int trait, int[] choiceChances, int rollRange, int bias = 0) {
-		int choiceTotal = 0;
-		foreach (int value in choiceChances) {
-			choiceTotal += value;
-		}
-		Debug.Assert(2 * TraitMax == choiceTotal, choiceTotal + " Is not " + 2 * TraitMax);
-
+	// NOTE(Roskuski): abs(traitMods) array should sum to 1
+	// @TODO(Roskuski): Mathematically prove that this true with negtive numbers
+	int RollTraitChoice(ChoiceEntry[] choices) {
 		int result = -1;
-		int roll = RollTrait(trait, rollRange, bias);
-
-		int rollingTotal = 0;
-		for (int index = 0; index < choiceChances.Length; index += 1) {
-			rollingTotal += choiceChances[index];
-			if (rollingTotal >= roll) {
+		float[] finalWeight = new float[choices.Length];
+		float finalTotal = 0;
+		for (int index = 0; index < finalWeight.Length; index += 1) {
+			finalWeight[index] += choices[index].baseWeight;
+			float modTotal = 0;
+			for (int traitIndex = 0; traitIndex < System.Enum.GetNames(typeof(TraitKind)).Length; traitIndex += 1) {
+				finalWeight[index] += ((traits[traitIndex])/1000.0f) * choices[index].traitMod[traitIndex] * choices[index].baseWeight;
+				modTotal += choices[index].traitMod[traitIndex];
+			}
+			finalTotal += finalWeight[index];
+		}
+		
+		float randomRoll = Random.Range(0, finalTotal);
+		float rollingTotal = 0;
+		for (int index = 0; index < finalWeight.Length; index += 1) {
+			rollingTotal += finalWeight[index];
+			if (randomRoll < rollingTotal) {
 				result = index;
 				break;
 			}
 		}
 
-		Debug.Assert(result != -1);
-		//Debug.Log(this.name + " chose " + result + " with a roll of " + roll);
 		return result;
-	}
-
-	// Yields the raw trait roll, see documentation above
-	int RollTrait(int trait, int rollRange, int bias = 0) {
-		int roll = Random.Range(-rollRange, rollRange + 1); // Max is exclusive in Range.Range(int,int)
-		roll += bias + trait;
-		// NOTE(Roskuski): Right now when doing a trait roll, the roll is capped to the max and min trait values.
-		// There might be a reason to allow the enemies to roll beyond TraitMax and min, like when a bias would make it so, or when their trait is at an extreme and they also roll the same extreme.
-		// implmenting this will complicate the math, and slightly complicate the process of making choiceChances.
-		if (roll < 0) { roll = 0; }
-		if (roll > 2 * TraitMax) { roll = 2 * TraitMax; }
-		return roll;
 	}
 
 	bool CanAttemptNavigation() {
@@ -248,8 +230,9 @@ public class Enemy : MonoBehaviour {
 		directive = Directive.Spawn;
 		if (isSandbag) { directive = Directive.Sandbag; }
 
-		traitAggressive = Random.Range(0, TraitMax * 2);
-		traitSneaky = Random.Range(0, TraitMax * 2);
+		for (int index = 0; index < System.Enum.GetNames(typeof(TraitKind)).Length; index += 1) {
+			traits[index] = Random.Range(-1000.0f, 1000.0f);
+		}
 	}
 
 	void Update() {
@@ -266,10 +249,19 @@ public class Enemy : MonoBehaviour {
 					if (isSandbag) { directive = Directive.Sandbag; }
 					else {
 						preferRightStrafe = Random.Range(0, 2) == 1 ? true : false;
-						int choiceAggressive = RollTraitChoice(traitAggressive, new int[] { 250, 250, 1000, 500 }, 500);
+						int choiceAggressive = RollTraitChoice( new ChoiceEntry[]{
+								new ChoiceEntry(1, new float[]{0.5f, 0.5f}),
+								new ChoiceEntry(1, new float[]{0.5f, 0.5f}),
+								new ChoiceEntry(1, new float[]{0.5f, 0.5f}),
+								new ChoiceEntry(1, new float[]{0.5f, 0.5f}),
+								});
 						attackTimer = new float[] { 3.0f, 2.0f, 1.0f, 0.5f }[choiceAggressive];
 
-						choiceAggressive = RollTraitChoice(traitAggressive, new int[] { 500, 1000, 500 }, 500);
+						choiceAggressive = RollTraitChoice( new ChoiceEntry[]{
+								new ChoiceEntry(1, new float[]{-0.5f, 0.5f}),
+								new ChoiceEntry(1, new float[]{0.75f, 0.25f}),
+								new ChoiceEntry(1, new float[]{0.75f, 0.25f})
+								});
 						switch (choiceAggressive) {
 							default: Debug.Assert(false, choiceAggressive); break;
 							case 0:
@@ -532,9 +524,7 @@ public class Enemy : MonoBehaviour {
 					Quaternion rotationDelta = moveDirection * Quaternion.Inverse(this.transform.rotation);
 					Vector3 animatorMove = rotationDelta * Vector3.back;
 					animator.SetFloat("moveX", animatorMove.x);
-					LOOKanimatorMoveX = animatorMove.x;
 					animator.SetFloat("moveY", animatorMove.z);
-					LOOKanimatorMoveY = animatorMove.z;
 				}
 
 				// Rotate the visual seperately
@@ -548,93 +538,24 @@ public class Enemy : MonoBehaviour {
 					this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, this.moveDirection, TurnSpeed * Time.deltaTime);
 				}
 
+				// @BeforePlaytest1 @TODO(Roskuski): The current method for determining attacks sucks.
+
+				// @TODO(Roskuski): This might look weird if the feet don't line up when we attempt to make an attack.
+				// might want to only choose an attack when it would blend sensiably in the animation.
+				// adding a data keyframe will make this a snap to impl.
+				//
+
+				// @TODO(Roskuski): determine formation changes here before attacking
+				// We probably want to bracket different choices based off of following distance.
+				// should we also make following distances a random range?
+
 				if (DistanceToTravel() < 1.5f) {
-
-					// @BeforePlaytest1 @TODO(Roskuski): The current method for determining attacks sucks.
-
-					// @TODO(Roskuski): This might look weird if the feet don't line up when we attempt to make an attack.
-					// might want to only choose an attack when it would blend sensiably in the animation.
-					// adding a data keyframe will make this a snap to impl.
-					//
-
-					// @TODO(Roskuski): determine formation changes here before attacking
-					// We probably want to bracket different choices based off of following distance.
-					// should we also make following distances a random range?
-
 					attackTimer -= Time.deltaTime;
 					if (attackTimer <= 0) {
-						if (UsingApprochRange(LooseApprochDistance)) {
-							int aggressiveChoice = RollTraitChoice(traitAggressive, new int[] { 400, 400, 400, 400, 400 }, 500, failedAttackRolls * 200);
-							switch (aggressiveChoice) {
-								default: Debug.Assert(false); break;
-								case 0: // Stay where you are long
-									attackTimer = 2.0f;
-									break;
-								case 1: // Stay where you are short
-									attackTimer = 1.0f;
-									break;
-								case 2: // Move to Close
-									attackTimer = 1.5f;
-									ChangeDirective_MaintainDistancePlayer(CloseApprochDistance);
-									break;
-								case 3: // Move to Tight
-									attackTimer = 1.5f;
-									ChangeDirective_MaintainDistancePlayer(TightApprochDistance);
-									break;
-								case 4: // Lunge
-									ChangeDirective_PerformAttack(Attack.Lunge);
-									break;
-							}
-						}
-						else if (UsingApprochRange(CloseApprochDistance)) {
-							int aggressiveChoice = RollTraitChoice(traitAggressive, new int[] { 400, 400, 400, 400, 400 }, 500, failedAttackRolls * 200);
-							switch (aggressiveChoice) {
-								default: Debug.Assert(false); break;
-								case 0: // fall back to loose
-									ChangeDirective_MaintainDistancePlayer(LooseApprochDistance);
-									break;
-								case 1: // Stay where you are short
-									attackTimer = 1.0f;
-									break;
-								case 2: // Move to Tight long wait
-									attackTimer = 2.0f;
-									ChangeDirective_MaintainDistancePlayer(TightApprochDistance);
-									break;
-								case 3: // Move to Tight short wait
-									attackTimer = 1.0f;
-									ChangeDirective_MaintainDistancePlayer(TightApprochDistance);
-									break;
-								case 4: // Lunge
-									ChangeDirective_PerformAttack(Attack.Lunge);
-									break;
-							}
-						}
-						else if (UsingApprochRange(TightApprochDistance)) {
-							int aggressiveChoice = RollTraitChoice(traitAggressive, new int[] { 400, 400, 400, 400, 400 }, 500, failedAttackRolls * 200);
-							switch (aggressiveChoice) {
-								default: Debug.Assert(false); break;
-								case 0: // fall back to loose
-									attackTimer = 1.5f;
-									ChangeDirective_MaintainDistancePlayer(LooseApprochDistance);
-									break;
-								case 1: // fall back to close long wait
-									attackTimer = 2.0f;
-									ChangeDirective_MaintainDistancePlayer(CloseApprochDistance);
-									break;
-								case 2: // fall back to close short wait
-									attackTimer = 1.0f;
-									ChangeDirective_MaintainDistancePlayer(CloseApprochDistance);
-									break;
-								case 3: // slash
-									ChangeDirective_PerformAttack(Attack.Slash);
-									break;
-								case 4: // Lunge
-									ChangeDirective_PerformAttack(Attack.Lunge);
-									break;
-							}
-						}
 						failedAttackRolls += 1;
 					}
+				}
+				else {
 				}
 				break;
 			case Directive.PerformAttack:
