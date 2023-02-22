@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField] float animTimer = 0f;
 	[SerializeField] float animDuration = 0f;
 	[SerializeField] float targetSphereRadius = 2f;
+	bool freeAim = false;
 	public enum States { Idle, Walking, Attacking, Hitstunned };
 	public States currentState = 0;
 	public enum Attacks { None, Attack, Chop, ChopThrow, Attack2 };
@@ -76,7 +77,8 @@ public class PlayerController : MonoBehaviour {
 		if (movement.magnitude >= 0.1f && currentState != States.Hitstunned) {
 			float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
 			float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnVelocity, turnSpeed);
-			transform.rotation = Quaternion.Euler(0f, angle, 0f);
+			if (freeAim) { transform.LookAt(new Vector3(spherePoint.position.x, transform.position.y, spherePoint.position.z)); }
+			else { transform.rotation = Quaternion.Euler(0f, angle, 0f); }
 
 			Vector3 moveDirection = Quaternion.Euler(0f, angle, 0f) * Vector3.forward;
 
@@ -161,6 +163,7 @@ public class PlayerController : MonoBehaviour {
 			if (currentAttack == Attacks.None) {
 				if (headMesh.enabled == true) {
 					currentState = States.Attacking;
+					freeAim = true;
 					setCurrentAttack(Attacks.ChopThrow, "Base Layer.Character_Chop_Throw", 1.067f);
 					// all functionality following is in LobThrow which'll be triggered in the animator
 				}
@@ -182,6 +185,7 @@ public class PlayerController : MonoBehaviour {
 	public void LobThrow() { // triggered in animator
 		headMesh.enabled = false;
 		headMeshTrail.enabled = false;
+		freeAim = false;
 		GameObject iHeadProj = Instantiate(headProj, projSpawn.position, transform.rotation);
 		//iHeadProj.transform.Translate(new Vector3(mInput.x, 0, mInput.y) * projSpeed * Time.deltaTime);
 	}
