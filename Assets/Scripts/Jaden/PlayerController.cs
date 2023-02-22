@@ -91,6 +91,8 @@ public class PlayerController : MonoBehaviour {
 
 	private void Update() // calculate time and input here
 	{
+		Vector2 trueInput = pActions.Player.Move.ReadValue<Vector2>();
+
 		if (currentState != States.Hitstunned) { Input(); }
 		if (currentAttack != Attacks.None || currentState == States.Hitstunned) {
 			// animator controller
@@ -108,15 +110,15 @@ public class PlayerController : MonoBehaviour {
 			else if (animTimer <= 0 && prepAttack == true) {
 				animr.Play("Base Layer.Character_Attack2");
 				currentAttack = Attacks.Attack2;
-				if (pActions.Player.Move.ReadValue<Vector2>().sqrMagnitude >= 0.02) { mInput = pActions.Player.Move.ReadValue<Vector2>(); }
-				movement = movement = new Vector3(mInput.x, 0, mInput.y); // this and last line allow for movement between hits
+				if (pActions.Player.Move.ReadValue<Vector2>().sqrMagnitude >= 0.02) {
+					movement = movement = new Vector3(trueInput.x, 0, trueInput.y); // this and last line allow for movement between hits
+				}
 				SnapToTarget();
 				animTimer = 0.567f; animDuration = 0.567f;
 				prepAttack = false;
 			}
 		}
 
-		Vector2 trueInput = pActions.Player.Move.ReadValue<Vector2>();
 		//reads input even when player is attacking or hitstunned
 		float pointerAngle = Mathf.Atan2(trueInput.x, trueInput.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
 		playerPointer.rotation = Quaternion.Euler(0f, pointerAngle, 0f);
@@ -188,10 +190,11 @@ public class PlayerController : MonoBehaviour {
 		enemyTarget = Vector3.zero; // free the target vector
 		Collider[] eColliders = Physics.OverlapSphere(spherePoint.position, targetSphereRadius, Mask.Get(Layers.EnemyHurtbox));
 		// find all colliders in the sphere
-		// Debug.Log("eColliders length: " + eColliders.Length);
-
+		//Debug.Log("eColliders length: " + eColliders.Length);
 		float difference = 10f;
 		for (int index = 0; index < eColliders.Length; index += 1) { // for each v3
+			//print("Collider #" + index + " name: " + eColliders[index].gameObject.name);
+
 			float newDifference = Vector3.Distance(transform.position, eColliders[index].transform.position);
 			if (newDifference < difference) {
 				difference = newDifference;
@@ -200,11 +203,14 @@ public class PlayerController : MonoBehaviour {
 		}
 		if (enemyTarget != Vector3.zero) {
 			print("Player's position: " + transform.position + " Target enemy's position: " + enemyTarget);
-			transform.LookAt(enemyTarget); // point player at closest enemy
 										   //TODO(@Jaden): doesn't work right when camera is rotated?
 			this.movement = (enemyTarget - transform.position).normalized;
+			transform.LookAt(enemyTarget); // point player at closest enemy
 		}
-		else { enemyTarget = movement; }
+		/*else {
+			print("No enemies found. Player movement vector: " + movement);
+			enemyTarget = movement;
+		}*/
 		timeMoved = maxSpeedTime; // makes player move forward after attacking in tandem with ryan's code
 	}
 
