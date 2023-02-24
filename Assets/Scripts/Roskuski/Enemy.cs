@@ -78,8 +78,6 @@ public class Enemy : MonoBehaviour {
 	float attackTimer = 3.0f; // @TODO(Roskuski) Fine tune this parameter
 	bool wantsSlash = false;
 
-
-
 	Quaternion moveDirection = Quaternion.identity;
 
 	float[] directionWeights = new float[16];
@@ -213,7 +211,8 @@ public class Enemy : MonoBehaviour {
 					}
 				}
 				else if (head != null) {
-					// @TODO(Roskuski): Head reaction
+					// @TODO(Roskuski): temp head reaction
+					ChangeDirective_Stunned(3.0f);
 					Debug.Log("Head Hit");
 				}
 			}
