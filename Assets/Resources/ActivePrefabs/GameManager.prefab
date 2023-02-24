@@ -44,10 +44,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91ea38e86f208c940803e7fe1486a4f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugTools: 1
   player: {fileID: 0}
+  playerController: {fileID: 0}
   enemy: {fileID: 0}
-  enemyList: []
+  PlayerPrefab: {fileID: 3751054411342618234, guid: 6492241fdf4404b4bb5746aab6925df2, type: 3}
+  SkullPrefab: {fileID: 3919287289124563026, guid: 52272a60c576cf44f83ffd05df295b1d, type: 3}
+  EnemyPrefab: {fileID: 2369981039474322611, guid: 015c14080a009154f94ee3a0f18a0813, type: 3}
+  eSpawns: []
 --- !u!114 &265965205
 MonoBehaviour:
   m_ObjectHideFlags: 0

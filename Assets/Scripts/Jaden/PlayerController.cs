@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
-
 	//CapsuleCollider capCol;
 	Rigidbody rb;
 	Animator animr;
@@ -22,6 +21,7 @@ public class PlayerController : MonoBehaviour {
 
 	public DefaultPlayerActions pActions;
 
+	public Vector2 trueInput;                        // movement vector read from input
 	public Vector2 mInput;                        // movement vector read from input
 	[SerializeField] Vector3 movement;            // actual movement vector used. mInput(x, y) = movement(x, z)
 	[SerializeField] float speed = 10f;           // top player speed
@@ -36,10 +36,13 @@ public class PlayerController : MonoBehaviour {
 	bool freeAim = false;
 	public enum States { Idle, Walking, Attacking, Hitstunned };
 	public States currentState = 0;
-	public enum Attacks { None, Attack, Chop, ChopThrow, Attack2 };
+	public enum Attacks { None, LAttack, LAttack2, LAttack3, Chop, Sweep, Spin, HeadThrow };
+	// some of these names are temp names that won't be used
 	public Attacks currentAttack = 0;
+	public enum AttackButton { None, LightAttack, HeavyAttack };
+	public AttackButton preppingAttack = 0;
 
-	public bool prepAttack = false;
+	//public bool prepAttack = false;
 	float turnVelocity;
 
 	private void Awake() {
@@ -54,7 +57,7 @@ public class PlayerController : MonoBehaviour {
 		projSpawn = transform.Find("ProjSpawn");
 		playerPointer = transform.Find("PlayerPointer");
 		spherePoint = transform.Find("PlayerPointer/SpherePoint");
-		headProj = Resources.Load("ActivePrefabs/HeadProjectile", typeof(GameObject)) as GameObject;
+		headProj = transform.Find("/GameManager").GetComponent<GameManager>().SkullPrefab;
 
 		#region debug
 		if (headMesh != null) { Debug.Log("Axe headmesh found on player."); } else { Debug.LogWarning("Axe headmesh not found on player."); }
@@ -93,31 +96,50 @@ public class PlayerController : MonoBehaviour {
 
 	private void Update() // calculate time and input here
 	{
-		Vector2 trueInput = pActions.Player.Move.ReadValue<Vector2>();
+		trueInput = pActions.Player.Move.ReadValue<Vector2>();
 
 		if (currentState != States.Hitstunned) { Input(); }
 		if (currentAttack != Attacks.None || currentState == States.Hitstunned) {
 			// animator controller
 			animTimer -= Time.deltaTime;
-			if (animTimer <= 0 && prepAttack == false) // reset everything after animation is done
+			if (animTimer <= 0 && preppingAttack == AttackButton.None) // reset everything after animation is done
 			{
-				if (currentAttack == Attacks.Chop) { axeHitbox.size = new Vector3(axeHitbox.size.x, axeHitbox.size.y, 50f); }
 				currentAttack = Attacks.None;
 				//animr.SetInteger("CurrentAttack", currentAttack);
 				animr.Play("Base Layer.Character_Idle");
 				currentState = States.Idle;
 				animTimer = 0; animDuration = 0f;
-				//TODO (@JADEN): if attacks.attack and the button was pressed immediately set animtimer again and trigger second hit of combo
 			}
-			else if (animTimer <= 0 && prepAttack == true) {
-				animr.Play("Base Layer.Character_Attack2");
-				currentAttack = Attacks.Attack2;
-				if (pActions.Player.Move.ReadValue<Vector2>().sqrMagnitude >= 0.02) {
-					movement = movement = new Vector3(trueInput.x, 0, trueInput.y); // this and last line allow for movement between hits
+			else if (animTimer <= 0 && preppingAttack != AttackButton.None) {
+				// NOTE(@Jaden): Combo Tree
+				switch(currentAttack) { // Check what attack is happening
+					case Attacks.LAttack: // Attack 1 -> Attack 2
+						if (preppingAttack == AttackButton.LightAttack) { // LAttack1 -> LAttack2
+							followupAttack(Attacks.LAttack2, "Base Layer.Character_Attack2", 0.567f);
+						} else if (preppingAttack == AttackButton.HeavyAttack) { // LAttack -> Chop (end)
+							followupAttack(Attacks.Chop, "Base Layer.Character_Chop", 1.333f);
+						} break;
+					/*case Attacks.LAttack2: // Attack 2 -> Attack 3
+						if (preppingAttack == AttackButton.LightAttack) { // LAttack2 -> LAttack3
+							// followupAttack for attack 3, if that ends up happening
+							break;
+						} else if (preppingAttack == AttackButton.HeavyAttack) { // LAttack2 -> Sweep
+							// followupAttack for sweep, when that's implemented
+							break;
+						}
+						break;
+					case Attacks.LAttack3: // Attack 3 -> Finishers (not possible yet)
+						if (preppingAttack == AttackButton.LightAttack) { // LAttack3 -> ?
+							// mayyyyybe loop back to attack1? probably not a good idea tho, might just cut this
+							break;
+						} else if (preppingAttack == AttackButton.HeavyAttack) { // LAttack3 -> Big finisher
+							// followupAttack for spin or some other big finisher, if that's implemented
+							break;
+						}
+						break;*/
+					default:
+						break;
 				}
-				SnapToTarget();
-				animTimer = 0.567f; animDuration = 0.567f;
-				prepAttack = false;
 			}
 		}
 
@@ -128,6 +150,18 @@ public class PlayerController : MonoBehaviour {
 		//Camera.main.transform.LookAt(transform);
 		//Camera.main.transform.Translate(new Vector3(camControl.x, camControl.y, 0) * Time.deltaTime);
 	}
+
+	void followupAttack(Attacks attack, string animName, float duration) {
+		animr.Play(animName);
+		currentAttack = attack;
+		if (pActions.Player.Move.ReadValue<Vector2>().sqrMagnitude >= 0.02) {
+			movement = movement = new Vector3(trueInput.x, 0, trueInput.y); // this and last line allow for movement between hits
+		}
+		SnapToTarget();
+		animTimer = duration; animDuration = duration;
+		preppingAttack = AttackButton.None;
+	}
+
 
 	void Input() // processes input, runs in update
 	{
@@ -147,29 +181,30 @@ public class PlayerController : MonoBehaviour {
 			else if (pActions.Player.Move.phase == InputActionPhase.Waiting) { animr.Play("Base Layer.Character_Idle"); }
 		}
 
-		if (pActions.Player.Attack.WasPerformedThisFrame()) {
-			if (currentAttack == Attacks.Attack && animTimer <= animDuration / 2) {
-				prepAttack = true;
+		if (pActions.Player.LightAttack.WasPerformedThisFrame()) {
+			if (currentAttack != Attacks.None && animTimer <= animDuration / 2) {
+				preppingAttack = AttackButton.LightAttack;
 			}
 			else if (currentAttack == Attacks.None) {
-				setCurrentAttack(Attacks.Attack, "Base Layer.Character_Attack1", 0.533f);
+				setCurrentAttack(Attacks.LAttack, "Base Layer.Character_Attack1", 0.533f);
 				SnapToTarget();
 			}
 			currentState = States.Attacking;
 			//@TODO(Jaden): Move forward slightly when attacking
 		}
 
-		if (pActions.Player.Lob.WasPerformedThisFrame()) {
-			if (currentAttack == Attacks.None) {
+		if (pActions.Player.HeavyAttack.WasPerformedThisFrame()) {
+			if (currentAttack != Attacks.None && animTimer <= animDuration / 2) {
+				preppingAttack = AttackButton.HeavyAttack;
+			} else if (currentAttack == Attacks.None) {
 				if (headMesh.enabled == true) {
 					currentState = States.Attacking;
 					freeAim = true;
-					setCurrentAttack(Attacks.ChopThrow, "Base Layer.Character_Chop_Throw", 1.067f);
+					setCurrentAttack(Attacks.HeadThrow, "Base Layer.Character_Chop_Throw", 1.067f);
 					// all functionality following is in LobThrow which'll be triggered in the animator
 				}
 				else {
 					currentState = States.Attacking;
-					axeHitbox.size = new Vector3(axeHitbox.size.x, axeHitbox.size.y, 120f);
 					setCurrentAttack(Attacks.Chop, "Base Layer.Character_Chop", 1.333f);
 					SnapToTarget();
 				}
@@ -278,6 +313,7 @@ public class PlayerController : MonoBehaviour {
 		//animr.SetInteger("CurrentAttack", currentAttack);
 		animTimer = duration; animDuration = duration;
 	}
+
 
 	void OnEnable() { pActions.Enable(); }
 	void OnDisable() { pActions.Disable(); }
