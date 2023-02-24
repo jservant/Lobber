@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
-
 	//CapsuleCollider capCol;
 	Rigidbody rb;
 	Animator animr;
@@ -54,7 +53,7 @@ public class PlayerController : MonoBehaviour {
 		projSpawn = transform.Find("ProjSpawn");
 		playerPointer = transform.Find("PlayerPointer");
 		spherePoint = transform.Find("PlayerPointer/SpherePoint");
-		headProj = Resources.Load("ActivePrefabs/HeadProjectile", typeof(GameObject)) as GameObject;
+		headProj = transform.Find("/GameManager").GetComponent<GameManager>().SkullPrefab;
 
 		#region debug
 		if (headMesh != null) { Debug.Log("Axe headmesh found on player."); } else { Debug.LogWarning("Axe headmesh not found on player."); }

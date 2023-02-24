@@ -7,11 +7,14 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour {
 	public Transform player;
 	public PlayerController playerController;
-	public GameObject enemy;
+	public Camera camera; 
+
+	public GameObject PlayerPrefab;
+	public GameObject SkullPrefab;
+	public GameObject EnemyPrefab;
+
+
 	DebugActions dActions;
-
-	public Transform[] eSpawns;
-
 	float frozenTime = 0;
 
 	void Awake() {
@@ -22,8 +25,8 @@ public class GameManager : MonoBehaviour {
 		}
 		else Debug.LogWarning("Object Named Player Not found");
 
-		enemy = Resources.Load("ActivePrefabs/Enemies/Enemy") as GameObject;
 		dActions = new DebugActions();
+		camera = transform.Find("/CameraPoint/Main Camera").GetComponent<Camera>();
 	}
 
 
@@ -36,23 +39,16 @@ public class GameManager : MonoBehaviour {
 			Time.timeScale = 1.0f;
 		}
 
-		// @TODO(Roskuski): This doesn't spawn enemies in the right spot
-		if (dActions.DebugTools.SpawnEnemy.WasPerformedThisFrame()) { // TAKE THIS OUT IN FINAL RELEASE
-			GameObject iEnemy = enemy;
-			Transform spawn = eSpawns[Random.Range(0, eSpawns.Length)];
-			Debug.Log(iEnemy.gameObject.name + " spawned at " + spawn);
-			Instantiate(iEnemy, spawn.position, Quaternion.identity); //heightCorrectedPoint in middle
+		if (dActions.DebugTools.SpawnEnemy.WasPerformedThisFrame()) {
+			Vector2 MouseLocation2D = dActions.DebugTools.MouseLocation.ReadValue<Vector2>();
+			Vector3 MouseLocation = new Vector3(MouseLocation2D.x, MouseLocation2D.y, 0);
+			Ray ray = camera.ScreenPointToRay(MouseLocation);
+			RaycastHit hit;
 
-			/*Vector3 mPos = Vector3.zero;
-            Plane plane = new Plane(Vector3.up, 0);
-            float distance;
-            Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-            if (plane.Raycast(ray, out distance))
-            {
-                mPos = ray.GetPoint(distance);
-            }
-            Vector3 heightCorrectedPoint = new Vector3(mPos.x, transform.position.y, mPos.z);
-            //movement = heightCorrectedPoint*/
+			if (Physics.Raycast(ray.origin, ray.direction, out hit, 1000.0f)) {
+				Debug.Log(EnemyPrefab.name + " spawned at " + hit.point);
+				Instantiate(EnemyPrefab, hit.point, Quaternion.identity);
+			}
 		}
 	}
 

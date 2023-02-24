@@ -35,17 +35,37 @@ public partial class @DebugActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MouseLocation"",
+                    ""type"": ""Value"",
+                    ""id"": ""163143e1-2f33-4c1d-9163-df86f7d3161c"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""cd18bbd0-f78d-430b-84b8-495382e6bf51"",
-                    ""path"": ""<Keyboard>/e"",
+                    ""id"": ""359e838e-7a56-4fc7-a5fc-ad950100b6f1"",
+                    ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""M&K"",
+                    ""groups"": """",
                     ""action"": ""SpawnEnemy"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""19173ce2-ee0a-4adb-a4f2-e5fc1103efb0"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MouseLocation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -74,6 +94,7 @@ public partial class @DebugActions: IInputActionCollection2, IDisposable
         // DebugTools
         m_DebugTools = asset.FindActionMap("DebugTools", throwIfNotFound: true);
         m_DebugTools_SpawnEnemy = m_DebugTools.FindAction("SpawnEnemy", throwIfNotFound: true);
+        m_DebugTools_MouseLocation = m_DebugTools.FindAction("MouseLocation", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -136,11 +157,13 @@ public partial class @DebugActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_DebugTools;
     private List<IDebugToolsActions> m_DebugToolsActionsCallbackInterfaces = new List<IDebugToolsActions>();
     private readonly InputAction m_DebugTools_SpawnEnemy;
+    private readonly InputAction m_DebugTools_MouseLocation;
     public struct DebugToolsActions
     {
         private @DebugActions m_Wrapper;
         public DebugToolsActions(@DebugActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @SpawnEnemy => m_Wrapper.m_DebugTools_SpawnEnemy;
+        public InputAction @MouseLocation => m_Wrapper.m_DebugTools_MouseLocation;
         public InputActionMap Get() { return m_Wrapper.m_DebugTools; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -153,6 +176,9 @@ public partial class @DebugActions: IInputActionCollection2, IDisposable
             @SpawnEnemy.started += instance.OnSpawnEnemy;
             @SpawnEnemy.performed += instance.OnSpawnEnemy;
             @SpawnEnemy.canceled += instance.OnSpawnEnemy;
+            @MouseLocation.started += instance.OnMouseLocation;
+            @MouseLocation.performed += instance.OnMouseLocation;
+            @MouseLocation.canceled += instance.OnMouseLocation;
         }
 
         private void UnregisterCallbacks(IDebugToolsActions instance)
@@ -160,6 +186,9 @@ public partial class @DebugActions: IInputActionCollection2, IDisposable
             @SpawnEnemy.started -= instance.OnSpawnEnemy;
             @SpawnEnemy.performed -= instance.OnSpawnEnemy;
             @SpawnEnemy.canceled -= instance.OnSpawnEnemy;
+            @MouseLocation.started -= instance.OnMouseLocation;
+            @MouseLocation.performed -= instance.OnMouseLocation;
+            @MouseLocation.canceled -= instance.OnMouseLocation;
         }
 
         public void RemoveCallbacks(IDebugToolsActions instance)
@@ -189,5 +218,6 @@ public partial class @DebugActions: IInputActionCollection2, IDisposable
     public interface IDebugToolsActions
     {
         void OnSpawnEnemy(InputAction.CallbackContext context);
+        void OnMouseLocation(InputAction.CallbackContext context);
     }
 }
