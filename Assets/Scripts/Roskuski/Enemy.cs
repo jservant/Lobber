@@ -199,7 +199,7 @@ public class Enemy : MonoBehaviour {
 
 				if (player != null) {
 					switch (gameMan.playerController.currentAttack) {
-						case PlayerController.Attacks.Attack:
+						case PlayerController.Attacks.LAttack:
 							ChangeDirective_Stunned(3.0f);
 							break;
 						case PlayerController.Attacks.Chop:
