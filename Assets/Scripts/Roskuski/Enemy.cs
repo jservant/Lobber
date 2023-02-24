@@ -33,7 +33,7 @@ public class Enemy : MonoBehaviour {
 		Sneaky,
 		// @TODO(Rosksuki): Pacience trait, dynamic stat: repersents how badly this enemy wants to play the game
 	}
-	float[] traits = new float[System.Enum.GetNames(typeof(TraitKind)).Length];
+	public float[] traits = new float[System.Enum.GetNames(typeof(TraitKind)).Length];
 
 
 	// NOTE(Roskuski): This should stay in sync with the animation controller. DO NOT ADD ELEMENTS IN THE MIDDLE OF THE ENUM
@@ -66,6 +66,7 @@ public class Enemy : MonoBehaviour {
 	}
 	Attack currentAttack = Attack.None; // NOTE(Roskuski): Do not set this manually, use the setting function, as that keeps animation state insync
 
+	public bool randomizeStats = true;
 	float inactiveWait = 2;
 	float approchDistance;
 	Vector3 targetOffset;
@@ -74,9 +75,8 @@ public class Enemy : MonoBehaviour {
 	float stunDuration;
 	[SerializeField] float StunMax = 3.0f;
 
-	int failedAttackRolls = 0;
-	float attackTimer = 1.0f; // @TODO(Roskuski) Fine tune this parameter
-
+	float attackTimer = 3.0f; // @TODO(Roskuski) Fine tune this parameter
+	bool wantsSlash = false;
 
 	Quaternion moveDirection = Quaternion.identity;
 
@@ -126,6 +126,7 @@ public class Enemy : MonoBehaviour {
 				modTotal += choices[index].traitMod[traitIndex];
 			}
 			finalTotal += finalWeight[index];
+			Debug.Assert(finalWeight[index] >= 0);
 		}
 		
 		float randomRoll = Random.Range(0, finalTotal);
@@ -182,7 +183,6 @@ public class Enemy : MonoBehaviour {
 		directive = Directive.PerformAttack;
 		currentAttack = attack;
 		animator.SetInteger("CurrentAttack", (int)currentAttack);
-		failedAttackRolls = 0;
 	}
 
 	// helper: logic for deteriming whigh following range is being used.
@@ -211,7 +211,8 @@ public class Enemy : MonoBehaviour {
 					}
 				}
 				else if (head != null) {
-					// @TODO(Roskuski): Head reaction
+					// @TODO(Roskuski): temp head reaction
+					ChangeDirective_Stunned(3.0f);
 					Debug.Log("Head Hit");
 				}
 			}
@@ -230,8 +231,8 @@ public class Enemy : MonoBehaviour {
 		directive = Directive.Spawn;
 		if (isSandbag) { directive = Directive.Sandbag; }
 
-		for (int index = 0; index < System.Enum.GetNames(typeof(TraitKind)).Length; index += 1) {
-			traits[index] = Random.Range(-1000.0f, 1000.0f);
+		if (randomizeStats) for (int index = 0; index < System.Enum.GetNames(typeof(TraitKind)).Length; index += 1) {
+			traits[index] = Random.Range(-999.0f, 1000.0f); // Getting -1000 in all traits breaks the current (2-24-2023) RollTraitChoice
 		}
 	}
 
@@ -249,21 +250,21 @@ public class Enemy : MonoBehaviour {
 					if (isSandbag) { directive = Directive.Sandbag; }
 					else {
 						preferRightStrafe = Random.Range(0, 2) == 1 ? true : false;
-						int choiceAggressive = RollTraitChoice( new ChoiceEntry[]{
+						int choice = RollTraitChoice( new ChoiceEntry[]{
 								new ChoiceEntry(1, new float[]{0.5f, 0.5f}),
 								new ChoiceEntry(1, new float[]{0.5f, 0.5f}),
 								new ChoiceEntry(1, new float[]{0.5f, 0.5f}),
 								new ChoiceEntry(1, new float[]{0.5f, 0.5f}),
 								});
-						attackTimer = new float[] { 3.0f, 2.0f, 1.0f, 0.5f }[choiceAggressive];
+						attackTimer = new float[] { 3.0f, 2.0f, 1.0f, 0.5f }[choice];
 
-						choiceAggressive = RollTraitChoice( new ChoiceEntry[]{
+						choice = RollTraitChoice( new ChoiceEntry[]{
 								new ChoiceEntry(1, new float[]{-0.5f, 0.5f}),
 								new ChoiceEntry(1, new float[]{0.75f, 0.25f}),
 								new ChoiceEntry(1, new float[]{0.75f, 0.25f})
 								});
-						switch (choiceAggressive) {
-							default: Debug.Assert(false, choiceAggressive); break;
+						switch (choice) {
+							default: Debug.Assert(false, choice); break;
 							case 0:
 								ChangeDirective_MaintainDistancePlayer(LooseApprochDistance);
 								break;
@@ -549,10 +550,65 @@ public class Enemy : MonoBehaviour {
 				// We probably want to bracket different choices based off of following distance.
 				// should we also make following distances a random range?
 
-				if (DistanceToTravel() < 1.5f) {
+				if (wantsSlash && DistanceToTravel() < 1.5f) {
+					ChangeDirective_PerformAttack(Attack.Slash);
+					wantsSlash = false;
+				}
+				else if (DistanceToTravel() < 1.5f) {
 					attackTimer -= Time.deltaTime;
 					if (attackTimer <= 0) {
-						failedAttackRolls += 1;
+						int choice = RollTraitChoice( new ChoiceEntry[] {
+								new ChoiceEntry(5, new float[]{-0.5f, 0.5f}),
+								new ChoiceEntry(3, new float[]{0.75f, 0.25f}),
+								new ChoiceEntry(3, new float[]{0.75f, 0.25f}),
+								});
+						switch (choice) {
+							default:
+								Debug.Assert(false);
+								break;
+							case 0: // Change ApprochDistance
+								attackTimer = 3.0f;
+								choice = RollTraitChoice( new ChoiceEntry[] {
+										new ChoiceEntry(1, new float[]{-0.5f, 0.5f}),
+										new ChoiceEntry(1, new float[]{0.5f, 0.5f}),
+										}); 
+
+								if (choice == 0 && UsingApprochRange(LooseApprochDistance)) {
+									choice = 1;
+								}
+								if (choice == 1 && UsingApprochRange(TightApprochDistance)) {
+									choice = 0;
+								}
+								switch(choice) {
+									default:
+										Debug.Assert(false);
+										break;
+									case 0: // Move Outwards
+										if (UsingApprochRange(TightApprochDistance)) {
+											ChangeDirective_MaintainDistancePlayer(CloseApprochDistance);
+										}
+										else if (UsingApprochRange(CloseApprochDistance)) {
+											ChangeDirective_MaintainDistancePlayer(LooseApprochDistance);
+										}
+										break;
+									case 1: // Move Inwards
+										if (UsingApprochRange(LooseApprochDistance)) {
+											ChangeDirective_MaintainDistancePlayer(CloseApprochDistance);
+										}
+										else if (UsingApprochRange(CloseApprochDistance)) {
+											ChangeDirective_MaintainDistancePlayer(TightApprochDistance);
+										}
+										break;
+								}
+								break;
+							case 1: // Walkup and slash
+								wantsSlash = true;
+								ChangeDirective_MaintainDistancePlayer(0);
+								break;
+							case 2: // Lunge
+								ChangeDirective_PerformAttack(Attack.Lunge);
+								break;
+						}
 					}
 				}
 				else {
