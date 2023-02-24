@@ -200,7 +200,7 @@ public class Enemy : MonoBehaviour {
 				if (player != null) {
 					switch (gameMan.playerController.currentAttack) {
 						case PlayerController.Attacks.Attack:
-							ChangeDirective_Stunned(1.5f);
+							ChangeDirective_Stunned(3.0f);
 							break;
 						case PlayerController.Attacks.Chop:
 							shouldDie = true;
@@ -401,8 +401,6 @@ public class Enemy : MonoBehaviour {
 
 					// Consider Ledges
 					{
-						// @TODO(Roskuski): Currently it's very easy to convince enemies to walk off ledges by making them backpedal into them
-						// we should prevent this from happening in 90% of the time
 						Vector3 consideredDelta = Vector3.forward;
 						for (int index = 0; index < directionWeights.Length; index += 1) {
 							float ledgeMod = 1;
@@ -521,7 +519,8 @@ public class Enemy : MonoBehaviour {
 					speedModifier = Mathf.Lerp(0.5f, 1, (Vector3.Distance(this.transform.position, playerPosition + targetOffset) - approchDistance) + 1);
 				}
 
-				this.transform.position += moveDirection * Vector3.forward * MoveSpeed * speedModifier * Time.deltaTime; { // @TODO(Roskuski): Untested
+				this.transform.position += moveDirection * Vector3.forward * MoveSpeed * speedModifier * Time.deltaTime;
+				{
 					Quaternion rotationDelta = moveDirection * Quaternion.Inverse(this.transform.rotation);
 					Vector3 animatorMove = rotationDelta * Vector3.back;
 					animator.SetFloat("moveX", animatorMove.x);
@@ -539,16 +538,9 @@ public class Enemy : MonoBehaviour {
 					this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, this.moveDirection, TurnSpeed * Time.deltaTime);
 				}
 
-				// @BeforePlaytest1 @TODO(Roskuski): The current method for determining attacks sucks.
-
 				// @TODO(Roskuski): This might look weird if the feet don't line up when we attempt to make an attack.
 				// might want to only choose an attack when it would blend sensiably in the animation.
 				// adding a data keyframe will make this a snap to impl.
-				//
-
-				// @TODO(Roskuski): determine formation changes here before attacking
-				// We probably want to bracket different choices based off of following distance.
-				// should we also make following distances a random range?
 
 				if (wantsSlash && DistanceToTravel() < 1.5f) {
 					ChangeDirective_PerformAttack(Attack.Slash);
