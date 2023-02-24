@@ -21,8 +21,8 @@ public class PlayerController : MonoBehaviour {
 
 	public DefaultPlayerActions pActions;
 
-	public Vector2 trueInput;                        // movement vector read from input
-	public Vector2 mInput;                        // movement vector read from input
+	public Vector2 trueInput;                     // movement vector read from input
+	public Vector2 mInput;                        // processed movement vector read from input
 	[SerializeField] Vector3 movement;            // actual movement vector used. mInput(x, y) = movement(x, z)
 	[SerializeField] float speed = 10f;           // top player speed
 	float timeMoved = 0f;                         // how long has player been moving for?
@@ -138,6 +138,7 @@ public class PlayerController : MonoBehaviour {
 						}
 						break;*/
 					default:
+						preppingAttack = AttackButton.None;
 						break;
 				}
 			}
