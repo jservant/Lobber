@@ -73,7 +73,6 @@ public class Enemy : MonoBehaviour {
 	public bool preferRightStrafe;
 
 	float stunDuration;
-	[SerializeField] float StunMax = 3.0f;
 
 	float attackTimer = 3.0f; // @TODO(Roskuski) Fine tune this parameter
 	bool wantsSlash = false;
@@ -153,10 +152,7 @@ public class Enemy : MonoBehaviour {
 
 	void ChangeDirective_Stunned(float stunTime) {
 		directive = Directive.Stunned;
-		stunDuration += stunTime * Mathf.Lerp(1, 0, this.stunDuration / StunMax);
-		if (this.stunDuration > StunMax) {
-			this.stunDuration = StunMax;
-		}
+		stunDuration += stunTime;
 		animator.SetTrigger("wasHurt");
 	}
 
