@@ -27,13 +27,14 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField] float speed = 10f;           // top player speed
 	float timeMoved = 0f;                         // how long has player been moving for?
 	[SerializeField] float maxSpeedTime = 2f;     // how long does it take for player to reach max speed?
-	[SerializeField] int damage = 5;
+	[SerializeField] int ammo = 0;
 	[SerializeField] float turnSpeed = 0.1f;
 	[SerializeField] AnimationCurve curve;
 	[SerializeField] float animTimer = 0f;
 	[SerializeField] float animDuration = 0f;
 	[SerializeField] float targetSphereRadius = 2f;
 	bool freeAim = false;
+
 	public enum States { Idle, Walking, Attacking, Hitstunned };
 	public States currentState = 0;
 	public enum Attacks { None, LAttack, LAttack2, LAttack3, Chop, Sweep, Spin, HeadThrow };
@@ -65,8 +66,7 @@ public class PlayerController : MonoBehaviour {
 		#endregion
 	}
 
-	private void FixedUpdate() // calculate movement here
-	{
+	private void FixedUpdate() { // calculate movement here
 		// accel/decel for movement
 		if (mInput != Vector2.zero && currentState == States.Attacking) { timeMoved -= (Time.fixedDeltaTime / 2); }
 		// if attacking, reduce movement at half speed to produce sliding effect
@@ -94,8 +94,7 @@ public class PlayerController : MonoBehaviour {
 		//@TODO(Jaden): maaybe snapto enemy? 
 	}
 
-	private void Update() // calculate time and input here
-	{
+	private void Update() { // calculate time and input here
 		trueInput = pActions.Player.Move.ReadValue<Vector2>();
 
 		if (currentState != States.Hitstunned) { Input(); }
@@ -115,9 +114,9 @@ public class PlayerController : MonoBehaviour {
 				switch(currentAttack) { // Check what attack is happening
 					case Attacks.LAttack: // Attack 1 -> Attack 2
 						if (preppingAttack == AttackButton.LightAttack) { // LAttack1 -> LAttack2
-							followupAttack(Attacks.LAttack2, "Base Layer.Character_Attack2", 0.567f);
+							followupAttack(Attacks.LAttack2, "Base Layer.Character_Attack2", 0.567f/2);
 						} else if (preppingAttack == AttackButton.HeavyAttack) { // LAttack -> Chop (end)
-							followupAttack(Attacks.Chop, "Base Layer.Character_Chop", 1.333f);
+							followupAttack(Attacks.Chop, "Base Layer.Character_Chop", 1.333f/2);
 						} break;
 					/*case Attacks.LAttack2: // Attack 2 -> Attack 3
 						if (preppingAttack == AttackButton.LightAttack) { // LAttack2 -> LAttack3
@@ -160,12 +159,12 @@ public class PlayerController : MonoBehaviour {
 		}
 		SnapToTarget();
 		animTimer = duration; animDuration = duration;
+		// TODO(@Jaden): Change duration to read the animation clip's length when it's finalized
 		preppingAttack = AttackButton.None;
 	}
 
 
-	void Input() // processes input, runs in update
-	{
+	void Input() { // processes input, runs in update
 		if (currentState != States.Attacking) {
 			mInput = pActions.Player.Move.ReadValue<Vector2>();
 			if (pActions.Player.Move.WasReleasedThisFrame()) {
@@ -187,7 +186,7 @@ public class PlayerController : MonoBehaviour {
 				preppingAttack = AttackButton.LightAttack;
 			}
 			else if (currentAttack == Attacks.None) {
-				setCurrentAttack(Attacks.LAttack, "Base Layer.Character_Attack1", 0.533f);
+				setCurrentAttack(Attacks.LAttack, "Base Layer.Character_Attack1", 0.633f/2); // added +0.1 in leeway
 				SnapToTarget();
 			}
 			currentState = States.Attacking;
@@ -206,7 +205,7 @@ public class PlayerController : MonoBehaviour {
 				}
 				else {
 					currentState = States.Attacking;
-					setCurrentAttack(Attacks.Chop, "Base Layer.Character_Chop", 1.333f);
+					setCurrentAttack(Attacks.Chop, "Base Layer.Character_Chop", 1.333f/2);
 					SnapToTarget();
 				}
 			}
@@ -219,7 +218,8 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public void LobThrow() { // triggered in animator
-		headMesh.enabled = false;
+		ammo--;
+		if (ammo <= 0) { headMesh.enabled = false; }
 		headMeshTrail.enabled = false;
 		freeAim = false;
 		GameObject iHeadProj = Instantiate(headProj, projSpawn.position, transform.rotation);
@@ -266,6 +266,7 @@ public class PlayerController : MonoBehaviour {
 																	   // NOTE(Roskuski): I hit the enemy!
 			if (currentAttack == Attacks.Chop) {
 				//todo: enemy instantly dies
+				ammo++;
 				headMesh.enabled = true;
 				headMeshTrail.enabled = true;
 			}
@@ -312,7 +313,7 @@ public class PlayerController : MonoBehaviour {
 		currentAttack = attack;
 		animr.Play(animName);
 		//animr.SetInteger("CurrentAttack", currentAttack);
-		animTimer = duration; animDuration = duration;
+		animTimer = duration; animDuration = duration; // TODO(@Jaden): Change duration to read the animation clip's length when it's finalized
 	}
 
 
