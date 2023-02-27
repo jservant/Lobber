@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class PlayerController : MonoBehaviour {
 	//CapsuleCollider capCol;
@@ -15,6 +16,7 @@ public class PlayerController : MonoBehaviour {
 	Transform projSpawn;
 	[SerializeField] Transform spherePoint;
 	BoxCollider axeHitbox;
+	GameManager gameManager;
 
 	Vector3 enemyTarget;
 	List<GameObject> enemiesHit;
@@ -58,7 +60,9 @@ public class PlayerController : MonoBehaviour {
 		projSpawn = transform.Find("ProjSpawn");
 		playerPointer = transform.Find("PlayerPointer");
 		spherePoint = transform.Find("PlayerPointer/SpherePoint");
-		headProj = transform.Find("/GameManager").GetComponent<GameManager>().SkullPrefab;
+		gameManager = transform.Find("/GameManager").GetComponent<GameManager>();
+		headProj = gameManager.SkullPrefab;
+
 
 		#region debug
 		if (headMesh != null) { Debug.Log("Axe headmesh found on player."); } else { Debug.LogWarning("Axe headmesh not found on player."); }
@@ -219,6 +223,7 @@ public class PlayerController : MonoBehaviour {
 
 	public void LobThrow() { // triggered in animator
 		ammo--;
+		gameManager.ammoUI.text = "AMMO: " + ammo;
 		if (ammo <= 0) { headMesh.enabled = false; }
 		headMeshTrail.enabled = false;
 		freeAim = false;
@@ -267,6 +272,7 @@ public class PlayerController : MonoBehaviour {
 			if (currentAttack == Attacks.Chop) {
 				//todo: enemy instantly dies
 				ammo++;
+				gameManager.ammoUI.text = "AMMO: " + ammo;
 				headMesh.enabled = true;
 				headMeshTrail.enabled = true;
 			}

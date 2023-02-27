@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : MonoBehaviour {
 	public Transform player;
 	public PlayerController playerController;
-	public Camera camera; 
+	public Camera camera;
+
+	public TMP_Text ammoUI;
 
 	public GameObject PlayerPrefab;
 	public GameObject SkullPrefab;
 	public GameObject EnemyPrefab;
-
 
 	DebugActions dActions;
 	float frozenTime = 0;
@@ -27,6 +29,8 @@ public class GameManager : MonoBehaviour {
 
 		dActions = new DebugActions();
 		camera = transform.Find("/CameraPoint/Main Camera").GetComponent<Camera>();
+		ammoUI = transform.Find("Canvas/AmmoUI").GetComponent<TMP_Text>();
+		ammoUI.text = "AMMO: 0";
 	}
 
 
