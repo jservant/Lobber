@@ -16,6 +16,9 @@ public class GameManager : MonoBehaviour {
 	public GameObject SkullPrefab;
 	public GameObject EnemyPrefab;
 
+	public bool updateTimeScale = true;
+
+
 	DebugActions dActions;
 	float frozenTime = 0;
 
@@ -35,12 +38,14 @@ public class GameManager : MonoBehaviour {
 
 
 	private void Update() {
-		if (frozenTime > 0) {
-			Time.timeScale = 0.0f;
-			frozenTime -= Time.unscaledDeltaTime;
-		}
-		else {
-			Time.timeScale = 1.0f;
+		if (updateTimeScale) {
+			if (frozenTime > 0) {
+				Time.timeScale = 0.0f;
+				frozenTime -= Time.unscaledDeltaTime;
+			}
+			else {
+				Time.timeScale = 1.0f;
+			}
 		}
 
 		if (dActions.DebugTools.SpawnEnemy.WasPerformedThisFrame()) {
