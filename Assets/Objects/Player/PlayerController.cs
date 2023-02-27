@@ -245,10 +245,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public void LobThrow() { // triggered in animator
-		ammo--;
-		gameManager.ammoUI.text = "AMMO: " + ammo;
-		if (ammo <= 0) { headMesh.enabled = false; }
-		headMeshTrail.enabled = false;
+		ChangeAmmo(-1);
 		freeAim = false;
 		GameObject iHeadProj = Instantiate(headProj, projSpawn.position, transform.rotation);
 	}
@@ -290,14 +287,24 @@ public class PlayerController : MonoBehaviour {
 			currentState = States.Hitstunned;
 		}
 		else if (other.gameObject.layer == (int)Layers.EnemyHurtbox) { // player is hitting enemy
-																	   // NOTE(Roskuski): I hit the enemy!
-			if (currentAttack == Attacks.Chop) {
-				//todo: enemy instantly dies
-				ammo++;
-				gameManager.ammoUI.text = "AMMO: " + ammo;
-				headMesh.enabled = true;
-				headMeshTrail.enabled = true;
-			}
+			// NOTE(Roskuski): I hit the enemy!
+		}
+		else if (other.gameObject.layer == (int)Layers.Pickup) {
+			ChangeAmmo(1);
+			GameObject.Destroy(other.gameObject);
+		}
+	}
+
+	void ChangeAmmo(int Amount) {
+		ammo += Amount;
+		gameManager.ammoUI.text = "AMMO: " + ammo;
+		if (Amount >= 1) {
+			headMesh.enabled = true;
+			headMeshTrail.enabled = true;
+		}
+		else {
+			headMesh.enabled = false;
+			headMeshTrail.enabled = false;
 		}
 	}
 

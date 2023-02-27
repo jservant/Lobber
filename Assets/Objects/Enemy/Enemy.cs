@@ -706,4 +706,8 @@ public class Enemy : MonoBehaviour {
 			consideredDelta = angleStep * consideredDelta;
 		}
 	}
+
+	void OnDestroy() {
+		GameObject.Instantiate(gameMan.HeadPickupPrefab, transform.position + 3 * Vector3.up, Quaternion.identity);
+	}
 }

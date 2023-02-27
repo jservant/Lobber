@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour {
 	public GameObject PlayerPrefab;
 	public GameObject SkullPrefab;
 	public GameObject EnemyPrefab;
+	public GameObject HeadPickupPrefab;
 
 	public bool updateTimeScale = true;
 
