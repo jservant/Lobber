@@ -201,17 +201,18 @@ public class PlayerController : MonoBehaviour {
 			if (currentAttack != Attacks.None && animTimer <= animDuration / 2) {
 				preppingAttack = AttackButton.HeavyAttack;
 			} else if (currentAttack == Attacks.None) {
-				if (headMesh.enabled == true) {
-					currentState = States.Attacking;
-					freeAim = true;
-					setCurrentAttack(Attacks.HeadThrow, "Base Layer.Character_Chop_Throw", 1.067f);
-					// all functionality following is in LobThrow which'll be triggered in the animator
-				}
-				else {
-					currentState = States.Attacking;
-					setCurrentAttack(Attacks.Chop, "Base Layer.Character_Chop", 1.333f/2);
-					SnapToTarget();
-				}
+				currentState = States.Attacking;
+				setCurrentAttack(Attacks.Chop, "Base Layer.Character_Chop", 1.333f/2);
+				SnapToTarget();
+			}
+		}
+
+		if (pActions.Player.Throw.WasPerformedThisFrame()) {
+			if (headMesh.enabled == true) {
+				currentState = States.Attacking;
+				freeAim = true;
+				setCurrentAttack(Attacks.HeadThrow, "Base Layer.Character_Chop_Throw", 1.067f);
+				// all functionality following is in LobThrow which'll be triggered in the animator
 			}
 		}
 

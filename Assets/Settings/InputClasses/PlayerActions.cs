@@ -71,6 +71,15 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Throw"",
+                    ""type"": ""Button"",
+                    ""id"": ""a5268bcc-5b56-4845-8aa4-28361f182cef"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -337,6 +346,39 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
                     ""action"": ""CameraControl"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""13eebedb-7236-4f8d-b53a-7876d45e4efe"",
+                    ""path"": ""<Keyboard>/o"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Throw"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0a8329ef-a430-4be2-a64f-87997cd1b82d"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Throw"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2530d1e8-ded1-4c17-9c0f-3dc24dec4f56"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Throw"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -411,6 +453,7 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
         m_Player_HeavyAttack = m_Player.FindAction("HeavyAttack", throwIfNotFound: true);
         m_Player_Restart = m_Player.FindAction("Restart", throwIfNotFound: true);
         m_Player_CameraControl = m_Player.FindAction("CameraControl", throwIfNotFound: true);
+        m_Player_Throw = m_Player.FindAction("Throw", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -477,6 +520,7 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_HeavyAttack;
     private readonly InputAction m_Player_Restart;
     private readonly InputAction m_Player_CameraControl;
+    private readonly InputAction m_Player_Throw;
     public struct PlayerActions
     {
         private @DefaultPlayerActions m_Wrapper;
@@ -486,6 +530,7 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
         public InputAction @HeavyAttack => m_Wrapper.m_Player_HeavyAttack;
         public InputAction @Restart => m_Wrapper.m_Player_Restart;
         public InputAction @CameraControl => m_Wrapper.m_Player_CameraControl;
+        public InputAction @Throw => m_Wrapper.m_Player_Throw;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -510,6 +555,9 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
             @CameraControl.started += instance.OnCameraControl;
             @CameraControl.performed += instance.OnCameraControl;
             @CameraControl.canceled += instance.OnCameraControl;
+            @Throw.started += instance.OnThrow;
+            @Throw.performed += instance.OnThrow;
+            @Throw.canceled += instance.OnThrow;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -529,6 +577,9 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
             @CameraControl.started -= instance.OnCameraControl;
             @CameraControl.performed -= instance.OnCameraControl;
             @CameraControl.canceled -= instance.OnCameraControl;
+            @Throw.started -= instance.OnThrow;
+            @Throw.performed -= instance.OnThrow;
+            @Throw.canceled -= instance.OnThrow;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -598,5 +649,6 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
         void OnHeavyAttack(InputAction.CallbackContext context);
         void OnRestart(InputAction.CallbackContext context);
         void OnCameraControl(InputAction.CallbackContext context);
+        void OnThrow(InputAction.CallbackContext context);
     }
 }
