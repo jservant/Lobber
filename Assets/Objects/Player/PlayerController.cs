@@ -69,7 +69,6 @@ public class PlayerController : MonoBehaviour {
 		gameManager = transform.Find("/GameManager").GetComponent<GameManager>();
 		headProj = gameManager.SkullPrefab;
 
-
 		#region debug
 		if (headMesh != null) { Debug.Log("Axe headmesh found on player."); } else { Debug.LogWarning("Axe headmesh not found on player."); }
 		if (headProj != null) { Debug.Log("Head projectile found in Resources."); } else { Debug.LogWarning("Head projectile not found in Resources."); }
@@ -97,6 +96,7 @@ public class PlayerController : MonoBehaviour {
 		if (currentState == States.Dashing) {
 			// probably add an animation here at some point
 			float currentAngle = trueAngle;
+			rb.AddForce(trueInput.x, transform.position.y, trueInput.y, ForceMode.Impulse);
 			dashTime += Time.fixedDeltaTime;
 			Vector3 moveDirection = Quaternion.Euler(0f, currentAngle, 0f) * Vector3.forward;
 			transform.position += moveDirection.normalized * (speed * Mathf.Lerp(0, 1, curve.Evaluate(dashTime / maxDashTime))) * Time.fixedDeltaTime;
@@ -150,7 +150,7 @@ public class PlayerController : MonoBehaviour {
 							followupAttack(Attacks.Chop, "Base Layer.Character_Chop_Throw", animationTimes["Character_Chop_Throw"]);
 						}
 						break;
-					/*case Attacks.LAttack2: // Attack 2 -> Attack 3
+					case Attacks.LAttack2: // Attack 2 -> Attack 3
 						if (preppingAttack == AttackButton.LightAttack) { // LAttack2 -> LAttack3
 							// followupAttack for attack 3, if that ends up happening
 							break;
@@ -159,7 +159,7 @@ public class PlayerController : MonoBehaviour {
 							break;
 						}
 						break;
-					case Attacks.LAttack3: // Attack 3 -> Finishers (not possible yet)
+					/*case Attacks.LAttack3: // Attack 3 -> Finishers (not possible yet)
 						if (preppingAttack == AttackButton.LightAttack) { // LAttack3 -> ?
 							// mayyyyybe loop back to attack1? probably not a good idea tho, might just cut this
 							break;
