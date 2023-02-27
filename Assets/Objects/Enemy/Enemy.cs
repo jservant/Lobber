@@ -16,9 +16,11 @@ using UnityEngine.AI;
 
 
 public class Enemy : MonoBehaviour {
+	static bool animationTimesPopulated = false;
+	static Dictionary<string,float> animationTimes;
 	// NOTE(Roskuski): Enemy ai state
 
-	const int TraitMax = 1000;
+	const float TraitMax = 1000.0f;
 
 	class ChoiceEntry {
 		public float baseWeight;
@@ -70,16 +72,20 @@ public class Enemy : MonoBehaviour {
 	float inactiveWait = 2;
 	float approchDistance;
 	Vector3 targetOffset;
-	public bool preferRightStrafe;
+	bool preferRightStrafe;
+	[SerializeField] float flankStrength = 0;
 
 	float stunDuration;
 
+	// NOTE(Roskuski): because data dopes aren't consistant, we need to keep track of this on the script side.
+	// I'm going to hope that this stays more or less in sync with the actual animation state
+	float animationTimer = 0;
 	float attackTimer = 3.0f; // @TODO(Roskuski) Fine tune this parameter
 	bool wantsSlash = false;
 
 	Quaternion moveDirection = Quaternion.identity;
 
-	float[] directionWeights = new float[16];
+	float[] directionWeights = new float[32];
 
 	// NOTE(Roskuski): End of ai state
 
@@ -103,13 +109,6 @@ public class Enemy : MonoBehaviour {
 
 	// NOTE(Roskuski): External references
 	GameManager gameMan;
-
-	// NOTE(Roskuski): Mike West! Add your animation varibles here!
-	public bool aniVarSpawnDone;
-	public bool aniVarSlashDone;
-	public bool aniVarLungeDone;
-	public bool aniVarLungeDoLocomotion;
-	// NOTE(Roskuski): End of animation variables
 
 	// NOTE(Roskuski): abs(traitMods) array should sum to 1
 	// @TODO(Roskuski): Mathematically prove that this true with negtive numbers
@@ -179,6 +178,18 @@ public class Enemy : MonoBehaviour {
 		directive = Directive.PerformAttack;
 		currentAttack = attack;
 		animator.SetInteger("CurrentAttack", (int)currentAttack);
+		switch (attack) {
+			default:
+			case Attack.None:
+				Debug.Assert(false);
+				break;
+			case Attack.Slash:
+				animationTimer = animationTimes["Enemy_Attack_Slash"];
+				break;
+			case Attack.Lunge:
+				animationTimer = animationTimes["Enemy_Attack_Dash"];
+				break;
+		}
 	}
 
 	// helper: logic for deteriming whigh following range is being used.
@@ -224,12 +235,21 @@ public class Enemy : MonoBehaviour {
 		navAgent.updatePosition = false;
 		navAgent.updateRotation = false;
 
+		if (randomizeStats) for (int index = 0; index < System.Enum.GetNames(typeof(TraitKind)).Length; index += 1) {
+			traits[index] = Random.Range(TraitMax * -1 + 1, TraitMax); // Getting -TraitMax in all traits breaks the current (2-24-2023) RollTraitChoice
+		}
+
+		if (!animationTimesPopulated) {
+			animationTimesPopulated = true;
+			animationTimes = new Dictionary<string, float>(animator.runtimeAnimatorController.animationClips.Length);
+			foreach (AnimationClip clip in animator.runtimeAnimatorController.animationClips) {
+				animationTimes[clip.name] = clip.length;
+			}
+		}
+
 		directive = Directive.Spawn;
 		if (isSandbag) { directive = Directive.Sandbag; }
-
-		if (randomizeStats) for (int index = 0; index < System.Enum.GetNames(typeof(TraitKind)).Length; index += 1) {
-			traits[index] = Random.Range(-999.0f, 1000.0f); // Getting -1000 in all traits breaks the current (2-24-2023) RollTraitChoice
-		}
+		animationTimer = animationTimes["Enemy_Spawn"];
 	}
 
 	void Update() {
@@ -286,7 +306,7 @@ public class Enemy : MonoBehaviour {
 				break;
 			case Directive.Spawn:
 				isImmune = true;
-				if (aniVarSpawnDone) {
+				if (animationTimer < 0.0f) {
 					isImmune = false;
 					ChangeDirective_Inactive(0);
 				}
@@ -325,8 +345,16 @@ public class Enemy : MonoBehaviour {
 					// Pathfinding phase 
 					{
 						Vector3 consideredDelta = Vector3.forward;
+						Vector3 desiredFlank = Quaternion.AngleAxis(flankStrength, Vector3.up) * nextNodeDelta.normalized;
+
 						for (int index = 0; index < directionWeights.Length; index += 1) {
-							directionWeights[index] = Vector3.Dot(nextNodeDelta.normalized, consideredDelta) + 1.0f;
+							if (flankStrength != float.PositiveInfinity) {
+								directionWeights[index] = Vector3.Dot(nextNodeDelta.normalized, consideredDelta) * 0.5f + Vector3.Dot(desiredFlank, consideredDelta) * 0.5f + 1.0f;
+							}
+							else {
+								directionWeights[index] = Vector3.Dot(nextNodeDelta.normalized, consideredDelta) + 1.0f;
+							}
+
 							// NOTE(Roskuski): Advance the angle to the next index.
 							consideredDelta = angleStep * consideredDelta;
 						}
@@ -503,7 +531,6 @@ public class Enemy : MonoBehaviour {
 					}
 				}
 
-
 				float speedModifier = 1.0f;
 				if (isBackpedaling) {
 					speedModifier = 0.65f;
@@ -543,6 +570,7 @@ public class Enemy : MonoBehaviour {
 					wantsSlash = false;
 				}
 				else if (DistanceToTravel() < 1.5f) {
+					flankStrength = float.PositiveInfinity;
 					attackTimer -= Time.deltaTime;
 					if (attackTimer <= 0) {
 						int choice = RollTraitChoice( new ChoiceEntry[] {
@@ -599,7 +627,28 @@ public class Enemy : MonoBehaviour {
 						}
 					}
 				}
-				else {
+				else if (DistanceToTravel() > 2.0f && flankStrength == float.PositiveInfinity) {
+					int choice = RollTraitChoice( new ChoiceEntry[] {
+							new ChoiceEntry(3, new float[]{0.0f, -1f}),
+							new ChoiceEntry(2, new float[]{0.0f, 0.5f}),
+							new ChoiceEntry(2, new float[]{0.0f, 1f}),
+							});
+					switch(choice) {
+						default:
+							Debug.Assert(false);
+							break;
+						case 0: // Don't flank
+							flankStrength = 0;
+							break;
+						case 1: // Flank weak
+							flankStrength = Random.Range(30.0f, 50.0f);
+							flankStrength *= preferRightStrafe ? 1 : -1;
+							break;
+						case 2: // Flank strong
+							flankStrength = Random.Range(50.0f, 70.0f);
+							flankStrength *= preferRightStrafe ? 1 : -1;
+							break;
+					}
 				}
 				break;
 			case Directive.PerformAttack:
@@ -608,18 +657,17 @@ public class Enemy : MonoBehaviour {
 						Debug.Assert(false);
 						break;
 					case Attack.Slash:
-						attackTimer -= Time.deltaTime;
-						if (aniVarSlashDone) {
+						if (animationTimer < 0.0f) {
 							ChangeDirective_Inactive(0);
 							navAgent.enabled = true;
 						}
 						break;
 					case Attack.Lunge:
-						attackTimer -= Time.deltaTime;
-						if (aniVarLungeDoLocomotion) {
+						float animationTimerRatio = animationTimer / animationTimes["Enemy_Attack_Dash"];
+						if (animationTimerRatio >= 0.5f && animationTimerRatio <= 0.7f) {
 							this.transform.position += (this.transform.rotation * Vector3.forward) * LungeSpeed * Time.deltaTime;
 						}
-						if (aniVarLungeDone) {
+						if (animationTimer < 0.0f) {
 							// If we found ourselves off geometry, wait util we finish falling.
 							ChangeDirective_Inactive(1.0f);
 							navAgent.enabled = true;
@@ -631,6 +679,7 @@ public class Enemy : MonoBehaviour {
 		}
 
 		animator.SetInteger("Ai Directive", (int)directive);
+		animationTimer -= Time.deltaTime * animator.GetCurrentAnimatorStateInfo(0).speed;
 
 		if (shouldDie) {
 			Destroy(this.gameObject);
