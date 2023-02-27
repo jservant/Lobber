@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 using TMPro;
 
 public class PlayerController : MonoBehaviour {
+	static bool animationTimesPopulated = false;
+	static Dictionary<string,float> animationTimes;
+
 	//CapsuleCollider capCol;
 	Rigidbody rb;
 	Animator animr;
@@ -68,6 +71,14 @@ public class PlayerController : MonoBehaviour {
 		if (headMesh != null) { Debug.Log("Axe headmesh found on player."); } else { Debug.LogWarning("Axe headmesh not found on player."); }
 		if (headProj != null) { Debug.Log("Head projectile found in Resources."); } else { Debug.LogWarning("Head projectile not found in Resources."); }
 		#endregion
+
+		if (!animationTimesPopulated) {
+			animationTimesPopulated = true;
+			animationTimes = new Dictionary<string, float>(animr.runtimeAnimatorController.animationClips.Length);
+			foreach (AnimationClip clip in animr.runtimeAnimatorController.animationClips) {
+				animationTimes[clip.name] = clip.length;
+			}
+		}
 	}
 
 	private void FixedUpdate() { // calculate movement here
@@ -104,7 +115,7 @@ public class PlayerController : MonoBehaviour {
 		if (currentState != States.Hitstunned) { Input(); }
 		if (currentAttack != Attacks.None || currentState == States.Hitstunned) {
 			// animator controller
-			animTimer -= Time.deltaTime;
+			animTimer -= Time.deltaTime * animr.GetCurrentAnimatorStateInfo(0).speed;
 			if (animTimer <= 0 && preppingAttack == AttackButton.None) // reset everything after animation is done
 			{
 				currentAttack = Attacks.None;
@@ -118,9 +129,9 @@ public class PlayerController : MonoBehaviour {
 				switch(currentAttack) { // Check what attack is happening
 					case Attacks.LAttack: // Attack 1 -> Attack 2
 						if (preppingAttack == AttackButton.LightAttack) { // LAttack1 -> LAttack2
-							followupAttack(Attacks.LAttack2, "Base Layer.Character_Attack2", 0.567f/2);
+							followupAttack(Attacks.LAttack2, "Base Layer.Character_Attack2", animationTimes["Character_Attack2"]);
 						} else if (preppingAttack == AttackButton.HeavyAttack) { // LAttack -> Chop (end)
-							followupAttack(Attacks.Chop, "Base Layer.Character_Chop", 1.333f/2);
+							followupAttack(Attacks.Chop, "Base Layer.Character_Chop", animationTimes["Character_Chop"]);
 						} break;
 					/*case Attacks.LAttack2: // Attack 2 -> Attack 3
 						if (preppingAttack == AttackButton.LightAttack) { // LAttack2 -> LAttack3
@@ -162,7 +173,7 @@ public class PlayerController : MonoBehaviour {
 			movement = movement = new Vector3(trueInput.x, 0, trueInput.y); // this and last line allow for movement between hits
 		}
 		SnapToTarget();
-		animTimer = duration; animDuration = duration;
+		animTimer = duration; animDuration = animTimer;
 		// TODO(@Jaden): Change duration to read the animation clip's length when it's finalized
 		preppingAttack = AttackButton.None;
 	}
@@ -190,7 +201,7 @@ public class PlayerController : MonoBehaviour {
 				preppingAttack = AttackButton.LightAttack;
 			}
 			else if (currentAttack == Attacks.None) {
-				setCurrentAttack(Attacks.LAttack, "Base Layer.Character_Attack1", 0.633f/2); // added +0.1 in leeway
+				setCurrentAttack(Attacks.LAttack, "Base Layer.Character_Attack1", animationTimes["Character_Attack1"]); // added +0.1 in leeway
 				SnapToTarget();
 			}
 			currentState = States.Attacking;
@@ -202,7 +213,7 @@ public class PlayerController : MonoBehaviour {
 				preppingAttack = AttackButton.HeavyAttack;
 			} else if (currentAttack == Attacks.None) {
 				currentState = States.Attacking;
-				setCurrentAttack(Attacks.Chop, "Base Layer.Character_Chop", 1.333f/2);
+				setCurrentAttack(Attacks.Chop, "Base Layer.Character_Chop", animationTimes["Character_Chop"]);
 				SnapToTarget();
 			}
 		}
@@ -211,7 +222,7 @@ public class PlayerController : MonoBehaviour {
 			if (headMesh.enabled == true) {
 				currentState = States.Attacking;
 				freeAim = true;
-				setCurrentAttack(Attacks.HeadThrow, "Base Layer.Character_Chop_Throw", 1.067f);
+				setCurrentAttack(Attacks.HeadThrow, "Base Layer.Character_Chop_Throw", animationTimes["Character_Chop_Throw"]);
 				// all functionality following is in LobThrow which'll be triggered in the animator
 			}
 		}
@@ -264,9 +275,9 @@ public class PlayerController : MonoBehaviour {
 	private void OnTriggerEnter(Collider other) {
 		if (other.gameObject.layer == (int)Layers.EnemyHitbox) { // player is getting hit
 			Debug.Log(other.name + " just hit me, the player!");
-			animTimer = .55f; animDuration = .55f;
-			currentState = States.Hitstunned;
 			animr.Play("Character_GetHit");
+			animTimer = animr.GetCurrentAnimatorStateInfo(0).length; animDuration = animTimer;
+			currentState = States.Hitstunned;
 		}
 		else if (other.gameObject.layer == (int)Layers.EnemyHurtbox) { // player is hitting enemy
 																	   // NOTE(Roskuski): I hit the enemy!
@@ -320,7 +331,7 @@ public class PlayerController : MonoBehaviour {
 		currentAttack = attack;
 		animr.Play(animName);
 		//animr.SetInteger("CurrentAttack", currentAttack);
-		animTimer = duration; animDuration = duration; // TODO(@Jaden): Change duration to read the animation clip's length when it's finalized
+		animTimer = duration; animDuration = animTimer; // TODO(@Jaden): Change duration to read the animation clip's length when it's finalized
 	}
 
 
