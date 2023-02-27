@@ -95,15 +95,16 @@ public class PlayerController : MonoBehaviour {
 
 		if (currentState == States.Dashing) {
 			// probably add an animation here at some point
-			float currentAngle = trueAngle;
+			//float currentAngle = trueAngle;
 			rb.AddForce(trueInput.x, transform.position.y, trueInput.y, ForceMode.Impulse);
 			dashTime += Time.fixedDeltaTime;
-			Vector3 moveDirection = Quaternion.Euler(0f, currentAngle, 0f) * Vector3.forward;
-			transform.position += moveDirection.normalized * (speed * Mathf.Lerp(0, 1, curve.Evaluate(dashTime / maxDashTime))) * Time.fixedDeltaTime;
+			/*Vector3 moveDirection = Quaternion.Euler(0f, currentAngle, 0f) * Vector3.forward;
+			transform.position += moveDirection.normalized * (speed * Mathf.Lerp(0, 1, curve.Evaluate(dashTime / maxDashTime))) * Time.fixedDeltaTime;*/
 			if (dashTime >= maxDashTime) {
-				dashTime = 0; maxDashTime = 0;
+				dashTime = 0;
 				currentState = States.Idle;
-				currentAngle = 0;
+				rb.velocity = Vector3.zero;
+				//currentAngle = 0;
 			}
 		} else if (movement.magnitude >= 0.1f && currentState != States.Hitstunned) {
 			// ryan's adapted movement code, meant to lerp player movement/rotation
