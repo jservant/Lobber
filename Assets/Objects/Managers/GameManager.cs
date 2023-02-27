@@ -3,15 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : MonoBehaviour {
 	public Transform player;
 	public PlayerController playerController;
-	public Camera camera; 
+	public Camera camera;
+
+	public TMP_Text ammoUI;
 
 	public GameObject PlayerPrefab;
 	public GameObject SkullPrefab;
 	public GameObject EnemyPrefab;
+
+	public bool updateTimeScale = true;
 
 
 	DebugActions dActions;
@@ -27,16 +32,20 @@ public class GameManager : MonoBehaviour {
 
 		dActions = new DebugActions();
 		camera = transform.Find("/CameraPoint/Main Camera").GetComponent<Camera>();
+		ammoUI = transform.Find("Canvas/AmmoUI").GetComponent<TMP_Text>();
+		ammoUI.text = "AMMO: 0";
 	}
 
 
 	private void Update() {
-		if (frozenTime > 0) {
-			Time.timeScale = 0.0f;
-			frozenTime -= Time.unscaledDeltaTime;
-		}
-		else {
-			Time.timeScale = 1.0f;
+		if (updateTimeScale) {
+			if (frozenTime > 0) {
+				Time.timeScale = 0.0f;
+				frozenTime -= Time.unscaledDeltaTime;
+			}
+			else {
+				Time.timeScale = 1.0f;
+			}
 		}
 
 		if (dActions.DebugTools.SpawnEnemy.WasPerformedThisFrame()) {
