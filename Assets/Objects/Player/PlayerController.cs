@@ -7,7 +7,7 @@ using TMPro;
 
 public class PlayerController : MonoBehaviour {
 	static bool animationTimesPopulated = false;
-	static Dictionary<string,float> animationTimes;
+	static Dictionary<string, float> animationTimes;
 
 	//CapsuleCollider capCol;
 	Rigidbody rb;
@@ -27,25 +27,28 @@ public class PlayerController : MonoBehaviour {
 	public DefaultPlayerActions pActions;
 
 	public Vector2 trueInput;                     // movement vector read from input
+	float trueAngle = 0f;                         // movement angle float generated from trueInput
 	public Vector2 mInput;                        // processed movement vector read from input
 	[SerializeField] Vector3 movement;            // actual movement vector used. mInput(x, y) = movement(x, z)
 	[SerializeField] float speed = 10f;           // top player speed
-	float timeMoved = 0f;                         // how long has player been moving for?
-	[SerializeField] float maxSpeedTime = 2f;     // how long does it take for player to reach max speed?
-	[SerializeField] int ammo = 0;
-	[SerializeField] float turnSpeed = 0.1f;
+	float speedTime = 0f;                         // how long has player been moving for?
+	[SerializeField] float maxSpeedTime = 0.4f;   // how long does it take for player to reach max speed?
+	[SerializeField] float dashTime = 0f;         // how long has player been moving for?
+	[SerializeField] float maxDashTime = 1f;      // how long does it take for player to reach max speed?
+	int ammo = 0;
+	float turnSpeed = 0.1f;
 	[SerializeField] AnimationCurve curve;
 	[SerializeField] float animTimer = 0f;
 	[SerializeField] float animDuration = 0f;
 	[SerializeField] float targetSphereRadius = 2f;
 	bool freeAim = false;
 
-	public enum States { Idle, Walking, Attacking, Hitstunned };
+	public enum States { Idle, Walking, Attacking, Hitstunned, Dashing };
 	public States currentState = 0;
 	public enum Attacks { None, LAttack, LAttack2, LAttack3, Chop, Sweep, Spin, HeadThrow };
 	// some of these names are temp names that won't be used
 	public Attacks currentAttack = 0;
-	public enum AttackButton { None, LightAttack, HeavyAttack };
+	public enum AttackButton { None, LightAttack, HeavyAttack, Throw };
 	public AttackButton preppingAttack = 0;
 
 	//public bool prepAttack = false;
@@ -66,7 +69,6 @@ public class PlayerController : MonoBehaviour {
 		gameManager = transform.Find("/GameManager").GetComponent<GameManager>();
 		headProj = gameManager.SkullPrefab;
 
-
 		#region debug
 		if (headMesh != null) { Debug.Log("Axe headmesh found on player."); } else { Debug.LogWarning("Axe headmesh not found on player."); }
 		if (headProj != null) { Debug.Log("Head projectile found in Resources."); } else { Debug.LogWarning("Head projectile not found in Resources."); }
@@ -82,17 +84,30 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	private void FixedUpdate() { // calculate movement here
-		// accel/decel for movement
-		if (mInput != Vector2.zero && currentState == States.Attacking) { timeMoved -= (Time.fixedDeltaTime / 2); }
+								 // accel/decel for movement
+		if (mInput != Vector2.zero && currentState == States.Attacking) { speedTime -= (Time.fixedDeltaTime / 2); }
 		// if attacking, reduce movement at half speed to produce sliding effect
-		else if (mInput != Vector2.zero) { timeMoved += Time.fixedDeltaTime; } // else build up speed while moving
-		else { timeMoved -= Time.fixedDeltaTime; }
+		else if (mInput != Vector2.zero) { speedTime += Time.fixedDeltaTime; } // else build up speed while moving
+		else { speedTime -= Time.fixedDeltaTime; }
 		// if no movement input and not attacking, decelerate
-		timeMoved = Mathf.Clamp(timeMoved, 0, maxSpeedTime);
+		speedTime = Mathf.Clamp(speedTime, 0, maxSpeedTime);
 		// clamp accel value between 0 and a static maximum
 
-		// ryan's adapted movement code, meant to lerp player movement/rotation
-		if (movement.magnitude >= 0.1f && currentState != States.Hitstunned) {
+		if (currentState == States.Dashing) {
+			// probably add an animation here at some point
+			//float currentAngle = trueAngle;
+			rb.AddForce(trueInput.x, transform.position.y, trueInput.y, ForceMode.Impulse);
+			dashTime += Time.fixedDeltaTime;
+			/*Vector3 moveDirection = Quaternion.Euler(0f, currentAngle, 0f) * Vector3.forward;
+			transform.position += moveDirection.normalized * (speed * Mathf.Lerp(0, 1, curve.Evaluate(dashTime / maxDashTime))) * Time.fixedDeltaTime;*/
+			if (dashTime >= maxDashTime) {
+				dashTime = 0;
+				currentState = States.Idle;
+				rb.velocity = Vector3.zero;
+				//currentAngle = 0;
+			}
+		} else if (movement.magnitude >= 0.1f && currentState != States.Hitstunned) {
+			// ryan's adapted movement code, meant to lerp player movement/rotation
 			float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
 			float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnVelocity, turnSpeed);
 			if (freeAim) { transform.LookAt(new Vector3(spherePoint.position.x, transform.position.y, spherePoint.position.z)); }
@@ -100,13 +115,11 @@ public class PlayerController : MonoBehaviour {
 
 			Vector3 moveDirection = Quaternion.Euler(0f, angle, 0f) * Vector3.forward;
 
-			transform.position += moveDirection.normalized * (speed * Mathf.Lerp(0, 1, curve.Evaluate(timeMoved / maxSpeedTime))) * Time.fixedDeltaTime;
+			transform.position += moveDirection.normalized * (speed * Mathf.Lerp(0, 1, curve.Evaluate(speedTime / maxSpeedTime))) * Time.fixedDeltaTime;
 		}
 		else {
 			transform.rotation = Quaternion.Euler(0f, transform.rotation.y, 0f);
 		}
-
-		//@TODO(Jaden): maaybe snapto enemy? 
 	}
 
 	private void Update() { // calculate time and input here
@@ -126,14 +139,19 @@ public class PlayerController : MonoBehaviour {
 			}
 			else if (animTimer <= 0 && preppingAttack != AttackButton.None) {
 				// NOTE(@Jaden): Combo Tree
-				switch(currentAttack) { // Check what attack is happening
+				switch (currentAttack) { // Check what attack is happening
 					case Attacks.LAttack: // Attack 1 -> Attack 2
 						if (preppingAttack == AttackButton.LightAttack) { // LAttack1 -> LAttack2
 							followupAttack(Attacks.LAttack2, "Base Layer.Character_Attack2", animationTimes["Character_Attack2"]);
-						} else if (preppingAttack == AttackButton.HeavyAttack) { // LAttack -> Chop (end)
+						}
+						else if (preppingAttack == AttackButton.HeavyAttack) { // LAttack -> Chop (end)
 							followupAttack(Attacks.Chop, "Base Layer.Character_Chop", animationTimes["Character_Chop"]);
-						} break;
-					/*case Attacks.LAttack2: // Attack 2 -> Attack 3
+						}
+						else if (preppingAttack == AttackButton.Throw) { // LAttack -> Chop (end)
+							followupAttack(Attacks.Chop, "Base Layer.Character_Chop_Throw", animationTimes["Character_Chop_Throw"]);
+						}
+						break;
+					case Attacks.LAttack2: // Attack 2 -> Attack 3
 						if (preppingAttack == AttackButton.LightAttack) { // LAttack2 -> LAttack3
 							// followupAttack for attack 3, if that ends up happening
 							break;
@@ -142,7 +160,7 @@ public class PlayerController : MonoBehaviour {
 							break;
 						}
 						break;
-					case Attacks.LAttack3: // Attack 3 -> Finishers (not possible yet)
+					/*case Attacks.LAttack3: // Attack 3 -> Finishers (not possible yet)
 						if (preppingAttack == AttackButton.LightAttack) { // LAttack3 -> ?
 							// mayyyyybe loop back to attack1? probably not a good idea tho, might just cut this
 							break;
@@ -159,36 +177,21 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		//reads input even when player is attacking or hitstunned
-		float pointerAngle = Mathf.Atan2(trueInput.x, trueInput.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
-		playerPointer.rotation = Quaternion.Euler(0f, pointerAngle, 0f);
+		trueAngle = Mathf.Atan2(trueInput.x, trueInput.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
+		playerPointer.rotation = Quaternion.Euler(0f, trueAngle, 0f);
 
 		//Camera.main.transform.LookAt(transform);
 		//Camera.main.transform.Translate(new Vector3(camControl.x, camControl.y, 0) * Time.deltaTime);
 	}
 
-	void followupAttack(Attacks attack, string animName, float duration) {
-		animr.Play(animName);
-		currentAttack = attack;
-		if (pActions.Player.Move.ReadValue<Vector2>().sqrMagnitude >= 0.02) {
-			movement = movement = new Vector3(trueInput.x, 0, trueInput.y); // this and last line allow for movement between hits
-		}
-		SnapToTarget();
-		animTimer = duration; animDuration = animTimer;
-		// TODO(@Jaden): Change duration to read the animation clip's length when it's finalized
-		preppingAttack = AttackButton.None;
-	}
-
-
 	void Input() { // processes input, runs in update
-		if (currentState != States.Attacking) {
+		if (currentState != States.Attacking && currentState != States.Dashing) {
 			mInput = pActions.Player.Move.ReadValue<Vector2>();
 			if (pActions.Player.Move.WasReleasedThisFrame()) {
-				//animr.SetBool("walking", false);
 				animr.Play("Base Layer.Character_Idle");
 				currentState = States.Idle;
 			}
 			else if (pActions.Player.Move.phase == InputActionPhase.Started) {
-				//animr.SetBool("walking", true);
 				currentState = States.Walking;
 				animr.Play("Base Layer.Character_Run");
 				movement = movement = new Vector3(mInput.x, 0, mInput.y);
@@ -211,7 +214,8 @@ public class PlayerController : MonoBehaviour {
 		if (pActions.Player.HeavyAttack.WasPerformedThisFrame()) {
 			if (currentAttack != Attacks.None && animTimer <= animDuration / 2) {
 				preppingAttack = AttackButton.HeavyAttack;
-			} else if (currentAttack == Attacks.None) {
+			}
+			else if (currentAttack == Attacks.None) {
 				currentState = States.Attacking;
 				setCurrentAttack(Attacks.Chop, "Base Layer.Character_Chop", animationTimes["Character_Chop"]);
 				SnapToTarget();
@@ -219,12 +223,19 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		if (pActions.Player.Throw.WasPerformedThisFrame()) {
-			if (headMesh.enabled == true) {
+			if (currentAttack != Attacks.None && animTimer <= animDuration / 2) {
+				preppingAttack = AttackButton.Throw;
+			} if (ammo > 0) {
 				currentState = States.Attacking;
 				freeAim = true;
 				setCurrentAttack(Attacks.HeadThrow, "Base Layer.Character_Chop_Throw", animationTimes["Character_Chop_Throw"]);
 				// all functionality following is in LobThrow which'll be triggered in the animator
 			}
+		}
+
+		if (pActions.Player.Dash.WasPerformedThisFrame() && trueInput.sqrMagnitude >= 0.1f) {
+			Debug.Log("Dash activated, trueInput value: " + trueInput);
+			currentState = States.Dashing;
 		}
 
 		if (pActions.Player.Restart.WasPerformedThisFrame()) {
@@ -240,17 +251,16 @@ public class PlayerController : MonoBehaviour {
 		headMeshTrail.enabled = false;
 		freeAim = false;
 		GameObject iHeadProj = Instantiate(headProj, projSpawn.position, transform.rotation);
-		//iHeadProj.transform.Translate(new Vector3(mInput.x, 0, mInput.y) * projSpeed * Time.deltaTime);
 	}
 
-	void SnapToTarget() {
+	void SnapToTarget() { // attack homing function
 		enemyTarget = Vector3.zero; // free the target vector
 		Collider[] eColliders = Physics.OverlapSphere(spherePoint.position, targetSphereRadius, Mask.Get(Layers.EnemyHurtbox));
 		// find all colliders in the sphere
 		//Debug.Log("eColliders length: " + eColliders.Length);
 		float difference = 10f;
 		for (int index = 0; index < eColliders.Length; index += 1) { // for each v3
-			//print("Collider #" + index + " name: " + eColliders[index].gameObject.name);
+																	 //print("Collider #" + index + " name: " + eColliders[index].gameObject.name);
 
 			float newDifference = Vector3.Distance(transform.position, eColliders[index].transform.position);
 			if (newDifference < difference) {
@@ -260,7 +270,7 @@ public class PlayerController : MonoBehaviour {
 		}
 		if (enemyTarget != Vector3.zero) {
 			print("Player's position: " + transform.position + " Target enemy's position: " + enemyTarget);
-										   //TODO(@Jaden): doesn't work right when camera is rotated?
+			//TODO(@Jaden): doesn't work right when camera is rotated?
 			this.movement = (enemyTarget - transform.position).normalized;
 			transform.LookAt(enemyTarget); // point player at closest enemy
 		}
@@ -268,12 +278,12 @@ public class PlayerController : MonoBehaviour {
 			print("No enemies found. Player movement vector: " + movement);
 			enemyTarget = movement;
 		}*/
-		timeMoved = maxSpeedTime; // makes player move forward after attacking in tandem with ryan's code
+		speedTime = maxSpeedTime; // makes player move forward after attacking in tandem with ryan's code
 	}
 
 	//@TODO(Jaden): Add i-frames and trigger hitstun state when hit
 	private void OnTriggerEnter(Collider other) {
-		if (other.gameObject.layer == (int)Layers.EnemyHitbox) { // player is getting hit
+		if (other.gameObject.layer == (int)Layers.EnemyHitbox && currentState != States.Dashing) { // player is getting hit
 			Debug.Log(other.name + " just hit me, the player!");
 			animr.Play("Character_GetHit");
 			animTimer = animr.GetCurrentAnimatorStateInfo(0).length; animDuration = animTimer;
@@ -334,6 +344,17 @@ public class PlayerController : MonoBehaviour {
 		animTimer = duration; animDuration = animTimer; // TODO(@Jaden): Change duration to read the animation clip's length when it's finalized
 	}
 
+	void followupAttack(Attacks attack, string animName, float duration) {
+		animr.Play(animName);
+		currentAttack = attack;
+		if (pActions.Player.Move.ReadValue<Vector2>().sqrMagnitude >= 0.02) {
+			movement = movement = new Vector3(trueInput.x, 0, trueInput.y); // this and last line allow for movement between hits
+		}
+		SnapToTarget();
+		animTimer = duration; animDuration = animTimer;
+		// TODO(@Jaden): Change duration to read the animation clip's length when it's finalized
+		preppingAttack = AttackButton.None;
+	}
 
 	void OnEnable() { pActions.Enable(); }
 	void OnDisable() { pActions.Disable(); }
