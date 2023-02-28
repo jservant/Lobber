@@ -106,6 +106,7 @@ public class Enemy : MonoBehaviour {
 	// NOTE(Roskuski): Internal references
 	NavMeshAgent navAgent;
 	Animator animator;
+	BoxCollider swordHitbox;
 
 	// NOTE(Roskuski): External references
 	GameManager gameMan;
@@ -160,13 +161,13 @@ public class Enemy : MonoBehaviour {
 		this.inactiveWait = inactiveWait;
 		currentAttack = Attack.None;
 		animator.SetInteger("CurrentAttack", (int)Attack.None);
+		swordHitbox.enabled = false;
 	}
 
 	void ChangeDirective_MaintainDistancePlayer(float stoppingDistance, Vector3 targetOffset = default(Vector3)) {
 		directive = Directive.MaintainDistancePlayer;
 		approchDistance = stoppingDistance + Random.Range(0, ApprochDeviance);
 		this.targetOffset = targetOffset;
-
 	}
 
 	// Probably incorrect to try and go to this state manually
@@ -229,6 +230,7 @@ public class Enemy : MonoBehaviour {
 	void Start() {
 		navAgent = this.GetComponent<NavMeshAgent>();
 		animator = this.GetComponent<Animator>();
+		swordHitbox = transform.Find("Weapon_Controller").GetComponent<BoxCollider>();
 
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 
@@ -657,18 +659,22 @@ public class Enemy : MonoBehaviour {
 						Debug.Assert(false);
 						break;
 					case Attack.Slash:
+						swordHitbox.enabled = true;
 						if (animationTimer < 0.0f) {
+							swordHitbox.enabled = false;
 							ChangeDirective_Inactive(0);
 							navAgent.enabled = true;
 						}
 						break;
 					case Attack.Lunge:
+						swordHitbox.enabled = true;
 						float animationTimerRatio = animationTimer / animationTimes["Enemy_Attack_Dash"];
 						if (animationTimerRatio >= 0.5f && animationTimerRatio <= 0.7f) {
 							this.transform.position += (this.transform.rotation * Vector3.forward) * LungeSpeed * Time.deltaTime;
 						}
 						if (animationTimer < 0.0f) {
 							// If we found ourselves off geometry, wait util we finish falling.
+							swordHitbox.enabled = false;
 							ChangeDirective_Inactive(1.0f);
 							navAgent.enabled = true;
 						}
