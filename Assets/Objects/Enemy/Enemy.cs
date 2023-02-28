@@ -11,8 +11,22 @@ using UnityEngine.AI;
  * Enemy AI Wants: actions this AI wants to do when given the oppertunity
  */
 
-// @TODO(Roskuski): Make enemies change strafing direction mid strafe
+/*
+ * Feedback Christian Hotte & David Marshal (2-27-2023):
+ * (I might have been hand spawning too many enemies)
+ * Enemies are too evasive
+ * I want to aim with the right stick
+ * I don't want to change the camera
+ * Enemy ai personalities should be visable (Can we do a magic accent color?)
+ * I want to work towards "rockstar mode" super attacks
+ * Getting hit and stunned by enemies is too brutal
+ * I like moving obsticals (slow rotating bar)
+ */
+
+
 // @TODO(Roskuski): Make sure enemies behave well on slopes
+// @TODO(Roskuski): Make groups of enemies pace their attacks based off what their comards are doing
+// @TODO(Roskuski): Make enemies lay off while the player is damaged
 
 
 public class Enemy : MonoBehaviour {
@@ -203,7 +217,7 @@ public class Enemy : MonoBehaviour {
 			if (other.gameObject.layer == (int)Layers.PlayerHitbox) {
 				HeadProjectile head = other.GetComponentInParent<HeadProjectile>();
 				PlayerController player = other.GetComponentInParent<PlayerController>();
-				gameMan.FreezeFrames(10); // NOTE(Ryan): tells GameManager to freeze the game for x frames;
+				gameMan.FreezeFrames(3); // NOTE(Ryan): tells GameManager to freeze the game for x frames;
 
 				if (player != null) {
 					switch (gameMan.playerController.currentAttack) {
@@ -220,7 +234,8 @@ public class Enemy : MonoBehaviour {
 				}
 				else if (head != null) {
 					// @TODO(Roskuski): temp head reaction
-					ChangeDirective_Stunned(3.0f);
+					
+					shouldDie = true;
 					Debug.Log("Head Hit");
 				}
 			}
