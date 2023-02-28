@@ -129,8 +129,7 @@ public class PlayerController : MonoBehaviour {
 		if (currentAttack != Attacks.None || currentState == States.Hitstunned) {
 			// animator controller
 			animTimer -= Time.deltaTime * animr.GetCurrentAnimatorStateInfo(0).speed;
-			if (animTimer <= 0 && preppingAttack == AttackButton.None) // reset everything after animation is done
-			{
+			if (animTimer <= 0 && preppingAttack == AttackButton.None) { // reset everything after animation is done
 				currentAttack = Attacks.None;
 				//animr.SetInteger("CurrentAttack", currentAttack);
 				animr.Play("Base Layer.Character_Idle");
@@ -142,30 +141,38 @@ public class PlayerController : MonoBehaviour {
 				switch (currentAttack) { // Check what attack is happening
 					case Attacks.LAttack: // Attack 1 -> Attack 2
 						if (preppingAttack == AttackButton.LightAttack) { // LAttack1 -> LAttack2
-							followupAttack(Attacks.LAttack2, "Base Layer.Character_Attack2", animationTimes["Character_Attack2"]);
+							setCurrentAttack(Attacks.LAttack2);
 						}
 						else if (preppingAttack == AttackButton.HeavyAttack) { // LAttack -> Chop (end)
-							followupAttack(Attacks.Chop, "Base Layer.Character_Chop", animationTimes["Character_Chop"]);
+							setCurrentAttack(Attacks.Chop);
 						}
 						else if (preppingAttack == AttackButton.Throw) { // LAttack -> Chop (end)
-							followupAttack(Attacks.Chop, "Base Layer.Character_Chop_Throw", animationTimes["Character_Chop_Throw"]);
+							setCurrentAttack(Attacks.Chop);
 						}
 						break;
 					case Attacks.LAttack2: // Attack 2 -> Attack 3
 						if (preppingAttack == AttackButton.LightAttack) { // LAttack2 -> LAttack3
-							// followupAttack for attack 3, if that ends up happening
+							// setCurrentAttack for attack 3, if that ends up happening
+							preppingAttack = AttackButton.None;
 							break;
 						} else if (preppingAttack == AttackButton.HeavyAttack) { // LAttack2 -> Sweep
-							// followupAttack for sweep, when that's implemented
+							// setCurrentAttack for sweep, when that's implemented
+							preppingAttack = AttackButton.None;
 							break;
 						}
+						break;
+					case Attacks.HeadThrow:
+						if (preppingAttack == AttackButton.Throw && animTimer <= animDuration * 0.30 && ammo > 0) {
+							setCurrentAttack(Attacks.HeadThrow, false);
+						}
+						preppingAttack = AttackButton.None;
 						break;
 					/*case Attacks.LAttack3: // Attack 3 -> Finishers (not possible yet)
 						if (preppingAttack == AttackButton.LightAttack) { // LAttack3 -> ?
 							// mayyyyybe loop back to attack1? probably not a good idea tho, might just cut this
 							break;
 						} else if (preppingAttack == AttackButton.HeavyAttack) { // LAttack3 -> Big finisher
-							// followupAttack for spin or some other big finisher, if that's implemented
+							// setCurrentAttack for spin or some other big finisher, if that's implemented
 							break;
 						}
 						break;*/
@@ -204,10 +211,9 @@ public class PlayerController : MonoBehaviour {
 				preppingAttack = AttackButton.LightAttack;
 			}
 			else if (currentAttack == Attacks.None) {
-				setCurrentAttack(Attacks.LAttack, "Base Layer.Character_Attack1", animationTimes["Character_Attack1"]); // added +0.1 in leeway
+				setCurrentAttack(Attacks.LAttack); // added +0.1 in leeway
 				SnapToTarget();
 			}
-			currentState = States.Attacking;
 			//@TODO(Jaden): Move forward slightly when attacking
 		}
 
@@ -216,19 +222,17 @@ public class PlayerController : MonoBehaviour {
 				preppingAttack = AttackButton.HeavyAttack;
 			}
 			else if (currentAttack == Attacks.None) {
-				currentState = States.Attacking;
-				setCurrentAttack(Attacks.Chop, "Base Layer.Character_Chop", animationTimes["Character_Chop"]);
+				setCurrentAttack(Attacks.Chop);
 				SnapToTarget();
 			}
 		}
 
-		if (pActions.Player.Throw.WasPerformedThisFrame()) {
-			if (currentAttack != Attacks.None && animTimer <= animDuration / 2) {
+		if (ammo > 0 && pActions.Player.Throw.WasPerformedThisFrame()) {
+			if (currentAttack != Attacks.None && animTimer <= animDuration * 0.3) {
 				preppingAttack = AttackButton.Throw;
-			} if (ammo > 0) {
-				currentState = States.Attacking;
-				freeAim = true;
-				setCurrentAttack(Attacks.HeadThrow, "Base Layer.Character_Chop_Throw", animationTimes["Character_Chop_Throw"]);
+			}
+			else if (currentState != States.Attacking) {
+				setCurrentAttack(Attacks.HeadThrow, false);
 				// all functionality following is in LobThrow which'll be triggered in the animator
 			}
 		}
@@ -257,7 +261,7 @@ public class PlayerController : MonoBehaviour {
 		//Debug.Log("eColliders length: " + eColliders.Length);
 		float difference = 10f;
 		for (int index = 0; index < eColliders.Length; index += 1) { // for each v3
-																	 //print("Collider #" + index + " name: " + eColliders[index].gameObject.name);
+		//print("Collider #" + index + " name: " + eColliders[index].gameObject.name);
 
 			float newDifference = Vector3.Distance(transform.position, eColliders[index].transform.position);
 			if (newDifference < difference) {
@@ -344,23 +348,45 @@ public class PlayerController : MonoBehaviour {
         //Debug.Log("heightCorrectedPoint: " + heightCorrectedPoint);
     }*/
 
-	void setCurrentAttack(Attacks attack, string animName, float duration) {
-		currentAttack = attack;
-		animr.Play(animName);
-		//animr.SetInteger("CurrentAttack", currentAttack);
-		animTimer = duration; animDuration = animTimer; // TODO(@Jaden): Change duration to read the animation clip's length when it's finalized
-	}
+	static readonly string[] AttackToClipName = {
+		"None",
+		"Character_Attack1",
+		"Character_Attack2",
+		"LAttack3 Not Implmented",
+		"Character_Chop",
+		"Sweep Not Implmented",
+		"Spin Not Implmented",
+		"Character_Chop_Throw"
+	};
+	static readonly string[] AttackToStateName = {
+		"None",
+		"Base Layer.Character_Attack1",
+		"Base Layer.Character_Attack2",
+		"LAttack3 Not Implmented",
+		"Base Layer.Character_Chop",
+		"Sweep Not Implmented",
+		"Spin Not Implmented",
+		"Base Layer.Character_Chop_Throw",
+	};
 
-	void followupAttack(Attacks attack, string animName, float duration) {
-		animr.Play(animName);
-		currentAttack = attack;
-		if (pActions.Player.Move.ReadValue<Vector2>().sqrMagnitude >= 0.02) {
-			movement = movement = new Vector3(trueInput.x, 0, trueInput.y); // this and last line allow for movement between hits
+	void setCurrentAttack(Attacks attack, bool doSnap = true) {
+		currentState = States.Attacking;
+		if (attack == Attacks.HeadThrow) {
+			freeAim = true;
 		}
-		SnapToTarget();
-		animTimer = duration; animDuration = animTimer;
-		// TODO(@Jaden): Change duration to read the animation clip's length when it's finalized
+
+		animr.Play(AttackToStateName[(int)attack], -1, 0);
+		currentAttack = attack;
+		animTimer = animationTimes[AttackToClipName[(int)attack]]; animDuration = animTimer;
 		preppingAttack = AttackButton.None;
+
+		if (pActions.Player.Move.ReadValue<Vector2>().sqrMagnitude >= 0.02) {
+			movement = new Vector3(trueInput.x, 0, trueInput.y); // this and last line allow for movement between hits
+		}
+
+		if (doSnap) {
+			SnapToTarget();
+		}
 	}
 
 	void OnEnable() { pActions.Enable(); }
