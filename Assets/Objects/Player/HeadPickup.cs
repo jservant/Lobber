@@ -6,6 +6,7 @@ public class HeadPickup : MonoBehaviour {
 	public float RotationSpeed;
 	public float FollowSpeed;
 	public float FallSpeed;
+	public float GatherRadius;
 
 	Vector3 popDirection;
 	float popTime;
@@ -26,8 +27,13 @@ public class HeadPickup : MonoBehaviour {
 			transform.position += Vector3.down * FallSpeed * Time.deltaTime;
 		}
 
-		if (Physics.CheckSphere(transform.position, 3, Mask.Get(Layers.PlayerHurtbox))) {
+		if (Physics.CheckSphere(transform.position, GatherRadius, Mask.Get(Layers.PlayerHurtbox))) {
 			transform.position += ((gameMan.player.transform.position + Vector3.up * 1) - transform.position).normalized * FollowSpeed * Time.deltaTime;
 		}
+	}
+
+	void OnDrawGizmosSelected() {
+		Gizmos.color = Color.red;
+		Gizmos.DrawWireSphere(transform.position, GatherRadius);
 	}
 }
