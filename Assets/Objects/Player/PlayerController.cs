@@ -24,17 +24,19 @@ public class PlayerController : MonoBehaviour {
 
 	public DefaultPlayerActions pActions;
 
-	public Vector2 trueInput;                     // movement vector read from input
+	public Vector2 trueInput;                     // movement vector read from left stick
+	public Vector2 rAimInput;                     // aiming vector read from right stick
 	float trueAngle = 0f;                         // movement angle float generated from trueInput
 	public Vector2 mInput;                        // processed movement vector read from input
 	[SerializeField] Vector3 movement;            // actual movement vector used. mInput(x, y) = movement(x, z)
 	[SerializeField] float speed = 10f;           // top player speed
 	float speedTime = 0f;                         // how long has player been moving for?
 	[SerializeField] float maxSpeedTime = 0.4f;   // how long does it take for player to reach max speed?
-	[SerializeField] float dashForce = 10f;
-	float dashAngle = 0f;
+	[SerializeField] float dashForce = 10f;		  // dash strength (how far do you go)
 	[SerializeField] float dashTime = 0f;         // how long has player been moving for?
 	[SerializeField] float maxDashTime = 1f;      // how long does it take for player to reach max speed?
+	[SerializeField] float maxDashCooldown = 1f;      // how long does it take for player to reach max speed?
+	[SerializeField] float dashCooldown = 1f;
 	int ammo = 0;
 	float turnSpeed = 0.1f;
 	[SerializeField] AnimationCurve movementCurve;
@@ -80,6 +82,8 @@ public class PlayerController : MonoBehaviour {
 				animationTimes[clip.name] = clip.length;
 			}
 		}
+
+		dashCooldown = maxDashCooldown;
 	}
 
 	private void FixedUpdate() { // calculate movement here
@@ -96,13 +100,14 @@ public class PlayerController : MonoBehaviour {
 			// probably add an animation here at some point
 			//rb.AddForce(transform.forward * dashForce, ForceMode.Force); //trueInput.x, transform.position.y, trueInput.y
 			dashTime += Time.fixedDeltaTime;
-			Vector3 moveDirection = Quaternion.Euler(0f, dashAngle, 0f) * Vector3.forward;
+			Vector3 moveDirection = Quaternion.Euler(0f, trueAngle, 0f) * Vector3.forward;
 			transform.position += moveDirection.normalized * (dashForce * Mathf.Lerp(0, 1, dashCurve.Evaluate(dashTime / maxDashTime))) * Time.fixedDeltaTime;
 			if (dashTime >= maxDashTime) {
 				dashTime = 0;
 				currentState = States.Idle;
 				//rb.velocity = Vector3.zero;
-				dashAngle = 0;
+				dashCooldown = maxDashCooldown;
+				trueAngle = 0;
 			}
 		}
 		else if (movement.magnitude >= 0.1f && currentState != States.Hitstunned) {
@@ -122,6 +127,8 @@ public class PlayerController : MonoBehaviour {
 
 	private void Update() { // calculate time and input here
 		trueInput = pActions.Player.Move.ReadValue<Vector2>();
+		rAimInput = pActions.Player.Aim.ReadValue<Vector2>();
+		if (dashCooldown > 0) { dashCooldown -= Time.deltaTime; }
 
 		if (currentState != States.Hitstunned) { Input(); }
 		if (currentAttack != Attacks.None || currentState == States.Hitstunned) {
@@ -145,18 +152,18 @@ public class PlayerController : MonoBehaviour {
 							setCurrentAttack(Attacks.Chop);
 						}
 						else if (preppingAttack == AttackButton.Throw) { // LAttack -> Chop (end)
-							setCurrentAttack(Attacks.Chop);
+							setCurrentAttack(Attacks.HeadThrow, false);
 						}
 						break;
 					case Attacks.LAttack2: // Attack 2 -> Attack 3
 						if (preppingAttack == AttackButton.LightAttack) { // LAttack2 -> LAttack3
 							// setCurrentAttack for attack 3, if that ends up happening
 							preppingAttack = AttackButton.None;
-							break;
 						} else if (preppingAttack == AttackButton.HeavyAttack) { // LAttack2 -> Sweep
 							// setCurrentAttack for sweep, when that's implemented
 							preppingAttack = AttackButton.None;
-							break;
+						} else if (preppingAttack == AttackButton.Throw) { // LAttack2 -> Sweep
+							setCurrentAttack(Attacks.HeadThrow, false);
 						}
 						break;
 					case Attacks.HeadThrow:
@@ -231,10 +238,11 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 
-		if (pActions.Player.Dash.WasPerformedThisFrame() && trueInput.sqrMagnitude >= 0.1f) {
+		if (pActions.Player.Dash.WasPerformedThisFrame() && trueInput.sqrMagnitude >= 0.1f && dashCooldown <= 0) {
 			Debug.Log("Dash activated, trueInput value: " + trueInput);
 			currentState = States.Dashing;
-			dashAngle = trueAngle;
+			trueAngle = Mathf.Atan2(trueInput.x, trueInput.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
+			transform.rotation = Quaternion.Euler(0f, trueAngle, 0f);
 		}
 
 		if (pActions.Player.Restart.WasPerformedThisFrame()) {
@@ -250,8 +258,11 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	Vector3 GetTargetSphereLocation() {
-		if (trueInput == Vector2.zero) {
+		if (trueInput == Vector2.zero && rAimInput == Vector2.zero) {
 			return transform.position + transform.rotation * new Vector3(0, 1.2f, 2.5f);
+		}
+		else if (rAimInput.sqrMagnitude >= 0.1f) {
+			return transform.position + Quaternion.LookRotation(new Vector3(rAimInput.x, 0, rAimInput.y), Vector3.up) * new Vector3(0, 1.2f, 2.5f);
 		}
 		else {
 			return transform.position + Quaternion.LookRotation(new Vector3(trueInput.x, 0, trueInput.y), Vector3.up) * new Vector3(0, 1.2f, 2.5f);
@@ -383,13 +394,15 @@ public class PlayerController : MonoBehaviour {
 		animTimer = animationTimes[AttackToClipName[(int)attack]]; animDuration = animTimer;
 		preppingAttack = AttackButton.None;
 
-		if (pActions.Player.Move.ReadValue<Vector2>().sqrMagnitude >= 0.02) {
-			movement = new Vector3(trueInput.x, 0, trueInput.y); // this and last line allow for movement between hits
+		if (pActions.Player.Aim.ReadValue<Vector2>().sqrMagnitude >= 0.02) {
+			movement = new Vector3(rAimInput.x, 0, rAimInput.y); // this and last line allow for movement between hits
+		} else if (pActions.Player.Move.ReadValue<Vector2>().sqrMagnitude >= 0.02) {
+			movement = new Vector3(trueInput.x, 0, trueInput.y);
 		}
 
 		if (doSnap) {
 			SnapToTarget();
-		}
+		} else { speedTime = 0; } // stops player movement when throwing. change later if other attacks don't snap
 	}
 
 	void OnEnable() { pActions.Enable(); }
