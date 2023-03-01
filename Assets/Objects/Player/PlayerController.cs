@@ -7,15 +7,14 @@ using TMPro;
 
 public class PlayerController : MonoBehaviour {
 
-
 	readonly Attacks[][] AttackCancel = {
 		// AttackButton
 		//              None,              LightAttack,       HeavyAttack,       Throw                || Current Attack
 		new Attacks[]{  Attacks.None     , Attacks.LAttack  , Attacks.Chop     , Attacks.HeadThrow,}, // None
-		new Attacks[]{  Attacks.None     , Attacks.LAttack2 , Attacks.Chop     , Attacks.HeadThrow,}, // LAttack
+		new Attacks[]{  Attacks.None     , Attacks.LAttack2 , Attacks.Sweep    , Attacks.HeadThrow,}, // LAttack
 		new Attacks[]{  Attacks.None     , Attacks.LAttack  , Attacks.Chop     , Attacks.HeadThrow,}, // LAttack2
 		new Attacks[]{  Attacks.None     , Attacks.None     , Attacks.None     , Attacks.None     ,}, // LAttack3
-		new Attacks[]{  Attacks.None     , Attacks.None     , Attacks.None     , Attacks.HeadThrow,}, // Chop
+		new Attacks[]{  Attacks.None     , Attacks.None     , Attacks.Sweep    , Attacks.HeadThrow,}, // Chop
 		new Attacks[]{  Attacks.None     , Attacks.None     , Attacks.None     , Attacks.None     ,}, // Sweep
 		new Attacks[]{  Attacks.None     , Attacks.None     , Attacks.None     , Attacks.None     ,}, // Spin
 		new Attacks[]{  Attacks.None     , Attacks.None     , Attacks.None     , Attacks.HeadThrow,}, // HeadThrow
@@ -41,7 +40,6 @@ public class PlayerController : MonoBehaviour {
 		new CancelWindow(0.0f, 0.0f), // Spin
 		new CancelWindow(0.3f, 0.0f), // HeadThrow
 	};
-
 
 	static bool animationTimesPopulated = false;
 	static Dictionary<string, float> animationTimes;
@@ -70,9 +68,9 @@ public class PlayerController : MonoBehaviour {
 	float speedTime = 0f;                         // how long has player been moving for?
 	[SerializeField] float maxSpeedTime = 0.4f;   // how long does it take for player to reach max speed?
 	[SerializeField] float dashForce = 10f;		  // dash strength (how far do you go)
-	[SerializeField] float dashTime = 0f;         // how long has player been moving for?
-	[SerializeField] float maxDashTime = 1f;      // how long does it take for player to reach max speed?
-	[SerializeField] float maxDashCooldown = 1f;      // how long does it take for player to reach max speed?
+	[SerializeField] float dashTime = 0f;         // how long has player been dashing for?
+	[SerializeField] float maxDashTime = 1f;      // how long does it take for player to dash?
+	[SerializeField] float maxDashCooldown = 1f;  // how long does it take for player to dash again after dashing?
 	[SerializeField] float dashCooldown = 1f;
 	int ammo = 0;
 	float turnSpeed = 0.1f;
@@ -348,7 +346,7 @@ public class PlayerController : MonoBehaviour {
 		"Character_Attack2",
 		"LAttack3 Not Implmented",
 		"Character_Chop",
-		"Sweep Not Implmented",
+		"Character_Sweep",
 		"Spin Not Implmented",
 		"Character_Chop_Throw"
 	};
@@ -358,7 +356,7 @@ public class PlayerController : MonoBehaviour {
 		"Base Layer.Character_Attack2",
 		"LAttack3 Not Implmented",
 		"Base Layer.Character_Chop",
-		"Sweep Not Implmented",
+		"Base Layer.Character_Sweep",
 		"Spin Not Implmented",
 		"Base Layer.Character_Chop_Throw",
 	};
