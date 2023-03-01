@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour {
 	public Camera camera;
 
 	public TMP_Text ammoUI;
+	public Transform healthBar;
 
 	public GameObject PlayerPrefab;
 	public GameObject SkullPrefab;
@@ -60,6 +61,8 @@ public class GameManager : MonoBehaviour {
 				Instantiate(EnemyPrefab, hit.point, Quaternion.identity);
 			}
 		}
+
+		UpdateHealthBar();
 	}
 
 	// NOTE(Ryan): Can be called to freeze the game for the time specified.
@@ -67,6 +70,13 @@ public class GameManager : MonoBehaviour {
 	public void FreezeFrames(int Frames60) {
 		frozenTime += (float)(Frames60) / 60.0f;
 	}
+
+	public void UpdateHealthBar()
+    {
+		float healthMax = playerController.healthMax;
+		float health = playerController.health;
+		healthBar.localScale = new Vector3 ((health / healthMax) * 7.26f, 3f, 1f);
+    }
 
 	void OnEnable() { dActions.Enable(); }
 	void OnDisable() { dActions.Disable(); }
