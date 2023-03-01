@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour {
 		//              None,              LightAttack,       HeavyAttack,       Throw                || Current Attack
 		new Attacks[]{  Attacks.None     , Attacks.LAttack  , Attacks.Chop     , Attacks.HeadThrow,}, // None
 		new Attacks[]{  Attacks.None     , Attacks.LAttack2 , Attacks.Chop     , Attacks.HeadThrow,}, // LAttack
-		new Attacks[]{  Attacks.None     , Attacks.None     , Attacks.Chop     , Attacks.HeadThrow,}, // LAttack2
+		new Attacks[]{  Attacks.None     , Attacks.LAttack  , Attacks.Chop     , Attacks.HeadThrow,}, // LAttack2
 		new Attacks[]{  Attacks.None     , Attacks.None     , Attacks.None     , Attacks.None     ,}, // LAttack3
 		new Attacks[]{  Attacks.None     , Attacks.None     , Attacks.None     , Attacks.HeadThrow,}, // Chop
 		new Attacks[]{  Attacks.None     , Attacks.None     , Attacks.None     , Attacks.None     ,}, // Sweep
