@@ -4,7 +4,6 @@ using static System.Math;
 using UnityEngine;
 using UnityEngine.AI;
 
-
 /* NOTE(Roskuski):
  * Enemy AI Directive: What this enemy wants to do.
  * Enemy AI Personality: Determines how this enemy chooses what to do.
@@ -26,11 +25,9 @@ using UnityEngine.AI;
 
 
 // @TODO(Roskuski): Make sure enemies behave well on slopes
-// @TODO(Roskuski): Make groups of enemies pace their attacks based off what their comards are doing
 // @TODO(Roskuski): Make enemies lay off while the player is damaged
 // @TODO(Roskuski): Increase the radius that enemies will strafe around the player
 // @TODO(Roskuski): Telegraph when enemies are moving in for a slicing attack
-
 
 public class Enemy : MonoBehaviour {
 	static bool animationTimesPopulated = false;
@@ -53,7 +50,6 @@ public class Enemy : MonoBehaviour {
 		// @TODO(Rosksuki): Pacience trait, dynamic stat: repersents how badly this enemy wants to play the game
 	}
 	public float[] traits = new float[System.Enum.GetNames(typeof(TraitKind)).Length];
-
 
 	// NOTE(Roskuski): This should stay in sync with the animation controller. DO NOT ADD ELEMENTS IN THE MIDDLE OF THE ENUM
 	enum Directive {
@@ -97,7 +93,8 @@ public class Enemy : MonoBehaviour {
 	// NOTE(Roskuski): because data dopes aren't consistant, we need to keep track of this on the script side.
 	// I'm going to hope that this stays more or less in sync with the actual animation state
 	float animationTimer = 0;
-	float attackTimer = 3.0f; // @TODO(Roskuski) Fine tune this parameter
+	public float choiceTimer = 3.0f; // @TODO(Roskuski) Fine tune this parameter
+	public float attackCooldown;
 	bool wantsSlash = false;
 
 	Quaternion moveDirection = Quaternion.identity;
@@ -171,6 +168,7 @@ public class Enemy : MonoBehaviour {
 		directive = Directive.Stunned;
 		stunDuration += stunTime;
 		animator.SetTrigger("wasHurt");
+		swordHitbox.enabled = false;
 	}
 
 	void ChangeDirective_Inactive(float inactiveWait) {
@@ -185,6 +183,7 @@ public class Enemy : MonoBehaviour {
 		directive = Directive.MaintainDistancePlayer;
 		approchDistance = stoppingDistance + Random.Range(0, ApprochDeviance);
 		this.targetOffset = targetOffset;
+		swordHitbox.enabled = false;
 	}
 
 	// Probably incorrect to try and go to this state manually
@@ -209,6 +208,10 @@ public class Enemy : MonoBehaviour {
 				animationTimer = animationTimes["Enemy_Attack_Dash"];
 				break;
 		}
+		Collider[] nearEnemies = Physics.OverlapSphere(transform.position, 100, Mask.Get(Layers.EnemyHurtbox));
+		foreach (Collider enemyCol in nearEnemies) {
+			enemyCol.GetComponent<Enemy>().attackCooldown = 4.0f + Random.Range(0.0f, 1.0f);
+		}
 	}
 
 	// helper: logic for deteriming whigh following range is being used.
@@ -221,7 +224,6 @@ public class Enemy : MonoBehaviour {
 			if (other.gameObject.layer == (int)Layers.PlayerHitbox) {
 				HeadProjectile head = other.GetComponentInParent<HeadProjectile>();
 				PlayerController player = other.GetComponentInParent<PlayerController>();
-				gameMan.FreezeFrames(3); // NOTE(Ryan): tells GameManager to freeze the game for x frames;
 
 				if (player != null) {
 					switch (gameMan.playerController.currentAttack) {
@@ -293,7 +295,7 @@ public class Enemy : MonoBehaviour {
 								new ChoiceEntry(1, new float[]{0.5f, 0.5f}),
 								new ChoiceEntry(1, new float[]{0.5f, 0.5f}),
 								});
-						attackTimer = new float[] { 3.0f, 2.0f, 1.0f, 0.5f }[choice];
+						choiceTimer = new float[] { 3.0f, 2.0f, 1.0f, 0.5f }[choice];
 
 						choice = RollTraitChoice( new ChoiceEntry[]{
 								new ChoiceEntry(1, new float[]{-0.5f, 0.5f}),
@@ -592,19 +594,28 @@ public class Enemy : MonoBehaviour {
 				}
 				else if (DistanceToTravel() < 1.5f) {
 					flankStrength = float.PositiveInfinity;
-					attackTimer -= Time.deltaTime;
-					if (attackTimer <= 0) {
-						int choice = RollTraitChoice( new ChoiceEntry[] {
-								new ChoiceEntry(5, new float[]{-0.5f, 0.5f}),
-								new ChoiceEntry(3, new float[]{0.75f, 0.25f}),
-								new ChoiceEntry(3, new float[]{0.75f, 0.25f}),
-								});
+					choiceTimer -= Time.deltaTime;
+					attackCooldown -= Time.deltaTime;
+
+					if (choiceTimer <= 0) {
+						ChoiceEntry[] choices = new ChoiceEntry[] {
+							new ChoiceEntry(5, new float[]{-0.5f, 0.5f}),
+							new ChoiceEntry(3, new float[]{0.75f, 0.25f}),
+							new ChoiceEntry(3, new float[]{0.75f, 0.25f}),
+						};
+
+						if (gameMan.playerController.currentState == PlayerController.States.Hitstunned && attackCooldown > 0) {
+							choices[1].baseWeight = 0;
+							choices[2].baseWeight = 0;
+						}
+
+						int choice = RollTraitChoice(choices);
 						switch (choice) {
 							default:
 								Debug.Assert(false);
 								break;
 							case 0: // Change ApprochDistance
-								attackTimer = 3.0f;
+								choiceTimer = 3.0f;
 								choice = RollTraitChoice( new ChoiceEntry[] {
 										new ChoiceEntry(1, new float[]{-0.5f, 0.5f}),
 										new ChoiceEntry(1, new float[]{0.5f, 0.5f}),
@@ -679,9 +690,9 @@ public class Enemy : MonoBehaviour {
 						Debug.Assert(false);
 						break;
 					case Attack.Slash:
+						// @TODO(Roskuski): These hitbox activations were keyed to the animations before, make it so again
 						swordHitbox.enabled = true;
 						if (animationTimer < 0.0f) {
-							swordHitbox.enabled = false;
 							ChangeDirective_Inactive(0);
 							navAgent.enabled = true;
 						}
@@ -694,7 +705,6 @@ public class Enemy : MonoBehaviour {
 						}
 						if (animationTimer < 0.0f) {
 							// If we found ourselves off geometry, wait util we finish falling.
-							swordHitbox.enabled = false;
 							ChangeDirective_Inactive(1.0f);
 							navAgent.enabled = true;
 						}
