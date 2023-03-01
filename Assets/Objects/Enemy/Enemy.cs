@@ -195,6 +195,7 @@ public class Enemy : MonoBehaviour {
 	void ChangeDirective_PerformAttack(Attack attack) {
 		directive = Directive.PerformAttack;
 		currentAttack = attack;
+		animator.SetBool("wantsSlash", false);
 		animator.SetInteger("CurrentAttack", (int)currentAttack);
 		switch (attack) {
 			default:
@@ -639,6 +640,7 @@ public class Enemy : MonoBehaviour {
 								break;
 							case 1: // Walkup and slash
 								wantsSlash = true;
+								animator.SetBool("wantsSlash", true);
 								ChangeDirective_MaintainDistancePlayer(0);
 								break;
 							case 2: // Lunge
