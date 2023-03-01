@@ -72,6 +72,7 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField] float maxDashTime = 1f;      // how long does it take for player to dash?
 	[SerializeField] float maxDashCooldown = 1f;  // how long does it take for player to dash again after dashing?
 	[SerializeField] float dashCooldown = 1f;
+	int health = 5;
 	int ammo = 0;
 	float turnSpeed = 0.1f;
 	[SerializeField] AnimationCurve movementCurve;
@@ -144,7 +145,7 @@ public class PlayerController : MonoBehaviour {
 				trueAngle = 0;
 			}
 		}
-		else if (movement.magnitude >= 0.1f && currentState != States.Hitstunned) {
+		else if (movement.magnitude >= 0.1f) { // && currentState != States.Hitstunned
 			// ryan's adapted movement code, meant to lerp player movement/rotation
 			float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
 			float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnVelocity, turnSpeed);
@@ -165,45 +166,44 @@ public class PlayerController : MonoBehaviour {
 		if (dashCooldown > 0) { dashCooldown -= Time.deltaTime; }
 
 		AttackButton preppingAttack = AttackButton.None;
-		if (currentState != States.Hitstunned) {
-			if (currentState != States.Attacking && currentState != States.Dashing) {
-				mInput = pActions.Player.Move.ReadValue<Vector2>();
-				if (pActions.Player.Move.WasReleasedThisFrame()) {
-					animr.Play("Base Layer.Character_Idle");
-					currentState = States.Idle;
-				}
-				else if (pActions.Player.Move.phase == InputActionPhase.Started) {
-					currentState = States.Walking;
-					animr.Play("Base Layer.Character_Run");
-					movement = movement = new Vector3(mInput.x, 0, mInput.y);
-				}
-				else if (pActions.Player.Move.phase == InputActionPhase.Waiting) { animr.Play("Base Layer.Character_Idle"); }
+		//if (currentState != States.Hitstunned) {
+		if (currentState != States.Attacking && currentState != States.Dashing) {
+			mInput = pActions.Player.Move.ReadValue<Vector2>();
+			if (pActions.Player.Move.WasReleasedThisFrame()) {
+				animr.Play("Base Layer.Character_Idle");
+				currentState = States.Idle;
 			}
-
-			if (pActions.Player.LightAttack.WasPerformedThisFrame()) {
-				preppingAttack = AttackButton.LightAttack;
+			else if (pActions.Player.Move.phase == InputActionPhase.Started) {
+				currentState = States.Walking;
+				animr.Play("Base Layer.Character_Run");
+				movement = movement = new Vector3(mInput.x, 0, mInput.y);
 			}
+			else if (pActions.Player.Move.phase == InputActionPhase.Waiting) { animr.Play("Base Layer.Character_Idle"); }
+		}
 
-			if (pActions.Player.HeavyAttack.WasPerformedThisFrame()) {
-				preppingAttack = AttackButton.HeavyAttack;
-			}
+		if (pActions.Player.LightAttack.WasPerformedThisFrame()) {
+			preppingAttack = AttackButton.LightAttack;
+		}
 
-			if (ammo > 0 && pActions.Player.Throw.WasPerformedThisFrame()) {
-				preppingAttack = AttackButton.Throw;
-			}
+		if (pActions.Player.HeavyAttack.WasPerformedThisFrame()) {
+			preppingAttack = AttackButton.HeavyAttack;
+		}
+
+		if (ammo > 0 && pActions.Player.Throw.WasPerformedThisFrame()) {
+			preppingAttack = AttackButton.Throw;
+		}
 
 
-			if (pActions.Player.Dash.WasPerformedThisFrame() && trueInput.sqrMagnitude >= 0.1f) {
-				Debug.Log("Dash activated, trueInput value: " + trueInput);
-				currentState = States.Dashing;
-				trueAngle = Mathf.Atan2(trueInput.x, trueInput.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
-				transform.rotation = Quaternion.Euler(0f, trueAngle, 0f);
-			}
+		if (pActions.Player.Dash.WasPerformedThisFrame() && trueInput.sqrMagnitude >= 0.1f) {
+			Debug.Log("Dash activated, trueInput value: " + trueInput);
+			currentState = States.Dashing;
+			trueAngle = Mathf.Atan2(trueInput.x, trueInput.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
+			transform.rotation = Quaternion.Euler(0f, trueAngle, 0f);
+		}
 
-			if (pActions.Player.Restart.WasPerformedThisFrame()) {
-				Debug.Log("Restart called");
-				SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-			}
+		if (pActions.Player.Restart.WasPerformedThisFrame()) {
+			Debug.Log("Restart called");
+			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 		}
 
 		if (preppingAttack != AttackButton.None) {
@@ -216,7 +216,7 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 
-		if (currentAttack != Attacks.None || currentState == States.Hitstunned) {
+		if (currentAttack != Attacks.None) { // || currentState == States.Hitstunned
 			// animator controller
 			animTimer -= Time.deltaTime * animr.GetCurrentAnimatorStateInfo(0).speed;
 			if (animTimer <= 0 && preppingAttack == AttackButton.None) { // reset everything after animation is done
@@ -278,10 +278,11 @@ public class PlayerController : MonoBehaviour {
 	//@TODO(Jaden): Add i-frames and trigger hitstun state when hit
 	private void OnTriggerEnter(Collider other) {
 		if (other.gameObject.layer == (int)Layers.EnemyHitbox && currentState != States.Dashing) { // player is getting hit
-			Debug.Log(other.name + " just hit me, the player!");
-			animr.Play("Character_GetHit");
+			health--;
+			Debug.Log("OWIE " + other.name + " JUST HIT ME! I have " + health + " health");
+/*			animr.Play("Character_GetHit");
 			animTimer = animr.GetCurrentAnimatorStateInfo(0).length; animDuration = animTimer;
-			currentState = States.Hitstunned;
+			currentState = States.Hitstunned;*/
 		}
 		else if (other.gameObject.layer == (int)Layers.EnemyHurtbox) { // player is hitting enemy
 			// NOTE(Roskuski): I hit the enemy!
