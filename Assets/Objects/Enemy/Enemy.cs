@@ -21,12 +21,15 @@ using UnityEngine.AI;
  * I want to work towards "rockstar mode" super attacks
  * Getting hit and stunned by enemies is too brutal
  * I like moving obsticals (slow rotating bar)
+ * Make Attacks more telegraphed
  */
 
 
 // @TODO(Roskuski): Make sure enemies behave well on slopes
 // @TODO(Roskuski): Make groups of enemies pace their attacks based off what their comards are doing
 // @TODO(Roskuski): Make enemies lay off while the player is damaged
+// @TODO(Roskuski): Increase the radius that enemies will strafe around the player
+// @TODO(Roskuski): Telegraph when enemies are moving in for a slicing attack
 
 
 public class Enemy : MonoBehaviour {
