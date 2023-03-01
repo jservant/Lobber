@@ -15,9 +15,7 @@ public class PlayerController : MonoBehaviour {
 	MeshRenderer headMesh;
 	TrailRenderer headMeshTrail;
 	GameObject headProj;
-	Transform playerPointer;
 	Transform projSpawn;
-	[SerializeField] Transform spherePoint;
 	BoxCollider axeHitbox;
 	GameManager gameManager;
 
@@ -67,8 +65,6 @@ public class PlayerController : MonoBehaviour {
 		headMeshTrail = transform.Find("Weapon_Controller/Hitbox/StoredHead").GetComponent<TrailRenderer>();
 		axeHitbox = transform.Find("Weapon_Controller/Hitbox").GetComponent<BoxCollider>();
 		projSpawn = transform.Find("ProjSpawn");
-		playerPointer = transform.Find("PlayerPointer");
-		spherePoint = transform.Find("PlayerPointer/SpherePoint");
 		gameManager = transform.Find("/GameManager").GetComponent<GameManager>();
 		headProj = gameManager.SkullPrefab;
 
@@ -108,12 +104,12 @@ public class PlayerController : MonoBehaviour {
 				//rb.velocity = Vector3.zero;
 				dashAngle = 0;
 			}
-		} else if (movement.magnitude >= 0.1f && currentState != States.Hitstunned) {
+		}
+		else if (movement.magnitude >= 0.1f && currentState != States.Hitstunned) {
 			// ryan's adapted movement code, meant to lerp player movement/rotation
 			float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
 			float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnVelocity, turnSpeed);
-			if (freeAim) { transform.LookAt(new Vector3(spherePoint.position.x, transform.position.y, spherePoint.position.z)); }
-			else { transform.rotation = Quaternion.Euler(0f, angle, 0f); }
+			transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
 			Vector3 moveDirection = Quaternion.Euler(0f, angle, 0f) * Vector3.forward;
 
@@ -185,10 +181,6 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 
-		//reads input even when player is attacking or hitstunned
-		trueAngle = Mathf.Atan2(trueInput.x, trueInput.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
-		playerPointer.rotation = Quaternion.Euler(0f, trueAngle, 0f);
-
 		//Camera.main.transform.LookAt(transform);
 		//Camera.main.transform.Translate(new Vector3(camControl.x, camControl.y, 0) * Time.deltaTime);
 	}
@@ -257,9 +249,18 @@ public class PlayerController : MonoBehaviour {
 		GameObject iHeadProj = Instantiate(headProj, projSpawn.position, transform.rotation);
 	}
 
+	Vector3 GetTargetSphereLocation() {
+		if (trueInput == Vector2.zero) {
+			return transform.position + transform.rotation * new Vector3(0, 1.2f, 2.5f);
+		}
+		else {
+			return transform.position + Quaternion.LookRotation(new Vector3(trueInput.x, 0, trueInput.y), Vector3.up) * new Vector3(0, 1.2f, 2.5f);
+		}
+	}
+
 	void SnapToTarget() { // attack homing function
 		enemyTarget = Vector3.zero; // free the target vector
-		Collider[] eColliders = Physics.OverlapSphere(spherePoint.position, targetSphereRadius, Mask.Get(Layers.EnemyHurtbox));
+		Collider[] eColliders = Physics.OverlapSphere(GetTargetSphereLocation(), targetSphereRadius, Mask.Get(Layers.EnemyHurtbox));
 		// find all colliders in the sphere
 		//Debug.Log("eColliders length: " + eColliders.Length);
 		float difference = 10f;
@@ -350,7 +351,6 @@ public class PlayerController : MonoBehaviour {
         //movement = heightCorrectedPoint; mayb for mouse attack dashing?
         //Debug.Log("heightCorrectedPoint: " + heightCorrectedPoint);
     }*/
-
 	static readonly string[] AttackToClipName = {
 		"None",
 		"Character_Attack1",
@@ -397,7 +397,7 @@ public class PlayerController : MonoBehaviour {
 
 	private void OnDrawGizmos() {
 		Gizmos.color = Color.red;
-		Gizmos.DrawWireSphere(spherePoint.position, targetSphereRadius);
+		Gizmos.DrawWireSphere(GetTargetSphereLocation(), targetSphereRadius);
 	}
 	#endregion
 }
