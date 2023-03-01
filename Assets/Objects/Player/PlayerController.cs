@@ -33,11 +33,14 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField] float speed = 10f;           // top player speed
 	float speedTime = 0f;                         // how long has player been moving for?
 	[SerializeField] float maxSpeedTime = 0.4f;   // how long does it take for player to reach max speed?
+	[SerializeField] float dashForce = 10f;
+	float dashAngle = 0f;
 	[SerializeField] float dashTime = 0f;         // how long has player been moving for?
 	[SerializeField] float maxDashTime = 1f;      // how long does it take for player to reach max speed?
 	int ammo = 0;
 	float turnSpeed = 0.1f;
-	[SerializeField] AnimationCurve curve;
+	[SerializeField] AnimationCurve movementCurve;
+	[SerializeField] AnimationCurve dashCurve;
 	[SerializeField] float animTimer = 0f;
 	[SerializeField] float animDuration = 0f;
 	[SerializeField] float targetSphereRadius = 2f;
@@ -95,16 +98,15 @@ public class PlayerController : MonoBehaviour {
 
 		if (currentState == States.Dashing) {
 			// probably add an animation here at some point
-			//float currentAngle = trueAngle;
-			rb.AddForce(trueInput.x, transform.position.y, trueInput.y, ForceMode.Impulse);
+			//rb.AddForce(transform.forward * dashForce, ForceMode.Force); //trueInput.x, transform.position.y, trueInput.y
 			dashTime += Time.fixedDeltaTime;
-			/*Vector3 moveDirection = Quaternion.Euler(0f, currentAngle, 0f) * Vector3.forward;
-			transform.position += moveDirection.normalized * (speed * Mathf.Lerp(0, 1, curve.Evaluate(dashTime / maxDashTime))) * Time.fixedDeltaTime;*/
+			Vector3 moveDirection = Quaternion.Euler(0f, dashAngle, 0f) * Vector3.forward;
+			transform.position += moveDirection.normalized * (dashForce * Mathf.Lerp(0, 1, dashCurve.Evaluate(dashTime / maxDashTime))) * Time.fixedDeltaTime;
 			if (dashTime >= maxDashTime) {
 				dashTime = 0;
 				currentState = States.Idle;
-				rb.velocity = Vector3.zero;
-				//currentAngle = 0;
+				//rb.velocity = Vector3.zero;
+				dashAngle = 0;
 			}
 		} else if (movement.magnitude >= 0.1f && currentState != States.Hitstunned) {
 			// ryan's adapted movement code, meant to lerp player movement/rotation
@@ -115,7 +117,7 @@ public class PlayerController : MonoBehaviour {
 
 			Vector3 moveDirection = Quaternion.Euler(0f, angle, 0f) * Vector3.forward;
 
-			transform.position += moveDirection.normalized * (speed * Mathf.Lerp(0, 1, curve.Evaluate(speedTime / maxSpeedTime))) * Time.fixedDeltaTime;
+			transform.position += moveDirection.normalized * (speed * Mathf.Lerp(0, 1, movementCurve.Evaluate(speedTime / maxSpeedTime))) * Time.fixedDeltaTime;
 		}
 		else {
 			transform.rotation = Quaternion.Euler(0f, transform.rotation.y, 0f);
@@ -240,6 +242,7 @@ public class PlayerController : MonoBehaviour {
 		if (pActions.Player.Dash.WasPerformedThisFrame() && trueInput.sqrMagnitude >= 0.1f) {
 			Debug.Log("Dash activated, trueInput value: " + trueInput);
 			currentState = States.Dashing;
+			dashAngle = trueAngle;
 		}
 
 		if (pActions.Player.Restart.WasPerformedThisFrame()) {
