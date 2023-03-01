@@ -26,3 +26,9 @@ public class Mask {
 		return Get(new Layers[]{layer});
 	}
 }
+
+public class Util {
+	public static int EnumLength(System.Type EnumType) {
+		return System.Enum.GetNames(EnumType).Length;
+	}
+}

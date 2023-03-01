@@ -6,6 +6,43 @@ using UnityEngine.SceneManagement;
 using TMPro;
 
 public class PlayerController : MonoBehaviour {
+
+
+	readonly Attacks[][] AttackCancel = {
+		// AttackButton
+		//              None,              LightAttack,       HeavyAttack,       Throw                || Current Attack
+		new Attacks[]{  Attacks.None     , Attacks.LAttack  , Attacks.Chop     , Attacks.HeadThrow,}, // None
+		new Attacks[]{  Attacks.None     , Attacks.LAttack2 , Attacks.Chop     , Attacks.HeadThrow,}, // LAttack
+		new Attacks[]{  Attacks.None     , Attacks.None     , Attacks.Chop     , Attacks.HeadThrow,}, // LAttack2
+		new Attacks[]{  Attacks.None     , Attacks.None     , Attacks.None     , Attacks.None     ,}, // LAttack3
+		new Attacks[]{  Attacks.None     , Attacks.None     , Attacks.None     , Attacks.HeadThrow,}, // Chop
+		new Attacks[]{  Attacks.None     , Attacks.None     , Attacks.None     , Attacks.None     ,}, // Sweep
+		new Attacks[]{  Attacks.None     , Attacks.None     , Attacks.None     , Attacks.None     ,}, // Spin
+		new Attacks[]{  Attacks.None     , Attacks.None     , Attacks.None     , Attacks.HeadThrow,}, // HeadThrow
+	};
+
+	// CancelWindows[X][0] is startPercent. CancelWindows[X][1] is endPercent
+	struct CancelWindow {
+		public float startPercent;
+		public float endPercent;
+		public CancelWindow(float a, float b) {
+			startPercent = a;
+			endPercent = b;
+		}
+	}
+
+	readonly CancelWindow[] CancelWindows = {
+		new CancelWindow(1.0f, 0.0f), // None
+		new CancelWindow(0.5f, 0.0f), // LAttack
+		new CancelWindow(0.5f, 0.0f), // LAttack2
+		new CancelWindow(0.0f, 0.0f), // LAttack3
+		new CancelWindow(0.5f, 0.0f), // Chop
+		new CancelWindow(0.0f, 0.0f), // Sweep
+		new CancelWindow(0.0f, 0.0f), // Spin
+		new CancelWindow(0.3f, 0.0f), // HeadThrow
+	};
+
+
 	static bool animationTimesPopulated = false;
 	static Dictionary<string, float> animationTimes;
 
@@ -46,13 +83,12 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField] float targetSphereRadius = 2f;
 	bool freeAim = false;
 
-	public enum States { Idle, Walking, Attacking, Hitstunned, Dashing };
+	public enum States { Idle = 0, Walking, Attacking, Hitstunned, Dashing };
 	public States currentState = 0;
-	public enum Attacks { None, LAttack, LAttack2, LAttack3, Chop, Sweep, Spin, HeadThrow };
+	public enum Attacks { None = 0, LAttack, LAttack2, LAttack3, Chop, Sweep, Spin, HeadThrow };
 	// some of these names are temp names that won't be used
 	public Attacks currentAttack = 0;
-	public enum AttackButton { None, LightAttack, HeavyAttack, Throw };
-	public AttackButton preppingAttack = 0;
+	public enum AttackButton { None = 0, LightAttack, HeavyAttack, Throw };
 
 	//public bool prepAttack = false;
 	float turnVelocity;
@@ -130,7 +166,54 @@ public class PlayerController : MonoBehaviour {
 		rAimInput = pActions.Player.Aim.ReadValue<Vector2>();
 		if (dashCooldown > 0) { dashCooldown -= Time.deltaTime; }
 
-		if (currentState != States.Hitstunned) { Input(); }
+		AttackButton preppingAttack = AttackButton.None;
+		if (currentState != States.Hitstunned) {
+			if (currentState != States.Attacking && currentState != States.Dashing) {
+				mInput = pActions.Player.Move.ReadValue<Vector2>();
+				if (pActions.Player.Move.WasReleasedThisFrame()) {
+					animr.Play("Base Layer.Character_Idle");
+					currentState = States.Idle;
+				}
+				else if (pActions.Player.Move.phase == InputActionPhase.Started) {
+					currentState = States.Walking;
+					animr.Play("Base Layer.Character_Run");
+					movement = movement = new Vector3(mInput.x, 0, mInput.y);
+				}
+				else if (pActions.Player.Move.phase == InputActionPhase.Waiting) { animr.Play("Base Layer.Character_Idle"); }
+			}
+
+			if (pActions.Player.LightAttack.WasPerformedThisFrame()) {
+				preppingAttack = AttackButton.LightAttack;
+			}
+
+			if (pActions.Player.HeavyAttack.WasPerformedThisFrame()) {
+				preppingAttack = AttackButton.HeavyAttack;
+			}
+
+
+			if (pActions.Player.Dash.WasPerformedThisFrame() && trueInput.sqrMagnitude >= 0.1f) {
+				Debug.Log("Dash activated, trueInput value: " + trueInput);
+				currentState = States.Dashing;
+				trueAngle = Mathf.Atan2(trueInput.x, trueInput.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
+				transform.rotation = Quaternion.Euler(0f, trueAngle, 0f);
+			}
+
+			if (pActions.Player.Restart.WasPerformedThisFrame()) {
+				Debug.Log("Restart called");
+				SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+			}
+		}
+
+		if (preppingAttack != AttackButton.None) {
+			Attacks nextAttack = AttackCancel[(int)currentAttack][(int)preppingAttack];
+			CancelWindow cancelWindow = CancelWindows[(int)currentAttack];
+			if (nextAttack != Attacks.None) {
+				if (animTimer <= animDuration * cancelWindow.startPercent && animTimer >= animDuration * cancelWindow.endPercent) {
+					setCurrentAttack(nextAttack);
+				}
+			}
+		}
+
 		if (currentAttack != Attacks.None || currentState == States.Hitstunned) {
 			// animator controller
 			animTimer -= Time.deltaTime * animr.GetCurrentAnimatorStateInfo(0).speed;
@@ -141,113 +224,6 @@ public class PlayerController : MonoBehaviour {
 				currentState = States.Idle;
 				animTimer = 0; animDuration = 0f;
 			}
-			else if (animTimer <= 0 && preppingAttack != AttackButton.None) {
-				// NOTE(@Jaden): Combo Tree
-				switch (currentAttack) { // Check what attack is happening
-					case Attacks.LAttack: // Attack 1 -> Attack 2
-						if (preppingAttack == AttackButton.LightAttack) { // LAttack1 -> LAttack2
-							setCurrentAttack(Attacks.LAttack2);
-						}
-						else if (preppingAttack == AttackButton.HeavyAttack) { // LAttack -> Chop (end)
-							setCurrentAttack(Attacks.Chop);
-						}
-						else if (preppingAttack == AttackButton.Throw) { // LAttack -> Chop (end)
-							setCurrentAttack(Attacks.HeadThrow, false);
-						}
-						break;
-					case Attacks.LAttack2: // Attack 2 -> Attack 3
-						if (preppingAttack == AttackButton.LightAttack) { // LAttack2 -> LAttack3
-							// setCurrentAttack for attack 3, if that ends up happening
-							preppingAttack = AttackButton.None;
-						} else if (preppingAttack == AttackButton.HeavyAttack) { // LAttack2 -> Sweep
-							// setCurrentAttack for sweep, when that's implemented
-							preppingAttack = AttackButton.None;
-						} else if (preppingAttack == AttackButton.Throw) { // LAttack2 -> Sweep
-							setCurrentAttack(Attacks.HeadThrow, false);
-						}
-						break;
-					case Attacks.HeadThrow:
-						if (preppingAttack == AttackButton.Throw && animTimer <= animDuration * 0.30 && ammo > 0) {
-							setCurrentAttack(Attacks.HeadThrow, false);
-						}
-						preppingAttack = AttackButton.None;
-						break;
-					/*case Attacks.LAttack3: // Attack 3 -> Finishers (not possible yet)
-						if (preppingAttack == AttackButton.LightAttack) { // LAttack3 -> ?
-							// mayyyyybe loop back to attack1? probably not a good idea tho, might just cut this
-							break;
-						} else if (preppingAttack == AttackButton.HeavyAttack) { // LAttack3 -> Big finisher
-							// setCurrentAttack for spin or some other big finisher, if that's implemented
-							break;
-						}
-						break;*/
-					default:
-						preppingAttack = AttackButton.None;
-						break;
-				}
-			}
-		}
-
-		//Camera.main.transform.LookAt(transform);
-		//Camera.main.transform.Translate(new Vector3(camControl.x, camControl.y, 0) * Time.deltaTime);
-	}
-
-	void Input() { // processes input, runs in update
-		if (currentState != States.Attacking && currentState != States.Dashing) {
-			mInput = pActions.Player.Move.ReadValue<Vector2>();
-			if (pActions.Player.Move.WasReleasedThisFrame()) {
-				animr.Play("Base Layer.Character_Idle");
-				currentState = States.Idle;
-			}
-			else if (pActions.Player.Move.phase == InputActionPhase.Started) {
-				currentState = States.Walking;
-				animr.Play("Base Layer.Character_Run");
-				movement = movement = new Vector3(mInput.x, 0, mInput.y);
-			}
-			else if (pActions.Player.Move.phase == InputActionPhase.Waiting) { animr.Play("Base Layer.Character_Idle"); }
-		}
-
-		if (pActions.Player.LightAttack.WasPerformedThisFrame()) {
-			if (currentAttack != Attacks.None && animTimer <= animDuration / 2) {
-				preppingAttack = AttackButton.LightAttack;
-			}
-			else if (currentAttack == Attacks.None) {
-				setCurrentAttack(Attacks.LAttack); // added +0.1 in leeway
-				SnapToTarget();
-			}
-			//@TODO(Jaden): Move forward slightly when attacking
-		}
-
-		if (pActions.Player.HeavyAttack.WasPerformedThisFrame()) {
-			if (currentAttack != Attacks.None && animTimer <= animDuration / 2) {
-				preppingAttack = AttackButton.HeavyAttack;
-			}
-			else if (currentAttack == Attacks.None) {
-				setCurrentAttack(Attacks.Chop);
-				SnapToTarget();
-			}
-		}
-
-		if (ammo > 0 && pActions.Player.Throw.WasPerformedThisFrame()) {
-			if (currentAttack != Attacks.None && animTimer <= animDuration * 0.3) {
-				preppingAttack = AttackButton.Throw;
-			}
-			else if (currentState != States.Attacking) {
-				setCurrentAttack(Attacks.HeadThrow, false);
-				// all functionality following is in LobThrow which'll be triggered in the animator
-			}
-		}
-
-		if (pActions.Player.Dash.WasPerformedThisFrame() && trueInput.sqrMagnitude >= 0.1f && dashCooldown <= 0) {
-			Debug.Log("Dash activated, trueInput value: " + trueInput);
-			currentState = States.Dashing;
-			trueAngle = Mathf.Atan2(trueInput.x, trueInput.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
-			transform.rotation = Quaternion.Euler(0f, trueAngle, 0f);
-		}
-
-		if (pActions.Player.Restart.WasPerformedThisFrame()) {
-			Debug.Log("Restart called");
-			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 		}
 	}
 
@@ -392,7 +368,6 @@ public class PlayerController : MonoBehaviour {
 		animr.Play(AttackToStateName[(int)attack], -1, 0);
 		currentAttack = attack;
 		animTimer = animationTimes[AttackToClipName[(int)attack]]; animDuration = animTimer;
-		preppingAttack = AttackButton.None;
 
 		if (pActions.Player.Aim.ReadValue<Vector2>().sqrMagnitude >= 0.02) {
 			movement = new Vector3(rAimInput.x, 0, rAimInput.y); // this and last line allow for movement between hits

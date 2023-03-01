@@ -38,18 +38,19 @@ public class Enemy : MonoBehaviour {
 
 	class ChoiceEntry {
 		public float baseWeight;
-		public float[] traitMod = new float[System.Enum.GetNames(typeof(TraitKind)).Length];
+		public float[] traitMod = new float[Util.EnumLength(typeof(TraitKind))];
 		public ChoiceEntry(float baseWeight, float[] traitMod) {
 			this.baseWeight = baseWeight;
 			this.traitMod = traitMod;
 		}
 	}
+
 	enum TraitKind {
 		Aggressive = 0, // NOTE(Roskuski): How aggsive this enemy will behave. Values below TraitMax will act Defensively!
 		Sneaky,
 		// @TODO(Rosksuki): Pacience trait, dynamic stat: repersents how badly this enemy wants to play the game
 	}
-	public float[] traits = new float[System.Enum.GetNames(typeof(TraitKind)).Length];
+	public float[] traits = new float[Util.EnumLength(typeof(TraitKind))];
 
 	// NOTE(Roskuski): This should stay in sync with the animation controller. DO NOT ADD ELEMENTS IN THE MIDDLE OF THE ENUM
 	enum Directive {
