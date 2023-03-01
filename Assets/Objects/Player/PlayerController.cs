@@ -190,6 +190,10 @@ public class PlayerController : MonoBehaviour {
 				preppingAttack = AttackButton.HeavyAttack;
 			}
 
+			if (ammo > 0 && pActions.Player.Throw.WasPerformedThisFrame()) {
+				preppingAttack = AttackButton.Throw;
+			}
+
 
 			if (pActions.Player.Dash.WasPerformedThisFrame() && trueInput.sqrMagnitude >= 0.1f) {
 				Debug.Log("Dash activated, trueInput value: " + trueInput);
