@@ -15,9 +15,7 @@ public class PlayerController : MonoBehaviour {
 	MeshRenderer headMesh;
 	TrailRenderer headMeshTrail;
 	GameObject headProj;
-	Transform playerPointer;
 	Transform projSpawn;
-	[SerializeField] Transform spherePoint;
 	BoxCollider axeHitbox;
 	GameManager gameManager;
 
@@ -33,11 +31,14 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField] float speed = 10f;           // top player speed
 	float speedTime = 0f;                         // how long has player been moving for?
 	[SerializeField] float maxSpeedTime = 0.4f;   // how long does it take for player to reach max speed?
+	[SerializeField] float dashForce = 10f;
+	float dashAngle = 0f;
 	[SerializeField] float dashTime = 0f;         // how long has player been moving for?
 	[SerializeField] float maxDashTime = 1f;      // how long does it take for player to reach max speed?
 	int ammo = 0;
 	float turnSpeed = 0.1f;
-	[SerializeField] AnimationCurve curve;
+	[SerializeField] AnimationCurve movementCurve;
+	[SerializeField] AnimationCurve dashCurve;
 	[SerializeField] float animTimer = 0f;
 	[SerializeField] float animDuration = 0f;
 	[SerializeField] float targetSphereRadius = 2f;
@@ -64,8 +65,6 @@ public class PlayerController : MonoBehaviour {
 		headMeshTrail = transform.Find("Weapon_Controller/Hitbox/StoredHead").GetComponent<TrailRenderer>();
 		axeHitbox = transform.Find("Weapon_Controller/Hitbox").GetComponent<BoxCollider>();
 		projSpawn = transform.Find("ProjSpawn");
-		playerPointer = transform.Find("PlayerPointer");
-		spherePoint = transform.Find("PlayerPointer/SpherePoint");
 		gameManager = transform.Find("/GameManager").GetComponent<GameManager>();
 		headProj = gameManager.SkullPrefab;
 
@@ -95,27 +94,26 @@ public class PlayerController : MonoBehaviour {
 
 		if (currentState == States.Dashing) {
 			// probably add an animation here at some point
-			//float currentAngle = trueAngle;
-			rb.AddForce(trueInput.x, transform.position.y, trueInput.y, ForceMode.Impulse);
+			//rb.AddForce(transform.forward * dashForce, ForceMode.Force); //trueInput.x, transform.position.y, trueInput.y
 			dashTime += Time.fixedDeltaTime;
-			/*Vector3 moveDirection = Quaternion.Euler(0f, currentAngle, 0f) * Vector3.forward;
-			transform.position += moveDirection.normalized * (speed * Mathf.Lerp(0, 1, curve.Evaluate(dashTime / maxDashTime))) * Time.fixedDeltaTime;*/
+			Vector3 moveDirection = Quaternion.Euler(0f, dashAngle, 0f) * Vector3.forward;
+			transform.position += moveDirection.normalized * (dashForce * Mathf.Lerp(0, 1, dashCurve.Evaluate(dashTime / maxDashTime))) * Time.fixedDeltaTime;
 			if (dashTime >= maxDashTime) {
 				dashTime = 0;
 				currentState = States.Idle;
-				rb.velocity = Vector3.zero;
-				//currentAngle = 0;
+				//rb.velocity = Vector3.zero;
+				dashAngle = 0;
 			}
-		} else if (movement.magnitude >= 0.1f && currentState != States.Hitstunned) {
+		}
+		else if (movement.magnitude >= 0.1f && currentState != States.Hitstunned) {
 			// ryan's adapted movement code, meant to lerp player movement/rotation
 			float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
 			float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnVelocity, turnSpeed);
-			if (freeAim) { transform.LookAt(new Vector3(spherePoint.position.x, transform.position.y, spherePoint.position.z)); }
-			else { transform.rotation = Quaternion.Euler(0f, angle, 0f); }
+			transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
 			Vector3 moveDirection = Quaternion.Euler(0f, angle, 0f) * Vector3.forward;
 
-			transform.position += moveDirection.normalized * (speed * Mathf.Lerp(0, 1, curve.Evaluate(speedTime / maxSpeedTime))) * Time.fixedDeltaTime;
+			transform.position += moveDirection.normalized * (speed * Mathf.Lerp(0, 1, movementCurve.Evaluate(speedTime / maxSpeedTime))) * Time.fixedDeltaTime;
 		}
 		else {
 			transform.rotation = Quaternion.Euler(0f, transform.rotation.y, 0f);
@@ -183,10 +181,6 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 
-		//reads input even when player is attacking or hitstunned
-		trueAngle = Mathf.Atan2(trueInput.x, trueInput.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
-		playerPointer.rotation = Quaternion.Euler(0f, trueAngle, 0f);
-
 		//Camera.main.transform.LookAt(transform);
 		//Camera.main.transform.Translate(new Vector3(camControl.x, camControl.y, 0) * Time.deltaTime);
 	}
@@ -240,6 +234,7 @@ public class PlayerController : MonoBehaviour {
 		if (pActions.Player.Dash.WasPerformedThisFrame() && trueInput.sqrMagnitude >= 0.1f) {
 			Debug.Log("Dash activated, trueInput value: " + trueInput);
 			currentState = States.Dashing;
+			dashAngle = trueAngle;
 		}
 
 		if (pActions.Player.Restart.WasPerformedThisFrame()) {
@@ -254,9 +249,18 @@ public class PlayerController : MonoBehaviour {
 		GameObject iHeadProj = Instantiate(headProj, projSpawn.position, transform.rotation);
 	}
 
+	Vector3 GetTargetSphereLocation() {
+		if (trueInput == Vector2.zero) {
+			return transform.position + transform.rotation * new Vector3(0, 1.2f, 2.5f);
+		}
+		else {
+			return transform.position + Quaternion.LookRotation(new Vector3(trueInput.x, 0, trueInput.y), Vector3.up) * new Vector3(0, 1.2f, 2.5f);
+		}
+	}
+
 	void SnapToTarget() { // attack homing function
 		enemyTarget = Vector3.zero; // free the target vector
-		Collider[] eColliders = Physics.OverlapSphere(spherePoint.position, targetSphereRadius, Mask.Get(Layers.EnemyHurtbox));
+		Collider[] eColliders = Physics.OverlapSphere(GetTargetSphereLocation(), targetSphereRadius, Mask.Get(Layers.EnemyHurtbox));
 		// find all colliders in the sphere
 		//Debug.Log("eColliders length: " + eColliders.Length);
 		float difference = 10f;
@@ -347,7 +351,6 @@ public class PlayerController : MonoBehaviour {
         //movement = heightCorrectedPoint; mayb for mouse attack dashing?
         //Debug.Log("heightCorrectedPoint: " + heightCorrectedPoint);
     }*/
-
 	static readonly string[] AttackToClipName = {
 		"None",
 		"Character_Attack1",
@@ -394,7 +397,7 @@ public class PlayerController : MonoBehaviour {
 
 	private void OnDrawGizmos() {
 		Gizmos.color = Color.red;
-		Gizmos.DrawWireSphere(spherePoint.position, targetSphereRadius);
+		Gizmos.DrawWireSphere(GetTargetSphereLocation(), targetSphereRadius);
 	}
 	#endregion
 }
