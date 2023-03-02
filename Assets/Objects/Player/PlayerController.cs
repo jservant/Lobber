@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviour {
 	Quaternion kbAngle;
 	float kbForce = 15f;						  // knockback speed
 	float maxKbTime = 1f;						  // knockback time
-	float kbTime = 0f;						  // knockback time
+	float kbTime = 0f;						      // knockback time
 	float turnSpeed = 0.1f;
 	[SerializeField] AnimationCurve movementCurve;
 	[SerializeField] AnimationCurve dashCurve;
@@ -295,7 +295,7 @@ public class PlayerController : MonoBehaviour {
 
 	//@TODO(Jaden): Add i-frames and trigger hitstun state when hit
 	private void OnTriggerEnter(Collider other) {
-		if (other.gameObject.layer == (int)Layers.EnemyHitbox && currentState != States.Dashing) { // player is getting hit
+		if (other.gameObject.layer == (int)Layers.EnemyHitbox && currentState != States.Dashing && kbTime <= 0) { // player is getting hit
 			health--;
 			if (health < 0) health = 0;
 			kbAngle = Quaternion.LookRotation(other.transform.position - this.transform.position);

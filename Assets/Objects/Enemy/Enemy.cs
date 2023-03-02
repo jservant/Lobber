@@ -91,7 +91,11 @@ public class Enemy : MonoBehaviour {
 
 	// NOTE(Roskuski): End of ai state
 
+	int health = 4;
 	bool shouldDie = false;
+	Quaternion kbAngle;
+	float kbTime = 0f;
+	float maxKbTime = 0.25f;
 	[SerializeField] bool isSandbag = false;
 	bool isImmune = false;
 
@@ -152,11 +156,14 @@ public class Enemy : MonoBehaviour {
 		return navAgent.remainingDistance - approchDistance;
 	}
 
-	void ChangeDirective_Stunned(float stunTime) {
+	void ChangeDirective_Stunned(float stunTime, Quaternion knockBackDirection) {
 		directive = Directive.Stunned;
 		stunDuration += stunTime;
 		animator.SetTrigger("wasHurt");
 		swordHitbox.enabled = false;
+
+		kbAngle = knockBackDirection;
+		kbTime = maxKbTime;
 	}
 
 	void ChangeDirective_Inactive(float inactiveWait) {
@@ -214,11 +221,21 @@ public class Enemy : MonoBehaviour {
 				PlayerController player = other.GetComponentInParent<PlayerController>();
 
 				if (player != null) {
+					Quaternion knockBackDir = player.transform.rotation;
 					switch (gameMan.playerController.currentAttack) {
 						case PlayerController.Attacks.LAttack:
-							ChangeDirective_Stunned(3.0f);
+							ChangeDirective_Stunned(3.0f, knockBackDir);
+							health--;
+							break;
+						case PlayerController.Attacks.LAttack2:
+							ChangeDirective_Stunned(3.0f, knockBackDir);
 							break;
 						case PlayerController.Attacks.Chop:
+							shouldDie = true;
+							player.health += 0;
+							if (player.health > player.healthMax) player.health = player.healthMax;
+							break;
+						case PlayerController.Attacks.Sweep:
 							shouldDie = true;
 							player.health += 0;
 							if (player.health > player.healthMax) player.health = player.healthMax;
@@ -312,6 +329,12 @@ public class Enemy : MonoBehaviour {
 				break;
 			case Directive.Stunned:
 				stunDuration -= Time.deltaTime;
+
+				if (kbTime > 0) {
+					kbTime -= Time.deltaTime;
+					transform.position += kbAngle * Vector3.forward * 20.0f * Mathf.Lerp(1, 0, Mathf.Clamp01(kbTime/maxKbTime)) * Time.deltaTime;
+				}
+
 				if (stunDuration < 0) {
 					ChangeDirective_Inactive(0);
 					stunDuration = 0;
@@ -681,25 +704,42 @@ public class Enemy : MonoBehaviour {
 						Debug.Assert(false);
 						break;
 					case Attack.Slash:
-						// @TODO(Roskuski): These hitbox activations were keyed to the animations before, make it so again
-						swordHitbox.enabled = true;
-						if (animationTimer < 0.0f) {
-							ChangeDirective_Inactive(0);
-							navAgent.enabled = true;
+						{
+							// @TODO(Roskuski): These hitbox activations were keyed to the animations before, make it so again
+							float animationTimerRatio = 1.0f - animationTimer / animationTimes["Enemy_Attack_Slash"];
+							if (animationTimerRatio >= 0.52f && animationTimerRatio <= 0.60f) {
+								swordHitbox.enabled = true;
+							}
+							else {
+								swordHitbox.enabled = false;
+							}
+							swordHitbox.enabled = true;
+							if (animationTimer < 0.0f) {
+								ChangeDirective_Inactive(0);
+								navAgent.enabled = true;
+							}
+							break;
 						}
-						break;
 					case Attack.Lunge:
-						swordHitbox.enabled = true;
-						float animationTimerRatio = animationTimer / animationTimes["Enemy_Attack_Dash"];
-						if (animationTimerRatio >= 0.5f && animationTimerRatio <= 0.7f) {
-							this.transform.position += (this.transform.rotation * Vector3.forward) * LungeSpeed * Time.deltaTime;
+						{
+							swordHitbox.enabled = true;
+							float animationTimerRatio = 1.0f - animationTimer / animationTimes["Enemy_Attack_Dash"];
+
+							if (animationTimerRatio >= 0.45f && animationTimerRatio <= 0.8f) {
+								this.transform.position += (this.transform.rotation * Vector3.forward) * LungeSpeed * Time.deltaTime;
+								swordHitbox.enabled = true;
+							}
+							else {
+								swordHitbox.enabled = false;
+							}
+
+							if (animationTimer < 0.0f) {
+								// If we found ourselves off geometry, wait util we finish falling.
+								ChangeDirective_Inactive(1.0f);
+								navAgent.enabled = true;
+							}
+							break;
 						}
-						if (animationTimer < 0.0f) {
-							// If we found ourselves off geometry, wait util we finish falling.
-							ChangeDirective_Inactive(1.0f);
-							navAgent.enabled = true;
-						}
-						break;
 				}
 				break;
 			default: Debug.Assert(false); break;
@@ -707,6 +747,10 @@ public class Enemy : MonoBehaviour {
 
 		animator.SetInteger("Ai Directive", (int)directive);
 		animationTimer -= Time.deltaTime * animator.GetCurrentAnimatorStateInfo(0).speed;
+
+		if (health <= 0) {
+			shouldDie = true;
+		}
 
 		if (shouldDie) {
 			Destroy(this.gameObject);
