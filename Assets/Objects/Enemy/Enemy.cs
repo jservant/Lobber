@@ -595,7 +595,7 @@ public class Enemy : MonoBehaviour {
 							new ChoiceEntry(3, new float[]{0.75f, 0.25f}),
 						};
 
-						if (gameMan.playerController.currentState == PlayerController.States.Hitstunned && attackCooldown > 0) {
+						if (gameMan.playerController.currentState == PlayerController.States.Hit && attackCooldown > 0) {
 							choices[1].baseWeight = 0;
 							choices[2].baseWeight = 0;
 						}

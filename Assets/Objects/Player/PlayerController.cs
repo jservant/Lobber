@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour {
 		//              None,              LightAttack,       HeavyAttack,       Throw                || Current Attack
 		new Attacks[]{  Attacks.None     , Attacks.LAttack  , Attacks.Chop     , Attacks.HeadThrow,}, // None
 		new Attacks[]{  Attacks.None     , Attacks.LAttack2 , Attacks.Sweep    , Attacks.HeadThrow,}, // LAttack
-		new Attacks[]{  Attacks.None     , Attacks.LAttack  , Attacks.Chop     , Attacks.HeadThrow,}, // LAttack2
+		new Attacks[]{  Attacks.None     , Attacks.None     , Attacks.Chop     , Attacks.HeadThrow,}, // LAttack2
 		new Attacks[]{  Attacks.None     , Attacks.None     , Attacks.None     , Attacks.None     ,}, // LAttack3
 		new Attacks[]{  Attacks.None     , Attacks.None     , Attacks.Sweep    , Attacks.HeadThrow,}, // Chop
 		new Attacks[]{  Attacks.None     , Attacks.None     , Attacks.None     , Attacks.None     ,}, // Sweep
@@ -75,6 +75,10 @@ public class PlayerController : MonoBehaviour {
 	public int healthMax = 20;
 	public int health = 0;
 	int ammo = 0;
+	Quaternion kbAngle;
+	float kbForce = 15f;						  // knockback speed
+	float maxKbTime = 1f;						  // knockback time
+	float kbTime = 0f;						  // knockback time
 	float turnSpeed = 0.1f;
 	[SerializeField] AnimationCurve movementCurve;
 	[SerializeField] AnimationCurve dashCurve;
@@ -83,7 +87,7 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField] float targetSphereRadius = 2f;
 	bool freeAim = false;
 
-	public enum States { Idle = 0, Walking, Attacking, Hitstunned, Dashing };
+	public enum States { Idle = 0, Walking, Attacking, Hit, Dashing };
 	public States currentState = 0;
 	public enum Attacks { None = 0, LAttack, LAttack2, LAttack3, Chop, Sweep, Spin, HeadThrow };
 	// some of these names are temp names that won't be used
@@ -143,34 +147,37 @@ public class PlayerController : MonoBehaviour {
 		// if no movement input and not attacking, decelerate
 		speedTime = Mathf.Clamp(speedTime, 0, maxSpeedTime);
 		// clamp accel value between 0 and a static maximum
+		kbTime -= Time.fixedDeltaTime;
+		if (kbTime <= 0) {
+			kbAngle = Quaternion.identity;
+			kbTime = 0f;
+		}
 
+		Vector3 moveDelta;
 		if (currentState == States.Dashing) {
-			// probably add an animation here at some point
-			//rb.AddForce(transform.forward * dashForce, ForceMode.Force); //trueInput.x, transform.position.y, trueInput.y
 			dashTime += Time.fixedDeltaTime;
-			Vector3 moveDirection = Quaternion.Euler(0f, trueAngle, 0f) * Vector3.forward;
-			transform.position += moveDirection.normalized * (dashForce * Mathf.Lerp(0, 1, dashCurve.Evaluate(dashTime / maxDashTime))) * Time.fixedDeltaTime;
+
+			Vector3 dashDirection = Quaternion.Euler(0f, trueAngle, 0f) * Vector3.forward;
+			moveDelta = dashDirection.normalized * (dashForce * Mathf.Lerp(0, 1, dashCurve.Evaluate(dashTime / maxDashTime)));
+
 			if (dashTime >= maxDashTime) {
 				dashTime = 0;
 				currentState = States.Idle;
-				//rb.velocity = Vector3.zero;
 				dashCooldown = maxDashCooldown;
 				trueAngle = 0;
 			}
 		}
-		else if (movement.magnitude >= 0.1f) { // && currentState != States.Hitstunned
-			// ryan's adapted movement code, meant to lerp player movement/rotation
+		else {
 			float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
 			float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnVelocity, turnSpeed);
 			transform.rotation = Quaternion.Euler(0f, angle, 0f);
-
 			Vector3 moveDirection = Quaternion.Euler(0f, angle, 0f) * Vector3.forward;
-
-			transform.position += moveDirection.normalized * (speed * Mathf.Lerp(0, 1, movementCurve.Evaluate(speedTime / maxSpeedTime))) * Time.fixedDeltaTime;
-		}
-		else {
-			transform.rotation = Quaternion.Euler(0f, transform.rotation.y, 0f);
-		}
+			moveDelta = moveDirection.normalized * (speed * Mathf.Lerp(0, 1, movementCurve.Evaluate(speedTime / maxSpeedTime)));
+		} 
+		float moveWeight = Mathf.Lerp(1, 0, Mathf.Clamp01(kbTime / maxKbTime));
+		float kbWeight = moveWeight - 1f;
+		Vector3 kbDelta = (kbAngle * Vector3.forward) * kbForce;
+		transform.position += (moveDelta * moveWeight + kbDelta * kbWeight) * Time.fixedDeltaTime;
 	}
 
 	private void Update() { // calculate time and input here
@@ -179,7 +186,7 @@ public class PlayerController : MonoBehaviour {
 		if (dashCooldown > 0) { dashCooldown -= Time.deltaTime; }
 
 		AttackButton preppingAttack = AttackButton.None;
-		//if (currentState != States.Hitstunned) {
+		//if (currentState != States.Hit) {
 		if (currentState != States.Attacking && currentState != States.Dashing) {
 			mInput = pActions.Player.Move.ReadValue<Vector2>();
 			if (pActions.Player.Move.WasReleasedThisFrame()) {
@@ -227,7 +234,7 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 
-		if (currentAttack != Attacks.None) { // || currentState == States.Hitstunned
+		if (currentAttack != Attacks.None) { // || currentState == States.Hit
 			// animator controller
 			animTimer -= Time.deltaTime * animr.GetCurrentAnimatorStateInfo(0).speed;
 			if (animTimer <= 0 && preppingAttack == AttackButton.None) { // reset everything after animation is done
@@ -291,14 +298,15 @@ public class PlayerController : MonoBehaviour {
 		if (other.gameObject.layer == (int)Layers.EnemyHitbox && currentState != States.Dashing) { // player is getting hit
 			health--;
 			if (health < 0) health = 0;
-			/*float something = Quaternion. other.transform.rotation.qu
-			float kbAngle = Mathf.Atan2(trueInput.x, trueInput.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
-			Vector3 kbDirection = Quaternion.Euler(0f, kbAngle, 0f) * Vector3.forward;
-			transform.position += kbDirection.normalized * (dashForce * Mathf.Lerp(0, 1, .5f)) * Time.fixedDeltaTime;*/
+			kbAngle = Quaternion.LookRotation(other.transform.position - this.transform.position);
+			kbTime = maxKbTime;
+			/*Vector3 kbDirection = Quaternion.Euler(0f, kbAngle, 0f) * Vector3.forward;
+			transform.position += kbDirection.normalized * (kbSpeed * Mathf.Lerp(0, 1, .5f)) * Time.fixedDeltaTime;*/
 			Debug.Log("OWIE " + other.name + " JUST HIT ME! I have " + health + " health");
+			//currentState = States.Hit;
 /*			animr.Play("Character_GetHit");
 			animTimer = animr.GetCurrentAnimatorStateInfo(0).length; animDuration = animTimer;
-			currentState = States.Hitstunned;*/
+			*/
 		}
 		else if (other.gameObject.layer == (int)Layers.EnemyHurtbox) { // player is hitting enemy
 			// NOTE(Roskuski): I hit the enemy!
