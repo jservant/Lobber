@@ -14,6 +14,7 @@ using UnityEngine.AI;
 // @TODO(Roskuski): Make enemies lay off while the player is damaged
 // @TODO(Roskuski): Increase the radius that enemies will strafe around the player
 // @TODO(Roskuski): Telegraph when enemies are moving in for a slicing attack
+// @TODO(Roskuski): look at getters and setters for automatically setting vars in the animator as well as in the script
 
 public class Enemy : MonoBehaviour {
 	static bool animationTimesPopulated = false;
@@ -578,8 +579,9 @@ public class Enemy : MonoBehaviour {
 				if (wantsSlash && DistanceToTravel() < 1.5f) {
 					ChangeDirective_PerformAttack(Attack.Slash);
 					wantsSlash = false;
+					animator.SetBool("wantsSlash", wantsSlash);
 				}
-				else if (DistanceToTravel() < 1.5f) {
+				else if (DistanceToTravel() < 1.5f && wantsSlash == false) {
 					flankStrength = float.PositiveInfinity;
 					choiceTimer -= Time.deltaTime;
 					attackCooldown -= Time.deltaTime;
