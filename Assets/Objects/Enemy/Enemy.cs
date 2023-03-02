@@ -94,7 +94,8 @@ public class Enemy : MonoBehaviour {
 	int health = 4;
 	bool shouldDie = false;
 	Quaternion kbAngle;
-	float kbTime = 0f; float maxKbTime = 1f;
+	float kbTime = 0f;
+	float maxKbTime = 0.25f;
 	[SerializeField] bool isSandbag = false;
 	bool isImmune = false;
 
@@ -155,11 +156,14 @@ public class Enemy : MonoBehaviour {
 		return navAgent.remainingDistance - approchDistance;
 	}
 
-	void ChangeDirective_Stunned(float stunTime) {
+	void ChangeDirective_Stunned(float stunTime, Quaternion knockBackDirection) {
 		directive = Directive.Stunned;
 		stunDuration += stunTime;
 		animator.SetTrigger("wasHurt");
 		swordHitbox.enabled = false;
+
+		kbAngle = knockBackDirection;
+		kbTime = maxKbTime;
 	}
 
 	void ChangeDirective_Inactive(float inactiveWait) {
@@ -217,16 +221,14 @@ public class Enemy : MonoBehaviour {
 				PlayerController player = other.GetComponentInParent<PlayerController>();
 
 				if (player != null) {
+					Quaternion knockBackDir = player.transform.rotation;
 					switch (gameMan.playerController.currentAttack) {
 						case PlayerController.Attacks.LAttack:
-							ChangeDirective_Stunned(3.0f);
+							ChangeDirective_Stunned(3.0f, knockBackDir);
 							health--;
-							kbAngle = Quaternion.LookRotation(other.transform.position - this.transform.position);
-							kbTime = maxKbTime;
 							break;
 						case PlayerController.Attacks.LAttack2:
-							ChangeDirective_Stunned(3.0f);
-							health--;
+							ChangeDirective_Stunned(3.0f, knockBackDir);
 							break;
 						case PlayerController.Attacks.Chop:
 							shouldDie = true;
@@ -327,6 +329,12 @@ public class Enemy : MonoBehaviour {
 				break;
 			case Directive.Stunned:
 				stunDuration -= Time.deltaTime;
+
+				if (kbTime > 0) {
+					kbTime -= Time.deltaTime;
+					transform.position += kbAngle * Vector3.forward * 20.0f * Mathf.Lerp(1, 0, Mathf.Clamp01(kbTime/maxKbTime)) * Time.deltaTime;
+				}
+
 				if (stunDuration < 0) {
 					ChangeDirective_Inactive(0);
 					stunDuration = 0;
