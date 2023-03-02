@@ -93,6 +93,17 @@ public class PlayerController : MonoBehaviour {
 	//public bool prepAttack = false;
 	float turnVelocity;
 
+	/*public IEnumerator FlashColor(Color color, float flashTime, float flashes)
+	{
+		foreach (Renderer r in GetComponentsInChildren<Renderer>())
+		{
+			foreach (Material mat in r.materials)
+			{
+				mat.shader. Shader.Find("Universal Render Pipeline/Lit")
+			}
+		}
+	}*/
+
 	private void Awake() {
 		//capCol = GetComponent<CapsuleCollider>();
 		rb = GetComponent<Rigidbody>();
@@ -195,9 +206,7 @@ public class PlayerController : MonoBehaviour {
 			preppingAttack = AttackButton.Throw;
 		}
 
-
 		if (pActions.Player.Dash.WasPerformedThisFrame() && trueInput.sqrMagnitude >= 0.1f) {
-			Debug.Log("Dash activated, trueInput value: " + trueInput);
 			currentState = States.Dashing;
 			trueAngle = Mathf.Atan2(trueInput.x, trueInput.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
 			transform.rotation = Quaternion.Euler(0f, trueAngle, 0f);
@@ -298,7 +307,7 @@ public class PlayerController : MonoBehaviour {
 
 	void ChangeAmmo(int Amount) {
 		ammo += Amount;
-		gameManager.ammoUI.text = "AMMO: " + ammo;
+		gameManager.ammoUI.text = "SKULLS: " + ammo;
 		if (Amount >= 1) {
 			headMesh.enabled = true;
 			headMeshTrail.enabled = true;
