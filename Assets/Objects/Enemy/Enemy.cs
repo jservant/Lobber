@@ -10,20 +10,6 @@ using UnityEngine.AI;
  * Enemy AI Wants: actions this AI wants to do when given the oppertunity
  */
 
-/*
- * Feedback Christian Hotte & David Marshal (2-27-2023):
- * (I might have been hand spawning too many enemies)
- * Enemies are too evasive
- * I want to aim with the right stick
- * I don't want to change the camera
- * Enemy ai personalities should be visable (Can we do a magic accent color?)
- * I want to work towards "rockstar mode" super attacks
- * Getting hit and stunned by enemies is too brutal
- * I like moving obsticals (slow rotating bar)
- * Make Attacks more telegraphed
- */
-
-
 // @TODO(Roskuski): Make sure enemies behave well on slopes
 // @TODO(Roskuski): Make enemies lay off while the player is damaged
 // @TODO(Roskuski): Increase the radius that enemies will strafe around the player
