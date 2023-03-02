@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Orb : MonoBehaviour
 {
-    public int despawnTime;
+    public float despawnTime;
 
     public Animator anim;
 
