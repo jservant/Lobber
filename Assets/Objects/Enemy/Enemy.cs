@@ -93,6 +93,8 @@ public class Enemy : MonoBehaviour {
 
 	int health = 4;
 	bool shouldDie = false;
+	Quaternion kbAngle;
+	float kbTime = 0f; float maxKbTime = 1f;
 	[SerializeField] bool isSandbag = false;
 	bool isImmune = false;
 
@@ -219,6 +221,8 @@ public class Enemy : MonoBehaviour {
 						case PlayerController.Attacks.LAttack:
 							ChangeDirective_Stunned(3.0f);
 							health--;
+							kbAngle = Quaternion.LookRotation(other.transform.position - this.transform.position);
+							kbTime = maxKbTime;
 							break;
 						case PlayerController.Attacks.LAttack2:
 							ChangeDirective_Stunned(3.0f);
