@@ -72,7 +72,7 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField] float maxDashTime = 1f;      // how long does it take for player to dash?
 	[SerializeField] float maxDashCooldown = 1f;  // how long does it take for player to dash again after dashing?
 	[SerializeField] float dashCooldown = 1f;
-	public int healthMax = 5;
+	public int healthMax = 20;
 	public int health = 0;
 	int ammo = 0;
 	float turnSpeed = 0.1f;
@@ -291,6 +291,10 @@ public class PlayerController : MonoBehaviour {
 		if (other.gameObject.layer == (int)Layers.EnemyHitbox && currentState != States.Dashing) { // player is getting hit
 			health--;
 			if (health < 0) health = 0;
+			/*float something = Quaternion. other.transform.rotation.qu
+			float kbAngle = Mathf.Atan2(trueInput.x, trueInput.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
+			Vector3 kbDirection = Quaternion.Euler(0f, kbAngle, 0f) * Vector3.forward;
+			transform.position += kbDirection.normalized * (dashForce * Mathf.Lerp(0, 1, .5f)) * Time.fixedDeltaTime;*/
 			Debug.Log("OWIE " + other.name + " JUST HIT ME! I have " + health + " health");
 /*			animr.Play("Character_GetHit");
 			animTimer = animr.GetCurrentAnimatorStateInfo(0).length; animDuration = animTimer;

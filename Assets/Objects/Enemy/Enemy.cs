@@ -220,6 +220,8 @@ public class Enemy : MonoBehaviour {
 							break;
 						case PlayerController.Attacks.Chop:
 							shouldDie = true;
+							player.health += 0;
+							if (player.health > player.healthMax) player.health = player.healthMax;
 							break;
 						default:
 							Debug.Log("I, " + this.name + " was hit by an unhandled attack (" + gameMan.playerController.currentAttack + ")");
