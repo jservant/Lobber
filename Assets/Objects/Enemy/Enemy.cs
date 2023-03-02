@@ -681,25 +681,42 @@ public class Enemy : MonoBehaviour {
 						Debug.Assert(false);
 						break;
 					case Attack.Slash:
-						// @TODO(Roskuski): These hitbox activations were keyed to the animations before, make it so again
-						swordHitbox.enabled = true;
-						if (animationTimer < 0.0f) {
-							ChangeDirective_Inactive(0);
-							navAgent.enabled = true;
+						{
+							// @TODO(Roskuski): These hitbox activations were keyed to the animations before, make it so again
+							float animationTimerRatio = 1.0f - animationTimer / animationTimes["Enemy_Attack_Slash"];
+							if (animationTimerRatio >= 0.52f && animationTimerRatio <= 0.60f) {
+								swordHitbox.enabled = true;
+							}
+							else {
+								swordHitbox.enabled = false;
+							}
+							swordHitbox.enabled = true;
+							if (animationTimer < 0.0f) {
+								ChangeDirective_Inactive(0);
+								navAgent.enabled = true;
+							}
+							break;
 						}
-						break;
 					case Attack.Lunge:
-						swordHitbox.enabled = true;
-						float animationTimerRatio = animationTimer / animationTimes["Enemy_Attack_Dash"];
-						if (animationTimerRatio >= 0.5f && animationTimerRatio <= 0.7f) {
-							this.transform.position += (this.transform.rotation * Vector3.forward) * LungeSpeed * Time.deltaTime;
+						{
+							swordHitbox.enabled = true;
+							float animationTimerRatio = 1.0f - animationTimer / animationTimes["Enemy_Attack_Dash"];
+
+							if (animationTimerRatio >= 0.45f && animationTimerRatio <= 0.8f) {
+								this.transform.position += (this.transform.rotation * Vector3.forward) * LungeSpeed * Time.deltaTime;
+								swordHitbox.enabled = true;
+							}
+							else {
+								swordHitbox.enabled = false;
+							}
+
+							if (animationTimer < 0.0f) {
+								// If we found ourselves off geometry, wait util we finish falling.
+								ChangeDirective_Inactive(1.0f);
+								navAgent.enabled = true;
+							}
+							break;
 						}
-						if (animationTimer < 0.0f) {
-							// If we found ourselves off geometry, wait util we finish falling.
-							ChangeDirective_Inactive(1.0f);
-							navAgent.enabled = true;
-						}
-						break;
 				}
 				break;
 			default: Debug.Assert(false); break;
