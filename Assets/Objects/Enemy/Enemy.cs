@@ -91,6 +91,7 @@ public class Enemy : MonoBehaviour {
 
 	// NOTE(Roskuski): End of ai state
 
+	int health = 4;
 	bool shouldDie = false;
 	[SerializeField] bool isSandbag = false;
 	bool isImmune = false;
@@ -217,8 +218,18 @@ public class Enemy : MonoBehaviour {
 					switch (gameMan.playerController.currentAttack) {
 						case PlayerController.Attacks.LAttack:
 							ChangeDirective_Stunned(3.0f);
+							health--;
+							break;
+						case PlayerController.Attacks.LAttack2:
+							ChangeDirective_Stunned(3.0f);
+							health--;
 							break;
 						case PlayerController.Attacks.Chop:
+							shouldDie = true;
+							player.health += 0;
+							if (player.health > player.healthMax) player.health = player.healthMax;
+							break;
+						case PlayerController.Attacks.Sweep:
 							shouldDie = true;
 							player.health += 0;
 							if (player.health > player.healthMax) player.health = player.healthMax;
@@ -724,6 +735,10 @@ public class Enemy : MonoBehaviour {
 
 		animator.SetInteger("Ai Directive", (int)directive);
 		animationTimer -= Time.deltaTime * animator.GetCurrentAnimatorStateInfo(0).speed;
+
+		if (health <= 0) {
+			shouldDie = true;
+		}
 
 		if (shouldDie) {
 			Destroy(this.gameObject);
