@@ -44,6 +44,15 @@ public partial class @DebugActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""SwitchScene"",
+                    ""type"": ""Button"",
+                    ""id"": ""76d5a4e2-362b-4c47-b643-cee2f69d36fe"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -66,6 +75,28 @@ public partial class @DebugActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""MouseLocation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a1212477-ca47-46ef-a6a9-005c9409d872"",
+                    ""path"": ""<Keyboard>/l"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""M&K"",
+                    ""action"": ""SwitchScene"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7e50be28-a9e7-47c8-9bac-3bd451651b44"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchScene"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -95,6 +126,7 @@ public partial class @DebugActions: IInputActionCollection2, IDisposable
         m_DebugTools = asset.FindActionMap("DebugTools", throwIfNotFound: true);
         m_DebugTools_SpawnEnemy = m_DebugTools.FindAction("SpawnEnemy", throwIfNotFound: true);
         m_DebugTools_MouseLocation = m_DebugTools.FindAction("MouseLocation", throwIfNotFound: true);
+        m_DebugTools_SwitchScene = m_DebugTools.FindAction("SwitchScene", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -158,12 +190,14 @@ public partial class @DebugActions: IInputActionCollection2, IDisposable
     private List<IDebugToolsActions> m_DebugToolsActionsCallbackInterfaces = new List<IDebugToolsActions>();
     private readonly InputAction m_DebugTools_SpawnEnemy;
     private readonly InputAction m_DebugTools_MouseLocation;
+    private readonly InputAction m_DebugTools_SwitchScene;
     public struct DebugToolsActions
     {
         private @DebugActions m_Wrapper;
         public DebugToolsActions(@DebugActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @SpawnEnemy => m_Wrapper.m_DebugTools_SpawnEnemy;
         public InputAction @MouseLocation => m_Wrapper.m_DebugTools_MouseLocation;
+        public InputAction @SwitchScene => m_Wrapper.m_DebugTools_SwitchScene;
         public InputActionMap Get() { return m_Wrapper.m_DebugTools; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -179,6 +213,9 @@ public partial class @DebugActions: IInputActionCollection2, IDisposable
             @MouseLocation.started += instance.OnMouseLocation;
             @MouseLocation.performed += instance.OnMouseLocation;
             @MouseLocation.canceled += instance.OnMouseLocation;
+            @SwitchScene.started += instance.OnSwitchScene;
+            @SwitchScene.performed += instance.OnSwitchScene;
+            @SwitchScene.canceled += instance.OnSwitchScene;
         }
 
         private void UnregisterCallbacks(IDebugToolsActions instance)
@@ -189,6 +226,9 @@ public partial class @DebugActions: IInputActionCollection2, IDisposable
             @MouseLocation.started -= instance.OnMouseLocation;
             @MouseLocation.performed -= instance.OnMouseLocation;
             @MouseLocation.canceled -= instance.OnMouseLocation;
+            @SwitchScene.started -= instance.OnSwitchScene;
+            @SwitchScene.performed -= instance.OnSwitchScene;
+            @SwitchScene.canceled -= instance.OnSwitchScene;
         }
 
         public void RemoveCallbacks(IDebugToolsActions instance)
@@ -219,5 +259,6 @@ public partial class @DebugActions: IInputActionCollection2, IDisposable
     {
         void OnSpawnEnemy(InputAction.CallbackContext context);
         void OnMouseLocation(InputAction.CallbackContext context);
+        void OnSwitchScene(InputAction.CallbackContext context);
     }
 }

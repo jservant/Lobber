@@ -516,6 +516,9 @@ MonoBehaviour:
   SkullPrefab: {fileID: 3919287289124563026, guid: 52272a60c576cf44f83ffd05df295b1d, type: 3}
   EnemyPrefab: {fileID: 2369981039474322611, guid: 015c14080a009154f94ee3a0f18a0813, type: 3}
   HeadPickupPrefab: {fileID: 3395385700525420028, guid: b1fee1cf1efa83f4590e8f5cb85112e2, type: 3}
+  scenes:
+  - Scenes/Anthony/Prototype Anthony
+  - Scenes/Anthony/FLAT Level_K
   updateTimeScale: 1
 --- !u!114 &265965205
 MonoBehaviour:
@@ -562,6 +565,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 163143e1-2f33-4c1d-9163-df86f7d3161c
     m_ActionName: DebugTools/MouseLocation[/Mouse/position]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 76d5a4e2-362b-4c47-b643-cee2f69d36fe
+    m_ActionName: DebugTools/SwitchScene[/Keyboard/l,/XInputControllerWindows/dpad/left]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: M&K
   m_DefaultActionMap: DebugTools

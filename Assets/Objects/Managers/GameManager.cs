@@ -18,6 +18,9 @@ public class GameManager : MonoBehaviour {
 	public GameObject EnemyPrefab;
 	public GameObject HeadPickupPrefab;
 
+	public string[] scenes;
+	static int sceneValue = 0;
+
 	public bool updateTimeScale = true;
 
 
@@ -60,6 +63,14 @@ public class GameManager : MonoBehaviour {
 				Debug.Log(EnemyPrefab.name + " spawned at " + hit.point);
 				Instantiate(EnemyPrefab, hit.point, Quaternion.identity);
 			}
+		}
+
+		if (dActions.DebugTools.SwitchScene.WasPerformedThisFrame()) {
+			sceneValue++;
+			if (sceneValue >= scenes.Length) {
+				sceneValue = 0;
+			}
+			SceneManager.LoadScene(scenes[sceneValue]);
 		}
 
 		UpdateHealthBar();
