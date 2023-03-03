@@ -1256,6 +1256,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trueInput: {x: 0, y: 0}
+  rAimInput: {x: 0, y: 0}
   mInput: {x: 0, y: 0}
   movement: {x: 0, y: 0, z: 0}
   speed: 10
@@ -1263,6 +1264,10 @@ MonoBehaviour:
   dashForce: 20
   dashTime: 0
   maxDashTime: 0.5
+  maxDashCooldown: 1
+  dashCooldown: 1
+  healthMax: 20
+  health: 0
   movementCurve:
     serializedVersion: 2
     m_Curve:
@@ -1316,7 +1321,6 @@ MonoBehaviour:
   targetSphereRadius: 2
   currentState: 0
   currentAttack: 0
-  preppingAttack: 0
 --- !u!114 &3072909949348366208
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -178,6 +178,15 @@ public class PlayerController : MonoBehaviour {
 		float kbWeight = moveWeight - 1f;
 		Vector3 kbDelta = (kbAngle * Vector3.forward) * kbForce;
 		transform.position += (moveDelta * moveWeight + kbDelta * kbWeight) * Time.fixedDeltaTime;
+
+		if (freeAim) {
+			if (rAimInput != Vector2.zero) {
+				transform.rotation = Quaternion.LookRotation(new Vector3(rAimInput.x, 0, rAimInput.y));
+			}
+			else if (trueInput != Vector2.zero) {
+				transform.rotation = Quaternion.LookRotation(new Vector3(trueInput.x, 0, trueInput.y));
+			}
+		}
 	}
 
 	private void Update() { // calculate time and input here
