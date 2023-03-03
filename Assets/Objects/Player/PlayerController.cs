@@ -79,7 +79,7 @@ public class PlayerController : MonoBehaviour {
 	float kbForce = 15f;						  // knockback speed
 	float maxKbTime = 1f;						  // knockback time
 	float kbTime = 0f;						      // knockback time
-	float turnSpeed = 0.1f;
+	[SerializeField]float turnSpeed = 0.05f;
 	[SerializeField] AnimationCurve movementCurve;
 	[SerializeField] AnimationCurve dashCurve;
 	[SerializeField] float animTimer = 0f;
