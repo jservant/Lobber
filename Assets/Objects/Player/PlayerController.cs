@@ -67,6 +67,7 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField] float speed = 10f;           // top player speed
 	float speedTime = 0f;                         // how long has player been moving for?
 	[SerializeField] float maxSpeedTime = 0.4f;   // how long does it take for player to reach max speed?
+	[SerializeField] float attackSlowdownModifier = 5f;   // how long does player slide for after attacking
 	[SerializeField] float dashForce = 10f;		  // dash strength (how far do you go)
 	[SerializeField] float dashTime = 0f;         // how long has player been dashing for?
 	[SerializeField] float maxDashTime = 1f;      // how long does it take for player to dash?
@@ -87,7 +88,7 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField] float targetSphereRadius = 2f;
 	bool freeAim = false;
 
-	public enum States { Idle = 0, Walking, Attacking, Hit, Dashing };
+	public enum States { Idle = 0, Walking, Attacking, Hit, Dashing, Death };
 	public States currentState = 0;
 	public enum Attacks { None = 0, LAttack, LAttack2, LAttack3, Chop, Sweep, Spin, HeadThrow };
 	// some of these names are temp names that won't be used
@@ -140,7 +141,7 @@ public class PlayerController : MonoBehaviour {
 
 	private void FixedUpdate() { // calculate movement here
 								 // accel/decel for movement
-		if (mInput != Vector2.zero && currentState == States.Attacking) { speedTime -= (Time.fixedDeltaTime / 2); }
+		if (mInput != Vector2.zero && currentState == States.Attacking) { speedTime -= (Time.fixedDeltaTime / attackSlowdownModifier); }
 		// if attacking, reduce movement at half speed to produce sliding effect
 		else if (mInput != Vector2.zero) { speedTime += Time.fixedDeltaTime; } // else build up speed while moving
 		else { speedTime -= Time.fixedDeltaTime; }
@@ -193,8 +194,17 @@ public class PlayerController : MonoBehaviour {
 		trueInput = pActions.Player.Move.ReadValue<Vector2>();
 		rAimInput = pActions.Player.Aim.ReadValue<Vector2>();
 		if (dashCooldown > 0) { dashCooldown -= Time.deltaTime; }
-
 		AttackButton preppingAttack = AttackButton.None;
+
+		if (transform.position.y <= -50f) {
+			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+		}
+
+		if (health > healthMax) { health = healthMax; }
+		if (health <= 0) {
+			Death();
+		}
+
 		//if (currentState != States.Hit) {
 		if (currentState != States.Attacking && currentState != States.Dashing) {
 			mInput = pActions.Player.Move.ReadValue<Vector2>();
@@ -414,6 +424,13 @@ public class PlayerController : MonoBehaviour {
 		if (doSnap) {
 			SnapToTarget();
 		} else { speedTime = 0; } // stops player movement when throwing. change later if other attacks don't snap
+	}
+
+	void Death() {
+		currentState = States.Death;
+		currentAttack = Attacks.None;
+		animr.Play("Character_Death_Test");
+		//float deathTimer = animationTimes[animr.curr]
 	}
 
 	void OnEnable() { pActions.Enable(); }
