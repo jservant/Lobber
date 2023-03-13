@@ -155,7 +155,7 @@ public class PlayerController : MonoBehaviour {
 		Vector3 moveDelta;
 		if (currentState == States.Dashing) {
 			dashTime += Time.fixedDeltaTime;
-
+			animr.SetBool("isDashing", true);
 			Vector3 dashDirection = Quaternion.Euler(0f, trueAngle, 0f) * Vector3.forward;
 			moveDelta = dashDirection.normalized * (dashForce * Mathf.Lerp(0, 1, dashCurve.Evaluate(dashTime / maxDashTime)));
 
@@ -164,6 +164,7 @@ public class PlayerController : MonoBehaviour {
 				currentState = States.Idle;
 				dashCooldown = maxDashCooldown;
 				trueAngle = 0;
+				animr.SetBool("isDashing", false);
 			}
 		}
 		else {
