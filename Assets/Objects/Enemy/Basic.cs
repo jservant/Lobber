@@ -113,6 +113,7 @@ public class Basic : MonoBehaviour {
 	NavMeshAgent navAgent;
 	Animator animator;
 	BoxCollider swordHitbox;
+	EnemyCommunication enemyCommunication;
 
 	// NOTE(Roskuski): External references
 	GameManager gameMan;
@@ -205,7 +206,7 @@ public class Basic : MonoBehaviour {
 		}
 		Collider[] nearEnemies = Physics.OverlapSphere(transform.position, 100, Mask.Get(Layers.EnemyHurtbox));
 		foreach (Collider enemyCol in nearEnemies) {
-			enemyCol.GetComponent<Enemy>().attackCooldown = 4.0f + Random.Range(0.0f, 1.0f);
+			enemyCol.GetComponent<EnemyCommunication>().nearbyAttacker += 1;
 		}
 	}
 
@@ -269,6 +270,7 @@ public class Basic : MonoBehaviour {
 		navAgent = this.GetComponent<NavMeshAgent>();
 		animator = this.GetComponent<Animator>();
 		swordHitbox = transform.Find("Weapon_Controller").GetComponent<BoxCollider>();
+		enemyCommunication = this.GetComponent<EnemyCommunication>();
 
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 
@@ -297,6 +299,12 @@ public class Basic : MonoBehaviour {
 		Quaternion playerRotation = gameMan.player.rotation;
 		Vector3 deltaToPlayer = gameMan.player.position - this.transform.position;
 		float distanceToPlayer = Vector3.Distance(this.transform.position, gameMan.player.position);
+
+		// Processing information from other enemies
+		for (int index = 0; index < enemyCommunication.nearbyAttacker; index += 1) {
+			attackCooldown += 4.0f + Random.Range(0.0f, 1.0f);
+		}
+		enemyCommunication.nearbyAttacker = 0;
 
 		// Directive Changing
 		switch (directive) {
