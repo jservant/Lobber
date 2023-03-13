@@ -16,7 +16,7 @@ using UnityEngine.AI;
 // @TODO(Roskuski): Telegraph when enemies are moving in for a slicing attack
 // @TODO(Roskuski): look at getters and setters for automatically setting vars in the animator as well as in the script
 
-public class Enemy : MonoBehaviour {
+public class Basic : MonoBehaviour {
 	static bool animationTimesPopulated = false;
 	static Dictionary<string,float> animationTimes;
 	// NOTE(Roskuski): Enemy ai state
@@ -229,6 +229,7 @@ public class Enemy : MonoBehaviour {
 							break;
 						case PlayerController.Attacks.LAttack2:
 							ChangeDirective_Stunned(3.0f, knockBackDir);
+							health--;
 							break;
 						case PlayerController.Attacks.Chop:
 							shouldDie = true;
