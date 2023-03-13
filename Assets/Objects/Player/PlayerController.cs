@@ -7,6 +7,7 @@ using TMPro;
 
 public class PlayerController : MonoBehaviour {
 
+	#region Combo tree
 	readonly Attacks[][] AttackCancel = {
 		// AttackButton
 		//              None,              LightAttack,       HeavyAttack,       Throw                || Current Attack
@@ -43,7 +44,20 @@ public class PlayerController : MonoBehaviour {
 
 	static bool animationTimesPopulated = false;
 	static Dictionary<string, float> animationTimes;
+	#endregion
 
+	#region State machines
+	//[Header("States:")]
+	public enum States { Idle = 0, Walking, Attacking, Hit, Dashing, Death };
+	public States currentState = 0;
+	public enum Attacks { None = 0, LAttack, LAttack2, LAttack3, Chop, Sweep, Spin, HeadThrow };
+	// some of these names are temp names that won't be used
+	public Attacks currentAttack = 0;
+	public enum AttackButton { None = 0, LightAttack, HeavyAttack, Throw };
+	[Space]
+	#endregion
+
+	[Header("Object assignments:")]
 	//CapsuleCollider capCol;
 	Rigidbody rb;
 	Animator animr;
@@ -53,12 +67,11 @@ public class PlayerController : MonoBehaviour {
 	Transform projSpawn;
 	BoxCollider axeHitbox;
 	GameManager gameManager;
-
 	Vector3 enemyTarget;
 	List<GameObject> enemiesHit;
-
 	public DefaultPlayerActions pActions;
 
+	[Header("Movement:")]
 	public Vector2 trueInput;                     // movement vector read from left stick
 	public Vector2 rAimInput;                     // aiming vector read from right stick
 	float trueAngle = 0f;                         // movement angle float generated from trueInput
@@ -87,27 +100,8 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField] float animDuration = 0f;
 	[SerializeField] float targetSphereRadius = 2f;
 	bool freeAim = false;
-
-	public enum States { Idle = 0, Walking, Attacking, Hit, Dashing, Death };
-	public States currentState = 0;
-	public enum Attacks { None = 0, LAttack, LAttack2, LAttack3, Chop, Sweep, Spin, HeadThrow };
-	// some of these names are temp names that won't be used
-	public Attacks currentAttack = 0;
-	public enum AttackButton { None = 0, LightAttack, HeavyAttack, Throw };
-
 	//public bool prepAttack = false;
 	float turnVelocity;
-
-	/*public IEnumerator FlashColor(Color color, float flashTime, float flashes)
-	{
-		foreach (Renderer r in GetComponentsInChildren<Renderer>())
-		{
-			foreach (Material mat in r.materials)
-			{
-				mat.shader. Shader.Find("Universal Render Pipeline/Lit")
-			}
-		}
-	}*/
 
 	private void Awake() {
 		//capCol = GetComponent<CapsuleCollider>();
@@ -140,7 +134,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	private void FixedUpdate() { // calculate movement here
-								 // accel/decel for movement
+		// accel/decel for movement
 		if (mInput != Vector2.zero && currentState == States.Attacking) { speedTime -= (Time.fixedDeltaTime / attackSlowdownModifier); }
 		// if attacking, reduce movement at half speed to produce sliding effect
 		else if (mInput != Vector2.zero) { speedTime += Time.fixedDeltaTime; } // else build up speed while moving
@@ -266,52 +260,6 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-	public void LobThrow() { // triggered in animator
-		ChangeAmmo(-1);
-		freeAim = false;
-		GameObject iHeadProj = Instantiate(headProj, projSpawn.position, transform.rotation);
-	}
-
-	Vector3 GetTargetSphereLocation() {
-		if (trueInput == Vector2.zero && rAimInput == Vector2.zero) {
-			return transform.position + transform.rotation * new Vector3(0, 1.2f, 2.5f);
-		}
-		else if (rAimInput.sqrMagnitude >= 0.1f) {
-			return transform.position + Quaternion.LookRotation(new Vector3(rAimInput.x, 0, rAimInput.y), Vector3.up) * new Vector3(0, 1.2f, 2.5f);
-		}
-		else {
-			return transform.position + Quaternion.LookRotation(new Vector3(trueInput.x, 0, trueInput.y), Vector3.up) * new Vector3(0, 1.2f, 2.5f);
-		}
-	}
-
-	void SnapToTarget() { // attack homing function
-		enemyTarget = Vector3.zero; // free the target vector
-		Collider[] eColliders = Physics.OverlapSphere(GetTargetSphereLocation(), targetSphereRadius, Mask.Get(Layers.EnemyHurtbox));
-		// find all colliders in the sphere
-		//Debug.Log("eColliders length: " + eColliders.Length);
-		float difference = 10f;
-		for (int index = 0; index < eColliders.Length; index += 1) { // for each v3
-		//print("Collider #" + index + " name: " + eColliders[index].gameObject.name);
-
-			float newDifference = Vector3.Distance(transform.position, eColliders[index].transform.position);
-			if (newDifference < difference) {
-				difference = newDifference;
-				enemyTarget = eColliders[index].transform.position;
-			}
-		}
-		if (enemyTarget != Vector3.zero) {
-			print("Player's position: " + transform.position + " Target enemy's position: " + enemyTarget);
-			//TODO(@Jaden): doesn't work right when camera is rotated?
-			this.movement = (enemyTarget - transform.position).normalized;
-			transform.LookAt(enemyTarget); // point player at closest enemy
-		}
-		/*else {
-			print("No enemies found. Player movement vector: " + movement);
-			enemyTarget = movement;
-		}*/
-		speedTime = maxSpeedTime; // makes player move forward after attacking in tandem with ryan's code
-	}
-
 	//@TODO(Jaden): Add i-frames and trigger hitstun state when hit
 	private void OnTriggerEnter(Collider other) {
 		if (other.gameObject.layer == (int)Layers.EnemyHitbox && currentState != States.Dashing && kbTime <= 0) { // player is getting hit
@@ -336,6 +284,30 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
+	//@TODO(Jaden): Add OnTriggerEnter to make axe hitbox work, remember to do hitstun on enemy
+	// so it doesn't melt their health
+
+	//TODO(@Jaden): Make the player flash when getting hit.
+	// Rough code sketch from Christian:
+
+	/*public IEnumerator FlashColor(Color color, float flashTime, float flashes)
+	{
+		foreach (Renderer r in GetComponentsInChildren<Renderer>())
+		{
+			foreach (Material mat in r.materials)
+			{
+				mat.shader. Shader.Find("Universal Render Pipeline/Lit")
+			}
+		}
+	}*/
+
+	#region Combat functions
+	public void LobThrow() { // triggered in animator
+		ChangeAmmo(-1);
+		freeAim = false;
+		GameObject iHeadProj = Instantiate(headProj, projSpawn.position, transform.rotation);
+	}
+
 	void ChangeAmmo(int Amount) {
 		ammo += Amount;
 		gameManager.ammoUI.text = "SKULLS: " + ammo;
@@ -349,61 +321,45 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-	//@TODO(Jaden): Add OnTriggerEnter to make axe hitbox work, remember to do hitstun on enemy
-	// so it doesn't melt their health
+	void SnapToTarget() { // attack homing function
+		enemyTarget = Vector3.zero; // free the target vector
+		Collider[] eColliders = Physics.OverlapSphere(GetTargetSphereLocation(), targetSphereRadius, Mask.Get(Layers.EnemyHurtbox));
+		// find all colliders in the sphere
+		//Debug.Log("eColliders length: " + eColliders.Length);
+		float difference = 10f;
+		for (int index = 0; index < eColliders.Length; index += 1) { // for each v3
+																	 //print("Collider #" + index + " name: " + eColliders[index].gameObject.name);
 
-	#region Minor utility functions
-	/*IEnumerator AnimBuffer(string animName, float duration, bool offWhenDone)
-    {
-        if (animr.GetBool(animName) == true) yield break;
-        animr.SetBool(animName, true);
-        animBuffer = true;
-        yield return new WaitForSeconds(duration);
-        animBuffer = false;
-        if (offWhenDone) {
-            animr.SetBool(animName, false);
-            if (animr.GetBool("walking") == true) { currentState = (int)States.Walking; }
-            else currentState = (int)States.Idle;
-        }
-    }*/
+			float newDifference = Vector3.Distance(transform.position, eColliders[index].transform.position);
+			if (newDifference < difference) {
+				difference = newDifference;
+				enemyTarget = eColliders[index].transform.position;
+			}
+		}
+		if (enemyTarget != Vector3.zero) {
+			print("Player's position: " + transform.position + " Target enemy's position: " + enemyTarget);
+			//TODO(@Jaden): doesn't work right when camera is rotated?
+			this.movement = (enemyTarget - transform.position).normalized;
+			transform.LookAt(enemyTarget); // point player at closest enemy
+		}
+		/*else {
+			print("No enemies found. Player movement vector: " + movement);
+			enemyTarget = movement;
+		}*/
+		speedTime = maxSpeedTime; // makes player move forward after attacking in tandem with ryan's code
+	}
 
-	/*void LookAtMouse()
-    {
-        Vector3 mPos = Vector3.zero;
-        Plane plane = new Plane(Vector3.up, 0);
-        float distance;
-        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-        if (plane.Raycast(ray, out distance))
-        {
-            mPos = ray.GetPoint(distance);
-        }
-        Vector3 heightCorrectedPoint = new Vector3(mPos.x, transform.position.y, mPos.z);
-        //movement = heightCorrectedPoint
-        Debug.Log("Mouse Look At point: " + heightCorrectedPoint);
-        transform.LookAt(heightCorrectedPoint);
-        //movement = heightCorrectedPoint; mayb for mouse attack dashing?
-        //Debug.Log("heightCorrectedPoint: " + heightCorrectedPoint);
-    }*/
-	static readonly string[] AttackToClipName = {
-		"None",
-		"Character_Attack1",
-		"Character_Attack2",
-		"LAttack3 Not Implmented",
-		"Character_Chop",
-		"Character_Sweep",
-		"Spin Not Implmented",
-		"Character_Chop_Throw"
-	};
-	static readonly string[] AttackToStateName = {
-		"None",
-		"Base Layer.Character_Attack1",
-		"Base Layer.Character_Attack2",
-		"LAttack3 Not Implmented",
-		"Base Layer.Character_Chop",
-		"Base Layer.Character_Sweep",
-		"Spin Not Implmented",
-		"Base Layer.Character_Chop_Throw",
-	};
+	Vector3 GetTargetSphereLocation() {
+		if (trueInput == Vector2.zero && rAimInput == Vector2.zero) {
+			return transform.position + transform.rotation * new Vector3(0, 1.2f, 2.5f);
+		}
+		else if (rAimInput.sqrMagnitude >= 0.1f) {
+			return transform.position + Quaternion.LookRotation(new Vector3(rAimInput.x, 0, rAimInput.y), Vector3.up) * new Vector3(0, 1.2f, 2.5f);
+		}
+		else {
+			return transform.position + Quaternion.LookRotation(new Vector3(trueInput.x, 0, trueInput.y), Vector3.up) * new Vector3(0, 1.2f, 2.5f);
+		}
+	}
 
 	void setCurrentAttack(Attacks attack, bool doSnap = true) {
 		currentState = States.Attacking;
@@ -430,9 +386,40 @@ public class PlayerController : MonoBehaviour {
 		currentState = States.Death;
 		currentAttack = Attacks.None;
 		animr.Play("Character_Death_Test");
-		//float deathTimer = animationTimes[animr.curr]
+		float deathTimer = animationTimes["Character_Death_Test"];
+		deathTimer -= Time.deltaTime;
+		Debug.Log("Player died, restarting scene shortly");
+		if (deathTimer <= -1f) {
+			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+		}
+		// implement more proper death state eventually
 	}
+	#endregion
 
+	#region Animation arrays
+	static readonly string[] AttackToClipName = {
+		"None",
+		"Character_Attack1",
+		"Character_Attack2",
+		"LAttack3 Not Implmented",
+		"Character_Chop",
+		"Character_Sweep",
+		"Spin Not Implmented",
+		"Character_Chop_Throw"
+	};
+	static readonly string[] AttackToStateName = {
+		"None",
+		"Base Layer.Character_Attack1",
+		"Base Layer.Character_Attack2",
+		"LAttack3 Not Implmented",
+		"Base Layer.Character_Chop",
+		"Base Layer.Character_Sweep",
+		"Spin Not Implmented",
+		"Base Layer.Character_Chop_Throw",
+	};
+	#endregion
+
+	#region Minor utility functions
 	void OnEnable() { pActions.Enable(); }
 	void OnDisable() { pActions.Disable(); }
 
