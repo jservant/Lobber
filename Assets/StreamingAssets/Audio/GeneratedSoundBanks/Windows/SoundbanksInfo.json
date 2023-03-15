@@ -473,9 +473,147 @@
     "Id": "1496463651",
     "Type": "User",
     "Language": "SFX",
-    "Hash": "{6C0F25CA-07B9-C04A-22AB-98313D663021}",
+    "Hash": "{11DB1B0C-D09F-F205-1D21-EB9D16A665E5}",
     "ShortName": "Bank_01",
     "Path": "Bank_01.bnk",
+    "Media": [
+     {
+      "Id": "98714260",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "fs_skel_gravel_02.wav",
+      "CachePath": "SFX/fs_skel_gravel_02_10C4C929.wem"
+     },
+     {
+      "Id": "127284467",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "player_gethit.wav",
+      "CachePath": "SFX/player_gethit_10C4C929.wem"
+     },
+     {
+      "Id": "184248978",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "fs_player_gravel_01.wav",
+      "CachePath": "SFX/fs_player_gravel_01_10C4C929.wem"
+     },
+     {
+      "Id": "209376622",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "fs_player_gravel_03.wav",
+      "CachePath": "SFX/fs_player_gravel_03_10C4C929.wem"
+     },
+     {
+      "Id": "404864784",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "skel_gethit.wav",
+      "CachePath": "SFX/skel_gethit_10C4C929.wem"
+     },
+     {
+      "Id": "429185993",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "fs_player_gravel_04.wav",
+      "CachePath": "SFX/fs_player_gravel_04_10C4C929.wem"
+     },
+     {
+      "Id": "501122059",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "player_attack_02.wav",
+      "CachePath": "SFX/player_attack_02_10C4C929.wem"
+     },
+     {
+      "Id": "526727421",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "skel_spawn_land.wav",
+      "CachePath": "SFX/skel_spawn_land_10C4C929.wem"
+     },
+     {
+      "Id": "608108964",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "skel_spawn_jump.wav",
+      "CachePath": "SFX/skel_spawn_jump_10C4C929.wem"
+     },
+     {
+      "Id": "618132293",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "fs_skel_gravel_01.wav",
+      "CachePath": "SFX/fs_skel_gravel_01_10C4C929.wem"
+     },
+     {
+      "Id": "781774018",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "fs_player_gravel_05.wav",
+      "CachePath": "SFX/fs_player_gravel_05_10C4C929.wem"
+     },
+     {
+      "Id": "790681132",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "player_attack_03.wav",
+      "CachePath": "SFX/player_attack_03_10C4C929.wem"
+     },
+     {
+      "Id": "810387616",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "fs_player_gravel_08.wav",
+      "CachePath": "SFX/fs_player_gravel_08_10C4C929.wem"
+     },
+     {
+      "Id": "818363325",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "player_attack_01.wav",
+      "CachePath": "SFX/player_attack_01_10C4C929.wem"
+     },
+     {
+      "Id": "833355156",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "fs_player_gravel_02.wav",
+      "CachePath": "SFX/fs_player_gravel_02_10C4C929.wem"
+     },
+     {
+      "Id": "948654337",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "fs_player_gravel_06.wav",
+      "CachePath": "SFX/fs_player_gravel_06_10C4C929.wem"
+     },
+     {
+      "Id": "1050709423",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "fs_player_gravel_07.wav",
+      "CachePath": "SFX/fs_player_gravel_07_10C4C929.wem"
+     }
+    ],
     "Plugins": {
      "Custom": [
       {
@@ -488,11 +626,101 @@
     },
     "Events": [
      {
+      "Id": "157611648",
+      "Name": "fs_player",
+      "MediaRefs": [
+       {
+        "Id": "184248978"
+       },
+       {
+        "Id": "209376622"
+       },
+       {
+        "Id": "429185993"
+       },
+       {
+        "Id": "781774018"
+       },
+       {
+        "Id": "810387616"
+       },
+       {
+        "Id": "833355156"
+       },
+       {
+        "Id": "948654337"
+       },
+       {
+        "Id": "1050709423"
+       }
+      ]
+     },
+     {
+      "Id": "1977127430",
+      "Name": "fs_skel",
+      "MediaRefs": [
+       {
+        "Id": "98714260"
+       },
+       {
+        "Id": "618132293"
+       }
+      ]
+     },
+     {
+      "Id": "2824512041",
+      "Name": "player_attack",
+      "MediaRefs": [
+       {
+        "Id": "501122059"
+       },
+       {
+        "Id": "790681132"
+       },
+       {
+        "Id": "818363325"
+       }
+      ]
+     },
+     {
+      "Id": "3945457670",
+      "Name": "player_gethit",
+      "MediaRefs": [
+       {
+        "Id": "127284467"
+       }
+      ]
+     },
+     {
+      "Id": "3336220324",
+      "Name": "skel_gethit",
+      "MediaRefs": [
+       {
+        "Id": "404864784"
+       }
+      ]
+     },
+     {
+      "Id": "2707764387",
+      "Name": "skel_spawn_jump",
+      "MediaRefs": [
+       {
+        "Id": "608108964"
+       }
+      ]
+     },
+     {
+      "Id": "2075254592",
+      "Name": "skel_spawn_land",
+      "MediaRefs": [
+       {
+        "Id": "526727421"
+       }
+      ]
+     },
+     {
       "Id": "3157003241",
       "Name": "TEST",
-      "DurationType": "OneShot",
-      "DurationMin": "1",
-      "DurationMax": "1",
       "PluginRefs": {
        "Custom": [
         {
@@ -504,6 +732,6 @@
     ]
    }
   ],
-  "FileHash": "{C9335312-ADE8-BA96-4657-45B9A9EBFE53}"
+  "FileHash": "{9C4A2D01-B583-7548-8657-4E88FD6E3C25}"
  }
 }

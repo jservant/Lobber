@@ -14,6 +14,91 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Folder Name="Player" ID="{334A3DB0-0A8A-4D6F-ADA4-CB84ADBF9A62}" ShortID="833172889">
+					<ChildrenList>
+						<Event Name="fs_player" ID="{6AA0B5DD-2E2E-480F-8E8B-CC473975827E}">
+							<ChildrenList>
+								<Action Name="" ID="{F3DA5414-0DC1-4D49-BB7A-2E53D1306583}" ShortID="589907537">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="fs_player_gravel" ID="{0413DFEF-856C-4DDB-B132-20A4CC8BAF94}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="player_attack" ID="{60130E8F-E0D2-49A8-947E-43F394A32CB4}">
+							<ChildrenList>
+								<Action Name="" ID="{54ACFADA-AB4B-4A28-8D17-43CC2464BA10}" ShortID="388885697">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="player_attack" ID="{DBD26747-9259-4F13-BD71-D6F29ED834BB}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="player_gethit" ID="{90DBCC80-6A25-427D-BE22-02FC1F1F4E63}">
+							<ChildrenList>
+								<Action Name="" ID="{751B27E3-71B2-4668-8DBD-01F7E1F87297}" ShortID="151150051">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="player_gethit" ID="{B646C873-31C3-4F92-B6BF-9DFDFB00D1C8}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="Skeleton" ID="{D85E7707-6AA2-404A-B448-82F91BD7A9F7}" ShortID="310244746">
+					<ChildrenList>
+						<Event Name="fs_skel" ID="{C7C32372-F604-4468-A6DD-37EA8BD10138}">
+							<ChildrenList>
+								<Action Name="" ID="{A459E04E-E0FB-446C-BD2C-62299A92AD5D}" ShortID="107533459">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="fs_skel_gravel" ID="{853AB079-B758-4CF7-880D-60770816127E}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="skel_gethit" ID="{4C7DF688-1005-49BB-88CA-F4B1CBAEDEF8}">
+							<ChildrenList>
+								<Action Name="" ID="{128D573D-B75E-492A-A013-D6A612A62E76}" ShortID="998252938">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="skel_gethit" ID="{316C272D-09B9-42C9-A4E5-4462090035C7}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="skel_spawn_jump" ID="{B0556CDC-AC4F-4AF9-9212-24E7287EC916}">
+							<ChildrenList>
+								<Action Name="" ID="{DA0255A0-18BC-4408-8227-18514D927942}" ShortID="1071778485">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="skel_spawn_jump" ID="{A274EE89-6C7D-41E6-9625-688348FFFE98}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="skel_spawn_land" ID="{C77FE7C5-C249-4C8F-B54E-BE7552BE8D3A}">
+							<ChildrenList>
+								<Action Name="" ID="{DEF569F3-2C7A-4837-B2BC-665BF9FA1040}" ShortID="91212994">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="skel_spawn_land" ID="{60AB8ABE-1336-4FA1-BC42-91A701945952}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+					</ChildrenList>
+				</Folder>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

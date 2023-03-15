@@ -5,7 +5,14 @@
 			<ChildrenList>
 				<SoundBank Name="Bank_01" ID="{C7A58D1E-CBB1-43EA-BFD6-3AEA5241EE22}">
 					<ObjectInclusionList>
+						<ObjectRef Name="player_gethit" ID="{90DBCC80-6A25-427D-BE22-02FC1F1F4E63}" WorkUnitID="{9469A56B-A171-42DA-AE08-72D3BCE3CB9C}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="TEST" ID="{0F378B29-D8FE-434C-AC45-E9731377F9E7}" WorkUnitID="{9469A56B-A171-42DA-AE08-72D3BCE3CB9C}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="fs_skel" ID="{C7C32372-F604-4468-A6DD-37EA8BD10138}" WorkUnitID="{9469A56B-A171-42DA-AE08-72D3BCE3CB9C}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="fs_player" ID="{6AA0B5DD-2E2E-480F-8E8B-CC473975827E}" WorkUnitID="{9469A56B-A171-42DA-AE08-72D3BCE3CB9C}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="player_attack" ID="{60130E8F-E0D2-49A8-947E-43F394A32CB4}" WorkUnitID="{9469A56B-A171-42DA-AE08-72D3BCE3CB9C}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="skel_gethit" ID="{4C7DF688-1005-49BB-88CA-F4B1CBAEDEF8}" WorkUnitID="{9469A56B-A171-42DA-AE08-72D3BCE3CB9C}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="skel_spawn_jump" ID="{B0556CDC-AC4F-4AF9-9212-24E7287EC916}" WorkUnitID="{9469A56B-A171-42DA-AE08-72D3BCE3CB9C}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="skel_spawn_land" ID="{C77FE7C5-C249-4C8F-B54E-BE7552BE8D3A}" WorkUnitID="{9469A56B-A171-42DA-AE08-72D3BCE3CB9C}" Origin="Manual" Filter="7"/>
 					</ObjectInclusionList>
 					<ObjectExclusionList/>
 					<GameSyncExclusionList/>

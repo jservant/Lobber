@@ -151,15 +151,130 @@
 				</AcousticTexture>
 			</AcousticTextures>
 		</SoundBank>
-		<SoundBank Id="1496463651" Type="User" Language="SFX" Hash="{6C0F25CA-07B9-C04A-22AB-98313D663021}">
+		<SoundBank Id="1496463651" Type="User" Language="SFX" Hash="{028860D9-1067-564F-8197-4DCA0CFCFCAD}">
 			<ShortName>Bank_01</ShortName>
 			<Path>Bank_01.bnk</Path>
+			<Media>
+				<File Id="98714260" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_skel_gravel_02.wav</ShortName>
+					<CachePath>SFX/fs_skel_gravel_02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="127284467" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>player_gethit.wav</ShortName>
+					<CachePath>SFX/player_gethit_10C4C929.wem</CachePath>
+				</File>
+				<File Id="184248978" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_player_gravel_01.wav</ShortName>
+					<CachePath>SFX/fs_player_gravel_01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="209376622" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_player_gravel_03.wav</ShortName>
+					<CachePath>SFX/fs_player_gravel_03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="404864784" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>skel_gethit.wav</ShortName>
+					<CachePath>SFX/skel_gethit_10C4C929.wem</CachePath>
+				</File>
+				<File Id="429185993" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_player_gravel_04.wav</ShortName>
+					<CachePath>SFX/fs_player_gravel_04_10C4C929.wem</CachePath>
+				</File>
+				<File Id="501122059" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>player_attack_02.wav</ShortName>
+					<CachePath>SFX/player_attack_02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="526727421" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>skel_spawn_land.wav</ShortName>
+					<CachePath>SFX/skel_spawn_land_10C4C929.wem</CachePath>
+				</File>
+				<File Id="608108964" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>skel_spawn_jump.wav</ShortName>
+					<CachePath>SFX/skel_spawn_jump_10C4C929.wem</CachePath>
+				</File>
+				<File Id="618132293" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_skel_gravel_01.wav</ShortName>
+					<CachePath>SFX/fs_skel_gravel_01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="781774018" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_player_gravel_05.wav</ShortName>
+					<CachePath>SFX/fs_player_gravel_05_10C4C929.wem</CachePath>
+				</File>
+				<File Id="790681132" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>player_attack_03.wav</ShortName>
+					<CachePath>SFX/player_attack_03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="810387616" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_player_gravel_08.wav</ShortName>
+					<CachePath>SFX/fs_player_gravel_08_10C4C929.wem</CachePath>
+				</File>
+				<File Id="818363325" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>player_attack_01.wav</ShortName>
+					<CachePath>SFX/player_attack_01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="833355156" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_player_gravel_02.wav</ShortName>
+					<CachePath>SFX/fs_player_gravel_02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="948654337" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_player_gravel_06.wav</ShortName>
+					<CachePath>SFX/fs_player_gravel_06_10C4C929.wem</CachePath>
+				</File>
+				<File Id="1050709423" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_player_gravel_07.wav</ShortName>
+					<CachePath>SFX/fs_player_gravel_07_10C4C929.wem</CachePath>
+				</File>
+			</Media>
 			<Plugins>
 				<Custom>
 					<Plugin Id="496940353" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
 				</Custom>
 			</Plugins>
 			<Events>
+				<Event Id="157611648" Name="fs_player">
+					<MediaRefs>
+						<MediaRef Id="184248978"/>
+						<MediaRef Id="209376622"/>
+						<MediaRef Id="429185993"/>
+						<MediaRef Id="781774018"/>
+						<MediaRef Id="810387616"/>
+						<MediaRef Id="833355156"/>
+						<MediaRef Id="948654337"/>
+						<MediaRef Id="1050709423"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1977127430" Name="fs_skel">
+					<MediaRefs>
+						<MediaRef Id="98714260"/>
+						<MediaRef Id="618132293"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2824512041" Name="player_attack">
+					<MediaRefs>
+						<MediaRef Id="501122059"/>
+						<MediaRef Id="790681132"/>
+						<MediaRef Id="818363325"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3945457670" Name="player_gethit">
+					<MediaRefs>
+						<MediaRef Id="127284467"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3336220324" Name="skel_gethit">
+					<MediaRefs>
+						<MediaRef Id="404864784"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2707764387" Name="skel_spawn_jump">
+					<MediaRefs>
+						<MediaRef Id="608108964"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2075254592" Name="skel_spawn_land">
+					<MediaRefs>
+						<MediaRef Id="526727421"/>
+					</MediaRefs>
+				</Event>
 				<Event Id="3157003241" Name="TEST">
 					<PluginRefs>
 						<Custom>
@@ -170,5 +285,5 @@
 			</Events>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{601F836F-520A-64ED-1662-989701B6CF1C}</FileHash>
+	<FileHash>{D353D640-6BF3-FCD7-A2CE-6E4F4CD3E004}</FileHash>
 </SoundBanksInfo>
