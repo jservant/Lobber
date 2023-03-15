@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour {
 	public Camera camera;
 
 	public TMP_Text ammoUI;
+	public Canvas pauseUI;
 	public Transform healthBar;
 
 	public GameObject PlayerPrefab;
@@ -38,6 +39,7 @@ public class GameManager : MonoBehaviour {
 		dActions = new DebugActions();
 		camera = transform.Find("/CameraPoint/Main Camera").GetComponent<Camera>();
 		ammoUI = transform.Find("MainUI/AmmoUI").GetComponent<TMP_Text>();
+		pauseUI = transform.Find("PauseUI").GetComponent<Canvas>();
 		ammoUI.text = "SKULLS: 0";
 	}
 
@@ -71,6 +73,18 @@ public class GameManager : MonoBehaviour {
 				sceneValue = 0;
 			}
 			SceneManager.LoadScene(scenes[sceneValue]);
+		}
+
+		if (playerController.pActions.Player.Pause.WasPerformedThisFrame()) {
+			if (updateTimeScale) {
+				updateTimeScale = false;
+				Time.timeScale = 0;
+				pauseUI.enabled = true;
+			} else {
+				updateTimeScale = true;
+				Time.timeScale = 1;
+				pauseUI.enabled = false;
+			}
 		}
 
 		UpdateHealthBar();
