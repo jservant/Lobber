@@ -11,7 +11,9 @@ public class GameManager : MonoBehaviour {
 	public Camera camera;
 
 	public TMP_Text ammoUI;
+	public Canvas pauseBG;
 	public Canvas pauseUI;
+	public Canvas optionsUI;
 	public Transform healthBar;
 
 	public GameObject PlayerPrefab;
@@ -23,8 +25,6 @@ public class GameManager : MonoBehaviour {
 	static int sceneValue = 0;
 
 	public bool updateTimeScale = true;
-
-
 	DebugActions dActions;
 	float frozenTime = 0;
 
@@ -39,10 +39,11 @@ public class GameManager : MonoBehaviour {
 		dActions = new DebugActions();
 		camera = transform.Find("/CameraPoint/Main Camera").GetComponent<Camera>();
 		ammoUI = transform.Find("MainUI/AmmoUI").GetComponent<TMP_Text>();
+		pauseBG = transform.Find("PauseBG").GetComponent<Canvas>();
 		pauseUI = transform.Find("PauseUI").GetComponent<Canvas>();
+		optionsUI = transform.Find("OptionsUI").GetComponent<Canvas>();
 		ammoUI.text = "SKULLS: 0";
 	}
-
 
 	private void Update() {
 		if (updateTimeScale) {
@@ -55,7 +56,7 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 
-		if (dActions.DebugTools.SpawnEnemy.WasPerformedThisFrame()) {
+		if (dActions.DebugTools.SpawnEnemy.WasPerformedThisFrame() && updateTimeScale) {
 			Vector2 MouseLocation2D = dActions.DebugTools.MouseLocation.ReadValue<Vector2>();
 			Vector3 MouseLocation = new Vector3(MouseLocation2D.x, MouseLocation2D.y, 0);
 			Ray ray = camera.ScreenPointToRay(MouseLocation);
@@ -76,14 +77,19 @@ public class GameManager : MonoBehaviour {
 		}
 
 		if (playerController.pActions.Player.Pause.WasPerformedThisFrame()) {
-			if (updateTimeScale) {
+			if (optionsUI.enabled == true) {
+				pauseUI.enabled = true;
+				optionsUI.enabled = false;
+			} else if (updateTimeScale) {
 				updateTimeScale = false;
 				Time.timeScale = 0;
+				pauseBG.enabled = true;
 				pauseUI.enabled = true;
 			} else {
 				updateTimeScale = true;
 				Time.timeScale = 1;
 				pauseUI.enabled = false;
+				pauseBG.enabled = false;
 			}
 		}
 
@@ -102,6 +108,27 @@ public class GameManager : MonoBehaviour {
 		float health = playerController.health;
 		healthBar.localScale = new Vector3 ((health / healthMax) * 7.26f, 3f, 1f);
     }
+
+	public void OnResume() {
+		updateTimeScale = true;
+		Time.timeScale = 1;
+		pauseUI.enabled = false;
+		pauseBG.enabled = false;
+	}
+
+	public void OnOptions() {
+		pauseUI.enabled = false;
+		optionsUI.enabled = true;
+	}
+
+	public void OnOptionsBack() {
+		pauseUI.enabled = true;
+		optionsUI.enabled = false;
+	}
+
+	public void OnQuit() {
+		Application.Quit();
+	}
 
 	void OnEnable() { dActions.Enable(); }
 	void OnDisable() { dActions.Disable(); }
