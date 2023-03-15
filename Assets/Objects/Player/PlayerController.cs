@@ -106,6 +106,7 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField] float animTimer = 0f;
 	[SerializeField] float animDuration = 0f;
 	//public bool prepAttack = false;
+	float turnVelocity = 0f;  // annoying float that is only referenced and has to exist for movement math to work
 
 	private void Awake() {
 		//capCol = GetComponent<CapsuleCollider>();
@@ -169,7 +170,7 @@ public class PlayerController : MonoBehaviour {
 		}
 		else {
 			float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
-			float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSpeed, turnSpeed);
+			float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnVelocity, turnSpeed);
 			transform.rotation = Quaternion.Euler(0f, angle, 0f);
 			Vector3 moveDirection = Quaternion.Euler(0f, angle, 0f) * Vector3.forward;
 			moveDelta = moveDirection.normalized * (topSpeed * Mathf.Lerp(0, 1, movementCurve.Evaluate(speedTime / maxSpeedTime)));
