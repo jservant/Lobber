@@ -714,8 +714,8 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 2
-    m_ConditionEvent: isDashing
+  - m_ConditionMode: 6
+    m_ConditionEvent: currentAttack
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: isWalking
@@ -726,9 +726,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.08413392
-  m_TransitionOffset: 0
-  m_ExitTime: 0.8859589
+  m_TransitionDuration: 0.03498718
+  m_TransitionOffset: 0.0378052
+  m_ExitTime: 0.9993745
   m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -851,12 +851,6 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: isDashing
-    m_Type: 4
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 0}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -915,8 +909,8 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 2
-    m_ConditionEvent: isDashing
+  - m_ConditionMode: 6
+    m_ConditionEvent: currentAttack
     m_EventTreshold: 0
   - m_ConditionMode: 1
     m_ConditionEvent: isWalking
@@ -1295,7 +1289,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Roll_TEST
+  m_Name: Character_Roll
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1351,9 +1345,9 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 1
-    m_ConditionEvent: isDashing
-    m_EventTreshold: 0
+  - m_ConditionMode: 6
+    m_ConditionEvent: currentAttack
+    m_EventTreshold: 8
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 5836751459527020301}
   m_Solo: 0

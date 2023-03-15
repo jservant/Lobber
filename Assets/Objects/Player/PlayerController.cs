@@ -10,15 +10,16 @@ public class PlayerController : MonoBehaviour {
 	#region Combo tree
 	readonly Attacks[][] AttackCancel = {
 		// AttackButton
-		//              None,              LightAttack,       HeavyAttack,       Throw                || Current Attack
-		new Attacks[]{  Attacks.None     , Attacks.LAttack  , Attacks.Chop     , Attacks.HeadThrow,}, // None
-		new Attacks[]{  Attacks.None     , Attacks.LAttack2 , Attacks.Sweep    , Attacks.HeadThrow,}, // LAttack
-		new Attacks[]{  Attacks.None     , Attacks.None     , Attacks.Chop     , Attacks.HeadThrow,}, // LAttack2
-		new Attacks[]{  Attacks.None     , Attacks.None     , Attacks.None     , Attacks.None     ,}, // LAttack3
-		new Attacks[]{  Attacks.None     , Attacks.None     , Attacks.Sweep    , Attacks.HeadThrow,}, // Chop
-		new Attacks[]{  Attacks.None     , Attacks.None     , Attacks.None     , Attacks.None     ,}, // Sweep
-		new Attacks[]{  Attacks.None     , Attacks.None     , Attacks.None     , Attacks.None     ,}, // Spin
-		new Attacks[]{  Attacks.None     , Attacks.None     , Attacks.None     , Attacks.HeadThrow,}, // HeadThrow
+		//              None,              LightAttack,       HeavyAttack,       Throw,				Dash                || Current Attack
+		new Attacks[]{  Attacks.None     , Attacks.LAttack  , Attacks.Chop     , Attacks.HeadThrow, Attacks.Dashing  ,}, // None
+		new Attacks[]{  Attacks.None     , Attacks.LAttack2 , Attacks.Sweep    , Attacks.HeadThrow, Attacks.None     ,}, // LAttack
+		new Attacks[]{  Attacks.None     , Attacks.None     , Attacks.Chop     , Attacks.HeadThrow, Attacks.None     ,}, // LAttack2
+		new Attacks[]{  Attacks.None     , Attacks.None     , Attacks.None     , Attacks.None     , Attacks.None     ,}, // LAttack3
+		new Attacks[]{  Attacks.None     , Attacks.None     , Attacks.Sweep    , Attacks.HeadThrow, Attacks.None     ,}, // Chop
+		new Attacks[]{  Attacks.None     , Attacks.None     , Attacks.None     , Attacks.None     , Attacks.None     ,}, // Sweep
+		new Attacks[]{  Attacks.None     , Attacks.None     , Attacks.None     , Attacks.None     , Attacks.None     ,}, // Spin
+		new Attacks[]{  Attacks.None     , Attacks.None     , Attacks.None     , Attacks.HeadThrow, Attacks.None     ,}, // HeadThrow
+		new Attacks[]{  Attacks.None     , Attacks.None     , Attacks.None     , Attacks.None     , Attacks.None     ,}, // Dashing
 	};
 
 	// CancelWindows[X][0] is startPercent. CancelWindows[X][1] is endPercent
@@ -40,6 +41,7 @@ public class PlayerController : MonoBehaviour {
 		new CancelWindow(0.0f, 0.0f), // Sweep
 		new CancelWindow(0.0f, 0.0f), // Spin
 		new CancelWindow(0.3f, 0.0f), // HeadThrow
+		new CancelWindow(1.0f, 0.0f), // Dashing
 	};
 
 	static bool animationTimesPopulated = false;
@@ -49,12 +51,11 @@ public class PlayerController : MonoBehaviour {
 	#region State machines
 
 	//[Header("States:")]
-	public enum States { Idle = 0, Walking, Attacking, Hit, Dashing, Death };
+	public enum States { Idle = 0, Walking, Attacking, Hit, Death };
 	public States currentState = 0;
-	public enum Attacks { None = 0, LAttack, LAttack2, LAttack3, Chop, Sweep, Spin, HeadThrow };
-	// some of these names are temp names that won't be used
+	public enum Attacks { None = 0, LAttack, LAttack2, LAttack3, Chop, Sweep, Spin, HeadThrow, Dashing };
 	public Attacks currentAttack = 0;
-	public enum AttackButton { None = 0, LightAttack, HeavyAttack, Throw };
+	public enum AttackButton { None = 0, LightAttack, HeavyAttack, Throw, Dash };
 	[Space]
 	#endregion
 
@@ -90,8 +91,7 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField] AnimationCurve dashCurve;
 	[SerializeField] float dashForce = 10f;				// dash strength (how far do you go)
 	[SerializeField] float dashTime = 0f;				// how long has player been dashing for?
-	[SerializeField] float maxDashTime = 1f;			// how long does it take for player to dash?
-	[SerializeField] float maxDashCooldown = 1f;		// how long does it take for player to dash again after dashing?
+	[SerializeField] float maxDashCooldown = 1.5f;		// how long does it take for player to dash again after dashing?
 	[SerializeField] float dashCooldown = 1f;
 	[Header("Health/Damage:")]
 	public int healthMax = 20;
@@ -154,18 +154,16 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		Vector3 moveDelta;
-		if (currentState == States.Dashing) {
+		if (currentAttack == Attacks.Dashing) {
 			dashTime += Time.fixedDeltaTime;
-			animr.SetBool("isDashing", true);
 			Vector3 dashDirection = Quaternion.Euler(0f, trueAngle, 0f) * Vector3.forward;
-			moveDelta = dashDirection.normalized * (dashForce * Mathf.Lerp(0, 1, dashCurve.Evaluate(dashTime / maxDashTime)));
-
-			if (dashTime >= maxDashTime) {
-				dashTime = 0;
+			moveDelta = dashDirection.normalized * (dashForce * Mathf.Lerp(0, 1, dashCurve.Evaluate(dashTime / animationTimes[AttackToClipName[(int)currentAttack]])));
+			if (dashTime >= animationTimes[AttackToClipName[(int)currentAttack]]) {
 				currentState = States.Idle;
-				dashCooldown = maxDashCooldown;
 				trueAngle = 0;
-				animr.SetBool("isDashing", false);
+				currentAttack = 0;
+				animr.SetInteger("currentAttack", 0);
+				dashTime = 0;
 			}
 		}
 		else {
@@ -201,12 +199,9 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		if (health > healthMax) { health = healthMax; }
-		if (health <= 0) {
-			Death();
-		}
 
 		//if (currentState != States.Hit) {
-		if (currentState != States.Attacking && currentState != States.Dashing) {
+		if (currentState != States.Attacking) {
 			mInput = pActions.Player.Move.ReadValue<Vector2>();
 			if (pActions.Player.Move.WasReleasedThisFrame()) {
 				animr.SetBool("isWalking", false);
@@ -232,8 +227,10 @@ public class PlayerController : MonoBehaviour {
 			preppingAttack = AttackButton.Throw;
 		}
 
-		if (pActions.Player.Dash.WasPerformedThisFrame() && trueInput.sqrMagnitude >= 0.1f) {
-			currentState = States.Dashing;
+		if (pActions.Player.Dash.WasPerformedThisFrame() && trueInput.sqrMagnitude >= 0.1f && dashCooldown <= 0f) {
+			preppingAttack = AttackButton.Dash;
+			dashTime = 0;
+			dashCooldown = maxDashCooldown;
 			trueAngle = Mathf.Atan2(trueInput.x, trueInput.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
 			transform.rotation = Quaternion.Euler(0f, trueAngle, 0f);
 		}
@@ -268,9 +265,12 @@ public class PlayerController : MonoBehaviour {
 
 	//@TODO(Jaden): Add i-frames and trigger hitstun state when hit
 	private void OnTriggerEnter(Collider other) {
-		if (other.gameObject.layer == (int)Layers.EnemyHitbox && currentState != States.Dashing && kbTime <= 0) { // player is getting hit
+		if (other.gameObject.layer == (int)Layers.EnemyHitbox && currentAttack != Attacks.Dashing && kbTime <= 0) { // player is getting hit
 			health--;
-			if (health < 0) health = 0;
+			if (health < 0) {
+				health = 0;
+				Death();
+			}
 			kbAngle = Quaternion.LookRotation(other.transform.position - this.transform.position);
 			kbTime = maxKbTime;
 			/*Vector3 kbDirection = Quaternion.Euler(0f, kbAngle, 0f) * Vector3.forward;
@@ -374,7 +374,6 @@ public class PlayerController : MonoBehaviour {
 			freeAim = true;
 		}
 
-		//animr.Play(AttackToStateName[(int)attack], -1, 0);
 		animr.SetInteger("currentAttack", (int)attack);
 		currentAttack = attack;
 		animTimer = animationTimes[AttackToClipName[(int)attack]]; animDuration = animTimer;
@@ -414,17 +413,8 @@ public class PlayerController : MonoBehaviour {
 		"Character_Chop",
 		"Character_Sweep",
 		"Spin Not Implmented",
-		"Character_Chop_Throw"
-	};
-	static readonly string[] AttackToStateName = {
-		"None",
-		"Base Layer.Character_Attack1",
-		"Base Layer.Character_Attack2",
-		"LAttack3 Not Implmented",
-		"Base Layer.Character_Chop",
-		"Base Layer.Character_Sweep",
-		"Spin Not Implmented",
-		"Base Layer.Character_Chop_Throw",
+		"Character_Chop_Throw",
+		"Character_Roll"
 	};
 	#endregion
 
