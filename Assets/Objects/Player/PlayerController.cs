@@ -275,6 +275,7 @@ public class PlayerController : MonoBehaviour {
 			kbTime = maxKbTime;
 			/*Vector3 kbDirection = Quaternion.Euler(0f, kbAngle, 0f) * Vector3.forward;
 			transform.position += kbDirection.normalized * (kbSpeed * Mathf.Lerp(0, 1, .5f)) * Time.fixedDeltaTime;*/
+			animr.SetTrigger("wasHurt");
 			Debug.Log("OWIE " + other.name + " JUST HIT ME! I have " + health + " health");
 			//currentState = States.Hit;
 /*			animr.Play("Character_GetHit");
