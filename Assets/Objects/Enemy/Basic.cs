@@ -149,8 +149,7 @@ public class Basic : MonoBehaviour {
 	}
 
 	bool CanAttemptNavigation() {
-		return navAgent.pathStatus == NavMeshPathStatus.PathComplete ||
-			navAgent.pathStatus == NavMeshPathStatus.PathPartial;
+		return (navAgent.pathStatus == NavMeshPathStatus.PathComplete || navAgent.pathStatus == NavMeshPathStatus.PathPartial) && navAgent.path.corners.Length >= 2;
 	}
 
 	float DistanceToTravel() {
