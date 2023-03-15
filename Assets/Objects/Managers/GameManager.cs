@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour {
 
 		dActions = new DebugActions();
 		camera = transform.Find("/CameraPoint/Main Camera").GetComponent<Camera>();
-		ammoUI = transform.Find("Canvas/AmmoUI").GetComponent<TMP_Text>();
+		ammoUI = transform.Find("MainUI/AmmoUI").GetComponent<TMP_Text>();
 		ammoUI.text = "SKULLS: 0";
 	}
 

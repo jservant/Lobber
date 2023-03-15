@@ -47,7 +47,6 @@ public class PlayerController : MonoBehaviour {
 	#endregion
 
 	#region State machines
-
 	//[Header("States:")]
 	public enum States { Idle = 0, Walking, Attacking, Hit, Dashing, Death };
 	public States currentState = 0;
@@ -73,39 +72,36 @@ public class PlayerController : MonoBehaviour {
 	public DefaultPlayerActions pActions;
 
 	[Header("Movement:")]
-	public Vector2 trueInput;							// movement vector read from left stick
-	float trueAngle = 0f;								// movement angle float generated from trueInput
-	public Vector2 mInput;								// processed movement vector read from input
-	[SerializeField] Vector3 movement;					// actual movement vector used. mInput(x, y) = movement(x, z)
-	bool freeAim = false;
-	public Vector2 rAimInput;							// aiming vector read from right stick
-	[Header("Speed:")]
-	[SerializeField] AnimationCurve movementCurve;
-	[SerializeField] float topSpeed = 10f;				// top player speed
-	float speedTime = 0f;								// how long has player been moving for?
-	[SerializeField] float maxSpeedTime = 0.4f;			// how long does it take for player to reach max speed?
-	[SerializeField] float attackDecelModifier = 5f;	// modifier that makes player decelerate slower when attacking (moves them out further)
-	[SerializeField] float turnSpeed = 0.05f;
-	[Header("Dashing:")]
-	[SerializeField] AnimationCurve dashCurve;
-	[SerializeField] float dashForce = 10f;				// dash strength (how far do you go)
-	[SerializeField] float dashTime = 0f;				// how long has player been dashing for?
-	[SerializeField] float maxDashTime = 1f;			// how long does it take for player to dash?
-	[SerializeField] float maxDashCooldown = 1f;		// how long does it take for player to dash again after dashing?
+	public Vector2 trueInput;                     // movement vector read from left stick
+	public Vector2 rAimInput;                     // aiming vector read from right stick
+	float trueAngle = 0f;                         // movement angle float generated from trueInput
+	public Vector2 mInput;                        // processed movement vector read from input
+	[SerializeField] Vector3 movement;            // actual movement vector used. mInput(x, y) = movement(x, z)
+	[SerializeField] float speed = 10f;           // top player speed
+	float speedTime = 0f;                         // how long has player been moving for?
+	[SerializeField] float maxSpeedTime = 0.4f;   // how long does it take for player to reach max speed?
+	[SerializeField] float attackSlowdownModifier = 5f;   // how long does player slide for after attacking
+	[SerializeField] float dashForce = 10f;       // dash strength (how far do you go)
+	[SerializeField] float dashTime = 0f;         // how long has player been dashing for?
+	[SerializeField] float maxDashTime = 1f;      // how long does it take for player to dash?
+	[SerializeField] float maxDashCooldown = 1f;  // how long does it take for player to dash again after dashing?
 	[SerializeField] float dashCooldown = 1f;
-	[Header("Health/Damage:")]
 	public int healthMax = 20;
 	public int health = 0;
 	int ammo = 0;
 	Quaternion kbAngle;
-	float kbForce = 15f;						  // knockback speed
-	float maxKbTime = 1f;						  // knockback time
+	float kbForce = 15f;                          // knockback speed
+	float maxKbTime = 1f;                         // knockback time
 	float kbTime = 0f;                            // knockback time
-	[SerializeField] float targetSphereRadius = 2f;
-	[Header("Animation timers:")]
+	[SerializeField] float turnSpeed = 0.05f;
+	[SerializeField] AnimationCurve movementCurve;
+	[SerializeField] AnimationCurve dashCurve;
 	[SerializeField] float animTimer = 0f;
 	[SerializeField] float animDuration = 0f;
+	[SerializeField] float targetSphereRadius = 2f;
+	bool freeAim = false;
 	//public bool prepAttack = false;
+	float turnVelocity;
 
 	private void Awake() {
 		//capCol = GetComponent<CapsuleCollider>();
@@ -138,8 +134,8 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	private void FixedUpdate() { // calculate movement here
-		// accel/decel for movement
-		if (mInput != Vector2.zero && currentState == States.Attacking) { speedTime -= (Time.fixedDeltaTime / attackDecelModifier); }
+								 // accel/decel for movement
+		if (mInput != Vector2.zero && currentState == States.Attacking) { speedTime -= (Time.fixedDeltaTime / attackSlowdownModifier); }
 		// if attacking, reduce movement at half speed to produce sliding effect
 		else if (mInput != Vector2.zero) { speedTime += Time.fixedDeltaTime; } // else build up speed while moving
 		else { speedTime -= Time.fixedDeltaTime; }
@@ -155,7 +151,7 @@ public class PlayerController : MonoBehaviour {
 		Vector3 moveDelta;
 		if (currentState == States.Dashing) {
 			dashTime += Time.fixedDeltaTime;
-			animr.SetBool("isDashing", true);
+
 			Vector3 dashDirection = Quaternion.Euler(0f, trueAngle, 0f) * Vector3.forward;
 			moveDelta = dashDirection.normalized * (dashForce * Mathf.Lerp(0, 1, dashCurve.Evaluate(dashTime / maxDashTime)));
 
@@ -164,16 +160,15 @@ public class PlayerController : MonoBehaviour {
 				currentState = States.Idle;
 				dashCooldown = maxDashCooldown;
 				trueAngle = 0;
-				animr.SetBool("isDashing", false);
 			}
 		}
 		else {
 			float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
-			float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSpeed, turnSpeed);
+			float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnVelocity, turnSpeed);
 			transform.rotation = Quaternion.Euler(0f, angle, 0f);
 			Vector3 moveDirection = Quaternion.Euler(0f, angle, 0f) * Vector3.forward;
-			moveDelta = moveDirection.normalized * (topSpeed * Mathf.Lerp(0, 1, movementCurve.Evaluate(speedTime / maxSpeedTime)));
-		} 
+			moveDelta = moveDirection.normalized * (speed * Mathf.Lerp(0, 1, movementCurve.Evaluate(speedTime / maxSpeedTime)));
+		}
 		float moveWeight = Mathf.Lerp(1, 0, Mathf.Clamp01(kbTime / maxKbTime));
 		float kbWeight = moveWeight - 1f;
 		Vector3 kbDelta = (kbAngle * Vector3.forward) * kbForce;
@@ -208,15 +203,15 @@ public class PlayerController : MonoBehaviour {
 		if (currentState != States.Attacking && currentState != States.Dashing) {
 			mInput = pActions.Player.Move.ReadValue<Vector2>();
 			if (pActions.Player.Move.WasReleasedThisFrame()) {
-				animr.SetBool("isWalking", false);
+				animr.Play("Base Layer.Character_Idle");
 				currentState = States.Idle;
 			}
 			else if (pActions.Player.Move.phase == InputActionPhase.Started) {
 				currentState = States.Walking;
-				animr.SetBool("isWalking", true);
+				animr.Play("Base Layer.Character_Run");
 				movement = movement = new Vector3(mInput.x, 0, mInput.y);
 			}
-			else if (pActions.Player.Move.phase == InputActionPhase.Waiting) { animr.SetBool("isWalking", false); }
+			else if (pActions.Player.Move.phase == InputActionPhase.Waiting) { animr.Play("Base Layer.Character_Idle"); }
 		}
 
 		if (pActions.Player.LightAttack.WasPerformedThisFrame()) {
@@ -253,12 +248,12 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		if (currentAttack != Attacks.None) { // || currentState == States.Hit
-			// animator controller
+											 // animator controller
 			animTimer -= Time.deltaTime * animr.GetCurrentAnimatorStateInfo(0).speed;
 			if (animTimer <= 0 && preppingAttack == AttackButton.None) { // reset everything after animation is done
 				currentAttack = Attacks.None;
-				animr.SetInteger("currentAttack", (int)currentAttack);
-				//animr.Play("Base Layer.Character_Idle");
+				//animr.SetInteger("CurrentAttack", currentAttack);
+				animr.Play("Base Layer.Character_Idle");
 				currentState = States.Idle;
 				animTimer = 0; animDuration = 0f;
 			}
@@ -276,12 +271,12 @@ public class PlayerController : MonoBehaviour {
 			transform.position += kbDirection.normalized * (kbSpeed * Mathf.Lerp(0, 1, .5f)) * Time.fixedDeltaTime;*/
 			Debug.Log("OWIE " + other.name + " JUST HIT ME! I have " + health + " health");
 			//currentState = States.Hit;
-/*			animr.Play("Character_GetHit");
-			animTimer = animr.GetCurrentAnimatorStateInfo(0).length; animDuration = animTimer;
-			*/
+			/*			animr.Play("Character_GetHit");
+						animTimer = animr.GetCurrentAnimatorStateInfo(0).length; animDuration = animTimer;
+						*/
 		}
 		else if (other.gameObject.layer == (int)Layers.EnemyHurtbox) { // player is hitting enemy
-			// NOTE(Roskuski): I hit the enemy!
+																	   // NOTE(Roskuski): I hit the enemy!
 		}
 		else if (other.gameObject.layer == (int)Layers.Pickup) {
 			ChangeAmmo(1);
@@ -372,27 +367,27 @@ public class PlayerController : MonoBehaviour {
 			freeAim = true;
 		}
 
-		//animr.Play(AttackToStateName[(int)attack], -1, 0);
-		animr.SetInteger("currentAttack", (int)attack);
+		animr.Play(AttackToStateName[(int)attack], -1, 0);
 		currentAttack = attack;
 		animTimer = animationTimes[AttackToClipName[(int)attack]]; animDuration = animTimer;
 
 		if (pActions.Player.Aim.ReadValue<Vector2>().sqrMagnitude >= 0.02) {
 			movement = new Vector3(rAimInput.x, 0, rAimInput.y); // this and last line allow for movement between hits
-		} else if (pActions.Player.Move.ReadValue<Vector2>().sqrMagnitude >= 0.02) {
+		}
+		else if (pActions.Player.Move.ReadValue<Vector2>().sqrMagnitude >= 0.02) {
 			movement = new Vector3(trueInput.x, 0, trueInput.y);
 		}
 
 		if (doSnap) {
 			SnapToTarget();
-		} else { speedTime = 0; } // stops player movement when throwing. change later if other attacks don't snap
+		}
+		else { speedTime = 0; } // stops player movement when throwing. change later if other attacks don't snap
 	}
 
 	void Death() {
 		currentState = States.Death;
 		currentAttack = Attacks.None;
-		//animr.Play("Character_Death_Test");
-		animr.SetBool("isDead", true);
+		animr.Play("Character_Death_Test");
 		float deathTimer = animationTimes["Character_Death_Test"];
 		deathTimer -= Time.deltaTime;
 		Debug.Log("Player died, restarting scene shortly");
