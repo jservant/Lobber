@@ -162,6 +162,8 @@ public class Basic : MonoBehaviour {
 		animator.SetTrigger("wasHurt");
 		swordHitbox.enabled = false;
 
+		this.transform.rotation = Quaternion.AngleAxis(180, Vector3.up) * knockBackDirection;
+
 		kbAngle = knockBackDirection;
 		kbTime = maxKbTime;
 	}
@@ -254,11 +256,9 @@ public class Basic : MonoBehaviour {
 				}
 			}
 
-			if (other.gameObject.layer == (int)Layers.TrapHitbox)
-            {
-				//shouldDie = true;
-				Quaternion knockBackDir = Quaternion.LookRotation(other.transform.position - this.transform.position);
-				knockBackDir = Quaternion.Euler(-knockBackDir.eulerAngles);
+			if (other.gameObject.layer == (int)Layers.TrapHitbox) {
+				// NOTE(Roskuski): Knockback trap
+				Quaternion knockBackDir = Quaternion.LookRotation(this.transform.position - other.transform.position);
 				ChangeDirective_Stunned(6.0f, knockBackDir);
 			}
 
