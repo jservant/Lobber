@@ -252,6 +252,15 @@ public class Enemy : MonoBehaviour {
 					Debug.Log("Head Hit");
 				}
 			}
+
+			if (other.gameObject.layer == (int)Layers.TrapHitbox)
+            {
+				//shouldDie = true;
+				Quaternion knockBackDir = Quaternion.LookRotation(other.transform.position - this.transform.position);
+				knockBackDir = Quaternion.Euler(-knockBackDir.eulerAngles);
+				ChangeDirective_Stunned(6.0f, knockBackDir);
+			}
+
 		}
 	}
 

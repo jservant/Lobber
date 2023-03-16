@@ -12,6 +12,7 @@ public enum Layers : int {
 	PlayerHitbox,
 	PlayerHurtbox,
 	Pickup,
+	TrapHitbox,
 }
 
 public class Mask {

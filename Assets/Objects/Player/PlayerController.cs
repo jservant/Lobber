@@ -289,6 +289,10 @@ public class PlayerController : MonoBehaviour {
 			ChangeAmmo(1);
 			GameObject.Destroy(other.gameObject);
 		}
+		else if (other.gameObject.layer == (int)Layers.TrapHitbox && currentAttack != Attacks.Dashing && kbTime <= 0) {
+			kbAngle = Quaternion.LookRotation(other.transform.position - this.transform.position);
+			kbTime = maxKbTime;
+		}
 	}
 
 	//@TODO(Jaden): Add OnTriggerEnter to make axe hitbox work, remember to do hitstun on enemy
