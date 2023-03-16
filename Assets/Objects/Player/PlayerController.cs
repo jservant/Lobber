@@ -275,6 +275,7 @@ public class PlayerController : MonoBehaviour {
 			}
 			kbAngle = Quaternion.LookRotation(other.transform.position - this.transform.position);
 			kbTime = maxKbTime;
+			currentAttack = Attacks.None;
 			/*Vector3 kbDirection = Quaternion.Euler(0f, kbAngle, 0f) * Vector3.forward;
 			transform.position += kbDirection.normalized * (kbSpeed * Mathf.Lerp(0, 1, .5f)) * Time.fixedDeltaTime;*/
 			animr.SetTrigger("wasHurt");

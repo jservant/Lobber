@@ -10,7 +10,6 @@ public class GameManager : MonoBehaviour {
 	public PlayerController playerController;
 	public Camera camera;
 
-	public TMP_Text ammoUI;
 	public Canvas pauseBG;
 	public Canvas pauseUI;
 	public Canvas optionsUI;
@@ -39,11 +38,9 @@ public class GameManager : MonoBehaviour {
 
 		dActions = new DebugActions();
 		camera = transform.Find("/CameraPoint/Main Camera").GetComponent<Camera>();
-		ammoUI = transform.Find("MainUI/AmmoUI").GetComponent<TMP_Text>();
 		pauseBG = transform.Find("PauseBG").GetComponent<Canvas>();
 		pauseUI = transform.Find("PauseUI").GetComponent<Canvas>();
 		optionsUI = transform.Find("OptionsUI").GetComponent<Canvas>();
-		ammoUI.text = "SKULLS: 0";
 	}
 
 	private void Update() {
@@ -107,8 +104,10 @@ public class GameManager : MonoBehaviour {
 	}
 	public void UpdateHealthBar()
     {
-		healthBar.localScale = new Vector3 ((playerController.health / playerController.healthMax) * 7.26f, 3f, 1f);
-    }
+		float healthMax = playerController.healthMax;
+		float health = playerController.health;
+		healthBar.localScale = new Vector3((health / healthMax) * 7.26f, 3f, 1f);
+	}
 
 	public void UpdateMeter()
     {
