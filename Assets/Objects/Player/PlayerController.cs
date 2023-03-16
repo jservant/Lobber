@@ -289,8 +289,7 @@ public class PlayerController : MonoBehaviour {
 			// NOTE(Roskuski): I hit the enemy!
 		}
 		else if (other.gameObject.layer == (int)Layers.Pickup) {
-			ChangeMeter(1);
-			GameObject.Destroy(other.transform.parent.gameObject);
+			GameObject.Destroy(other.transform.gameObject);
 		}
 		else if (other.gameObject.layer == (int)Layers.TrapHitbox && currentAttack != Attacks.Dashing && kbTime <= 0) {
 			kbAngle = Quaternion.LookRotation(other.transform.position - this.transform.position);
@@ -431,6 +430,9 @@ public class PlayerController : MonoBehaviour {
 	private void OnDrawGizmos() {
 		Gizmos.color = Color.red;
 		Gizmos.DrawWireSphere(GetTargetSphereLocation(), targetSphereRadius);
+
+		Gizmos.color = Color.yellow;
+		Gizmos.DrawWireSphere(transform.position, 17);
 	}
 	#endregion
 }

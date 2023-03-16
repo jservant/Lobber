@@ -7,6 +7,7 @@ public class HeadPickup : MonoBehaviour {
 	public float FollowSpeed;
 	public float FallSpeed;
 	public float GatherRadius;
+	public float value;
 
 	Vector3 popDirection;
 	float popTime;
@@ -36,4 +37,10 @@ public class HeadPickup : MonoBehaviour {
 		Gizmos.color = Color.red;
 		Gizmos.DrawWireSphere(transform.position, GatherRadius);
 	}
+
+	void OnDestroy() {
+		if (gameMan.player) {
+			gameMan.playerController.meter += value;
+		}
+	} 
 }
