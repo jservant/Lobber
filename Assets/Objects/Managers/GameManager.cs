@@ -94,6 +94,7 @@ public class GameManager : MonoBehaviour {
 		}
 
 		UpdateHealthBar();
+		UpdateMeter();
 	}
 
 	// NOTE(Ryan): Can be called to freeze the game for the time specified.
@@ -103,6 +104,13 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void UpdateHealthBar()
+    {
+		float healthMax = playerController.healthMax;
+		float health = playerController.health;
+		healthBar.localScale = new Vector3 ((health / healthMax) * 7.26f, 3f, 1f);
+    }
+
+	public void UpdateMeter()
     {
 		float healthMax = playerController.healthMax;
 		float health = playerController.health;

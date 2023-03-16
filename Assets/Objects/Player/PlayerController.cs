@@ -95,7 +95,11 @@ public class PlayerController : MonoBehaviour {
 	[Header("Health/Damage:")]
 	public int healthMax = 20;
 	public int health = 0;
-	int ammo = 0;
+	public float Meter {
+		get { return _meter; }
+		set { _meter = Mathf.Clamp(value, 0, 5); }
+	}
+	[SerializeField, Range(0, 5)] private float _meter;
 	Quaternion kbAngle;
 	float kbForce = 15f;                          // knockback speed
 	float maxKbTime = 1f;                         // knockback time
@@ -223,7 +227,7 @@ public class PlayerController : MonoBehaviour {
 			preppingAttack = AttackButton.HeavyAttack;
 		}
 
-		if (ammo > 0 && pActions.Player.Throw.WasPerformedThisFrame()) {
+		if (Meter >= 1f && pActions.Player.Throw.WasPerformedThisFrame()) {
 			preppingAttack = AttackButton.Throw;
 		}
 
@@ -286,7 +290,7 @@ public class PlayerController : MonoBehaviour {
 			// NOTE(Roskuski): I hit the enemy!
 		}
 		else if (other.gameObject.layer == (int)Layers.Pickup) {
-			ChangeAmmo(1);
+			ChangeMeter(1);
 			GameObject.Destroy(other.gameObject);
 		}
 		else if (other.gameObject.layer == (int)Layers.TrapHitbox && currentAttack != Attacks.Dashing && kbTime <= 0) {
@@ -314,14 +318,14 @@ public class PlayerController : MonoBehaviour {
 
 	#region Combat functions
 	public void LobThrow() { // triggered in animator
-		ChangeAmmo(-1);
+		ChangeMeter(-1);
 		freeAim = false;
 		GameObject iHeadProj = Instantiate(headProj, projSpawn.position, transform.rotation);
 	}
 
-	void ChangeAmmo(int Amount) {
-		ammo += Amount;
-		gameManager.ammoUI.text = "SKULLS: " + ammo;
+	void ChangeMeter(float Amount) {
+		Meter += Amount;
+		gameManager.ammoUI.text = "SKULLS: " + Meter;
 		if (Amount >= 1) {
 			headMesh.enabled = true;
 			headMeshTrail.enabled = true;
