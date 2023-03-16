@@ -57,7 +57,9 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 
-		if (dActions.DebugTools.SpawnEnemy.WasPerformedThisFrame() && updateTimeScale) {
+		bool isMenuOpen = pauseUI.enabled || optionsUI.enabled;
+
+		if (!isMenuOpen && dActions.DebugTools.SpawnEnemy.WasPerformedThisFrame()) {
 			Vector2 MouseLocation2D = dActions.DebugTools.MouseLocation.ReadValue<Vector2>();
 			Vector3 MouseLocation = new Vector3(MouseLocation2D.x, MouseLocation2D.y, 0);
 			Ray ray = camera.ScreenPointToRay(MouseLocation);
@@ -103,7 +105,6 @@ public class GameManager : MonoBehaviour {
 	public void FreezeFrames(int Frames60) {
 		frozenTime += (float)(Frames60) / 60.0f;
 	}
-
 	public void UpdateHealthBar()
     {
 		healthBar.localScale = new Vector3 ((playerController.health / playerController.healthMax) * 7.26f, 3f, 1f);
