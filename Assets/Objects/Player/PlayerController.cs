@@ -290,7 +290,7 @@ public class PlayerController : MonoBehaviour {
 		}
 		else if (other.gameObject.layer == (int)Layers.Pickup) {
 			ChangeMeter(1);
-			GameObject.Destroy(other.gameObject);
+			GameObject.Destroy(other.transform.parent.gameObject);
 		}
 		else if (other.gameObject.layer == (int)Layers.TrapHitbox && currentAttack != Attacks.Dashing && kbTime <= 0) {
 			kbAngle = Quaternion.LookRotation(other.transform.position - this.transform.position);
