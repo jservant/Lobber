@@ -9,6 +9,8 @@ public class HeadPopped : MonoBehaviour {
 	public float value;
 	public float lifetime;
 
+	public bool collected;
+
 	// Start is called before the first frame update
 	void Start() {
 		rb = GetComponent<Rigidbody>();
@@ -29,6 +31,6 @@ public class HeadPopped : MonoBehaviour {
 
 	void OnDestroy() {
 		Destroy(this.transform.parent.gameObject);
-		gameMan.playerController.meter += value;
+		if (collected) gameMan.playerController.meter += value;
 	}
 }

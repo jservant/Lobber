@@ -289,6 +289,11 @@ public class PlayerController : MonoBehaviour {
 			// NOTE(Roskuski): I hit the enemy!
 		}
 		else if (other.gameObject.layer == (int)Layers.Pickup) {
+			HeadPopped headPopped = other.gameObject.GetComponent<HeadPopped>();
+			HeadPickup headPickup = other.gameObject.GetComponent<HeadPickup>();
+			if (headPopped) headPopped.collected = true;
+			if (headPickup) headPickup.collected = true;
+
 			GameObject.Destroy(other.transform.gameObject);
 		}
 		else if (other.gameObject.layer == (int)Layers.TrapHitbox && currentAttack != Attacks.Dashing && kbTime <= 0) {

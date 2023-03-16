@@ -9,6 +9,8 @@ public class HeadPickup : MonoBehaviour {
 	public float GatherRadius;
 	public float value;
 
+	public bool collected;
+
 	Vector3 popDirection;
 	float popTime;
 
@@ -39,8 +41,6 @@ public class HeadPickup : MonoBehaviour {
 	}
 
 	void OnDestroy() {
-		if (gameMan.player) {
-			gameMan.playerController.meter += value;
-		}
+		if (collected) gameMan.playerController.meter += value;
 	} 
 }
