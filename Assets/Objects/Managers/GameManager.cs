@@ -10,11 +10,11 @@ public class GameManager : MonoBehaviour {
 	public PlayerController playerController;
 	public Camera camera;
 
-	public TMP_Text ammoUI;
 	public Canvas pauseBG;
 	public Canvas pauseUI;
 	public Canvas optionsUI;
 	public Transform healthBar;
+	public Transform meterBar;
 
 	public GameObject PlayerPrefab;
 	public GameObject SkullPrefab;
@@ -38,11 +38,9 @@ public class GameManager : MonoBehaviour {
 
 		dActions = new DebugActions();
 		camera = transform.Find("/CameraPoint/Main Camera").GetComponent<Camera>();
-		ammoUI = transform.Find("MainUI/AmmoUI").GetComponent<TMP_Text>();
 		pauseBG = transform.Find("PauseBG").GetComponent<Canvas>();
 		pauseUI = transform.Find("PauseUI").GetComponent<Canvas>();
 		optionsUI = transform.Find("OptionsUI").GetComponent<Canvas>();
-		ammoUI.text = "SKULLS: 0";
 	}
 
 	private void Update() {
@@ -56,7 +54,9 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 
-		if (dActions.DebugTools.SpawnEnemy.WasPerformedThisFrame() && updateTimeScale) {
+		bool isMenuOpen = pauseUI.enabled || optionsUI.enabled;
+
+		if (!isMenuOpen && dActions.DebugTools.SpawnEnemy.WasPerformedThisFrame()) {
 			Vector2 MouseLocation2D = dActions.DebugTools.MouseLocation.ReadValue<Vector2>();
 			Vector3 MouseLocation = new Vector3(MouseLocation2D.x, MouseLocation2D.y, 0);
 			Ray ray = camera.ScreenPointToRay(MouseLocation);
@@ -94,6 +94,7 @@ public class GameManager : MonoBehaviour {
 		}
 
 		UpdateHealthBar();
+		UpdateMeter();
 	}
 
 	// NOTE(Ryan): Can be called to freeze the game for the time specified.
@@ -101,12 +102,16 @@ public class GameManager : MonoBehaviour {
 	public void FreezeFrames(int Frames60) {
 		frozenTime += (float)(Frames60) / 60.0f;
 	}
-
 	public void UpdateHealthBar()
     {
 		float healthMax = playerController.healthMax;
 		float health = playerController.health;
-		healthBar.localScale = new Vector3 ((health / healthMax) * 7.26f, 3f, 1f);
+		healthBar.localScale = new Vector3((health / healthMax) * 7.26f, 3f, 1f);
+	}
+
+	public void UpdateMeter()
+    {
+		meterBar.localScale = new Vector3 ((playerController.meter / playerController.meterMax) * 7.26f, 3f, 1f);
     }
 
 	public void OnResume() {
