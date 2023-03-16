@@ -770,6 +770,7 @@ public class Basic : MonoBehaviour {
 		}
 
 		if (shouldDie) {
+			GameObject.Instantiate(gameMan.HeadPickupPrefab, transform.position + 3 * Vector3.up, Quaternion.identity);
 			Destroy(this.gameObject);
 		}
 	}
@@ -793,9 +794,5 @@ public class Basic : MonoBehaviour {
 			// NOTE(Roskuski): Advance the angle to the next index.
 			consideredDelta = angleStep * consideredDelta;
 		}
-	}
-
-	void OnDestroy() {
-		GameObject.Instantiate(gameMan.HeadPickupPrefab, transform.position + 3 * Vector3.up, Quaternion.identity);
 	}
 }
