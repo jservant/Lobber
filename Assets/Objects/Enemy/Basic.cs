@@ -305,6 +305,11 @@ public class Basic : MonoBehaviour {
 		}
 		enemyCommunication.nearbyAttacker = 0;
 
+		// Ensure that the sword hitbox is disabled when we're not attacking
+		if (directive != Directive.PerformAttack) {
+			swordHitbox.enabled = false;
+		}
+
 		// Directive Changing
 		switch (directive) {
 			case Directive.Inactive: // using this as a generic start point for enemy AI
