@@ -95,11 +95,8 @@ public class PlayerController : MonoBehaviour {
 	[Header("Health/Damage:")]
 	public int healthMax = 20;
 	public int health = 0;
-	public float Meter {
-		get { return _meter; }
-		set { _meter = Mathf.Clamp(value, 0, 5); }
-	}
-	[SerializeField, Range(0, 5)] private float _meter;
+	public float meter = 0;
+	public float meterMax = 5;
 	Quaternion kbAngle;
 	float kbForce = 15f;                          // knockback speed
 	float maxKbTime = 1f;                         // knockback time
@@ -203,6 +200,7 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		if (health > healthMax) { health = healthMax; }
+		if (meter > meterMax) { meter = meterMax; }
 
 		//if (currentState != States.Hit) {
 		if (currentState != States.Attacking) {
@@ -227,7 +225,7 @@ public class PlayerController : MonoBehaviour {
 			preppingAttack = AttackButton.HeavyAttack;
 		}
 
-		if (Meter >= 1f && pActions.Player.Throw.WasPerformedThisFrame()) {
+		if (meter >= 1f && pActions.Player.Throw.WasPerformedThisFrame()) {
 			preppingAttack = AttackButton.Throw;
 		}
 
@@ -324,8 +322,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void ChangeMeter(float Amount) {
-		Meter += Amount;
-		gameManager.ammoUI.text = "SKULLS: " + Meter;
+		meter += Amount;
 		if (Amount >= 1) {
 			headMesh.enabled = true;
 			headMeshTrail.enabled = true;

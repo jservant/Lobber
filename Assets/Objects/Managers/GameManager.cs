@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour {
 	public Canvas pauseUI;
 	public Canvas optionsUI;
 	public Transform healthBar;
+	public Transform meterBar;
 
 	public GameObject PlayerPrefab;
 	public GameObject SkullPrefab;
@@ -105,16 +106,12 @@ public class GameManager : MonoBehaviour {
 
 	public void UpdateHealthBar()
     {
-		float healthMax = playerController.healthMax;
-		float health = playerController.health;
-		healthBar.localScale = new Vector3 ((health / healthMax) * 7.26f, 3f, 1f);
+		healthBar.localScale = new Vector3 ((playerController.health / playerController.healthMax) * 7.26f, 3f, 1f);
     }
 
 	public void UpdateMeter()
     {
-		float healthMax = playerController.healthMax;
-		float health = playerController.health;
-		healthBar.localScale = new Vector3 ((health / healthMax) * 7.26f, 3f, 1f);
+		meterBar.localScale = new Vector3 ((playerController.meter / playerController.meterMax) * 7.26f, 3f, 1f);
     }
 
 	public void OnResume() {
