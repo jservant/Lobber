@@ -8,41 +8,73 @@ using TMPro;
 public class PlayerController : MonoBehaviour {
 
 	#region Combo tree
-	readonly Attacks[][] AttackCancel = {
-		// AttackButton
-		//              None,              LightAttack,       HeavyAttack,       Throw,				Dash                || Current Attack
-		new Attacks[]{  Attacks.None     , Attacks.LAttack  , Attacks.Chop     , Attacks.HeadThrow, Attacks.Dashing  ,}, // None
-		new Attacks[]{  Attacks.None     , Attacks.LAttack2 , Attacks.Sweep    , Attacks.HeadThrow, Attacks.None     ,}, // LAttack
-		new Attacks[]{  Attacks.None     , Attacks.None     , Attacks.Chop     , Attacks.HeadThrow, Attacks.None     ,}, // LAttack2
-		new Attacks[]{  Attacks.None     , Attacks.None     , Attacks.None     , Attacks.None     , Attacks.None     ,}, // LAttack3
-		new Attacks[]{  Attacks.None     , Attacks.None     , Attacks.Sweep    , Attacks.HeadThrow, Attacks.None     ,}, // Chop
-		new Attacks[]{  Attacks.None     , Attacks.None     , Attacks.None     , Attacks.None     , Attacks.None     ,}, // Sweep
-		new Attacks[]{  Attacks.None     , Attacks.None     , Attacks.None     , Attacks.None     , Attacks.None     ,}, // Spin
-		new Attacks[]{  Attacks.None     , Attacks.None     , Attacks.None     , Attacks.HeadThrow, Attacks.None     ,}, // HeadThrow
-		new Attacks[]{  Attacks.None     , Attacks.None     , Attacks.None     , Attacks.None     , Attacks.None     ,}, // Dashing
+	readonly QueueInfo[][] QueueInfoTable = {
+		// When in None
+		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
+			               new QueueInfo(1.0f, 0.0f, Attacks.LAttack), // Light Attack
+			               new QueueInfo(1.0f, 0.0f, Attacks.Chop), // Heavy Attack
+			               new QueueInfo(1.0f, 0.0f, Attacks.HeadThrow), // Throw
+			               new QueueInfo(1.0f, 0.0f, Attacks.Dashing)}, // Dash
+		// When in LAttack
+		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
+			               new QueueInfo(0.5f, 0.0f, Attacks.LAttack2), // Light Attack
+			               new QueueInfo(0.5f, 0.0f, Attacks.Sweep), // Heavy Attack
+			               new QueueInfo(0.5f, 0.0f, Attacks.HeadThrow), // Throw
+			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Dash
+		// When in LAttack2
+		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
+			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Light Attack
+			               new QueueInfo(0.5f, 0.0f, Attacks.Chop), // Heavy Attack
+			               new QueueInfo(0.5f, 0.0f, Attacks.HeadThrow), // Throw
+			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Dash
+		// When in LAttack3
+		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
+			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Light Attack
+			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Heavy Attack
+			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Throw
+			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Dash
+		// When in Chop
+		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
+			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Light Attack
+			               new QueueInfo(0.5f, 0.0f, Attacks.Chop), // Heavy Attack
+			               new QueueInfo(0.5f, 0.0f, Attacks.HeadThrow), // Throw
+			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Dash
+		// When in Sweep
+		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
+			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Light Attack
+			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Heavy Attack
+			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Throw
+			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Dash
+		// When in Spin
+		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
+			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Light Attack
+			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Heavy Attack
+			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Throw
+			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Dash
+		// When in HeadThrow
+		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
+			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Light Attack
+			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Heavy Attack
+			               new QueueInfo(0.30f, 0.0f, Attacks.HeadThrow), // Throw
+			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Dash
+		// When in Dashing
+		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
+			               new QueueInfo(0.5f, 0.0f, Attacks.LAttack), // Light Attack
+			               new QueueInfo(0.5f, 0.0f, Attacks.Chop), // Heavy Attack
+			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Throw
+			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Dash
 	};
 
-	// CancelWindows[X][0] is startPercent. CancelWindows[X][1] is endPercent
-	struct CancelWindow {
+	struct QueueInfo {
 		public float startPercent;
 		public float endPercent;
-		public CancelWindow(float a, float b) {
-			startPercent = a;
-			endPercent = b;
+		public Attacks attack;
+		public QueueInfo(float startPercent, float endPercent, Attacks attack) {
+			this.startPercent = startPercent;
+			this.endPercent = endPercent;
+			this.attack = attack;
 		}
 	}
-
-	readonly CancelWindow[] CancelWindows = {
-		new CancelWindow(1.0f, 0.0f), // None
-		new CancelWindow(0.5f, 0.0f), // LAttack
-		new CancelWindow(0.5f, 0.0f), // LAttack2
-		new CancelWindow(0.0f, 0.0f), // LAttack3
-		new CancelWindow(0.5f, 0.0f), // Chop
-		new CancelWindow(0.0f, 0.0f), // Sweep
-		new CancelWindow(0.0f, 0.0f), // Spin
-		new CancelWindow(0.3f, 0.0f), // HeadThrow
-		new CancelWindow(1.0f, 0.0f), // Dashing
-	};
 
 	static bool animationTimesPopulated = false;
 	static Dictionary<string, float> animationTimes;
@@ -54,6 +86,7 @@ public class PlayerController : MonoBehaviour {
 	public States currentState = 0;
 	public enum Attacks { None = 0, LAttack, LAttack2, LAttack3, Chop, Sweep, Spin, HeadThrow, Dashing };
 	public Attacks currentAttack = 0;
+	public Attacks queuedAttack = 0;
 	public enum AttackButton { None = 0, LightAttack, HeavyAttack, Throw, Dash };
 	[Space]
 	#endregion
@@ -242,27 +275,30 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		if (preppingAttack != AttackButton.None) {
-			Attacks nextAttack = AttackCancel[(int)currentAttack][(int)preppingAttack];
-			CancelWindow cancelWindow = CancelWindows[(int)currentAttack];
-			if (nextAttack != Attacks.None) {
-				if (animTimer <= animDuration * cancelWindow.startPercent && animTimer >= animDuration * cancelWindow.endPercent) {
-					setCurrentAttack(nextAttack);
+			QueueInfo queueInfo = QueueInfoTable[(int)currentAttack][(int)preppingAttack];
+			if (queueInfo.attack != Attacks.None) {
+				if (animTimer <= animDuration * queueInfo.startPercent && animTimer >= animDuration * queueInfo.endPercent) {
+					queuedAttack = queueInfo.attack;
 				}
 			}
 		}
 
-		if (currentAttack != Attacks.None) { 
-			// animator controller
-			animTimer -= Time.deltaTime * animr.GetCurrentAnimatorStateInfo(0).speed;
-			if (animTimer <= 0 && preppingAttack == AttackButton.None) { // reset everything after animation is done
+		// animator controller
+		animTimer -= Time.deltaTime * animr.GetCurrentAnimatorStateInfo(0).speed;
+		if (animTimer <= 0) {
+			if (queuedAttack!= Attacks.None) {
+				setCurrentAttack(queuedAttack);
+				queuedAttack = Attacks.None;
+			}
+			else {
 				currentAttack = Attacks.None;
-				//animr.Play("Base Layer.Character_Idle");
 				currentState = States.Idle;
-				animTimer = 0; animDuration = 0f;
+				animTimer = 0;
+				animDuration = 0f;
 			}
 		}
-		animr.SetInteger("prepAttack", (int)preppingAttack);
 
+		animr.SetInteger("prepAttack", (int)queuedAttack);
 		animr.SetInteger("currentAttack", (int)currentAttack);
 	}
 
@@ -380,10 +416,13 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-	void setCurrentAttack(Attacks attack, bool doSnap = true) {
+	void setCurrentAttack(Attacks attack) {
+		bool doSnap = true;
 		currentState = States.Attacking;
+
 		if (attack == Attacks.HeadThrow) {
 			freeAim = true;
+			doSnap = false;
 		}
 
 		animr.SetInteger("currentAttack", (int)attack);
