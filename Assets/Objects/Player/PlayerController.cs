@@ -256,12 +256,14 @@ public class PlayerController : MonoBehaviour {
 			animTimer -= Time.deltaTime * animr.GetCurrentAnimatorStateInfo(0).speed;
 			if (animTimer <= 0 && preppingAttack == AttackButton.None) { // reset everything after animation is done
 				currentAttack = Attacks.None;
-				animr.SetInteger("currentAttack", (int)currentAttack);
 				//animr.Play("Base Layer.Character_Idle");
 				currentState = States.Idle;
 				animTimer = 0; animDuration = 0f;
 			}
 		}
+		animr.SetInteger("prepAttack", (int)preppingAttack);
+
+		animr.SetInteger("currentAttack", (int)currentAttack);
 	}
 
 	//@TODO(Jaden): Add i-frames and trigger hitstun state when hit
@@ -383,6 +385,7 @@ public class PlayerController : MonoBehaviour {
 
 		animr.SetInteger("currentAttack", (int)attack);
 		currentAttack = attack;
+		animr.SetInteger("prepAttack", (int)AttackButton.None);
 		animTimer = animationTimes[AttackToClipName[(int)attack]]; animDuration = animTimer;
 
 		if (pActions.Player.Aim.ReadValue<Vector2>().sqrMagnitude >= 0.02) {
