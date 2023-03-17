@@ -84,6 +84,7 @@ public class Basic : MonoBehaviour {
 	public float choiceTimer = 3.0f; // @TODO(Roskuski) Fine tune this parameter
 	public float attackCooldown;
 	bool wantsSlash = false;
+	public float enemyCommunicationRange;
 
 	Quaternion moveDirection = Quaternion.identity;
 
@@ -205,7 +206,7 @@ public class Basic : MonoBehaviour {
 				animationTimer = animationTimes["Enemy_Attack_Dash"];
 				break;
 		}
-		Collider[] nearEnemies = Physics.OverlapSphere(transform.position, 100, Mask.Get(Layers.EnemyHurtbox));
+		Collider[] nearEnemies = Physics.OverlapSphere(transform.position, enemyCommunicationRange, Mask.Get(Layers.EnemyHurtbox));
 		foreach (Collider enemyCol in nearEnemies) {
 			enemyCol.GetComponent<EnemyCommunication>().nearbyAttacker += 1;
 		}
@@ -301,7 +302,7 @@ public class Basic : MonoBehaviour {
 
 		// Processing information from other enemies
 		for (int index = 0; index < enemyCommunication.nearbyAttacker; index += 1) {
-			attackCooldown += 4.0f + Random.Range(0.0f, 1.0f);
+			attackCooldown += 1.0f + Random.Range(0.0f, 1.0f);
 		}
 		enemyCommunication.nearbyAttacker = 0;
 
@@ -801,4 +802,9 @@ public class Basic : MonoBehaviour {
 			consideredDelta = angleStep * consideredDelta;
 		}
 	}
+
+	void OnDrawGizmos() {
+		Gizmos.color = Color.blue;
+		Gizmos.DrawWireSphere(transform.position, enemyCommunicationRange);
+    }
 }
