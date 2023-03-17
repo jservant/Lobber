@@ -67,7 +67,7 @@ public class Basic : MonoBehaviour {
 		Slash,
 		Lunge,
 	}
-	Attack currentAttack = Attack.None; // NOTE(Roskuski): Do not set this manually, use the setting function, as that keeps animation state insync
+	[SerializeField] Attack currentAttack = Attack.None; // NOTE(Roskuski): Do not set this manually, use the setting function, as that keeps animation state insync
 
 	public bool randomizeStats = true;
 	float inactiveWait = 2;
@@ -731,13 +731,6 @@ public class Basic : MonoBehaviour {
 						{
 							// @TODO(Roskuski): These hitbox activations were keyed to the animations before, make it so again
 							float animationTimerRatio = 1.0f - animationTimer / animationTimes["Enemy_Attack_Slash"];
-							if (animationTimerRatio >= 0.52f && animationTimerRatio <= 0.60f) {
-								swordHitbox.enabled = true;
-							}
-							else {
-								swordHitbox.enabled = false;
-							}
-							swordHitbox.enabled = true;
 							if (animationTimer < 0.0f) {
 								ChangeDirective_Inactive(0);
 								navAgent.enabled = true;
@@ -751,10 +744,6 @@ public class Basic : MonoBehaviour {
 
 							if (animationTimerRatio >= 0.45f && animationTimerRatio <= 0.8f) {
 								this.transform.position += (this.transform.rotation * Vector3.forward) * LungeSpeed * Time.deltaTime;
-								swordHitbox.enabled = true;
-							}
-							else {
-								swordHitbox.enabled = false;
 							}
 
 							if (animationTimer < 0.0f) {
