@@ -246,11 +246,15 @@ public class Basic : MonoBehaviour {
 						case PlayerController.Attacks.Chop:
 							shouldDie = true;
 							player.health += 0;
+							player.meter += 1;
+							dropChance = 0;
 							if (player.health > player.healthMax) player.health = player.healthMax;
 							break;
 						case PlayerController.Attacks.LAttack3:
 							shouldDie = true;
 							player.health += 0;
+							player.meter += 1;
+							dropChance = 0;
 							if (player.health > player.healthMax) player.health = player.healthMax;
 							break;
 						default:
@@ -775,7 +779,7 @@ public class Basic : MonoBehaviour {
 		}
 
 		if (shouldDie) {
-			float HeadChance = Random.Range(0, 100f);
+			float HeadChance = Random.Range(1, 100f);
 			if (HeadChance <= dropChance) GameObject.Instantiate(gameMan.HeadPickupPrefab, transform.position + 3 * Vector3.up, Quaternion.identity);
 			Destroy(this.gameObject);
 		}

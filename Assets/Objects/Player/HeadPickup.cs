@@ -11,7 +11,7 @@ public class HeadPickup : MonoBehaviour {
 	RandomForce randomForce;
 
 	public bool canCollect;
-	private float timeUntilCollect = 1.0f; //small delay where the head can't initiallu
+	private float timeUntilCollect = 1.0f; //small delay where the head can't initially be caught
 
 	//Pickup Variables
 	public float RotationSpeed;

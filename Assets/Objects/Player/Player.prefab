@@ -1257,6 +1257,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: 0
   currentAttack: 0
+  queuedAttack: 0
   trueInput: {x: 0, y: 0}
   mInput: {x: 0, y: 0}
   movement: {x: 0, y: 0, z: 0}
@@ -1317,10 +1318,10 @@ MonoBehaviour:
   dashTime: 0
   maxDashCooldown: 1
   dashCooldown: 1
-  healthMax: 20
+  healthMax: 10
   health: 0
   meter: 0
-  meterMax: 5
+  meterMax: 10
   targetSphereRadius: 2
   animTimer: 0
   animDuration: 0
@@ -1389,6 +1390,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: fcf91ef2-1fa6-4417-ab1b-1c43a37b4e27
     m_ActionName: Player/Dash[/XInputControllerWindows/buttonNorth,/XInputControllerWindows/leftShoulder,/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3aae22f3-6ef6-4854-8362-809e858d136c
+    m_ActionName: Player/Pause[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 26d08fc4-e34e-4d59-815f-d5871104f749
+    m_ActionName: UI/Move
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 858f706d-827f-4266-b2e8-a07135637d1c
+    m_ActionName: UI/Submit
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ba3addc8-09a8-40b7-bfaa-0230c2830383
+    m_ActionName: UI/Cancel
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
