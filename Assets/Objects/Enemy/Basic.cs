@@ -239,7 +239,7 @@ public class Basic : MonoBehaviour {
 							player.health += 0;
 							if (player.health > player.healthMax) player.health = player.healthMax;
 							break;
-						case PlayerController.Attacks.Sweep:
+						case PlayerController.Attacks.LAttack3:
 							shouldDie = true;
 							player.health += 0;
 							if (player.health > player.healthMax) player.health = player.healthMax;
