@@ -362,7 +362,10 @@ public class PlayerController : MonoBehaviour {
 			print("No enemies found. Player movement vector: " + movement);
 			enemyTarget = movement;
 		}*/
-		speedTime = maxSpeedTime; // makes player move forward after attacking in tandem with ryan's code
+	}
+
+	void AttackBurst() { // called in animator to give burst of speed as attacks become active
+		speedTime = maxSpeedTime * 1.5f; // makes player move forward after attacking in tandem with ryan's code
 	}
 
 	Vector3 GetTargetSphereLocation() {
