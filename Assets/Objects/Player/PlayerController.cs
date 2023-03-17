@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour {
 			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Mod Dash
 		// When in LAttack2
 		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
-			               new QueueInfo(0.0f, 0.0f, Attacks.LAttack3), // Light Attack
+			               new QueueInfo(0.5f, 0.0f, Attacks.LAttack3), // Light Attack
 			               new QueueInfo(0.5f, 0.0f, Attacks.Chop), // Heavy Attack
 			               new QueueInfo(0.5f, 0.0f, Attacks.HeadThrow), // Throw
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Dash
@@ -319,6 +319,8 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 
+		animr.SetInteger("prepAttack", (int)queuedAttack);
+
 		// animator controller
 		animTimer -= Time.deltaTime * animr.GetCurrentAnimatorStateInfo(0).speed;
 		if (animTimer <= 0) {
@@ -334,7 +336,6 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 
-		animr.SetInteger("prepAttack", (int)queuedAttack);
 		animr.SetInteger("currentAttack", (int)currentAttack);
 	}
 
@@ -500,7 +501,7 @@ public class PlayerController : MonoBehaviour {
 		"None",
 		"Character_Attack1",
 		"Character_Attack2",
-		"LAttack3 Not Implmented",
+		"Character_Sweep",
 		"Character_Chop",
 		"Character_Sweep",
 		"Spin Not Implmented",
