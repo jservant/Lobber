@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour {
 		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Light Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Heavy Attack
-			               new QueueInfo(0.0f, 0.0f, Attacks.HeadThrow), // Throw
+			               new QueueInfo(0.5f, 0.0f, Attacks.HeadThrow), // Throw
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Dash
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Light Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Heavy Attack
@@ -59,7 +59,7 @@ public class PlayerController : MonoBehaviour {
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Heavy Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Throw
 			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Mod Dash
-		// When in Sweep
+		// When in Slam
 		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Light Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Heavy Attack
@@ -284,6 +284,7 @@ public class PlayerController : MonoBehaviour {
 		if (dashCooldown > 0) { dashCooldown -= Time.deltaTime; }
 		AttackButton preppingAttack = AttackButton.None;
 
+
 		if (transform.position.y <= -50f) {
 			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 		}
@@ -483,7 +484,6 @@ public class PlayerController : MonoBehaviour {
 
 		animr.SetInteger("currentAttack", (int)attack);
 		currentAttack = attack;
-		animr.SetInteger("prepAttack", (int)AttackButton.None);
 		animTimer = animationTimes[AttackToClipName[(int)attack]]; animDuration = animTimer;
 
 		if (pActions.Player.Aim.ReadValue<Vector2>().sqrMagnitude >= 0.02) {
