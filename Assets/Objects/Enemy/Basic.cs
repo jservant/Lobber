@@ -85,6 +85,8 @@ public class Basic : MonoBehaviour {
 	public float attackCooldown;
 	bool wantsSlash = false;
 	public float enemyCommunicationRange;
+	public Transform flashSpot; //the place where the red circle will pop up
+	public GameObject flash;
 
 	Quaternion moveDirection = Quaternion.identity;
 
@@ -94,6 +96,7 @@ public class Basic : MonoBehaviour {
 
 	int health = 4;
 	bool shouldDie = false;
+	public float dropChance; //chance to drop a head (0-100)
 	Quaternion kbAngle;
 	float kbTime = 0f;
 	float maxKbTime = 0.25f;
@@ -200,9 +203,11 @@ public class Basic : MonoBehaviour {
 				Debug.Assert(false);
 				break;
 			case Attack.Slash:
+				Flash();
 				animationTimer = animationTimes["Enemy_Attack_Slash"];
 				break;
 			case Attack.Lunge:
+				Flash();
 				animationTimer = animationTimes["Enemy_Attack_Dash"];
 				break;
 		}
@@ -211,6 +216,10 @@ public class Basic : MonoBehaviour {
 			enemyCol.GetComponent<EnemyCommunication>().nearbyAttacker += 1;
 		}
 	}
+
+	void Flash() {
+		Instantiate(flash, flashSpot.position, flash.transform.rotation);
+    }
 
 	// helper: logic for deteriming whigh following range is being used.
 	bool UsingApprochRange(float distance) {
@@ -766,7 +775,8 @@ public class Basic : MonoBehaviour {
 		}
 
 		if (shouldDie) {
-			GameObject.Instantiate(gameMan.HeadPickupPrefab, transform.position + 3 * Vector3.up, Quaternion.identity);
+			float HeadChance = Random.Range(0, 100f);
+			if (HeadChance <= dropChance) GameObject.Instantiate(gameMan.HeadPickupPrefab, transform.position + 3 * Vector3.up, Quaternion.identity);
 			Destroy(this.gameObject);
 		}
 	}

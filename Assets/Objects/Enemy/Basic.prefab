@@ -1,18 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!65 &8459446309741295490
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 158895718812361047}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 36.2, y: 168.9, z: 35}
-  m_Center: {x: 0, y: 72.6, z: -16}
 --- !u!54 &9105135245725430294
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -108,11 +95,15 @@ MonoBehaviour:
   - 0
   - 0
   directive: 0
+  currentAttack: 0
   randomizeStats: 1
   flankStrength: 0
   choiceTimer: 3
   attackCooldown: 0
   enemyCommunicationRange: 5
+  flashSpot: {fileID: 7568906230586878100}
+  flash: {fileID: 4621633356944544063, guid: 6087a33f60b0b1c47bba2eb4d66dcdbd, type: 3}
+  dropChance: 40
   isSandbag: 0
 --- !u!114 &2424263489559733688
 MonoBehaviour:
@@ -127,6 +118,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nearbyAttacker: 0
+--- !u!65 &8459446309741295490
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 158895718812361047}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 36.2, y: 168.9, z: 35}
+  m_Center: {x: 0, y: 72.6, z: -16}
 --- !u!1001 &3180303174905500130
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -652,5 +656,10 @@ GameObject:
 --- !u!1 &158895718812361047 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3320901369085178037, guid: 704d8254c7db7e443a2111a7cbf6b427, type: 3}
+  m_PrefabInstance: {fileID: 3180303174905500130}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7568906230586878100 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -4239966432989464202, guid: 704d8254c7db7e443a2111a7cbf6b427, type: 3}
   m_PrefabInstance: {fileID: 3180303174905500130}
   m_PrefabAsset: {fileID: 0}
