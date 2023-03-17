@@ -640,10 +640,12 @@ public class Basic : MonoBehaviour {
 							new ChoiceEntry(3, new float[]{0.75f, 0.25f}),
 						};
 
-						if (gameMan.playerController.currentState == PlayerController.States.Hit && attackCooldown > 0) {
+						// NOTE(@Jaden): States.Hit doesn't exist on the pController anymore (it wasn't being used)
+						// so I commented this line out
+						/*if (gameMan.playerController.currentState == PlayerController.States.Hit && attackCooldown > 0) {
 							choices[1].baseWeight = 0;
 							choices[2].baseWeight = 0;
-						}
+						}*/
 
 						int choice = RollTraitChoice(choices);
 						switch (choice) {

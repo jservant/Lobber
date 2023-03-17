@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour {
 
 	#region State machines
 	//[Header("States:")]
-	public enum States { Idle = 0, Walking, Attacking, Hit, Death };
+	public enum States { Idle = 0, Walking, Attacking, Death };
 	public States currentState = 0;
 	public enum Attacks { None = 0, LAttack, LAttack2, LAttack3, Chop, Sweep, Spin, HeadThrow, Dashing };
 	public Attacks currentAttack = 0;
@@ -202,7 +202,6 @@ public class PlayerController : MonoBehaviour {
 		if (health > healthMax) { health = healthMax; }
 		if (meter > meterMax) { meter = meterMax; }
 
-		//if (currentState != States.Hit) {
 		if (currentState != States.Attacking) {
 			mInput = pActions.Player.Move.ReadValue<Vector2>();
 			if (pActions.Player.Move.WasReleasedThisFrame()) {
@@ -252,7 +251,7 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 
-		if (currentAttack != Attacks.None) { // || currentState == States.Hit
+		if (currentAttack != Attacks.None) { 
 			// animator controller
 			animTimer -= Time.deltaTime * animr.GetCurrentAnimatorStateInfo(0).speed;
 			if (animTimer <= 0 && preppingAttack == AttackButton.None) { // reset everything after animation is done
@@ -276,14 +275,12 @@ public class PlayerController : MonoBehaviour {
 			kbAngle = Quaternion.LookRotation(other.transform.position - this.transform.position);
 			kbTime = maxKbTime;
 			currentAttack = Attacks.None;
-			/*Vector3 kbDirection = Quaternion.Euler(0f, kbAngle, 0f) * Vector3.forward;
-			transform.position += kbDirection.normalized * (kbSpeed * Mathf.Lerp(0, 1, .5f)) * Time.fixedDeltaTime;*/
+			currentState = States.Idle;
+			animr.SetBool("isWalking", false);
+			animr.SetInteger("currentAttack", (int)Attacks.None);
+			animr.SetInteger("prepAttack", (int)AttackButton.None);
 			animr.SetTrigger("wasHurt");
 			Debug.Log("OWIE " + other.name + " JUST HIT ME! I have " + health + " health");
-			//currentState = States.Hit;
-/*			animr.Play("Character_GetHit");
-			animTimer = animr.GetCurrentAnimatorStateInfo(0).length; animDuration = animTimer;
-			*/
 		}
 		else if (other.gameObject.layer == (int)Layers.EnemyHurtbox) { // player is hitting enemy
 			// NOTE(Roskuski): I hit the enemy!
@@ -403,6 +400,9 @@ public class PlayerController : MonoBehaviour {
 		currentState = States.Death;
 		currentAttack = Attacks.None;
 		//animr.Play("Character_Death_Test");
+		animr.SetBool("isWalking", false);
+		animr.SetInteger("currentAttack", (int)Attacks.None);
+		animr.SetInteger("prepAttack", (int)AttackButton.None);
 		animr.SetBool("isDead", true);
 		float deathTimer = animationTimes["Character_Death_Test"];
 		deathTimer -= Time.deltaTime;
