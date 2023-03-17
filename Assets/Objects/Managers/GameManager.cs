@@ -80,7 +80,7 @@ public class GameManager : MonoBehaviour {
 			if (optionsUI.enabled == true) {
 				pauseUI.enabled = true;
 				optionsUI.enabled = false;
-			} else if (updateTimeScale) {
+			} else if (pauseUI.enabled == false) {
 				updateTimeScale = false;
 				Time.timeScale = 0;
 				pauseBG.enabled = true;
