@@ -1967,6 +1967,38 @@ MonoBehaviour:
     positionOffset: {x: 0, y: 0, z: 0}
   m_posOffsetData: {fileID: 0}
   listenerMask: 1
+--- !u!114 &1274233140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1274233135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
 --- !u!1 &1284306140 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 704d8254c7db7e443a2111a7cbf6b427, type: 3}
@@ -2386,6 +2418,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6734230658693482805, guid: 4cc0bee97c622774a88089788cbb5e76, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 40f055eb675374f43afc914600acbb4e, type: 2}
+    - target: {fileID: 8232298612031230551, guid: 4cc0bee97c622774a88089788cbb5e76, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c412de3c99b7c2d4c94dd42d54496932, type: 2}
+    - target: {fileID: 8232298612031230551, guid: 4cc0bee97c622774a88089788cbb5e76, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9b83d41adc4383d43a05217e4fd9afa9, type: 2}
     - target: {fileID: 9154448420800754184, guid: 4cc0bee97c622774a88089788cbb5e76, type: 3}
       propertyPath: m_Name
       value: Bomboi
@@ -2469,7 +2513,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1410665727353399341, guid: 4e0e3ff81627b1d4b9cc5c4249957936, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -28.180168
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 1410665727353399341, guid: 4e0e3ff81627b1d4b9cc5c4249957936, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2506,6 +2550,10 @@ PrefabInstance:
     - target: {fileID: 1410665727353399341, guid: 4e0e3ff81627b1d4b9cc5c4249957936, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410665727383150497, guid: 4e0e3ff81627b1d4b9cc5c4249957936, type: 3}
+      propertyPath: field of view
+      value: 39
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1410665727383150526, guid: 4e0e3ff81627b1d4b9cc5c4249957936, type: 3}
