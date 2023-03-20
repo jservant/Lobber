@@ -193,6 +193,9 @@ public class PlayerController : MonoBehaviour {
 	float kbTime = 0f;                            // knockback time
 	[SerializeField] float targetSphereRadius = 2f;
 
+	// NOTE(Roskuski): C# doesn't support globals that are scoped to functions
+	float AnimatorNormalizedTimeOfNextOrCurrentAttackState_LastValue;
+	int AnimatorNormalizedTimeOfNextOrCurrentAttackState_LastSource;
 	float turnVelocity = 0f;  // annoying float that is only referenced and has to exist for movement math to work
 
 	private void Awake() {
@@ -341,8 +344,6 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		animr.SetInteger("prepAttack", (int)queuedAttack);
-
-		AnimatorStateInfo stateInfo = animr.GetCurrentAnimatorStateInfo(0);
 
 		// animator controller
 		if (currentAttack == Attacks.None || (AnimatorNormalizedTimeOfNextOrCurrentAttackState() >= 1.0f)) {
@@ -513,17 +514,33 @@ public class PlayerController : MonoBehaviour {
 
 	float AnimatorNormalizedTimeOfNextOrCurrentAttackState() {
 		// @TODO(Roskuski): I don't think it's a great choice, but for the time being I'm verifing that the AnimatorStateInfo is valid by checking if it's fullPathHash is 0. I imagine that the chances of actually having a zero hash is pretty low.
+		float Result = 100.0f;
+		int ResultSource = -1;
+
 		AnimatorStateInfo Next = animr.GetNextAnimatorStateInfo(0);
-		if (Next.fullPathHash != 0 && IsAttackState(Next)) {
-			return Next.normalizedTime;
-		}
-
 		AnimatorStateInfo Current = animr.GetCurrentAnimatorStateInfo(0);
-		if (Current.fullPathHash != 0 && IsAttackState(Current)) {
-			return Current.normalizedTime;
+
+		if (Next.fullPathHash != 0 && IsAttackState(Next)) {
+			Result = Next.normalizedTime;
+			ResultSource = 1;
+		}
+		else if (Current.fullPathHash != 0 && IsAttackState(Current)) {
+			Result = Current.normalizedTime;
+			ResultSource = 0;
 		}
 
-		return 1.0f;
+		if ((ResultSource == AnimatorNormalizedTimeOfNextOrCurrentAttackState_LastSource) &&
+		    (Result < AnimatorNormalizedTimeOfNextOrCurrentAttackState_LastValue)) {
+			AnimatorNormalizedTimeOfNextOrCurrentAttackState_LastValue = Result;
+			AnimatorNormalizedTimeOfNextOrCurrentAttackState_LastSource = ResultSource;
+			Result += 1;
+		}
+		else {
+			AnimatorNormalizedTimeOfNextOrCurrentAttackState_LastValue = Result;
+			AnimatorNormalizedTimeOfNextOrCurrentAttackState_LastSource = ResultSource;
+		}
+
+		return Result;
 	}
 
 	void Death() {
