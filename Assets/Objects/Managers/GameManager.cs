@@ -106,12 +106,12 @@ public class GameManager : MonoBehaviour {
     {
 		float healthMax = playerController.healthMax;
 		float health = playerController.health;
-		healthBar.localScale = new Vector3((health / healthMax) * 7.26f, 3f, 1f);
+		healthBar.localScale = new Vector3((health / healthMax), 1f, 1f);
 	}
 
 	public void UpdateMeter()
     {
-		meterBar.localScale = new Vector3 ((playerController.meter / playerController.meterMax) * 7.26f, 3f, 1f);
+		meterBar.localScale = new Vector3 ((playerController.meter / playerController.meterMax), 1f, 1f);
     }
 
 	public void OnResume() {
