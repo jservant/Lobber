@@ -11,31 +11,31 @@ public class PlayerController : MonoBehaviour {
 	readonly QueueInfo[][] QueueInfoTable = {
 		// When in None
 		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
-			               new QueueInfo(1.0f, 0.0f, Attacks.LAttack), // Light Attack
-			               new QueueInfo(1.0f, 0.0f, Attacks.Chop), // Heavy Attack
-			               new QueueInfo(1.0f, 0.0f, Attacks.HeadThrow), // Throw
-			               new QueueInfo(1.0f, 0.0f, Attacks.Dashing), // Dash
-			               new QueueInfo(1.0f, 0.0f, Attacks.None), // Mod Light Attack
+			               new QueueInfo(0.0f, 1.0f, Attacks.LAttack), // Light Attack
+			               new QueueInfo(0.0f, 1.0f, Attacks.Chop), // Heavy Attack
+			               new QueueInfo(0.0f, 1.0f, Attacks.HeadThrow), // Throw
+			               new QueueInfo(0.0f, 1.0f, Attacks.Dashing), // Dash
+			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Light Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Heavy Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Throw
 			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Mod Dash
 		// When in LAttack
 		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
-			               new QueueInfo(0.5f, 0.0f, Attacks.LAttack2), // Light Attack
-			               new QueueInfo(0.5f, 0.0f, Attacks.Chop), // Heavy Attack
-			               new QueueInfo(0.5f, 0.0f, Attacks.HeadThrow), // Throw
+			               new QueueInfo(0.5f, 1.0f, Attacks.LAttack2), // Light Attack
+			               new QueueInfo(0.5f, 1.0f, Attacks.Chop), // Heavy Attack
+			               new QueueInfo(0.5f, 1.0f, Attacks.HeadThrow), // Throw
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Dash
-			               new QueueInfo(0.5f, 0.0f, Attacks.None), // Mod Light Attack
+			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Light Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Heavy Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Throw
 			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Mod Dash
 		// When in LAttack2
 		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
-			               new QueueInfo(0.5f, 0.0f, Attacks.LAttack3), // Light Attack
-			               new QueueInfo(0.5f, 0.0f, Attacks.Chop), // Heavy Attack
-			               new QueueInfo(0.5f, 0.0f, Attacks.HeadThrow), // Throw
+			               new QueueInfo(0.5f, 1.0f, Attacks.LAttack3), // Light Attack
+			               new QueueInfo(0.5f, 1.0f, Attacks.Chop), // Heavy Attack
+			               new QueueInfo(0.5f, 1.0f, Attacks.HeadThrow), // Throw
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Dash
-			               new QueueInfo(0.5f, 0.0f, Attacks.None), // Mod Light Attack
+			               new QueueInfo(0.5f, 1.0f, Attacks.None), // Mod Light Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Heavy Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Throw
 			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Mod Dash
@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour {
 		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Light Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Heavy Attack
-			               new QueueInfo(0.5f, 0.0f, Attacks.HeadThrow), // Throw
+			               new QueueInfo(0.5f, 1.0f, Attacks.HeadThrow), // Throw
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Dash
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Light Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Heavy Attack
@@ -52,8 +52,8 @@ public class PlayerController : MonoBehaviour {
 		// When in Chop
 		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // Nonel
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Light Attack
-			               new QueueInfo(0.5f, 0.0f, Attacks.Chop), // Heavy Attack
-			               new QueueInfo(0.5f, 0.0f, Attacks.HeadThrow), // Throw
+			               new QueueInfo(0.5f, 1.0f, Attacks.Chop), // Heavy Attack
+			               new QueueInfo(0.5f, 1.0f, Attacks.HeadThrow), // Throw
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Dash
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Light Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Heavy Attack
@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour {
 		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Light Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Heavy Attack
-			               new QueueInfo(0.30f, 0.0f, Attacks.HeadThrow), // Throw
+			               new QueueInfo(0.7f, 1.0f, Attacks.HeadThrow), // Throw
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Dash
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Light Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Heavy Attack
@@ -91,8 +91,8 @@ public class PlayerController : MonoBehaviour {
 			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Mod Dash
 		// When in Dashing
 		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
-			               new QueueInfo(0.5f, 0.0f, Attacks.LAttack), // Light Attack
-			               new QueueInfo(0.5f, 0.0f, Attacks.Chop), // Heavy Attack
+			               new QueueInfo(0.5f, 1.0f, Attacks.LAttack), // Light Attack
+			               new QueueInfo(0.5f, 1.0f, Attacks.Chop), // Heavy Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Throw
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Dash
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Light Attack
@@ -191,10 +191,7 @@ public class PlayerController : MonoBehaviour {
 	float maxKbTime = 1f;                         // knockback time
 	float kbTime = 0f;                            // knockback time
 	[SerializeField] float targetSphereRadius = 2f;
-	[Header("Animation timers:")]
-	[SerializeField] float animTimer = 0f;
-	[SerializeField] float animDuration = 0f;
-	//public bool prepAttack = false;
+
 	float turnVelocity = 0f;  // annoying float that is only referenced and has to exist for movement math to work
 
 	private void Awake() {
@@ -333,8 +330,9 @@ public class PlayerController : MonoBehaviour {
 
 		if (preppingAttack != AttackButton.None) {
 			QueueInfo queueInfo = QueueInfoTable[(int)currentAttack][(int)preppingAttack];
+			float animationPercent = AnimatorNormalizedTimeOfNextOrCurrentAttackState() % 1.0f;
 			if (queueInfo.attack != Attacks.None) {
-				if (animTimer <= animDuration * queueInfo.startPercent && animTimer >= animDuration * queueInfo.endPercent) {
+				if (animationPercent >= queueInfo.startPercent && animationPercent <= queueInfo.endPercent) {
 					queuedAttack = queueInfo.attack;
 				}
 			}
@@ -342,18 +340,17 @@ public class PlayerController : MonoBehaviour {
 
 		animr.SetInteger("prepAttack", (int)queuedAttack);
 
+		AnimatorStateInfo stateInfo = animr.GetCurrentAnimatorStateInfo(0);
+
 		// animator controller
-		animTimer -= Time.deltaTime * animr.GetCurrentAnimatorStateInfo(0).speed;
-		if (animTimer <= 0) {
-			if (queuedAttack!= Attacks.None) {
+		if (currentAttack == Attacks.None || (AnimatorNormalizedTimeOfNextOrCurrentAttackState() >= 1.0f)) {
+			if (queuedAttack != Attacks.None) {
 				setCurrentAttack(queuedAttack);
 				queuedAttack = Attacks.None;
 			}
 			else {
 				currentAttack = Attacks.None;
 				currentState = States.Idle;
-				animTimer = 0;
-				animDuration = 0f;
 			}
 		}
 
@@ -484,7 +481,6 @@ public class PlayerController : MonoBehaviour {
 
 		animr.SetInteger("currentAttack", (int)attack);
 		currentAttack = attack;
-		animTimer = animationTimes[AttackToClipName[(int)attack]]; animDuration = animTimer;
 
 		if (pActions.Player.Aim.ReadValue<Vector2>().sqrMagnitude >= 0.02) {
 			movement = new Vector3(rAimInput.x, 0, rAimInput.y); // this and last line allow for movement between hits
@@ -495,6 +491,31 @@ public class PlayerController : MonoBehaviour {
 		if (doSnap) {
 			SnapToTarget();
 		} else { speedTime = 0; } // stops player movement when throwing. change later if other attacks don't snap
+	}
+
+	bool IsAttackState(AnimatorStateInfo stateInfo) {
+		// NOTE(Roskuski): If we're NOT any of these states
+		return !(
+				stateInfo.IsName("Base.Run") ||
+				stateInfo.IsName("Base.Idle") ||
+				stateInfo.IsName("Base.Hit") ||
+				stateInfo.IsName("Base.Death")
+			);
+	}
+
+	float AnimatorNormalizedTimeOfNextOrCurrentAttackState() {
+		// @TODO(Roskuski): I don't think it's a great choice, but for the time being I'm verifing that the AnimatorStateInfo is valid by checking if it's fullPathHash is 0. I imagine that the chances of actually having a zero hash is pretty low.
+		AnimatorStateInfo Next = animr.GetNextAnimatorStateInfo(0);
+		if (Next.fullPathHash != 0 && IsAttackState(Next)) {
+			return Next.normalizedTime;
+		}
+
+		AnimatorStateInfo Current = animr.GetCurrentAnimatorStateInfo(0);
+		if (Current.fullPathHash != 0 && IsAttackState(Current)) {
+			return Current.normalizedTime;
+		}
+
+		return 1.0f;
 	}
 
 	void Death() {
