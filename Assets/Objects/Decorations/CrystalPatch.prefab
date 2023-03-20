@@ -495,7 +495,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5280182018619526656}
-  - component: {fileID: 5677984627230281289}
   - component: {fileID: 5677984627230281288}
   m_Layer: 0
   m_Name: CrystalPatch
@@ -524,22 +523,10 @@ Transform:
   - {fileID: 5358152754312225470}
   - {fileID: 6742735291339724026}
   - {fileID: 7125800243721372778}
+  - {fileID: 361746717206383882}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 21.895, z: 0}
---- !u!135 &5677984627230281289
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4759505730074612922}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 2.33
-  m_Center: {x: 0.07, y: -0.09, z: 0.02}
 --- !u!208 &5677984627230281288
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -637,6 +624,51 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &7288798668650343174
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 361746717206383882}
+  - component: {fileID: 5920813079791024252}
+  m_Layer: 0
+  m_Name: Mesh
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &361746717206383882
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7288798668650343174}
+  m_LocalRotation: {x: -0, y: 0.37951443, z: -0, w: 0.9251858}
+  m_LocalPosition: {x: 1.09, y: -2.07, z: 1.68}
+  m_LocalScale: {x: 0.4791414, y: 0.96502155, z: 0.4791414}
+  m_Children: []
+  m_Father: {fileID: 5280182018619526656}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 44.607, z: 0}
+--- !u!64 &5920813079791024252
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7288798668650343174}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 5254012930969490358, guid: 59a0648534719d74c809a46464a3e861, type: 3}
 --- !u!1 &8334717697234493897
 GameObject:
   m_ObjectHideFlags: 0
