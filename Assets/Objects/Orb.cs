@@ -5,7 +5,7 @@ using UnityEngine;
 public class Orb : MonoBehaviour
 {
     public float despawnTime;
-
+    public GameObject enemy;
     public Animator anim;
 
     // Start is called before the first frame update
@@ -16,15 +16,11 @@ public class Orb : MonoBehaviour
         StartCoroutine(TimeToDie());
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     IEnumerator TimeToDie()
     {
-        yield return new WaitForSeconds(despawnTime);
+        yield return new WaitForSeconds(despawnTime / 2);
+        Instantiate(enemy, transform.position, transform.rotation);
+        yield return new WaitForSeconds(despawnTime / 2);
         anim.SetBool("DeSpawn", true);
         yield return new WaitForSeconds(0.5f);
         Destroy(gameObject);
