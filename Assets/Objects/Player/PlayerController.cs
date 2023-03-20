@@ -156,6 +156,7 @@ public class PlayerController : MonoBehaviour {
 	GameObject headProj;
 	Transform projSpawn;
 	BoxCollider axeHitbox;
+	Light spotLight;
 	GameManager gameManager;
 	Vector3 enemyTarget;
 	List<GameObject> enemiesHit;
@@ -166,12 +167,12 @@ public class PlayerController : MonoBehaviour {
 	float trueAngle = 0f;								// movement angle float generated from trueInput
 	public Vector2 mInput;								// processed movement vector read from input
 	[SerializeField] Vector3 movement;					// actual movement vector used. mInput(x, y) = movement(x, z)
-	bool freeAim = false;
+	public bool freeAim = false;
 	public Vector2 rAimInput;							// aiming vector read from right stick
 	[Header("Speed:")]
 	[SerializeField] AnimationCurve movementCurve;
 	[SerializeField] float topSpeed = 10f;				// top player speed
-	float speedTime = 0f;								// how long has player been moving for?
+	[SerializeField] float speedTime = 0f;								// how long has player been moving for?
 	[SerializeField] float maxSpeedTime = 0.4f;			// how long does it take for player to reach max speed?
 	[SerializeField] float attackDecelModifier = 5f;	// modifier that makes player decelerate slower when attacking (moves them out further)
 	[SerializeField] float turnSpeed = 0.05f;
@@ -204,6 +205,7 @@ public class PlayerController : MonoBehaviour {
 		headMeshTrail = transform.Find("Weapon_Controller/Hitbox/StoredHead").GetComponent<TrailRenderer>();
 		axeHitbox = transform.Find("Weapon_Controller/Hitbox").GetComponent<BoxCollider>();
 		projSpawn = transform.Find("ProjSpawn");
+		spotLight = transform.Find("Spot Light").GetComponent<Light>();
 		gameManager = transform.Find("/GameManager").GetComponent<GameManager>();
 		headProj = gameManager.SkullPrefab;
 
@@ -231,7 +233,7 @@ public class PlayerController : MonoBehaviour {
 		else if (mInput != Vector2.zero) { speedTime += Time.fixedDeltaTime; } // else build up speed while moving
 		else { speedTime -= Time.fixedDeltaTime; }
 		// if no movement input and not attacking, decelerate
-		speedTime = Mathf.Clamp(speedTime, 0, maxSpeedTime);
+		if (currentState != States.Attacking) { speedTime = Mathf.Clamp(speedTime, 0, maxSpeedTime); }
 		// clamp accel value between 0 and a static maximum
 		kbTime -= Time.fixedDeltaTime;
 		if (kbTime <= 0) {
@@ -367,6 +369,9 @@ public class PlayerController : MonoBehaviour {
 			}
 			kbAngle = Quaternion.LookRotation(other.transform.position - this.transform.position);
 			kbTime = maxKbTime;
+			float healthPercentage = (float)health / (float)healthMax;
+			spotLight.intensity = 50f * (healthPercentage);
+			//Debug.Log("Spotlight intensity should be ", 50f * healthPercentage);
 			currentAttack = Attacks.None;
 			currentState = States.Idle;
 			animr.SetBool("isWalking", false);
@@ -415,8 +420,8 @@ public class PlayerController : MonoBehaviour {
 		GameObject iHeadProj = Instantiate(headProj, projSpawn.position, transform.rotation);
 	}
 
-	public void AttackBurst() { // called in animator to give burst of speed as attacks become active
-		speedTime = maxSpeedTime * 1.5f; // makes player move forward after attacking in tandem with ryan's code
+	public void AttackBurst(float multiplier) { // called in animator to give burst of speed as attacks become active
+		speedTime = maxSpeedTime * multiplier; // makes player move forward after attacking in tandem with ryan's code
 	}
 
 	void ChangeMeter(float Amount) {
@@ -477,7 +482,10 @@ public class PlayerController : MonoBehaviour {
 		if (attack == Attacks.HeadThrow) {
 			freeAim = true;
 			doSnap = false;
-		}
+		} else if (attack == Attacks.Chop) {
+			freeAim = true;
+		} 
+
 
 		animr.SetInteger("currentAttack", (int)attack);
 		currentAttack = attack;
@@ -526,6 +534,7 @@ public class PlayerController : MonoBehaviour {
 		animr.SetInteger("currentAttack", (int)Attacks.None);
 		animr.SetInteger("prepAttack", (int)AttackButton.None);
 		animr.SetBool("isDead", true);
+		spotLight.intensity = 0;
 		float deathTimer = animationTimes["Character_Death_Test"];
 		deathTimer -= Time.deltaTime;
 		Debug.Log("Player died, restarting scene shortly");
@@ -541,12 +550,14 @@ public class PlayerController : MonoBehaviour {
 		"None",
 		"Character_Attack1",
 		"Character_Attack2",
-		"Character_Sweep",
+		"Character_Attack3",
 		"Character_Chop",
-		"Character_Sweep",
-		"Spin Not Implmented",
+		"Character_Slam",
+		"Character_Spin",
 		"Character_Chop_Throw",
-		"Character_Roll"
+		"Character_Roll",
+		"Character_Lethal_Dash",
+		"Character_Shotgun"
 	};
 	#endregion
 
