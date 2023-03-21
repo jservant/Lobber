@@ -94,12 +94,14 @@ public class Basic : MonoBehaviour {
 
 	// NOTE(Roskuski): End of ai state
 
-	int health = 4;
+	float health = 4;
 	bool shouldDie = false;
 	public float dropChance; //chance to drop a head (0-100)
 	Quaternion kbAngle;
 	float kbTime = 0f;
 	float maxKbTime = 0.25f;
+	float kbStrength;
+
 	[SerializeField] bool isSandbag = false;
 	bool isImmune = false;
 
@@ -160,11 +162,11 @@ public class Basic : MonoBehaviour {
 		return navAgent.remainingDistance - approchDistance;
 	}
 
-	void ChangeDirective_Stunned(float stunTime, Quaternion knockBackDirection) {
+	void ChangeDirective_Stunned(float stunTime, Quaternion knockBackDirection, float strength) {
 		directive = Directive.Stunned;
 		
-		//stunDuration += stunTime;
-		stunTime = 0;
+		stunDuration += stunTime;
+		kbStrength = strength;
 
 		animator.SetTrigger("wasHurt");
 		swordHitbox.enabled = false;
@@ -222,7 +224,7 @@ public class Basic : MonoBehaviour {
 
 	void Flash() {
 		Instantiate(flash, flashSpot.position, flash.transform.rotation);
-    }
+	}
 
 	// helper: logic for deteriming whigh following range is being used.
 	bool UsingApprochRange(float distance) {
@@ -236,29 +238,49 @@ public class Basic : MonoBehaviour {
 				PlayerController player = other.GetComponentInParent<PlayerController>();
 
 				if (player != null) {
+					bool fullAxe = player.meter >= player.meterMax/2;
+
 					Quaternion knockBackDir = player.transform.rotation;
 					switch (gameMan.playerController.currentAttack) {
 						case PlayerController.Attacks.LAttack:
-							ChangeDirective_Stunned(3.0f, knockBackDir);
-							health--;
+							if (fullAxe) {
+								health -= 0.5f;
+								ChangeDirective_Stunned(1.0f, knockBackDir, 20.0f);
+							}
+							else {
+								health -= 1;
+								ChangeDirective_Stunned(1.0f, knockBackDir, 10.0f);
+							}
+
 							break;
 						case PlayerController.Attacks.LAttack2:
-							ChangeDirective_Stunned(3.0f, knockBackDir);
-							health--;
+							if (fullAxe) {
+								health -= 0.5f;
+								ChangeDirective_Stunned(1.0f, knockBackDir, 20.0f);
+							}
+							else {
+								health -= 1;
+								ChangeDirective_Stunned(1.0f, knockBackDir, 10.0f);
+							}
+
+							break;
+						case PlayerController.Attacks.LAttack3:
+							if (fullAxe) {
+								health -= 1;
+								ChangeDirective_Stunned(1.0f, knockBackDir, 40.0f);
+							}
+							else {
+								health -= 2;
+								ChangeDirective_Stunned(1.0f, knockBackDir, 30.0f);
+							}
+
+							ChangeDirective_Stunned(3.0f, knockBackDir, 20.0f);
 							break;
 						case PlayerController.Attacks.Chop:
 							shouldDie = true;
-							player.health += 0;
-							player.meter += 1;
+							player.ChangeMeter(1);
+
 							dropChance = 0;
-							if (player.health > player.healthMax) player.health = player.healthMax;
-							break;
-						case PlayerController.Attacks.LAttack3:
-							shouldDie = true;
-							player.health += 0;
-							player.meter += 1;
-							dropChance = 0;
-							if (player.health > player.healthMax) player.health = player.healthMax;
 							break;
 						default:
 							Debug.Log("I, " + this.name + " was hit by an unhandled attack (" + gameMan.playerController.currentAttack + ")");
@@ -276,7 +298,7 @@ public class Basic : MonoBehaviour {
 			if (other.gameObject.layer == (int)Layers.TrapHitbox) {
 				// NOTE(Roskuski): Knockback trap
 				Quaternion knockBackDir = Quaternion.LookRotation(this.transform.position - other.transform.position);
-				ChangeDirective_Stunned(6.0f, knockBackDir);
+				ChangeDirective_Stunned(6.0f, knockBackDir, 20.0f);
 			}
 
 		}
@@ -331,7 +353,7 @@ public class Basic : MonoBehaviour {
 		// Preform knockback regardless of what we want to do
 		if (kbTime > 0) {
 			kbTime -= Time.deltaTime;
-			transform.position += kbAngle * Vector3.forward * 20.0f * Mathf.Lerp(1, 0, Mathf.Clamp01(kbTime/maxKbTime)) * Time.deltaTime;
+			transform.position += kbAngle * Vector3.forward * kbStrength * Mathf.Lerp(1, 0, Mathf.Clamp01(Mathf.Pow((kbTime/maxKbTime), 2))) * Time.deltaTime;
 		}
 
 
@@ -788,7 +810,7 @@ public class Basic : MonoBehaviour {
 			shouldDie = true;
 		}
 
-			if (shouldDie) {
+		if (shouldDie) {
 			float HeadChance = Random.Range(1, 100f);
 			if (HeadChance <= dropChance) GameObject.Instantiate(gameMan.HeadPickupPrefab, transform.position + 3 * Vector3.up, Quaternion.identity);
 			gameMan.enemies.Remove(gameObject);
@@ -796,7 +818,7 @@ public class Basic : MonoBehaviour {
 		}
 	}
 
-	private void OnDestroy() {gameMan.enemies.Remove(gameObject); }
+	private void OnDestroy() { gameMan.enemies.Remove(gameObject); }
 	private void OnDisable() { gameMan.enemies.Remove(gameObject); }
 
 	void OnDrawGizmosSelected() {
@@ -823,5 +845,5 @@ public class Basic : MonoBehaviour {
 	void OnDrawGizmos() {
 		Gizmos.color = Color.blue;
 		Gizmos.DrawWireSphere(transform.position, enemyCommunicationRange);
-    }
+	}
 }

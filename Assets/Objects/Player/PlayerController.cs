@@ -449,7 +449,7 @@ public class PlayerController : MonoBehaviour {
 		GameObject iHeadProj = Instantiate(headProj, projSpawn.position, transform.rotation);
 	}
 
-	void ChangeMeter(float Amount) {
+	public void ChangeMeter(float Amount) {
 		meter += Amount;
 		if (Amount >= 1) {
 			headMesh.enabled = true;
@@ -505,7 +505,9 @@ public class PlayerController : MonoBehaviour {
 			transform.LookAt(homingTargetDelta + transform.position);
 		}
 		else {
-			homingTargetDelta = this.transform.rotation * Vector3.forward * 2;
+			Vector3 Location = GetTargetSphereLocation();
+			Location = new Vector3(Location.x, transform.position.y, Location.z);
+			homingTargetDelta = Quaternion.LookRotation(Location - transform.position, Vector3.up) * Vector3.forward * 2;
 		}
 	}
 
