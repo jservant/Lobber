@@ -8,7 +8,6 @@ using TMPro;
 public class GameManager : MonoBehaviour {
 	public Transform player;
 	public PlayerController playerController;
-	public Camera camera;
 
 	public Canvas pauseBG;
 	public Canvas pauseUI;
@@ -20,6 +19,7 @@ public class GameManager : MonoBehaviour {
 	public GameObject SkullPrefab;
 	public GameObject EnemyPrefab;
 	public GameObject HeadPickupPrefab;
+	public OrbSpawn[] eSpawns;
 
 	public string[] scenes;
 	static int sceneValue = 0;
@@ -35,12 +35,16 @@ public class GameManager : MonoBehaviour {
 			Debug.Log("Object Named Player found");
 		}
 		else Debug.LogWarning("Object Named Player Not found");
+		eSpawns = transform.Find("Enemy Spawns").GetComponentsInChildren<OrbSpawn>();
 
 		dActions = new DebugActions();
-		camera = transform.Find("/CameraPoint/Main Camera").GetComponent<Camera>();
 		pauseBG = transform.Find("PauseBG").GetComponent<Canvas>();
 		pauseUI = transform.Find("PauseUI").GetComponent<Canvas>();
 		optionsUI = transform.Find("OptionsUI").GetComponent<Canvas>();
+
+		for(int i = 0; i < eSpawns.Length; i++) {
+			eSpawns[i].spawnNow = true;
+		}
 	}
 
 	private void Update() {
@@ -59,7 +63,7 @@ public class GameManager : MonoBehaviour {
 		if (!isMenuOpen && dActions.DebugTools.SpawnEnemy.WasPerformedThisFrame()) {
 			Vector2 MouseLocation2D = dActions.DebugTools.MouseLocation.ReadValue<Vector2>();
 			Vector3 MouseLocation = new Vector3(MouseLocation2D.x, MouseLocation2D.y, 0);
-			Ray ray = camera.ScreenPointToRay(MouseLocation);
+			Ray ray = Camera.main.ScreenPointToRay(MouseLocation);
 			RaycastHit hit;
 
 			if (Physics.Raycast(ray.origin, ray.direction, out hit, 1000.0f)) {

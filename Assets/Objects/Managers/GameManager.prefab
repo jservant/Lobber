@@ -387,6 +387,36 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &746868981387758084
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 317280725681463208}
+  m_Layer: 0
+  m_Name: Enemy Spawns
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &317280725681463208
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 746868981387758084}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6570164311200872254}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1280695606998618953
 GameObject:
   m_ObjectHideFlags: 0
@@ -1788,6 +1818,7 @@ Transform:
   - {fileID: 8984558032803627358}
   - {fileID: 5237276558659262827}
   - {fileID: 9064660386860982615}
+  - {fileID: 317280725681463208}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1805,7 +1836,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   playerController: {fileID: 0}
-  camera: {fileID: 0}
   pauseBG: {fileID: 0}
   pauseUI: {fileID: 4145474456530881449}
   optionsUI: {fileID: 0}
@@ -1815,6 +1845,7 @@ MonoBehaviour:
   SkullPrefab: {fileID: 3919287289124563026, guid: 52272a60c576cf44f83ffd05df295b1d, type: 3}
   EnemyPrefab: {fileID: 2369981039474322611, guid: 015c14080a009154f94ee3a0f18a0813, type: 3}
   HeadPickupPrefab: {fileID: 6346896903868867949, guid: ea9c3733d56472b47824784ca8b59db1, type: 3}
+  eSpawns: []
   scenes:
   - Scenes/Anthony/Prototype Anthony
   - Scenes/Anthony/FLAT Level_K

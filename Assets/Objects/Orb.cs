@@ -7,19 +7,23 @@ public class Orb : MonoBehaviour
     public float despawnTime;
     public GameObject enemy;
     public Animator anim;
+    public Transform[] spawns;
 
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
+        spawns = transform.Find("Spawns").GetComponentsInChildren<Transform>();
 
-        StartCoroutine(TimeToDie());
+        StartCoroutine(Spawning(despawnTime));
     }
 
-    IEnumerator TimeToDie()
+    IEnumerator Spawning(float despawnTime)
     {
         yield return new WaitForSeconds(despawnTime / 2);
-        Instantiate(enemy, transform.position, transform.rotation);
+        for (int s = 0; s < spawns.Length; s++) {
+            Instantiate(enemy, spawns[s].transform.position, spawns[s].transform.rotation);
+        }
         yield return new WaitForSeconds(despawnTime / 2);
         anim.SetBool("DeSpawn", true);
         yield return new WaitForSeconds(0.5f);
