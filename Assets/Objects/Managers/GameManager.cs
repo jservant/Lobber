@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour {
 	public GameObject EnemyPrefab;
 	public GameObject HeadPickupPrefab;
 	public OrbSpawn[] eSpawns;
+	public List<GameObject> enemies;
 
 	public string[] scenes;
 	static int sceneValue = 0;
@@ -42,12 +43,21 @@ public class GameManager : MonoBehaviour {
 		pauseUI = transform.Find("PauseUI").GetComponent<Canvas>();
 		optionsUI = transform.Find("OptionsUI").GetComponent<Canvas>();
 
-		for(int i = 0; i < eSpawns.Length; i++) {
-			eSpawns[i].spawnNow = true;
+		enemies = new List<GameObject>();
+		if (enemies == null) {
+			for (int i = 0; i < eSpawns.Length; i++) {
+				eSpawns[i].spawnNow = true;
+			}
 		}
-	}
+
+		}
 
 	private void Update() {
+		if (enemies != null && enemies.Count <= 5) {
+			int randSpawn = Random.Range(0, eSpawns.Length);
+			eSpawns[randSpawn].spawnNow = true;
+		}
+
 		if (updateTimeScale) {
 			if (frozenTime > 0) {
 				Time.timeScale = 0.0f;

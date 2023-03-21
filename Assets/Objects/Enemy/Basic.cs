@@ -286,6 +286,7 @@ public class Basic : MonoBehaviour {
 		enemyCommunication = this.GetComponent<EnemyCommunication>();
 
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
+		gameMan.enemies.Add(gameObject);
 
 		navAgent.updatePosition = false;
 		navAgent.updateRotation = false;
@@ -781,6 +782,7 @@ public class Basic : MonoBehaviour {
 		if (shouldDie) {
 			float HeadChance = Random.Range(1, 100f);
 			if (HeadChance <= dropChance) GameObject.Instantiate(gameMan.HeadPickupPrefab, transform.position + 3 * Vector3.up, Quaternion.identity);
+			gameMan.enemies.Remove(gameObject);
 			Destroy(this.gameObject);
 		}
 	}
