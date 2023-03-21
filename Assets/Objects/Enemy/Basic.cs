@@ -162,7 +162,10 @@ public class Basic : MonoBehaviour {
 
 	void ChangeDirective_Stunned(float stunTime, Quaternion knockBackDirection) {
 		directive = Directive.Stunned;
-		stunDuration += stunTime;
+		
+		//stunDuration += stunTime;
+		stunTime = 0;
+
 		animator.SetTrigger("wasHurt");
 		swordHitbox.enabled = false;
 
@@ -325,6 +328,13 @@ public class Basic : MonoBehaviour {
 			swordHitbox.enabled = false;
 		}
 
+		// Preform knockback regardless of what we want to do
+		if (kbTime > 0) {
+			kbTime -= Time.deltaTime;
+			transform.position += kbAngle * Vector3.forward * 20.0f * Mathf.Lerp(1, 0, Mathf.Clamp01(kbTime/maxKbTime)) * Time.deltaTime;
+		}
+
+
 		// Directive Changing
 		switch (directive) {
 			case Directive.Inactive: // using this as a generic start point for enemy AI
@@ -366,11 +376,6 @@ public class Basic : MonoBehaviour {
 				break;
 			case Directive.Stunned:
 				stunDuration -= Time.deltaTime;
-
-				if (kbTime > 0) {
-					kbTime -= Time.deltaTime;
-					transform.position += kbAngle * Vector3.forward * 20.0f * Mathf.Lerp(1, 0, Mathf.Clamp01(kbTime/maxKbTime)) * Time.deltaTime;
-				}
 
 				if (stunDuration < 0) {
 					ChangeDirective_Inactive(0);
