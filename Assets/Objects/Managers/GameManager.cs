@@ -44,19 +44,19 @@ public class GameManager : MonoBehaviour {
 		optionsUI = transform.Find("OptionsUI").GetComponent<Canvas>();
 
 		enemies = new List<GameObject>();
-		if (enemies == null) {
-			for (int i = 0; i < eSpawns.Length; i++) {
-				eSpawns[i].spawnNow = true;
-			}
+
+		for (int i = 0; i < eSpawns.Length; i++) {
+			eSpawns[i].spawnNow = true;
 		}
+		
 
 		}
 
 	private void Update() {
-		if (enemies != null && enemies.Count <= 5) {
+		/*if (enemies != null && enemies.Count <= 0) {
 			int randSpawn = Random.Range(0, eSpawns.Length);
 			eSpawns[randSpawn].spawnNow = true;
-		}
+		}*/
 
 		if (updateTimeScale) {
 			if (frozenTime > 0) {
@@ -109,6 +109,11 @@ public class GameManager : MonoBehaviour {
 
 		UpdateHealthBar();
 		UpdateMeter();
+	}
+
+	public void SpawnMoreEnemies() {
+		int randSpawn = Random.Range(0, eSpawns.Length);
+		eSpawns[randSpawn].spawnNow = true;
 	}
 
 	// NOTE(Ryan): Can be called to freeze the game for the time specified.

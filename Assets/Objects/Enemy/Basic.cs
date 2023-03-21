@@ -779,13 +779,21 @@ public class Basic : MonoBehaviour {
 			shouldDie = true;
 		}
 
-		if (shouldDie) {
+		if (transform.position.y <= -50f) {
+			shouldDie = true;
+		}
+
+			if (shouldDie) {
 			float HeadChance = Random.Range(1, 100f);
 			if (HeadChance <= dropChance) GameObject.Instantiate(gameMan.HeadPickupPrefab, transform.position + 3 * Vector3.up, Quaternion.identity);
 			gameMan.enemies.Remove(gameObject);
+			if (gameMan.enemies.Count <= 5) gameMan.SpawnMoreEnemies();
 			Destroy(this.gameObject);
 		}
 	}
+
+	private void OnDestroy() {gameMan.enemies.Remove(gameObject); }
+	private void OnDisable() { gameMan.enemies.Remove(gameObject); }
 
 	void OnDrawGizmosSelected() {
 		Gizmos.color = Color.blue;
