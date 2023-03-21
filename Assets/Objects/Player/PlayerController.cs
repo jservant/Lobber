@@ -157,7 +157,7 @@ public class PlayerController : MonoBehaviour {
 	Transform projSpawn;
 	BoxCollider axeHitbox;
 	Light spotLight;
-	GameManager gameMan;
+	GameManager gameManager;
 	Vector3 enemyTarget;
 	List<GameObject> enemiesHit;
 	public DefaultPlayerActions pActions;
@@ -210,8 +210,8 @@ public class PlayerController : MonoBehaviour {
 		axeHitbox = transform.Find("Weapon_Controller/Hitbox").GetComponent<BoxCollider>();
 		projSpawn = transform.Find("ProjSpawn");
 		spotLight = transform.Find("Spot Light").GetComponent<Light>();
-		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
-		headProj = gameMan.SkullPrefab;
+		gameManager = transform.Find("/GameManager").GetComponent<GameManager>();
+		headProj = gameManager.SkullPrefab;
 
 		#region debug
 		if (headMesh != null) { Debug.Log("Axe headmesh found on player."); } else { Debug.LogWarning("Axe headmesh not found on player."); }

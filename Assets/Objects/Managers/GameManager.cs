@@ -26,7 +26,6 @@ public class GameManager : MonoBehaviour {
 	static int sceneValue = 0;
 
 	public bool updateTimeScale = true;
-	public bool canSpawn = true;
 	DebugActions dActions;
 	float frozenTime = 0;
 
@@ -38,6 +37,7 @@ public class GameManager : MonoBehaviour {
 		}
 		else Debug.LogWarning("Object Named Player Not found");
 		eSpawns = transform.Find("Enemy Spawns").GetComponentsInChildren<OrbSpawn>();
+
 		dActions = new DebugActions();
 		pauseBG = transform.Find("PauseBG").GetComponent<Canvas>();
 		pauseUI = transform.Find("PauseUI").GetComponent<Canvas>();
@@ -48,7 +48,9 @@ public class GameManager : MonoBehaviour {
 		for (int i = 0; i < eSpawns.Length; i++) {
 			eSpawns[i].spawnNow = true;
 		}
-	}
+		
+
+		}
 
 	private void Update() {
 		if (updateTimeScale) {
@@ -87,14 +89,12 @@ public class GameManager : MonoBehaviour {
 			if (optionsUI.enabled == true) {
 				pauseUI.enabled = true;
 				optionsUI.enabled = false;
-			}
-			else if (pauseUI.enabled == false) {
+			} else if (pauseUI.enabled == false) {
 				updateTimeScale = false;
 				Time.timeScale = 0;
 				pauseBG.enabled = true;
 				pauseUI.enabled = true;
-			}
-			else {
+			} else {
 				updateTimeScale = true;
 				Time.timeScale = 1;
 				pauseUI.enabled = false;
@@ -104,10 +104,11 @@ public class GameManager : MonoBehaviour {
 
 		UpdateHealthBar();
 		UpdateMeter();
-		if (canSpawn && enemies.Count <= 5) {
-			int randSpawn = Random.Range(0, eSpawns.Length);
-			eSpawns[randSpawn].spawnNow = true;
-		}
+	}
+
+	public void SpawnMoreEnemies() {
+		int randSpawn = Random.Range(0, eSpawns.Length);
+		eSpawns[randSpawn].spawnNow = true;
 	}
 
 	// NOTE(Ryan): Can be called to freeze the game for the time specified.
@@ -115,15 +116,17 @@ public class GameManager : MonoBehaviour {
 	public void FreezeFrames(int Frames60) {
 		frozenTime += (float)(Frames60) / 60.0f;
 	}
-	public void UpdateHealthBar() {
+	public void UpdateHealthBar()
+    {
 		float healthMax = playerController.healthMax;
 		float health = playerController.health;
 		healthBar.localScale = new Vector3((health / healthMax), 1f, 1f);
 	}
 
-	public void UpdateMeter() {
-		meterBar.localScale = new Vector3((playerController.meter / playerController.meterMax), 1f, 1f);
-	}
+	public void UpdateMeter()
+    {
+		meterBar.localScale = new Vector3 ((playerController.meter / playerController.meterMax), 1f, 1f);
+    }
 
 	public void OnResume() {
 		updateTimeScale = true;
