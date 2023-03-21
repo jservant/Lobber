@@ -469,6 +469,10 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void SetupHoming() { // attack homing function
+		if (doHoming) {
+			doHoming = false;
+		}
+
 		Collider[] eColliders = Physics.OverlapSphere(GetTargetSphereLocation(), targetSphereRadius, Mask.Get(Layers.EnemyHurtbox));
 
 		homingTargetDelta = Vector3.forward * 10;
@@ -480,8 +484,25 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		if (homingTargetDelta != Vector3.forward * 10) {
-			homingTargetDelta *= 0.50f;
-			transform.LookAt(enemyTarget);
+			switch (currentAttack) {
+				case Attacks.None:
+				default:
+					//Debug.Assert(false);
+					break;
+				case Attacks.LAttack:
+					homingTargetDelta *= 0.80f;
+					break;
+				case Attacks.LAttack2:
+					homingTargetDelta *= 1;
+					break;
+				case Attacks.LAttack3:
+					homingTargetDelta *= 1;
+					break;
+				case Attacks.Chop:
+					homingTargetDelta *= 0.50f;
+					break;
+			}
+			transform.LookAt(homingTargetDelta + transform.position);
 		}
 		else {
 			homingTargetDelta = this.transform.rotation * Vector3.forward * 2;
