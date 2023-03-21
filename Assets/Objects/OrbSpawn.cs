@@ -13,7 +13,7 @@ public class OrbSpawn : MonoBehaviour {
 
     void Start() {
         spawns = transform.Find("Spawns").GetComponentsInChildren<Transform>();
-        //orbPrefab = transform.Find("Orb");
+        //orbPrefab = transform.Find("Orb"); // can't find properly despite being assigned in editor??? throwing errors even though it works
         anim = orbPrefab.GetComponent<Animator>();
         gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
     }
