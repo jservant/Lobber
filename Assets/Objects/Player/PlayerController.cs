@@ -157,7 +157,7 @@ public class PlayerController : MonoBehaviour {
 	Transform projSpawn;
 	BoxCollider axeHitbox;
 	Light spotLight;
-	GameManager gameManager;
+	GameManager gameMan;
 	Vector3 enemyTarget;
 	List<GameObject> enemiesHit;
 	public DefaultPlayerActions pActions;
@@ -193,6 +193,12 @@ public class PlayerController : MonoBehaviour {
 	float kbTime = 0f;                            // knockback time
 	[SerializeField] float targetSphereRadius = 2f;
 
+	[SerializeField] Vector3 homingInitalPosition;
+	[SerializeField] Vector3 homingTargetDelta;
+	[SerializeField] float homingTimer;
+	[SerializeField] float homingTimerMax;
+	[SerializeField] bool doHoming = false;
+
 	// NOTE(Roskuski): C# doesn't support globals that are scoped to functions
 	float AnimatorNormalizedTimeOfNextOrCurrentAttackState_LastValue;
 	int AnimatorNormalizedTimeOfNextOrCurrentAttackState_LastSource;
@@ -210,8 +216,8 @@ public class PlayerController : MonoBehaviour {
 		axeHitbox = transform.Find("Weapon_Controller/Hitbox").GetComponent<BoxCollider>();
 		projSpawn = transform.Find("ProjSpawn");
 		spotLight = transform.Find("Spot Light").GetComponent<Light>();
-		gameManager = transform.Find("/GameManager").GetComponent<GameManager>();
-		headProj = gameManager.SkullPrefab;
+		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
+		headProj = gameMan.SkullPrefab;
 
 		#region debug
 		if (headMesh != null) { Debug.Log("Axe headmesh found on player."); } else { Debug.LogWarning("Axe headmesh not found on player."); }
@@ -245,32 +251,41 @@ public class PlayerController : MonoBehaviour {
 			kbTime = 0f;
 		}
 
-		Vector3 moveDelta;
-		if (currentAttack == Attacks.Dashing) {
-			dashTime += Time.fixedDeltaTime;
-			animr.SetBool("isDashing", true);
-			this.transform.rotation = Quaternion.Euler(0f, trueAngle, 0f);
-			Vector3 dashDirection = Quaternion.Euler(0f, trueAngle, 0f) * Vector3.forward;
-			moveDelta = dashDirection.normalized * (dashForce * Mathf.Lerp(0, 1, dashCurve.Evaluate(dashTime / animationTimes["Character_Roll"])));
-			if (dashTime >= animationTimes["Character_Roll"]) {
-				currentState = States.Idle;
-				trueAngle = 0;
-				currentAttack = 0;
-				animr.SetInteger("currentAttack", 0);
-				dashTime = 0;
+		if (doHoming) {
+			this.transform.position = Vector3.Lerp(homingInitalPosition + homingTargetDelta, homingInitalPosition, Mathf.Clamp01(Mathf.Pow((homingTimer/homingTimerMax), 2)));
+			homingTimer -= Time.deltaTime;
+			if (homingTimer < 0) {
+				doHoming = false;
 			}
 		}
 		else {
-			float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
-			float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnVelocity, turnSpeed);
-			transform.rotation = Quaternion.Euler(0f, angle, 0f);
-			Vector3 moveDirection = Quaternion.Euler(0f, angle, 0f) * Vector3.forward;
-			moveDelta = moveDirection.normalized * (topSpeed * Mathf.Lerp(0, 1, movementCurve.Evaluate(speedTime / maxSpeedTime)));
-		} 
-		float moveWeight = Mathf.Lerp(1, 0, Mathf.Clamp01(kbTime / maxKbTime));
-		float kbWeight = moveWeight - 1f;
-		Vector3 kbDelta = (kbAngle * Vector3.forward) * kbForce;
-		transform.position += (moveDelta * moveWeight + kbDelta * kbWeight) * Time.fixedDeltaTime;
+			Vector3 moveDelta;
+			if (currentAttack == Attacks.Dashing) {
+				dashTime += Time.fixedDeltaTime;
+				animr.SetBool("isDashing", true);
+			this.transform.rotation = Quaternion.Euler(0f, trueAngle, 0f);
+			Vector3 dashDirection = Quaternion.Euler(0f, trueAngle, 0f) * Vector3.forward;
+				moveDelta = dashDirection.normalized * (dashForce * Mathf.Lerp(0, 1, dashCurve.Evaluate(dashTime / animationTimes["Character_Roll"])));
+				if (dashTime >= animationTimes["Character_Roll"]) {
+					currentState = States.Idle;
+					trueAngle = 0;
+					currentAttack = 0;
+					animr.SetInteger("currentAttack", 0);
+					dashTime = 0;
+				}
+			}
+			else {
+				float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
+				float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnVelocity, turnSpeed);
+				transform.rotation = Quaternion.Euler(0f, angle, 0f);
+				Vector3 moveDirection = Quaternion.Euler(0f, angle, 0f) * Vector3.forward;
+				moveDelta = moveDirection.normalized * (topSpeed * Mathf.Lerp(0, 1, movementCurve.Evaluate(speedTime / maxSpeedTime)));
+			} 
+			float moveWeight = Mathf.Lerp(1, 0, Mathf.Clamp01(kbTime / maxKbTime));
+			float kbWeight = moveWeight - 1f;
+			Vector3 kbDelta = (kbAngle * Vector3.forward) * kbForce;
+			transform.position += (moveDelta * moveWeight + kbDelta * kbWeight) * Time.fixedDeltaTime;
+		}
 
 		if (freeAim) {
 			if (rAimInput != Vector2.zero) {
@@ -434,11 +449,7 @@ public class PlayerController : MonoBehaviour {
 		GameObject iHeadProj = Instantiate(headProj, projSpawn.position, transform.rotation);
 	}
 
-	public void AttackBurst(float multiplier) { // called in animator to give burst of speed as attacks become active
-		speedTime = maxSpeedTime * multiplier; // makes player move forward after attacking in tandem with ryan's code
-	}
-
-	void ChangeMeter(float Amount) {
+	public void ChangeMeter(float Amount) {
 		meter += Amount;
 		if (Amount >= 1) {
 			headMesh.enabled = true;
@@ -450,31 +461,54 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-	void SnapToTarget() { // attack homing function
-		enemyTarget = Vector3.zero; // free the target vector
-		Collider[] eColliders = Physics.OverlapSphere(GetTargetSphereLocation(), targetSphereRadius, Mask.Get(Layers.EnemyHurtbox));
-		// find all colliders in the sphere
-		//Debug.Log("eColliders length: " + eColliders.Length);
-		float difference = 10f;
-		for (int index = 0; index < eColliders.Length; index += 1) { // for each v3
-																	 //print("Collider #" + index + " name: " + eColliders[index].gameObject.name);
+	public void StartHoming(float time) { // called in animator; starts the homing lerp in FixedUpdate()
+		homingInitalPosition = this.transform.position;
+		homingTimer = time;
+		homingTimerMax = time;
+		doHoming = true;
+	}
 
-			float newDifference = Vector3.Distance(transform.position, eColliders[index].transform.position);
-			if (newDifference < difference) {
-				difference = newDifference;
-				enemyTarget = eColliders[index].transform.position;
+	void SetupHoming() { // attack homing function
+		if (doHoming) {
+			doHoming = false;
+		}
+
+		Collider[] eColliders = Physics.OverlapSphere(GetTargetSphereLocation(), targetSphereRadius, Mask.Get(Layers.EnemyHurtbox));
+
+		homingTargetDelta = Vector3.forward * 10;
+		for (int index = 0; index < eColliders.Length; index += 1) {
+			Vector3 newDelta = eColliders[index].transform.position - transform.position;
+			if (newDelta.magnitude < homingTargetDelta.magnitude) {
+				homingTargetDelta = newDelta;
 			}
 		}
-		if (enemyTarget != Vector3.zero) {
-			print("Player's position: " + transform.position + " Target enemy's position: " + enemyTarget);
-			//TODO(@Jaden): doesn't work right when camera is rotated?
-			this.movement = (enemyTarget - transform.position).normalized;
-			transform.LookAt(enemyTarget); // point player at closest enemy
+
+		if (homingTargetDelta != Vector3.forward * 10) {
+			switch (currentAttack) {
+				case Attacks.None:
+				default:
+					//Debug.Assert(false);
+					break;
+				case Attacks.LAttack:
+					homingTargetDelta *= 0.80f;
+					break;
+				case Attacks.LAttack2:
+					homingTargetDelta *= 1;
+					break;
+				case Attacks.LAttack3:
+					homingTargetDelta *= 1;
+					break;
+				case Attacks.Chop:
+					homingTargetDelta *= 0.50f;
+					break;
+			}
+			transform.LookAt(homingTargetDelta + transform.position);
 		}
-		/*else {
-			print("No enemies found. Player movement vector: " + movement);
-			enemyTarget = movement;
-		}*/
+		else {
+			Vector3 Location = GetTargetSphereLocation();
+			Location = new Vector3(Location.x, transform.position.y, Location.z);
+			homingTargetDelta = Quaternion.LookRotation(Location - transform.position, Vector3.up) * Vector3.forward * 2;
+		}
 	}
 
 	Vector3 GetTargetSphereLocation() {
@@ -490,12 +524,12 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void setCurrentAttack(Attacks attack) {
-		bool doSnap = true;
+		bool setupHoming = true;
 		currentState = States.Attacking;
 
 		if (attack == Attacks.HeadThrow) {
 			freeAim = true;
-			doSnap = false;
+			setupHoming = false;
 		} else if (attack == Attacks.Chop) {
 			freeAim = true;
 		} 
@@ -510,8 +544,8 @@ public class PlayerController : MonoBehaviour {
 			movement = new Vector3(trueInput.x, 0, trueInput.y);
 		}
 
-		if (doSnap) {
-			SnapToTarget();
+		if (setupHoming) {
+			SetupHoming();
 		} else { speedTime = 0; } // stops player movement when throwing. change later if other attacks don't snap
 	}
 
