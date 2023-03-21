@@ -21,21 +21,21 @@ public class PlayerController : MonoBehaviour {
 			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Mod Dash
 		// When in LAttack
 		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
-			               new QueueInfo(0.5f, 1.0f, Attacks.LAttack2), // Light Attack
-			               new QueueInfo(0.5f, 1.0f, Attacks.Chop), // Heavy Attack
-			               new QueueInfo(0.5f, 1.0f, Attacks.HeadThrow), // Throw
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Dash
+			               new QueueInfo(0.3f, 1.0f, Attacks.LAttack2), // Light Attack
+			               new QueueInfo(0.3f, 1.0f, Attacks.Chop), // Heavy Attack
+			               new QueueInfo(0.3f, 1.0f, Attacks.HeadThrow), // Throw
+			               new QueueInfo(0.0f, 1.0f, Attacks.Dashing), // Dash
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Light Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Heavy Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Throw
 			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Mod Dash
 		// When in LAttack2
 		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
-			               new QueueInfo(0.5f, 1.0f, Attacks.LAttack3), // Light Attack
-			               new QueueInfo(0.5f, 1.0f, Attacks.Chop), // Heavy Attack
-			               new QueueInfo(0.5f, 1.0f, Attacks.HeadThrow), // Throw
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Dash
-			               new QueueInfo(0.5f, 1.0f, Attacks.None), // Mod Light Attack
+			               new QueueInfo(0.3f, 1.0f, Attacks.LAttack3), // Light Attack
+			               new QueueInfo(0.3f, 1.0f, Attacks.Chop), // Heavy Attack
+			               new QueueInfo(0.3f, 1.0f, Attacks.HeadThrow), // Throw
+			               new QueueInfo(0.0f, 1.0f, Attacks.Dashing), // Dash
+			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Light Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Heavy Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Throw
 			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Mod Dash
@@ -43,8 +43,8 @@ public class PlayerController : MonoBehaviour {
 		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Light Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Heavy Attack
-			               new QueueInfo(0.5f, 1.0f, Attacks.HeadThrow), // Throw
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Dash
+			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Throw
+			               new QueueInfo(0.0f, 1.0f, Attacks.Dashing), // Dash
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Light Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Heavy Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Throw
@@ -52,9 +52,9 @@ public class PlayerController : MonoBehaviour {
 		// When in Chop
 		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // Nonel
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Light Attack
-			               new QueueInfo(0.5f, 1.0f, Attacks.Chop), // Heavy Attack
-			               new QueueInfo(0.5f, 1.0f, Attacks.HeadThrow), // Throw
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Dash
+			               new QueueInfo(0.7f, 1.0f, Attacks.Chop), // Heavy Attack
+			               new QueueInfo(0.0f, 1.0f, Attacks.HeadThrow), // Throw
+			               new QueueInfo(0.0f, 1.0f, Attacks.Dashing), // Dash
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Light Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Heavy Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Throw
@@ -82,18 +82,18 @@ public class PlayerController : MonoBehaviour {
 		// When in HeadThrow
 		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Light Attack
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Heavy Attack
+			               new QueueInfo(0.0f, 1.0f, Attacks.Chop), // Heavy Attack
 			               new QueueInfo(0.7f, 1.0f, Attacks.HeadThrow), // Throw
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Dash
+			               new QueueInfo(0.0f, 1.0f, Attacks.Dashing), // Dash
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Light Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Heavy Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Throw
 			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Mod Dash
 		// When in Dashing
 		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
-			               new QueueInfo(0.5f, 1.0f, Attacks.LAttack), // Light Attack
-			               new QueueInfo(0.5f, 1.0f, Attacks.Chop), // Heavy Attack
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Throw
+			               new QueueInfo(0.0f, 1.0f, Attacks.LAttack), // Light Attack
+			               new QueueInfo(0.0f, 1.0f, Attacks.Chop), // Heavy Attack
+			               new QueueInfo(0.0f, 1.0f, Attacks.HeadThrow), // Throw
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Dash
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Light Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Heavy Attack
@@ -196,6 +196,7 @@ public class PlayerController : MonoBehaviour {
 	// NOTE(Roskuski): C# doesn't support globals that are scoped to functions
 	float AnimatorNormalizedTimeOfNextOrCurrentAttackState_LastValue;
 	int AnimatorNormalizedTimeOfNextOrCurrentAttackState_LastSource;
+	bool wasNextValid = false; 
 	float turnVelocity = 0f;  // annoying float that is only referenced and has to exist for movement math to work
 
 	private void Awake() {
@@ -248,9 +249,10 @@ public class PlayerController : MonoBehaviour {
 		if (currentAttack == Attacks.Dashing) {
 			dashTime += Time.fixedDeltaTime;
 			animr.SetBool("isDashing", true);
+			this.transform.rotation = Quaternion.Euler(0f, trueAngle, 0f);
 			Vector3 dashDirection = Quaternion.Euler(0f, trueAngle, 0f) * Vector3.forward;
-			moveDelta = dashDirection.normalized * (dashForce * Mathf.Lerp(0, 1, dashCurve.Evaluate(dashTime / animationTimes[AttackToClipName[(int)currentAttack]])));
-			if (dashTime >= animationTimes[AttackToClipName[(int)currentAttack]]) {
+			moveDelta = dashDirection.normalized * (dashForce * Mathf.Lerp(0, 1, dashCurve.Evaluate(dashTime / animationTimes["Character_Roll"])));
+			if (dashTime >= animationTimes["Character_Roll"]) {
 				currentState = States.Idle;
 				trueAngle = 0;
 				currentAttack = 0;
@@ -286,6 +288,10 @@ public class PlayerController : MonoBehaviour {
 		if (dashCooldown > 0) { dashCooldown -= Time.deltaTime; }
 		AttackButton preppingAttack = AttackButton.None;
 
+		AnimatorStateInfo Next = animr.GetNextAnimatorStateInfo(0);
+		AnimatorStateInfo Current = animr.GetCurrentAnimatorStateInfo(0);
+
+		bool isNextValid = Next.fullPathHash != 0;
 
 		if (transform.position.y <= -50f) {
 			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -325,7 +331,10 @@ public class PlayerController : MonoBehaviour {
 			dashTime = 0;
 			dashCooldown = maxDashCooldown;
 			trueAngle = Mathf.Atan2(trueInput.x, trueInput.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
-			transform.rotation = Quaternion.Euler(0f, trueAngle, 0f);
+		}
+
+		if (queuedAttack == Attacks.Dashing) {
+			trueAngle = Mathf.Atan2(trueInput.x, trueInput.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
 		}
 
 		if (pActions.Player.Restart.WasPerformedThisFrame()) {
@@ -346,7 +355,9 @@ public class PlayerController : MonoBehaviour {
 		animr.SetInteger("prepAttack", (int)queuedAttack);
 
 		// animator controller
-		if (currentAttack == Attacks.None || (AnimatorNormalizedTimeOfNextOrCurrentAttackState() >= 1.0f)) {
+		if (currentAttack == Attacks.None ||
+				(!wasNextValid && isNextValid && queuedAttack != Attacks.None && IsAttackState(Next)) || // NOTE(Roskuski): This is a hack to make sure that this script stays in sync with the animator when it takes a transition early.
+				(AnimatorNormalizedTimeOfNextOrCurrentAttackState() >= 1.0f)) {
 			if (queuedAttack != Attacks.None) {
 				setCurrentAttack(queuedAttack);
 				queuedAttack = Attacks.None;
@@ -358,6 +369,8 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		animr.SetInteger("currentAttack", (int)currentAttack);
+
+		wasNextValid = isNextValid;
 	}
 
 	//@TODO(Jaden): Add i-frames and trigger hitstun state when hit
@@ -563,18 +576,18 @@ public class PlayerController : MonoBehaviour {
 	#endregion
 
 	#region Animation arrays
-	static readonly string[] AttackToClipName = {
+	static readonly string[] AttackToStateName = {
 		"None",
-		"Character_Attack1",
-		"Character_Attack2",
-		"Character_Attack3",
-		"Character_Chop",
-		"Character_Slam",
-		"Character_Spin",
-		"Character_Chop_Throw",
-		"Character_Roll",
-		"Character_Lethal_Dash",
-		"Character_Shotgun"
+		"Base.Attacks.LAttack",
+		"Base.Attacks.LAttack2",
+		"Base.Attacks.LAttack3",
+		"Base.Attacks.Chop",
+		"Base.Attacks.Slam",
+		"Base.Attacks.Spin",
+		"Base.Attacks.Throw",
+		"Base.Attacks.Dash",
+		"Base.Attacks.LethalDash",
+		"Base.Attacks.ShotgunThrow"
 	};
 	#endregion
 
