@@ -8,10 +8,13 @@ public class HeadPickup : MonoBehaviour {
 	public float lifetime;
 	public int healthOnCatch;
 	public GameObject indicator;
-	RandomForce randomForce;
+	public float randomForce;
 
+	private Vector3 targetPoint; //the point this is traveling to
 	public bool canCollect;
 	private float timeUntilCollect = 1.0f; //small delay where the head can't initially be caught
+	public float flightTime; //total time this spends in the air
+	private float currentFlightTime = 0f;
 
 	//Pickup Variables
 	public float RotationSpeed;
@@ -23,24 +26,21 @@ public class HeadPickup : MonoBehaviour {
 	public bool isOnGround;
 	public bool collected;
 
-	//Vector3 popDirection;
-	//float popTime;
-
 	GameManager gameMan;
 	// Start is called before the first frame update
 	void Start() {
 		rb = GetComponent<Rigidbody>();
-		randomForce = GetComponent<RandomForce>();
 		transform.rotation = Random.rotation;
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 		timeUntilCollect = lifetime - timeUntilCollect;
 		isOnGround = false;
 		canCollect = false;
+
+		FindPoint();
 	}
 
 	// Update is called once per frame
 	void Update() {
-		//popTime += Time.deltaTime;
 		lifetime -= Time.deltaTime;
 		
 		if (lifetime <= 0) Destroy(this.gameObject);
@@ -55,7 +55,6 @@ public class HeadPickup : MonoBehaviour {
 		}
 
 		if (isOnGround) {
-			randomForce.enabled = false;
 			rb.isKinematic = true;
 			transform.rotation *= Quaternion.AngleAxis(RotationSpeed * Time.deltaTime, Vector3.up);
 			
@@ -70,10 +69,37 @@ public class HeadPickup : MonoBehaviour {
 			if (indicator != null) Destroy(indicator);
 		}
 		else UpdateIndicator();
+
+		CalculateFlight();
 	}
 
+	void FindPoint() {
+		bool foundPoint = false;
+
+		if (transform.position.y > 0) {
+			if (foundPoint == false) {
+				float ranForceX = Random.Range(-randomForce, randomForce);
+				float ranForceZ = Random.Range(-randomForce, randomForce);
+				Vector3 point = new Vector3(transform.position.x + ranForceX, 5f, transform.position.z + ranForceZ); //calculates randomized point on XZ axis
+				RaycastHit hit;
+
+				if (Physics.Raycast(point, Vector3.down, out hit, 10f, ~(int)Layers.Ground)) { //Checks to see if it's above a collider on the ground layer
+					foundPoint = true;
+					targetPoint = point;
+					targetPoint.y = hit.point.y + 0.2f;
+				}
+				else FindPoint();
+			}
+		}
+	}
+
+	void CalculateFlight() {
+		currentFlightTime += Time.deltaTime;
+		//transform.position
+    }
+
 	void UpdateIndicator() {
-		if (indicator != null) indicator.transform.position = new Vector3(transform.position.x, indicator.transform.position.y, transform.position.z);
+		if (indicator != null) indicator.transform.position = targetPoint;
 	}
 
 	void OnDrawGizmosSelected() {

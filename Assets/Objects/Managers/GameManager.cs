@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour {
 	public GameObject SkullPrefab;
 	public GameObject EnemyPrefab;
 	public GameObject HeadPickupPrefab;
+	public GameObject eSpawn;
 	public OrbSpawn[] eSpawns;
 	public List<GameObject> enemies;
 
@@ -37,7 +38,8 @@ public class GameManager : MonoBehaviour {
 			Debug.Log("Object Named Player found");
 		}
 		else Debug.LogWarning("Object Named Player Not found");
-		eSpawns = transform.Find("Enemy Spawns").GetComponentsInChildren<OrbSpawn>();
+		eSpawn = GameObject.Find("EnemySpawns");
+		eSpawns = eSpawn.GetComponentsInChildren<OrbSpawn>();
 		dActions = new DebugActions();
 		pauseBG = transform.Find("PauseBG").GetComponent<Canvas>();
 		pauseUI = transform.Find("PauseUI").GetComponent<Canvas>();
