@@ -53,11 +53,6 @@ public class GameManager : MonoBehaviour {
 		}
 
 	private void Update() {
-		/*if (enemies != null && enemies.Count <= 0) {
-			int randSpawn = Random.Range(0, eSpawns.Length);
-			eSpawns[randSpawn].spawnNow = true;
-		}*/
-
 		if (updateTimeScale) {
 			if (frozenTime > 0) {
 				Time.timeScale = 0.0f;
