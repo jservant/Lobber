@@ -50,7 +50,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5561349426305759274, guid: 275466f7e6c593442b495f55e1ccdbc7, type: 3}
+  - {fileID: 2100000, guid: 40f055eb675374f43afc914600acbb4e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -677,6 +677,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 9ae8fc283fedd0c4680cacee0d34da45, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c412de3c99b7c2d4c94dd42d54496932, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 9ae8fc283fedd0c4680cacee0d34da45, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9b83d41adc4383d43a05217e4fd9afa9, type: 2}
     - target: {fileID: 919132149155446097, guid: 9ae8fc283fedd0c4680cacee0d34da45, type: 3}
       propertyPath: m_Name
       value: MrBomb (1)
