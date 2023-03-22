@@ -1318,13 +1318,18 @@ MonoBehaviour:
     m_RotationOrder: 4
   dashForce: 20
   dashTime: 0
-  maxDashCooldown: 1
+  maxDashCooldown: 0.6
   dashCooldown: 1
   healthMax: 10
   health: 0
   meter: 0
   meterMax: 10
   targetSphereRadius: 2
+  homingInitalPosition: {x: 0, y: 0, z: 0}
+  homingTargetDelta: {x: 0, y: 0, z: 0}
+  homingTimer: 0
+  homingTimerMax: 0
+  doHoming: 0
 --- !u!114 &3072909949348366208
 MonoBehaviour:
   m_ObjectHideFlags: 0
