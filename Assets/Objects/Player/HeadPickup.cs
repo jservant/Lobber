@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class HeadPickup : MonoBehaviour {
 	//Popup Variables
-	private Rigidbody rb;
 	public float lifetime;
 	public int healthOnCatch;
 	public GameObject indicator;
@@ -12,14 +11,21 @@ public class HeadPickup : MonoBehaviour {
 
 	private Vector3 targetPoint; //the point this is traveling to
 	public bool canCollect;
-	private float timeUntilCollect = 1.0f; //small delay where the head can't initially be caught
-	public float flightTime; //total time this spends in the air
+	private float timeUntilCollect = 0.5f; //small delay where the head can't initially be caught
+
+	public float flightAngle; //degree to which head flies upwards
+	private float flightTime;
 	private float currentFlightTime = 0f;
+	public float gravity = 9.8f;
+	private float Vx;
+	private float Vy;
+
+	public Transform skull;
+	private Vector3 spinForce;
 
 	//Pickup Variables
 	public float RotationSpeed;
 	public float FollowSpeed;
-	public float FallSpeed;
 	public float GatherRadius;
 	public float value;
 
@@ -29,7 +35,6 @@ public class HeadPickup : MonoBehaviour {
 	GameManager gameMan;
 	// Start is called before the first frame update
 	void Start() {
-		rb = GetComponent<Rigidbody>();
 		transform.rotation = Random.rotation;
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 		timeUntilCollect = lifetime - timeUntilCollect;
@@ -42,12 +47,12 @@ public class HeadPickup : MonoBehaviour {
 	// Update is called once per frame
 	void Update() {
 		lifetime -= Time.deltaTime;
-		
+
 		if (lifetime <= 0) Destroy(this.gameObject);
 		if (lifetime <= timeUntilCollect) canCollect = true;
 		if (transform.position.y <= 0) if (indicator != null) Destroy(indicator);
 
-		if (Physics.Raycast(transform.position, Vector3.down, 1.5f)) {
+		if (Physics.Raycast(transform.position, Vector3.down, 1.5f, ~(int)Layers.Ground)) {
 			if (canCollect) {
 				isOnGround = true;
 				if (indicator != null) Destroy(indicator);
@@ -55,11 +60,10 @@ public class HeadPickup : MonoBehaviour {
 		}
 
 		if (isOnGround) {
-			rb.isKinematic = true;
 			transform.rotation *= Quaternion.AngleAxis(RotationSpeed * Time.deltaTime, Vector3.up);
-			
+
 			if (!Physics.Raycast(transform.position, Vector3.down, 1.5f)) {
-				transform.position += Vector3.down * FallSpeed * Time.deltaTime;
+				transform.position += Vector3.down * gravity * Time.deltaTime;
 			}
 
 			if (Physics.CheckSphere(transform.position, GatherRadius, Mask.Get(Layers.PlayerHurtbox))) {
@@ -70,7 +74,9 @@ public class HeadPickup : MonoBehaviour {
 		}
 		else UpdateIndicator();
 
-		CalculateFlight();
+		Flight();
+
+		if (collected) Destroy(this);
 	}
 
 	void FindPoint() {
@@ -87,6 +93,11 @@ public class HeadPickup : MonoBehaviour {
 					foundPoint = true;
 					targetPoint = point;
 					targetPoint.y = hit.point.y + 0.2f;
+					float ranX = Random.Range(-500f, 500f);
+					float ranY = Random.Range(-500f, 500f);
+					float ranZ = Random.Range(-500f, 500f);
+					spinForce = new Vector3(ranX, ranY, ranZ);
+					CalculateFlight();
 				}
 				else FindPoint();
 			}
@@ -94,9 +105,30 @@ public class HeadPickup : MonoBehaviour {
 	}
 
 	void CalculateFlight() {
-		currentFlightTime += Time.deltaTime;
-		//transform.position
-    }
+		// Calculate distance to target
+		float target_Distance = Vector3.Distance(transform.position, targetPoint);
+
+		// Calculate the velocity needed to throw the object to the target at specified angle.
+		float projectile_Velocity = target_Distance / (Mathf.Sin(2 * flightAngle * Mathf.Deg2Rad) / gravity);
+
+		// Extract the X  Y componenent of the velocity
+		Vx = Mathf.Sqrt(projectile_Velocity) * Mathf.Cos(flightAngle * Mathf.Deg2Rad);
+		Vy = Mathf.Sqrt(projectile_Velocity) * Mathf.Sin(flightAngle * Mathf.Deg2Rad);
+
+		// Calculate flight time.
+		flightTime = target_Distance / Vx;
+
+		// Rotate projectile to face the target.
+		transform.rotation = Quaternion.LookRotation(targetPoint - transform.position);
+	}
+
+	void Flight() {
+		if ((currentFlightTime < flightTime) && !isOnGround) {
+			transform.Translate(0, (Vy - (gravity * currentFlightTime)) * Time.deltaTime, Vx * Time.deltaTime);
+			skull.Rotate(spinForce * Time.deltaTime);
+			currentFlightTime += Time.deltaTime;
+		}
+	}
 
 	void UpdateIndicator() {
 		if (indicator != null) indicator.transform.position = targetPoint;

@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &265515748482270279
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5261835233175669580}
+  m_Layer: 10
+  m_Name: SkullPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5261835233175669580
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265515748482270279}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 5829254458971951214}
+  m_Father: {fileID: 8530031400195915553}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4225748246079485786
 GameObject:
   m_ObjectHideFlags: 0
@@ -11,7 +42,6 @@ GameObject:
   - component: {fileID: 8530031400195915553}
   - component: {fileID: 4627524956976558435}
   - component: {fileID: 6048098006851113330}
-  - component: {fileID: 1387575605342922722}
   - component: {fileID: 6681924456866291294}
   m_Layer: 10
   m_Name: Head
@@ -31,7 +61,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
-  - {fileID: 5829254458971951214}
+  - {fileID: 5261835233175669580}
   m_Father: {fileID: 3698586096386113803}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -46,7 +76,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.4
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6048098006851113330
 MonoBehaviour:
@@ -61,34 +91,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifetime: 10
-  healthOnCatch: 2
+  healthOnCatch: 1
   indicator: {fileID: 6508561049238588556}
-  randomForce: 5
+  randomForce: 20
   canCollect: 0
-  flightTime: 3
-  flightSpeed: 10
+  flightAngle: 60
+  gravity: 9.8
+  skull: {fileID: 5261835233175669580}
   RotationSpeed: 360
-  FollowSpeed: 15
-  FallSpeed: 5
-  GatherRadius: 5
+  FollowSpeed: 20
+  GatherRadius: 3
   value: 1
   isOnGround: 0
   collected: 0
---- !u!114 &1387575605342922722
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4225748246079485786}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 958fbc9c87398f149a8fd4ffbfcb7c09, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ranForce: 5
-  spinForce: 500
-  rb: {fileID: 6681924456866291294}
 --- !u!54 &6681924456866291294
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -244,11 +259,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6606354760886045396}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -0.12, z: 0.23}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_Children: []
-  m_Father: {fileID: 8530031400195915553}
+  m_Father: {fileID: 5261835233175669580}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7442892858738974667
