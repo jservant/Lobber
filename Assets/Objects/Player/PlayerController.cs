@@ -181,6 +181,7 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField] float maxDashCooldown = 1.5f;		// how long does it take for player to dash again after dashing?
 	[SerializeField] float dashCooldown = 1f;
 	[Header("Health/Damage:")]
+	public bool vulnerable = true;
 	public int healthMax = 20;
 	public int health = 0;
 	public float meter = 0;
@@ -465,7 +466,7 @@ public class PlayerController : MonoBehaviour {
 
 	//@TODO(Jaden): Add i-frames and trigger hitstun state when hit
 	private void OnTriggerEnter(Collider other) {
-		if (other.gameObject.layer == (int)Layers.EnemyHitbox && currentAttack != Attacks.Dashing && kbTime <= 0) { // player is getting hit
+		if (other.gameObject.layer == (int)Layers.EnemyHitbox && vulnerable == true && kbTime <= 0) { // player is getting hit
 			currentAttack = Attacks.None;
 			animr.SetBool("isWalking", false);
 			animr.SetInteger("currentAttack", (int)Attacks.None);
@@ -473,7 +474,7 @@ public class PlayerController : MonoBehaviour {
 			health--;
 			if (health <= 0) {
 				health = 0;
-				Death();
+				StartCoroutine(Death());
 			} else {
 				animr.SetTrigger("wasHurt");
 				currentState = States.Idle;
@@ -495,14 +496,14 @@ public class PlayerController : MonoBehaviour {
 				GameObject.Destroy(other.transform.gameObject);
 			}
 		}
-		else if (other.gameObject.layer == (int)Layers.TrapHitbox && currentAttack != Attacks.Dashing && kbTime <= 0) {
+		else if (other.gameObject.layer == (int)Layers.TrapHitbox && vulnerable == true && kbTime <= 0) {
 			kbAngle = Quaternion.LookRotation(other.transform.position - this.transform.position);
 			kbTime = maxKbTime;
 		}
 	}
 
 	#region Combat functions
-	void Death() {
+	IEnumerator Death() {
 		animr.SetBool("isDead", true);
 		currentState = States.Death;
 		capCol.enabled = false;
@@ -511,9 +512,8 @@ public class PlayerController : MonoBehaviour {
 		float deathTimer = animationTimes["Character_Death_Test"];
 		deathTimer -= Time.deltaTime;
 		Debug.Log("Player died, restarting scene shortly");
-		if (deathTimer <= -1f) {
-			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-		}
+		yield return new WaitForSeconds(deathTimer + 1);
+		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 	}
 
 	public void ChangeMeter(float Amount) {
