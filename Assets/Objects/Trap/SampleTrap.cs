@@ -4,29 +4,42 @@ using UnityEngine;
 
 public class SampleTrap : MonoBehaviour {
 	public GameObject hitbox;
+	private Collider capsule;
 	private bool isArmed;
 	public float armTime; //time it takes for the trap to rearm itself
 	private float currentArmTime;
 	public float triggerTime; //active frames of the trap hitbox
 	public float currentTriggerTime;
-	private Renderer render;
-	public Material[] materials;
+	public Animator anim;
+	public MeshRenderer barrel;
+
+	private bool check = true;
 
 	void Start() {
+		capsule = this.GetComponent<CapsuleCollider>();
 		hitbox.SetActive(false);
 		isArmed = true;
+		anim.Play("BombBarrel");
 		currentArmTime = armTime;
 		currentTriggerTime = 0f;
-		render = GetComponent<Renderer>();
 	}
 
 	void Update() {
 		if (isArmed == false) {
-			render.material = materials[1];
 			currentArmTime -= Time.deltaTime;
+			barrel.enabled = false;
+			capsule.enabled = false;
+			check = true;
 			if (currentArmTime <= 0) isArmed = true;
 		}
-		else render.material = materials[0];
+		else {
+			barrel.enabled = true;
+			capsule.enabled = true;
+			if (check) {
+				anim.Play("BombBarrel", -1, 0f);
+				check = false;
+			}
+		}
 
 		if (currentTriggerTime <= 0) {
 			hitbox.SetActive(false);
@@ -46,5 +59,10 @@ public class SampleTrap : MonoBehaviour {
 		currentArmTime = armTime;
 		currentTriggerTime = triggerTime;
 		hitbox.SetActive(true);
+	}
+
+	void OnDrawGizmos() {
+		Gizmos.color = Color.red;
+		Gizmos.DrawWireSphere(transform.position, 10f);
 	}
 }
