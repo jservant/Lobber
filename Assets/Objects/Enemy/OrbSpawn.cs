@@ -39,4 +39,8 @@ public class OrbSpawn : MonoBehaviour {
         gameMan.canSpawn = true;
     }
 
+    void OnDrawGizmos() {
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawWireSphere(transform.position, 5f);
+    }
 }
