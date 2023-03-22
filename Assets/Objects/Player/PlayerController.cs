@@ -148,7 +148,7 @@ public class PlayerController : MonoBehaviour {
 	#endregion
 
 	[Header("Object assignments:")]
-	//CapsuleCollider capCol;
+	CapsuleCollider capCol;
 	Rigidbody rb;
 	Animator animr;
 	MeshRenderer headMesh;
@@ -206,7 +206,7 @@ public class PlayerController : MonoBehaviour {
 	float turnVelocity = 0f;  // annoying float that is only referenced and has to exist for movement math to work
 
 	private void Awake() {
-		//capCol = GetComponent<CapsuleCollider>();
+		capCol = GetComponent<CapsuleCollider>();
 		rb = GetComponent<Rigidbody>();
 		animr = GetComponent<Animator>();
 		pActions = new DefaultPlayerActions();
@@ -315,41 +315,73 @@ public class PlayerController : MonoBehaviour {
 		if (health > healthMax) { health = healthMax; }
 		if (meter > meterMax) { meter = meterMax; }
 
-		if (currentState != States.Attacking) {
-			mInput = pActions.Player.Move.ReadValue<Vector2>();
-			if (pActions.Player.Move.WasReleasedThisFrame()) {
-				animr.SetBool("isWalking", false);
-				currentState = States.Idle;
+		if (currentState != States.Death) {
+			if (currentState != States.Attacking) {
+				mInput = pActions.Player.Move.ReadValue<Vector2>();
+				if (pActions.Player.Move.WasReleasedThisFrame()) {
+					animr.SetBool("isWalking", false);
+					currentState = States.Idle;
+				}
+				else if (pActions.Player.Move.phase == InputActionPhase.Started) {
+					currentState = States.Walking;
+					animr.SetBool("isWalking", true);
+					movement = movement = new Vector3(mInput.x, 0, mInput.y);
+				}
+				else if (pActions.Player.Move.phase == InputActionPhase.Waiting) { animr.SetBool("isWalking", false); }
 			}
-			else if (pActions.Player.Move.phase == InputActionPhase.Started) {
-				currentState = States.Walking;
-				animr.SetBool("isWalking", true);
-				movement = movement = new Vector3(mInput.x, 0, mInput.y);
+
+			if (pActions.Player.LightAttack.WasPerformedThisFrame()) {
+				preppingAttack = AttackButton.LightAttack;
 			}
-			else if (pActions.Player.Move.phase == InputActionPhase.Waiting) { animr.SetBool("isWalking", false); }
-		}
 
-		if (pActions.Player.LightAttack.WasPerformedThisFrame()) {
-			preppingAttack = AttackButton.LightAttack;
-		}
+			if (pActions.Player.HeavyAttack.WasPerformedThisFrame()) {
+				preppingAttack = AttackButton.HeavyAttack;
+			}
 
-		if (pActions.Player.HeavyAttack.WasPerformedThisFrame()) {
-			preppingAttack = AttackButton.HeavyAttack;
-		}
+			if (meter >= 1f && pActions.Player.Throw.WasPerformedThisFrame()) {
+				preppingAttack = AttackButton.Throw;
+			}
 
-		if (meter >= 1f && pActions.Player.Throw.WasPerformedThisFrame()) {
-			preppingAttack = AttackButton.Throw;
-		}
+			if (pActions.Player.Dash.WasPerformedThisFrame() && trueInput.sqrMagnitude >= 0.1f && dashCooldown <= 0f) {
+				preppingAttack = AttackButton.Dash;
+				dashTime = 0;
+				dashCooldown = maxDashCooldown;
+				trueAngle = Mathf.Atan2(trueInput.x, trueInput.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
+			}
 
-		if (pActions.Player.Dash.WasPerformedThisFrame() && trueInput.sqrMagnitude >= 0.1f && dashCooldown <= 0f) {
-			preppingAttack = AttackButton.Dash;
-			dashTime = 0;
-			dashCooldown = maxDashCooldown;
-			trueAngle = Mathf.Atan2(trueInput.x, trueInput.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
-		}
+			if (queuedAttack == Attacks.Dashing) {
+				trueAngle = Mathf.Atan2(trueInput.x, trueInput.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
+			}
 
-		if (queuedAttack == Attacks.Dashing) {
-			trueAngle = Mathf.Atan2(trueInput.x, trueInput.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
+			if (preppingAttack != AttackButton.None) {
+				QueueInfo queueInfo = QueueInfoTable[(int)currentAttack][(int)preppingAttack];
+				float animationPercent = AnimatorNormalizedTimeOfNextOrCurrentAttackState() % 1.0f;
+				if (queueInfo.attack != Attacks.None) {
+					if (animationPercent >= queueInfo.startPercent && animationPercent <= queueInfo.endPercent) {
+						queuedAttack = queueInfo.attack;
+					}
+				}
+			}
+
+			animr.SetInteger("prepAttack", (int)queuedAttack);
+
+			// animator controller
+			if (currentAttack == Attacks.None ||
+					(!wasNextValid && isNextValid && queuedAttack != Attacks.None && IsAttackState(Next)) || // NOTE(Roskuski): This is a hack to make sure that this script stays in sync with the animator when it takes a transition early.
+					(AnimatorNormalizedTimeOfNextOrCurrentAttackState() >= 1.0f)) {
+				if (queuedAttack != Attacks.None) {
+					setCurrentAttack(queuedAttack);
+					queuedAttack = Attacks.None;
+				}
+				else {
+					currentAttack = Attacks.None;
+					currentState = States.Idle;
+				}
+			}
+
+			animr.SetInteger("currentAttack", (int)currentAttack);
+
+			wasNextValid = isNextValid;
 		}
 
 		if (pActions.Player.Restart.WasPerformedThisFrame()) {
@@ -357,57 +389,30 @@ public class PlayerController : MonoBehaviour {
 			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 		}
 
-		if (preppingAttack != AttackButton.None) {
-			QueueInfo queueInfo = QueueInfoTable[(int)currentAttack][(int)preppingAttack];
-			float animationPercent = AnimatorNormalizedTimeOfNextOrCurrentAttackState() % 1.0f;
-			if (queueInfo.attack != Attacks.None) {
-				if (animationPercent >= queueInfo.startPercent && animationPercent <= queueInfo.endPercent) {
-					queuedAttack = queueInfo.attack;
-				}
-			}
-		}
-
-		animr.SetInteger("prepAttack", (int)queuedAttack);
-
-		// animator controller
-		if (currentAttack == Attacks.None ||
-				(!wasNextValid && isNextValid && queuedAttack != Attacks.None && IsAttackState(Next)) || // NOTE(Roskuski): This is a hack to make sure that this script stays in sync with the animator when it takes a transition early.
-				(AnimatorNormalizedTimeOfNextOrCurrentAttackState() >= 1.0f)) {
-			if (queuedAttack != Attacks.None) {
-				setCurrentAttack(queuedAttack);
-				queuedAttack = Attacks.None;
-			}
-			else {
-				currentAttack = Attacks.None;
-				currentState = States.Idle;
-			}
-		}
-
-		animr.SetInteger("currentAttack", (int)currentAttack);
-
-		wasNextValid = isNextValid;
+		
 	}
 
 	//@TODO(Jaden): Add i-frames and trigger hitstun state when hit
 	private void OnTriggerEnter(Collider other) {
 		if (other.gameObject.layer == (int)Layers.EnemyHitbox && currentAttack != Attacks.Dashing && kbTime <= 0) { // player is getting hit
-			health--;
-			if (health < 0) {
-				health = 0;
-				Death();
-			}
-			kbAngle = Quaternion.LookRotation(other.transform.position - this.transform.position);
-			kbTime = maxKbTime;
-			float healthPercentage = (float)health / (float)healthMax;
-			spotLight.intensity = 50f * (healthPercentage);
-			//Debug.Log("Spotlight intensity should be ", 50f * healthPercentage);
 			currentAttack = Attacks.None;
-			currentState = States.Idle;
 			animr.SetBool("isWalking", false);
 			animr.SetInteger("currentAttack", (int)Attacks.None);
 			animr.SetInteger("prepAttack", (int)AttackButton.None);
-			animr.SetTrigger("wasHurt");
-			Debug.Log("OWIE " + other.name + " JUST HIT ME! I have " + health + " health");
+			health--;
+			if (health <= 0) {
+				health = 0;
+				Death();
+			} else {
+				animr.SetTrigger("wasHurt");
+				currentState = States.Idle;
+				kbAngle = Quaternion.LookRotation(other.transform.position - this.transform.position);
+				kbTime = maxKbTime;
+				float healthPercentage = (float)health / (float)healthMax;
+				spotLight.intensity = 50f * (healthPercentage);
+				//Debug.Log("Spotlight intensity should be ", 50f * healthPercentage);
+				Debug.Log("OWIE " + other.name + " JUST HIT ME! I have " + health + " health");
+			}
 		}
 		else if (other.gameObject.layer == (int)Layers.EnemyHurtbox) { // player is hitting enemy
 			// NOTE(Roskuski): I hit the enemy!
@@ -443,6 +448,19 @@ public class PlayerController : MonoBehaviour {
 	}*/
 
 	#region Combat functions
+	void Death() {
+		animr.SetBool("isDead", true);
+		currentState = States.Death;
+		capCol.enabled = false;
+		rb.useGravity = false;
+		spotLight.intensity = 0;
+		float deathTimer = animationTimes["Character_Death_Test"];
+		deathTimer -= Time.deltaTime;
+		Debug.Log("Player died, restarting scene shortly");
+		if (deathTimer <= -1f) {
+			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+		}
+	}
 	public void LobThrow() { // triggered in animator
 		ChangeMeter(-1);
 		freeAim = false;
@@ -590,23 +608,6 @@ public class PlayerController : MonoBehaviour {
 		return Result;
 	}
 
-	void Death() {
-		currentState = States.Death;
-		currentAttack = Attacks.None;
-		//animr.Play("Character_Death_Test");
-		animr.SetBool("isWalking", false);
-		animr.SetInteger("currentAttack", (int)Attacks.None);
-		animr.SetInteger("prepAttack", (int)AttackButton.None);
-		animr.SetBool("isDead", true);
-		spotLight.intensity = 0;
-		float deathTimer = animationTimes["Character_Death_Test"];
-		deathTimer -= Time.deltaTime;
-		Debug.Log("Player died, restarting scene shortly");
-		if (deathTimer <= -1f) {
-			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-		}
-		// implement more proper death state eventually
-	}
 	#endregion
 
 	#region Animation arrays
