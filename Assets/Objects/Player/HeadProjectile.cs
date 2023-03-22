@@ -7,9 +7,11 @@ public class HeadProjectile : MonoBehaviour {
 	[SerializeField] int damage = 8;
 	[SerializeField] float lifetime = 3f;
 	Transform head;
+	Rigidbody rb;
 
 	private void Start() {
 		head = transform.Find("Model");
+		rb = GetComponent<Rigidbody>();
 		Destroy(gameObject, lifetime);
 	}
 
@@ -21,7 +23,15 @@ public class HeadProjectile : MonoBehaviour {
 
 	private void OnTriggerEnter(Collider other) {
 		if (other.gameObject.layer == (int)Layers.EnemyHurtbox) {
+			Debug.Log("proj should die lol");
 			Destroy(gameObject);
 		}
 	}
+
+	/*private void OnCollisionEnter(Collision collision) {
+		if (collision.gameObject.layer == (int)Layers.EnemyHurtbox) {
+			Debug.Log("proj should die lol");
+			Destroy(gameObject);
+		}
+	}*/
 }
