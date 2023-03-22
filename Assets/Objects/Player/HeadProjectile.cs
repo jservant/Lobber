@@ -27,7 +27,9 @@ public class HeadProjectile : MonoBehaviour {
 			Debug.Log("proj should die lol");
 			Collider[] eColliders = Physics.OverlapSphere(transform.position, stunSphereRadius, Mask.Get(Layers.EnemyHurtbox));
 			for (int index = 0; index < eColliders.Length; index += 1) {
-				// add the enemy stun command here
+				Basic enemy = eColliders[index].gameObject.GetComponent<Basic>();
+				Quaternion knockBackDir = Quaternion.LookRotation(enemy.transform.position - this.transform.position);
+				enemy.ChangeDirective_Stunned(2.0f, knockBackDir, 20.0f);
 			}
 					Destroy(gameObject);
 		}
@@ -39,4 +41,8 @@ public class HeadProjectile : MonoBehaviour {
 			Destroy(gameObject);
 		}
 	}*/
+	void OnDrawGizmos() {
+		Gizmos.color = Color.white;
+		Gizmos.DrawWireSphere(transform.position, stunSphereRadius);
+	}
 }

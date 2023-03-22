@@ -162,7 +162,7 @@ public class Basic : MonoBehaviour {
 		return navAgent.remainingDistance - approchDistance;
 	}
 
-	void ChangeDirective_Stunned(float stunTime, Quaternion knockBackDirection, float strength) {
+	public void ChangeDirective_Stunned(float stunTime, Quaternion knockBackDirection, float strength) {
 		directive = Directive.Stunned;
 		
 		stunDuration += stunTime;
