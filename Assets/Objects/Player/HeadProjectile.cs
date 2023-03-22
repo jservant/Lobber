@@ -6,6 +6,7 @@ public class HeadProjectile : MonoBehaviour {
 	[SerializeField] float speed = 25f;
 	[SerializeField] int damage = 8;
 	[SerializeField] float lifetime = 3f;
+	[SerializeField] float stunSphereRadius = 3f;
 	Transform head;
 	Rigidbody rb;
 
@@ -24,7 +25,11 @@ public class HeadProjectile : MonoBehaviour {
 	private void OnTriggerEnter(Collider other) {
 		if (other.gameObject.layer == (int)Layers.EnemyHurtbox) {
 			Debug.Log("proj should die lol");
-			Destroy(gameObject);
+			Collider[] eColliders = Physics.OverlapSphere(transform.position, stunSphereRadius, Mask.Get(Layers.EnemyHurtbox));
+			for (int index = 0; index < eColliders.Length; index += 1) {
+				// add the enemy stun command here
+			}
+					Destroy(gameObject);
 		}
 	}
 
