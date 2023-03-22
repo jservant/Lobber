@@ -155,10 +155,8 @@ public class PlayerController : MonoBehaviour {
 	TrailRenderer headMeshTrail;
 	GameObject headProj;
 	Transform projSpawn;
-	BoxCollider axeHitbox;
 	Light spotLight;
 	GameManager gameMan;
-	Vector3 enemyTarget;
 	List<GameObject> enemiesHit;
 	public DefaultPlayerActions pActions;
 
@@ -188,10 +186,11 @@ public class PlayerController : MonoBehaviour {
 	public float meter = 0;
 	public float meterMax = 5;
 	Quaternion kbAngle;
-	float kbForce = 15f;                          // knockback speed
-	float maxKbTime = 1f;                         // knockback time
-	float kbTime = 0f;                            // knockback time
-	[SerializeField] float targetSphereRadius = 2f;
+	float kbForce = 15f;                            // knockback speed
+	float maxKbTime = 1f;                           // knockback time
+	float kbTime = 0f;                              // knockback time
+	[SerializeField] float targetSphereRadius = 2f; // publically editable
+	float tsr = 0f;									// used internally
 
 	Vector3 homingInitalPosition;
 	Vector3 homingTargetDelta;
@@ -214,7 +213,6 @@ public class PlayerController : MonoBehaviour {
 
 		headMesh = transform.Find("Weapon_Controller/Hitbox/StoredHead").GetComponent<MeshRenderer>();
 		headMeshTrail = transform.Find("Weapon_Controller/Hitbox/StoredHead").GetComponent<TrailRenderer>();
-		axeHitbox = transform.Find("Weapon_Controller/Hitbox").GetComponent<BoxCollider>();
 		projSpawn = transform.Find("ProjSpawn");
 		spotLight = transform.Find("Spot Light").GetComponent<Light>();
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
@@ -235,6 +233,7 @@ public class PlayerController : MonoBehaviour {
 
 		dashCooldown = maxDashCooldown;
 		health = healthMax;
+		tsr = targetSphereRadius;
 	}
 
 	void PreformedCheckedMovement(Vector3 translationDelta) {
@@ -502,23 +501,6 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-	//@TODO(Jaden): Add OnTriggerEnter to make axe hitbox work, remember to do hitstun on enemy
-	// so it doesn't melt their health
-
-	//TODO(@Jaden): Make the player flash when getting hit.
-	// Rough code sketch from Christian:
-
-	/*public IEnumerator FlashColor(Color color, float flashTime, float flashes)
-	{
-		foreach (Renderer r in GetComponentsInChildren<Renderer>())
-		{
-			foreach (Material mat in r.materials)
-			{
-				mat.shader. Shader.Find("Universal Render Pipeline/Lit")
-			}
-		}
-	}*/
-
 	#region Combat functions
 	void Death() {
 		animr.SetBool("isDead", true);
@@ -533,11 +515,6 @@ public class PlayerController : MonoBehaviour {
 			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 		}
 	}
-	public void LobThrow() { // triggered in animator
-		ChangeMeter(-1);
-		//freeAim = false;
-		GameObject iHeadProj = Instantiate(headProj, projSpawn.position, transform.rotation);
-	}
 
 	public void ChangeMeter(float Amount) {
 		meter += Amount;
@@ -550,13 +527,35 @@ public class PlayerController : MonoBehaviour {
 			headMeshTrail.enabled = false;
 		}
 	}
+	void setCurrentAttack(Attacks attack) {
+		bool setupHoming = true;
+		currentState = States.Attacking;
 
-	public void StartHoming(float time) { // called in animator; starts the homing lerp in FixedUpdate()
-		homingInitalPosition = this.transform.position;
-		homingTimer = time;
-		homingTimerMax = time;
-		doHoming = true;
-		homingPrevValue = Vector3.zero;
+		if (attack == Attacks.HeadThrow) {
+			tsr = targetSphereRadius * 2.5f;
+			speedTime = 0;
+			//freeAim = true;
+			setupHoming = false;
+		}
+		else if (attack == Attacks.Chop) {
+			freeAim = true;
+		}
+		else { tsr = targetSphereRadius; }
+
+		animr.SetInteger("currentAttack", (int)attack);
+		currentAttack = attack;
+
+		if (pActions.Player.Aim.ReadValue<Vector2>().sqrMagnitude >= 0.02) {
+			movement = new Vector3(rAimInput.x, 0, rAimInput.y); // this and next line allow for movement between hits
+		}
+		else if (pActions.Player.Move.ReadValue<Vector2>().sqrMagnitude >= 0.02) {
+			movement = new Vector3(trueInput.x, 0, trueInput.y);
+		}
+
+		if (setupHoming) {
+			SetupHoming();
+		}
+		else { speedTime = 0; } // stops player movement when throwing. change later if other attacks don't snap
 	}
 
 	void SetupHoming() { // attack homing function
@@ -564,13 +563,15 @@ public class PlayerController : MonoBehaviour {
 			doHoming = false;
 		}
 
-		Collider[] eColliders = Physics.OverlapSphere(GetTargetSphereLocation(), targetSphereRadius, Mask.Get(Layers.EnemyHurtbox));
+		Collider[] eColliders = Physics.OverlapSphere(GetTargetSphereLocation(), tsr, Mask.Get(Layers.EnemyHurtbox));
 
 		homingTargetDelta = Vector3.forward * 10;
 		for (int index = 0; index < eColliders.Length; index += 1) {
 			Vector3 newDelta = eColliders[index].transform.position - transform.position;
 			if (newDelta.magnitude < homingTargetDelta.magnitude) {
 				homingTargetDelta = newDelta;
+				//if (currentAttack == Attacks.HeadThrow) { homingTargetDelta = eColliders[index].transform.position; }
+				// temporarily using the delta v3 as just a standard v3 for this attack
 			}
 		}
 
@@ -593,6 +594,8 @@ public class PlayerController : MonoBehaviour {
 					homingTargetDelta *= 0.50f;
 					break;
 			}
+			//if (currentAttack == Attacks.HeadThrow) { transform.LookAt(homingTargetDelta); }
+			//else
 			transform.LookAt(homingTargetDelta + transform.position);
 		}
 		else {
@@ -604,40 +607,17 @@ public class PlayerController : MonoBehaviour {
 
 	Vector3 GetTargetSphereLocation() {
 		if (trueInput == Vector2.zero && rAimInput == Vector2.zero) {
-			return transform.position + transform.rotation * new Vector3(0, 1.2f, 2.5f);
+			if (currentAttack == Attacks.HeadThrow) { return transform.position + transform.rotation * new Vector3(0, 1.2f, 7f); }
+			else return transform.position + transform.rotation * new Vector3(0, 1.2f, 3f);
 		}
 		else if (rAimInput.sqrMagnitude >= 0.1f) {
-			return transform.position + Quaternion.LookRotation(new Vector3(rAimInput.x, 0, rAimInput.y), Vector3.up) * new Vector3(0, 1.2f, 2.5f);
+			if (currentAttack == Attacks.HeadThrow) { return transform.position + Quaternion.LookRotation(new Vector3(rAimInput.x, 0, rAimInput.y), Vector3.up) * new Vector3(0, 1.2f, 7f); }
+			else return transform.position + Quaternion.LookRotation(new Vector3(rAimInput.x, 0, rAimInput.y), Vector3.up) * new Vector3(0, 1.2f, 2.5f);
 		}
 		else {
-			return transform.position + Quaternion.LookRotation(new Vector3(trueInput.x, 0, trueInput.y), Vector3.up) * new Vector3(0, 1.2f, 2.5f);
+			if (currentAttack == Attacks.HeadThrow) { return transform.position + Quaternion.LookRotation(new Vector3(trueInput.x, 0, trueInput.y), Vector3.up) * new Vector3(0, 1.2f, 7f); }
+			else return transform.position + Quaternion.LookRotation(new Vector3(trueInput.x, 0, trueInput.y), Vector3.up) * new Vector3(0, 1.2f, 2.5f);
 		}
-	}
-
-	void setCurrentAttack(Attacks attack) {
-		bool setupHoming = true;
-		currentState = States.Attacking;
-
-		if (attack == Attacks.HeadThrow) {
-			freeAim = true;
-			setupHoming = false;
-		} else if (attack == Attacks.Chop) {
-			freeAim = true;
-		} 
-
-
-		animr.SetInteger("currentAttack", (int)attack);
-		currentAttack = attack;
-
-		if (pActions.Player.Aim.ReadValue<Vector2>().sqrMagnitude >= 0.02) {
-			movement = new Vector3(rAimInput.x, 0, rAimInput.y); // this and last line allow for movement between hits
-		} else if (pActions.Player.Move.ReadValue<Vector2>().sqrMagnitude >= 0.02) {
-			movement = new Vector3(trueInput.x, 0, trueInput.y);
-		}
-
-		if (setupHoming) {
-			SetupHoming();
-		} else { speedTime = 0; } // stops player movement when throwing. change later if other attacks don't snap
 	}
 
 	bool IsAttackState(AnimatorStateInfo stateInfo) {
@@ -681,6 +661,20 @@ public class PlayerController : MonoBehaviour {
 		return Result;
 	}
 
+	public void LobThrow() { // triggered in animator
+		ChangeMeter(-1);
+		SetupHoming();
+		//freeAim = false;
+		GameObject iHeadProj = Instantiate(headProj, projSpawn.position, transform.rotation);
+	}
+
+	public void StartHoming(float time) { // called in animator; starts the homing lerp in FixedUpdate()
+		homingInitalPosition = this.transform.position;
+		homingTimer = time;
+		homingTimerMax = time;
+		doHoming = true;
+		homingPrevValue = Vector3.zero;
+	}
 	#endregion
 
 	#region Animation arrays
@@ -705,10 +699,24 @@ public class PlayerController : MonoBehaviour {
 
 	private void OnDrawGizmos() {
 		Gizmos.color = Color.red;
-		Gizmos.DrawWireSphere(GetTargetSphereLocation(), targetSphereRadius);
+		Gizmos.DrawWireSphere(GetTargetSphereLocation(), tsr);
 
 		Gizmos.color = Color.yellow;
 		Gizmos.DrawWireSphere(transform.position, 17);
 	}
 	#endregion
+
+	//TODO(@Jaden): Make the player flash when getting hit.
+	// Rough code sketch from Christian:
+
+	/*public IEnumerator FlashColor(Color color, float flashTime, float flashes)
+	{
+		foreach (Renderer r in GetComponentsInChildren<Renderer>())
+		{
+			foreach (Material mat in r.materials)
+			{
+				mat.shader. Shader.Find("Universal Render Pipeline/Lit")
+			}
+		}
+	}*/
 }
