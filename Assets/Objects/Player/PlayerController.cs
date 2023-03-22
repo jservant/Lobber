@@ -193,11 +193,12 @@ public class PlayerController : MonoBehaviour {
 	float kbTime = 0f;                            // knockback time
 	[SerializeField] float targetSphereRadius = 2f;
 
-	[SerializeField] Vector3 homingInitalPosition;
-	[SerializeField] Vector3 homingTargetDelta;
-	[SerializeField] float homingTimer;
-	[SerializeField] float homingTimerMax;
-	[SerializeField] bool doHoming = false;
+	Vector3 homingInitalPosition;
+	Vector3 homingTargetDelta;
+	Vector3 homingPrevValue;
+	float homingTimer;
+	float homingTimerMax;
+	bool doHoming = false;
 
 	// NOTE(Roskuski): C# doesn't support globals that are scoped to functions
 	float AnimatorNormalizedTimeOfNextOrCurrentAttackState_LastValue;
@@ -236,6 +237,52 @@ public class PlayerController : MonoBehaviour {
 		health = healthMax;
 	}
 
+	void PreformedCheckedMovement(Vector3 translationDelta) {
+		RaycastHit hitInfo;
+		float checkDistance = translationDelta.magnitude > 0.1f ? translationDelta.magnitude : 0.1f;
+		if (Physics.SphereCast(this.transform.position + Vector3.up * 2.6f/2.0f, 0.5f, translationDelta, out hitInfo, checkDistance)) {
+
+			// Move up to the wall, with a safe distance
+			Vector3 hitDelta = hitInfo.point - this.transform.position;
+			Vector3 hitMove = (new Vector3 (hitDelta.x, 0, hitDelta.y) * translationDelta.magnitude) - translationDelta.normalized * 0.5f;
+			bool tookParticalMove = false;
+			if (Vector3.Dot(hitDelta, translationDelta) >= 0.9f) {
+				tookParticalMove = true;
+				this.transform.position += hitMove;
+			}
+
+			// Account for the distance we have already moved
+			Vector3 remainingMove = translationDelta;
+			if (tookParticalMove) {
+				remainingMove = remainingMove - hitMove;
+			}
+
+			// figure out if we want to slide left or right
+			float leftScore = Vector3.Dot(Quaternion.AngleAxis(-90, Vector3.up) * hitInfo.normal, remainingMove);
+			float rightScore = Vector3.Dot(Quaternion.AngleAxis(90, Vector3.up) * hitInfo.normal, remainingMove);
+
+			float angleToSlide = 90;
+			if (leftScore > rightScore) {
+				angleToSlide = -90;
+			}
+
+			// clip our movement in the direction of the opposite normal of the wall
+			float angleToRight = Vector3.SignedAngle(hitInfo.normal, Vector3.right, Vector3.up);
+			remainingMove = Quaternion.AngleAxis(angleToRight, Vector3.up) * remainingMove;
+			remainingMove.x = 0;
+			remainingMove = Quaternion.AngleAxis(-angleToRight, Vector3.up) * remainingMove;
+
+			// calculate the new movement after clipping
+			Vector3 remainingDelta = Quaternion.AngleAxis(angleToSlide, Vector3.up) * hitInfo.normal * remainingMove.magnitude;
+			
+			// attempt to do that move successfully
+			PreformedCheckedMovement(remainingDelta); // @TODO(Roskuski): There is a realistic chance that this enters into a infinite recursion. thankfully unity should continue to chug along even in the case of this.
+		}
+		else {
+			this.transform.position += translationDelta;
+		}
+	}
+
 	private void FixedUpdate() { // calculate movement here
 		// accel/decel for movement
 		if (mInput != Vector2.zero && currentState == States.Attacking) { speedTime -= (Time.fixedDeltaTime / attackDecelModifier); }
@@ -251,9 +298,19 @@ public class PlayerController : MonoBehaviour {
 			kbTime = 0f;
 		}
 
+		Vector3 translationDelta = Vector3.zero;
 		if (doHoming) {
-			this.transform.position = Vector3.Lerp(homingInitalPosition + homingTargetDelta, homingInitalPosition, Mathf.Clamp01(Mathf.Pow((homingTimer/homingTimerMax), 2)));
-			homingTimer -= Time.deltaTime;
+			Vector3 nextHomingPos = Vector3.Lerp(homingInitalPosition + homingTargetDelta, homingInitalPosition, Mathf.Clamp01(Mathf.Pow((homingTimer/homingTimerMax), 2)));
+
+			if (homingPrevValue == Vector3.zero) {
+				translationDelta = nextHomingPos - transform.position;
+			}
+			else {
+				translationDelta = nextHomingPos - homingPrevValue;
+			}
+			homingPrevValue = nextHomingPos;
+
+			homingTimer -= Time.fixedDeltaTime;
 			if (homingTimer < 0) {
 				doHoming = false;
 			}
@@ -263,8 +320,8 @@ public class PlayerController : MonoBehaviour {
 			if (currentAttack == Attacks.Dashing) {
 				dashTime += Time.fixedDeltaTime;
 				animr.SetBool("isDashing", true);
-			this.transform.rotation = Quaternion.Euler(0f, trueAngle, 0f);
-			Vector3 dashDirection = Quaternion.Euler(0f, trueAngle, 0f) * Vector3.forward;
+				this.transform.rotation = Quaternion.Euler(0f, trueAngle, 0f);
+				Vector3 dashDirection = Quaternion.Euler(0f, trueAngle, 0f) * Vector3.forward;
 				moveDelta = dashDirection.normalized * (dashForce * Mathf.Lerp(0, 1, dashCurve.Evaluate(dashTime / animationTimes["Character_Roll"])));
 				if (dashTime >= animationTimes["Character_Roll"]) {
 					currentState = States.Idle;
@@ -278,14 +335,29 @@ public class PlayerController : MonoBehaviour {
 				float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
 				float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnVelocity, turnSpeed);
 				transform.rotation = Quaternion.Euler(0f, angle, 0f);
-				Vector3 moveDirection = Quaternion.Euler(0f, angle, 0f) * Vector3.forward;
+				Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
 				moveDelta = moveDirection.normalized * (topSpeed * Mathf.Lerp(0, 1, movementCurve.Evaluate(speedTime / maxSpeedTime)));
 			} 
 			float moveWeight = Mathf.Lerp(1, 0, Mathf.Clamp01(kbTime / maxKbTime));
 			float kbWeight = moveWeight - 1f;
 			Vector3 kbDelta = (kbAngle * Vector3.forward) * kbForce;
-			transform.position += (moveDelta * moveWeight + kbDelta * kbWeight) * Time.fixedDeltaTime;
+
+			translationDelta = (moveDelta * moveWeight + kbDelta * kbWeight) * Time.fixedDeltaTime;
 		}
+
+		PreformedCheckedMovement(translationDelta);
+		
+		if (currentAttack != Attacks.Dashing) {
+			RaycastHit hitInfo;
+			if (Physics.SphereCast(transform.position + Vector3.up * 2.6f/2.0f, 0.5f, Vector3.down, out hitInfo, 2.6f, Mask.Get(Layers.Ground))) {
+				float distanceToGround = hitInfo.distance - 2.6f/2.0f;
+				transform.position -= new Vector3(0, distanceToGround, 0);
+			}
+			else {
+				transform.position -= new Vector3(0, 30f, 0) * Time.fixedDeltaTime;
+			}
+		}
+
 
 		if (freeAim) {
 			if (rAimInput != Vector2.zero) {
@@ -463,7 +535,7 @@ public class PlayerController : MonoBehaviour {
 	}
 	public void LobThrow() { // triggered in animator
 		ChangeMeter(-1);
-		freeAim = false;
+		//freeAim = false;
 		GameObject iHeadProj = Instantiate(headProj, projSpawn.position, transform.rotation);
 	}
 
@@ -484,6 +556,7 @@ public class PlayerController : MonoBehaviour {
 		homingTimer = time;
 		homingTimerMax = time;
 		doHoming = true;
+		homingPrevValue = Vector3.zero;
 	}
 
 	void SetupHoming() { // attack homing function
