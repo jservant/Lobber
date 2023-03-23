@@ -240,7 +240,7 @@ public class PlayerController : MonoBehaviour {
 	void PreformedCheckedMovement(Vector3 translationDelta) {
 		RaycastHit hitInfo;
 		float checkDistance = translationDelta.magnitude > 0.1f ? translationDelta.magnitude : 0.1f;
-		if (Physics.SphereCast(this.transform.position + Vector3.up * 2.6f/2.0f, 0.5f, translationDelta, out hitInfo, checkDistance)) {
+		if (Physics.SphereCast(this.transform.position + Vector3.up * (0.75f), 0.5f, translationDelta, out hitInfo, checkDistance)) {
 
 			// Move up to the wall, with a safe distance
 			Vector3 hitDelta = hitInfo.point - this.transform.position;
@@ -349,8 +349,8 @@ public class PlayerController : MonoBehaviour {
 		
 		if (currentAttack != Attacks.Dashing) {
 			RaycastHit hitInfo;
-			if (Physics.SphereCast(transform.position + Vector3.up * 2.6f/2.0f, 0.5f, Vector3.down, out hitInfo, 2.6f, Mask.Get(Layers.Ground))) {
-				float distanceToGround = hitInfo.distance - 2.6f/2.0f;
+			if (Physics.SphereCast(transform.position + Vector3.up * 0.75f, 0.5f, Vector3.down, out hitInfo, 0.75f, Mask.Get(Layers.Ground))) {
+				float distanceToGround = hitInfo.distance - 0.75f + 0.5f;
 				transform.position -= new Vector3(0, distanceToGround, 0);
 			}
 			else {
