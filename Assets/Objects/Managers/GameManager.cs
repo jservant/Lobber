@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour {
 	public GameObject eSpawn;
 	public OrbSpawn[] eSpawns;
 	public List<GameObject> enemies;
+	public int enemiesKilled = 0;
 
 	public string[] scenes;
 	static int sceneValue = 0;
@@ -106,9 +107,24 @@ public class GameManager : MonoBehaviour {
 
 		UpdateHealthBar();
 		UpdateMeter();
-		if (canSpawn && enemies.Count <= 5) {
+
+		if (canSpawn && enemies.Count <= 5 && enemiesKilled < 20) {
 			int randSpawn = Random.Range(0, eSpawns.Length);
 			eSpawns[randSpawn].spawnNow = true;
+		}
+		if (enemiesKilled >= 20 && enemies.Count <= 0) {
+			StartCoroutine(Win());
+		}
+	}
+
+	IEnumerator Win() {
+		Debug.Log("YOU WIN!! Next stage starting shortly...");
+		yield return new WaitForSeconds(5);
+		if (SceneManager.GetActiveScene().buildIndex == scenes.Length) {
+			// your a biiiig winner golh shit
+			Debug.Log("YOUR THE BUIGESS FUCKIN WINNER:; DAMMM");
+		} else {
+			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 		}
 	}
 
