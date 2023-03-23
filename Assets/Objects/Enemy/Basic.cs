@@ -800,7 +800,7 @@ public class Basic : MonoBehaviour {
 						{
 							// @TODO(Roskuski): These hitbox activations were keyed to the animations before, make it so again
 							float animationTimerRatio = 1.0f - animationTimer / animationTimes["Enemy_Attack_Slash"];
-							if (animationTimerRatio <= 0.60f) {
+							if (animationTimerRatio <= 0.50f) {
 								if (distanceToPlayer < 6.0f) {
 									Vector3 deltaToPlayerNoY = deltaToPlayer;
 									deltaToPlayerNoY.y = 0;
@@ -818,6 +818,15 @@ public class Basic : MonoBehaviour {
 						{
 							swordHitbox.enabled = true;
 							float animationTimerRatio = 1.0f - animationTimer / animationTimes["Enemy_Attack_Dash"];
+							
+							if (animationTimerRatio <= 0.56) {
+								if (distanceToPlayer < 15.0f) {
+									Vector3 deltaToPlayerNoY = deltaToPlayer;
+									deltaToPlayerNoY.y = 0;
+
+									this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, Quaternion.LookRotation(deltaToPlayerNoY, Vector3.up), 360 * Time.deltaTime);
+								}
+							}
 
 							if (animationTimerRatio >= 0.45f && animationTimerRatio <= 0.8f) {
 								this.transform.position += (this.transform.rotation * Vector3.forward) * LungeSpeed * Time.deltaTime;
