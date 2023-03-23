@@ -26,7 +26,6 @@ public class GameManager : MonoBehaviour {
 	public List<GameObject> enemies;
 	public int enemiesKilled = 0;
 
-	public string[] scenes;
 	bool transitioningLevel = false;
 
 	public bool updateTimeScale = true;
@@ -116,7 +115,7 @@ public class GameManager : MonoBehaviour {
 
 	IEnumerator Win() {
 		transitioningLevel = true;
-		if (SceneManager.GetActiveScene().buildIndex == scenes.Length) {
+		if (SceneManager.GetActiveScene().buildIndex == 3) {
 			statusTextboxText.text = "YOU WIN!!!";
 			Debug.Log("YOUR THE BUIGESS FUCKIN WINNER:; DAMMM");
 			yield return new WaitForSeconds(5);
