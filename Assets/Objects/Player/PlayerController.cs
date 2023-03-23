@@ -237,7 +237,12 @@ public class PlayerController : MonoBehaviour {
 		tsr = targetSphereRadius;
 	}
 
-	void PreformedCheckedMovement(Vector3 translationDelta) {
+	void PreformedCheckedMovement(Vector3 translationDelta, int depthCount = 0) {
+		depthCount += 1;
+		if (depthCount > 10) {
+			return;
+		}
+
 		RaycastHit hitInfo;
 		float checkDistance = translationDelta.magnitude > 0.1f ? translationDelta.magnitude : 0.1f;
 		if (Physics.SphereCast(this.transform.position + Vector3.up * (0.75f), 0.5f, translationDelta, out hitInfo, checkDistance) && (hitInfo.collider.isTrigger == false)) {
@@ -276,7 +281,7 @@ public class PlayerController : MonoBehaviour {
 			Vector3 remainingDelta = Quaternion.AngleAxis(angleToSlide, Vector3.up) * hitInfo.normal * remainingMove.magnitude;
 			
 			// attempt to do that move successfully
-			PreformedCheckedMovement(remainingDelta); // @TODO(Roskuski): There is a realistic chance that this enters into a infinite recursion. thankfully unity should continue to chug along even in the case of this.
+			PreformedCheckedMovement(remainingDelta, depthCount); // @TODO(Roskuski): There is a realistic chance that this enters into a infinite recursion. thankfully unity should continue to chug along even in the case of this.
 		}
 		else {
 			this.transform.position += translationDelta;
