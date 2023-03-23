@@ -800,6 +800,14 @@ public class Basic : MonoBehaviour {
 						{
 							// @TODO(Roskuski): These hitbox activations were keyed to the animations before, make it so again
 							float animationTimerRatio = 1.0f - animationTimer / animationTimes["Enemy_Attack_Slash"];
+							if (animationTimerRatio <= 0.60f) {
+								if (distanceToPlayer < 6.0f) {
+									Vector3 deltaToPlayerNoY = deltaToPlayer;
+									deltaToPlayerNoY.y = 0;
+
+									this.transform.rotation = Quaternion.LookRotation(deltaToPlayerNoY, Vector3.up);
+								}
+							}
 							if (animationTimer < 0.0f) {
 								ChangeDirective_Inactive(0);
 								navAgent.enabled = true;
