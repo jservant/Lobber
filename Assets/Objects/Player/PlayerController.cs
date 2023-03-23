@@ -453,20 +453,6 @@ public class PlayerController : MonoBehaviour {
 				if (queueInfo.attack != Attacks.None) {
 					if (animationPercent >= queueInfo.startPercent && animationPercent <= queueInfo.endPercent) {
 						queuedAttack = queueInfo.attack;
-						/*switch (currentAttack) {
-							case Attacks.HeadThrow:
-								if (meter > 1f) queuedAttack = queueInfo.attack;
-								break;
-							case Attacks.Spin:
-								if (meter > 2f) queuedAttack = queueInfo.attack;
-								break;
-							case Attacks.ShotgunThrow:
-								if (meter > 3f) queuedAttack = queueInfo.attack;
-								break;
-							default:
-								queuedAttack = queueInfo.attack;
-								break;
-						}*/
 					}
 				}
 			}
@@ -568,6 +554,7 @@ public class PlayerController : MonoBehaviour {
 		bool setupHoming = true;
 		currentState = States.Attacking;
 
+		tsr = targetSphereRadius;
 		if (attack == Attacks.HeadThrow) {
 			tsr = targetSphereRadius * 2.5f;
 			speedTime = 0;
@@ -576,8 +563,10 @@ public class PlayerController : MonoBehaviour {
 		}
 		else if (attack == Attacks.Chop) {
 			freeAim = true;
-		}
-		else { tsr = targetSphereRadius; }
+		} else if (attack == Attacks.Spin) { ChangeMeter(-2); 
+		} else if (attack == Attacks.Slam) { ChangeMeter(-meterMax); 
+		} else if (attack == Attacks.ShotgunThrow) { ChangeMeter(-3); 
+		} else if (attack == Attacks.LethalDash) { ChangeMeter(-2); }
 
 		animr.SetInteger("currentAttack", (int)attack);
 		currentAttack = attack;
