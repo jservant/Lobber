@@ -276,6 +276,34 @@ public class Basic : MonoBehaviour {
 
 							ChangeDirective_Stunned(3.0f, knockBackDir, 20.0f);
 							break;
+						case PlayerController.Attacks.Spin:
+							if (fullAxe) {
+								health -= 1;
+								ChangeDirective_Stunned(1.0f, knockBackDir, 40.0f);
+							}
+							else {
+								health -= 2;
+								ChangeDirective_Stunned(1.0f, knockBackDir, 30.0f);
+							}
+
+							ChangeDirective_Stunned(3.0f, knockBackDir, 20.0f);
+							break;
+						case PlayerController.Attacks.LethalDash:
+							if (fullAxe) {
+								health -= 1;
+								ChangeDirective_Stunned(1.0f, knockBackDir, 40.0f);
+							}
+							else {
+								health -= 2;
+								ChangeDirective_Stunned(1.0f, knockBackDir, 30.0f);
+							}
+
+							ChangeDirective_Stunned(3.0f, knockBackDir, 20.0f);
+							break;
+						case PlayerController.Attacks.Slam:
+							shouldDie = true;
+
+							break;
 						case PlayerController.Attacks.Chop:
 							shouldDie = true;
 							player.ChangeMeter(1);

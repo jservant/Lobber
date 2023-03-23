@@ -549,6 +549,7 @@ public class PlayerController : MonoBehaviour {
 			headMesh.enabled = false;
 			headMeshTrail.enabled = false;
 		}
+		if (meter < 0) { meter = 0; }
 	}
 	void setCurrentAttack(Attacks attack) {
 		bool setupHoming = true;
