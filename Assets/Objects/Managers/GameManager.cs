@@ -9,9 +9,11 @@ public class GameManager : MonoBehaviour {
 	public Transform player;
 	public PlayerController playerController;
 
+	public Canvas mainUI;
 	public Canvas pauseBG;
 	public Canvas pauseUI;
 	public Canvas optionsUI;
+	public TMP_Text statusTextboxText;
 	public Transform healthBar;
 	public Transform meterBar;
 
@@ -25,7 +27,7 @@ public class GameManager : MonoBehaviour {
 	public int enemiesKilled = 0;
 
 	public string[] scenes;
-	static int sceneValue = 0;
+	bool transitioningLevel = false;
 
 	public bool updateTimeScale = true;
 	public bool canSpawn = true;
@@ -42,9 +44,12 @@ public class GameManager : MonoBehaviour {
 		eSpawn = GameObject.Find("EnemySpawns");
 		eSpawns = eSpawn.GetComponentsInChildren<OrbSpawn>();
 		dActions = new DebugActions();
+		pauseBG = transform.Find("MainUI").GetComponent<Canvas>();
 		pauseBG = transform.Find("PauseBG").GetComponent<Canvas>();
 		pauseUI = transform.Find("PauseUI").GetComponent<Canvas>();
 		optionsUI = transform.Find("OptionsUI").GetComponent<Canvas>();
+		statusTextboxText = transform.Find("StatusTextbox/StatusTextboxText").GetComponent<TMP_Text>();
+		statusTextboxText.text = "";
 
 		enemies = new List<GameObject>();
 
@@ -78,14 +83,6 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 
-		if (dActions.DebugTools.SwitchScene.WasPerformedThisFrame()) {
-			sceneValue++;
-			if (sceneValue >= scenes.Length) {
-				sceneValue = 0;
-			}
-			SceneManager.LoadScene(scenes[sceneValue]);
-		}
-
 		if (playerController.pActions.Player.Pause.WasPerformedThisFrame()) {
 			if (optionsUI.enabled == true) {
 				pauseUI.enabled = true;
@@ -112,18 +109,20 @@ public class GameManager : MonoBehaviour {
 			int randSpawn = Random.Range(0, eSpawns.Length);
 			eSpawns[randSpawn].spawnNow = true;
 		}
-		if (enemiesKilled >= 20 && enemies.Count <= 0) {
+		if (enemiesKilled >= 20 && enemies.Count <= 0 && transitioningLevel == false) {
 			StartCoroutine(Win());
 		}
 	}
 
 	IEnumerator Win() {
-		Debug.Log("YOU WIN!! Next stage starting shortly...");
-		yield return new WaitForSeconds(5);
+		transitioningLevel = true;
 		if (SceneManager.GetActiveScene().buildIndex == scenes.Length) {
-			// your a biiiig winner golh shit
+			statusTextboxText.text = "YOU WIN!!!";
 			Debug.Log("YOUR THE BUIGESS FUCKIN WINNER:; DAMMM");
 		} else {
+			Debug.Log("YOU WIN!! Next stage starting shortly...");
+			statusTextboxText.text = "Stage Clear!";
+			yield return new WaitForSeconds(5);
 			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 		}
 	}

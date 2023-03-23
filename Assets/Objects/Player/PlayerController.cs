@@ -157,7 +157,7 @@ public class PlayerController : MonoBehaviour {
 	Transform projSpawn;
 	Light spotLight;
 	GameManager gameMan;
-	List<GameObject> enemiesHit;
+	//List<GameObject> enemiesHit;
 	public DefaultPlayerActions pActions;
 
 	[Header("Movement:")]
@@ -506,6 +506,7 @@ public class PlayerController : MonoBehaviour {
 	IEnumerator Death() {
 		animr.SetBool("isDead", true);
 		currentState = States.Death;
+		gameMan.mainUI.enabled = false;
 		capCol.enabled = false;
 		rb.useGravity = false;
 		spotLight.intensity = 0;
