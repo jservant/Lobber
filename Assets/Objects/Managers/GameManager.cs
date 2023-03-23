@@ -119,7 +119,10 @@ public class GameManager : MonoBehaviour {
 		if (SceneManager.GetActiveScene().buildIndex == scenes.Length) {
 			statusTextboxText.text = "YOU WIN!!!";
 			Debug.Log("YOUR THE BUIGESS FUCKIN WINNER:; DAMMM");
-		} else {
+			yield return new WaitForSeconds(5);
+			SceneManager.LoadScene(0);
+		}
+		else {
 			Debug.Log("YOU WIN!! Next stage starting shortly...");
 			statusTextboxText.text = "Stage Clear!";
 			yield return new WaitForSeconds(5);
@@ -160,7 +163,8 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void OnQuit() {
-		Application.Quit();
+		SceneManager.LoadScene(0);
+		//Application.Quit();
 	}
 
 	void OnEnable() { dActions.Enable(); }
