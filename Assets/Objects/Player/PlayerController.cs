@@ -15,10 +15,10 @@ public class PlayerController : MonoBehaviour {
 			               new QueueInfo(0.0f, 1.0f, Attacks.Chop), // Heavy Attack
 			               new QueueInfo(0.0f, 1.0f, Attacks.HeadThrow), // Throw
 			               new QueueInfo(0.0f, 1.0f, Attacks.Dashing), // Dash
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Light Attack
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Heavy Attack
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Throw
-			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Mod Dash
+			               new QueueInfo(0.0f, 0.0f, Attacks.Spin), // Mod Light Attack
+			               new QueueInfo(0.0f, 0.0f, Attacks.Slam), // Mod Heavy Attack
+			               new QueueInfo(0.0f, 0.0f, Attacks.ShotgunThrow), // Mod Throw
+			               new QueueInfo(0.0f, 0.0f, Attacks.LethalDash)}, // Mod Dash
 		// When in LAttack
 		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
 			               new QueueInfo(0.3f, 1.0f, Attacks.LAttack2), // Light Attack
@@ -387,6 +387,8 @@ public class PlayerController : MonoBehaviour {
 		if (health > healthMax) { health = healthMax; }
 		if (meter > meterMax) { meter = meterMax; }
 
+		Debug.Log(pActions.Player.MeterModifier.phase);
+
 		if (currentState != States.Death) {
 			if (currentState != States.Attacking) {
 				mInput = pActions.Player.Move.ReadValue<Vector2>();
@@ -414,6 +416,18 @@ public class PlayerController : MonoBehaviour {
 				preppingAttack = AttackButton.Throw;
 			}
 
+			if (meter >= 2f && pActions.Player.LightAttack.WasPerformedThisFrame() && pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
+				preppingAttack = AttackButton.ModLight;
+			}
+
+			if (meter >= 5f && pActions.Player.HeavyAttack.WasPerformedThisFrame() && pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
+				preppingAttack = AttackButton.ModHeavy;
+			}
+
+			if (meter >= 3f && pActions.Player.Throw.WasPerformedThisFrame() && pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
+				preppingAttack = AttackButton.ModThrow;
+			}
+
 			if (pActions.Player.Dash.WasPerformedThisFrame() && trueInput.sqrMagnitude >= 0.1f && dashCooldown <= 0f) {
 				preppingAttack = AttackButton.Dash;
 				dashTime = 0;
@@ -421,7 +435,15 @@ public class PlayerController : MonoBehaviour {
 				trueAngle = Mathf.Atan2(trueInput.x, trueInput.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
 			}
 
-			if (queuedAttack == Attacks.Dashing) {
+			if (pActions.Player.MeterModifier.phase == InputActionPhase.Performed && pActions.Player.Dash.WasPerformedThisFrame() &&
+				trueInput.sqrMagnitude >= 0.1f && dashCooldown <= 0f && meter >= 2f) {
+					preppingAttack = AttackButton.ModDash;
+					dashTime = 0;
+					dashCooldown = maxDashCooldown;
+					trueAngle = Mathf.Atan2(trueInput.x, trueInput.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
+			}
+
+			if (queuedAttack == Attacks.Dashing || queuedAttack == Attacks.LethalDash) {
 				trueAngle = Mathf.Atan2(trueInput.x, trueInput.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
 			}
 
@@ -431,6 +453,20 @@ public class PlayerController : MonoBehaviour {
 				if (queueInfo.attack != Attacks.None) {
 					if (animationPercent >= queueInfo.startPercent && animationPercent <= queueInfo.endPercent) {
 						queuedAttack = queueInfo.attack;
+						/*switch (currentAttack) {
+							case Attacks.HeadThrow:
+								if (meter > 1f) queuedAttack = queueInfo.attack;
+								break;
+							case Attacks.Spin:
+								if (meter > 2f) queuedAttack = queueInfo.attack;
+								break;
+							case Attacks.ShotgunThrow:
+								if (meter > 3f) queuedAttack = queueInfo.attack;
+								break;
+							default:
+								queuedAttack = queueInfo.attack;
+								break;
+						}*/
 					}
 				}
 			}
