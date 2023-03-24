@@ -239,7 +239,12 @@ public class PlayerController : MonoBehaviour {
 
 	void PreformedCheckedMovement(Vector3 translationDelta, int depthCount = 0) {
 		depthCount += 1;
-		if (depthCount > 10) {
+
+		// @NOTE(Roskuski): This avoids a infinite recursion, which would somehow lead to a crash.
+		// @TODO(Roskuski): This leads me to believe that when this function does get into a state where it would infinitly recurse that it's values get out of control, leading to the crash, as it seems that unity can handle the infinite recursion "fine".
+		// The crash happens on a assertion falure in SphereCast
+		// It appears that translationDelta arrives at zero and then infinitely recurses. This early out should pervent infinite loops
+		if (translationDelta == Vector3.zero) {
 			return;
 		}
 
