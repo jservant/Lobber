@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour {
 	public Transform meterBar;
 
 	public GameObject PlayerPrefab;
-	public GameObject SkullPrefab;
+	public HeadProjectile SkullPrefab;
 	public GameObject EnemyPrefab;
 	public GameObject HeadPickupPrefab;
 	public GameObject eSpawn;

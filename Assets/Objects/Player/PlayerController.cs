@@ -153,8 +153,9 @@ public class PlayerController : MonoBehaviour {
 	Animator animr;
 	MeshRenderer headMesh;
 	TrailRenderer headMeshTrail;
-	GameObject headProj;
+	HeadProjectile headProj;
 	Transform projSpawn;
+	Transform[] shotgunProjSpawns;
 	Light spotLight;
 	GameManager gameMan;
 	//List<GameObject> enemiesHit;
@@ -214,7 +215,8 @@ public class PlayerController : MonoBehaviour {
 
 		headMesh = transform.Find("Weapon_Controller/Hitbox/StoredHead").GetComponent<MeshRenderer>();
 		headMeshTrail = transform.Find("Weapon_Controller/Hitbox/StoredHead").GetComponent<TrailRenderer>();
-		projSpawn = transform.Find("ProjSpawn");
+		projSpawn = transform.Find("MainProjSpawn");
+		shotgunProjSpawns = transform.Find("ShotgunSpawns").GetComponentsInChildren<Transform>();
 		spotLight = transform.Find("Spot Light").GetComponent<Light>();
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 		headProj = gameMan.SkullPrefab;
@@ -383,7 +385,7 @@ public class PlayerController : MonoBehaviour {
 		trueInput = pActions.Player.Move.ReadValue<Vector2>();
 		rAimInput = pActions.Player.Aim.ReadValue<Vector2>();
 		if (dashCooldown > 0) { dashCooldown -= Time.deltaTime; }
-		AttackButton preppingAttack = AttackButton.None;
+		AttackButton attackButtonPrep = AttackButton.None;
 
 		AnimatorStateInfo Next = animr.GetNextAnimatorStateInfo(0);
 		AnimatorStateInfo Current = animr.GetCurrentAnimatorStateInfo(0);
@@ -396,8 +398,6 @@ public class PlayerController : MonoBehaviour {
 
 		if (health > healthMax) { health = healthMax; }
 		if (meter > meterMax) { meter = meterMax; }
-
-		Debug.Log(pActions.Player.MeterModifier.phase);
 
 		if (currentState != States.Death) {
 			if (currentState != States.Attacking) {
@@ -415,50 +415,42 @@ public class PlayerController : MonoBehaviour {
 			}
 
 			if (pActions.Player.LightAttack.WasPerformedThisFrame()) {
-				preppingAttack = AttackButton.LightAttack;
+				attackButtonPrep = AttackButton.LightAttack;
 			}
-
 			if (pActions.Player.HeavyAttack.WasPerformedThisFrame()) {
-				preppingAttack = AttackButton.HeavyAttack;
+				attackButtonPrep = AttackButton.HeavyAttack;
 			}
-
 			if (meter >= 1f && pActions.Player.Throw.WasPerformedThisFrame()) {
-				preppingAttack = AttackButton.Throw;
+				attackButtonPrep = AttackButton.Throw;
 			}
-
 			if (meter >= 2f && pActions.Player.LightAttack.WasPerformedThisFrame() && pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
-				preppingAttack = AttackButton.ModLight;
+				attackButtonPrep = AttackButton.ModLight;
 			}
-
 			if (meter >= 5f && pActions.Player.HeavyAttack.WasPerformedThisFrame() && pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
-				preppingAttack = AttackButton.ModHeavy;
+				attackButtonPrep = AttackButton.ModHeavy;
 			}
-
 			if (meter >= 3f && pActions.Player.Throw.WasPerformedThisFrame() && pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
-				preppingAttack = AttackButton.ModThrow;
+				attackButtonPrep = AttackButton.ModThrow;
 			}
-
 			if (pActions.Player.Dash.WasPerformedThisFrame() && trueInput.sqrMagnitude >= 0.1f && dashCooldown <= 0f) {
-				preppingAttack = AttackButton.Dash;
+				attackButtonPrep = AttackButton.Dash;
 				dashTime = 0;
 				dashCooldown = maxDashCooldown;
 				trueAngle = Mathf.Atan2(trueInput.x, trueInput.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
 			}
-
 			if (pActions.Player.MeterModifier.phase == InputActionPhase.Performed && pActions.Player.Dash.WasPerformedThisFrame() &&
 				trueInput.sqrMagnitude >= 0.1f && dashCooldown <= 0f && meter >= 2f) {
-					preppingAttack = AttackButton.ModDash;
+					attackButtonPrep = AttackButton.ModDash;
 					dashTime = 0;
 					dashCooldown = maxDashCooldown;
 					trueAngle = Mathf.Atan2(trueInput.x, trueInput.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
 			}
-
 			if (queuedAttack == Attacks.Dashing || queuedAttack == Attacks.LethalDash) {
 				trueAngle = Mathf.Atan2(trueInput.x, trueInput.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
 			}
 
-			if (preppingAttack != AttackButton.None) {
-				QueueInfo queueInfo = QueueInfoTable[(int)currentAttack][(int)preppingAttack];
+			if (attackButtonPrep != AttackButton.None) {
+				QueueInfo queueInfo = QueueInfoTable[(int)currentAttack][(int)attackButtonPrep];
 				float animationPercent = AnimatorNormalizedTimeOfNextOrCurrentAttackState() % 1.0f;
 				if (queueInfo.attack != Attacks.None) {
 					if (animationPercent >= queueInfo.startPercent && animationPercent <= queueInfo.endPercent) {
@@ -608,7 +600,6 @@ public class PlayerController : MonoBehaviour {
 			if (newDelta.magnitude < homingTargetDelta.magnitude) {
 				homingTargetDelta = newDelta;
 				//if (currentAttack == Attacks.HeadThrow) { homingTargetDelta = eColliders[index].transform.position; }
-				// temporarily using the delta v3 as just a standard v3 for this attack
 			}
 		}
 
@@ -657,6 +648,34 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
+	public void LobThrow() { // triggered in animator
+		ChangeMeter(-1);
+		SetupHoming();
+		//freeAim = false;
+		headProj.speed = 100f;
+		headProj.canStun = true;
+		Instantiate(headProj, projSpawn.position, transform.rotation);
+	}
+
+	public void ShotgunThrow() { // triggered in animator
+		SetupHoming();
+		headProj.speed = 50f;
+		headProj.canStun = false;
+		//freeAim = false;
+		Instantiate(headProj, projSpawn.position, transform.rotation);
+		for (int i = 0; i < shotgunProjSpawns.Length; i++) {
+			Instantiate(headProj, shotgunProjSpawns[i].position, transform.rotation);
+		}
+	}
+
+	public void StartHoming(float time) { // called in animator; starts the homing lerp in FixedUpdate()
+		homingInitalPosition = this.transform.position;
+		homingTimer = time;
+		homingTimerMax = time;
+		doHoming = true;
+		homingPrevValue = Vector3.zero;
+	}
+
 	bool IsAttackState(AnimatorStateInfo stateInfo) {
 		// NOTE(Roskuski): If we're NOT any of these states
 		return !(
@@ -698,20 +717,6 @@ public class PlayerController : MonoBehaviour {
 		return Result;
 	}
 
-	public void LobThrow() { // triggered in animator
-		ChangeMeter(-1);
-		SetupHoming();
-		//freeAim = false;
-		GameObject iHeadProj = Instantiate(headProj, projSpawn.position, transform.rotation);
-	}
-
-	public void StartHoming(float time) { // called in animator; starts the homing lerp in FixedUpdate()
-		homingInitalPosition = this.transform.position;
-		homingTimer = time;
-		homingTimerMax = time;
-		doHoming = true;
-		homingPrevValue = Vector3.zero;
-	}
 	#endregion
 
 	#region Animation arrays

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class HeadProjectile : MonoBehaviour {
-	[SerializeField] float speed = 25f;
-	[SerializeField] int damage = 8;
-	[SerializeField] float lifetime = 3f;
-	[SerializeField] float stunSphereRadius = 3f;
+	public float speed = 25f;
+	public int damage = 8;
+	public float lifetime = 3f;
+	public float stunSphereRadius = 3f;
+	public bool canStun = true;
 	Transform head;
 	Rigidbody rb;
 
@@ -25,13 +26,15 @@ public class HeadProjectile : MonoBehaviour {
 	private void OnTriggerEnter(Collider other) {
 		if (other.gameObject.layer == (int)Layers.EnemyHurtbox) {
 			Debug.Log("proj should die lol");
-			Collider[] eColliders = Physics.OverlapSphere(transform.position, stunSphereRadius, Mask.Get(Layers.EnemyHurtbox));
-			for (int index = 0; index < eColliders.Length; index += 1) {
-				Basic enemy = eColliders[index].gameObject.GetComponent<Basic>();
-				Quaternion knockBackDir = Quaternion.LookRotation(enemy.transform.position - this.transform.position);
-				enemy.ChangeDirective_Stunned(2.0f, knockBackDir, 20.0f);
+			if (canStun) {
+				Collider[] eColliders = Physics.OverlapSphere(transform.position, stunSphereRadius, Mask.Get(Layers.EnemyHurtbox));
+				for (int index = 0; index < eColliders.Length; index += 1) {
+					Basic enemy = eColliders[index].gameObject.GetComponent<Basic>();
+					Quaternion knockBackDir = Quaternion.LookRotation(enemy.transform.position - this.transform.position);
+					enemy.ChangeDirective_Stunned(2.0f, knockBackDir, 20.0f);
+				}
 			}
-					Destroy(gameObject);
+			Destroy(gameObject);
 		}
 	}
 
