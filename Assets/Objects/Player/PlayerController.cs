@@ -15,10 +15,10 @@ public class PlayerController : MonoBehaviour {
 			               new QueueInfo(0.0f, 1.0f, Attacks.Chop), // Heavy Attack
 			               new QueueInfo(0.0f, 1.0f, Attacks.HeadThrow), // Throw
 			               new QueueInfo(0.0f, 1.0f, Attacks.Dashing), // Dash
-			               new QueueInfo(0.0f, 0.0f, Attacks.Spin), // Mod Light Attack
-			               new QueueInfo(0.0f, 0.0f, Attacks.Slam), // Mod Heavy Attack
-			               new QueueInfo(0.0f, 0.0f, Attacks.ShotgunThrow), // Mod Throw
-			               new QueueInfo(0.0f, 0.0f, Attacks.LethalDash)}, // Mod Dash
+			               new QueueInfo(0.0f, 1.0f, Attacks.Spin), // Mod Light Attack
+			               new QueueInfo(0.0f, 1.0f, Attacks.Slam), // Mod Heavy Attack
+			               new QueueInfo(0.0f, 1.0f, Attacks.ShotgunThrow), // Mod Throw
+			               new QueueInfo(0.0f, 1.0f, Attacks.LethalDash)}, // Mod Dash
 		// When in LAttack
 		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
 			               new QueueInfo(0.3f, 1.0f, Attacks.LAttack2), // Light Attack
@@ -331,7 +331,6 @@ public class PlayerController : MonoBehaviour {
 			Vector3 moveDelta;
 			if (currentAttack == Attacks.Dashing) {
 				dashTime += Time.fixedDeltaTime;
-				animr.SetBool("isDashing", true);
 				this.transform.rotation = Quaternion.Euler(0f, trueAngle, 0f);
 				Vector3 dashDirection = Quaternion.Euler(0f, trueAngle, 0f) * Vector3.forward;
 				moveDelta = dashDirection.normalized * (dashForce * Mathf.Lerp(0, 1, dashCurve.Evaluate(dashTime / animationTimes["Character_Roll"])));
