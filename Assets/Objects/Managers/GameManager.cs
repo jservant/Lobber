@@ -63,6 +63,7 @@ public class GameManager : MonoBehaviour {
 
 		if (canSpawn) for (int i = 0; i < eSpawns.Length; i++) {
 			eSpawns[i].spawnNow = true;
+				break;
 		}
 	}
 

@@ -237,7 +237,7 @@ public class Basic : MonoBehaviour {
 					bool fullAxe = player.meter >= player.meterMax/2;
 
 					KnockbackInfo newKnockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
-
+					gameMan.SpawnParticle(0, other.transform.position);
 					switch (gameMan.playerController.currentAttack) {
 						case PlayerController.Attacks.LAttack:
 							if (fullAxe) {
