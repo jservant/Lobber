@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 
@@ -10,6 +11,7 @@ public class GameManager : MonoBehaviour {
 	public Transform player;
 	public PlayerController playerController;
 	[Header("UI")]
+	EventSystem eSystem;
 	public Canvas mainUI;
 	public Canvas pauseBG;
 	public Button resumeButton;
@@ -48,6 +50,7 @@ public class GameManager : MonoBehaviour {
 		eSpawn = GameObject.Find("EnemySpawns");
 		eSpawns = eSpawn.GetComponentsInChildren<OrbSpawn>();
 		dActions = new DebugActions();
+		eSystem = GetComponent<EventSystem>();
 		mainUI = transform.Find("MainUI").GetComponent<Canvas>();
 		pauseBG = transform.Find("PauseBG").GetComponent<Canvas>();
 		resumeButton = transform.Find("PauseUI/ResumeButton").GetComponent<Button>();
@@ -102,6 +105,7 @@ public class GameManager : MonoBehaviour {
 				pauseUI.enabled = true;
 			}
 			else {
+				eSystem.SetSelectedGameObject(null);
 				updateTimeScale = true;
 				Time.timeScale = 1;
 				pauseUI.enabled = false;
@@ -157,6 +161,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void OnResume() {
+		eSystem.SetSelectedGameObject(null);
 		updateTimeScale = true;
 		Time.timeScale = 1;
 		pauseUI.enabled = false;
