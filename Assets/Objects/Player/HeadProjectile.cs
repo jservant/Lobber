@@ -8,12 +8,15 @@ public class HeadProjectile : MonoBehaviour {
 	public float lifetime = 3f;
 	public float stunSphereRadius = 3f;
 	public bool canStun = true;
+
 	Transform head;
 	Rigidbody rb;
+	GetKnockbackInfo getKnockbackInfo;
 
 	private void Start() {
 		head = transform.Find("Model");
 		rb = GetComponent<Rigidbody>();
+		getKnockbackInfo = GetComponent<GetKnockbackInfo>();
 		Destroy(gameObject, lifetime);
 	}
 
@@ -29,9 +32,9 @@ public class HeadProjectile : MonoBehaviour {
 			if (canStun) {
 				Collider[] eColliders = Physics.OverlapSphere(transform.position, stunSphereRadius, Mask.Get(Layers.EnemyHurtbox));
 				for (int index = 0; index < eColliders.Length; index += 1) {
-					Basic enemy = eColliders[index].gameObject.GetComponent<Basic>();
-					Quaternion knockBackDir = Quaternion.LookRotation(enemy.transform.position - this.transform.position);
-					enemy.ChangeDirective_Stunned(2.0f, knockBackDir, 20.0f);
+					Basic basicEnemy = eColliders[index].gameObject.GetComponent<Basic>();
+					KnockbackInfo knockbackInfo = getKnockbackInfo.GetInfo(basicEnemy.gameObject);
+					basicEnemy.ChangeDirective_Stunned(2.0f, knockbackInfo);
 				}
 			}
 			Destroy(gameObject);

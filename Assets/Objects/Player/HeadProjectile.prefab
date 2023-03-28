@@ -385,6 +385,7 @@ GameObject:
   - component: {fileID: 6210156214816524922}
   - component: {fileID: 6711073271889153883}
   - component: {fileID: 3214500108476503172}
+  - component: {fileID: 2240280034775248708}
   m_Layer: 0
   m_Name: HeadProjectile
   m_TagString: Untagged
@@ -422,7 +423,7 @@ MonoBehaviour:
   speed: 100
   damage: 8
   lifetime: 3
-  stunSphereRadius: 5
+  canStun: 1
 --- !u!54 &3214500108476503172
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -439,3 +440,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &2240280034775248708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3919287289124563026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c078c4934c279084ca9975b62a2b4da8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  infoSource: 2
+  constantInfo:
+    direction: {x: 0, y: 0, z: 0, w: 0}
+    force: 20
+    time: 0.25
+  linkedObject: {fileID: 3919287289124563026}

@@ -97,10 +97,8 @@ public class Basic : MonoBehaviour {
 	float health = 4;
 	bool shouldDie = false;
 	public float dropChance; //chance to drop a head (0-100)
-	Quaternion kbAngle;
-	float kbTime = 0f;
-	float maxKbTime = 0.25f;
-	float kbStrength;
+	KnockbackInfo knockbackInfo;
+	float remainingKnockbackTime = 0f;
 
 	[SerializeField] bool isSandbag = false;
 	bool isImmune = false;
@@ -162,19 +160,17 @@ public class Basic : MonoBehaviour {
 		return navAgent.remainingDistance - approchDistance;
 	}
 
-	public void ChangeDirective_Stunned(float stunTime, Quaternion knockBackDirection, float strength) {
+	public void ChangeDirective_Stunned(float stunTime, KnockbackInfo newKnockbackInfo) {
 		directive = Directive.Stunned;
 		
 		stunDuration += stunTime;
-		kbStrength = strength;
 
 		animator.SetTrigger("wasHurt");
 		swordHitbox.enabled = false;
 
-		this.transform.rotation = Quaternion.AngleAxis(180, Vector3.up) * knockBackDirection;
-
-		kbAngle = knockBackDirection;
-		kbTime = maxKbTime;
+		knockbackInfo = newKnockbackInfo;
+		remainingKnockbackTime = knockbackInfo.time;
+		this.transform.rotation = Quaternion.AngleAxis(180, Vector3.up) * knockbackInfo.direction;
 	}
 
 	void ChangeDirective_Inactive(float inactiveWait) {
@@ -239,61 +235,62 @@ public class Basic : MonoBehaviour {
 
 				if (player != null) {
 					bool fullAxe = player.meter >= player.meterMax/2;
-					gameMan.SpawnParticle(0, other.transform.position);
-					Quaternion knockBackDir = player.transform.rotation;
+
+					KnockbackInfo newKnockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
+
 					switch (gameMan.playerController.currentAttack) {
 						case PlayerController.Attacks.LAttack:
 							if (fullAxe) {
 								health -= 0.5f;
-								ChangeDirective_Stunned(1.0f, knockBackDir, 20.0f);
+								ChangeDirective_Stunned(1.0f, newKnockbackInfo);
 							}
 							else {
 								health -= 1;
-								ChangeDirective_Stunned(1.0f, knockBackDir, 10.0f);
+								ChangeDirective_Stunned(1.0f, newKnockbackInfo);
 							}
 							break;
 
 						case PlayerController.Attacks.LAttack2:
 							if (fullAxe) {
 								health -= 0.5f;
-								ChangeDirective_Stunned(1.0f, knockBackDir, 20.0f);
+								ChangeDirective_Stunned(1.0f, newKnockbackInfo);
 							}
 							else {
 								health -= 1;
-								ChangeDirective_Stunned(1.0f, knockBackDir, 10.0f);
+								ChangeDirective_Stunned(1.0f, newKnockbackInfo);
 							}
 							break;
 
 						case PlayerController.Attacks.LAttack3:
 							if (fullAxe) {
 								health -= 1;
-								ChangeDirective_Stunned(1.0f, knockBackDir, 40.0f);
+								ChangeDirective_Stunned(1.0f, newKnockbackInfo);
 							}
 							else {
 								health -= 2;
-								ChangeDirective_Stunned(1.0f, knockBackDir, 30.0f);
+								ChangeDirective_Stunned(1.0f, newKnockbackInfo);
 							}
 							break;
 
 						case PlayerController.Attacks.Spin:
 							if (fullAxe) {
 								health -= 1;
-								ChangeDirective_Stunned(1.0f, knockBackDir, 40.0f);
+								ChangeDirective_Stunned(1.0f, newKnockbackInfo);
 							}
 							else {
 								health -= 2;
-								ChangeDirective_Stunned(1.0f, knockBackDir, 30.0f);
+								ChangeDirective_Stunned(1.0f, newKnockbackInfo);
 							}
 							break;
 
 						case PlayerController.Attacks.LethalDash:
 							if (fullAxe) {
 								health -= 1;
-								ChangeDirective_Stunned(1.0f, knockBackDir, 40.0f);
+								ChangeDirective_Stunned(1.0f, newKnockbackInfo);
 							}
 							else {
 								health -= 2;
-								ChangeDirective_Stunned(1.0f, knockBackDir, 30.0f);
+								ChangeDirective_Stunned(1.0f, newKnockbackInfo);
 							}
 							break;
 
@@ -315,7 +312,6 @@ public class Basic : MonoBehaviour {
 				}
 				else if (head != null) {
 					// @TODO(Roskuski): temp head reaction
-					
 					shouldDie = true;
 					Debug.Log("Head Hit");
 				}
@@ -323,8 +319,10 @@ public class Basic : MonoBehaviour {
 
 			if (other.gameObject.layer == (int)Layers.TrapHitbox) {
 				// NOTE(Roskuski): Knockback trap
-				Quaternion knockBackDir = Quaternion.LookRotation(this.transform.position - other.transform.position);
-				ChangeDirective_Stunned(6.0f, knockBackDir, 20.0f);
+				KnockbackInfo newKnockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
+				ChangeDirective_Stunned(1.0f, newKnockbackInfo);
+				//Quaternion knockBackDir = Quaternion.LookRotation(this.transform.position - other.transform.position);
+				//ChangeDirective_Stunned(6.0f, knockBackDir, 20.0f);
 			}
 
 		}
@@ -377,9 +375,9 @@ public class Basic : MonoBehaviour {
 		}
 
 		// Preform knockback regardless of what we want to do
-		if (kbTime > 0) {
-			kbTime -= Time.deltaTime;
-			transform.position += kbAngle * Vector3.forward * kbStrength * Mathf.Lerp(1, 0, Mathf.Clamp01(Mathf.Pow((kbTime/maxKbTime), 2))) * Time.deltaTime;
+		if (remainingKnockbackTime > 0) {
+			remainingKnockbackTime -= Time.deltaTime;
+			transform.position += knockbackInfo.direction * Vector3.forward * knockbackInfo.force * Mathf.Lerp(1, 0, Mathf.Clamp01(Mathf.Pow((remainingKnockbackTime/knockbackInfo.time), 2))) * Time.deltaTime;
 		}
 
 

@@ -132,6 +132,36 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
+	readonly KnockbackInfo[] EmptyAxeAttackKnockbackTable = new KnockbackInfo[] {
+		//                Set Direction,      force , time 
+		new KnockbackInfo(Quaternion.identity,  0.0f, 0.0f), // None
+		new KnockbackInfo(Quaternion.identity, 10.0f, 0.25f), // LAttack
+		new KnockbackInfo(Quaternion.identity, 10.0f, 0.25f), // LAttack2
+		new KnockbackInfo(Quaternion.identity, 30.0f, 0.25f), // LAttack3
+		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // Chop
+		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // Slam
+		new KnockbackInfo(Quaternion.identity, 30.0f, 0.25f), // Spin
+		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // HeadThrow
+		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // Dashing
+		new KnockbackInfo(Quaternion.identity, 30.0f, 0.25f), // LethalDashing
+		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // ShotgunThrow
+	};
+
+	readonly KnockbackInfo[] FullAxeAttackKnockbackTable = new KnockbackInfo[] {
+		//                Set Direction,      force , time 
+		new KnockbackInfo(Quaternion.identity,  0.0f, 0.0f), // None
+		new KnockbackInfo(Quaternion.identity, 20.0f, 0.25f), // LAttack
+		new KnockbackInfo(Quaternion.identity, 20.0f, 0.25f), // LAttack2
+		new KnockbackInfo(Quaternion.identity, 40.0f, 0.25f), // LAttack3
+		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // Chop
+		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // Slam
+		new KnockbackInfo(Quaternion.identity, 40.0f, 0.25f), // Spin
+		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // HeadThrow
+		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // Dashing
+		new KnockbackInfo(Quaternion.identity, 40.0f, 0.25f), // LethalDashing
+		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // ShotgunThrow
+	};
+
 	static bool animationTimesPopulated = false;
 	static Dictionary<string, float> animationTimes;
 	#endregion
@@ -160,6 +190,7 @@ public class PlayerController : MonoBehaviour {
 	GameManager gameMan;
 	//List<GameObject> enemiesHit;
 	public DefaultPlayerActions pActions;
+	GetKnockbackInfo axeGetKnockbackInfo;
 
 	[Header("Movement:")]
 	public Vector2 trueInput;							// movement vector read from left stick
@@ -188,10 +219,10 @@ public class PlayerController : MonoBehaviour {
 	public int health = 0;
 	public float meter = 0;
 	public float meterMax = 5;
-	Quaternion kbAngle;
-	float kbForce = 15f;                            // knockback speed
-	float maxKbTime = 1f;                           // knockback time
-	float kbTime = 0f;                              // knockback time
+
+	KnockbackInfo knockbackInfo = new KnockbackInfo(Quaternion.identity, 0, 0);
+	float remainingKnockbackTime;
+
 	[SerializeField] float targetSphereRadius = 2f; // publically editable
 	float tsr = 0f;									// used internally
 
@@ -216,6 +247,7 @@ public class PlayerController : MonoBehaviour {
 
 		headMesh = transform.Find("Weapon_Controller/Hitbox/StoredHead").GetComponent<MeshRenderer>();
 		headMeshTrail = transform.Find("Weapon_Controller/Hitbox/StoredHead").GetComponent<TrailRenderer>();
+		axeGetKnockbackInfo = transform.Find("Weapon_Controller/Hitbox").GetComponent<GetKnockbackInfo>();
 		projSpawn = transform.Find("MainProjSpawn");
 		shotgunProjSpawns = transform.Find("ShotgunSpawns").GetComponentsInChildren<Transform>();
 		spotLight = transform.Find("Spot Light").GetComponent<Light>();
@@ -305,11 +337,7 @@ public class PlayerController : MonoBehaviour {
 		// if no movement input and not attacking, decelerate
 		if (currentState != States.Attacking) { speedTime = Mathf.Clamp(speedTime, 0, maxSpeedTime); }
 		// clamp accel value between 0 and a static maximum
-		kbTime -= Time.fixedDeltaTime;
-		if (kbTime <= 0) {
-			kbAngle = Quaternion.identity;
-			kbTime = 0f;
-		}
+		remainingKnockbackTime -= Time.fixedDeltaTime;
 
 		Vector3 translationDelta = Vector3.zero;
 		if (doHoming) {
@@ -350,11 +378,11 @@ public class PlayerController : MonoBehaviour {
 				Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
 				moveDelta = moveDirection.normalized * (topSpeed * Mathf.Lerp(0, 1, movementCurve.Evaluate(speedTime / maxSpeedTime)));
 			} 
-			float moveWeight = Mathf.Lerp(1, 0, Mathf.Clamp01(kbTime / maxKbTime));
-			float kbWeight = moveWeight - 1f;
-			Vector3 kbDelta = (kbAngle * Vector3.forward) * kbForce;
+			float moveWeight = Mathf.Lerp(1, 0, Mathf.Clamp01(remainingKnockbackTime / knockbackInfo.time));
+			float knockbackWeight = 1f - moveWeight;
+			Vector3 knockbackDelta = (knockbackInfo.direction * Vector3.forward) * knockbackInfo.force;
 
-			translationDelta = (moveDelta * moveWeight + kbDelta * kbWeight) * Time.fixedDeltaTime;
+			translationDelta = (moveDelta * moveWeight + knockbackDelta * knockbackWeight) * Time.fixedDeltaTime;
 		}
 
 		PreformedCheckedMovement(translationDelta);
@@ -369,7 +397,6 @@ public class PlayerController : MonoBehaviour {
 				transform.position -= new Vector3(0, 30f, 0) * Time.fixedDeltaTime;
 			}
 		}
-
 
 		if (freeAim) {
 			if (rAimInput != Vector2.zero) {
@@ -496,7 +523,7 @@ public class PlayerController : MonoBehaviour {
 
 	//@TODO(Jaden): Add i-frames and trigger hitstun state when hit
 	private void OnTriggerEnter(Collider other) {
-		if (other.gameObject.layer == (int)Layers.EnemyHitbox && vulnerable == true && kbTime <= 0) { // player is getting hit
+		if (other.gameObject.layer == (int)Layers.EnemyHitbox && vulnerable == true && remainingKnockbackTime <= 0) { // player is getting hit
 			currentAttack = Attacks.None;
 			animr.SetBool("isWalking", false);
 			animr.SetInteger("currentAttack", (int)Attacks.None);
@@ -508,8 +535,8 @@ public class PlayerController : MonoBehaviour {
 			} else {
 				animr.SetTrigger("wasHurt");
 				currentState = States.Idle;
-				kbAngle = Quaternion.LookRotation(other.transform.position - this.transform.position);
-				kbTime = maxKbTime;
+				knockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
+				remainingKnockbackTime = knockbackInfo.time;
 				float healthPercentage = (float)health / (float)healthMax;
 				spotLight.intensity = 50f * (healthPercentage);
 				//Debug.Log("Spotlight intensity should be ", 50f * healthPercentage);
@@ -526,9 +553,9 @@ public class PlayerController : MonoBehaviour {
 				GameObject.Destroy(other.transform.gameObject);
 			}
 		}
-		else if (other.gameObject.layer == (int)Layers.TrapHitbox && vulnerable == true && kbTime <= 0) {
-			kbAngle = Quaternion.LookRotation(other.transform.position - this.transform.position);
-			kbTime = maxKbTime;
+		else if (other.gameObject.layer == (int)Layers.TrapHitbox && vulnerable == true && remainingKnockbackTime <= 0) {
+			// @TODO(Roskuski): Do we want traps to hit the player?
+			//knockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
 		}
 	}
 
@@ -579,6 +606,12 @@ public class PlayerController : MonoBehaviour {
 
 		animr.SetInteger("currentAttack", (int)attack);
 		currentAttack = attack;
+		if (meter >= meterMax/2.0f) {
+			axeGetKnockbackInfo.constantInfo = FullAxeAttackKnockbackTable[(int)attack];
+		}
+		else {
+			axeGetKnockbackInfo.constantInfo = EmptyAxeAttackKnockbackTable[(int)attack];
+		}
 
 		if (pActions.Player.Aim.ReadValue<Vector2>().sqrMagnitude >= 0.02) {
 			movement = new Vector3(rAimInput.x, 0, rAimInput.y); // this and next line allow for movement between hits
