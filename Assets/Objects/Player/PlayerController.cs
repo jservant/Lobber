@@ -181,6 +181,7 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField] float dashTime = 0f;				// how long has player been dashing for?
 	[SerializeField] float maxDashCooldown = 1.5f;		// how long does it take for player to dash again after dashing?
 	[SerializeField] float dashCooldown = 1f;
+	public bool isWalking;
 	[Header("Health/Damage:")]
 	public bool vulnerable = true;
 	public int healthMax = 20;
@@ -403,14 +404,20 @@ public class PlayerController : MonoBehaviour {
 				mInput = pActions.Player.Move.ReadValue<Vector2>();
 				if (pActions.Player.Move.WasReleasedThisFrame()) {
 					animr.SetBool("isWalking", false);
+					isWalking = false;
 					currentState = States.Idle;
 				}
 				else if (pActions.Player.Move.phase == InputActionPhase.Started) {
 					currentState = States.Walking;
 					animr.SetBool("isWalking", true);
+					isWalking = true;
 					movement = movement = new Vector3(mInput.x, 0, mInput.y);
 				}
-				else if (pActions.Player.Move.phase == InputActionPhase.Waiting) { animr.SetBool("isWalking", false); }
+				else if (pActions.Player.Move.phase == InputActionPhase.Waiting) {
+					
+					animr.SetBool("isWalking", false);
+					isWalking = false;
+				}
 			}
 
 			if (pActions.Player.LightAttack.WasPerformedThisFrame()) {
