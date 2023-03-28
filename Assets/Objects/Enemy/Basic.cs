@@ -239,7 +239,7 @@ public class Basic : MonoBehaviour {
 
 				if (player != null) {
 					bool fullAxe = player.meter >= player.meterMax/2;
-					gameMan.SpawnParticle(0, other.transform.position, 1f);
+					gameMan.SpawnParticle(0, other.transform.position);
 					Quaternion knockBackDir = player.transform.rotation;
 					switch (gameMan.playerController.currentAttack) {
 						case PlayerController.Attacks.LAttack:

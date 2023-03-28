@@ -142,14 +142,9 @@ public class GameManager : MonoBehaviour {
 	public void FreezeFrames(int Frames60) {
 		frozenTime += (float)(Frames60) / 60.0f;
 	}
-	public void SpawnParticle(int particleID, Vector3 position, float lifetime) {
+	public void SpawnParticle(int particleID, Vector3 position) {
 		ParticleSystem particle = particles[particleID];
 		var TempParticle = Instantiate(particle, position, Quaternion.identity);
-		StartCoroutine(DestroyParticle(particle, lifetime));
-    }
-	IEnumerator DestroyParticle(ParticleSystem temp, float duration) {
-		yield return new WaitForSeconds(duration);
-		Destroy(temp.gameObject);
     }
 	public void UpdateHealthBar() {
 		float healthMax = playerController.healthMax;
