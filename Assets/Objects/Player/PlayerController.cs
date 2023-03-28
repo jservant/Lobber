@@ -20,8 +20,8 @@ public class PlayerController : MonoBehaviour {
 			               new QueueInfo(0.0f, 1.0f, Attacks.ShotgunThrow), // Mod Throw
 			               new QueueInfo(0.0f, 1.0f, Attacks.LethalDash)}, // Mod Dash
 		// When in LAttack
-		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
-			               new QueueInfo(0.3f, 1.0f, Attacks.LAttack2), // Light Attack
+		new QueueInfo[]{ new QueueInfo(0.0f, 0f, Attacks.None), // None
+			               new QueueInfo(0.0f, 1.0f, Attacks.LAttack2), // Light Attack
 			               new QueueInfo(0.3f, 1.0f, Attacks.Chop), // Heavy Attack
 			               new QueueInfo(0.3f, 1.0f, Attacks.HeadThrow), // Throw
 			               new QueueInfo(0.0f, 1.0f, Attacks.Dashing), // Dash
@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour {
 			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Mod Dash
 		// When in LAttack3
 		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Light Attack
+			               new QueueInfo(0.3f, 1.0f, Attacks.LAttack), // Light Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Heavy Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Throw
 			               new QueueInfo(0.0f, 1.0f, Attacks.Dashing), // Dash
