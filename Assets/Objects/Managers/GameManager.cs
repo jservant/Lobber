@@ -9,7 +9,7 @@ using TMPro;
 public class GameManager : MonoBehaviour {
 	public Transform player;
 	public PlayerController playerController;
-
+	[Header("UI")]
 	public Canvas mainUI;
 	public Canvas pauseBG;
 	public Button resumeButton;
@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour {
 	public TMP_Text statusTextboxText;
 	public Transform healthBar;
 	public Transform meterBar;
-
+	[Header("Prefabs:")]
 	public GameObject PlayerPrefab;
 	public HeadProjectile SkullPrefab;
 	public GameObject EnemyPrefab;
@@ -29,11 +29,14 @@ public class GameManager : MonoBehaviour {
 	public int enemiesKilled = 0;
 
 	bool transitioningLevel = false;
-
+	[Header("Bools:")]
 	public bool updateTimeScale = true;
 	public bool canSpawn = true;
 	DebugActions dActions;
 	float frozenTime = 0;
+
+	[Header("Particle System:")]
+	public ParticleSystem[] particles;
 
 	void Awake() {
 		player = transform.Find("/Player");
@@ -139,6 +142,15 @@ public class GameManager : MonoBehaviour {
 	public void FreezeFrames(int Frames60) {
 		frozenTime += (float)(Frames60) / 60.0f;
 	}
+	public void SpawnParticle(int particleID, Vector3 position, float lifetime) {
+		ParticleSystem particle = particles[particleID];
+		var TempParticle = Instantiate(particle, position, Quaternion.identity);
+		StartCoroutine(DestroyParticle(particle, lifetime));
+    }
+	IEnumerator DestroyParticle(ParticleSystem temp, float duration) {
+		yield return new WaitForSeconds(duration);
+		Destroy(temp.gameObject);
+    }
 	public void UpdateHealthBar() {
 		float healthMax = playerController.healthMax;
 		float health = playerController.health;
