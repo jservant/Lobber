@@ -392,7 +392,7 @@ public class PlayerController : MonoBehaviour {
 
 		bool isNextValid = Next.fullPathHash != 0;
 
-		if (transform.position.y <= -50f) {
+		if (transform.position.y <= -20f) {
 			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 		}
 
@@ -658,7 +658,7 @@ public class PlayerController : MonoBehaviour {
 		ChangeMeter(-1);
 		SetupHoming();
 		//freeAim = false;
-		headProj.speed = 100f;
+		headProj.speed = 50f;
 		headProj.canStun = true;
 		Instantiate(headProj, projSpawn.position, transform.rotation);
 	}
@@ -666,12 +666,13 @@ public class PlayerController : MonoBehaviour {
 	public void ShotgunThrow() { // triggered in animator
 		SetupHoming();
 		headProj.speed = 50f;
-		headProj.canStun = false;
+		headProj.canStun = true;
 		//freeAim = false;
 		Instantiate(headProj, projSpawn.position, transform.rotation);
-		for (int i = 0; i < shotgunProjSpawns.Length; i++) {
-			Instantiate(headProj, shotgunProjSpawns[i].position, transform.rotation);
+		for (int i = 1; i < shotgunProjSpawns.Length; i++) { // i starts at 1 to ignore the parent object
+			Instantiate(headProj, shotgunProjSpawns[i].position, shotgunProjSpawns[i].localRotation * transform.rotation);
 		}
+		// BUG: Spawns an extra proj further behind?
 	}
 
 	public void StartHoming(float time) { // called in animator; starts the homing lerp in FixedUpdate()
