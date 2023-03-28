@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using TMPro;
 
 public class GameManager : MonoBehaviour {
@@ -11,6 +12,7 @@ public class GameManager : MonoBehaviour {
 
 	public Canvas mainUI;
 	public Canvas pauseBG;
+	public Button resumeButton;
 	public Canvas pauseUI;
 	public Canvas optionsUI;
 	public TMP_Text statusTextboxText;
@@ -43,8 +45,9 @@ public class GameManager : MonoBehaviour {
 		eSpawn = GameObject.Find("EnemySpawns");
 		eSpawns = eSpawn.GetComponentsInChildren<OrbSpawn>();
 		dActions = new DebugActions();
-		pauseBG = transform.Find("MainUI").GetComponent<Canvas>();
+		mainUI = transform.Find("MainUI").GetComponent<Canvas>();
 		pauseBG = transform.Find("PauseBG").GetComponent<Canvas>();
+		resumeButton = transform.Find("PauseUI/ResumeButton").GetComponent<Button>();
 		pauseUI = transform.Find("PauseUI").GetComponent<Canvas>();
 		optionsUI = transform.Find("OptionsUI").GetComponent<Canvas>();
 		statusTextboxText = transform.Find("StatusTextbox/StatusTextboxText").GetComponent<TMP_Text>();
@@ -84,10 +87,12 @@ public class GameManager : MonoBehaviour {
 
 		if (playerController.pActions.Player.Pause.WasPerformedThisFrame()) {
 			if (optionsUI.enabled == true) {
+				resumeButton.Select();
 				pauseUI.enabled = true;
 				optionsUI.enabled = false;
 			}
 			else if (pauseUI.enabled == false) {
+				resumeButton.Select();
 				updateTimeScale = false;
 				Time.timeScale = 0;
 				pauseBG.enabled = true;
