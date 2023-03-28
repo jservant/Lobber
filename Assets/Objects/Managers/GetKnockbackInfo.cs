@@ -13,6 +13,11 @@ public class KnockbackInfo {
 		this.force = force;
 		this.time = time;
 	}
+	public KnockbackInfo(KnockbackInfo info) {
+		this.direction = info.direction;
+		this.force = info.force;
+		this.time = info.time;
+	}
 }
 
 public class GetKnockbackInfo : MonoBehaviour {
@@ -27,7 +32,7 @@ public class GetKnockbackInfo : MonoBehaviour {
 	public GameObject linkedObject;
 
 	public KnockbackInfo GetInfo(GameObject referenceObject) {
-		KnockbackInfo knockbackInfo = constantInfo;
+		KnockbackInfo knockbackInfo = new KnockbackInfo(constantInfo);
 		switch (infoSource) {
 			default:
 				Debug.Assert(false);
