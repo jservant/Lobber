@@ -251,8 +251,8 @@ public class Basic : MonoBehaviour {
 								health -= 1;
 								ChangeDirective_Stunned(1.0f, knockBackDir, 10.0f);
 							}
-
 							break;
+
 						case PlayerController.Attacks.LAttack2:
 							if (fullAxe) {
 								health -= 0.5f;
@@ -262,8 +262,8 @@ public class Basic : MonoBehaviour {
 								health -= 1;
 								ChangeDirective_Stunned(1.0f, knockBackDir, 10.0f);
 							}
-
 							break;
+
 						case PlayerController.Attacks.LAttack3:
 							if (fullAxe) {
 								health -= 1;
@@ -273,9 +273,8 @@ public class Basic : MonoBehaviour {
 								health -= 2;
 								ChangeDirective_Stunned(1.0f, knockBackDir, 30.0f);
 							}
-
-							ChangeDirective_Stunned(3.0f, knockBackDir, 20.0f);
 							break;
+
 						case PlayerController.Attacks.Spin:
 							if (fullAxe) {
 								health -= 1;
@@ -285,9 +284,8 @@ public class Basic : MonoBehaviour {
 								health -= 2;
 								ChangeDirective_Stunned(1.0f, knockBackDir, 30.0f);
 							}
-
-							ChangeDirective_Stunned(3.0f, knockBackDir, 20.0f);
 							break;
+
 						case PlayerController.Attacks.LethalDash:
 							if (fullAxe) {
 								health -= 1;
@@ -297,19 +295,19 @@ public class Basic : MonoBehaviour {
 								health -= 2;
 								ChangeDirective_Stunned(1.0f, knockBackDir, 30.0f);
 							}
-
-							ChangeDirective_Stunned(3.0f, knockBackDir, 20.0f);
 							break;
+
 						case PlayerController.Attacks.Slam:
 							shouldDie = true;
-
 							break;
+
 						case PlayerController.Attacks.Chop:
 							shouldDie = true;
 							player.ChangeMeter(1);
 
 							dropChance = 0;
 							break;
+
 						default:
 							Debug.Log("I, " + this.name + " was hit by an unhandled attack (" + gameMan.playerController.currentAttack + ")");
 							break;
