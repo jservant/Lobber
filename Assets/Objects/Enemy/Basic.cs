@@ -99,6 +99,7 @@ public class Basic : MonoBehaviour {
 	public float dropChance; //chance to drop a head (0-100)
 	KnockbackInfo knockbackInfo;
 	float remainingKnockbackTime = 0f;
+	[SerializeField] float hitflashTimer = 0f;
 
 	[SerializeField] bool isSandbag = false;
 	bool isImmune = false;
@@ -118,6 +119,10 @@ public class Basic : MonoBehaviour {
 	Animator animator;
 	BoxCollider swordHitbox;
 	EnemyCommunication enemyCommunication;
+
+	SkinnedMeshRenderer model;
+	Material[] materials;
+	public Material hitflashMat;
 
 	// NOTE(Roskuski): External references
 	GameManager gameMan;
@@ -315,6 +320,10 @@ public class Basic : MonoBehaviour {
 					shouldDie = true;
 					Debug.Log("Head Hit");
 				}
+				hitflashTimer = 0.25f;
+				/*for (int i = 0; i < model.materials.Length; i++) {
+					model.materials[i] = hitflashMat;
+				}*/
 			}
 
 			if (other.gameObject.layer == (int)Layers.TrapHitbox) {
@@ -324,7 +333,6 @@ public class Basic : MonoBehaviour {
 				//Quaternion knockBackDir = Quaternion.LookRotation(this.transform.position - other.transform.position);
 				//ChangeDirective_Stunned(6.0f, knockBackDir, 20.0f);
 			}
-
 		}
 	}
 
@@ -355,6 +363,9 @@ public class Basic : MonoBehaviour {
 		directive = Directive.Spawn;
 		if (isSandbag) { directive = Directive.Sandbag; }
 		animationTimer = animationTimes["Enemy_Spawn"];
+
+		model = transform.Find("Skeleton_Base_Model").GetComponent<SkinnedMeshRenderer>();
+		materials = model.materials;
 	}
 
 	void Update() {
@@ -362,6 +373,18 @@ public class Basic : MonoBehaviour {
 		Quaternion playerRotation = gameMan.player.rotation;
 		Vector3 deltaToPlayer = gameMan.player.position - this.transform.position;
 		float distanceToPlayer = Vector3.Distance(this.transform.position, gameMan.player.position);
+
+		hitflashTimer -= Time.deltaTime;
+		Material[] materialList = model.materials;
+		for (int i = 0; i < materialList.Length; i++) {
+			if (hitflashTimer > 0) {
+				materialList[i] = hitflashMat;
+			}
+			else {
+				materialList[i] = materials[i];
+			}
+		}
+		model.materials = materialList;
 
 		// Processing information from other enemies
 		for (int index = 0; index < enemyCommunication.nearbyAttacker; index += 1) {
