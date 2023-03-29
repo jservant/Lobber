@@ -100,6 +100,50 @@ MonoBehaviour:
   choiceTimer: 3
   attackCooldown: 0
   isSandbag: 0
+--- !u!114 &4067389388746580224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2369981039474322611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a34dbde4c70446268df0b4536cbd6d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlaySkelFS:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: b6a003606cc8046f9b023141ebc6cb94, type: 2}
+  PlaySkelDash:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: ce3fcf2da01094012a8bd2dfe8fc06d4, type: 2}
+  PlaySkelSlash:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 62e7553af0d8044099390f36ab2134b3, type: 2}
+  PlaySkelGetHit:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: be4a13fc4f1f44437b86d91577367e15, type: 2}
+  PlaySkelDeath:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 12aa64c0fdb0444e59fc48420fa062c4, type: 2}
+  PlaySkelJump:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: f7b68be2833ed4fd4b009d6081444971, type: 2}
+  PlaySkelLand:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: e3fbf98ef919d4760953faae8ac53140, type: 2}
+  PlaySkelVO:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 5f25c72a6ddf546b58b0e461a83d683c, type: 2}
 --- !u!65 &8459446309741295490
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -391,6 +435,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 704d8254c7db7e443a2111a7cbf6b427, type: 3}
       propertyPath: m_Layer
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 704d8254c7db7e443a2111a7cbf6b427, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2039357840564894051, guid: 704d8254c7db7e443a2111a7cbf6b427, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

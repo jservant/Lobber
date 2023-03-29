@@ -27,12 +27,12 @@
 								</Action>
 							</ChildrenList>
 						</Event>
-						<Event Name="player_attack" ID="{60130E8F-E0D2-49A8-947E-43F394A32CB4}">
+						<Event Name="player_attack1" ID="{60130E8F-E0D2-49A8-947E-43F394A32CB4}">
 							<ChildrenList>
 								<Action Name="" ID="{54ACFADA-AB4B-4A28-8D17-43CC2464BA10}" ShortID="388885697">
 									<ReferenceList>
 										<Reference Name="Target">
-											<ObjectRef Name="player_attack" ID="{DBD26747-9259-4F13-BD71-D6F29ED834BB}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
+											<ObjectRef Name="player_attack1" ID="{DBD26747-9259-4F13-BD71-D6F29ED834BB}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>
@@ -40,10 +40,43 @@
 						</Event>
 						<Event Name="player_gethit" ID="{90DBCC80-6A25-427D-BE22-02FC1F1F4E63}">
 							<ChildrenList>
-								<Action Name="" ID="{751B27E3-71B2-4668-8DBD-01F7E1F87297}" ShortID="151150051">
+								<Action Name="" ID="{BE2587BC-F61C-45DB-A917-9C036F20544E}" ShortID="57000187">
 									<ReferenceList>
 										<Reference Name="Target">
-											<ObjectRef Name="player_gethit" ID="{B646C873-31C3-4F92-B6BF-9DFDFB00D1C8}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
+											<ObjectRef Name="player_gethit" ID="{DE599947-D662-4006-B2CF-DB9E3D803FF7}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="player_attack2" ID="{9311D467-85D6-4D0E-B4B7-E9F9282A1C98}">
+							<ChildrenList>
+								<Action Name="" ID="{81393CB0-0CA4-4866-B064-92E10F9BEB41}" ShortID="973212919">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="player_attack2" ID="{8DC717AB-814B-45B7-999F-B39919646C92}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="player_chop" ID="{B0BE1E37-652F-4CD7-97DE-B58C112F8B22}">
+							<ChildrenList>
+								<Action Name="" ID="{E4A5CCDB-466A-44BD-BF6F-7415C7D9EB2C}" ShortID="287145543">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="player_chop_01" ID="{F4B1DA18-4837-4C21-8104-C4EBD622A6AF}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="player_lob" ID="{4E8EA4D9-5740-4015-B060-5C21EBD67C79}">
+							<ChildrenList>
+								<Action Name="" ID="{B4EAF4A2-6945-4E72-98CD-A4D9F863F4F4}" ShortID="1036084953">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="player_lob_01" ID="{C278177B-B696-4BAA-A0F6-F534AC7B1267}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>
@@ -66,10 +99,10 @@
 						</Event>
 						<Event Name="skel_gethit" ID="{4C7DF688-1005-49BB-88CA-F4B1CBAEDEF8}">
 							<ChildrenList>
-								<Action Name="" ID="{128D573D-B75E-492A-A013-D6A612A62E76}" ShortID="998252938">
+								<Action Name="" ID="{1355AA83-0DC5-493B-B24B-9F44A3613F35}" ShortID="1061825415">
 									<ReferenceList>
 										<Reference Name="Target">
-											<ObjectRef Name="skel_gethit" ID="{316C272D-09B9-42C9-A4E5-4462090035C7}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
+											<ObjectRef Name="skel_gethit" ID="{85C47098-4E76-41EA-A07D-E59304A9470D}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>
@@ -92,6 +125,50 @@
 									<ReferenceList>
 										<Reference Name="Target">
 											<ObjectRef Name="skel_spawn_land" ID="{60AB8ABE-1336-4FA1-BC42-91A701945952}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="skel_dash" ID="{F659A0E8-FEE6-47CA-9159-BC138C899C24}">
+							<ChildrenList>
+								<Action Name="" ID="{FF13A24D-2EBF-4F91-A248-80C51A7D64FA}" ShortID="199541525">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="skel_dash" ID="{8B271BED-0A5B-4EA0-9B68-4B87E67FA8C3}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="skel_slash" ID="{186CC885-6EE0-42D9-945D-DB19DDAE0AE4}">
+							<ChildrenList>
+								<Action Name="" ID="{575892CA-958E-4324-A7B5-BDD7298143E0}" ShortID="1041164572">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="skel_slash" ID="{181860BB-B83A-4EF9-9923-33A4CA463B1D}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="skel_vo" ID="{AC4550B3-CD0D-4EB8-B751-B023C9E03F64}">
+							<ChildrenList>
+								<Action Name="" ID="{6ABA8CAB-5CD5-4B21-BC81-C41A9DF567DF}" ShortID="856556497">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="skel_vo" ID="{1AD2D76C-7ED1-493B-8028-F534ADC87AC8}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="skel_death" ID="{AF87CDAA-C969-4472-85EA-49339C24A348}">
+							<ChildrenList>
+								<Action Name="" ID="{695C9225-5EEB-4E5D-8C46-65FC9DBC63F2}" ShortID="37408450">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="skel_death_01" ID="{506BAB70-4FBC-4E4A-865D-59C7896753BF}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>
