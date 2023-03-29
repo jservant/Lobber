@@ -272,62 +272,6 @@ public class PlayerController : MonoBehaviour {
 		tsr = targetSphereRadius;
 	}
 
-	void PreformedCheckedMovement(Vector3 translationDelta, int depthCount = 0) {
-		depthCount += 1;
-
-		// @NOTE(Roskuski): This avoids a infinite recursion, which would somehow lead to a crash.
-		// @TODO(Roskuski): This leads me to believe that when this function does get into a state where it would infinitly recurse that it's values get out of control, leading to the crash, as it seems that unity can handle the infinite recursion "fine".
-		// The crash happens on a assertion falure in SphereCast
-		// It appears that translationDelta arrives at zero and then infinitely recurses. This early out should pervent infinite loops
-		if (translationDelta == Vector3.zero) {
-			return;
-		}
-
-		RaycastHit hitInfo;
-		float checkDistance = translationDelta.magnitude > 0.1f ? translationDelta.magnitude : 0.1f;
-		if (Physics.SphereCast(this.transform.position + Vector3.up * (0.75f), 0.5f, translationDelta, out hitInfo, checkDistance) && (hitInfo.collider.isTrigger == false)) {
-
-			// Move up to the wall, with a safe distance
-			Vector3 hitDelta = hitInfo.point - this.transform.position;
-			Vector3 hitMove = (new Vector3 (hitDelta.x, 0, hitDelta.y) * translationDelta.magnitude) - translationDelta.normalized * 0.5f;
-			bool tookParticalMove = false;
-			if (Vector3.Dot(hitDelta, translationDelta) >= 0.9f) {
-				tookParticalMove = true;
-				this.transform.position += hitMove;
-			}
-
-			// Account for the distance we have already moved
-			Vector3 remainingMove = translationDelta;
-			if (tookParticalMove) {
-				remainingMove = remainingMove - hitMove;
-			}
-
-			// figure out if we want to slide left or right
-			float leftScore = Vector3.Dot(Quaternion.AngleAxis(-90, Vector3.up) * hitInfo.normal, remainingMove);
-			float rightScore = Vector3.Dot(Quaternion.AngleAxis(90, Vector3.up) * hitInfo.normal, remainingMove);
-
-			float angleToSlide = 90;
-			if (leftScore > rightScore) {
-				angleToSlide = -90;
-			}
-
-			// clip our movement in the direction of the opposite normal of the wall
-			float angleToRight = Vector3.SignedAngle(hitInfo.normal, Vector3.right, Vector3.up);
-			remainingMove = Quaternion.AngleAxis(angleToRight, Vector3.up) * remainingMove;
-			remainingMove.x = 0;
-			remainingMove = Quaternion.AngleAxis(-angleToRight, Vector3.up) * remainingMove;
-
-			// calculate the new movement after clipping
-			Vector3 remainingDelta = Quaternion.AngleAxis(angleToSlide, Vector3.up) * hitInfo.normal * remainingMove.magnitude;
-			
-			// attempt to do that move successfully
-			PreformedCheckedMovement(remainingDelta, depthCount); // @TODO(Roskuski): There is a realistic chance that this enters into a infinite recursion. thankfully unity should continue to chug along even in the case of this.
-		}
-		else {
-			this.transform.position += translationDelta;
-		}
-	}
-
 	private void FixedUpdate() { // calculate movement here
 		// accel/decel for movement
 		if (mInput != Vector2.zero && currentState == States.Attacking) { speedTime -= (Time.fixedDeltaTime / attackDecelModifier); }
@@ -385,18 +329,13 @@ public class PlayerController : MonoBehaviour {
 			translationDelta = (moveDelta * moveWeight + knockbackDelta * knockbackWeight) * Time.fixedDeltaTime;
 		}
 
-		PreformedCheckedMovement(translationDelta);
-		
-		if (currentAttack != Attacks.Dashing) {
-			RaycastHit hitInfo;
-			if (Physics.SphereCast(transform.position + Vector3.up * 0.75f, 0.5f, Vector3.down, out hitInfo, 0.75f, Mask.Get(Layers.Ground)) && (hitInfo.collider.isTrigger == false)) {
-				float distanceToGround = hitInfo.distance - 0.75f + 0.5f;
-				transform.position -= new Vector3(0, distanceToGround, 0);
-			}
-			else {
-				transform.position -= new Vector3(0, 30f, 0) * Time.fixedDeltaTime;
-			}
+		Util.PreformCheckedLateralMovement(gameObject, 0.75f, 0.5f, translationDelta);
+
+		float fallingSpeed = 30.0f;
+		if (currentAttack == Attacks.Dashing) {
+			fallingSpeed = 0.0f;
 		}
+		Util.PreformCheckedVerticalMovement(gameObject, 0.75f, 0.2f, 0.5f, fallingSpeed);
 
 		if (freeAim) {
 			if (rAimInput != Vector2.zero) {

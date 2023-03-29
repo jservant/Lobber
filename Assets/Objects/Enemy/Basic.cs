@@ -397,12 +397,12 @@ public class Basic : MonoBehaviour {
 			swordHitbox.enabled = false;
 		}
 
+		Vector3 movementDelta = Vector3.zero; 
 		// Preform knockback regardless of what we want to do
 		if (remainingKnockbackTime > 0) {
 			remainingKnockbackTime -= Time.deltaTime;
-			transform.position += knockbackInfo.direction * Vector3.forward * knockbackInfo.force * Mathf.Lerp(1, 0, Mathf.Clamp01(Mathf.Pow((remainingKnockbackTime/knockbackInfo.time), 2))) * Time.deltaTime;
+			movementDelta += knockbackInfo.direction * Vector3.forward * knockbackInfo.force * Mathf.Lerp(1, 0, Mathf.Clamp01(Mathf.Pow((remainingKnockbackTime/knockbackInfo.time), 2))) * Time.deltaTime;
 		}
-
 
 		// Directive Changing
 		switch (directive) {
@@ -689,7 +689,7 @@ public class Basic : MonoBehaviour {
 					speedModifier = Mathf.Lerp(0.5f, 1, (Vector3.Distance(this.transform.position, playerPosition + targetOffset) - approchDistance) + 1);
 				}
 
-				this.transform.position += moveDirection * Vector3.forward * MoveSpeed * speedModifier * Time.deltaTime;
+				movementDelta += moveDirection * Vector3.forward * MoveSpeed * speedModifier * Time.deltaTime;
 				{
 					Quaternion rotationDelta = moveDirection * Quaternion.Inverse(this.transform.rotation);
 					Vector3 animatorMove = rotationDelta * Vector3.back;
@@ -848,7 +848,7 @@ public class Basic : MonoBehaviour {
 							}
 
 							if (animationTimerRatio >= 0.45f && animationTimerRatio <= 0.8f) {
-								this.transform.position += (this.transform.rotation * Vector3.forward) * LungeSpeed * Time.deltaTime;
+								movementDelta += (this.transform.rotation * Vector3.forward) * LungeSpeed * Time.deltaTime;
 							}
 
 							if (animationTimer < 0.0f) {
@@ -862,6 +862,9 @@ public class Basic : MonoBehaviour {
 				break;
 			default: Debug.Assert(false); break;
 		}
+
+		Util.PreformCheckedLateralMovement(this.gameObject, 0.75f, 0.5f, movementDelta); // Lateral movement
+		Util.PreformCheckedVerticalMovement(this.gameObject, 0.75f, 0.2f, 0.5f, 30.0f);
 
 		animator.SetInteger("Ai Directive", (int)directive);
 		animationTimer -= Time.deltaTime * animator.GetCurrentAnimatorStateInfo(0).speed;
