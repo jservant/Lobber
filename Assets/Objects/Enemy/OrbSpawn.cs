@@ -35,7 +35,7 @@ public class OrbSpawn : MonoBehaviour {
 		}
 		yield return new WaitForSeconds(despawnTime / 2);
 		anim.SetBool("DeSpawn", true);
-		yield return new WaitForSeconds(0.5f);
+		yield return new WaitForSeconds(0.4f);
 		orbPrefab.SetActive(false);
 		gameMan.canSpawn = true;
 	}
