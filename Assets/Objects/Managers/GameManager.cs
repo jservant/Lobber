@@ -62,9 +62,9 @@ public class GameManager : MonoBehaviour {
 		enemies = new List<GameObject>();
 
 		if (canSpawn) for (int i = 0; i < eSpawns.Length; i++) {
-			eSpawns[i].spawnNow = true;
-				break;
-		}
+                eSpawns[i].spawnNow = true;
+                break;
+            }
 	}
 
 	private void Update() {

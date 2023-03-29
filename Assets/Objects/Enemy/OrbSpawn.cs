@@ -17,15 +17,16 @@ public class OrbSpawn : MonoBehaviour {
 		anim = orbPrefab.GetComponent<Animator>();
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 	}
+    void Update()
+    {
+        if (spawnNow == true)
+        {
+            spawnNow = false;
+            StartCoroutine(Spawning(despawnTime));
+        }
+    }
 
-	void Update() {
-		if (spawnNow == true) {
-			spawnNow = false;
-			StartCoroutine(Spawning(despawnTime));
-		}
-	}
-
-	IEnumerator Spawning(float despawnTime) {
+    public IEnumerator Spawning(float despawnTime) {
 		orbPrefab.SetActive(true);
 		if (gameMan.canSpawn == true) gameMan.canSpawn = false;
 		yield return new WaitForSeconds(despawnTime / 2);
