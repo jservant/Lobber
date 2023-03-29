@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7469963523536613356
+--- !u!114 &-395610959523730211
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: InvertedHullWhite
-  m_Shader: {fileID: -6465566751694194690, guid: e7be1666f25a29e44be1a215232619a1, type: 3}
+  m_Name: Sparkly_Stars
+  m_Shader: {fileID: -6465566751694194690, guid: da49f9ef219f6a2418b3080831f98ad8, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -89,7 +89,17 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_5ce37151379c4a07b6dd2f081afde940: 0.02
+    - BaseScale_: 5
+    - BaseSpeed_: 0.2
+    - NoiseEdge2_: 2
+    - NoiseEdge_: 0
+    - NoiseHeight_: 0.68
+    - NoisePower_: -0.34
+    - NoiseScale_: 150
+    - NoiseSpeed_: 0.01
+    - ScrollSpeed_: 0.003
+    - Vector1_36b35e05cbe84d8981b2216aef930e11: 5
+    - Vector1_9e34d5005c854944bfddcf7e2f9fd13f: -0.2
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -117,8 +127,9 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_be8562ad795e4c2fb3a10aba758fa4b2: {r: 1, g: 1, b: 1, a: 0}
-    - Emission_: {r: 148.5804, g: 0, b: 256, a: 0}
+    - InnerColor_: {r: 1, g: 1, b: 1, a: 0}
+    - NoiseRemap_: {r: 0, g: 1, b: -1, a: 1}
+    - OuterColor_: {r: 2.2564461, g: 0, b: 2.7205372, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
