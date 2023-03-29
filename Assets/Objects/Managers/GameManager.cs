@@ -61,7 +61,11 @@ public class GameManager : MonoBehaviour {
 
 		enemies = new List<GameObject>();
 
-		if (canSpawn) for (int i = 0; i < eSpawns.Length; i++) {
+		/*if (canSpawn) {
+			eSpawns[Random.Range(0, eSpawns.Length)].spawnNow = true;
+		}*/
+
+		for (int i = 0; i < eSpawns.Length; i++) {
 			eSpawns[i].spawnNow = true;
 		}
 	}
