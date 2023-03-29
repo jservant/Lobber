@@ -191,6 +191,9 @@ public class PlayerController : MonoBehaviour {
 	//List<GameObject> enemiesHit;
 	public DefaultPlayerActions pActions;
 	GetKnockbackInfo axeGetKnockbackInfo;
+	SkinnedMeshRenderer model;
+	Material[] materials;
+	public Material hitflashMat;
 
 	[Header("Movement:")]
 	public Vector2 trueInput;							// movement vector read from left stick
@@ -219,6 +222,7 @@ public class PlayerController : MonoBehaviour {
 	public int health = 0;
 	public float meter = 0;
 	public float meterMax = 5;
+	public float hitflashTimer = 0;
 
 	KnockbackInfo knockbackInfo = new KnockbackInfo(Quaternion.identity, 0, 0);
 	float remainingKnockbackTime;
@@ -244,6 +248,8 @@ public class PlayerController : MonoBehaviour {
 		rb = GetComponent<Rigidbody>();
 		animr = GetComponent<Animator>();
 		pActions = new DefaultPlayerActions();
+		model = transform.Find("Lobber").GetComponent<SkinnedMeshRenderer>();
+		materials = model.materials;
 
 		headMesh = transform.Find("Weapon_Controller/Hitbox/StoredHead").GetComponent<MeshRenderer>();
 		headMeshTrail = transform.Find("Weapon_Controller/Hitbox/StoredHead").GetComponent<TrailRenderer>();
@@ -365,6 +371,18 @@ public class PlayerController : MonoBehaviour {
 		if (health > healthMax) { health = healthMax; }
 		if (meter > meterMax) { meter = meterMax; }
 
+		hitflashTimer -= Time.deltaTime;
+		Material[] materialList = model.materials;
+		for (int i = 0; i < materialList.Length; i++) {
+			if (hitflashTimer > 0) {
+				materialList[i] = hitflashMat;
+			}
+			else {
+				materialList[i] = materials[i];
+			}
+		}
+		model.materials = materialList;
+
 		if (currentState != States.Death) {
 			if (currentState != States.Attacking) {
 				mInput = pActions.Player.Move.ReadValue<Vector2>();
@@ -478,6 +496,7 @@ public class PlayerController : MonoBehaviour {
 				remainingKnockbackTime = knockbackInfo.time;
 				float healthPercentage = (float)health / (float)healthMax;
 				spotLight.intensity = 50f * (healthPercentage);
+				hitflashTimer = 0.15f;
 				//Debug.Log("Spotlight intensity should be ", 50f * healthPercentage);
 				Debug.Log("OWIE " + other.name + " JUST HIT ME! I have " + health + " health");
 			}
