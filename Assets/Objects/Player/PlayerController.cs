@@ -561,11 +561,11 @@ public class PlayerController : MonoBehaviour {
 		}
 		else if (attack == Attacks.Chop) {
 			freeAim = true;
-		} else if (attack == Attacks.Spin) { ChangeMeter(0); 
-		} else if (attack == Attacks.Slam) { ChangeMeter(0);  //-meterMax
-		} else if (attack == Attacks.ShotgunThrow) { ChangeMeter(-3); 
-		} else if (attack == Attacks.LethalDash) { setupHoming = false; ChangeMeter(-2); 
-		} else if (attack == Attacks.Dashing) { setupHoming = false; }
+		} else if (attack == Attacks.Spin) { /*ChangeMeter(0);*/ }
+		else if (attack == Attacks.Slam) { ChangeMeter(0); } //-meterMax
+		else if (attack == Attacks.ShotgunThrow) { ChangeMeter(-3);}
+		else if (attack == Attacks.LethalDash) { setupHoming = false; ChangeMeter(-2);}
+		else if (attack == Attacks.Dashing) { setupHoming = false; }
 
 		animr.SetInteger("currentAttack", (int)attack);
 		currentAttack = attack;
