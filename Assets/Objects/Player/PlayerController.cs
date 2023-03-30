@@ -310,12 +310,15 @@ public class PlayerController : MonoBehaviour {
 		}
 		else {
 			Vector3 moveDelta;
-			if (currentAttack == Attacks.Dashing) {
+			if (currentAttack == Attacks.Dashing || currentAttack == Attacks.LethalDash) {
+				Debug.Log("ding ding ding the dash code is working");
+
 				dashTime += Time.fixedDeltaTime;
 				this.transform.rotation = Quaternion.Euler(0f, trueAngle, 0f);
 				Vector3 dashDirection = Quaternion.Euler(0f, trueAngle, 0f) * Vector3.forward;
-				moveDelta = dashDirection.normalized * (dashForce * Mathf.Lerp(0, 1, dashCurve.Evaluate(dashTime / animationTimes["Character_Roll"])));
-				if (dashTime >= animationTimes["Character_Roll"]) {
+				moveDelta = dashDirection.normalized * (dashForce * Mathf.Lerp(0, 1, dashCurve.Evaluate(dashTime /
+					animationTimes[currentAttack == Attacks.LethalDash ? "Character_Lethal_Dash" : "Character_Roll"])));
+				if (dashTime >= animationTimes[currentAttack == Attacks.LethalDash ? "Character_Lethal_Dash" : "Character_Roll"]) {
 					currentState = States.Idle;
 					trueAngle = 0;
 					currentAttack = 0;
@@ -340,7 +343,7 @@ public class PlayerController : MonoBehaviour {
 		Util.PreformCheckedLateralMovement(gameObject, 0.75f, 0.5f, translationDelta);
 
 		float fallingSpeed = 30.0f;
-		if (currentAttack == Attacks.Dashing) {
+		if (currentAttack == Attacks.Dashing || currentAttack == Attacks.LethalDash) {
 			fallingSpeed = 0.0f;
 		}
 		Util.PreformCheckedVerticalMovement(gameObject, 0.75f, 0.2f, 0.5f, fallingSpeed);
@@ -424,20 +427,17 @@ public class PlayerController : MonoBehaviour {
 			if (meter >= 3f && pActions.Player.Throw.WasPerformedThisFrame() && pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
 				attackButtonPrep = AttackButton.ModThrow;
 			}
-			if (pActions.Player.Dash.WasPerformedThisFrame() && trueInput.sqrMagnitude >= 0.1f && dashCooldown <= 0f) {
-				attackButtonPrep = AttackButton.Dash;
-				dashTime = 0;
-				dashCooldown = maxDashCooldown;
-				trueAngle = Mathf.Atan2(trueInput.x, trueInput.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
-			}
-			if (pActions.Player.MeterModifier.phase == InputActionPhase.Performed && pActions.Player.Dash.WasPerformedThisFrame() &&
-				trueInput.sqrMagnitude >= 0.1f && dashCooldown <= 0f && meter >= 2f) {
+		
+			if (meter >= 2f && pActions.Player.Dash.WasPerformedThisFrame() && pActions.Player.MeterModifier.phase == InputActionPhase.Performed &&
+				trueInput.sqrMagnitude >= 0.1f && dashCooldown <= 0f) {
 					attackButtonPrep = AttackButton.ModDash;
 					dashTime = 0;
 					dashCooldown = maxDashCooldown;
 					trueAngle = Mathf.Atan2(trueInput.x, trueInput.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
-			}
-			if (queuedAttack == Attacks.Dashing || queuedAttack == Attacks.LethalDash) {
+			} else if (pActions.Player.Dash.WasPerformedThisFrame() && trueInput.sqrMagnitude >= 0.1f && dashCooldown <= 0f) {
+				attackButtonPrep = AttackButton.Dash;
+				dashTime = 0;
+				dashCooldown = maxDashCooldown;
 				trueAngle = Mathf.Atan2(trueInput.x, trueInput.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
 			}
 
@@ -450,7 +450,9 @@ public class PlayerController : MonoBehaviour {
 					}
 				}
 			}
-
+			if (queuedAttack == Attacks.Dashing || queuedAttack == Attacks.LethalDash) {
+				trueAngle = Mathf.Atan2(trueInput.x, trueInput.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
+			}
 			animr.SetInteger("prepAttack", (int)queuedAttack);
 
 			// animator controller
@@ -562,7 +564,8 @@ public class PlayerController : MonoBehaviour {
 		} else if (attack == Attacks.Spin) { ChangeMeter(-2); 
 		} else if (attack == Attacks.Slam) { ChangeMeter(0);  //-meterMax
 		} else if (attack == Attacks.ShotgunThrow) { ChangeMeter(-3); 
-		} else if (attack == Attacks.LethalDash) { ChangeMeter(-2); }
+		} else if (attack == Attacks.LethalDash) { setupHoming = false; ChangeMeter(-2); 
+		} else if (attack == Attacks.Dashing) { setupHoming = false; }
 
 		animr.SetInteger("currentAttack", (int)attack);
 		currentAttack = attack;
