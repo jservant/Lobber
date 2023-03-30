@@ -90,15 +90,21 @@ public class Util {
 		}
 	}
 
-	public static void PreformCheckedVerticalMovement(GameObject gameObject, float stepUpHeight, float stepDownHeight, float spherecastRadius, float fallingSpeed) {
+	public static bool PreformCheckedVerticalMovement(GameObject gameObject, float stepUpHeight, float stepDownHeight, float spherecastRadius, float fallingSpeed) {
+		bool result;
+
 		RaycastHit hitInfo;
 		if (Physics.SphereCast(gameObject.transform.position + Vector3.up * stepUpHeight, spherecastRadius, Vector3.down, out hitInfo, stepUpHeight + stepDownHeight, Mask.Get(Layers.Ground)) && (hitInfo.collider.isTrigger == false)) {
 			float distanceToGround = hitInfo.distance - stepUpHeight + spherecastRadius;
 			gameObject.transform.position -= new Vector3(0, distanceToGround, 0);
+			result = true;
 		}
 		else {
 			// @TODO(Roskuski): We should probably try to step up after we fall
 			gameObject.transform.position -= new Vector3(0, fallingSpeed, 0) * Time.deltaTime;
+			result = false;
 		}
+
+		return result;
 	}
 }
