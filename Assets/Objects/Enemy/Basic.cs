@@ -864,7 +864,7 @@ public class Basic : MonoBehaviour {
 		}
 
 		Util.PreformCheckedLateralMovement(this.gameObject, 0.75f, 0.5f, movementDelta); // Lateral movement
-		Util.PreformCheckedVerticalMovement(this.gameObject, 0.75f, 0.2f, 0.5f, 30.0f);
+		Util.PerformCheckedVerticalMovement(this.gameObject, 0.75f, 0.2f, 0.5f, 30.0f);
 
 		animator.SetInteger("Ai Directive", (int)directive);
 		animationTimer -= Time.deltaTime * animator.GetCurrentAnimatorStateInfo(0).speed;

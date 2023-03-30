@@ -14,6 +14,7 @@ public enum Layers : int {
 	Pickup,
 	TrapHitbox,
 	Ground,
+	BonePileProp,
 }
 
 public class Mask {
@@ -90,7 +91,7 @@ public class Util {
 		}
 	}
 
-	public static bool PreformCheckedVerticalMovement(GameObject gameObject, float stepUpHeight, float stepDownHeight, float spherecastRadius, float fallingSpeed) {
+	public static bool PerformCheckedVerticalMovement(GameObject gameObject, float stepUpHeight, float stepDownHeight, float spherecastRadius, float fallingSpeed) {
 		bool result;
 
 		RaycastHit hitInfo;

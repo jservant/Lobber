@@ -311,8 +311,6 @@ public class PlayerController : MonoBehaviour {
 		else {
 			Vector3 moveDelta;
 			if (currentAttack == Attacks.Dashing || currentAttack == Attacks.LethalDash) {
-				Debug.Log("ding ding ding the dash code is working");
-
 				dashTime += Time.fixedDeltaTime;
 				this.transform.rotation = Quaternion.Euler(0f, trueAngle, 0f);
 				Vector3 dashDirection = Quaternion.Euler(0f, trueAngle, 0f) * Vector3.forward;
@@ -346,7 +344,7 @@ public class PlayerController : MonoBehaviour {
 		if (currentAttack == Attacks.Dashing || currentAttack == Attacks.LethalDash) {
 			fallingSpeed = 0.0f;
 		}
-		Util.PreformCheckedVerticalMovement(gameObject, 0.75f, 0.2f, 0.5f, fallingSpeed);
+		Util.PerformCheckedVerticalMovement(gameObject, 0.75f, 0.2f, 0.5f, fallingSpeed);
 
 		if (freeAim) {
 			if (rAimInput != Vector2.zero) {
@@ -370,7 +368,8 @@ public class PlayerController : MonoBehaviour {
 		bool isNextValid = Next.fullPathHash != 0;
 
 		if (transform.position.y <= -20f) {
-			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+			transform.position = gameMan.eSpawns[Random.Range(0, gameMan.eSpawns.Length)].transform.position;
+			Hit(1, null);
 		}
 
 		if (health > healthMax) { health = healthMax; }
@@ -429,7 +428,7 @@ public class PlayerController : MonoBehaviour {
 			}
 		
 			if (meter >= 2f && pActions.Player.Dash.WasPerformedThisFrame() && pActions.Player.MeterModifier.phase == InputActionPhase.Performed &&
-				trueInput.sqrMagnitude >= 0.1f && dashCooldown <= 0f) {
+				trueInput.sqrMagnitude >= 0.1f && dashCooldown <= 0f ) { //&& Util.PerformCheckedVerticalMovement == true
 					attackButtonPrep = AttackButton.ModDash;
 					dashTime = 0;
 					dashCooldown = maxDashCooldown;
@@ -485,28 +484,14 @@ public class PlayerController : MonoBehaviour {
 	//@TODO(Jaden): Add i-frames and trigger hitstun state when hit
 	private void OnTriggerEnter(Collider other) {
 		if (other.gameObject.layer == (int)Layers.EnemyHitbox && vulnerable == true && remainingKnockbackTime <= 0) { // player is getting hit
-			currentAttack = Attacks.None;
-			animr.SetBool("isWalking", false);
-			animr.SetInteger("currentAttack", (int)Attacks.None);
-			animr.SetInteger("prepAttack", (int)AttackButton.None);
-			health--;
-			if (health <= 0) {
-				health = 0;
-				StartCoroutine(Death());
-			} else {
-				animr.SetTrigger("wasHurt");
-				currentState = States.Idle;
-				knockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
-				remainingKnockbackTime = knockbackInfo.time;
-				float healthPercentage = (float)health / (float)healthMax;
-				spotLight.intensity = 50f * (healthPercentage);
-				hitflashTimer = 0.15f;
-				//Debug.Log("Spotlight intensity should be ", 50f * healthPercentage);
-				Debug.Log("OWIE " + other.name + " JUST HIT ME! I have " + health + " health");
-			}
+			Hit(1, other);
 		}
 		else if (other.gameObject.layer == (int)Layers.EnemyHurtbox) { // player is hitting enemy
 			// NOTE(Roskuski): I hit the enemy!
+		}
+		else if (other.gameObject.layer == (int)Layers.BonePileProp) { // player is hitting enemy
+			ChangeMeter(1);
+			Destroy(other.gameObject);
 		}
 		else if (other.gameObject.layer == (int)Layers.Pickup) {
 			HeadPickup headPickup = other.gameObject.GetComponent<HeadPickup>();
@@ -522,6 +507,30 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	#region Combat functions
+	public void Hit(int damageTaken, Collider other) {
+		currentAttack = Attacks.None;
+		animr.SetBool("isWalking", false);
+		animr.SetInteger("currentAttack", (int)Attacks.None);
+		animr.SetInteger("prepAttack", (int)AttackButton.None);
+		health -= damageTaken;
+		if (health <= 0) {
+			health = 0;
+			StartCoroutine(Death());
+		}
+		else {
+			animr.SetTrigger("wasHurt");
+			currentState = States.Idle;
+			remainingKnockbackTime = knockbackInfo.time;
+			float healthPercentage = (float)health / (float)healthMax;
+			spotLight.intensity = 50f * (healthPercentage);
+			hitflashTimer = 0.15f;
+			if (other != null) {
+				knockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
+				Debug.Log("OWIE " + other.name + " JUST HIT ME! I have " + health + " health");
+			}
+		}
+	}
+
 	IEnumerator Death() {
 		animr.SetBool("isDead", true);
 		currentState = States.Death;
