@@ -538,7 +538,7 @@ public class PlayerController : MonoBehaviour {
 
 	public void ChangeMeter(float Amount) {
 		meter += Amount;
-		if (Amount >= 1) {
+		if (meter >= 1) {
 			headMesh.enabled = true;
 			headMeshTrail.enabled = true;
 		}
