@@ -152,7 +152,7 @@ public class GameManager : MonoBehaviour {
 	}
 	public void SpawnParticle(int particleID, Vector3 position) {
 		ParticleSystem particle = particles[particleID];
-		var TempParticle = Instantiate(particle, position, Quaternion.identity);
+		var TempParticle = Instantiate(particle, position, particle.gameObject.transform.rotation);
     }
 	public void UpdateHealthBar() {
 		float healthMax = playerController.healthMax;

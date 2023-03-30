@@ -186,6 +186,7 @@ public class PlayerController : MonoBehaviour {
 	HeadProjectile headProj;
 	Transform projSpawn;
 	Transform[] shotgunProjSpawns;
+	Transform slamPoint;
 	Light spotLight;
 	GameManager gameMan;
 	//List<GameObject> enemiesHit;
@@ -259,6 +260,7 @@ public class PlayerController : MonoBehaviour {
 		spotLight = transform.Find("Spot Light").GetComponent<Light>();
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 		headProj = gameMan.SkullPrefab;
+		slamPoint = transform.Find("SlamPoint");
 
 		#region debug
 		if (headMesh != null) { Debug.Log("Axe headmesh found on player."); } else { Debug.LogWarning("Axe headmesh not found on player."); }
@@ -558,7 +560,7 @@ public class PlayerController : MonoBehaviour {
 		else if (attack == Attacks.Chop) {
 			freeAim = true;
 		} else if (attack == Attacks.Spin) { ChangeMeter(-2); 
-		} else if (attack == Attacks.Slam) { ChangeMeter(-meterMax); 
+		} else if (attack == Attacks.Slam) { ChangeMeter(0);  //-meterMax
 		} else if (attack == Attacks.ShotgunThrow) { ChangeMeter(-3); 
 		} else if (attack == Attacks.LethalDash) { ChangeMeter(-2); }
 
@@ -714,6 +716,10 @@ public class PlayerController : MonoBehaviour {
 
 		return Result;
 	}
+
+	public void SlamParticle() {
+		gameMan.SpawnParticle(1, slamPoint.position);
+    }
 
 	#endregion
 
