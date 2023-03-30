@@ -75,7 +75,7 @@ public class PlayerController : MonoBehaviour {
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Heavy Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Throw
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Dash
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Light Attack
+			               new QueueInfo(0.0f, 1.0f, Attacks.Spin), // Mod Light Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Heavy Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Throw
 			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Mod Dash
@@ -559,7 +559,7 @@ public class PlayerController : MonoBehaviour {
 		}
 		else if (attack == Attacks.Chop) {
 			freeAim = true;
-		} else if (attack == Attacks.Spin) { ChangeMeter(-2); 
+		} else if (attack == Attacks.Spin) { ChangeMeter(0); 
 		} else if (attack == Attacks.Slam) { ChangeMeter(0);  //-meterMax
 		} else if (attack == Attacks.ShotgunThrow) { ChangeMeter(-3); 
 		} else if (attack == Attacks.LethalDash) { ChangeMeter(-2); }
