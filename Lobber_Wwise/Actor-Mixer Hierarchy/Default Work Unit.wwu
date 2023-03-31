@@ -21,6 +21,1119 @@
 						<ActiveSource Name="Sine" ID="{45E0D838-7E98-4905-BD85-41E5DABA12CC}" Platform="Linked"/>
 					</ActiveSourceList>
 				</Sound>
+				<ActorMixer Name="Player" ID="{170DFE63-CADC-4448-BD13-9BFCFF51142C}" ShortID="447284258">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<RandomSequenceContainer Name="player_attack1" ID="{809DAE3F-35C2-4BF2-BEA5-A2DE9B312015}" ShortID="86798930">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="player_attack1_01" ID="{41297021-B621-409E-9532-5AC19BBADA23}" ShortID="91075993">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="player_attack1_01" ID="{CC207433-B201-423E-943C-C0F86CFEE4F9}">
+											<Language>SFX</Language>
+											<AudioFile>player_attack1_01.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="872431774"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="player_attack1_01" ID="{CC207433-B201-423E-943C-C0F86CFEE4F9}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="player_attack1_02" ID="{F9585964-4183-47E4-B1B5-C30EC21257F7}" ShortID="141938904">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="player_attack1_02" ID="{F30D85B8-7BF6-4567-8987-09D2BB01E4C5}">
+											<Language>SFX</Language>
+											<AudioFile>player_attack1_02.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="650088066"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="player_attack1_02" ID="{F30D85B8-7BF6-4567-8987-09D2BB01E4C5}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="player_attack1_03" ID="{D99B3723-1FFA-4AEE-8340-79DD84DEA1FF}" ShortID="315066085">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="player_attack1_03" ID="{5273AB10-BC3C-427D-8975-302763AEE8D7}">
+											<Language>SFX</Language>
+											<AudioFile>player_attack1_03.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="233950051"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="player_attack1_03" ID="{5273AB10-BC3C-427D-8975-302763AEE8D7}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<RandomSequenceContainer Name="player_attack2" ID="{8B2B1AB5-8586-47AD-82DC-4E8F6084CC58}" ShortID="1064241290">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="player_attack2_01" ID="{AA398036-C7C1-4F82-8E91-911980EF6BF8}" ShortID="896340065">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="player_attack2_01" ID="{5E57BE6E-9774-4036-A860-5DB817C2E809}">
+											<Language>SFX</Language>
+											<AudioFile>player_attack2_01.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="799007945"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="player_attack2_01" ID="{5E57BE6E-9774-4036-A860-5DB817C2E809}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="player_attack2_02" ID="{98B3BE39-E693-4B91-BCC5-C1E16363584E}" ShortID="772083482">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="player_attack2_02" ID="{4F6D09C8-E764-4EF6-8DA0-27F5FFAB6802}">
+											<Language>SFX</Language>
+											<AudioFile>player_attack2_02.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="97539198"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="player_attack2_02" ID="{4F6D09C8-E764-4EF6-8DA0-27F5FFAB6802}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="player_attack2_03" ID="{35A967DC-8DE3-4467-B30D-C5ADAB64D2D3}" ShortID="58415119">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="player_attack2_03" ID="{EF87B9A4-9C95-4599-AE6B-006E72A9EFB0}">
+											<Language>SFX</Language>
+											<AudioFile>player_attack2_03.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="278421329"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="player_attack2_03" ID="{EF87B9A4-9C95-4599-AE6B-006E72A9EFB0}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<SwitchContainer Name="player_fs" ID="{DEB878D8-13EE-4BFB-A7B0-5C99D61C14F0}" ShortID="304610299">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="DefaultSwitchOrState">
+									<ObjectRef Name="Gravel" ID="{AAC6486C-BAB5-4AA4-BEB6-17D89BDD0C83}" WorkUnitID="{99733758-4F79-4710-9017-E0662FAA2094}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+								<Reference Name="SwitchGroupOrStateGroup">
+									<ObjectRef Name="Player_FS" ID="{560F51E4-AAEF-4534-8410-3889C0072AA2}" WorkUnitID="{99733758-4F79-4710-9017-E0662FAA2094}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<RandomSequenceContainer Name="player_fs_gravel" ID="{C863432C-3D66-4B9A-B504-537CC0A6116B}" ShortID="514033118">
+									<PropertyList>
+										<Property Name="Lowpass" Type="int16">
+											<ValueList>
+												<Value>40</Value>
+											</ValueList>
+										</Property>
+										<Property Name="Pitch" Type="int32">
+											<ModifierList>
+												<ModifierInfo>
+													<Modifier Name="" ID="{CE22DE3D-AC6D-4D35-9A1C-4DB08DC6F6A9}">
+														<PropertyList>
+															<Property Name="Enabled" Type="bool" Value="True"/>
+															<Property Name="Max" Type="Real64" Value="50"/>
+															<Property Name="Min" Type="Real64" Value="-50"/>
+														</PropertyList>
+													</Modifier>
+												</ModifierInfo>
+											</ModifierList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="fs_player_gravel_01" ID="{AD669F18-DA04-4D60-BC09-193CEBBA3831}" ShortID="653727743">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="fs_player_gravel_01" ID="{D332132F-7CCA-4FB5-8AD1-EFE78E004376}">
+													<Language>SFX</Language>
+													<AudioFile>fs_player_gravel_01.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="541494156"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="fs_player_gravel_01" ID="{D332132F-7CCA-4FB5-8AD1-EFE78E004376}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="fs_player_gravel_02" ID="{A724C289-1FA8-446D-B2DE-CD09E6162BD9}" ShortID="726007284">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="fs_player_gravel_02" ID="{5A3772CA-4040-413B-894E-9C8C19C689BD}">
+													<Language>SFX</Language>
+													<AudioFile>fs_player_gravel_02.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="912969297"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="fs_player_gravel_02" ID="{5A3772CA-4040-413B-894E-9C8C19C689BD}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="fs_player_gravel_03" ID="{85F89709-51C3-41A9-B63B-CF91EA94FFC2}" ShortID="7198720">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="fs_player_gravel_03" ID="{35B2E93A-6BC2-402C-A432-5E0CECD3C1EE}">
+													<Language>SFX</Language>
+													<AudioFile>fs_player_gravel_03.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="482700904"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="fs_player_gravel_03" ID="{35B2E93A-6BC2-402C-A432-5E0CECD3C1EE}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="fs_player_gravel_04" ID="{A85DAD9A-942B-4324-ABBD-0C60D7BF4335}" ShortID="933607109">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="fs_player_gravel_04" ID="{2B49F273-50A5-43F6-AFEC-402818CFDDFC}">
+													<Language>SFX</Language>
+													<AudioFile>fs_player_gravel_04.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="482864927"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="fs_player_gravel_04" ID="{2B49F273-50A5-43F6-AFEC-402818CFDDFC}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="fs_player_gravel_05" ID="{232DF5DC-5C2C-4E9C-8B53-F2EFEA2533E1}" ShortID="560589005">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="fs_player_gravel_05" ID="{60401083-556E-4BB9-9C67-B96464C87D02}">
+													<Language>SFX</Language>
+													<AudioFile>fs_player_gravel_05.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="735764590"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="fs_player_gravel_05" ID="{60401083-556E-4BB9-9C67-B96464C87D02}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="fs_player_gravel_06" ID="{AE7D47F9-98DA-467E-8FD6-2F33EDA339D4}" ShortID="234316168">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="fs_player_gravel_06" ID="{07D8C8C8-DDCB-41CB-8799-2BCF6A42F803}">
+													<Language>SFX</Language>
+													<AudioFile>fs_player_gravel_06.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="290589915"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="fs_player_gravel_06" ID="{07D8C8C8-DDCB-41CB-8799-2BCF6A42F803}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="fs_player_gravel_07" ID="{7A5E06C9-3BDE-44CA-ABD9-46AD824FDFCB}" ShortID="732192152">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="fs_player_gravel_07" ID="{0399568D-7CF7-4E07-B864-139822CA6759}">
+													<Language>SFX</Language>
+													<AudioFile>fs_player_gravel_07.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="204565514"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="fs_player_gravel_07" ID="{0399568D-7CF7-4E07-B864-139822CA6759}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="fs_player_gravel_08" ID="{92D8DF30-7DBE-479A-9B91-997B461478B1}" ShortID="776615621">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="fs_player_gravel_08" ID="{19F31C46-8FF1-4220-9B82-0C7C83F3553E}">
+													<Language>SFX</Language>
+													<AudioFile>fs_player_gravel_08.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="50507017"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="fs_player_gravel_08" ID="{19F31C46-8FF1-4220-9B82-0C7C83F3553E}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+								</RandomSequenceContainer>
+							</ChildrenList>
+							<GroupingInfo>
+								<GroupingBehaviorList>
+									<GroupingBehavior>
+										<ItemRef Name="player_fs_gravel" ID="{C863432C-3D66-4B9A-B504-537CC0A6116B}"/>
+									</GroupingBehavior>
+								</GroupingBehaviorList>
+								<GroupingList>
+									<Grouping>
+										<SwitchRef Name="Gravel" ID="{AAC6486C-BAB5-4AA4-BEB6-17D89BDD0C83}"/>
+										<ItemList>
+											<ItemRef Name="player_fs_gravel" ID="{C863432C-3D66-4B9A-B504-537CC0A6116B}"/>
+										</ItemList>
+									</Grouping>
+								</GroupingList>
+							</GroupingInfo>
+						</SwitchContainer>
+						<RandomSequenceContainer Name="player_gethit" ID="{7FA1C010-016D-44EB-804C-B92EDE4684E0}" ShortID="937365932">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="player_gethit_01" ID="{508B2979-E326-4C3C-A84C-9CE9B1546719}" ShortID="915148371">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="player_gethit_01" ID="{CDE43E6F-7C23-454F-80AE-4879D3353134}">
+											<Language>SFX</Language>
+											<AudioFile>player_gethit_01.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="33849619"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="player_gethit_01" ID="{CDE43E6F-7C23-454F-80AE-4879D3353134}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="player_gethit_02" ID="{D35FDB88-C2A9-4830-96C2-6CDE7784D968}" ShortID="24565323">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="player_gethit_02" ID="{4937C5FA-6761-46EC-A477-93793EA56A33}">
+											<Language>SFX</Language>
+											<AudioFile>player_gethit_02.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="821072770"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="player_gethit_02" ID="{4937C5FA-6761-46EC-A477-93793EA56A33}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="player_gethit_03" ID="{5ECDC565-D4CC-42FA-A3F5-47ACE359B69B}" ShortID="402442690">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="player_gethit_03" ID="{35E8D19F-DFB8-4D41-8A7D-DD81B0B54CFD}">
+											<Language>SFX</Language>
+											<AudioFile>player_gethit_03.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="824198949"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="player_gethit_03" ID="{35E8D19F-DFB8-4D41-8A7D-DD81B0B54CFD}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<Sound Name="player_chop" ID="{A825481C-F725-494F-A28F-812C1FE16074}" ShortID="92819787">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="player_chop_01" ID="{08AC44BD-4E35-4A16-B7BD-56AE3A340AC0}">
+									<Language>SFX</Language>
+									<AudioFile>player_chop_01.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="657646852"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="player_chop_01" ID="{08AC44BD-4E35-4A16-B7BD-56AE3A340AC0}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="player_lob" ID="{D5444886-584B-4354-A902-80B20871DE79}" ShortID="71726635">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="player_lob_01" ID="{1B2B0AD0-DC6F-49D4-BB30-7AB44102D0FF}">
+									<Language>SFX</Language>
+									<AudioFile>player_lob_01.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="222124175"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="player_lob_01" ID="{1B2B0AD0-DC6F-49D4-BB30-7AB44102D0FF}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</ActorMixer>
+				<ActorMixer Name="Skeletons" ID="{66B391D0-C7B2-463A-8BA3-3A4E2B9499D7}" ShortID="491509316">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<RandomSequenceContainer Name="skel_vo" ID="{7A8825C7-1182-47C8-BED2-C7B2A0722282}" ShortID="410510939">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="skel_vo_01" ID="{68F3A078-318B-41BC-B4E9-C52338AC39D5}" ShortID="811036018">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="skel_vo_01" ID="{9E65BAB0-774D-422A-B3CC-C4ED58DB9051}">
+											<Language>SFX</Language>
+											<AudioFile>skel_vo_01.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="115604974"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="skel_vo_01" ID="{9E65BAB0-774D-422A-B3CC-C4ED58DB9051}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="skel_vo_02" ID="{C66FF11D-C90A-44F3-BA2F-FCEA4AE3717C}" ShortID="126667582">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="skel_vo_02" ID="{297562D2-3C7D-4F30-AA7B-F43886E1F6AD}">
+											<Language>SFX</Language>
+											<AudioFile>skel_vo_02.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="701618492"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="skel_vo_02" ID="{297562D2-3C7D-4F30-AA7B-F43886E1F6AD}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="skel_vo_03" ID="{94E48CB0-4505-4E49-849E-7E6EB3069AE5}" ShortID="188455367">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="skel_vo_03" ID="{0B5530E7-CE53-4E1C-B789-C4397720782C}">
+											<Language>SFX</Language>
+											<AudioFile>skel_vo_03.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="226075322"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="skel_vo_03" ID="{0B5530E7-CE53-4E1C-B789-C4397720782C}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="skel_vo_04" ID="{3C0C87F9-13E1-4267-BA2B-81E05BEFDC14}" ShortID="185770495">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="skel_vo_04" ID="{3EDD200F-8C16-4E47-9B12-AFAD92D06DF5}">
+											<Language>SFX</Language>
+											<AudioFile>skel_vo_04.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="654628775"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="skel_vo_04" ID="{3EDD200F-8C16-4E47-9B12-AFAD92D06DF5}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="skel_vo_05" ID="{E5EFF066-BAB2-4F16-801B-8BE7E2F89A5D}" ShortID="332939119">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="skel_vo_05" ID="{8FB7A18A-1316-4FC6-BB24-C6B186313276}">
+											<Language>SFX</Language>
+											<AudioFile>skel_vo_05.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="834267316"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="skel_vo_05" ID="{8FB7A18A-1316-4FC6-BB24-C6B186313276}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<RandomSequenceContainer Name="skel_gethit" ID="{E6D67F86-0B1A-47F8-8011-57C402C14A29}" ShortID="393362563">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="skel_gethit_01" ID="{E53EB17B-F087-423C-AEFF-09E1C7D16ECA}" ShortID="900025432">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="skel_gethit_01" ID="{9EB5CABE-4987-4E0A-91DE-3190A5C11861}">
+											<Language>SFX</Language>
+											<AudioFile>skel_gethit_01.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="456320475"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="skel_gethit_01" ID="{9EB5CABE-4987-4E0A-91DE-3190A5C11861}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="skel_gethit_02" ID="{DC1794C7-79B2-4D9A-8FCE-5133BB66F9E8}" ShortID="399773309">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="skel_gethit_02" ID="{020BB1D4-EE46-4D0B-A481-EC7334C62FD1}">
+											<Language>SFX</Language>
+											<AudioFile>skel_gethit_02.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="344656176"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="skel_gethit_02" ID="{020BB1D4-EE46-4D0B-A481-EC7334C62FD1}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="skel_gethit_03" ID="{8861D610-1F56-4DB2-97E8-8CA5A3F56160}" ShortID="669917061">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="skel_gethit_03" ID="{74C9CE71-6C22-49A1-B33F-198106C6FA14}">
+											<Language>SFX</Language>
+											<AudioFile>skel_gethit_03.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="620386747"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="skel_gethit_03" ID="{74C9CE71-6C22-49A1-B33F-198106C6FA14}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="skel_gethit_04" ID="{E332BC89-083C-44E2-B669-92F9D910883A}" ShortID="94078284">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="skel_gethit_04" ID="{1AE0381D-8D5F-4BE6-BEDA-283C234712DE}">
+											<Language>SFX</Language>
+											<AudioFile>skel_gethit_04.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="300101372"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="skel_gethit_04" ID="{1AE0381D-8D5F-4BE6-BEDA-283C234712DE}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="skel_gethit_05" ID="{ABF64B25-771A-46A7-8557-7073E768F354}" ShortID="420150933">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="skel_gethit_05" ID="{AA7CD745-132E-4E6F-9901-5314707A37E6}">
+											<Language>SFX</Language>
+											<AudioFile>skel_gethit_05.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="799731881"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="skel_gethit_05" ID="{AA7CD745-132E-4E6F-9901-5314707A37E6}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<RandomSequenceContainer Name="skel_slash" ID="{CA120DB8-E2C1-4F1A-98E5-449F9760CD70}" ShortID="840441042">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="skel_slash_01" ID="{3000EA90-12A4-4FA9-8B40-CDAAA3C1C9A8}" ShortID="895433121">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="skel_slash_01" ID="{4E3BA339-DE76-4F2E-89C4-885768F257D5}">
+											<Language>SFX</Language>
+											<AudioFile>skel_slash_01.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="66995461"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="skel_slash_01" ID="{4E3BA339-DE76-4F2E-89C4-885768F257D5}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="skel_slash_02" ID="{1F288B7A-564B-4F67-9B3D-971E601B5A12}" ShortID="928890320">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="skel_slash_02" ID="{5682E3A2-98A5-4E7F-A183-2C5949027B6E}">
+											<Language>SFX</Language>
+											<AudioFile>skel_slash_02.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="144792552"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="skel_slash_02" ID="{5682E3A2-98A5-4E7F-A183-2C5949027B6E}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="skel_slash_03" ID="{3D07B815-9177-4EFD-B2FD-B48F984633B3}" ShortID="850780662">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="skel_slash_03" ID="{29880E32-CDEA-474B-994E-A3DA9210CD8E}">
+											<Language>SFX</Language>
+											<AudioFile>skel_slash_03.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="429319015"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="skel_slash_03" ID="{29880E32-CDEA-474B-994E-A3DA9210CD8E}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<RandomSequenceContainer Name="skel_dash" ID="{F15F1EB6-0C11-49D4-A32B-12FDE5DB474B}" ShortID="522575550">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="skel_dash_01" ID="{7B76007B-EF2F-4E0B-A435-DF58BFA29A3A}" ShortID="658013053">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="skel_dash_01" ID="{34ECE4B2-5DD9-41E1-8D85-2F34ECBA75BF}">
+											<Language>SFX</Language>
+											<AudioFile>skel_dash_01.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="226886049"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="skel_dash_01" ID="{34ECE4B2-5DD9-41E1-8D85-2F34ECBA75BF}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="skel_dash_02" ID="{EE785F72-1EE5-45B6-B71E-505701662A22}" ShortID="530552224">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="skel_dash_02" ID="{0AA00F22-4005-4252-9D6A-CF20FB64F15E}">
+											<Language>SFX</Language>
+											<AudioFile>skel_dash_02.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="18472167"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="skel_dash_02" ID="{0AA00F22-4005-4252-9D6A-CF20FB64F15E}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="skel_dash_03" ID="{AAB2C94F-CC34-4318-859F-005A88DCE178}" ShortID="282397960">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="skel_dash_03" ID="{16668DBA-D2FD-4DD1-90DB-9A6E958F1C51}">
+											<Language>SFX</Language>
+											<AudioFile>skel_dash_03.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="1005504680"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="skel_dash_03" ID="{16668DBA-D2FD-4DD1-90DB-9A6E958F1C51}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<Sound Name="skel_death" ID="{DECFA20D-5735-49BB-AD41-13F9D5E78DD9}" ShortID="508388505">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="skel_death_01" ID="{8518EA5C-5176-4F91-BAB7-9185995BA7AA}">
+									<Language>SFX</Language>
+									<AudioFile>skel_death_01.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="858779314"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="skel_death_01" ID="{8518EA5C-5176-4F91-BAB7-9185995BA7AA}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="skel_spawn_jump" ID="{908E9363-A37E-4B15-99EE-BD6D544AB470}" ShortID="373490659">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="skel_spawn_jump" ID="{91FD7649-D601-40F6-981F-56C5DBAB840F}">
+									<Language>SFX</Language>
+									<AudioFile>skel_spawn_jump.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="443484975"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="skel_spawn_jump" ID="{91FD7649-D601-40F6-981F-56C5DBAB840F}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="skel_spawn_land" ID="{278EE457-E121-40E3-BEDC-8055D30A91EF}" ShortID="914065273">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="skel_spawn_land" ID="{194B8D3D-8C8D-42B5-8C43-C0E5DF0AF77C}">
+									<Language>SFX</Language>
+									<AudioFile>skel_spawn_land.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="500052017"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="skel_spawn_land" ID="{194B8D3D-8C8D-42B5-8C43-C0E5DF0AF77C}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<SwitchContainer Name="skel_fs" ID="{3C2264A0-C689-4121-9FB6-1FAAB8825707}" ShortID="1006702377">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="DefaultSwitchOrState">
+									<ObjectRef Name="Gravel" ID="{38825BFE-76BC-4C01-A3CC-16A3EA219BB1}" WorkUnitID="{99733758-4F79-4710-9017-E0662FAA2094}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+								<Reference Name="SwitchGroupOrStateGroup">
+									<ObjectRef Name="Skel_FS" ID="{FE3BD701-18E9-4CF4-916B-D869C0037F85}" WorkUnitID="{99733758-4F79-4710-9017-E0662FAA2094}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<RandomSequenceContainer Name="skel_fs_gravel" ID="{8ECC4ADA-25B1-4369-8FE0-13ED72369C93}" ShortID="859464361">
+									<PropertyList>
+										<Property Name="Pitch" Type="int32">
+											<ModifierList>
+												<ModifierInfo>
+													<Modifier Name="" ID="{B202A568-40A8-4844-BCAC-57F24548ECBC}">
+														<PropertyList>
+															<Property Name="Enabled" Type="bool" Value="True"/>
+															<Property Name="Max" Type="Real64" Value="200"/>
+															<Property Name="Min" Type="Real64" Value="-200"/>
+														</PropertyList>
+													</Modifier>
+												</ModifierInfo>
+											</ModifierList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="fs_skel_gravel_01" ID="{6AFBD82F-C2BC-4660-A83D-61A69BB9E6B4}" ShortID="765771147">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="fs_skel_gravel_01" ID="{18E2B772-049B-4225-B09F-928F835BE599}">
+													<Language>SFX</Language>
+													<AudioFile>fs_skel_gravel_01.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="484460241"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="fs_skel_gravel_01" ID="{18E2B772-049B-4225-B09F-928F835BE599}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="fs_skel_gravel_02" ID="{47500350-C625-4474-8073-1EABE4A37793}" ShortID="467865345">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="fs_skel_gravel_02" ID="{FC3BFA4E-314B-4171-ACEF-763196880920}">
+													<Language>SFX</Language>
+													<AudioFile>fs_skel_gravel_02.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="530298481"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ActiveSourceList>
+												<ActiveSource Name="fs_skel_gravel_02" ID="{FC3BFA4E-314B-4171-ACEF-763196880920}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+								</RandomSequenceContainer>
+							</ChildrenList>
+							<GroupingInfo>
+								<GroupingBehaviorList>
+									<GroupingBehavior>
+										<ItemRef Name="skel_fs_gravel" ID="{8ECC4ADA-25B1-4369-8FE0-13ED72369C93}"/>
+									</GroupingBehavior>
+								</GroupingBehaviorList>
+								<GroupingList>
+									<Grouping>
+										<SwitchRef Name="Gravel" ID="{38825BFE-76BC-4C01-A3CC-16A3EA219BB1}"/>
+										<ItemList>
+											<ItemRef Name="skel_fs_gravel" ID="{8ECC4ADA-25B1-4369-8FE0-13ED72369C93}"/>
+										</ItemList>
+									</Grouping>
+								</GroupingList>
+							</GroupingInfo>
+						</SwitchContainer>
+					</ChildrenList>
+				</ActorMixer>
 			</ChildrenList>
 		</WorkUnit>
 	</AudioObjects>

@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{99733758-4F79-4710-9017-E0662FAA2094}" SchemaVersion="110">
 	<Switches>
-		<WorkUnit Name="Default Work Unit" ID="{99733758-4F79-4710-9017-E0662FAA2094}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{99733758-4F79-4710-9017-E0662FAA2094}" PersistMode="Standalone">
+			<ChildrenList>
+				<SwitchGroup Name="Player_FS" ID="{560F51E4-AAEF-4534-8410-3889C0072AA2}">
+					<ChildrenList>
+						<Switch Name="Gravel" ID="{AAC6486C-BAB5-4AA4-BEB6-17D89BDD0C83}"/>
+					</ChildrenList>
+				</SwitchGroup>
+				<SwitchGroup Name="Skel_FS" ID="{FE3BD701-18E9-4CF4-916B-D869C0037F85}">
+					<ChildrenList>
+						<Switch Name="Gravel" ID="{38825BFE-76BC-4C01-A3CC-16A3EA219BB1}"/>
+					</ChildrenList>
+				</SwitchGroup>
+			</ChildrenList>
+		</WorkUnit>
 	</Switches>
 </WwiseDocument>

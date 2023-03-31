@@ -467,9 +467,35 @@
     "Id": "1496463651",
     "Type": "User",
     "Language": "SFX",
-    "Hash": "{6C0F25CA-07B9-C04A-22AB-98313D663021}",
+    "Hash": "{B320D090-1345-05DE-B90A-43BA16BE5511}",
     "ShortName": "Bank_01",
     "Path": "Bank_01.bnk",
+    "Media": [
+     {
+      "Id": "233950051",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "player_attack1_03.wav",
+      "CachePath": "SFX/player_attack1_03_10C4C929.wem"
+     },
+     {
+      "Id": "650088066",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "player_attack1_02.wav",
+      "CachePath": "SFX/player_attack1_02_10C4C929.wem"
+     },
+     {
+      "Id": "872431774",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "player_attack1_01.wav",
+      "CachePath": "SFX/player_attack1_01_10C4C929.wem"
+     }
+    ],
     "Plugins": {
      "Custom": [
       {
@@ -481,6 +507,21 @@
      ]
     },
     "Events": [
+     {
+      "Id": "799884986",
+      "Name": "player_attack1",
+      "MediaRefs": [
+       {
+        "Id": "233950051"
+       },
+       {
+        "Id": "650088066"
+       },
+       {
+        "Id": "872431774"
+       }
+      ]
+     },
      {
       "Id": "3157003241",
       "Name": "TEST",
@@ -495,6 +536,6 @@
     ]
    }
   ],
-  "FileHash": "{659AEAB2-DAB6-4692-0ECE-0A1DECD1E724}"
+  "FileHash": "{3269B4C0-A998-971F-AF75-86DF12F43E44}"
  }
 }

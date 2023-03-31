@@ -151,15 +151,36 @@
 				</AcousticTexture>
 			</AcousticTextures>
 		</SoundBank>
-		<SoundBank Id="1496463651" Type="User" Language="SFX" Hash="{6C0F25CA-07B9-C04A-22AB-98313D663021}">
+		<SoundBank Id="1496463651" Type="User" Language="SFX" Hash="{B320D090-1345-05DE-B90A-43BA16BE5511}">
 			<ShortName>Bank_01</ShortName>
 			<Path>Bank_01.bnk</Path>
+			<Media>
+				<File Id="233950051" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>player_attack1_03.wav</ShortName>
+					<CachePath>SFX/player_attack1_03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="650088066" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>player_attack1_02.wav</ShortName>
+					<CachePath>SFX/player_attack1_02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="872431774" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>player_attack1_01.wav</ShortName>
+					<CachePath>SFX/player_attack1_01_10C4C929.wem</CachePath>
+				</File>
+			</Media>
 			<Plugins>
 				<Custom>
 					<Plugin Id="496940353" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
 				</Custom>
 			</Plugins>
 			<Events>
+				<Event Id="799884986" Name="player_attack1">
+					<MediaRefs>
+						<MediaRef Id="233950051"/>
+						<MediaRef Id="650088066"/>
+						<MediaRef Id="872431774"/>
+					</MediaRefs>
+				</Event>
 				<Event Id="3157003241" Name="TEST">
 					<PluginRefs>
 						<Custom>
@@ -170,5 +191,5 @@
 			</Events>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{601F836F-520A-64ED-1662-989701B6CF1C}</FileHash>
+	<FileHash>{8E97B9CF-1A83-8072-80F5-76D470D421A4}</FileHash>
 </SoundBanksInfo>
