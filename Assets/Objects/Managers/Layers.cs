@@ -14,7 +14,6 @@ public enum Layers : int {
 	Pickup,
 	TrapHitbox,
 	Ground,
-	BonePileProp,
 }
 
 public class Mask {

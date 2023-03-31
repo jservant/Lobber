@@ -489,10 +489,7 @@ public class PlayerController : MonoBehaviour {
 		else if (other.gameObject.layer == (int)Layers.EnemyHurtbox) { // player is hitting enemy
 			// NOTE(Roskuski): I hit the enemy!
 		}
-		else if (other.gameObject.layer == (int)Layers.BonePileProp) { // player is hitting enemy
-			ChangeMeter(1);
-			Destroy(other.gameObject);
-		}
+		
 		else if (other.gameObject.layer == (int)Layers.Pickup) {
 			HeadPickup headPickup = other.gameObject.GetComponent<HeadPickup>();
 			if (headPickup.canCollect) {
