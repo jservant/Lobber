@@ -206,7 +206,7 @@ public class PlayerController : MonoBehaviour {
 	[Header("Speed:")]
 	[SerializeField] AnimationCurve movementCurve;
 	[SerializeField] float topSpeed = 10f;				// top player speed
-	[SerializeField] float speedTime = 0f;				// how long has player been moving for?
+	public float speedTime = 0f;				// how long has player been moving for?
 	[SerializeField] float maxSpeedTime = 0.2f;			// how long does it take for player to reach max speed?
 	[SerializeField] float attackDecelModifier = 5f;	// modifier that makes player decelerate slower when attacking (moves them out further)
 	[SerializeField] float turnSpeed = 0.05f;
