@@ -727,7 +727,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public void SlamParticle() {
-		gameMan.SpawnParticle(1, slamPoint.position);
+		gameMan.SpawnParticle(1, slamPoint.position, 1f);
     }
 
 	#endregion

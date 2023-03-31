@@ -150,9 +150,14 @@ public class GameManager : MonoBehaviour {
 	public void FreezeFrames(int Frames60) {
 		frozenTime += (float)(Frames60) / 60.0f;
 	}
-	public void SpawnParticle(int particleID, Vector3 position) {
+	public void SpawnParticle(int particleID, Vector3 position, float scale) {
 		ParticleSystem particle = particles[particleID];
 		var TempParticle = Instantiate(particle, position, particle.gameObject.transform.rotation);
+		TempParticle.gameObject.transform.localScale *= scale;
+		Transform[] particleScales = TempParticle.transform.GetComponentsInChildren<Transform>();
+		foreach (Transform t in particleScales) {
+			t.localScale *= scale;
+        }
     }
 	public void UpdateHealthBar() {
 		float healthMax = playerController.healthMax;

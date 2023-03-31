@@ -242,7 +242,7 @@ public class Basic : MonoBehaviour {
 					bool fullAxe = player.meter >= player.meterMax/2;
 
 					KnockbackInfo newKnockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
-					gameMan.SpawnParticle(0, other.transform.position);
+					gameMan.SpawnParticle(0, other.transform.position, 1f);
 					switch (gameMan.playerController.currentAttack) {
 						case PlayerController.Attacks.LAttack:
 							if (fullAxe) {
@@ -317,6 +317,7 @@ public class Basic : MonoBehaviour {
 				}
 				else if (head != null) {
 					// @TODO(Roskuski): temp head reaction
+					gameMan.SpawnParticle(0, other.transform.position, 2f);
 					shouldDie = true;
 					Debug.Log("Head Hit");
 				}
