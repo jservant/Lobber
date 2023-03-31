@@ -25,9 +25,10 @@ public class GameManager : MonoBehaviour {
 	public HeadProjectile SkullPrefab;
 	public GameObject EnemyPrefab;
 	public GameObject HeadPickupPrefab;
+
 	public GameObject eSpawnParent;
 	public OrbSpawn[] eSpawns;
-	public List<GameObject> enemies;
+	public int enemiesAlive = 0;
 	public int enemiesKilled = 0;
 
 	bool transitioningLevel = false;
@@ -59,14 +60,9 @@ public class GameManager : MonoBehaviour {
 		statusTextboxText = transform.Find("StatusTextbox/StatusTextboxText").GetComponent<TMP_Text>();
 		statusTextboxText.text = "";
 
-		enemies = new List<GameObject>();
-
-		/*if (canSpawn) {
-			eSpawns[Random.Range(0, eSpawns.Length)].spawnNow = true;
-		}*/
-
-		for (int i = 0; i < eSpawns.Length; i++) {
-			eSpawns[i].spawnNow = true;
+		if (canSpawn) {
+			int randomIndex = Random.Range(0, eSpawns.Length);
+			eSpawns[randomIndex].StartCoroutine(eSpawns[randomIndex].Spawning(5));
 		}
 	}
 
@@ -84,14 +80,20 @@ public class GameManager : MonoBehaviour {
 		bool isMenuOpen = pauseUI.enabled || optionsUI.enabled;
 
 		if (!isMenuOpen && dActions.DebugTools.SpawnEnemy.WasPerformedThisFrame()) {
-			Vector2 MouseLocation2D = dActions.DebugTools.MouseLocation.ReadValue<Vector2>();
-			Vector3 MouseLocation = new Vector3(MouseLocation2D.x, MouseLocation2D.y, 0);
-			Ray ray = Camera.main.ScreenPointToRay(MouseLocation);
-			RaycastHit hit;
+			if (false) {
+				Vector2 MouseLocation2D = dActions.DebugTools.MouseLocation.ReadValue<Vector2>();
+				Vector3 MouseLocation = new Vector3(MouseLocation2D.x, MouseLocation2D.y, 0);
+				Ray ray = Camera.main.ScreenPointToRay(MouseLocation);
+				RaycastHit hit;
 
-			if (Physics.Raycast(ray.origin, ray.direction, out hit, 1000.0f)) {
-				Debug.Log(EnemyPrefab.name + " spawned at " + hit.point);
-				Instantiate(EnemyPrefab, hit.point, Quaternion.identity);
+				if (Physics.Raycast(ray.origin, ray.direction, out hit, 1000.0f)) {
+					Debug.Log(EnemyPrefab.name + " spawned at " + hit.point);
+					Instantiate(EnemyPrefab, hit.point, Quaternion.identity);
+					enemiesAlive += 1;
+				}
+			}
+			else {
+				eSpawns[0].StartCoroutine(eSpawns[0].Spawning(5));
 			}
 		}
 
@@ -120,11 +122,13 @@ public class GameManager : MonoBehaviour {
 		UpdateHealthBar();
 		UpdateMeter();
 
-		if (canSpawn && enemies.Count <= 5 && enemiesKilled < 20) {
-			int randSpawn = Random.Range(0, eSpawns.Length);
-			eSpawns[randSpawn].spawnNow = true;
+		if (canSpawn && enemiesAlive <= 5 && enemiesKilled < 20) {
+			int randomIndex = Random.Range(0, eSpawns.Length);
+			eSpawns[randomIndex].StartCoroutine(eSpawns[randomIndex].Spawning(5));
 		}
-		if (enemiesKilled >= 20 && enemies.Count <= 0 && transitioningLevel == false) {
+
+
+		if (enemiesKilled >= 50 && enemiesAlive <= 0 && transitioningLevel == false) {
 			StartCoroutine(Win());
 		}
 	}

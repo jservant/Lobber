@@ -88,6 +88,10 @@ public class Basic : MonoBehaviour {
 	public Transform flashSpot; //the place where the red circle will pop up
 	public GameObject flash;
 
+	float spawnUpwardsSpeed;
+	float spawnDownwardsSpeed;
+	float spawnLateralSpeed = 5.0f;
+
 	Quaternion moveDirection = Quaternion.identity;
 
 	float[] directionWeights = new float[32];
@@ -166,6 +170,9 @@ public class Basic : MonoBehaviour {
 	}
 
 	public void ChangeDirective_Stunned(float stunTime, KnockbackInfo newKnockbackInfo) {
+		if (directive == Directive.Spawn) {
+			return; // do not trans from Spawn -> Stunned
+		}
 		directive = Directive.Stunned;
 		
 		stunDuration += stunTime;
@@ -344,7 +351,6 @@ public class Basic : MonoBehaviour {
 		enemyCommunication = this.GetComponent<EnemyCommunication>();
 
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
-		gameMan.enemies.Add(gameObject);
 
 		navAgent.updatePosition = false;
 		navAgent.updateRotation = false;
@@ -361,9 +367,22 @@ public class Basic : MonoBehaviour {
 			}
 		}
 
+		// Setup Directive.Spawn
 		directive = Directive.Spawn;
 		if (isSandbag) { directive = Directive.Sandbag; }
 		animationTimer = animationTimes["Enemy_Spawn"];
+		{
+			// Between frames 10, 16, move upward
+			// Between frames 17, 24, move downward, hit the floor
+			float upwardsTime   = (0.2857f - 0.1758f) * animationTimes["Enemy_Spawn"];
+			float downwardsTime = (0.4285f - 0.3035f) * animationTimes["Enemy_Spawn"];
+			float lateralTime   = (0.0000f - 0.4285f) * animationTimes["Enemy_Spawn"];
+			spawnUpwardsSpeed = 5f;
+
+			RaycastHit hitInfo;
+			Debug.Assert(Physics.Raycast(this.transform.position + this.transform.rotation * Vector3.forward * spawnLateralSpeed * lateralTime, Vector3.down, out hitInfo, Mathf.Infinity, Mask.Get(Layers.Ground)));
+			spawnDownwardsSpeed = (spawnUpwardsSpeed * upwardsTime + hitInfo.distance) / downwardsTime;
+		}
 
 		model = transform.Find("Skeleton_Base_Model").GetComponent<SkinnedMeshRenderer>();
 		materials = model.materials;
@@ -441,9 +460,11 @@ public class Basic : MonoBehaviour {
 					}
 				}
 				break;
+
 			case Directive.Sandbag:
 				// Doing nothing, with style...
 				break;
+
 			case Directive.Stunned:
 				stunDuration -= Time.deltaTime;
 
@@ -452,13 +473,34 @@ public class Basic : MonoBehaviour {
 					stunDuration = 0;
 				}
 				break;
+
 			case Directive.Spawn:
 				isImmune = true;
 				if (animationTimer < 0.0f) {
 					isImmune = false;
 					ChangeDirective_Inactive(0);
 				}
+
+				{ // NOTE(Roskuski): Needs to be in a deeper scope because we use a variable of the same name elsewhere in this switch statement
+					float animationTimerRatio = 1.0f - animationTimer / animationTimes["Enemy_Spawn"];
+					// Between frames 0, 24 move forward
+					if (animationTimerRatio > 0 && animationTimerRatio < 0.4285f) {
+						transform.position += this.transform.rotation * Vector3.forward * spawnLateralSpeed * Time.deltaTime;
+					}
+					
+					// @TODO(Roskuski): Blend between up and down?
+ 
+					// Between frames 10, 16, move upward
+					if (animationTimerRatio > 0.1785f && animationTimerRatio < 0.2857f) {
+						transform.position += this.transform.rotation * Vector3.up * spawnUpwardsSpeed * Time.deltaTime;
+					}
+					// Between frames 17, 24, move downward, hit the floor
+					if (animationTimerRatio > 0.3035f && animationTimerRatio < 0.4285f) {
+						transform.position += this.transform.rotation * Vector3.down * spawnDownwardsSpeed * Time.deltaTime;
+					}
+				}
 				break;
+
 			case Directive.MaintainDistancePlayer:
 				navAgent.nextPosition = this.transform.position;
 
@@ -865,7 +907,10 @@ public class Basic : MonoBehaviour {
 		}
 
 		Util.PreformCheckedLateralMovement(this.gameObject, 0.75f, 0.5f, movementDelta); // Lateral movement
-		Util.PerformCheckedVerticalMovement(this.gameObject, 0.75f, 0.2f, 0.5f, 30.0f);
+
+		if (directive != Directive.Spawn) {
+			Util.PreformCheckedVerticalMovement(this.gameObject, 0.75f, 0.2f, 0.5f, 30.0f);
+		}
 
 		animator.SetInteger("Ai Directive", (int)directive);
 		animationTimer -= Time.deltaTime * animator.GetCurrentAnimatorStateInfo(0).speed;
@@ -881,14 +926,12 @@ public class Basic : MonoBehaviour {
 		if (shouldDie) {
 			float HeadChance = Random.Range(1, 100f);
 			if (HeadChance <= dropChance) GameObject.Instantiate(gameMan.HeadPickupPrefab, transform.position + 3 * Vector3.up, Quaternion.identity);
-			gameMan.enemies.Remove(gameObject);
-			gameMan.enemiesKilled++;
+			gameMan.enemiesKilled += 1;
 			Destroy(this.gameObject);
 		}
 	}
 
-	private void OnDestroy() { gameMan.enemies.Remove(gameObject); }
-	private void OnDisable() { gameMan.enemies.Remove(gameObject); }
+	private void OnDestroy() { gameMan.enemiesAlive -= 1; }
 
 	void OnDrawGizmosSelected() {
 		Gizmos.color = Color.blue;
