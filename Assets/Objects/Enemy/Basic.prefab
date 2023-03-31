@@ -103,63 +103,6 @@ MonoBehaviour:
   enemyCommunicationRange: 5
   flashSpot: {fileID: 7568906230586878100}
   flash: {fileID: 4621633356944544063, guid: 6087a33f60b0b1c47bba2eb4d66dcdbd, type: 3}
-  SpawnLateralMovment:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  SpawnVerticalMovment:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0.1607
-      value: 0.0018920898
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.2857
-      value: 0.54597855
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.30595142
-      value: 0.4177743
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
   dropChance: 60
   hitflashTimer: 0
   isSandbag: 0
@@ -177,6 +120,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nearbyAttacker: 0
+--- !u!114 &2833397923679276754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2369981039474322611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b6bd5673f176402ebe37232586d5342, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Enemy_GetHit:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 523ea5bdf373b4d8e9a212af3c350d14, type: 2}
+  Enemy_Attack_Dash:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: ba684d71b7f3441dcadb2629770887ee, type: 2}
+  Enemy_Attack_Slash:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 116e06b4d789b4565b97a815ccaf4928, type: 2}
+  Enemy_Run:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 7ca0ce3f190d645e5baaa636e13b6181, type: 2}
+  Enemy_Spwan_Jump:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: f37073db3e7e340368f636f447b023fb, type: 2}
+  Enemy_Spwan_Land:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 547619269e1e14a349d719e577cc7f73, type: 2}
+  Enemy_Stun:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 0}
+  Enemy_VO:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 25996e82b0f8d4ce7be6a8133c321173, type: 2}
 --- !u!65 &8459446309741295490
 BoxCollider:
   m_ObjectHideFlags: 0

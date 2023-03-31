@@ -844,35 +844,17 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!1 &170243033 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3751054411342618234, guid: 6492241fdf4404b4bb5746aab6925df2, type: 3}
-  m_PrefabInstance: {fileID: 1028512937}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &170243034 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 170243039, guid: 6492241fdf4404b4bb5746aab6925df2, type: 3}
   m_PrefabInstance: {fileID: 1028512937}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 170243033}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f988c8f3cc076994e83c977d268ae4d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &170243039
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 170243033}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f988c8f3cc076994e83c977d268ae4d5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  radius: 1
 --- !u!4 &200187938 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1218883036875733149, guid: d00742175a4c21444b599c78012ad661, type: 3}
@@ -1014,7 +996,7 @@ MonoBehaviour:
   castShadow: 0
   interactors:
   - {fileID: 170243034}
-  - {fileID: 170243039}
+  - {fileID: 0}
   m_InstantiatedMaterial: {fileID: 1354254652}
 --- !u!114 &228609535
 MonoBehaviour:
