@@ -34,7 +34,7 @@ public class Util {
 		return System.Enum.GetNames(EnumType).Length;
 	}
 
-	public static void PreformCheckedLateralMovement(GameObject gameObject, float verticalOffset, float spherecastRadius, Vector3 translationDelta, int depthCount = 0) {
+	public static void PerformCheckedLateralMovement(GameObject gameObject, float verticalOffset, float spherecastRadius, Vector3 translationDelta, int depthCount = 0) {
 		depthCount += 1;
 
 		// @NOTE(Roskuski): This avoids a infinite recursion, which would somehow lead to a crash.
@@ -83,7 +83,7 @@ public class Util {
 			Vector3 remainingDelta = Quaternion.AngleAxis(angleToSlide, Vector3.up) * hitInfo.normal * remainingMove.magnitude;
 			
 			// attempt to do that move successfully
-			PreformCheckedLateralMovement(gameObject, verticalOffset, spherecastRadius, remainingDelta, depthCount);
+			PerformCheckedLateralMovement(gameObject, verticalOffset, spherecastRadius, remainingDelta, depthCount);
 		}
 		else {
 			gameObject.transform.position += translationDelta;

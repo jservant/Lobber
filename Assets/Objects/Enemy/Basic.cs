@@ -906,10 +906,10 @@ public class Basic : MonoBehaviour {
 			default: Debug.Assert(false); break;
 		}
 
-		Util.PreformCheckedLateralMovement(this.gameObject, 0.75f, 0.5f, movementDelta); // Lateral movement
+		Util.PerformCheckedLateralMovement(this.gameObject, 0.75f, 0.5f, movementDelta); // Lateral movement
 
 		if (directive != Directive.Spawn) {
-			Util.PreformCheckedVerticalMovement(this.gameObject, 0.75f, 0.2f, 0.5f, 30.0f);
+			Util.PerformCheckedVerticalMovement(this.gameObject, 0.75f, 0.2f, 0.5f, 30.0f);
 		}
 
 		animator.SetInteger("Ai Directive", (int)directive);

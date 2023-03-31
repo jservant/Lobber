@@ -338,7 +338,7 @@ public class PlayerController : MonoBehaviour {
 			translationDelta = (moveDelta * moveWeight + knockbackDelta * knockbackWeight) * Time.fixedDeltaTime;
 		}
 
-		Util.PreformCheckedLateralMovement(gameObject, 0.75f, 0.5f, translationDelta);
+		Util.PerformCheckedLateralMovement(gameObject, 0.75f, 0.5f, translationDelta);
 
 		float fallingSpeed = 30.0f;
 		if (currentAttack == Attacks.Dashing || currentAttack == Attacks.LethalDash) {
