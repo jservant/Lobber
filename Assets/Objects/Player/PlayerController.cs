@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour {
 			               new QueueInfo(0.3f, 1.0f, Attacks.Chop), // Heavy Attack
 			               new QueueInfo(0.3f, 1.0f, Attacks.HeadThrow), // Throw
 			               new QueueInfo(0.0f, 1.0f, Attacks.Dashing), // Dash
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Light Attack
+			               new QueueInfo(0.0f, 1.0f, Attacks.Spin), // Mod Light Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Heavy Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Throw
 			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Mod Dash
@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour {
 			               new QueueInfo(0.3f, 1.0f, Attacks.Chop), // Heavy Attack
 			               new QueueInfo(0.3f, 1.0f, Attacks.HeadThrow), // Throw
 			               new QueueInfo(0.0f, 1.0f, Attacks.Dashing), // Dash
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Light Attack
+			               new QueueInfo(0.0f, 1.0f, Attacks.Spin), // Mod Light Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Heavy Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Throw
 			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Mod Dash
@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour {
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Heavy Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Throw
 			               new QueueInfo(0.0f, 1.0f, Attacks.Dashing), // Dash
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Light Attack
+			               new QueueInfo(0.0f, 1.0f, Attacks.Spin), // Mod Light Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Heavy Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Throw
 			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Mod Dash
@@ -55,7 +55,7 @@ public class PlayerController : MonoBehaviour {
 			               new QueueInfo(0.7f, 1.0f, Attacks.Chop), // Heavy Attack
 			               new QueueInfo(0.0f, 1.0f, Attacks.HeadThrow), // Throw
 			               new QueueInfo(0.0f, 1.0f, Attacks.Dashing), // Dash
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Light Attack
+			               new QueueInfo(0.0f, 1.0f, Attacks.Spin), // Mod Light Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Heavy Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Throw
 			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Mod Dash
@@ -71,10 +71,10 @@ public class PlayerController : MonoBehaviour {
 			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Mod Dash
 		// When in Spin
 		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Light Attack
+			               new QueueInfo(0.0f, 1.0f, Attacks.None), // Light Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Heavy Attack
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Throw
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Dash
+			               new QueueInfo(0.0f, 1.0f, Attacks.None), // Throw
+			               new QueueInfo(0.0f, 1.0f, Attacks.None), // Dash
 			               new QueueInfo(0.0f, 1.0f, Attacks.Spin), // Mod Light Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Heavy Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Throw
@@ -95,7 +95,7 @@ public class PlayerController : MonoBehaviour {
 			               new QueueInfo(0.0f, 1.0f, Attacks.Chop), // Heavy Attack
 			               new QueueInfo(0.0f, 1.0f, Attacks.HeadThrow), // Throw
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Dash
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Light Attack
+			               new QueueInfo(0.0f, 1.0f, Attacks.Spin), // Mod Light Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Heavy Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Throw
 			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Mod Dash
@@ -105,7 +105,7 @@ public class PlayerController : MonoBehaviour {
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Heavy Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Throw
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Dash
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Light Attack
+			               new QueueInfo(0.0f, 1.0f, Attacks.Spin), // Mod Light Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Heavy Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Throw
 			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Mod Dash
@@ -140,7 +140,7 @@ public class PlayerController : MonoBehaviour {
 		new KnockbackInfo(Quaternion.identity, 30.0f, 0.25f), // LAttack3
 		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // Chop
 		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // Slam
-		new KnockbackInfo(Quaternion.identity, 30.0f, 0.25f), // Spin
+		new KnockbackInfo(Quaternion.identity, 10.0f, 0.25f), // Spin
 		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // HeadThrow
 		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // Dashing
 		new KnockbackInfo(Quaternion.identity, 30.0f, 0.25f), // LethalDashing
@@ -155,7 +155,7 @@ public class PlayerController : MonoBehaviour {
 		new KnockbackInfo(Quaternion.identity, 40.0f, 0.25f), // LAttack3
 		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // Chop
 		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // Slam
-		new KnockbackInfo(Quaternion.identity, 40.0f, 0.25f), // Spin
+		new KnockbackInfo(Quaternion.identity, 20.0f, 0.25f), // Spin
 		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // HeadThrow
 		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // Dashing
 		new KnockbackInfo(Quaternion.identity, 40.0f, 0.25f), // LethalDashing
@@ -417,7 +417,7 @@ public class PlayerController : MonoBehaviour {
 			if (meter >= 1f && pActions.Player.Throw.WasPerformedThisFrame()) {
 				attackButtonPrep = AttackButton.Throw;
 			}
-			if (meter >= 2f && pActions.Player.LightAttack.WasPerformedThisFrame() && pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
+			if (meter >= 1f && pActions.Player.LightAttack.WasPerformedThisFrame() && pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
 				attackButtonPrep = AttackButton.ModLight;
 			}
 			if (meter >= 5f && pActions.Player.HeavyAttack.WasPerformedThisFrame() && pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
@@ -427,7 +427,7 @@ public class PlayerController : MonoBehaviour {
 				attackButtonPrep = AttackButton.ModThrow;
 			}
 		
-			if (meter >= 2f && pActions.Player.Dash.WasPerformedThisFrame() && pActions.Player.MeterModifier.phase == InputActionPhase.Performed &&
+			if (meter >= 1f && pActions.Player.Dash.WasPerformedThisFrame() && pActions.Player.MeterModifier.phase == InputActionPhase.Performed &&
 				trueInput.sqrMagnitude >= 0.1f && dashCooldown <= 0f ) { //&& Util.PerformCheckedVerticalMovement == true
 					attackButtonPrep = AttackButton.ModDash;
 					dashTime = 0;
@@ -562,15 +562,15 @@ public class PlayerController : MonoBehaviour {
 		if (attack == Attacks.HeadThrow) {
 			tsr = targetSphereRadius * 2.5f;
 			speedTime = 0;
-			//freeAim = true;
+			freeAim = true;
 			setupHoming = false;
 		}
 		else if (attack == Attacks.Chop) {
 			freeAim = true;
-		} else if (attack == Attacks.Spin) { /*ChangeMeter(0);*/ }
-		else if (attack == Attacks.Slam) { ChangeMeter(0); } //-meterMax
+		} else if (attack == Attacks.Spin) { /*ChangeMeter(0);*/ speedTime = 0.4f; }
+		else if (attack == Attacks.Slam) { ChangeMeter(-5); } //-meterMax
 		else if (attack == Attacks.ShotgunThrow) { ChangeMeter(-3);}
-		else if (attack == Attacks.LethalDash) { setupHoming = false; ChangeMeter(-2);}
+		else if (attack == Attacks.LethalDash) { setupHoming = false; ChangeMeter(-1);}
 		else if (attack == Attacks.Dashing) { setupHoming = false; }
 
 		animr.SetInteger("currentAttack", (int)attack);
