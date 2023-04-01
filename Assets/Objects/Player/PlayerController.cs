@@ -71,10 +71,10 @@ public class PlayerController : MonoBehaviour {
 			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Mod Dash
 		// When in Spin
 		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
-			               new QueueInfo(0.0f, 1.0f, Attacks.None), // Light Attack
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Heavy Attack
-			               new QueueInfo(0.0f, 1.0f, Attacks.None), // Throw
-			               new QueueInfo(0.0f, 1.0f, Attacks.None), // Dash
+			               new QueueInfo(0.0f, 1.0f, Attacks.LAttack), // Light Attack
+			               new QueueInfo(0.0f, 1.0f, Attacks.Chop), // Heavy Attack
+			               new QueueInfo(0.0f, 1.0f, Attacks.HeadThrow), // Throw
+			               new QueueInfo(0.0f, 1.0f, Attacks.Dashing), // Dash
 			               new QueueInfo(0.0f, 1.0f, Attacks.Spin), // Mod Light Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Heavy Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Throw
@@ -567,10 +567,10 @@ public class PlayerController : MonoBehaviour {
 		}
 		else if (attack == Attacks.Chop) {
 			freeAim = true;
-		} else if (attack == Attacks.Spin) { /*ChangeMeter(0);*/ speedTime = 0.4f; }
+		} else if (attack == Attacks.Spin) { ChangeMeter(-1); speedTime = 0.4f; }
 		else if (attack == Attacks.Slam) { ChangeMeter(-5); } //-meterMax
 		else if (attack == Attacks.ShotgunThrow) { ChangeMeter(-3);}
-		else if (attack == Attacks.LethalDash) { setupHoming = false; ChangeMeter(-1);}
+		else if (attack == Attacks.LethalDash) { setupHoming = false; ChangeMeter(-1); }
 		else if (attack == Attacks.Dashing) { setupHoming = false; }
 
 		animr.SetInteger("currentAttack", (int)attack);
