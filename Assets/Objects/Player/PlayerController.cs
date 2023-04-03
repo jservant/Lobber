@@ -202,7 +202,8 @@ public class PlayerController : MonoBehaviour {
 	public Vector2 mInput;								// processed movement vector read from input
 	[SerializeField] Vector3 movement;					// actual movement vector used. mInput(x, y) = movement(x, z)
 	public bool freeAim = false;
-	public Vector2 rAimInput;							// aiming vector read from right stick
+	public Vector2 rAimInput;                           // aiming vector read from right stick
+	bool isGrounded;
 	[Header("Speed:")]
 	[SerializeField] AnimationCurve movementCurve;
 	[SerializeField] float topSpeed = 10f;				// top player speed
@@ -344,7 +345,7 @@ public class PlayerController : MonoBehaviour {
 		if (currentAttack == Attacks.Dashing || currentAttack == Attacks.LethalDash) {
 			fallingSpeed = 0.0f;
 		}
-		Util.PerformCheckedVerticalMovement(gameObject, 0.75f, 0.2f, 0.5f, fallingSpeed);
+		isGrounded = Util.PerformCheckedVerticalMovement(gameObject, 0.75f, 0.2f, 0.5f, fallingSpeed);
 
 		if (freeAim) {
 			if (rAimInput != Vector2.zero) {
@@ -428,12 +429,12 @@ public class PlayerController : MonoBehaviour {
 			}
 		
 			if (meter >= 1f && pActions.Player.Dash.WasPerformedThisFrame() && pActions.Player.MeterModifier.phase == InputActionPhase.Performed &&
-				trueInput.sqrMagnitude >= 0.1f && dashCooldown <= 0f ) { //&& Util.PerformCheckedVerticalMovement == true
+				trueInput.sqrMagnitude >= 0.1f && dashCooldown <= 0f  && isGrounded) { //&& Util.PerformCheckedVerticalMovement == true
 					attackButtonPrep = AttackButton.ModDash;
 					dashTime = 0;
 					dashCooldown = maxDashCooldown;
 					trueAngle = Mathf.Atan2(trueInput.x, trueInput.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
-			} else if (pActions.Player.Dash.WasPerformedThisFrame() && trueInput.sqrMagnitude >= 0.1f && dashCooldown <= 0f) {
+			} else if (pActions.Player.Dash.WasPerformedThisFrame() && trueInput.sqrMagnitude >= 0.1f && dashCooldown <= 0f && isGrounded) {
 				attackButtonPrep = AttackButton.Dash;
 				dashTime = 0;
 				dashCooldown = maxDashCooldown;
