@@ -339,13 +339,16 @@ public class PlayerController : MonoBehaviour {
 			translationDelta = (moveDelta * moveWeight + knockbackDelta * knockbackWeight) * Time.fixedDeltaTime;
 		}
 
-		Util.PerformCheckedLateralMovement(gameObject, 0.75f, 0.5f, translationDelta);
 
 		float fallingSpeed = 30.0f;
+		float stepUp = 0.75f;
 		if (currentAttack == Attacks.Dashing || currentAttack == Attacks.LethalDash) {
 			fallingSpeed = 0.0f;
+			stepUp = 1.5f;
 		}
-		isGrounded = Util.PerformCheckedVerticalMovement(gameObject, 0.75f, 0.2f, 0.5f, fallingSpeed);
+
+		Util.PerformCheckedLateralMovement(gameObject, stepUp, 0.5f, translationDelta);
+		isGrounded = Util.PerformCheckedVerticalMovement(gameObject, stepUp, 0.2f, 0.5f, fallingSpeed);
 
 		if (freeAim) {
 			if (rAimInput != Vector2.zero) {
