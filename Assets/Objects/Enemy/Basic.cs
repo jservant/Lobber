@@ -380,8 +380,12 @@ public class Basic : MonoBehaviour {
 			spawnUpwardsSpeed = 5f;
 
 			RaycastHit hitInfo;
-			Debug.Assert(Physics.Raycast(this.transform.position + this.transform.rotation * Vector3.forward * spawnLateralSpeed * lateralTime, Vector3.down, out hitInfo, Mathf.Infinity, Mask.Get(Layers.Ground)));
-			spawnDownwardsSpeed = (spawnUpwardsSpeed * upwardsTime + hitInfo.distance) / downwardsTime;
+			if (Physics.Raycast(this.transform.position + this.transform.rotation * Vector3.forward * spawnLateralSpeed * lateralTime, Vector3.down, out hitInfo, Mathf.Infinity, Mask.Get(Layers.Ground))) {
+				spawnDownwardsSpeed = (spawnUpwardsSpeed * upwardsTime + hitInfo.distance) / downwardsTime;
+			}
+			else {
+				Debug.Assert(false); // @TODO(Roskuski): failed to find floor, resort to some failsafe?
+			}
 		}
 
 		model = transform.Find("Skeleton_Base_Model").GetComponent<SkinnedMeshRenderer>();
