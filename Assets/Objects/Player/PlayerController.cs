@@ -373,6 +373,7 @@ public class PlayerController : MonoBehaviour {
 		bool isNextValid = Next.fullPathHash != 0;
 
 		if (transform.position.y <= -20f) {
+			movement = Vector3.zero; mInput = Vector2.zero;
 			transform.position = gameMan.eSpawns[Random.Range(0, gameMan.eSpawns.Length)].transform.position;
 			Hit(1, null);
 		}
@@ -543,9 +544,11 @@ public class PlayerController : MonoBehaviour {
 		spotLight.intensity = 0;
 		float deathTimer = animationTimes["Character_Death_Test"];
 		deathTimer -= Time.deltaTime;
-		Debug.Log("Player died, restarting scene shortly");
+		Debug.Log("Player died, game over");
+		gameMan.statusTextboxText.text = "GAME OVER \n Enemies Killed: " + GameManager.overallEnemiesKilled;
 		yield return new WaitForSeconds(deathTimer + 1);
-		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+		SceneManager.LoadScene(0);
+		//SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 	}
 
 	public void ChangeMeter(float Amount) {
@@ -573,7 +576,6 @@ public class PlayerController : MonoBehaviour {
 		} 
 		else if (attack == Attacks.Chop) { freeAim = true; } 
 		else if (attack == Attacks.Spin) { speedTime = 0.4f; } // meter change done in animator
-		else if (attack == Attacks.Slam) { ChangeMeter(-5); } //-meterMax
 		else if (attack == Attacks.LethalDash) { setupHoming = false; }
 		else if (attack == Attacks.Dashing) { setupHoming = false; }
 
