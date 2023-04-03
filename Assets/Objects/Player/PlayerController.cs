@@ -432,13 +432,13 @@ public class PlayerController : MonoBehaviour {
 				attackButtonPrep = AttackButton.ModThrow;
 			}
 		
-			if (meter >= 1f && pActions.Player.Dash.WasPerformedThisFrame() && pActions.Player.MeterModifier.phase == InputActionPhase.Performed &&
-				trueInput.sqrMagnitude >= 0.1f && dashCooldown <= 0f  && isGrounded) { //&& Util.PerformCheckedVerticalMovement == true
-					attackButtonPrep = AttackButton.ModDash;
-					dashTime = 0;
-					dashCooldown = maxDashCooldown;
-					trueAngle = Mathf.Atan2(trueInput.x, trueInput.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
-			} else if (pActions.Player.Dash.WasPerformedThisFrame() && trueInput.sqrMagnitude >= 0.1f && dashCooldown <= 0f && isGrounded) {
+			if (meter >= 1f && pActions.Player.Dash.WasPerformedThisFrame() && pActions.Player.MeterModifier.phase == InputActionPhase.Performed && trueInput.sqrMagnitude >= 0.1f && dashCooldown <= 0f  && isGrounded) { //&& Util.PerformCheckedVerticalMovement == true
+				attackButtonPrep = AttackButton.ModDash;
+				dashTime = 0;
+				dashCooldown = maxDashCooldown;
+				trueAngle = Mathf.Atan2(trueInput.x, trueInput.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
+			}
+			else if (pActions.Player.Dash.WasPerformedThisFrame() && trueInput.sqrMagnitude >= 0.1f && dashCooldown <= 0f && isGrounded) {
 				attackButtonPrep = AttackButton.Dash;
 				dashTime = 0;
 				dashCooldown = maxDashCooldown;
@@ -733,7 +733,7 @@ public class PlayerController : MonoBehaviour {
 
 	public void SlamParticle() {
 		gameMan.SpawnParticle(1, slamPoint.position, 1f);
-    }
+	}
 
 	#endregion
 
