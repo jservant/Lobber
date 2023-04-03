@@ -277,7 +277,8 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		dashCooldown = maxDashCooldown;
-		health = healthMax;
+		health = GameManager.storedPlayerHealth;
+		meter = GameManager.storedPlayerMeter;
 		tsr = targetSphereRadius;
 	}
 
@@ -569,13 +570,11 @@ public class PlayerController : MonoBehaviour {
 			speedTime = 0;
 			freeAim = true;
 			setupHoming = false;
-		}
-		else if (attack == Attacks.Chop) {
-			freeAim = true;
-		} else if (attack == Attacks.Spin) { ChangeMeter(-1); speedTime = 0.4f; }
+		} 
+		else if (attack == Attacks.Chop) { freeAim = true; } 
+		else if (attack == Attacks.Spin) { speedTime = 0.4f; } // meter change done in animator
 		else if (attack == Attacks.Slam) { ChangeMeter(-5); } //-meterMax
-		else if (attack == Attacks.ShotgunThrow) { ChangeMeter(-3);}
-		else if (attack == Attacks.LethalDash) { setupHoming = false; ChangeMeter(-1); }
+		else if (attack == Attacks.LethalDash) { setupHoming = false; }
 		else if (attack == Attacks.Dashing) { setupHoming = false; }
 
 		animr.SetInteger("currentAttack", (int)attack);
@@ -671,6 +670,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public void ShotgunThrow() { // triggered in animator
+		ChangeMeter(-3);
 		SetupHoming();
 		headProj.speed = 50f;
 		headProj.canStun = true;

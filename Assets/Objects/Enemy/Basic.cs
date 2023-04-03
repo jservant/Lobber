@@ -939,7 +939,7 @@ public class Basic : MonoBehaviour {
 		if (shouldDie) {
 			float HeadChance = Random.Range(1, 100f);
 			if (HeadChance <= dropChance) GameObject.Instantiate(gameMan.HeadPickupPrefab, transform.position + 3 * Vector3.up, Quaternion.identity);
-			gameMan.enemiesKilled += 1;
+			gameMan.enemiesKilled += 1; GameManager.overallEnemiesKilled += 1;
 			Destroy(this.gameObject);
 		}
 	}

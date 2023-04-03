@@ -15,6 +15,8 @@ public class MenuManager : MonoBehaviour
 	}
 
 	public void OnPlay() {
+		GameManager.storedPlayerHealth = 10;
+		GameManager.storedPlayerMeter = 3;
 		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 	}
 

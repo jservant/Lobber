@@ -10,6 +10,8 @@ using TMPro;
 public class GameManager : MonoBehaviour {
 	public Transform player;
 	public PlayerController playerController;
+	public static int storedPlayerHealth = 0;
+	public static float storedPlayerMeter = 0;
 	[Header("UI")]
 	EventSystem eSystem;
 	public Canvas mainUI;
@@ -25,12 +27,13 @@ public class GameManager : MonoBehaviour {
 	public HeadProjectile SkullPrefab;
 	public GameObject EnemyPrefab;
 	public GameObject HeadPickupPrefab;
-
+	[Header("Enemies:")]
 	public GameObject eSpawnParent;
 	public OrbSpawn[] eSpawns;
 	public int enemiesAlive = 0;
 	public int enemiesKilled = 0;
-
+	public static int overallEnemiesKilled = 0;
+	public static int enemyKillingGoal = 30;
 	bool transitioningLevel = false;
 	[Header("Bools:")]
 	public bool updateTimeScale = true;
@@ -122,7 +125,7 @@ public class GameManager : MonoBehaviour {
 		UpdateHealthBar();
 		UpdateMeter();
 
-		if (canSpawn && enemiesAlive <= 5 && enemiesKilled < 50) {
+		if (canSpawn && enemiesAlive <= 5 && enemiesKilled < enemyKillingGoal) {
 			int randomIndex = Random.Range(0, eSpawns.Length);
 			eSpawns[randomIndex].StartCoroutine(eSpawns[randomIndex].Spawning(5));
 		}
@@ -145,6 +148,9 @@ public class GameManager : MonoBehaviour {
 			Debug.Log("YOU WIN!! Next stage starting shortly...");
 			statusTextboxText.text = "Stage Clear!";
 			yield return new WaitForSeconds(5);
+			storedPlayerHealth = playerController.health;
+			storedPlayerMeter = playerController.meter;
+			enemyKillingGoal += 10;
 			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 		}
 	}
