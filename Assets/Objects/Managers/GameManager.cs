@@ -122,7 +122,7 @@ public class GameManager : MonoBehaviour {
 		UpdateHealthBar();
 		UpdateMeter();
 
-		if (canSpawn && enemiesAlive <= 5 && enemiesKilled < 20) {
+		if (canSpawn && enemiesAlive <= 5 && enemiesKilled < 50) {
 			int randomIndex = Random.Range(0, eSpawns.Length);
 			eSpawns[randomIndex].StartCoroutine(eSpawns[randomIndex].Spawning(5));
 		}
