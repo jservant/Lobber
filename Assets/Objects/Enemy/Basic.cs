@@ -380,12 +380,12 @@ public class Basic : MonoBehaviour {
 			spawnUpwardsSpeed = 5f;
 
 			RaycastHit hitInfo;
-			if (Physics.Raycast(this.transform.position + this.transform.rotation * Vector3.forward * spawnLateralSpeed * lateralTime, Vector3.down, out hitInfo, Mathf.Infinity, Mask.Get(Layers.Ground))) {
-				spawnDownwardsSpeed = (spawnUpwardsSpeed * upwardsTime + hitInfo.distance) / downwardsTime;
+			// NOTE(Roskuski): I'm not certain why we need to rotate Vector3.back to test in the correct direction here. Vector3.forward results in testing in the direction behind the skeleton.
+			if (!Physics.Raycast(this.transform.position + this.transform.rotation * Vector3.back * spawnLateralSpeed * lateralTime, Vector3.down, out hitInfo, Mathf.Infinity, Mask.Get(Layers.Ground))) {
+				Physics.Raycast(this.transform.position, Vector3.down, out hitInfo, Mathf.Infinity, Mask.Get(Layers.Ground));
+				spawnLateralSpeed = 0;
 			}
-			else {
-				Debug.Assert(false); // @TODO(Roskuski): failed to find floor, resort to some failsafe?
-			}
+			spawnDownwardsSpeed = (spawnUpwardsSpeed * upwardsTime + hitInfo.distance) / downwardsTime;
 		}
 
 		model = transform.Find("Skeleton_Base_Model").GetComponent<SkinnedMeshRenderer>();
@@ -483,6 +483,11 @@ public class Basic : MonoBehaviour {
 				if (animationTimer < 0.0f) {
 					isImmune = false;
 					ChangeDirective_Inactive(0);
+
+					RaycastHit hitInfo;
+					if (Physics.Raycast(this.transform.position + Vector3.up * 2.5f, Vector3.down, out hitInfo, 2.6f, Mask.Get(Layers.Ground))) {
+						this.transform.position += Vector3.down * (hitInfo.distance - 2.6f); // NOTE(Roskuski): should dislodge skeletons from the ground if frame lag causes them to sink inwards.
+					}
 				}
 
 				{ // NOTE(Roskuski): Needs to be in a deeper scope because we use a variable of the same name elsewhere in this switch statement
