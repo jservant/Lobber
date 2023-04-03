@@ -46,10 +46,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   despawnTime: 3
+  currentlySpawning: 0
   enemy: {fileID: 2369981039474322611, guid: 015c14080a009154f94ee3a0f18a0813, type: 3}
   anim: {fileID: 0}
-  spawns: []
-  spawnNow: 0
   orbPrefab: {fileID: 1218883038451153262}
 --- !u!1 &1218883037260258795
 GameObject:
@@ -341,15 +340,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9216829960570488867, guid: 1174a12f124f6ca4fab8915e3f45ee00, type: 3}
       propertyPath: m_LocalScale.x
-      value: 2.5
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 9216829960570488867, guid: 1174a12f124f6ca4fab8915e3f45ee00, type: 3}
       propertyPath: m_LocalScale.y
-      value: 2.5
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 9216829960570488867, guid: 1174a12f124f6ca4fab8915e3f45ee00, type: 3}
       propertyPath: m_LocalScale.z
-      value: 2.5
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 9216829960570488867, guid: 1174a12f124f6ca4fab8915e3f45ee00, type: 3}
       propertyPath: m_LocalPosition.x
