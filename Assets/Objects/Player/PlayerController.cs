@@ -530,6 +530,7 @@ public class PlayerController : MonoBehaviour {
 
 	IEnumerator Death() {
 		animr.SetBool("isDead", true);
+		mInput = Vector2.zero; movement = Vector3.zero;
 		currentState = States.Death;
 		gameMan.mainUI.enabled = false;
 		capCol.enabled = false;
