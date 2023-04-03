@@ -19,6 +19,6 @@ public class CameraRotater : MonoBehaviour {
 	void FixedUpdate() {
 		cInput = player.pActions.Player.Aim.ReadValue<Vector2>();
 		transform.position = new Vector3(player.transform.position.x, yConst, player.transform.position.z);
-		transform.Rotate(0f, cInput.x * cSpeed * Time.fixedDeltaTime, 0f, Space.World);
+		transform.Rotate(cInput.y * cSpeed * Time.fixedDeltaTime, cInput.x * cSpeed * Time.fixedDeltaTime, 0f, Space.World);
 	}
 }
