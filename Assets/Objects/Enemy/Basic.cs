@@ -502,6 +502,10 @@ public class Basic : MonoBehaviour {
 					if (animationTimerRatio > 0.3035f && animationTimerRatio < 0.4285f) {
 						transform.position += this.transform.rotation * Vector3.down * spawnDownwardsSpeed * Time.deltaTime;
 					}
+					
+					if (animationTimerRatio > 0.4285f) {
+						isImmune = false;
+					}
 				}
 				break;
 
