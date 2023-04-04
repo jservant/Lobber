@@ -101,9 +101,12 @@ public class Basic : MonoBehaviour {
 	float health = 4;
 	bool shouldDie = false;
 	public float dropChance; //chance to drop a head (0-100)
+
 	KnockbackInfo knockbackInfo;
 	float remainingKnockbackTime = 0f;
 	[SerializeField] float hitflashTimer = 0f;
+	bool isInHeavyStun = false;
+	bool hasStartedStunRecovery = false;
 
 	[SerializeField] bool isSandbag = false;
 	bool isImmune = false;
@@ -169,15 +172,37 @@ public class Basic : MonoBehaviour {
 		return navAgent.remainingDistance - approchDistance;
 	}
 
-	public void ChangeDirective_Stunned(float stunTime, KnockbackInfo newKnockbackInfo) {
+	public enum StunTime {
+		ShortStun,
+		LongStun,
+	}
+
+	public void ChangeDirective_Stunned(StunTime stunTime, KnockbackInfo newKnockbackInfo) {
 		if (directive == Directive.Spawn) {
 			return; // do not trans from Spawn -> Stunned
 		}
 		directive = Directive.Stunned;
+		hasStartedStunRecovery = false;
+		isInHeavyStun = false;
 		
-		stunDuration += stunTime;
+		float stunValue = 0;
+		switch (stunTime) {
+			case StunTime.ShortStun:
+				stunValue = 0.5f;
+				animator.SetTrigger("wasHurt");
+				break;
+			case StunTime.LongStun:
+				stunValue = 2f;
+				animator.SetTrigger("wasHeavyHurt");
+				isInHeavyStun = true;
+				break;
+			default:
+				Debug.Assert(false);
+				break;
+		}
 
-		animator.SetTrigger("wasHurt");
+		stunDuration += stunValue;
+
 		swordHitbox.enabled = false;
 
 		knockbackInfo = newKnockbackInfo;
@@ -189,6 +214,9 @@ public class Basic : MonoBehaviour {
 		directive = Directive.Inactive;
 		this.inactiveWait = inactiveWait;
 		currentAttack = Attack.None;
+		isInHeavyStun = false;
+		hasStartedStunRecovery = false;
+
 		animator.SetInteger("CurrentAttack", (int)Attack.None);
 		swordHitbox.enabled = false;
 	}
@@ -254,55 +282,55 @@ public class Basic : MonoBehaviour {
 						case PlayerController.Attacks.LAttack:
 							if (fullAxe) {
 								health -= 0.5f;
-								ChangeDirective_Stunned(1.0f, newKnockbackInfo);
+								ChangeDirective_Stunned(StunTime.ShortStun, newKnockbackInfo);
 							}
 							else {
 								health -= 1;
-								ChangeDirective_Stunned(1.0f, newKnockbackInfo);
+								ChangeDirective_Stunned(StunTime.ShortStun, newKnockbackInfo);
 							}
 							break;
 
 						case PlayerController.Attacks.LAttack2:
 							if (fullAxe) {
 								health -= 0.5f;
-								ChangeDirective_Stunned(1.0f, newKnockbackInfo);
+								ChangeDirective_Stunned(StunTime.ShortStun, newKnockbackInfo);
 							}
 							else {
 								health -= 1;
-								ChangeDirective_Stunned(1.0f, newKnockbackInfo);
+								ChangeDirective_Stunned(StunTime.ShortStun, newKnockbackInfo);
 							}
 							break;
 
 						case PlayerController.Attacks.LAttack3:
 							if (fullAxe) {
 								health -= 1;
-								ChangeDirective_Stunned(1.0f, newKnockbackInfo);
+								ChangeDirective_Stunned(StunTime.LongStun, newKnockbackInfo);
 							}
 							else {
 								health -= 2;
-								ChangeDirective_Stunned(1.0f, newKnockbackInfo);
+								ChangeDirective_Stunned(StunTime.LongStun, newKnockbackInfo);
 							}
 							break;
 
 						case PlayerController.Attacks.Spin:
 							if (fullAxe) {
 								health -= 1;
-								ChangeDirective_Stunned(1.0f, newKnockbackInfo);
+								ChangeDirective_Stunned(StunTime.ShortStun, newKnockbackInfo);
 							}
 							else {
 								health -= 2;
-								ChangeDirective_Stunned(1.0f, newKnockbackInfo);
+								ChangeDirective_Stunned(StunTime.ShortStun, newKnockbackInfo);
 							}
 							break;
 
 						case PlayerController.Attacks.LethalDash:
 							if (fullAxe) {
 								health -= 1;
-								ChangeDirective_Stunned(1.0f, newKnockbackInfo);
+								ChangeDirective_Stunned(StunTime.ShortStun, newKnockbackInfo);
 							}
 							else {
 								health -= 2;
-								ChangeDirective_Stunned(1.0f, newKnockbackInfo);
+								ChangeDirective_Stunned(StunTime.ShortStun, newKnockbackInfo);
 							}
 							break;
 
@@ -315,15 +343,15 @@ public class Basic : MonoBehaviour {
 							else if (posDifference < 80f) {
 								if (fullAxe) {
 									health -= 2;
-									ChangeDirective_Stunned(1.0f, newKnockbackInfo);
+									ChangeDirective_Stunned(StunTime.LongStun, newKnockbackInfo);
 								}
 								else {
 									health -= 4;
-									ChangeDirective_Stunned(1.0f, newKnockbackInfo);
+									ChangeDirective_Stunned(StunTime.LongStun, newKnockbackInfo);
 								}
 							} 
 							else {
-								ChangeDirective_Stunned(1.0f, newKnockbackInfo);
+								ChangeDirective_Stunned(StunTime.LongStun, newKnockbackInfo);
 							}
 							break;
 
@@ -354,7 +382,7 @@ public class Basic : MonoBehaviour {
 			if (other.gameObject.layer == (int)Layers.TrapHitbox) {
 				// NOTE(Roskuski): Knockback trap
 				KnockbackInfo newKnockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
-				ChangeDirective_Stunned(1.0f, newKnockbackInfo);
+				ChangeDirective_Stunned(StunTime.LongStun, newKnockbackInfo);
 				//Quaternion knockBackDir = Quaternion.LookRotation(this.transform.position - other.transform.position);
 				//ChangeDirective_Stunned(6.0f, knockBackDir, 20.0f);
 			}
@@ -492,6 +520,10 @@ public class Basic : MonoBehaviour {
 				if (stunDuration < 0) {
 					ChangeDirective_Inactive(0);
 					stunDuration = 0;
+				}
+				if (isInHeavyStun && !hasStartedStunRecovery && stunDuration <= 0.620f) {
+					hasStartedStunRecovery = true;
+					animator.SetTrigger("HeavyHurtStartRecovery");
 				}
 				break;
 

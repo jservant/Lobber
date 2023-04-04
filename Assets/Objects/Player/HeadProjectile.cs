@@ -34,7 +34,7 @@ public class HeadProjectile : MonoBehaviour {
 				for (int index = 0; index < eColliders.Length; index += 1) {
 					Basic basicEnemy = eColliders[index].gameObject.GetComponent<Basic>();
 					KnockbackInfo knockbackInfo = getKnockbackInfo.GetInfo(basicEnemy.gameObject);
-					basicEnemy.ChangeDirective_Stunned(2.0f, knockbackInfo);
+					basicEnemy.ChangeDirective_Stunned(Basic.StunTime.LongStun, knockbackInfo);
 				}
 			}
 			Destroy(gameObject);
