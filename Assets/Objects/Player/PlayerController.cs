@@ -506,8 +506,6 @@ public class PlayerController : MonoBehaviour {
 		if (pActions.Player.DEBUGHeal.WasPerformedThisFrame()) {
 			health = healthMax;
 			meter = meterMax;
-			Debug.Log("Restart called");
-			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 		}
 	}
 
