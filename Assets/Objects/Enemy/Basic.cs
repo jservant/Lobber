@@ -932,6 +932,11 @@ public class Basic : MonoBehaviour {
 									this.transform.rotation = Quaternion.LookRotation(deltaToPlayerNoY, Vector3.up);
 								}
 							}
+
+							if (animationTimerRatio >= 0.25f && animationTimerRatio <= 0.5f) {
+								movementDelta += this.transform.rotation * Vector3.forward * 15f * Time.deltaTime * Mathf.Lerp(0.25f, 1f, (animationTimerRatio - 0.25f) / (0.5f - 0.25f));
+							}
+
 							if (animationTimer < 0.0f) {
 								ChangeDirective_Inactive(0);
 								navAgent.enabled = true;
