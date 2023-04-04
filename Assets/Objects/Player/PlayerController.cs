@@ -280,8 +280,8 @@ public class PlayerController : MonoBehaviour {
 		health = GameManager.storedPlayerHealth;
 		meter = GameManager.storedPlayerMeter;
 		tsr = targetSphereRadius;
-		if (meter > meterMax / 2) { topSpeed = 10f; }
-		else { topSpeed = 7f; }
+		if (meter == meterMax) { topSpeed = 8f; }
+		else { topSpeed = 10f; }
 	}
 
 	private void FixedUpdate() { // calculate movement here
@@ -566,8 +566,8 @@ public class PlayerController : MonoBehaviour {
 			headMeshTrail.enabled = false;
 		}
 		if (meter < 0) { meter = 0; }
-		if (meter > meterMax / 2) { topSpeed = 10f; }
-		else { topSpeed = 7f; }
+		if (meter == meterMax) { topSpeed = 8f; }
+		else { topSpeed = 10f; }
 	}
 	void setCurrentAttack(Attacks attack) {
 		bool setupHoming = true;
