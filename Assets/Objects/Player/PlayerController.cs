@@ -213,7 +213,8 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField] float turnSpeed = 0.05f;
 	[Header("Dashing:")]
 	[SerializeField] AnimationCurve dashCurve;
-	[SerializeField] float dashForce = 10f;				// dash strength (how far do you go)
+	[SerializeField] float dashForce = 10f;             // dash strength (how far do you go)
+	[SerializeField] float meterDashMultiplier = 2f;    // what to multiply dashForce by when using Lethal Dash
 	[SerializeField] float dashTime = 0f;				// how long has player been dashing for?
 	[SerializeField] float maxDashCooldown = 1.5f;		// how long does it take for player to dash again after dashing?
 	[SerializeField] float dashCooldown = 1f;
@@ -319,6 +320,7 @@ public class PlayerController : MonoBehaviour {
 				Vector3 dashDirection = Quaternion.Euler(0f, trueAngle, 0f) * Vector3.forward;
 				moveDelta = dashDirection.normalized * (dashForce * Mathf.Lerp(0, 1, dashCurve.Evaluate(dashTime /
 					animationTimes[currentAttack == Attacks.LethalDash ? "Character_Lethal_Dash" : "Character_Roll"])));
+				if (currentAttack == Attacks.LethalDash) moveDelta *= meterDashMultiplier;
 				if (dashTime >= animationTimes[currentAttack == Attacks.LethalDash ? "Character_Lethal_Dash" : "Character_Roll"]) {
 					currentState = States.Idle;
 					trueAngle = 0;
