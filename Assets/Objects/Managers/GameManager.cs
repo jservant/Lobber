@@ -131,7 +131,7 @@ public class GameManager : MonoBehaviour {
 		}
 
 
-		if (enemiesKilled >= 50 && enemiesAlive <= 0 && transitioningLevel == false) {
+		if (enemiesKilled >= enemyKillingGoal && enemiesAlive <= 0 && transitioningLevel == false) {
 			StartCoroutine(Win());
 		}
 	}

@@ -225,9 +225,6 @@ public class PlayerController : MonoBehaviour {
 	public float meter = 0;
 	public float meterMax = 5;
 	public float hitflashTimer = 0;
-	public float slamKillRadius = 0f; // not used for now
-	public float slamKbRadius = 3f;
-	public float slamStunRadius = 5f;
 
 	KnockbackInfo knockbackInfo = new KnockbackInfo(Quaternion.identity, 0, 0);
 	float remainingKnockbackTime;
@@ -283,6 +280,8 @@ public class PlayerController : MonoBehaviour {
 		health = GameManager.storedPlayerHealth;
 		meter = GameManager.storedPlayerMeter;
 		tsr = targetSphereRadius;
+		if (meter > meterMax / 2) { topSpeed = 10f; }
+		else { topSpeed = 7f; }
 	}
 
 	private void FixedUpdate() { // calculate movement here
@@ -565,6 +564,8 @@ public class PlayerController : MonoBehaviour {
 			headMeshTrail.enabled = false;
 		}
 		if (meter < 0) { meter = 0; }
+		if (meter > meterMax / 2) { topSpeed = 10f; }
+		else { topSpeed = 7f; }
 	}
 	void setCurrentAttack(Attacks attack) {
 		bool setupHoming = true;
