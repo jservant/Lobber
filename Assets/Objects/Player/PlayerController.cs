@@ -139,7 +139,7 @@ public class PlayerController : MonoBehaviour {
 		new KnockbackInfo(Quaternion.identity, 10.0f, 0.25f), // LAttack2
 		new KnockbackInfo(Quaternion.identity, 30.0f, 0.25f), // LAttack3
 		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // Chop
-		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // Slam
+		new KnockbackInfo(Quaternion.identity, 20.0f, 0.25f), // Slam
 		new KnockbackInfo(Quaternion.identity, 10.0f, 0.25f), // Spin
 		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // HeadThrow
 		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // Dashing
@@ -154,7 +154,7 @@ public class PlayerController : MonoBehaviour {
 		new KnockbackInfo(Quaternion.identity, 20.0f, 0.25f), // LAttack2
 		new KnockbackInfo(Quaternion.identity, 40.0f, 0.25f), // LAttack3
 		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // Chop
-		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // Slam
+		new KnockbackInfo(Quaternion.identity, 40.0f, 0.25f), // Slam
 		new KnockbackInfo(Quaternion.identity, 20.0f, 0.25f), // Spin
 		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // HeadThrow
 		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // Dashing
@@ -225,6 +225,9 @@ public class PlayerController : MonoBehaviour {
 	public float meter = 0;
 	public float meterMax = 5;
 	public float hitflashTimer = 0;
+	public float slamKillRadius = 0f; // not used for now
+	public float slamKbRadius = 3f;
+	public float slamStunRadius = 5f;
 
 	KnockbackInfo knockbackInfo = new KnockbackInfo(Quaternion.identity, 0, 0);
 	float remainingKnockbackTime;
@@ -733,7 +736,7 @@ public class PlayerController : MonoBehaviour {
 		return Result;
 	}
 
-	public void SlamParticle() {
+	public void Slam() {
 		gameMan.SpawnParticle(1, slamPoint.position, 1f);
 	}
 
@@ -767,18 +770,4 @@ public class PlayerController : MonoBehaviour {
 		Gizmos.DrawWireSphere(transform.position, 17);
 	}
 	#endregion
-
-	//TODO(@Jaden): Make the player flash when getting hit.
-	// Rough code sketch from Christian:
-
-	/*public IEnumerator FlashColor(Color color, float flashTime, float flashes)
-	{
-		foreach (Renderer r in GetComponentsInChildren<Renderer>())
-		{
-			foreach (Material mat in r.materials)
-			{
-				mat.shader. Shader.Find("Universal Render Pipeline/Lit")
-			}
-		}
-	}*/
 }

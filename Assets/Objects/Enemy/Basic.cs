@@ -307,7 +307,24 @@ public class Basic : MonoBehaviour {
 							break;
 
 						case PlayerController.Attacks.Slam:
-							shouldDie = true;
+							float posDifference = Mathf.Abs((player.transform.position - transform.position).sqrMagnitude);
+							Debug.Log(gameObject.name + "'s posDifference after slam: " + posDifference);
+							if (posDifference < 40f) {
+								shouldDie = true;
+							} 
+							else if (posDifference < 80f) {
+								if (fullAxe) {
+									health -= 2;
+									ChangeDirective_Stunned(1.0f, newKnockbackInfo);
+								}
+								else {
+									health -= 4;
+									ChangeDirective_Stunned(1.0f, newKnockbackInfo);
+								}
+							} 
+							else {
+								ChangeDirective_Stunned(1.0f, newKnockbackInfo);
+							}
 							break;
 
 						case PlayerController.Attacks.Chop:
