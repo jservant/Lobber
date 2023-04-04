@@ -94,6 +94,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "DEBUGLevelSkip",
+                    "type": "Button",
+                    "id": "ca45f642-b47f-4cc9-b4b5-6fb3fee869e8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -407,6 +416,17 @@
                 },
                 {
                     "name": "",
+                    "id": "61908d86-5d9d-4511-9c6c-48a7b3988e2b",
+                    "path": "<Keyboard>/p",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "MeterModifier",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "6cff4d2e-1334-4607-8075-4c4d0151e7c3",
                     "path": "<Gamepad>/leftStickPress",
                     "interactions": "",
@@ -424,6 +444,28 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "DEBUGHeal",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ca6576ce-a33d-4ce9-bc15-d7a1270e09da",
+                    "path": "<Gamepad>/rightStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "DEBUGLevelSkip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c80b8922-07db-4c55-b3b9-8fe20c4d7dad",
+                    "path": "<Keyboard>/minus",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "DEBUGLevelSkip",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

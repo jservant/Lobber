@@ -116,6 +116,15 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DEBUGLevelSkip"",
+                    ""type"": ""Button"",
+                    ""id"": ""ca45f642-b47f-4cc9-b4b5-6fb3fee869e8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -429,6 +438,17 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""61908d86-5d9d-4511-9c6c-48a7b3988e2b"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""MeterModifier"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""6cff4d2e-1334-4607-8075-4c4d0151e7c3"",
                     ""path"": ""<Gamepad>/leftStickPress"",
                     ""interactions"": """",
@@ -446,6 +466,28 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""DEBUGHeal"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ca6576ce-a33d-4ce9-bc15-d7a1270e09da"",
+                    ""path"": ""<Gamepad>/rightStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""DEBUGLevelSkip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c80b8922-07db-4c55-b3b9-8fe20c4d7dad"",
+                    ""path"": ""<Keyboard>/minus"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""DEBUGLevelSkip"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -527,6 +569,7 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
         m_Player_MeterModifier = m_Player.FindAction("MeterModifier", throwIfNotFound: true);
         m_Player_DEBUGHeal = m_Player.FindAction("DEBUGHeal", throwIfNotFound: true);
+        m_Player_DEBUGLevelSkip = m_Player.FindAction("DEBUGLevelSkip", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -598,6 +641,7 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Pause;
     private readonly InputAction m_Player_MeterModifier;
     private readonly InputAction m_Player_DEBUGHeal;
+    private readonly InputAction m_Player_DEBUGLevelSkip;
     public struct PlayerActions
     {
         private @DefaultPlayerActions m_Wrapper;
@@ -612,6 +656,7 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputAction @MeterModifier => m_Wrapper.m_Player_MeterModifier;
         public InputAction @DEBUGHeal => m_Wrapper.m_Player_DEBUGHeal;
+        public InputAction @DEBUGLevelSkip => m_Wrapper.m_Player_DEBUGLevelSkip;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -651,6 +696,9 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
             @DEBUGHeal.started += instance.OnDEBUGHeal;
             @DEBUGHeal.performed += instance.OnDEBUGHeal;
             @DEBUGHeal.canceled += instance.OnDEBUGHeal;
+            @DEBUGLevelSkip.started += instance.OnDEBUGLevelSkip;
+            @DEBUGLevelSkip.performed += instance.OnDEBUGLevelSkip;
+            @DEBUGLevelSkip.canceled += instance.OnDEBUGLevelSkip;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -685,6 +733,9 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
             @DEBUGHeal.started -= instance.OnDEBUGHeal;
             @DEBUGHeal.performed -= instance.OnDEBUGHeal;
             @DEBUGHeal.canceled -= instance.OnDEBUGHeal;
+            @DEBUGLevelSkip.started -= instance.OnDEBUGLevelSkip;
+            @DEBUGLevelSkip.performed -= instance.OnDEBUGLevelSkip;
+            @DEBUGLevelSkip.canceled -= instance.OnDEBUGLevelSkip;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -759,5 +810,6 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
         void OnPause(InputAction.CallbackContext context);
         void OnMeterModifier(InputAction.CallbackContext context);
         void OnDEBUGHeal(InputAction.CallbackContext context);
+        void OnDEBUGLevelSkip(InputAction.CallbackContext context);
     }
 }

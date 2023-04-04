@@ -499,13 +499,17 @@ public class PlayerController : MonoBehaviour {
 			wasNextValid = isNextValid;
 		}
 
-		if (pActions.Player.DEBUGRestart.WasPerformedThisFrame()) {
+		if (pActions.Player.MeterModifier.phase == InputActionPhase.Performed && pActions.Player.DEBUGRestart.WasPerformedThisFrame()) {
 			Debug.Log("Restart called");
 			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 		}
-		if (pActions.Player.DEBUGHeal.WasPerformedThisFrame()) {
+		if (pActions.Player.MeterModifier.phase == InputActionPhase.Performed && pActions.Player.DEBUGHeal.WasPerformedThisFrame()) {
 			health = healthMax;
 			meter = meterMax;
+		}
+		if (pActions.Player.MeterModifier.phase == InputActionPhase.Performed && pActions.Player.DEBUGLevelSkip.WasPerformedThisFrame()) {
+			if (SceneManager.GetActiveScene().buildIndex == 3) { SceneManager.LoadScene(0); }
+			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 		}
 	}
 
@@ -568,6 +572,7 @@ public class PlayerController : MonoBehaviour {
 		deathTimer -= Time.deltaTime;
 		Debug.Log("Player died, game over");
 		gameMan.statusTextboxText.text = "GAME OVER \n Enemies Killed: " + GameManager.overallEnemiesKilled;
+		GameManager.overallEnemiesKilled = 0;
 		yield return new WaitForSeconds(deathTimer + 1);
 		SceneManager.LoadScene(0);
 		//SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
