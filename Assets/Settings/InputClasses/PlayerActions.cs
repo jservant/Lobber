@@ -55,7 +55,7 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Restart"",
+                    ""name"": ""DEBUGRestart"",
                     ""type"": ""Button"",
                     ""id"": ""bec019d2-7494-4fba-accd-5b5719840ea3"",
                     ""expectedControlType"": ""Button"",
@@ -103,6 +103,15 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
                     ""name"": ""MeterModifier"",
                     ""type"": ""Button"",
                     ""id"": ""d305efb9-f879-4f2e-a33a-7a34e43227f1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DEBUGHeal"",
+                    ""type"": ""Button"",
+                    ""id"": ""186f28e4-2018-423e-8a3f-df35b94a8464"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -293,7 +302,7 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Restart"",
+                    ""action"": ""DEBUGRestart"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -304,7 +313,7 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Restart"",
+                    ""action"": ""DEBUGRestart"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -417,6 +426,28 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
                     ""action"": ""MeterModifier"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6cff4d2e-1334-4607-8075-4c4d0151e7c3"",
+                    ""path"": ""<Gamepad>/leftStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""DEBUGHeal"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8a01d293-15f7-4168-b6d9-17ca53cc5e21"",
+                    ""path"": ""<Keyboard>/equals"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""DEBUGHeal"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -489,12 +520,13 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_LightAttack = m_Player.FindAction("LightAttack", throwIfNotFound: true);
         m_Player_HeavyAttack = m_Player.FindAction("HeavyAttack", throwIfNotFound: true);
-        m_Player_Restart = m_Player.FindAction("Restart", throwIfNotFound: true);
+        m_Player_DEBUGRestart = m_Player.FindAction("DEBUGRestart", throwIfNotFound: true);
         m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
         m_Player_Throw = m_Player.FindAction("Throw", throwIfNotFound: true);
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
         m_Player_MeterModifier = m_Player.FindAction("MeterModifier", throwIfNotFound: true);
+        m_Player_DEBUGHeal = m_Player.FindAction("DEBUGHeal", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -559,12 +591,13 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_LightAttack;
     private readonly InputAction m_Player_HeavyAttack;
-    private readonly InputAction m_Player_Restart;
+    private readonly InputAction m_Player_DEBUGRestart;
     private readonly InputAction m_Player_Aim;
     private readonly InputAction m_Player_Throw;
     private readonly InputAction m_Player_Dash;
     private readonly InputAction m_Player_Pause;
     private readonly InputAction m_Player_MeterModifier;
+    private readonly InputAction m_Player_DEBUGHeal;
     public struct PlayerActions
     {
         private @DefaultPlayerActions m_Wrapper;
@@ -572,12 +605,13 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @LightAttack => m_Wrapper.m_Player_LightAttack;
         public InputAction @HeavyAttack => m_Wrapper.m_Player_HeavyAttack;
-        public InputAction @Restart => m_Wrapper.m_Player_Restart;
+        public InputAction @DEBUGRestart => m_Wrapper.m_Player_DEBUGRestart;
         public InputAction @Aim => m_Wrapper.m_Player_Aim;
         public InputAction @Throw => m_Wrapper.m_Player_Throw;
         public InputAction @Dash => m_Wrapper.m_Player_Dash;
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputAction @MeterModifier => m_Wrapper.m_Player_MeterModifier;
+        public InputAction @DEBUGHeal => m_Wrapper.m_Player_DEBUGHeal;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -596,9 +630,9 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
             @HeavyAttack.started += instance.OnHeavyAttack;
             @HeavyAttack.performed += instance.OnHeavyAttack;
             @HeavyAttack.canceled += instance.OnHeavyAttack;
-            @Restart.started += instance.OnRestart;
-            @Restart.performed += instance.OnRestart;
-            @Restart.canceled += instance.OnRestart;
+            @DEBUGRestart.started += instance.OnDEBUGRestart;
+            @DEBUGRestart.performed += instance.OnDEBUGRestart;
+            @DEBUGRestart.canceled += instance.OnDEBUGRestart;
             @Aim.started += instance.OnAim;
             @Aim.performed += instance.OnAim;
             @Aim.canceled += instance.OnAim;
@@ -614,6 +648,9 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
             @MeterModifier.started += instance.OnMeterModifier;
             @MeterModifier.performed += instance.OnMeterModifier;
             @MeterModifier.canceled += instance.OnMeterModifier;
+            @DEBUGHeal.started += instance.OnDEBUGHeal;
+            @DEBUGHeal.performed += instance.OnDEBUGHeal;
+            @DEBUGHeal.canceled += instance.OnDEBUGHeal;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -627,9 +664,9 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
             @HeavyAttack.started -= instance.OnHeavyAttack;
             @HeavyAttack.performed -= instance.OnHeavyAttack;
             @HeavyAttack.canceled -= instance.OnHeavyAttack;
-            @Restart.started -= instance.OnRestart;
-            @Restart.performed -= instance.OnRestart;
-            @Restart.canceled -= instance.OnRestart;
+            @DEBUGRestart.started -= instance.OnDEBUGRestart;
+            @DEBUGRestart.performed -= instance.OnDEBUGRestart;
+            @DEBUGRestart.canceled -= instance.OnDEBUGRestart;
             @Aim.started -= instance.OnAim;
             @Aim.performed -= instance.OnAim;
             @Aim.canceled -= instance.OnAim;
@@ -645,6 +682,9 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
             @MeterModifier.started -= instance.OnMeterModifier;
             @MeterModifier.performed -= instance.OnMeterModifier;
             @MeterModifier.canceled -= instance.OnMeterModifier;
+            @DEBUGHeal.started -= instance.OnDEBUGHeal;
+            @DEBUGHeal.performed -= instance.OnDEBUGHeal;
+            @DEBUGHeal.canceled -= instance.OnDEBUGHeal;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -712,11 +752,12 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnLightAttack(InputAction.CallbackContext context);
         void OnHeavyAttack(InputAction.CallbackContext context);
-        void OnRestart(InputAction.CallbackContext context);
+        void OnDEBUGRestart(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
         void OnThrow(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
         void OnMeterModifier(InputAction.CallbackContext context);
+        void OnDEBUGHeal(InputAction.CallbackContext context);
     }
 }

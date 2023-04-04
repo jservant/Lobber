@@ -499,7 +499,13 @@ public class PlayerController : MonoBehaviour {
 			wasNextValid = isNextValid;
 		}
 
-		if (pActions.Player.Restart.WasPerformedThisFrame()) {
+		if (pActions.Player.DEBUGRestart.WasPerformedThisFrame()) {
+			Debug.Log("Restart called");
+			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+		}
+		if (pActions.Player.DEBUGHeal.WasPerformedThisFrame()) {
+			health = healthMax;
+			meter = meterMax;
 			Debug.Log("Restart called");
 			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 		}

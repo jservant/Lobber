@@ -33,7 +33,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Restart",
+                    "name": "DEBUGRestart",
                     "type": "Button",
                     "id": "bec019d2-7494-4fba-accd-5b5719840ea3",
                     "expectedControlType": "Button",
@@ -81,6 +81,15 @@
                     "name": "MeterModifier",
                     "type": "Button",
                     "id": "d305efb9-f879-4f2e-a33a-7a34e43227f1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "DEBUGHeal",
+                    "type": "Button",
+                    "id": "186f28e4-2018-423e-8a3f-df35b94a8464",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -271,7 +280,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Restart",
+                    "action": "DEBUGRestart",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -282,7 +291,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Restart",
+                    "action": "DEBUGRestart",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -393,6 +402,28 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "MeterModifier",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6cff4d2e-1334-4607-8075-4c4d0151e7c3",
+                    "path": "<Gamepad>/leftStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "DEBUGHeal",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8a01d293-15f7-4168-b6d9-17ca53cc5e21",
+                    "path": "<Keyboard>/equals",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "DEBUGHeal",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
