@@ -373,7 +373,7 @@ public class PlayerController : MonoBehaviour {
 		bool isNextValid = Next.fullPathHash != 0;
 
 		if (transform.position.y <= -20f) {
-			movement = Vector3.zero; mInput = Vector2.zero;
+			movement = Vector3.zero; mInput = Vector2.zero; remainingKnockbackTime = 0f;
 			transform.position = gameMan.eSpawns[Random.Range(0, gameMan.eSpawns.Length)].transform.position;
 			Hit(1, null);
 		}
