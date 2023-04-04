@@ -516,7 +516,20 @@ public class PlayerController : MonoBehaviour {
 	//@TODO(Jaden): Add i-frames and trigger hitstun state when hit
 	private void OnTriggerEnter(Collider other) {
 		if (other.gameObject.layer == (int)Layers.EnemyHitbox && vulnerable == true && remainingKnockbackTime <= 0) { // player is getting hit
-			Hit(1, other);
+			Basic otherBasic = other.GetComponentInParent<Basic>();
+			int damage = 0;
+			switch (otherBasic.currentAttack) {
+				case Basic.Attack.Slash:
+					damage = 1;
+					break;
+				case Basic.Attack.Lunge:
+					damage = 2;
+					break;
+				default:
+					Debug.Assert(false);
+					break;
+			}
+			Hit(damage, other);
 		}
 		else if (other.gameObject.layer == (int)Layers.EnemyHurtbox) { // player is hitting enemy
 			// NOTE(Roskuski): I hit the enemy!

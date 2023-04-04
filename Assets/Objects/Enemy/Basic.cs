@@ -62,12 +62,12 @@ public class Basic : MonoBehaviour {
 	[SerializeField] Directive directive;
 
 	// NOTE(Roskuski): This should stay in sync with the animation controller. DO NOT ADD ELEMENTS IN THE MIDDLE OF THE ENUM
-	enum Attack : int {
+	public enum Attack : int {
 		None = 0,
 		Slash,
 		Lunge,
 	}
-	[SerializeField] Attack currentAttack = Attack.None; // NOTE(Roskuski): Do not set this manually, use the setting function, as that keeps animation state insync
+	public Attack currentAttack = Attack.None; // NOTE(Roskuski): Do not set this manually, use the setting function, as that keeps animation state insync
 
 	public bool randomizeStats = true;
 	float inactiveWait = 2;
