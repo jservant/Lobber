@@ -243,7 +243,6 @@ public class PlayerController : MonoBehaviour {
 	float AnimatorNormalizedTimeOfNextOrCurrentAttackState_LastValue;
 	int AnimatorNormalizedTimeOfNextOrCurrentAttackState_LastSource;
 	bool wasNextValid = false; 
-	float turnVelocity = 0f;  // annoying float that is only referenced and has to exist for movement math to work
 
 	private void Awake() {
 		capCol = GetComponent<CapsuleCollider>();
@@ -330,6 +329,7 @@ public class PlayerController : MonoBehaviour {
 			}
 			else {
 				float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
+				float turnVelocity = 0f;  // annoying float that is only referenced and has to exist for movement math to work
 				float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnVelocity, turnSpeed);
 				transform.rotation = Quaternion.Euler(0f, angle, 0f);
 				Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
