@@ -618,8 +618,9 @@ public class PlayerController : MonoBehaviour {
 			setupHoming = false;
 		} 
 		else if (attack == Attacks.Chop) { freeAim = true; } 
-		else if (attack == Attacks.Spin) { speedTime = 0.4f; } // meter change done in animator
-		else if (attack == Attacks.LethalDash) { setupHoming = false; }
+		else if (attack == Attacks.Spin) { ChangeMeter(-1); speedTime = 0.4f; } // meter change done in animator
+		else if (attack == Attacks.LethalDash) { ChangeMeter(-1); setupHoming = false; }
+		else if (attack == Attacks.Slam) { ChangeMeter(-5); setupHoming = false; }
 		else if (attack == Attacks.Dashing) { setupHoming = false; }
 
 		animr.SetInteger("currentAttack", (int)attack);
