@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour {
 			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Mod Dash
 		// When in LAttack3
 		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
-			               new QueueInfo(0.3f, 1.0f, Attacks.LAttack), // Light Attack
+			               new QueueInfo(0.3f, 1.0f, Attacks.None), // Light Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Heavy Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Throw
 			               new QueueInfo(0.0f, 1.0f, Attacks.Dashing), // Dash
@@ -162,6 +162,20 @@ public class PlayerController : MonoBehaviour {
 		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // ShotgunThrow
 	};
 
+	static readonly string[] AttackToStateName = {
+		"None",
+		"Base.Attacks.LAttack",
+		"Base.Attacks.LAttack2",
+		"Base.Attacks.LAttack3",
+		"Base.Attacks.Chop",
+		"Base.Attacks.Slam",
+		"Base.Attacks.Spin",
+		"Base.Attacks.Throw",
+		"Base.Attacks.Dash",
+		"Base.Attacks.LethalDash",
+		"Base.Attacks.ShotgunThrow"
+	};
+
 	static bool animationTimesPopulated = false;
 	static Dictionary<string, float> animationTimes;
 	#endregion
@@ -244,6 +258,8 @@ public class PlayerController : MonoBehaviour {
 	float AnimatorNormalizedTimeOfNextOrCurrentAttackState_LastValue;
 	int AnimatorNormalizedTimeOfNextOrCurrentAttackState_LastSource;
 	bool wasNextValid = false; 
+	int lastAnimationStateHash = -1;
+
 
 	private void Awake() {
 		capCol = GetComponent<CapsuleCollider>();
@@ -467,9 +483,9 @@ public class PlayerController : MonoBehaviour {
 			// animator controller
 			if (currentAttack == Attacks.None ||
 					(!wasNextValid && isNextValid && queuedAttack != Attacks.None && IsAttackState(Next)) || // NOTE(Roskuski): This is a hack to make sure that this script stays in sync with the animator when it takes a transition early.
-					(AnimatorNormalizedTimeOfNextOrCurrentAttackState() >= 1.0f)) {
+					((AnimatorNormalizedTimeOfNextOrCurrentAttackState() >= 1.0f) && Current.IsName(AttackToStateName[(int)currentAttack]))) {
 				if (queuedAttack != Attacks.None) {
-					setCurrentAttack(queuedAttack);
+					SetCurrentAttack(queuedAttack);
 					queuedAttack = Attacks.None;
 				}
 				else {
@@ -487,8 +503,6 @@ public class PlayerController : MonoBehaviour {
 			Debug.Log("Restart called");
 			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 		}
-
-		
 	}
 
 	//@TODO(Jaden): Add i-frames and trigger hitstun state when hit
@@ -569,9 +583,10 @@ public class PlayerController : MonoBehaviour {
 		if (meter == meterMax) { topSpeed = 8f; }
 		else { topSpeed = 10f; }
 	}
-	void setCurrentAttack(Attacks attack) {
+	void SetCurrentAttack(Attacks attack) {
 		bool setupHoming = true;
 		currentState = States.Attacking;
+		lastAnimationStateHash = animr.GetCurrentAnimatorStateInfo(0).fullPathHash;
 
 		tsr = targetSphereRadius;
 		if (attack == Attacks.HeadThrow) {
@@ -745,21 +760,6 @@ public class PlayerController : MonoBehaviour {
 
 	#endregion
 
-	#region Animation arrays
-	static readonly string[] AttackToStateName = {
-		"None",
-		"Base.Attacks.LAttack",
-		"Base.Attacks.LAttack2",
-		"Base.Attacks.LAttack3",
-		"Base.Attacks.Chop",
-		"Base.Attacks.Slam",
-		"Base.Attacks.Spin",
-		"Base.Attacks.Throw",
-		"Base.Attacks.Dash",
-		"Base.Attacks.LethalDash",
-		"Base.Attacks.ShotgunThrow"
-	};
-	#endregion
 
 	#region Minor utility functions
 	void OnEnable() { pActions.Enable(); }
