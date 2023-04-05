@@ -23,6 +23,7 @@ public class Initializer : MonoBehaviour
     }
 
 	public static void WriteDefaultValues() {
+		Debug.Log("No save file found, making a new one with default values");
 		using (var stream = File.Open(fileName, FileMode.CreateNew)) {
 			using (var writer = new BinaryWriter(stream, Encoding.UTF8, false)) {
 				writer.Write(0);
@@ -38,7 +39,7 @@ public class Initializer : MonoBehaviour
 				}
 			}
 
-			Debug.Log("Enemies killed: " + allEnemiesKilled);
+			Debug.Log("(Initializer) Enemies killed: " + allEnemiesKilled);
 		}
 
 	}

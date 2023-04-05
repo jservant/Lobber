@@ -145,6 +145,7 @@ public class GameManager : MonoBehaviour {
 
 	IEnumerator Win() {
 		transitioningLevel = true;
+		Save();
 		if (SceneManager.GetActiveScene().buildIndex == 4) {
 			statusTextboxText.text = "YOU WIN!!!";
 			Debug.Log("YOUR THE BUIGESS FUCKIN WINNER:; DAMMM");
@@ -207,20 +208,20 @@ public class GameManager : MonoBehaviour {
 
 	public void OnQuit() {
 		SceneManager.LoadScene(0);
+		Save();
 		//Application.Quit();
+	}
+
+	public void Save() {
+		using (FileStream fs = new FileStream(Initializer.fileName, FileMode.Create)) {
+			using (BinaryWriter w = new BinaryWriter(fs)) {
+				w.Write(Initializer.allEnemiesKilled);
+			}
+		}
 	}
 
 	void OnEnable() { dActions.Enable(); }
 	void OnDisable() { dActions.Disable(); }
 
-	private void OnApplicationQuit() {
-		if (enemiesKilledInRun > 0) Initializer.allEnemiesKilled += enemiesKilledInRun;
-		using (FileStream fs = new FileStream(Initializer.fileName, FileMode.CreateNew)) {
-			using (BinaryWriter w = new BinaryWriter(fs)) {
-				for (int i = 0; i < 11; i++) {
-					w.Write(i);
-				}
-			}
-		}
-	}
+	private void OnApplicationQuit() { Save(); }
 }
