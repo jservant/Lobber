@@ -508,7 +508,7 @@ public class PlayerController : MonoBehaviour {
 			meter = meterMax;
 		}
 		if (pActions.Player.MeterModifier.phase == InputActionPhase.Performed && pActions.Player.DEBUGLevelSkip.WasPerformedThisFrame()) {
-			if (SceneManager.GetActiveScene().buildIndex == 3) { SceneManager.LoadScene(0); }
+			if (SceneManager.GetActiveScene().buildIndex == 4) { SceneManager.LoadScene(0); }
 			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 		}
 	}
@@ -584,8 +584,8 @@ public class PlayerController : MonoBehaviour {
 		float deathTimer = animationTimes["Character_Death_Test"];
 		deathTimer -= Time.deltaTime;
 		Debug.Log("Player died, game over");
-		gameMan.statusTextboxText.text = "GAME OVER \n Enemies Killed: " + GameManager.overallEnemiesKilled;
-		GameManager.overallEnemiesKilled = 0;
+		gameMan.statusTextboxText.text = "GAME OVER \n Enemies Killed: " + GameManager.enemiesKilledInRun;
+		GameManager.enemiesKilledInRun = 0;
 		yield return new WaitForSeconds(deathTimer + 1);
 		SceneManager.LoadScene(0);
 	}

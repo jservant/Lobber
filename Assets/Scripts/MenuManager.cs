@@ -2,16 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class MenuManager : MonoBehaviour
 {
 	Canvas mainUI;
 	Canvas optionsUI;
 
-	private void Start() {
+	TMP_Text globalKillcount;
 
+	private void Start() {
 		mainUI = transform.Find("MainUI").GetComponent<Canvas>();
 		optionsUI = transform.Find("OptionsUI").GetComponent<Canvas>();
+		globalKillcount = transform.Find("MainUI/GlobalKillcount").GetComponent<TMP_Text>();
+
+		if (Initializer.allEnemiesKilled > 0) { globalKillcount.text = "Total Kills:\n" + Initializer.allEnemiesKilled; }
+		else { globalKillcount.text = ""; }
+
 	}
 
 	public void OnPlay() {

@@ -1,7 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using System;
 using System.IO;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -33,8 +33,8 @@ public class GameManager : MonoBehaviour {
 	public GameObject eSpawnParent;
 	public OrbSpawn[] eSpawns;
 	public int enemiesAlive = 0;
-	public int enemiesKilled = 0;
-	public static int overallEnemiesKilled = 0;
+	public int enemiesKilledInLevel = 0;
+	public static int enemiesKilledInRun = 0;
 	public static int enemyKillingGoal = 30;
 	bool transitioningLevel = false;
 	[Header("Bools:")]
@@ -68,26 +68,6 @@ public class GameManager : MonoBehaviour {
 		if (canSpawn) {
 			int randomIndex = UnityEngine.Random.Range(0, eSpawns.Length);
 			eSpawns[randomIndex].StartCoroutine(eSpawns[randomIndex].Spawning(5));
-		}
-
-		// testing save stuff
-		string path = Application.persistentDataPath + @"/MyTest.txt";
-		Debug.Log("File path: " + path);
-		if (!File.Exists(path)) {
-			using (StreamWriter sw = File.CreateText(path)) {
-				// Create a file to write to
-				sw.WriteLine("Hello");
-				sw.WriteLine("And");
-				sw.WriteLine("Welcome");
-			}
-
-			// Open the file to read from.
-			using (StreamReader sr = File.OpenText(path)) {
-				string s;
-				while ((s = sr.ReadLine()) != null) {
-					Console.WriteLine(s);
-				}
-			}
 		}
 	}
 
@@ -147,20 +127,20 @@ public class GameManager : MonoBehaviour {
 		UpdateHealthBar();
 		UpdateMeter();
 
-		if (canSpawn && enemiesAlive <= 5 && enemiesKilled < enemyKillingGoal) {
+		if (canSpawn && enemiesAlive <= 5 && enemiesKilledInLevel < enemyKillingGoal) {
 			int randomIndex = UnityEngine.Random.Range(0, eSpawns.Length);
 			eSpawns[randomIndex].StartCoroutine(eSpawns[randomIndex].Spawning(5));
 		}
 
 
-		if (enemiesKilled >= enemyKillingGoal && enemiesAlive <= 0 && transitioningLevel == false) {
+		if (enemiesKilledInLevel >= enemyKillingGoal && enemiesAlive <= 0 && transitioningLevel == false) {
 			StartCoroutine(Win());
 		}
 	}
 
 	IEnumerator Win() {
 		transitioningLevel = true;
-		if (SceneManager.GetActiveScene().buildIndex == 3) {
+		if (SceneManager.GetActiveScene().buildIndex == 4) {
 			statusTextboxText.text = "YOU WIN!!!";
 			Debug.Log("YOUR THE BUIGESS FUCKIN WINNER:; DAMMM");
 			yield return new WaitForSeconds(5);
@@ -226,4 +206,15 @@ public class GameManager : MonoBehaviour {
 
 	void OnEnable() { dActions.Enable(); }
 	void OnDisable() { dActions.Disable(); }
+
+	private void OnApplicationQuit() {
+		if (enemiesKilledInRun > 0) Initializer.allEnemiesKilled += enemiesKilledInRun;
+		using (FileStream fs = new FileStream(Initializer.fileName, FileMode.CreateNew)) {
+			using (BinaryWriter w = new BinaryWriter(fs)) {
+				for (int i = 0; i < 11; i++) {
+					w.Write(i);
+				}
+			}
+		}
+	}
 }
