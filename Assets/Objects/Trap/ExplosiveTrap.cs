@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SampleTrap : MonoBehaviour {
+public class ExplosiveTrap : MonoBehaviour {
 	public GameObject hitbox;
 	private Collider capsule;
 	private bool isArmed;
