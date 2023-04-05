@@ -152,6 +152,7 @@ public class Exploding : MonoBehaviour {
 
 					if (!reevaluateMovement) {
 						this.transform.position += moveDirection * Vector3.forward * MoveSpeed * Time.deltaTime;
+						this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, moveDirection, 360 * 2 * Time.deltaTime);
 					}
 
 					if (movementBurstDuration <= 0.0f) {
@@ -226,6 +227,8 @@ public class Exploding : MonoBehaviour {
 				if (animator.GetCurrentAnimatorStateInfo(0).IsName("AttackStart")) {
 					launchHasStarted = true;
 				}
+
+				this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, Quaternion.LookRotation(launchTarget - launchInitalPosition, Vector3.up), 360 * 2 * Time.deltaTime);
 
 				if (launchHasStarted && !animator.GetCurrentAnimatorStateInfo(0).IsName("AttackStart")){
 					// Follow a parbola
