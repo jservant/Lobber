@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
+using System.IO;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -64,8 +66,28 @@ public class GameManager : MonoBehaviour {
 		statusTextboxText.text = "";
 
 		if (canSpawn) {
-			int randomIndex = Random.Range(0, eSpawns.Length);
+			int randomIndex = UnityEngine.Random.Range(0, eSpawns.Length);
 			eSpawns[randomIndex].StartCoroutine(eSpawns[randomIndex].Spawning(5));
+		}
+
+		// testing save stuff
+		string path = Application.persistentDataPath + @"/MyTest.txt";
+		Debug.Log("File path: " + path);
+		if (!File.Exists(path)) {
+			using (StreamWriter sw = File.CreateText(path)) {
+				// Create a file to write to
+				sw.WriteLine("Hello");
+				sw.WriteLine("And");
+				sw.WriteLine("Welcome");
+			}
+
+			// Open the file to read from.
+			using (StreamReader sr = File.OpenText(path)) {
+				string s;
+				while ((s = sr.ReadLine()) != null) {
+					Console.WriteLine(s);
+				}
+			}
 		}
 	}
 
@@ -126,7 +148,7 @@ public class GameManager : MonoBehaviour {
 		UpdateMeter();
 
 		if (canSpawn && enemiesAlive <= 5 && enemiesKilled < enemyKillingGoal) {
-			int randomIndex = Random.Range(0, eSpawns.Length);
+			int randomIndex = UnityEngine.Random.Range(0, eSpawns.Length);
 			eSpawns[randomIndex].StartCoroutine(eSpawns[randomIndex].Spawning(5));
 		}
 
