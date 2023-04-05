@@ -69,6 +69,7 @@ public class GameManager : MonoBehaviour {
 		optionsUI = transform.Find("OptionsUI").GetComponent<Canvas>();
 		statusTextboxText = transform.Find("StatusTextbox/StatusTextboxText").GetComponent<TMP_Text>();
 		statusTextboxText.text = "";
+		Time.timeScale = 1;
 
 		if (canSpawn) {
 			int randomIndex = UnityEngine.Random.Range(0, eSpawns.Length);
@@ -208,6 +209,7 @@ public class GameManager : MonoBehaviour {
 
 	public void OnQuit() {
 		SceneManager.LoadScene(0);
+		Time.timeScale = 1;
 		Save();
 		//Application.Quit();
 	}
