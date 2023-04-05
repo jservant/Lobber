@@ -85,8 +85,7 @@ public class Basic : MonoBehaviour {
 	public float attackCooldown;
 	bool wantsSlash = false;
 	public float enemyCommunicationRange;
-	public Transform flashSpot; //the place where the red circle will pop up
-	public GameObject flash;
+	Transform flashSpot; //the place where the red circle will pop up
 
 	float spawnUpwardsSpeed;
 	float spawnDownwardsSpeed;
@@ -244,11 +243,11 @@ public class Basic : MonoBehaviour {
 				Debug.Assert(false);
 				break;
 			case Attack.Slash:
-				Flash();
+				Util.ShowAttackWarning(gameMan, flashSpot.position);
 				animationTimer = animationTimes["Enemy_Attack_Slash"];
 				break;
 			case Attack.Lunge:
-				Flash();
+				Util.ShowAttackWarning(gameMan, flashSpot.position);
 				animationTimer = animationTimes["Enemy_Attack_Dash"];
 				break;
 		}
@@ -256,10 +255,6 @@ public class Basic : MonoBehaviour {
 		foreach (Collider enemyCol in nearEnemies) {
 			enemyCol.GetComponent<EnemyCommunication>().nearbyAttacker += 1;
 		}
-	}
-
-	void Flash() {
-		Instantiate(flash, flashSpot.position, flash.transform.rotation);
 	}
 
 	// helper: logic for deteriming whigh following range is being used.
@@ -394,6 +389,7 @@ public class Basic : MonoBehaviour {
 		animator = this.GetComponent<Animator>();
 		swordHitbox = transform.Find("Weapon_Controller").GetComponent<BoxCollider>();
 		enemyCommunication = this.GetComponent<EnemyCommunication>();
+		flashSpot = transform.Find("Weapon_Controller");
 
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 

@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour {
 	public PlayerController playerController;
 	public static int storedPlayerHealth = 0;
 	public static float storedPlayerMeter = 0;
+
 	[Header("UI")]
 	EventSystem eSystem;
 	public Canvas mainUI;
@@ -24,11 +25,14 @@ public class GameManager : MonoBehaviour {
 	public TMP_Text statusTextboxText;
 	public Transform healthBar;
 	public Transform meterBar;
+
 	[Header("Prefabs:")]
 	public GameObject PlayerPrefab;
 	public HeadProjectile SkullPrefab;
 	public GameObject EnemyPrefab;
 	public GameObject HeadPickupPrefab;
+	public GameObject FlashPrefab = null;
+
 	[Header("Enemies:")]
 	public GameObject eSpawnParent;
 	public OrbSpawn[] eSpawns;
@@ -37,6 +41,7 @@ public class GameManager : MonoBehaviour {
 	public static int enemiesKilledInRun = 0;
 	public static int enemyKillingGoal = 30;
 	bool transitioningLevel = false;
+
 	[Header("Bools:")]
 	public bool updateTimeScale = true;
 	public bool canSpawn = true;
@@ -169,8 +174,9 @@ public class GameManager : MonoBehaviour {
 		Transform[] particleScales = TempParticle.transform.GetComponentsInChildren<Transform>();
 		foreach (Transform t in particleScales) {
 			t.localScale *= scale;
-        }
-    }
+		}
+	}
+
 	public void UpdateHealthBar() {
 		float healthMax = playerController.healthMax;
 		float health = playerController.health;

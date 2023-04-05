@@ -34,6 +34,10 @@ public class Util {
 		return System.Enum.GetNames(EnumType).Length;
 	}
 
+	public static void ShowAttackWarning(GameManager gameMan, Vector3 position) {
+		GameObject.Instantiate(gameMan.FlashPrefab, position, Quaternion.LookRotation(Camera.main.transform.position - position, Vector3.up));
+	}
+
 	public static void PerformCheckedLateralMovement(GameObject gameObject, float verticalOffset, float spherecastRadius, Vector3 translationDelta, int depthCount = 0) {
 		depthCount += 1;
 
