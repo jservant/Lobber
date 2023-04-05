@@ -181,7 +181,7 @@ public class PlayerController : MonoBehaviour {
 	#endregion
 
 	#region State machines
-	//[Header("States:")]
+
 	public enum States { Idle = 0, Walking, Attacking, Death };
 	public States currentState = 0;
 	public enum Attacks { None = 0, LAttack, LAttack2, LAttack3, Chop, Slam, Spin, HeadThrow, Dashing, LethalDash, ShotgunThrow };
@@ -203,7 +203,7 @@ public class PlayerController : MonoBehaviour {
 	Transform slamPoint;
 	Light spotLight;
 	GameManager gameMan;
-	//List<GameObject> enemiesHit;
+
 	public DefaultPlayerActions pActions;
 	GetKnockbackInfo axeGetKnockbackInfo;
 	SkinnedMeshRenderer model;
@@ -453,7 +453,7 @@ public class PlayerController : MonoBehaviour {
 				attackButtonPrep = AttackButton.ModThrow;
 			}
 		
-			if (meter >= 1f && pActions.Player.Dash.WasPerformedThisFrame() && pActions.Player.MeterModifier.phase == InputActionPhase.Performed && trueInput.sqrMagnitude >= 0.1f && dashCooldown <= 0f  && isGrounded) { //&& Util.PerformCheckedVerticalMovement == true
+			if (meter >= 1f && pActions.Player.Dash.WasPerformedThisFrame() && pActions.Player.MeterModifier.phase == InputActionPhase.Performed && trueInput.sqrMagnitude >= 0.1f && dashCooldown <= 0f  && isGrounded) {
 				attackButtonPrep = AttackButton.ModDash;
 				dashTime = 0;
 				dashCooldown = maxDashCooldown;
@@ -588,7 +588,6 @@ public class PlayerController : MonoBehaviour {
 		GameManager.overallEnemiesKilled = 0;
 		yield return new WaitForSeconds(deathTimer + 1);
 		SceneManager.LoadScene(0);
-		//SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 	}
 
 	public void ChangeMeter(float Amount) {
@@ -657,7 +656,6 @@ public class PlayerController : MonoBehaviour {
 			Vector3 newDelta = eColliders[index].transform.position - transform.position;
 			if (newDelta.magnitude < homingTargetDelta.magnitude) {
 				homingTargetDelta = newDelta;
-				//if (currentAttack == Attacks.HeadThrow) { homingTargetDelta = eColliders[index].transform.position; }
 			}
 		}
 
@@ -665,7 +663,7 @@ public class PlayerController : MonoBehaviour {
 			switch (currentAttack) {
 				case Attacks.None:
 				default:
-					//Debug.Assert(false);
+					Debug.Assert(false);
 					break;
 				case Attacks.LAttack:
 					homingTargetDelta *= 0.80f;
@@ -680,8 +678,7 @@ public class PlayerController : MonoBehaviour {
 					homingTargetDelta *= 0.50f;
 					break;
 			}
-			//if (currentAttack == Attacks.HeadThrow) { transform.LookAt(homingTargetDelta); }
-			//else
+
 			transform.LookAt(homingTargetDelta + transform.position);
 		}
 		else {
@@ -709,7 +706,6 @@ public class PlayerController : MonoBehaviour {
 	public void LobThrow() { // triggered in animator
 		ChangeMeter(-1);
 		SetupHoming();
-		//freeAim = false;
 		headProj.speed = 50f;
 		headProj.canStun = true;
 		Instantiate(headProj, projSpawn.position, transform.rotation);
@@ -720,7 +716,6 @@ public class PlayerController : MonoBehaviour {
 		SetupHoming();
 		headProj.speed = 50f;
 		headProj.canStun = true;
-		//freeAim = false;
 		Instantiate(headProj, projSpawn.position, transform.rotation);
 		for (int i = 1; i < shotgunProjSpawns.Length; i++) { // i starts at 1 to ignore the parent object
 			Instantiate(headProj, shotgunProjSpawns[i].position, shotgunProjSpawns[i].localRotation * transform.rotation);
