@@ -531,20 +531,18 @@ public class PlayerController : MonoBehaviour {
 			}
 			Hit(damage, other);
 		}
-		else if (other.gameObject.layer == (int)Layers.EnemyHurtbox) { // player is hitting enemy
-			// NOTE(Roskuski): I hit the enemy!
+		else if (other.gameObject.layer == (int)Layers.AgnosticHitbox) {
+			if (other.GetComponentInParent<Exploding>() != null) {
+				// NOTE(Roskuski): Explosive enemy
+				Hit(3, other);
+			}
 		}
-		
 		else if (other.gameObject.layer == (int)Layers.Pickup) {
 			HeadPickup headPickup = other.gameObject.GetComponent<HeadPickup>();
 			if (headPickup.canCollect) {
 				headPickup.collected = true;
 				GameObject.Destroy(other.transform.gameObject);
 			}
-		}
-		else if (other.gameObject.layer == (int)Layers.TrapHitbox && vulnerable == true && remainingKnockbackTime <= 0) {
-			// @TODO(Roskuski): Do we want traps to hit the player?
-			//knockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
 		}
 	}
 

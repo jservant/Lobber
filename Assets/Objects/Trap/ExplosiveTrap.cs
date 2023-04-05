@@ -49,7 +49,7 @@ public class ExplosiveTrap : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider other) {
-		if (other.gameObject.layer == (int)Layers.PlayerHitbox) {
+		if (other.gameObject.layer == (int)Layers.PlayerHitbox || other.gameObject.layer == (int)Layers.AgnosticHitbox) {
 			if (isArmed) SpringTrap();
 		}
 	}

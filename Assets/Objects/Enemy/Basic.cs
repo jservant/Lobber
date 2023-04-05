@@ -201,6 +201,7 @@ public class Basic : MonoBehaviour {
 		}
 
 		stunDuration += stunValue;
+		hitflashTimer = 0.25f;
 
 		swordHitbox.enabled = false;
 
@@ -267,6 +268,7 @@ public class Basic : MonoBehaviour {
 			if (other.gameObject.layer == (int)Layers.PlayerHitbox) {
 				HeadProjectile head = other.GetComponentInParent<HeadProjectile>();
 				PlayerController player = other.GetComponentInParent<PlayerController>();
+				ExplosiveTrap explosiveTrap = other.GetComponentInParent<ExplosiveTrap>();
 
 				if (player != null) {
 					bool fullAxe = player.meter >= player.meterMax/2;
@@ -363,24 +365,25 @@ public class Basic : MonoBehaviour {
 					}
 				}
 				else if (head != null) {
-					// @TODO(Roskuski): temp head reaction
+					// NOTE(Roskuski): Head projectial direct hit
 					gameMan.SpawnParticle(0, other.transform.position, 2f);
 					shouldDie = true;
-					Debug.Log("Head Hit");
 				}
-				hitflashTimer = 0.25f;
-				/*for (int i = 0; i < model.materials.Length; i++) {
-					model.materials[i] = hitflashMat;
-				}*/
+				else if (explosiveTrap != null) {
+					// NOTE(Roskuski): Knockback trap
+					KnockbackInfo newKnockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
+					ChangeDirective_Stunned(StunTime.LongStun, newKnockbackInfo);
+				}
+			}
+			else if (other.gameObject.layer == (int)Layers.AgnosticHitbox) {
+				if (other.GetComponent<Exploding>() != null) {
+					// NOTE(Roskuski): Explosive enemy
+					KnockbackInfo newKnockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
+					ChangeDirective_Stunned(StunTime.LongStun, newKnockbackInfo);
+					health -= 4;
+				}
 			}
 
-			if (other.gameObject.layer == (int)Layers.TrapHitbox) {
-				// NOTE(Roskuski): Knockback trap
-				KnockbackInfo newKnockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
-				ChangeDirective_Stunned(StunTime.LongStun, newKnockbackInfo);
-				//Quaternion knockBackDir = Quaternion.LookRotation(this.transform.position - other.transform.position);
-				//ChangeDirective_Stunned(6.0f, knockBackDir, 20.0f);
-			}
 		}
 	}
 
