@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour {
 		// When in LAttack
 		new QueueInfo[]{ new QueueInfo(0.0f, 0f, Attacks.None), // None
 			               new QueueInfo(0.0f, 1.0f, Attacks.LAttack2), // Light Attack
-			               new QueueInfo(0.3f, 1.0f, Attacks.Chop), // Heavy Attack
+			               new QueueInfo(0.5f, 1.0f, Attacks.Chop), // Heavy Attack
 			               new QueueInfo(0.3f, 1.0f, Attacks.HeadThrow), // Throw
 			               new QueueInfo(0.0f, 1.0f, Attacks.Dashing), // Dash
 			               new QueueInfo(0.0f, 1.0f, Attacks.Spin), // Mod Light Attack
