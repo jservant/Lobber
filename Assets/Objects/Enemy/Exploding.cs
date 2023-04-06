@@ -150,7 +150,7 @@ public class Exploding : MonoBehaviour {
 					}
 
 					if (movementBurstDuration <= 0.0f) {
-						waitDuration = WaitLength + Random.Range(0.0f, 0.5f);
+						waitDuration = WaitLength + Random.Range(-0.2f, 0.2f);
 					}
 				}
 
@@ -236,7 +236,7 @@ public class Exploding : MonoBehaviour {
 					}
 				}
 
-				float waitModifier = Mathf.Lerp(2, 1, distanceToPlayer/17f);
+				float waitModifier = Mathf.Lerp(3, 1, distanceToPlayer/17f);
 				if (waitDuration > 0.0f) {
 					waitDuration -= Time.deltaTime * waitModifier;
 				}
