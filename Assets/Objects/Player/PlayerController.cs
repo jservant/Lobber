@@ -23,42 +23,42 @@ public class PlayerController : MonoBehaviour {
 		new QueueInfo[]{ new QueueInfo(0.0f, 0f, Attacks.None), // None
 			               new QueueInfo(0.0f, 1.0f, Attacks.LAttack2), // Light Attack
 			               new QueueInfo(0.5f, 1.0f, Attacks.Chop), // Heavy Attack
-			               new QueueInfo(0.3f, 1.0f, Attacks.HeadThrow), // Throw
-			               new QueueInfo(0.0f, 1.0f, Attacks.Dashing), // Dash
-			               new QueueInfo(0.0f, 1.0f, Attacks.Spin), // Mod Light Attack
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Heavy Attack
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Throw
-			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Mod Dash
-		// When in LAttack2
-		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
-			               new QueueInfo(0.1f, 1.0f, Attacks.LAttack3), // Light Attack
-			               new QueueInfo(0.1f, 1.0f, Attacks.Chop), // Heavy Attack
-			               new QueueInfo(0.1f, 1.0f, Attacks.HeadThrow), // Throw
-			               new QueueInfo(0.0f, 1.0f, Attacks.Dashing), // Dash
-			               new QueueInfo(0.0f, 1.0f, Attacks.Spin), // Mod Light Attack
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Heavy Attack
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Throw
-			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Mod Dash
-		// When in LAttack3
-		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
-			               new QueueInfo(0.3f, 1.0f, Attacks.None), // Light Attack
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Heavy Attack
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Throw
-			               new QueueInfo(0.0f, 1.0f, Attacks.Dashing), // Dash
-			               new QueueInfo(0.0f, 1.0f, Attacks.Spin), // Mod Light Attack
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Heavy Attack
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Throw
-			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Mod Dash
-		// When in Chop
-		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // Nonel
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Light Attack
-			               new QueueInfo(0.7f, 1.0f, Attacks.Chop), // Heavy Attack
 			               new QueueInfo(0.0f, 1.0f, Attacks.HeadThrow), // Throw
 			               new QueueInfo(0.0f, 1.0f, Attacks.Dashing), // Dash
 			               new QueueInfo(0.0f, 1.0f, Attacks.Spin), // Mod Light Attack
+			               new QueueInfo(0.5f, 1.0f, Attacks.Slam), // Mod Heavy Attack
+			               new QueueInfo(0.0f, 1.0f, Attacks.ShotgunThrow), // Mod Throw
+			               new QueueInfo(0.0f, 1.0f, Attacks.LethalDash)}, // Mod Dash
+		// When in LAttack2
+		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
+			               new QueueInfo(0.3f, 1.0f, Attacks.LAttack3), // Light Attack
+			               new QueueInfo(0.3f, 1.0f, Attacks.Chop), // Heavy Attack
+			               new QueueInfo(0.0f, 1.0f, Attacks.HeadThrow), // Throw
+			               new QueueInfo(0.0f, 1.0f, Attacks.Dashing), // Dash
+			               new QueueInfo(0.0f, 1.0f, Attacks.Spin), // Mod Light Attack
+			               new QueueInfo(0.3f, 1.0f, Attacks.Slam), // Mod Heavy Attack
+			               new QueueInfo(0.0f, 1.0f, Attacks.ShotgunThrow), // Mod Throw
+			               new QueueInfo(0.0f, 1.0f, Attacks.LethalDash)}, // Mod Dash
+		// When in LAttack3
+		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
+			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Light Attack
+			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Heavy Attack
+			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Throw
+			               new QueueInfo(0.3f, 1.0f, Attacks.Dashing), // Dash
+			               new QueueInfo(0.3f, 1.0f, Attacks.Spin), // Mod Light Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Heavy Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Throw
-			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Mod Dash
+			               new QueueInfo(0.3f, 1.0f, Attacks.LethalDash)}, // Mod Dash
+		// When in Chop
+		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // Nonel
+			               new QueueInfo(0.5f, 1.0f, Attacks.LAttack), // Light Attack
+			               new QueueInfo(0.5f, 1.0f, Attacks.Chop), // Heavy Attack
+			               new QueueInfo(0.5f, 1.0f, Attacks.HeadThrow), // Throw
+			               new QueueInfo(0.3f, 1.0f, Attacks.Dashing), // Dash
+			               new QueueInfo(0.3f, 1.0f, Attacks.Spin), // Mod Light Attack
+			               new QueueInfo(0.5f, 1.0f, Attacks.Slam), // Mod Heavy Attack
+			               new QueueInfo(0.5f, 1.0f, Attacks.ShotgunThrow), // Mod Throw
+			               new QueueInfo(0.3f, 1.0f, Attacks.LethalDash)}, // Mod Dash
 		// When in Slam
 		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Light Attack
@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour {
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Throw
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Dash
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Light Attack
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Heavy Attack
+			               new QueueInfo(0.7f, 1.0f, Attacks.Slam), // Mod Heavy Attack
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Throw
 			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Mod Dash
 		// When in Spin
@@ -76,19 +76,19 @@ public class PlayerController : MonoBehaviour {
 			               new QueueInfo(0.0f, 1.0f, Attacks.HeadThrow), // Throw
 			               new QueueInfo(0.0f, 1.0f, Attacks.Dashing), // Dash
 			               new QueueInfo(0.0f, 1.0f, Attacks.Spin), // Mod Light Attack
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Heavy Attack
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Throw
-			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Mod Dash
+			               new QueueInfo(0.0f, 1.0f, Attacks.Slam), // Mod Heavy Attack
+			               new QueueInfo(0.0f, 1.0f, Attacks.ShotgunThrow), // Mod Throw
+			               new QueueInfo(0.0f, 1.0f, Attacks.LethalDash)}, // Mod Dash
 		// When in HeadThrow
 		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Light Attack
-			               new QueueInfo(0.0f, 1.0f, Attacks.Chop), // Heavy Attack
+			               new QueueInfo(0.7f, 1.0f, Attacks.LAttack), // Light Attack
+			               new QueueInfo(0.7f, 1.0f, Attacks.Chop), // Heavy Attack
 			               new QueueInfo(0.7f, 1.0f, Attacks.HeadThrow), // Throw
-			               new QueueInfo(0.0f, 1.0f, Attacks.Dashing), // Dash
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Light Attack
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Heavy Attack
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Throw
-			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Mod Dash
+			               new QueueInfo(0.7f, 1.0f, Attacks.Dashing), // Dash
+			               new QueueInfo(0.7f, 1.0f, Attacks.Spin), // Mod Light Attack
+			               new QueueInfo(0.7f, 1.0f, Attacks.Slam), // Mod Heavy Attack
+			               new QueueInfo(0.7f, 1.0f, Attacks.ShotgunThrow), // Mod Throw
+			               new QueueInfo(0.7f, 1.0f, Attacks.LethalDash)}, // Mod Dash
 		// When in Dashing
 		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
 			               new QueueInfo(0.0f, 1.0f, Attacks.LAttack), // Light Attack
@@ -96,29 +96,29 @@ public class PlayerController : MonoBehaviour {
 			               new QueueInfo(0.0f, 1.0f, Attacks.HeadThrow), // Throw
 			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Dash
 			               new QueueInfo(0.0f, 1.0f, Attacks.Spin), // Mod Light Attack
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Heavy Attack
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Throw
-			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Mod Dash
+			               new QueueInfo(0.0f, 1.0f, Attacks.Slam), // Mod Heavy Attack
+			               new QueueInfo(0.0f, 1.0f, Attacks.ShotgunThrow), // Mod Throw
+			               new QueueInfo(0.0f, 1.0f, Attacks.LethalDash)}, // Mod Dash
 		// When in LethalDash
 		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
 			               new QueueInfo(0.0f, 1.0f, Attacks.LAttack), // Light Attack
-			               new QueueInfo(0.0f, 1.0f, Attacks.None), // Heavy Attack
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Throw
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Dash
+			               new QueueInfo(0.0f, 1.0f, Attacks.Chop), // Heavy Attack
+			               new QueueInfo(0.0f, 1.0f, Attacks.HeadThrow), // Throw
+			               new QueueInfo(0.0f, 1.0f, Attacks.Dashing), // Dash
 			               new QueueInfo(0.0f, 1.0f, Attacks.Spin), // Mod Light Attack
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Heavy Attack
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Throw
-			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Mod Dash
+			               new QueueInfo(0.0f, 1.0f, Attacks.Slam), // Mod Heavy Attack
+			               new QueueInfo(0.0f, 1.0f, Attacks.ShotgunThrow), // Mod Throw
+			               new QueueInfo(0.0f, 1.0f, Attacks.LethalDash)}, // Mod Dash
 		// When in ShotgunThrow
 		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Light Attack
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Heavy Attack
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Throw
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Dash
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Light Attack
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Heavy Attack
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Throw
-			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Mod Dash
+			               new QueueInfo(0.4f, 1.0f, Attacks.LAttack), // Light Attack
+			               new QueueInfo(0.4f, 1.0f, Attacks.Chop), // Heavy Attack
+			               new QueueInfo(0.4f, 1.0f, Attacks.HeadThrow), // Throw
+			               new QueueInfo(0.0f, 1.0f, Attacks.Dashing), // Dash
+			               new QueueInfo(0.4f, 1.0f, Attacks.Spin), // Mod Light Attack
+			               new QueueInfo(0.4f, 1.0f, Attacks.Slam), // Mod Heavy Attack
+			               new QueueInfo(0.4f, 1.0f, Attacks.ShotgunThrow), // Mod Throw
+			               new QueueInfo(0.0f, 1.0f, Attacks.LethalDash)}, // Mod Dash
 	};
 
 	struct QueueInfo {
@@ -200,6 +200,7 @@ public class PlayerController : MonoBehaviour {
 	HeadProjectile headProj;
 	Transform projSpawn;
 	Transform[] shotgunProjSpawns;
+	Transform shotgunPoint;
 	Transform slamPoint;
 	Light spotLight;
 	GameManager gameMan;
@@ -278,6 +279,7 @@ public class PlayerController : MonoBehaviour {
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 		headProj = gameMan.SkullPrefab;
 		slamPoint = transform.Find("SlamPoint");
+		shotgunPoint = transform.Find("ShotgunPoint");
 
 		#region debug
 		if (headMesh != null) { Debug.Log("Axe headmesh found on player."); } else { Debug.LogWarning("Axe headmesh not found on player."); }
@@ -499,6 +501,7 @@ public class PlayerController : MonoBehaviour {
 			wasNextValid = isNextValid;
 		}
 
+		//Debug Functions
 		if (gameMan.debugTools) {
 			if (pActions.Player.MeterModifier.phase == InputActionPhase.Performed && pActions.Player.DEBUGRestart.WasPerformedThisFrame()) {
 				Debug.Log("Restart called");
@@ -783,6 +786,9 @@ public class PlayerController : MonoBehaviour {
 		gameMan.SpawnParticle(1, slamPoint.position, 1f);
 	}
 
+	public void Shotgun() {
+		gameMan.SpawnParticle(0, shotgunPoint.position, 1.5f);
+    }
 	#endregion
 
 
