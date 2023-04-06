@@ -109,9 +109,7 @@ public class GameManager : MonoBehaviour {
 					eSpawns[0].StartCoroutine(eSpawns[0].Spawning(5));
 				}
 			}
-		}
-
-		
+		}		
 
 		if (playerController.pActions.Player.Pause.WasPerformedThisFrame()) {
 			if (optionsUI.enabled == true) {
@@ -151,14 +149,16 @@ public class GameManager : MonoBehaviour {
 
 	IEnumerator Win() {
 		transitioningLevel = true;
-		Save();
 		if (SceneManager.GetActiveScene().buildIndex == 4) {
+			Initializer.timesWon++;
+			Initializer.Save();
 			statusTextboxText.text = "YOU WIN!!!";
 			Debug.Log("YOUR THE BUIGESS FUCKIN WINNER:; DAMMM");
 			yield return new WaitForSeconds(5);
 			SceneManager.LoadScene(0);
 		}
 		else {
+			Initializer.Save();
 			Debug.Log("YOU WIN!! Next stage starting shortly...");
 			statusTextboxText.text = "Stage Clear!";
 			yield return new WaitForSeconds(5);
@@ -215,21 +215,12 @@ public class GameManager : MonoBehaviour {
 	public void OnQuit() {
 		SceneManager.LoadScene(0);
 		Time.timeScale = 1;
-		Save();
+		Initializer.Save();
 		//Application.Quit();
-	}
-
-	public static void Save() {
-		using (FileStream fs = new FileStream(Initializer.fileName, FileMode.Create)) {
-			using (BinaryWriter w = new BinaryWriter(fs)) {
-				w.Write(Initializer.allEnemiesKilled);
-				//w.Write(Initializer.timesGameBooted);
-			}
-		}
 	}
 
 	void OnEnable() { dActions.Enable(); }
 	void OnDisable() { dActions.Disable(); }
 
-	private void OnApplicationQuit() { Save(); }
+	private void OnApplicationQuit() { Initializer.Save(); }
 }
