@@ -22,6 +22,10 @@ public class GameManager : MonoBehaviour {
 	public Button resumeButton;
 	public Canvas pauseUI;
 	public Canvas optionsUI;
+	public Button statsButton;
+	public Canvas statsUI;
+	public Button statsBackButton;
+	public TMP_Text statsText;
 	public TMP_Text statusTextboxText;
 	public Transform healthBar;
 	public Transform meterBar;
@@ -69,6 +73,7 @@ public class GameManager : MonoBehaviour {
 		resumeButton = transform.Find("PauseUI/ResumeButton").GetComponent<Button>();
 		pauseUI = transform.Find("PauseUI").GetComponent<Canvas>();
 		optionsUI = transform.Find("OptionsUI").GetComponent<Canvas>();
+		statsUI = transform.Find("StatsUI").GetComponent<Canvas>();
 		statusTextboxText = transform.Find("StatusTextbox/StatusTextboxText").GetComponent<TMP_Text>();
 		statusTextboxText.text = "";
 		Time.timeScale = 1;
@@ -155,7 +160,7 @@ public class GameManager : MonoBehaviour {
 			statusTextboxText.text = "YOU WIN!!!";
 			Debug.Log("YOUR THE BUIGESS FUCKIN WINNER:; DAMMM");
 			yield return new WaitForSeconds(5);
-			SceneManager.LoadScene(0);
+			SceneManager.LoadScene(1);
 		}
 		else {
 			Initializer.Save();
@@ -205,18 +210,43 @@ public class GameManager : MonoBehaviour {
 	public void OnOptions() {
 		pauseUI.enabled = false;
 		optionsUI.enabled = true;
+		statsButton = transform.Find("OptionsUI/StatsButton").GetComponent<Button>();
+		statsButton.Select();
+	}
+
+	public void OnStats() {
+		optionsUI.enabled = false;
+		statsUI.enabled = true;
+		statsText = transform.Find("StatsUI/StatsText").GetComponent<TMP_Text>();
+		statsBackButton = transform.Find("StatsUI/StatsBackButton").GetComponent<Button>();
+		statsText.text = "Enemies Killed: " + Initializer.allEnemiesKilled
+			+ "\nRuns started: " + Initializer.runsStarted
+			+ "\n Wins: " + Initializer.timesWon;
+		statsBackButton.Select();
+	}
+
+	public void OnStatsBack() {
+		statsText.text = "";
+		statsUI.enabled = false;
+		optionsUI.enabled = true;
+		statsButton.Select();
 	}
 
 	public void OnOptionsBack() {
 		pauseUI.enabled = true;
 		optionsUI.enabled = false;
+		resumeButton.Select();
 	}
 
 	public void OnQuit() {
-		SceneManager.LoadScene(0);
+		SceneManager.LoadScene(1);
 		Time.timeScale = 1;
 		Initializer.Save();
-		//Application.Quit();
+	}
+
+	public void OnQuitToDesktop() {
+		Initializer.Save();
+		Application.Quit();
 	}
 
 	void OnEnable() { dActions.Enable(); }

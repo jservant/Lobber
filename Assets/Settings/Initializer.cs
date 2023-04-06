@@ -9,9 +9,9 @@ using System.Text;
 public class Initializer : MonoBehaviour
 {
 	public static string fileName;
-	static int versionNum;
+	public static int versionNum;
 	public static int allEnemiesKilled;
-	public static int timesGameBooted;
+	public static int runsStarted;
 	public static int timesWon;
 
 	enum saveVersion { Init, Win, LATEST_PLUS_1 };
@@ -47,20 +47,20 @@ public class Initializer : MonoBehaviour
 					versionNum = reader.ReadInt32();
 					if (versionNum == (int)saveVersion.Init) {
 						allEnemiesKilled = reader.ReadInt32();
-						timesGameBooted = reader.ReadInt32();
+						runsStarted = reader.ReadInt32();
 						timesWon = 0;
 					}
 					if (versionNum == (int)saveVersion.Win) {
 						allEnemiesKilled = reader.ReadInt32();
-						timesGameBooted = reader.ReadInt32();
+						runsStarted = reader.ReadInt32();
 						timesWon = reader.ReadInt32();
 					}
 				}
 			}
-			timesGameBooted++;
+			runsStarted++;
 			Debug.Log("(Initializer) Version num: " + versionNum);
 			Debug.Log("(Initializer) Enemies killed: " + allEnemiesKilled);
-			Debug.Log("(Initializer) Times game has been booted: " + timesGameBooted);
+			Debug.Log("(Initializer) Times game has been booted: " + runsStarted);
 			Debug.Log("(Initializer) Times won: " + timesWon);
 		}
 
@@ -71,7 +71,7 @@ public class Initializer : MonoBehaviour
 			using (BinaryWriter w = new BinaryWriter(fs)) {
 				w.Write((int)saveVersion.LATEST_PLUS_1 - 1);
 				w.Write(allEnemiesKilled);
-				w.Write(timesGameBooted);
+				w.Write(runsStarted);
 				w.Write(timesWon);
 			}
 		}

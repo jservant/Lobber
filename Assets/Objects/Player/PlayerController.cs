@@ -588,7 +588,7 @@ public class PlayerController : MonoBehaviour {
 		gameMan.statusTextboxText.text = "GAME OVER \n Enemies Killed: " + GameManager.enemiesKilledInRun;
 		GameManager.enemiesKilledInRun = 0;
 		yield return new WaitForSeconds(deathTimer + 1);
-		SceneManager.LoadScene(0);
+		SceneManager.LoadScene(1);
 	}
 
 	public void ChangeMeter(float Amount) {
