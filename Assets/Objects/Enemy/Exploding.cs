@@ -15,10 +15,11 @@ public class Exploding : MonoBehaviour {
 
 	public bool randomizeStats = true;
 
+	[SerializeField] float spawnDuration = 2.0f;
 	[SerializeField] float fuseDuration = 0;
 	[SerializeField] float waitDuration = 0;
 	[SerializeField] float movementBurstDuration = 0;
-	[SerializeField] float spawnDuration = 2.0f;
+	[SerializeField] bool reevaluateMovement = false;
 
 	[SerializeField] float launchDuration = 0;
 	[SerializeField] Vector3 launchTarget;
@@ -110,6 +111,7 @@ public class Exploding : MonoBehaviour {
 		Quaternion playerRotation = gameMan.player.rotation;
 		Vector3 deltaToPlayer = gameMan.player.position - this.transform.position;
 		float distanceToPlayer = Vector3.Distance(this.transform.position, gameMan.player.position);
+		Vector3 movementDelta = Vector3.zero;
 
 		animator.SetBool("IsMoving", false);
 
@@ -132,26 +134,18 @@ public class Exploding : MonoBehaviour {
 				navAgent.nextPosition = this.transform.position;
 				navAgent.SetDestination(playerPosition);
 
-				bool reevaluateMovement = false;
-
 				if (movementBurstDuration > 0.0f) {
 					animator.SetBool("IsMoving", true);
 					movementBurstDuration -= Time.deltaTime;
-					// @TODO(Roskuski): Include ledge detection so we don't run off edges
-					float hitDistance = 0;
-					const int MaxQuantums = 4;
 
-					for (int quantums = 1; quantums <= MaxQuantums; quantums += 1) {
-						NavMeshHit hit;
-						Vector3 testDelta = moveDirection * Vector3.forward * MoveSpeed * Time.deltaTime * (float)quantums;
-						if (!NavMesh.SamplePosition(this.transform.position + testDelta, out hit, 0.2f, NavMesh.AllAreas)) {
-							reevaluateMovement = true;
-							break;
-						}
+					NavMeshHit hit;
+					Vector3 testDelta = moveDirection * Vector3.forward * MoveSpeed * Time.deltaTime;
+					if (!NavMesh.SamplePosition(this.transform.position + testDelta, out hit, 0.35f, NavMesh.AllAreas)) {
+						reevaluateMovement = true;
 					}
 
 					if (!reevaluateMovement) {
-						this.transform.position += moveDirection * Vector3.forward * MoveSpeed * Time.deltaTime;
+						movementDelta += moveDirection * Vector3.forward * MoveSpeed * Time.deltaTime;
 						this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, moveDirection, 360 * 2 * Time.deltaTime);
 					}
 
@@ -162,12 +156,14 @@ public class Exploding : MonoBehaviour {
 
 				// Choose Move direction
 				if ((reevaluateMovement) || ((movementBurstDuration <= 0.0f) && (waitDuration <= 0.0f) && CanAttemptNavigation())) {
+					reevaluateMovement = false;
 					bool withinTargetRange = navAgent.remainingDistance <= FollowingRadius;
 					Vector3 targetDelta = Vector3.zero;
 
 					targetDelta = Vector3.Normalize(navAgent.path.corners[1] - navAgent.path.corners[0]);
 					Quaternion angleStep = Quaternion.AngleAxis(360.0f / directionWeights.Length, Vector3.up);
 
+					// @TODO(Roskuski): Make Expoding willing to take low choices
 					{
 						Vector3 consideredDelta = Vector3.forward;
 
@@ -190,9 +186,33 @@ public class Exploding : MonoBehaviour {
 						}
 					}
 
-					float totalWeight = 0;
+					{
+						Vector3 consideredDelta = Vector3.forward;
+						for (int index = 0; index < directionWeights.Length; index += 1) {
+							NavMeshHit hit;
+							if (!NavMesh.SamplePosition(this.transform.position + consideredDelta, out hit, 0.35f, NavMesh.AllAreas)) {
+								directionWeights[index] = 0;
+							}
+
+							// NOTE(Roskuski): Advance the angle to the next index.
+							consideredDelta = angleStep * consideredDelta;
+						}
+					}
+
+					float maxWeight = 0;
 					for (int index = 0; index < directionWeights.Length; index += 1) {
-						if (directionWeights[index] <= 1.7f) {
+						if (maxWeight < directionWeights[index]) {
+							maxWeight = directionWeights[index];
+						}
+					}
+
+					float totalWeight = 0;
+					float minimumConsideredWeight = maxWeight - 0.30f;
+					if (maxWeight >= 0.30f) {
+						minimumConsideredWeight = 0.001f;
+					}
+					for (int index = 0; index < directionWeights.Length; index += 1) {
+						if (directionWeights[index] <= maxWeight - 0.30f ) { // discard the bottom 85 percent
 							directionWeights[index] = 0;
 						}
 						totalWeight += directionWeights[index];
@@ -262,6 +282,11 @@ public class Exploding : MonoBehaviour {
 			default:
 				Debug.Assert(false);
 				break;
+		}
+
+		if (directive == Directive.WaitForFuse) {
+			reevaluateMovement = Util.PerformCheckedLateralMovement(this.gameObject, 0.75f, 0.5f, movementDelta);
+			Util.PerformCheckedVerticalMovement(this.gameObject, 0.75f, 0.2f, 0.5f, 30.0f);
 		}
 	}
 
