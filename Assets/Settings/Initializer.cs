@@ -10,6 +10,7 @@ public class Initializer : MonoBehaviour
 {
 	public static string fileName;
 	public static int allEnemiesKilled;
+	public static int timesGameBooted;
 
     void Awake()
     {
@@ -17,6 +18,7 @@ public class Initializer : MonoBehaviour
 		if (!File.Exists(fileName)) { WriteDefaultValues(); }
 		else { Debug.Log("The file already exists dummy"); }
 		AssignValues();
+		GameManager.Save();
 
 		//load next scene last
 		SceneManager.LoadScene(1);
@@ -27,7 +29,7 @@ public class Initializer : MonoBehaviour
 		using (var stream = File.Open(fileName, FileMode.CreateNew)) {
 			using (var writer = new BinaryWriter(stream, Encoding.UTF8, false)) {
 				writer.Write(0);
-				writer.Write(0);
+				//writer.Write(0);
 			}
 		}
 	}
@@ -37,10 +39,12 @@ public class Initializer : MonoBehaviour
 			using (var stream = File.Open(fileName, FileMode.Open)) {
 				using (var reader = new BinaryReader(stream, Encoding.UTF8, false)) {
 					allEnemiesKilled = reader.ReadInt32();
+					//timesGameBooted = reader.ReadInt32();
 				}
 			}
-
+			timesGameBooted++;
 			Debug.Log("(Initializer) Enemies killed: " + allEnemiesKilled);
+			//Debug.Log("(Initializer) Times game has been booted: " + timesGameBooted);
 		}
 
 	}

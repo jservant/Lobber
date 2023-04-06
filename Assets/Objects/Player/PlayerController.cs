@@ -499,18 +499,21 @@ public class PlayerController : MonoBehaviour {
 			wasNextValid = isNextValid;
 		}
 
-		if (pActions.Player.MeterModifier.phase == InputActionPhase.Performed && pActions.Player.DEBUGRestart.WasPerformedThisFrame()) {
-			Debug.Log("Restart called");
-			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+		if (gameMan.debugTools) {
+			if (pActions.Player.MeterModifier.phase == InputActionPhase.Performed && pActions.Player.DEBUGRestart.WasPerformedThisFrame()) {
+				Debug.Log("Restart called");
+				SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+			}
+			if (pActions.Player.MeterModifier.phase == InputActionPhase.Performed && pActions.Player.DEBUGHeal.WasPerformedThisFrame()) {
+				health = healthMax;
+				meter = meterMax;
+			}
+			if (pActions.Player.MeterModifier.phase == InputActionPhase.Performed && pActions.Player.DEBUGLevelSkip.WasPerformedThisFrame()) {
+				if (SceneManager.GetActiveScene().buildIndex == 4) { SceneManager.LoadScene(0); }
+				SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+			}
 		}
-		if (pActions.Player.MeterModifier.phase == InputActionPhase.Performed && pActions.Player.DEBUGHeal.WasPerformedThisFrame()) {
-			health = healthMax;
-			meter = meterMax;
-		}
-		if (pActions.Player.MeterModifier.phase == InputActionPhase.Performed && pActions.Player.DEBUGLevelSkip.WasPerformedThisFrame()) {
-			if (SceneManager.GetActiveScene().buildIndex == 4) { SceneManager.LoadScene(0); }
-			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-		}
+
 	}
 
 	//@TODO(Jaden): Add i-frames and trigger hitstun state when hit

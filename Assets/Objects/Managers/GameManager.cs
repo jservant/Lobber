@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour {
 	[Header("Bools:")]
 	public bool updateTimeScale = true;
 	public bool canSpawn = true;
+	public bool debugTools = true;
 	DebugActions dActions;
 	float frozenTime = 0;
 
@@ -90,23 +91,27 @@ public class GameManager : MonoBehaviour {
 
 		bool isMenuOpen = pauseUI.enabled || optionsUI.enabled;
 
-		if (!isMenuOpen && dActions.DebugTools.SpawnEnemy.WasPerformedThisFrame()) {
-			if (false) {
-				Vector2 MouseLocation2D = dActions.DebugTools.MouseLocation.ReadValue<Vector2>();
-				Vector3 MouseLocation = new Vector3(MouseLocation2D.x, MouseLocation2D.y, 0);
-				Ray ray = Camera.main.ScreenPointToRay(MouseLocation);
-				RaycastHit hit;
+		if (debugTools) {
+			if (!isMenuOpen && dActions.DebugTools.SpawnEnemy.WasPerformedThisFrame()) {
+				if (false) {
+					Vector2 MouseLocation2D = dActions.DebugTools.MouseLocation.ReadValue<Vector2>();
+					Vector3 MouseLocation = new Vector3(MouseLocation2D.x, MouseLocation2D.y, 0);
+					Ray ray = Camera.main.ScreenPointToRay(MouseLocation);
+					RaycastHit hit;
 
-				if (Physics.Raycast(ray.origin, ray.direction, out hit, 1000.0f)) {
-					Debug.Log(EnemyPrefab.name + " spawned at " + hit.point);
-					Instantiate(EnemyPrefab, hit.point, Quaternion.identity);
-					enemiesAlive += 1;
+					if (Physics.Raycast(ray.origin, ray.direction, out hit, 1000.0f)) {
+						Debug.Log(EnemyPrefab.name + " spawned at " + hit.point);
+						Instantiate(EnemyPrefab, hit.point, Quaternion.identity);
+						enemiesAlive += 1;
+					}
+				}
+				else {
+					eSpawns[0].StartCoroutine(eSpawns[0].Spawning(5));
 				}
 			}
-			else {
-				eSpawns[0].StartCoroutine(eSpawns[0].Spawning(5));
-			}
 		}
+
+		
 
 		if (playerController.pActions.Player.Pause.WasPerformedThisFrame()) {
 			if (optionsUI.enabled == true) {
@@ -214,10 +219,11 @@ public class GameManager : MonoBehaviour {
 		//Application.Quit();
 	}
 
-	public void Save() {
+	public static void Save() {
 		using (FileStream fs = new FileStream(Initializer.fileName, FileMode.Create)) {
 			using (BinaryWriter w = new BinaryWriter(fs)) {
 				w.Write(Initializer.allEnemiesKilled);
+				//w.Write(Initializer.timesGameBooted);
 			}
 		}
 	}
