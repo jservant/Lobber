@@ -40,15 +40,15 @@ public class Util {
 		GameObject.Instantiate(gameMan.FlashPrefab, position, Quaternion.LookRotation(Camera.main.transform.position - position, Vector3.up));
 	}
 
-	public static void PerformCheckedLateralMovement(GameObject gameObject, float verticalOffset, float spherecastRadius, Vector3 translationDelta, int depthCount = 0) {
+	// NOTE(Roskuski): Returns if we hit a wall.
+	public static bool PerformCheckedLateralMovement(GameObject gameObject, float verticalOffset, float spherecastRadius, Vector3 translationDelta, int depthCount = 0, bool hitWall = false) {
 		depthCount += 1;
 
-		// @NOTE(Roskuski): This avoids a infinite recursion, which would somehow lead to a crash.
-		// @TODO(Roskuski): This leads me to believe that when this function does get into a state where it would infinitly recurse that it's values get out of control, leading to the crash, as it seems that unity can handle the infinite recursion "fine".
-		// The crash happens on a assertion falure in SphereCast
-		// It appears that translationDelta arrives at zero and then infinitely recurses. This early out should pervent infinite loops
+		// NOTE(Roskuski): This avoids a infinite recursion, which would somehow lead to a crash.
+		// Sometimes, translationDelta arrives at zero and then infinitely recurses. This early out should pervent infinite loops
+		// After adapting basicEnemy to use this code, high recursion was rearing it's head again. 15 cap should be reasonable.
 		if (translationDelta == Vector3.zero || depthCount >= 15) {
-			return;
+			return hitWall;
 		}
 
 		RaycastHit hitInfo;
@@ -89,13 +89,16 @@ public class Util {
 			Vector3 remainingDelta = Quaternion.AngleAxis(angleToSlide, Vector3.up) * hitInfo.normal * remainingMove.magnitude;
 			
 			// attempt to do that move successfully
-			PerformCheckedLateralMovement(gameObject, verticalOffset, spherecastRadius, remainingDelta, depthCount);
+			return PerformCheckedLateralMovement(gameObject, verticalOffset, spherecastRadius, remainingDelta, depthCount, true);
 		}
 		else {
 			gameObject.transform.position += translationDelta;
 		}
+
+		return hitWall;
 	}
 
+	// NOTE(Roskuski): Returns if we hit the floor.
 	public static bool PerformCheckedVerticalMovement(GameObject gameObject, float stepUpHeight, float stepDownHeight, float spherecastRadius, float fallingSpeed) {
 		bool result;
 
