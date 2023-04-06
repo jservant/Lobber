@@ -27,7 +27,7 @@ public class Exploding : MonoBehaviour {
 	[SerializeField] Vector3 launchInitalPosition;
 	bool launchHasStarted = false;
 
-	float explosionTimer = 0.1f;
+	[SerializeField] float explosionTimer = 0.1f;
 
 	Quaternion moveDirection;
 	float[] directionWeights = new float[32];
@@ -55,20 +55,24 @@ public class Exploding : MonoBehaviour {
 	}
 
 	void ChangeDirective_WaitForFuse() {
-		directive = Directive.WaitForFuse;
+		if (directive != Directive.Explosion) {
+			directive = Directive.WaitForFuse;
+		}
 	}
 
 	void ChangeDirective_LaunchSelf(Vector3 target) {
-		directive = Directive.LaunchSelf;
-		launchDuration = LaunchLength;
-		launchTarget = target;
-		launchInitalPosition = this.transform.position;
-		animator.SetTrigger("StartAttack");
-		Util.ShowAttackWarning(gameMan, attackWarningTransform.position);
+		if (directive != Directive.Explosion) {
+			directive = Directive.LaunchSelf;
+			launchDuration = LaunchLength;
+			launchTarget = target;
+			launchInitalPosition = this.transform.position;
+			animator.SetTrigger("StartAttack");
+			Util.ShowAttackWarning(gameMan, attackWarningTransform.position);
+		}
 	}
 
 	void ChangeDirective_Death() {
-		if (directive != Directive.Death) {
+		if (directive != Directive.Death && directive != Directive.Explosion) {
 			animator.SetTrigger("Dead");
 			directive = Directive.Death;
 		}
@@ -85,7 +89,12 @@ public class Exploding : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other) {
 		if (other.gameObject.layer == (int)Layers.PlayerHitbox) {
-			ChangeDirective_Death();
+			if (other.gameObject.GetComponentInParent<PlayerController>()) {
+				ChangeDirective_Death();
+			}
+			else {
+				ChangeDirective_Explosion();
+			}
 		}
 		else if (other.gameObject.layer == (int)Layers.AgnosticHitbox) {
 			ChangeDirective_Death();
