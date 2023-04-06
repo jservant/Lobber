@@ -675,6 +675,12 @@ public class PlayerController : MonoBehaviour {
 				case Attacks.Chop:
 					homingTargetDelta *= 0.50f;
 					break;
+				case Attacks.HeadThrow:
+					homingTargetDelta *= 0f;
+					break;
+				case Attacks.ShotgunThrow:
+					homingTargetDelta *= 0f;
+					break;
 			}
 
 			transform.LookAt(homingTargetDelta + transform.position);

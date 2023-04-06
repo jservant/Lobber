@@ -16,7 +16,7 @@ public class Initializer : MonoBehaviour
 		fileName = Application.persistentDataPath + @"/options.dat";
 		if (!File.Exists(fileName)) { WriteDefaultValues(); }
 		else { Debug.Log("The file already exists dummy"); }
-		DisplayValues();
+		AssignValues();
 
 		//load next scene last
 		SceneManager.LoadScene(1);
@@ -27,11 +27,12 @@ public class Initializer : MonoBehaviour
 		using (var stream = File.Open(fileName, FileMode.CreateNew)) {
 			using (var writer = new BinaryWriter(stream, Encoding.UTF8, false)) {
 				writer.Write(0);
+				writer.Write(0);
 			}
 		}
 	}
 
-	public static void DisplayValues() {
+	public static void AssignValues() {
 		if (File.Exists(fileName)) {
 			using (var stream = File.Open(fileName, FileMode.Open)) {
 				using (var reader = new BinaryReader(stream, Encoding.UTF8, false)) {
