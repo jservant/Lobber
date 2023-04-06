@@ -376,11 +376,11 @@ public class Basic : MonoBehaviour {
 				}
 			}
 			else if (other.gameObject.layer == (int)Layers.AgnosticHitbox) {
-				if (other.GetComponent<Exploding>() != null) {
+				if (other.GetComponentInParent<Exploding>() != null) {
 					// NOTE(Roskuski): Explosive enemy
 					KnockbackInfo newKnockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
 					ChangeDirective_Stunned(StunTime.LongStun, newKnockbackInfo);
-					health -= 4;
+					health -= health;
 				}
 			}
 

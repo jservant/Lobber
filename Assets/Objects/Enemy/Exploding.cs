@@ -9,6 +9,7 @@ public class Exploding : MonoBehaviour {
 		Spawn = 0,
 		WaitForFuse,
 		LaunchSelf,
+		Explosion,
 		Death,
 	}
 	[SerializeField] Directive directive;
@@ -26,7 +27,7 @@ public class Exploding : MonoBehaviour {
 	[SerializeField] Vector3 launchInitalPosition;
 	bool launchHasStarted = false;
 
-	bool keepExplosionActive = false;
+	float explosionTimer = 0.1f;
 
 	Quaternion moveDirection;
 	float[] directionWeights = new float[32];
@@ -70,9 +71,12 @@ public class Exploding : MonoBehaviour {
 		if (directive != Directive.Death) {
 			animator.SetTrigger("Dead");
 			directive = Directive.Death;
-			explosionHitbox.gameObject.SetActive(true);
-			keepExplosionActive = true;
 		}
+	}
+
+	void ChangeDirective_Explosion() {
+		directive = Directive.Explosion;
+		explosionHitbox.gameObject.SetActive(true);
 	}
 
 	bool CanAttemptNavigation() {
@@ -251,7 +255,7 @@ public class Exploding : MonoBehaviour {
 
 				this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, Quaternion.LookRotation(launchTarget - launchInitalPosition, Vector3.up), 360 * 2 * Time.deltaTime);
 
-				if (launchHasStarted && !animator.GetCurrentAnimatorStateInfo(0).IsName("AttackStart")){
+				if (launchHasStarted && !animator.GetCurrentAnimatorStateInfo(0).IsName("AttackStart")) {
 					// Follow a parbola
 					float arcOffset = Mathf.Lerp(0, LaunchHeight, -(Mathf.Pow((LaunchLength - launchDuration)/LaunchLength - 0.5f, 2) * 4) + 1);
 					Vector3 targetOffset = (launchTarget - launchInitalPosition) * Mathf.Lerp(0, 1, (LaunchLength - launchDuration)/LaunchLength);
@@ -263,21 +267,24 @@ public class Exploding : MonoBehaviour {
 					launchDuration -= Time.deltaTime;
 				}
 				if (launchDuration < 0) {
-					ChangeDirective_Death();
+					ChangeDirective_Explosion();
 				}
 				break;
 
 			case Directive.Death:
-				if (!keepExplosionActive) {
-					explosionHitbox.gameObject.SetActive(false);
+				if (animator.GetCurrentAnimatorStateInfo(0).IsName("Death") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f) {
+					ChangeDirective_Explosion();
+				}
+				break;
+
+			case Directive.Explosion: 
+				if (explosionTimer >= 0) {
+					explosionTimer -= Time.deltaTime;
 				}
 				else {
-					keepExplosionActive = false;
-				}
-
-				if (animator.GetCurrentAnimatorStateInfo(0).IsName("Death") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f) {
 					Destroy(this.gameObject);
 				}
+				
 				break;
 
 			default:
