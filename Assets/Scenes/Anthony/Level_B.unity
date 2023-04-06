@@ -285,6 +285,31 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 14858606}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!21 &16218372
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Custom_GrassComputeHLSL(Clone)
+  m_Shader: {fileID: 4800000, guid: 723972bb23543f14e8d7f08492cc3de2, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Floats:
+    - _AmbientAdjustment: 0
+    - _BlendFloor: 0
+    - _Fade: 0.25
+    m_Colors: []
+  m_BuildTextureStacks: []
 --- !u!4 &21602443 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3145779313131353609, guid: 015c14080a009154f94ee3a0f18a0813, type: 3}
@@ -1548,7 +1573,7 @@ MonoBehaviour:
   castShadow: 0
   interactors:
   - {fileID: 170243034}
-  m_InstantiatedMaterial: {fileID: 546378478}
+  m_InstantiatedMaterial: {fileID: 16218372}
 --- !u!114 &228609535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44487,31 +44512,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 011d8560322b6b9488f57de845790d29, type: 3}
   m_PrefabInstance: {fileID: 91085030}
   m_PrefabAsset: {fileID: 0}
---- !u!21 &546378478
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Custom_GrassComputeHLSL(Clone)
-  m_Shader: {fileID: 4800000, guid: 723972bb23543f14e8d7f08492cc3de2, type: 3}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Floats:
-    - _AmbientAdjustment: 0
-    - _BlendFloor: 0
-    - _Fade: 0.25
-    m_Colors: []
-  m_BuildTextureStacks: []
 --- !u!1 &549343984
 GameObject:
   m_ObjectHideFlags: 0
@@ -93882,7 +93882,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1783387550278367447, guid: 6f3554ba30fc5aa47be16f160b49225d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -33.05
+      value: -34.05
       objectReference: {fileID: 0}
     - target: {fileID: 1783387550278367447, guid: 6f3554ba30fc5aa47be16f160b49225d, type: 3}
       propertyPath: m_LocalPosition.y
