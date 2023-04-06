@@ -29,7 +29,8 @@ public class GameManager : MonoBehaviour {
 	[Header("Prefabs:")]
 	public GameObject PlayerPrefab;
 	public HeadProjectile SkullPrefab;
-	public GameObject EnemyPrefab;
+	public GameObject BasicPrefab;
+	public GameObject ExplodingPrefab;
 	public GameObject HeadPickupPrefab;
 	public GameObject FlashPrefab = null;
 
@@ -93,15 +94,14 @@ public class GameManager : MonoBehaviour {
 
 		if (debugTools) {
 			if (!isMenuOpen && dActions.DebugTools.SpawnEnemy.WasPerformedThisFrame()) {
-				if (false) {
+				if (true) {
 					Vector2 MouseLocation2D = dActions.DebugTools.MouseLocation.ReadValue<Vector2>();
 					Vector3 MouseLocation = new Vector3(MouseLocation2D.x, MouseLocation2D.y, 0);
 					Ray ray = Camera.main.ScreenPointToRay(MouseLocation);
 					RaycastHit hit;
 
 					if (Physics.Raycast(ray.origin, ray.direction, out hit, 1000.0f)) {
-						Debug.Log(EnemyPrefab.name + " spawned at " + hit.point);
-						Instantiate(EnemyPrefab, hit.point, Quaternion.identity);
+						Instantiate(ExplodingPrefab, hit.point, Quaternion.identity);
 						enemiesAlive += 1;
 					}
 				}
