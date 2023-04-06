@@ -97,7 +97,7 @@ public class Basic : MonoBehaviour {
 
 	// NOTE(Roskuski): End of ai state
 
-	float health = 4;
+	public float health;
 	bool shouldDie = false;
 	public float dropChance; //chance to drop a head (0-100)
 

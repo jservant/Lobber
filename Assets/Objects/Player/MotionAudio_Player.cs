@@ -34,7 +34,7 @@ public class MotionAudio_Player : MonoBehaviour
 
     public AK.Wwise.Event Character_GetHit;
 
-    void CharacterGetHit()
+    void Sound_CharacterGetHit()
     {
         Character_GetHit.Post(gameObject);
     }
