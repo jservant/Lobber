@@ -18,7 +18,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &72996446121800791
 Transform:
@@ -2436,7 +2436,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &72996447089837592
 Transform:
@@ -2530,7 +2530,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &72996447292562733
 Transform:
@@ -2651,12 +2651,13 @@ GameObject:
   - component: {fileID: 3541578672710006233}
   - component: {fileID: 1640084595442073875}
   - component: {fileID: 5145821295374606202}
+  - component: {fileID: 1313156356}
   m_Layer: 0
   m_Name: Brazier
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &471167793697766012
 Transform:
@@ -2737,5 +2738,21 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 426.04077, y: 310.4206, z: 419.7107}
-  m_Center: {x: 0, y: 0, z: 0.000091552734}
+  m_Size: {x: 426.04074, y: 447.27478, z: 419.7107}
+  m_Center: {x: 0, y: 68.42725, z: 0.00009536743}
+--- !u!208 &1313156356
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 991421045741576390}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 213.02, y: 202.475, z: 209.85501}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 46.6, z: 0}
+  m_TimeToStationary: 0.5
