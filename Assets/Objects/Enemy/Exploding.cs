@@ -236,8 +236,9 @@ public class Exploding : MonoBehaviour {
 					}
 				}
 
+				float waitModifier = Mathf.Lerp(2, 1, distanceToPlayer/17f);
 				if (waitDuration > 0.0f) {
-					waitDuration -= Time.deltaTime;
+					waitDuration -= Time.deltaTime * waitModifier;
 				}
 
 				break;
