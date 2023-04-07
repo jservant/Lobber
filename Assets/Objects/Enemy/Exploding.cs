@@ -12,22 +12,23 @@ public class Exploding : MonoBehaviour {
 		Explosion,
 		Death,
 	}
-	[SerializeField] Directive directive;
+	Directive directive;
 
 	public bool randomizeStats = true;
 
-	[SerializeField] float spawnDuration = 2.0f;
-	[SerializeField] float fuseDuration = 0;
-	[SerializeField] float waitDuration = 0;
-	[SerializeField] float movementBurstDuration = 0;
-	[SerializeField] bool reevaluateMovement = false;
+	float spawnDuration = 2.0f;
 
-	[SerializeField] float launchDuration = 0;
-	[SerializeField] Vector3 launchTarget;
-	[SerializeField] Vector3 launchInitalPosition;
+	float fuseDuration = 0;
+	float waitDuration = 0;
+	float movementBurstDuration = 0;
+	bool reevaluateMovement = false;
+
+	float launchDuration = 0;
+	Vector3 launchTarget;
+	Vector3 launchInitalPosition;
 	bool launchHasStarted = false;
 
-	[SerializeField] float explosionTimer = 0.1f;
+	float explosionTimer = 0.1f;
 
 	Quaternion moveDirection;
 	float[] directionWeights = new float[32];
