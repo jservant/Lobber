@@ -128,7 +128,10 @@ public class GameManager : MonoBehaviour {
 
 						if (Physics.Raycast(ray.origin, ray.direction, out hit, 1000.0f)) {
 							Instantiate(toSpawn, hit.point + offset, Quaternion.identity);
-							enemiesAlive += 1;
+
+							if (toSpawn == BasicPrefab || toSpawn == ExplodingPrefab) {
+								enemiesAlive += 1;
+							}
 						}
 					}
 				}
