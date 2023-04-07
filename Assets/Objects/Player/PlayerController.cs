@@ -604,6 +604,12 @@ public class PlayerController : MonoBehaviour {
 			freeAim = true;
 			setupHoming = false;
 		} 
+		else if (attack == Attacks.ShotgunThrow) {
+			tsr = targetSphereRadius * 2.5f;
+			speedTime = 0;
+			freeAim = true;
+			setupHoming = false;
+		}
 		else if (attack == Attacks.Chop) { freeAim = true; } 
 		else if (attack == Attacks.Spin) { ChangeMeter(-1); speedTime = 0.4f; } // meter change done in animator
 		else if (attack == Attacks.LethalDash) { ChangeMeter(-1); setupHoming = false; }
