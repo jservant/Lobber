@@ -66,6 +66,7 @@ public class Initializer : MonoBehaviour
 	}
 
 	public static void Save() {
+		if (fileName == null) fileName = Application.persistentDataPath + @"/options.dat";
 		using (FileStream fs = new FileStream(fileName, FileMode.Create)) {
 			using (BinaryWriter w = new BinaryWriter(fs)) {
 				w.Write((int)saveVersion.LATEST_PLUS_1 - 1);
