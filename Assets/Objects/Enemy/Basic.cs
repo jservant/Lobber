@@ -10,15 +10,9 @@ using UnityEngine.AI;
  * Enemy AI Wants: actions this AI wants to do when given the oppertunity
  */
 
-// @TODO(Roskuski): Make sure enemies behave well on slopes
-// @TODO(Roskuski): Make enemies lay off while the player is damaged
-// @TODO(Roskuski): Increase the radius that enemies will strafe around the player
-// @TODO(Roskuski): Telegraph when enemies are moving in for a slicing attack
-// @TODO(Roskuski): look at getters and setters for automatically setting vars in the animator as well as in the script
-
 public class Basic : MonoBehaviour {
 	static bool animationTimesPopulated = false;
-	static Dictionary<string,float> animationTimes;
+	static Dictionary<string,float> animationTimes; // @TODO(Roskuski) Remove this in favor getting this information from the animator
 	// NOTE(Roskuski): Enemy ai state
 
 	const float TraitMax = 1000.0f;
