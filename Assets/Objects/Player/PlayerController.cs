@@ -594,10 +594,10 @@ public class PlayerController : MonoBehaviour {
 	}
 	void SetCurrentAttack(Attacks attack) {
 		bool setupHoming = true;
+		tsr = targetSphereRadius;
 		currentState = States.Attacking;
 		lastAnimationStateHash = animr.GetCurrentAnimatorStateInfo(0).fullPathHash;
 
-		tsr = targetSphereRadius;
 		if (attack == Attacks.HeadThrow) {
 			tsr = targetSphereRadius * 2.5f;
 			speedTime = 0;
@@ -608,7 +608,7 @@ public class PlayerController : MonoBehaviour {
 			speedTime = 0;
 			setupHoming = false;
 		}
-		//else if (attack == Attacks.Chop) { speedTime = 0; } 
+		else if (attack == Attacks.Chop) { speedTime = 0; } 
 		else if (attack == Attacks.Spin) { ChangeMeter(-1); speedTime = 0.4f; } // meter change done in animator
 		else if (attack == Attacks.LethalDash) { ChangeMeter(-1); setupHoming = false; }
 		else if (attack == Attacks.Slam) { ChangeMeter(-5); setupHoming = false; }
@@ -703,7 +703,7 @@ public class PlayerController : MonoBehaviour {
 
 	public void LobThrow() { // triggered in animator
 		ChangeMeter(-1);
-		//SetupHoming();
+		SetupHoming();
 		headProj.speed = 50f;
 		headProj.canStun = true;
 		Instantiate(headProj, projSpawn.position, transform.rotation);
@@ -711,7 +711,7 @@ public class PlayerController : MonoBehaviour {
 
 	public void ShotgunThrow() { // triggered in animator
 		ChangeMeter(-3);
-		//SetupHoming();
+		SetupHoming();
 		headProj.speed = 50f;
 		headProj.canStun = true;
 		Instantiate(headProj, projSpawn.position, transform.rotation);
