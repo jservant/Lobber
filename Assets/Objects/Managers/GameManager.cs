@@ -97,6 +97,7 @@ public class GameManager : MonoBehaviour {
 
 		bool isMenuOpen = pauseUI.enabled || optionsUI.enabled;
 
+		//Debug Functions
 		if (debugTools) {
 			if (!isMenuOpen && dActions.DebugTools.SpawnEnemy.WasPerformedThisFrame()) {
 				if (true) {
@@ -114,6 +115,20 @@ public class GameManager : MonoBehaviour {
 					eSpawns[0].StartCoroutine(eSpawns[0].Spawning(5));
 				}
 			}
+
+			if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed && playerController.pActions.Player.DEBUGRestart.WasPerformedThisFrame()) {
+				Debug.Log("Restart called");
+				SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+			}
+			if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed && playerController.pActions.Player.DEBUGHeal.WasPerformedThisFrame()) {
+				playerController.health = playerController.healthMax;
+				playerController.meter = playerController.meterMax;
+			}
+			if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed && playerController.pActions.Player.DEBUGLevelSkip.WasPerformedThisFrame()) {
+				if (SceneManager.GetActiveScene().buildIndex == 4) { SceneManager.LoadScene(0); }
+				SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+			}
+			
 		}		
 
 		if (playerController.pActions.Player.Pause.WasPerformedThisFrame()) {

@@ -307,6 +307,11 @@ public class Exploding : MonoBehaviour {
 		}
 	}
 
+	private void OnDestroy() {
+		gameMan.enemiesKilledInLevel += 1; GameManager.enemiesKilledInRun += 1; Initializer.allEnemiesKilled += 1;
+		Initializer.Save();
+	}
+
 	private void OnDrawGizmos() {
 		Quaternion angleStep = Quaternion.AngleAxis(360.0f / directionWeights.Length, Vector3.up);
 		Vector3 consideredDelta = Vector3.forward;
