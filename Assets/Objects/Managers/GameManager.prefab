@@ -2861,7 +2861,7 @@ MonoBehaviour:
   ExplodingPrefab: {fileID: 9154448420800754184, guid: 4cc0bee97c622774a88089788cbb5e76, type: 3}
   HeadPickupPrefab: {fileID: 6346896903868867949, guid: ea9c3733d56472b47824784ca8b59db1, type: 3}
   FlashPrefab: {fileID: 4621633356944544063, guid: 6087a33f60b0b1c47bba2eb4d66dcdbd, type: 3}
-  eSpawnParent: {fileID: 0}
+  OrbSpawnPrefab: {fileID: 1218883036875733151, guid: d00742175a4c21444b599c78012ad661, type: 3}
   eSpawns: []
   enemiesAlive: 0
   enemiesKilledInLevel: 0
@@ -2897,22 +2897,6 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents:
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6570164311200872255}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 53605756-c6e6-40f1-83a8-7a17aa73fff1
-    m_ActionName: Debug/SpawnEnemy[/Mouse/leftButton]
-  - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 163143e1-2f33-4c1d-9163-df86f7d3161c
     m_ActionName: DebugTools/MouseLocation[/Mouse/position]
@@ -2920,6 +2904,18 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 76d5a4e2-362b-4c47-b643-cee2f69d36fe
     m_ActionName: DebugTools/SwitchScene[/Keyboard/l,/XInputControllerWindows/dpad/left]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b3e812e2-367e-4a22-b394-1dfd3cc84412
+    m_ActionName: DebugTools/SpawnBasic[/Keyboard/f1]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7d1cf78b-9e4b-4693-99db-5a37cdecfaa1
+    m_ActionName: DebugTools/SpawnExploding[/Keyboard/f2]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7631f52b-c3b5-45c7-8262-1bd5c9f4428b
+    m_ActionName: DebugTools/SummonSpawnPortal[/Mouse/rightButton]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: M&K
   m_DefaultActionMap: DebugTools

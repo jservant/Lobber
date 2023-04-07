@@ -6,15 +6,6 @@
             "id": "2cb31f18-a3a3-47ca-9cd2-2f5a2684c6db",
             "actions": [
                 {
-                    "name": "SpawnEnemy",
-                    "type": "Button",
-                    "id": "53605756-c6e6-40f1-83a8-7a17aa73fff1",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "MouseLocation",
                     "type": "Value",
                     "id": "163143e1-2f33-4c1d-9163-df86f7d3161c",
@@ -31,20 +22,36 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "SpawnBasic",
+                    "type": "Button",
+                    "id": "b3e812e2-367e-4a22-b394-1dfd3cc84412",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SpawnExploding",
+                    "type": "Button",
+                    "id": "7d1cf78b-9e4b-4693-99db-5a37cdecfaa1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SummonSpawnPortal",
+                    "type": "Button",
+                    "id": "7631f52b-c3b5-45c7-8262-1bd5c9f4428b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "359e838e-7a56-4fc7-a5fc-ad950100b6f1",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "SpawnEnemy",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "",
                     "id": "19173ce2-ee0a-4adb-a4f2-e5fc1103efb0",
@@ -75,6 +82,39 @@
                     "processors": "",
                     "groups": "",
                     "action": "SwitchScene",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6326c6b1-f395-4838-bb38-dbacd6e6f358",
+                    "path": "<Keyboard>/f1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SpawnBasic",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7debe059-e6e1-4503-9cf2-ed72b6a6261e",
+                    "path": "<Keyboard>/f2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SpawnExploding",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ff4c3ef7-1e1a-4bd4-98ee-c6328cb01bae",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SummonSpawnPortal",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

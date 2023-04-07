@@ -36,11 +36,11 @@ public class GameManager : MonoBehaviour {
 	public GameObject BasicPrefab;
 	public GameObject ExplodingPrefab;
 	public GameObject HeadPickupPrefab;
-	public GameObject FlashPrefab = null;
+	public GameObject FlashPrefab;
+	public GameObject OrbSpawnPrefab; 
 
 	[Header("Enemies:")]
-	public GameObject eSpawnParent;
-	public OrbSpawn[] eSpawns;
+	public Transform[] eSpawns;
 	public int enemiesAlive = 0;
 	public int enemiesKilledInLevel = 0;
 	public static int enemiesKilledInRun = 0;
@@ -64,8 +64,12 @@ public class GameManager : MonoBehaviour {
 			Debug.Log("Object Named Player found");
 		}
 		else Debug.LogWarning("Object Named Player Not found");
-		eSpawnParent = GameObject.Find("EnemySpawns");
-		eSpawns = eSpawnParent.GetComponentsInChildren<OrbSpawn>();
+
+		{
+			GameObject eSpawnParent = GameObject.Find("EnemySpawns");
+			eSpawns = eSpawnParent.GetComponentsInChildren<Transform>();
+		}
+
 		dActions = new DebugActions();
 		eSystem = GetComponent<EventSystem>();
 		mainUI = transform.Find("MainUI").GetComponent<Canvas>();
@@ -80,7 +84,8 @@ public class GameManager : MonoBehaviour {
 
 		if (canSpawn) {
 			int randomIndex = UnityEngine.Random.Range(0, eSpawns.Length);
-			eSpawns[randomIndex].StartCoroutine(eSpawns[randomIndex].Spawning(5));
+			OrbSpawnPrefab.GetComponent<OrbSpawn>().spawnAmount = 5;
+			Instantiate(OrbSpawnPrefab, eSpawns[randomIndex]);
 		}
 	}
 
@@ -97,22 +102,35 @@ public class GameManager : MonoBehaviour {
 
 		bool isMenuOpen = pauseUI.enabled || optionsUI.enabled;
 
-		//Debug Functions
 		if (debugTools) {
-			if (!isMenuOpen && dActions.DebugTools.SpawnEnemy.WasPerformedThisFrame()) {
-				if (true) {
-					Vector2 MouseLocation2D = dActions.DebugTools.MouseLocation.ReadValue<Vector2>();
-					Vector3 MouseLocation = new Vector3(MouseLocation2D.x, MouseLocation2D.y, 0);
-					Ray ray = Camera.main.ScreenPointToRay(MouseLocation);
-					RaycastHit hit;
+			if (!isMenuOpen) {
+				{ // Spawn at point
+					GameObject toSpawn = null;
+					Vector3 offset = Vector3.zero;
 
-					if (Physics.Raycast(ray.origin, ray.direction, out hit, 1000.0f)) {
-						Instantiate(ExplodingPrefab, hit.point, Quaternion.identity);
-						enemiesAlive += 1;
+					if (dActions.DebugTools.SpawnBasic.WasPerformedThisFrame()) {
+						toSpawn = BasicPrefab;
 					}
-				}
-				else {
-					eSpawns[0].StartCoroutine(eSpawns[0].Spawning(5));
+					if (dActions.DebugTools.SpawnExploding.WasPerformedThisFrame()) { 
+						toSpawn = ExplodingPrefab;
+					}
+					if (dActions.DebugTools.SummonSpawnPortal.WasPerformedThisFrame()) {
+						OrbSpawnPrefab.GetComponent<OrbSpawn>().spawnAmount = 5;
+						toSpawn = OrbSpawnPrefab;
+						offset = Vector3.up * 5f;
+					}
+
+					if (toSpawn != null) {
+						Vector2 MouseLocation2D = dActions.DebugTools.MouseLocation.ReadValue<Vector2>();
+						Vector3 MouseLocation = new Vector3(MouseLocation2D.x, MouseLocation2D.y, 0);
+						Ray ray = Camera.main.ScreenPointToRay(MouseLocation);
+						RaycastHit hit;
+
+						if (Physics.Raycast(ray.origin, ray.direction, out hit, 1000.0f)) {
+							Instantiate(toSpawn, hit.point + offset, Quaternion.identity);
+							enemiesAlive += 1;
+						}
+					}
 				}
 			}
 
@@ -158,7 +176,8 @@ public class GameManager : MonoBehaviour {
 
 		if (canSpawn && enemiesAlive <= 5 && enemiesKilledInLevel < enemyKillingGoal) {
 			int randomIndex = UnityEngine.Random.Range(0, eSpawns.Length);
-			eSpawns[randomIndex].StartCoroutine(eSpawns[randomIndex].Spawning(5));
+			OrbSpawnPrefab.GetComponent<OrbSpawn>().spawnAmount = 5;
+			Instantiate(OrbSpawnPrefab, eSpawns[randomIndex]);
 		}
 
 
