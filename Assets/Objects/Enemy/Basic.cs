@@ -993,7 +993,7 @@ public class Basic : MonoBehaviour {
 			float HeadChance = Random.Range(1, 100f);
 			if (HeadChance <= dropChance) GameObject.Instantiate(gameMan.HeadPickupPrefab, transform.position + 3 * Vector3.up, Quaternion.identity);
 			gameMan.enemiesKilledInLevel += 1; GameManager.enemiesKilledInRun += 1; Initializer.allEnemiesKilled += 1;
-			Debug.Log("ALL enemies killed: " + Initializer.allEnemiesKilled);
+			Initializer.Save();
 			Destroy(this.gameObject);
 		}
 	}
@@ -1001,6 +1001,7 @@ public class Basic : MonoBehaviour {
 	private void OnDestroy() { 
 		gameMan.enemiesAlive -= 1;
 		Initializer.allEnemiesKilled++;
+		Initializer.Save();
 	}
 
 	void OnDrawGizmosSelected() {

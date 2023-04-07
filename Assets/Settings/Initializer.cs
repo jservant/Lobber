@@ -57,7 +57,6 @@ public class Initializer : MonoBehaviour
 					}
 				}
 			}
-			runsStarted++;
 			Debug.Log("(Initializer) Version num: " + versionNum);
 			Debug.Log("(Initializer) Enemies killed: " + allEnemiesKilled);
 			Debug.Log("(Initializer) Times game has been booted: " + runsStarted);
