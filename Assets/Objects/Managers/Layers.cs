@@ -40,6 +40,28 @@ public class Util {
 		GameObject.Instantiate(gameMan.FlashPrefab, position, Quaternion.LookRotation(Camera.main.transform.position - position, Vector3.up));
 	}
 
+	public static int RollWeightedChoice(float[] weight) {
+		int result = -1;
+		float total = 0;
+		for (int index = 0; index < weight.Length; index += 1) {
+			total += weight[index];
+			Debug.Assert(weight[index] >= 0);
+			Debug.Assert(total > 0);
+		}
+		
+		float randomRoll = Random.Range(0, total);
+		float rollingTotal = 0;
+		for (int index = 0; index < weight.Length; index += 1) {
+			rollingTotal += weight[index];
+			if (randomRoll <= rollingTotal) {
+				result = index;
+				break;
+			}
+		}
+
+		return result;
+	}
+
 	// NOTE(Roskuski): Returns if we hit a wall.
 	public static bool PerformCheckedLateralMovement(GameObject gameObject, float verticalOffset, float spherecastRadius, Vector3 translationDelta, int depthCount = 0, bool hitWall = false) {
 		depthCount += 1;

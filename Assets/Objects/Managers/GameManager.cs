@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
@@ -39,13 +38,24 @@ public class GameManager : MonoBehaviour {
 	public GameObject FlashPrefab;
 	public GameObject OrbSpawnPrefab; 
 
-	[Header("Enemies:")]
+	[Header("Spawning:")]
 	public Transform[] eSpawns;
 	public int enemiesAlive = 0;
 	public int enemiesKilledInLevel = 0;
 	public static int enemiesKilledInRun = 0;
 	public static int enemyKillingGoal = 30;
 	bool transitioningLevel = false;
+	
+	[SerializeField] float spawnTokens;
+	float spawnDelay;
+
+	readonly static float TokenCost_SmallSpawn = 30;
+	readonly static float TokenCost_MediumSpawn = 60;
+	readonly static float TokenCost_BigSpawn = 80;
+	readonly static float TokensPerSecond = 1.0f;
+	readonly static int HighEnemies = 18;
+	readonly static int TargetEnemies = 12;
+	readonly static int LowEnemies = 4;
 
 	[Header("Bools:")]
 	public bool updateTimeScale = true;
@@ -56,6 +66,7 @@ public class GameManager : MonoBehaviour {
 
 	[Header("Particle System:")]
 	public ParticleSystem[] particles;
+
 
 	void Awake() {
 		player = transform.Find("/Player");
@@ -81,12 +92,8 @@ public class GameManager : MonoBehaviour {
 		statusTextboxText = transform.Find("StatusTextbox/StatusTextboxText").GetComponent<TMP_Text>();
 		statusTextboxText.text = "";
 		Time.timeScale = 1;
-
-		if (canSpawn) {
-			int randomIndex = UnityEngine.Random.Range(0, eSpawns.Length);
-			OrbSpawnPrefab.GetComponent<OrbSpawn>().spawnAmount = 5;
-			Instantiate(OrbSpawnPrefab, eSpawns[randomIndex]);
-		}
+		
+		spawnTokens = 100;
 	}
 
 	private void Update() {
@@ -115,7 +122,8 @@ public class GameManager : MonoBehaviour {
 						toSpawn = ExplodingPrefab;
 					}
 					if (dActions.DebugTools.SummonSpawnPortal.WasPerformedThisFrame()) {
-						OrbSpawnPrefab.GetComponent<OrbSpawn>().spawnAmount = 5;
+						OrbSpawnPrefab.GetComponent<OrbSpawn>().basicAmount = 5;
+						OrbSpawnPrefab.GetComponent<OrbSpawn>().explodingAmount = 5;
 						toSpawn = OrbSpawnPrefab;
 						offset = Vector3.up * 5f;
 					}
@@ -150,7 +158,7 @@ public class GameManager : MonoBehaviour {
 				SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 			}
 			
-		}		
+		}
 
 		if (playerController.pActions.Player.Pause.WasPerformedThisFrame()) {
 			if (optionsUI.enabled == true) {
@@ -177,12 +185,80 @@ public class GameManager : MonoBehaviour {
 		UpdateHealthBar();
 		UpdateMeter();
 
-		if (canSpawn && enemiesAlive <= 5 && enemiesKilledInLevel < enemyKillingGoal) {
-			int randomIndex = UnityEngine.Random.Range(0, eSpawns.Length);
-			OrbSpawnPrefab.GetComponent<OrbSpawn>().spawnAmount = 5;
-			Instantiate(OrbSpawnPrefab, eSpawns[randomIndex]);
-		}
 
+		// Manage Spawns
+		if (enemiesKilledInLevel < enemyKillingGoal && canSpawn) {
+			spawnTokens += TokensPerSecond * Time.deltaTime;
+			if (enemiesAlive < HighEnemies) {
+				// Determine enemy amount
+				int amountEnemy = 0;
+				float[][] weightEnemyAmount = new float[][]{
+					new float[] {0.1f, 3.0f, 6.0f}, // Low Enemies
+					new float[] {3.0f, 4.0f, 3.0f}, // Med Enemies
+					new float[] {6.0f, 3.0f, 0.1f}, // High Enemies
+				};
+				int weightIndexEnemyAmount = 0;
+				if (enemiesAlive > LowEnemies) { weightIndexEnemyAmount = 1; }
+				if (enemiesAlive > TargetEnemies) { weightIndexEnemyAmount = 2; }
+
+				int choiceEnemyAmount = Util.RollWeightedChoice(weightEnemyAmount[weightIndexEnemyAmount]);
+				// NOTE(Roskuski): Random.Range(int, int)'s upper bound is EXCLUSIVE. NOT INCLUSIVE.
+				switch (choiceEnemyAmount) {
+					case 0:
+						if (spawnTokens > TokenCost_SmallSpawn) {
+							amountEnemy = Random.Range(3, 5);
+							spawnTokens -= TokenCost_SmallSpawn;
+						}
+						break;
+					case 1:
+						if (spawnTokens > TokenCost_MediumSpawn) {
+							amountEnemy = Random.Range(5, 8);
+							spawnTokens -= TokenCost_MediumSpawn;
+						}
+						break;
+					case 2:
+						if (spawnTokens > TokenCost_BigSpawn) {
+							amountEnemy = Random.Range(7, 10);
+							spawnTokens -= TokenCost_BigSpawn;
+						}
+						break;
+					default:
+						Debug.Assert(false);
+						break;
+				}
+
+
+				if (amountEnemy > 0) {
+					// detremine enemy contents
+					int amountBasic = 0;
+					int amountExploding = 0;
+					for (int count = 0; count < amountEnemy; count += 1) {
+						int choiceEnemyKind = Util.RollWeightedChoice(new float[] {4f, 1f});
+						switch (choiceEnemyKind) {
+							case 0:
+								amountBasic += 1;
+								break;
+							case 1:
+								amountExploding += 1;
+								break;
+							default:
+								Debug.Assert(false);
+								break;
+						}
+					}
+
+					// choose a spawn point
+					int indexSpawnPoint = -1;
+					do {
+						indexSpawnPoint = Random.Range(0, eSpawns.Length);
+					} while (Physics.CheckSphere(eSpawns[indexSpawnPoint].position, 10f, Mask.Get(Layers.PlayerHitbox)));
+
+					OrbSpawnPrefab.GetComponent<OrbSpawn>().basicAmount = amountBasic;
+					OrbSpawnPrefab.GetComponent<OrbSpawn>().explodingAmount = amountExploding;
+					Instantiate(OrbSpawnPrefab, eSpawns[indexSpawnPoint]);
+				}
+			}
+		}
 
 		if (enemiesKilledInLevel >= enemyKillingGoal && enemiesAlive <= 0 && transitioningLevel == false) {
 			StartCoroutine(Win());

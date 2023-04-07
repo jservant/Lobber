@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class OrbSpawn : MonoBehaviour {
 
-	public int spawnAmount;
+	public int basicAmount;
+	public int explodingAmount;
+
 
 	float despawnTime = 3;
 	bool[] spawnedEnemies;
@@ -20,10 +22,11 @@ public class OrbSpawn : MonoBehaviour {
 	}
 
 	public IEnumerator Spawning() {
+		int spawnAmount = basicAmount + explodingAmount;
 		gameMan.enemiesAlive += spawnAmount;
 
 		anim.SetBool("DeSpawn", false);
-		spawnedEnemies = new bool[spawnAmount];
+		spawnedEnemies = new bool[basicAmount + explodingAmount];
 		angleOffset = Random.Range(0.0f, 90.0f);
 		yield return new WaitForSeconds(despawnTime / 2);
 
@@ -37,7 +40,12 @@ public class OrbSpawn : MonoBehaviour {
 			spawnedEnemies[randomIndex] = true;
 
 			float angle = (float)randomIndex * 360.0f / (float)spawnAmount;
-			Instantiate(gameMan.BasicPrefab, this.transform.position + Vector3.down * 1.5f, Quaternion.AngleAxis(angle, Vector3.up));
+			if (randomIndex >= basicAmount) { 
+				Instantiate(gameMan.ExplodingPrefab, this.transform.position + Vector3.down * 1.5f, Quaternion.AngleAxis(angle, Vector3.up));
+			}
+			else {
+				Instantiate(gameMan.BasicPrefab, this.transform.position + Vector3.down * 1.5f, Quaternion.AngleAxis(angle, Vector3.up));
+			}
 			yield return new WaitForSeconds(0.3f);
 		}
 
@@ -51,6 +59,6 @@ public class OrbSpawn : MonoBehaviour {
 
 	void OnDrawGizmos() {
 		Gizmos.color = Color.magenta;
-		Gizmos.DrawWireSphere(transform.position, 5f);
+		Gizmos.DrawWireSphere(transform.position, 10f);
 	}
 }
