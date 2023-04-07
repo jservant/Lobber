@@ -95,6 +95,36 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &3790495257221338247
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7021682204487346701}
+  m_Layer: 0
+  m_Name: ExplosionPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7021682204487346701
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3790495257221338247}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7082023546109696931}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4268695966532801305
 GameObject:
   m_ObjectHideFlags: 0
@@ -126,7 +156,7 @@ Transform:
   m_Children:
   - {fileID: 2858041258915846440}
   m_Father: {fileID: 7082023546109696931}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &4618151075602216527
 CapsuleCollider:
@@ -207,7 +237,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4921783614859859675}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -273,6 +303,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 7021682204487346701}
   - {fileID: 6994644022408188824}
   - {fileID: 7402271573601894392}
   m_Father: {fileID: 0}
@@ -359,6 +390,7 @@ MonoBehaviour:
   currentTriggerTime: 0
   anim: {fileID: 6994644022408188825}
   barrel: {fileID: 8561450697191387026}
+  explosionPoint: {fileID: 7021682204487346701}
 --- !u!54 &2224961026019785379
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -397,6 +429,10 @@ PrefabInstance:
     - target: {fileID: 6810769774548410773, guid: 8faf1c05c76f74f4fac0115145c76fb1, type: 3}
       propertyPath: m_Name
       value: BombBarrelSpawn
+      objectReference: {fileID: 0}
+    - target: {fileID: 6810769774548410779, guid: 8faf1c05c76f74f4fac0115145c76fb1, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6810769774548410779, guid: 8faf1c05c76f74f4fac0115145c76fb1, type: 3}
       propertyPath: m_LocalPosition.x

@@ -12,6 +12,9 @@ public class ExplosiveTrap : MonoBehaviour {
 	public float currentTriggerTime;
 	public Animator anim;
 	public MeshRenderer barrel;
+	public Transform explosionPoint;
+
+	private GameManager gameMan;
 
 	private bool check = true;
 
@@ -22,6 +25,7 @@ public class ExplosiveTrap : MonoBehaviour {
 		anim.Play("BombBarrel");
 		currentArmTime = armTime;
 		currentTriggerTime = 0f;
+		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 	}
 
 	void Update() {
@@ -59,6 +63,7 @@ public class ExplosiveTrap : MonoBehaviour {
 		currentArmTime = armTime;
 		currentTriggerTime = triggerTime;
 		hitbox.SetActive(true);
+		gameMan.SpawnParticle(2, explosionPoint.position, 1f);
 	}
 
 	void OnDrawGizmos() {

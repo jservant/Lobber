@@ -115,7 +115,7 @@ public class Exploding : MonoBehaviour {
 		directive = Directive.Spawn;
 
 		if (randomizeStats) {
-			fuseDuration = Random.Range(25.0f, 30.0f);
+			fuseDuration = Random.Range(10f, 20f);
 		}
 	}
 
@@ -291,6 +291,7 @@ public class Exploding : MonoBehaviour {
 					explosionTimer -= Time.deltaTime;
 				}
 				else {
+					gameMan.SpawnParticle(3, transform.position, 1f);
 					Destroy(this.gameObject);
 				}
 				
