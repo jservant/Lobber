@@ -221,7 +221,7 @@ public class PlayerController : MonoBehaviour {
 	bool isGrounded;
 	[Header("Speed:")]
 	[SerializeField] AnimationCurve movementCurve;
-	[SerializeField] float topSpeed = 10f;				// top player speed
+	public float topSpeed = 10f;				// top player speed
 	public float speedTime = 0f;				// how long has player been moving for?
 	[SerializeField] float maxSpeedTime = 0.2f;			// how long does it take for player to reach max speed?
 	[SerializeField] float attackDecelModifier = 5f;	// modifier that makes player decelerate slower when attacking (moves them out further)
@@ -229,6 +229,7 @@ public class PlayerController : MonoBehaviour {
 	[Header("Dashing:")]
 	[SerializeField] AnimationCurve dashCurve;
 	[SerializeField] float dashForce = 10f;             // dash strength (how far do you go)
+	[SerializeField] float chopMovementMultiplier = 6f; // what to multiply dashForce by when using Chop
 	[SerializeField] float meterDashMultiplier = 2f;    // what to multiply dashForce by when using Lethal Dash
 	[SerializeField] float dashTime = 0f;				// how long has player been dashing for?
 	[SerializeField] float maxDashCooldown = 1.5f;		// how long does it take for player to dash again after dashing?
@@ -354,7 +355,8 @@ public class PlayerController : MonoBehaviour {
 				transform.rotation = Quaternion.Euler(0f, angle, 0f);
 				Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
 				moveDelta = moveDirection.normalized * (topSpeed * Mathf.Lerp(0, 1, movementCurve.Evaluate(speedTime / maxSpeedTime)));
-			} 
+				if (currentAttack == Attacks.Chop) moveDelta *= chopMovementMultiplier;
+			}
 			float moveWeight = Mathf.Lerp(1, 0, Mathf.Clamp01(remainingKnockbackTime / knockbackInfo.time));
 			float knockbackWeight = 1f - moveWeight;
 			Vector3 knockbackDelta = (knockbackInfo.direction * Vector3.forward) * knockbackInfo.force;
@@ -608,7 +610,7 @@ public class PlayerController : MonoBehaviour {
 			speedTime = 0;
 			setupHoming = false;
 		}
-		else if (attack == Attacks.Chop) { speedTime = 0; } 
+		else if (attack == Attacks.Chop) { speedTime = 0; }
 		else if (attack == Attacks.Spin) { ChangeMeter(-1); speedTime = 0.4f; } // meter change done in animator
 		else if (attack == Attacks.LethalDash) { ChangeMeter(-1); setupHoming = false; }
 		else if (attack == Attacks.Slam) { ChangeMeter(-5); setupHoming = false; }
@@ -667,7 +669,7 @@ public class PlayerController : MonoBehaviour {
 					homingTargetDelta *= 1;
 					break;
 				case Attacks.Chop:
-					homingTargetDelta *= 0.50f;
+					homingTargetDelta *= 0.90f;
 					break;
 				case Attacks.HeadThrow:
 					homingTargetDelta *= 0f;
@@ -722,6 +724,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public void StartHoming(float time) { // called in animator; starts the homing lerp in FixedUpdate()
+		movement = new Vector3(trueInput.x, 0, trueInput.y);
 		homingInitalPosition = this.transform.position;
 		homingTimer = time;
 		homingTimerMax = time;
