@@ -30,6 +30,13 @@ public class Exploding : MonoBehaviour {
 
 	float explosionTimer = 0.1f;
 
+	[SerializeField] float hitflashTimer = 0f;
+	SkinnedMeshRenderer handModel;
+	MeshRenderer bombModel;
+	Material[] bombMaterials;
+	Material handMaterial;
+	public Material hitflashMat;
+
 	Quaternion moveDirection;
 	float[] directionWeights = new float[32];
 
@@ -96,6 +103,7 @@ public class Exploding : MonoBehaviour {
 			else {
 				ChangeDirective_Explosion();
 			}
+			hitflashTimer = 0.25f;
 			Vector3 spawnPoint = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
 			gameMan.SpawnParticle(0, spawnPoint, 1f);
 		}
@@ -120,6 +128,11 @@ public class Exploding : MonoBehaviour {
 		if (randomizeStats) {
 			fuseDuration = Random.Range(10f, 20f);
 		}
+
+		handModel = transform.Find("Skeleton_Bombois").GetComponent<SkinnedMeshRenderer>();
+		bombModel = transform.Find("Main/MrBomb").GetComponent<MeshRenderer>();
+		handMaterial = handModel.material;
+		bombMaterials = bombModel.materials;
 	}
 
 	void Update() {
@@ -130,6 +143,20 @@ public class Exploding : MonoBehaviour {
 		Vector3 movementDelta = Vector3.zero;
 
 		animator.SetBool("IsMoving", false);
+
+		hitflashTimer -= Time.deltaTime;
+		Material[] bombMaterialList = bombModel.materials;
+		for (int i = 0; i < bombMaterialList.Length; i++) {
+			if (hitflashTimer > 0) {
+				bombMaterialList[i] = hitflashMat;
+				handModel.material = hitflashMat;
+			}
+			else {
+				bombMaterialList[i] = bombMaterials[i];
+				handModel.material = handMaterial;
+			}
+		}
+		bombModel.materials = bombMaterialList;
 
 		// Processing information from other enemies
 		switch (directive) {

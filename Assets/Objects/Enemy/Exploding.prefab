@@ -762,6 +762,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   randomizeStats: 1
+  hitflashTimer: 0
+  hitflashMat: {fileID: 2100000, guid: 27625c58fe45e654f9e128ba019e7db7, type: 2}
 --- !u!1001 &7349710048545902291
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -835,7 +837,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 9b83d41adc4383d43a05217e4fd9afa9, type: 2}
     - target: {fileID: 919132149155446097, guid: 9ae8fc283fedd0c4680cacee0d34da45, type: 3}
       propertyPath: m_Name
-      value: MrBomb (1)
+      value: MrBomb
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9ae8fc283fedd0c4680cacee0d34da45, type: 3}
