@@ -360,11 +360,13 @@ public class GameManager : MonoBehaviour {
 
 	public void OnQuit() {
 		SceneManager.LoadScene(1);
+		enemiesKilledInRun = 0;
 		Time.timeScale = 1;
 		Initializer.Save();
 	}
 
 	public void OnQuitToDesktop() {
+		enemiesKilledInRun = 0;
 		Initializer.Save();
 		Application.Quit();
 	}
