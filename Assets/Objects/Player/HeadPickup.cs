@@ -32,19 +32,29 @@ public class HeadPickup : MonoBehaviour {
 	public bool isOnGround;
 	public bool collected;
 
+	bool isGold = false;
+	public int goldChance;
+	MeshRenderer headModel;
+	public Material goldMat;
+
 	GameManager gameMan;
-	// Start is called before the first frame update
 	void Start() {
 		transform.rotation = Random.rotation;
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
+		headModel = transform.Find("SkullPosition/Skeleton_Head").GetComponent<MeshRenderer>();
 		timeUntilCollect = lifetime - timeUntilCollect;
 		isOnGround = false;
 		canCollect = false;
 
+		int goldRoll = Random.Range(1, goldChance);
+		if (goldRoll == 1) {
+			headModel.material = goldMat;
+			isGold = true;
+		}
+
 		FindPoint();
 	}
 
-	// Update is called once per frame
 	void Update() {
 		lifetime -= Time.deltaTime;
 
@@ -86,6 +96,10 @@ public class HeadPickup : MonoBehaviour {
 			if (foundPoint == false) {
 				float ranForceX = Random.Range(-randomForce, randomForce);
 				float ranForceZ = Random.Range(-randomForce, randomForce);
+				/*if (ranForceX > 3f) { ranForceX = 3f; }
+				if (ranForceZ > 3f) { ranForceZ = 3f; }
+				if (ranForceX < -3f) { ranForceX = -3f; }
+				if (ranForceZ < -3f) { ranForceZ = -3f; }*/
 				Vector3 point = new Vector3(transform.position.x + ranForceX, 5f, transform.position.z + ranForceZ); //calculates randomized point on XZ axis
 				RaycastHit hit;
 
@@ -142,7 +156,11 @@ public class HeadPickup : MonoBehaviour {
 	void OnDestroy() {
 		Destroy(this.transform.parent.gameObject);
 		if (collected) {
-			gameMan.playerController.meter += value;
+			if (isGold) {
+				gameMan.playerController.meter = gameMan.playerController.meterMax;
+				gameMan.playerController.frenzyTimer = 5f;
+			}
+			else { gameMan.playerController.meter += value; }
 			if (!isOnGround) gameMan.playerController.health += healthOnCatch;
 		}
 	}

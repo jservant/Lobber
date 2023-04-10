@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour {
 	public TMP_Text statusTextboxText;
 	public Transform healthBar;
 	public Transform meterBar;
+	public Image meterImage;
 
 	[Header("Prefabs:")]
 	public GameObject PlayerPrefab;
@@ -98,6 +99,7 @@ public class GameManager : MonoBehaviour {
 		statsUI = transform.Find("StatsUI").GetComponent<Canvas>();
 		statusTextboxText = transform.Find("StatusTextbox/StatusTextboxText").GetComponent<TMP_Text>();
 		statusTextboxText.text = "";
+		meterImage = transform.Find("MainUI/MeterBar").GetComponent<Image>();
 		Time.timeScale = 1;
 		
 		spawnTokens = 100;
@@ -317,6 +319,8 @@ public class GameManager : MonoBehaviour {
 
 	public void UpdateMeter() {
 		meterBar.localScale = new Vector3((playerController.meter / playerController.meterMax), 1f, 1f);
+		if (playerController.frenzyTimer > 0) { meterImage.color = Color.yellow; }
+		else { meterImage.color = Color.white; }
 	}
 
 	public void OnResume() {

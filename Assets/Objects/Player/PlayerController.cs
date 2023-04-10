@@ -243,6 +243,7 @@ public class PlayerController : MonoBehaviour {
 	public float meter = 0;
 	public float meterMax = 5;
 	public float hitflashTimer = 0;
+	public float frenzyTimer = 0f;
 
 	KnockbackInfo knockbackInfo = new KnockbackInfo(Quaternion.identity, 0, 0);
 	float remainingKnockbackTime;
@@ -418,6 +419,11 @@ public class PlayerController : MonoBehaviour {
 		}
 		model.materials = materialList;
 
+		if (frenzyTimer > 0f) {
+			frenzyTimer -= Time.deltaTime;
+		}
+
+		//Input
 		if (currentState != States.Death) {
 			if (currentState != States.Attacking) {
 				mInput = pActions.Player.Move.ReadValue<Vector2>();
@@ -445,20 +451,20 @@ public class PlayerController : MonoBehaviour {
 			if (pActions.Player.HeavyAttack.WasPerformedThisFrame()) {
 				attackButtonPrep = AttackButton.HeavyAttack;
 			}
-			if (meter >= 1f && pActions.Player.Throw.WasPerformedThisFrame()) {
+			if (canUseMeter(1) && pActions.Player.Throw.WasPerformedThisFrame()) {
 				attackButtonPrep = AttackButton.Throw;
 			}
-			if (meter >= 1f && pActions.Player.LightAttack.WasPerformedThisFrame() && pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
+			if (canUseMeter(1) && pActions.Player.LightAttack.WasPerformedThisFrame() && pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
 				attackButtonPrep = AttackButton.ModLight;
 			}
-			if (meter >= 5f && pActions.Player.HeavyAttack.WasPerformedThisFrame() && pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
+			if (canUseMeter(5) && pActions.Player.HeavyAttack.WasPerformedThisFrame() && pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
 				attackButtonPrep = AttackButton.ModHeavy;
 			}
-			if (meter >= 3f && pActions.Player.Throw.WasPerformedThisFrame() && pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
+			if (canUseMeter(3) && pActions.Player.Throw.WasPerformedThisFrame() && pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
 				attackButtonPrep = AttackButton.ModThrow;
 			}
 		
-			if (meter >= 1f && pActions.Player.Dash.WasPerformedThisFrame() && pActions.Player.MeterModifier.phase == InputActionPhase.Performed && trueInput.sqrMagnitude >= 0.1f && dashCooldown <= 0f  && isGrounded) {
+			if (canUseMeter(1) && pActions.Player.Dash.WasPerformedThisFrame() && pActions.Player.MeterModifier.phase == InputActionPhase.Performed && trueInput.sqrMagnitude >= 0.1f && dashCooldown <= 0f  && isGrounded) {
 				attackButtonPrep = AttackButton.ModDash;
 				dashTime = 0;
 				dashCooldown = maxDashCooldown;
@@ -582,6 +588,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public void ChangeMeter(float Amount) {
+		if (frenzyTimer > 0) return;
 		meter += Amount;
 		if (meter >= 1) {
 			headMesh.enabled = true;
@@ -773,6 +780,12 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		return Result;
+	}
+
+	public bool canUseMeter(int cost) {
+		if (frenzyTimer > 0) return true;
+		else if (meter >= cost) return true;
+		else return false;
 	}
 
 	public void Slam() {
