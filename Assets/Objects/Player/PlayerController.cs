@@ -204,6 +204,7 @@ public class PlayerController : MonoBehaviour {
 	Transform slamPoint;
 	Light spotLight;
 	GameManager gameMan;
+	Physics physics;
 
 	public DefaultPlayerActions pActions;
 	GetKnockbackInfo axeGetKnockbackInfo;
@@ -643,6 +644,7 @@ public class PlayerController : MonoBehaviour {
 			doHoming = false;
 		}
 
+		//Collider[] newEColliders = Util.ConeCastAll(transform.position, tsr, Vector3.forward, );
 		Collider[] eColliders = Physics.OverlapSphere(GetTargetSphereLocation(), tsr, Mask.Get(Layers.EnemyHurtbox));
 
 		homingTargetDelta = Vector3.forward * 10;
