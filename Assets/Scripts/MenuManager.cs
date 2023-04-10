@@ -23,6 +23,7 @@ public class MenuManager : MonoBehaviour
 	public void OnPlay() {
 		GameManager.storedPlayerHealth = 10;
 		GameManager.storedPlayerMeter = 3;
+		GameManager.enemyKillingGoal = 30;
 		Initializer.runsStarted++;
 		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 	}
