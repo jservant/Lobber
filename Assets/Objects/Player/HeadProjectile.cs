@@ -27,7 +27,8 @@ public class HeadProjectile : MonoBehaviour {
 
 	private void OnTriggerEnter(Collider other) {
 		if (other.gameObject.layer == (int)Layers.EnemyHurtbox) {
-			Debug.Log("proj should die lol");
+			Destroy(gameObject);
+
 			if (canStun) {
 				Collider[] eColliders = Physics.OverlapSphere(transform.position, stunSphereRadius, Mask.Get(Layers.EnemyHurtbox));
 				for (int index = 0; index < eColliders.Length; index += 1) {
@@ -36,8 +37,8 @@ public class HeadProjectile : MonoBehaviour {
 					basicEnemy.ChangeDirective_Stunned(Basic.StunTime.LongStun, knockbackInfo);
 				}
 			}
-			Destroy(gameObject);
 		}
+		
 	}
 
 	void OnDrawGizmos() {
