@@ -91,7 +91,7 @@ public partial class @DebugActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/l"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""M&K"",
+                    ""groups"": """",
                     ""action"": ""SwitchScene"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -145,16 +145,21 @@ public partial class @DebugActions: IInputActionCollection2, IDisposable
     ],
     ""controlSchemes"": [
         {
-            ""name"": ""M&K"",
-            ""bindingGroup"": ""M&K"",
+            ""name"": ""DebugControls"",
+            ""bindingGroup"": ""DebugControls"",
             ""devices"": [
                 {
-                    ""devicePath"": ""<Keyboard>"",
+                    ""devicePath"": ""<Gamepad>"",
                     ""isOptional"": false,
                     ""isOR"": false
                 },
                 {
                     ""devicePath"": ""<Mouse>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                },
+                {
+                    ""devicePath"": ""<Keyboard>"",
                     ""isOptional"": false,
                     ""isOR"": false
                 }
@@ -304,13 +309,13 @@ public partial class @DebugActions: IInputActionCollection2, IDisposable
         }
     }
     public DebugToolsActions @DebugTools => new DebugToolsActions(this);
-    private int m_MKSchemeIndex = -1;
-    public InputControlScheme MKScheme
+    private int m_DebugControlsSchemeIndex = -1;
+    public InputControlScheme DebugControlsScheme
     {
         get
         {
-            if (m_MKSchemeIndex == -1) m_MKSchemeIndex = asset.FindControlSchemeIndex("M&K");
-            return asset.controlSchemes[m_MKSchemeIndex];
+            if (m_DebugControlsSchemeIndex == -1) m_DebugControlsSchemeIndex = asset.FindControlSchemeIndex("DebugControls");
+            return asset.controlSchemes[m_DebugControlsSchemeIndex];
         }
     }
     public interface IDebugToolsActions

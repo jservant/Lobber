@@ -69,7 +69,7 @@
                     "path": "<Keyboard>/l",
                     "interactions": "",
                     "processors": "",
-                    "groups": "M&K",
+                    "groups": "",
                     "action": "SwitchScene",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -123,16 +123,21 @@
     ],
     "controlSchemes": [
         {
-            "name": "M&K",
-            "bindingGroup": "M&K",
+            "name": "DebugControls",
+            "bindingGroup": "DebugControls",
             "devices": [
                 {
-                    "devicePath": "<Keyboard>",
+                    "devicePath": "<Gamepad>",
                     "isOptional": false,
                     "isOR": false
                 },
                 {
                     "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Keyboard>",
                     "isOptional": false,
                     "isOR": false
                 }
