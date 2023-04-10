@@ -670,13 +670,13 @@ public class PlayerController : MonoBehaviour {
 					homingTargetDelta *= 0.80f;
 					break;
 				case Attacks.LAttack2:
-					homingTargetDelta *= 1;
+					homingTargetDelta *= 1f;
 					break;
 				case Attacks.LAttack3:
-					homingTargetDelta *= 1;
+					homingTargetDelta *= 1f;
 					break;
 				case Attacks.Chop:
-					homingTargetDelta *= 0.90f;
+					homingTargetDelta *= 1f;
 					break;
 				case Attacks.HeadThrow:
 					homingTargetDelta *= 0f;
