@@ -79,6 +79,13 @@ public class GameManager : MonoBehaviour {
 		{
 			GameObject eSpawnParent = GameObject.Find("EnemySpawns");
 			eSpawns = eSpawnParent.GetComponentsInChildren<Transform>();
+			Transform[] TempArray =  new Transform[eSpawns.Length - 1];
+			for (int index = 0; index < eSpawns.Length; index += 1) {
+				if (index - 1 >= 0) {
+					TempArray[index - 1] = eSpawns[index];
+				}
+			}
+			eSpawns = TempArray;
 		}
 
 		dActions = new DebugActions();
