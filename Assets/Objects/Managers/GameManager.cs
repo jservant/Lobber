@@ -103,7 +103,7 @@ public class GameManager : MonoBehaviour {
 				frozenTime -= Time.unscaledDeltaTime;
 			}
 			else {
-				Time.timeScale = 1.0f;
+				//Time.timeScale = 1.0f;
 			}
 		}
 

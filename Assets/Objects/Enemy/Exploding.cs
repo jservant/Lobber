@@ -303,6 +303,10 @@ public class Exploding : MonoBehaviour {
 				break;
 		}
 
+		if (transform.position.y <= -50f) {
+			Destroy(gameObject);
+		}
+
 		if (directive == Directive.WaitForFuse) {
 			reevaluateMovement = Util.PerformCheckedLateralMovement(this.gameObject, 0.75f, 0.5f, movementDelta);
 			Util.PerformCheckedVerticalMovement(this.gameObject, 0.75f, 0.2f, 0.5f, 30.0f);
@@ -310,7 +314,10 @@ public class Exploding : MonoBehaviour {
 	}
 
 	private void OnDestroy() {
-		gameMan.enemiesKilledInLevel += 1; GameManager.enemiesKilledInRun += 1; Initializer.allEnemiesKilled += 1;
+		gameMan.enemiesAlive -= 1;
+		gameMan.enemiesKilledInLevel += 1;
+		GameManager.enemiesKilledInRun += 1;
+		Initializer.allEnemiesKilled++;
 		Initializer.Save();
 	}
 
