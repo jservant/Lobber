@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour {
 	readonly static float TokenCost_SmallSpawn = 30;
 	readonly static float TokenCost_MediumSpawn = 60;
 	readonly static float TokenCost_BigSpawn = 80;
-	readonly static float TokensPerSecond = 4.0f;
+	readonly static float TokensPerSecond = 3.0f;
 	readonly static int HighEnemies = 18;
 	readonly static int TargetEnemies = 12;
 	readonly static int LowEnemies = 4;
@@ -79,6 +79,13 @@ public class GameManager : MonoBehaviour {
 		{
 			GameObject eSpawnParent = GameObject.Find("EnemySpawns");
 			eSpawns = eSpawnParent.GetComponentsInChildren<Transform>();
+			Transform[] TempArray =  new Transform[eSpawns.Length - 1];
+			for (int index = 0; index < eSpawns.Length; index += 1) {
+				if (index - 1 >= 0) {
+					TempArray[index - 1] = eSpawns[index];
+				}
+			}
+			eSpawns = TempArray;
 		}
 
 		dActions = new DebugActions();
@@ -233,7 +240,7 @@ public class GameManager : MonoBehaviour {
 					int amountBasic = 0;
 					int amountExploding = 0;
 					for (int count = 0; count < amountEnemy; count += 1) {
-						int choiceEnemyKind = Util.RollWeightedChoice(new float[] {4f, 1f});
+						int choiceEnemyKind = Util.RollWeightedChoice(new float[] {6f, 1f});
 						switch (choiceEnemyKind) {
 							case 0:
 								amountBasic += 1;

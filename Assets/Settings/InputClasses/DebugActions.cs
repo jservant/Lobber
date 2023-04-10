@@ -37,15 +37,6 @@ public partial class @DebugActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""SwitchScene"",
-                    ""type"": ""Button"",
-                    ""id"": ""76d5a4e2-362b-4c47-b643-cee2f69d36fe"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""SpawnBasic"",
                     ""type"": ""Button"",
                     ""id"": ""b3e812e2-367e-4a22-b394-1dfd3cc84412"",
@@ -82,28 +73,6 @@ public partial class @DebugActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""MouseLocation"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""a1212477-ca47-46ef-a6a9-005c9409d872"",
-                    ""path"": ""<Keyboard>/l"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SwitchScene"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""7e50be28-a9e7-47c8-9bac-3bd451651b44"",
-                    ""path"": ""<Gamepad>/dpad/left"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SwitchScene"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -170,7 +139,6 @@ public partial class @DebugActions: IInputActionCollection2, IDisposable
         // DebugTools
         m_DebugTools = asset.FindActionMap("DebugTools", throwIfNotFound: true);
         m_DebugTools_MouseLocation = m_DebugTools.FindAction("MouseLocation", throwIfNotFound: true);
-        m_DebugTools_SwitchScene = m_DebugTools.FindAction("SwitchScene", throwIfNotFound: true);
         m_DebugTools_SpawnBasic = m_DebugTools.FindAction("SpawnBasic", throwIfNotFound: true);
         m_DebugTools_SpawnExploding = m_DebugTools.FindAction("SpawnExploding", throwIfNotFound: true);
         m_DebugTools_SummonSpawnPortal = m_DebugTools.FindAction("SummonSpawnPortal", throwIfNotFound: true);
@@ -236,7 +204,6 @@ public partial class @DebugActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_DebugTools;
     private List<IDebugToolsActions> m_DebugToolsActionsCallbackInterfaces = new List<IDebugToolsActions>();
     private readonly InputAction m_DebugTools_MouseLocation;
-    private readonly InputAction m_DebugTools_SwitchScene;
     private readonly InputAction m_DebugTools_SpawnBasic;
     private readonly InputAction m_DebugTools_SpawnExploding;
     private readonly InputAction m_DebugTools_SummonSpawnPortal;
@@ -245,7 +212,6 @@ public partial class @DebugActions: IInputActionCollection2, IDisposable
         private @DebugActions m_Wrapper;
         public DebugToolsActions(@DebugActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @MouseLocation => m_Wrapper.m_DebugTools_MouseLocation;
-        public InputAction @SwitchScene => m_Wrapper.m_DebugTools_SwitchScene;
         public InputAction @SpawnBasic => m_Wrapper.m_DebugTools_SpawnBasic;
         public InputAction @SpawnExploding => m_Wrapper.m_DebugTools_SpawnExploding;
         public InputAction @SummonSpawnPortal => m_Wrapper.m_DebugTools_SummonSpawnPortal;
@@ -261,9 +227,6 @@ public partial class @DebugActions: IInputActionCollection2, IDisposable
             @MouseLocation.started += instance.OnMouseLocation;
             @MouseLocation.performed += instance.OnMouseLocation;
             @MouseLocation.canceled += instance.OnMouseLocation;
-            @SwitchScene.started += instance.OnSwitchScene;
-            @SwitchScene.performed += instance.OnSwitchScene;
-            @SwitchScene.canceled += instance.OnSwitchScene;
             @SpawnBasic.started += instance.OnSpawnBasic;
             @SpawnBasic.performed += instance.OnSpawnBasic;
             @SpawnBasic.canceled += instance.OnSpawnBasic;
@@ -280,9 +243,6 @@ public partial class @DebugActions: IInputActionCollection2, IDisposable
             @MouseLocation.started -= instance.OnMouseLocation;
             @MouseLocation.performed -= instance.OnMouseLocation;
             @MouseLocation.canceled -= instance.OnMouseLocation;
-            @SwitchScene.started -= instance.OnSwitchScene;
-            @SwitchScene.performed -= instance.OnSwitchScene;
-            @SwitchScene.canceled -= instance.OnSwitchScene;
             @SpawnBasic.started -= instance.OnSpawnBasic;
             @SpawnBasic.performed -= instance.OnSpawnBasic;
             @SpawnBasic.canceled -= instance.OnSpawnBasic;
@@ -321,7 +281,6 @@ public partial class @DebugActions: IInputActionCollection2, IDisposable
     public interface IDebugToolsActions
     {
         void OnMouseLocation(InputAction.CallbackContext context);
-        void OnSwitchScene(InputAction.CallbackContext context);
         void OnSpawnBasic(InputAction.CallbackContext context);
         void OnSpawnExploding(InputAction.CallbackContext context);
         void OnSummonSpawnPortal(InputAction.CallbackContext context);
