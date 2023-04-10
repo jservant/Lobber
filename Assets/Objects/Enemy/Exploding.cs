@@ -96,6 +96,8 @@ public class Exploding : MonoBehaviour {
 			else {
 				ChangeDirective_Explosion();
 			}
+			Vector3 spawnPoint = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
+			gameMan.SpawnParticle(0, spawnPoint, 1f);
 		}
 		else if (other.gameObject.layer == (int)Layers.AgnosticHitbox) {
 			ChangeDirective_Death();
