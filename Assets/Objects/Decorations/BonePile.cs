@@ -10,6 +10,7 @@ public class BonePile : MonoBehaviour
 	GameManager gameMan;
 
 	public int headTotal; //about how many heads the pile can contain
+	public int headOffset;
 	int heads = 0;
 
 	float hitflashTimer = 0f;
@@ -22,7 +23,7 @@ public class BonePile : MonoBehaviour
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 		model = GetComponent<MeshRenderer>();
 		materials = model.materials;
-		heads = Random.Range(headTotal - 3, headTotal + 3);
+		heads = Random.Range(headTotal - headOffset, headTotal + headOffset);
 	}
 
     void Update() {
@@ -43,8 +44,8 @@ public class BonePile : MonoBehaviour
 		if (other.gameObject.layer == (int)Layers.PlayerHitbox) { // player is hitting enemy
 			Vector3 spawnPoint = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
 			gameMan.SpawnParticle(0, spawnPoint, 2f);
-			hitflashTimer = 0.25f;
-			int random = Random.Range(2, 3);
+			hitflashTimer = 0.15f;
+			int random = Random.Range(1, headOffset);
 			SpawnHeads(random);
 			if (heads <= 0) Destroy(gameObject);
 		}
