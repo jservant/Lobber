@@ -37,7 +37,8 @@ public class GameManager : MonoBehaviour {
 	public GameObject ExplodingPrefab;
 	public GameObject HeadPickupPrefab;
 	public GameObject FlashPrefab;
-	public GameObject OrbSpawnPrefab; 
+	public GameObject OrbSpawnPrefab;
+	public GameObject[] Pickups;
 
 	[Header("Spawning:")]
 	public Transform[] eSpawns;
@@ -46,6 +47,7 @@ public class GameManager : MonoBehaviour {
 	public static int enemiesKilledInRun = 0;
 	public static int enemyKillingGoal = 30;
 	public static int pickupDropChance = 0;
+	public int goldenSkullDropChance = 5; //out of 100
 	bool transitioningLevel = false;
 	
 	[SerializeField] float spawnTokens;
@@ -320,6 +322,27 @@ public class GameManager : MonoBehaviour {
 			t.localScale *= scale;
 		}
 	}
+
+	public void DeterminePickups(Vector3 position) {
+		//Skull Pickup
+		float skullChance = (80 / playerController.meterMax) * (playerController.meterMax - playerController.meter);
+		float pickupDecider = Random.Range(1, 100);
+		if (pickupDecider <= skullChance) { //check for skulldrop
+			if (pickupDecider <= goldenSkullDropChance) SpawnPickup(1, position); //check for goldenskull
+			else SpawnPickup(0, position);
+		}
+
+		//Health Pickup
+		int healthChance = (80 / playerController.healthMax) * (playerController.healthMax - playerController.health);
+		pickupDecider = Random.Range(1, 100);
+		if (pickupDecider <= healthChance) SpawnPickup(2, position); //check for healthdrop
+		
+		Debug.Log("Player health: " + playerController.health + "/" + playerController.healthMax + " Chance for this to be a health pickup: " + healthChance + "%");
+	}
+
+	public void SpawnPickup(int pickupID, Vector3 position) {
+		Instantiate(Pickups[pickupID], position, Quaternion.identity);
+    }
 
 	public void UpdateHealthBar() {
 		float healthMax = playerController.healthMax;

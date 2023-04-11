@@ -982,9 +982,9 @@ public class Basic : MonoBehaviour {
 		}
 
 		if (shouldDie) {
-			float HeadChance = Random.Range(1, 100f);
-			if (HeadChance <= GameManager.pickupDropChance && gameMan.playerController.currentAttack != PlayerController.Attacks.Chop) GameObject.Instantiate(gameMan.HeadPickupPrefab, transform.position + 3 * Vector3.up, Quaternion.identity);
-			Destroy(this.gameObject);
+			Vector3 spawnPos = transform.position + 3 * Vector3.up;
+			if (gameMan.playerController.currentAttack != PlayerController.Attacks.Chop) gameMan.DeterminePickups(spawnPos);
+			Destroy(this.gameObject); 
 		}
 	}
 

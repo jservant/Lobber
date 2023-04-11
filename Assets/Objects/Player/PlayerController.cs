@@ -535,7 +535,7 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 		else if (other.gameObject.layer == (int)Layers.Pickup) {
-			HeadPickup headPickup = other.gameObject.GetComponent<HeadPickup>();
+			Pickup headPickup = other.gameObject.GetComponent<Pickup>();
 			if (headPickup.lifetime <= headPickup.timeUntilCollect) {
 				headPickup.collected = true;
 				GameObject.Destroy(other.transform.gameObject);

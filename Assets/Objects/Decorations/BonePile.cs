@@ -54,8 +54,8 @@ public class BonePile : MonoBehaviour
 	public void SpawnHeads(int number) {
 		heads -= number;
 		for (int i = 0; i < number; i++) {
-			GameObject headInstance = Instantiate(headPop, transform.position, transform.rotation);
-			HeadPickup hpop = headInstance.transform.Find("Head").GetComponent<HeadPickup>();
+			GameObject headInstance = Instantiate(gameMan.Pickups[0], transform.position, transform.rotation);
+			Pickup hpop = headInstance.transform.Find("Head").GetComponent<Pickup>();
 			hpop.randomForce = randomForce;
 			hpop.flightAngle = 70f;
 		}

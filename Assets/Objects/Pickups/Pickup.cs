@@ -2,7 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeadPickup : MonoBehaviour {
+public class Pickup : MonoBehaviour {
+
+	public enum Type { Skull = 0, GoldenSkull, Health };
+	public Type pickupType;
 
 	[Header("References:")]
 	public Transform skull;
@@ -27,17 +30,14 @@ public class HeadPickup : MonoBehaviour {
 
 	[Header("Lifespan:")]
 	public float lifetime;
-	public float timeUntilCollect = 0.5f; //small delay where the head can't initially be caught
+	public float timeUntilCollect = 1.5f; //small delay where the head can't initially be caught
 	public bool isOnGround;
 	public bool collected;
 	public float randomForce;
 
 	[Header("Bonuses:")]
-	public int healthOnCatch = 2;
 	public float meterValue;
-	bool meterOrHealth = true;
-	bool isGold = false;
-	public int goldChance;
+	public int healthValue;
 
 	void Start() {
 		transform.rotation = Random.rotation;
@@ -47,21 +47,6 @@ public class HeadPickup : MonoBehaviour {
 		headTrail = GetComponent<TrailRenderer>();
 		timeUntilCollect = lifetime - timeUntilCollect;
 		isOnGround = false;
-
-		int healthChance = (80 / playerController.healthMax) * (playerController.healthMax - playerController.health);
-		int pickupDecider = Random.Range(1, 100);
-		if (pickupDecider <= healthChance) {
-			meterOrHealth = false; // it's now a health pickup
-			headModel.material.color = Color.red; // temp
-		} else {
-			int goldRoll = Random.Range(1, goldChance);
-			if (goldRoll == 1) {
-				headModel.material = goldMat;
-				isGold = true;
-			}
-		}
-		headTrail.startColor = headModel.material.color;
-		Debug.Log("Player health: " + playerController.health + "/" + playerController.healthMax + " Chance for this to be a health pickup: " + healthChance + "%");
 
 		FindPoint();
 	}
@@ -163,14 +148,17 @@ public class HeadPickup : MonoBehaviour {
 	void OnDestroy() {
 		Destroy(this.transform.parent.gameObject);
 		if (collected) {
-			if (meterOrHealth) { // if it's meter
-				if (isGold) {
-					gameMan.playerController.meter = gameMan.playerController.meterMax;
-					gameMan.playerController.frenzyTimer = 5f;
-				}
-				else { gameMan.playerController.meter += meterValue; }
-			} else { // if it's health
-				gameMan.playerController.health += healthOnCatch;
+			if (pickupType == Type.Skull) { // skull
+				gameMan.playerController.meter += meterValue;
+			}
+
+			if (pickupType == Type.GoldenSkull) { // golden skull
+				gameMan.playerController.meter = gameMan.playerController.meterMax;
+				gameMan.playerController.frenzyTimer = 5f;
+			}
+
+			if (pickupType == Type.Health) { // health
+				gameMan.playerController.health += healthValue;
 			}
 		}
 	}
