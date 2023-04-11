@@ -46,14 +46,19 @@ public class HeadPickup : MonoBehaviour {
 		timeUntilCollect = lifetime - timeUntilCollect;
 		isOnGround = false;
 
-		int goldRoll = Random.Range(1, goldChance);
-		if (goldRoll == 1) {
-			headModel.material = goldMat;
-			isGold = true;
+		int healthChance = (80 / playerController.healthMax) * (playerController.healthMax - playerController.health);
+		int pickupDecider = Random.Range(1, 100);
+		if (pickupDecider <= healthChance) {
+			meterOrHealth = false; // it's now a health pickup
+			headModel.material.color = Color.red; // temp
+		} else {
+			int goldRoll = Random.Range(1, goldChance);
+			if (goldRoll == 1) {
+				headModel.material = goldMat;
+				isGold = true;
+			}
 		}
-
-		float healthChance = (66 / playerController.healthMax) * (playerController.healthMax - playerController.health);
-		Debug.Log("Chance for this to be a health pickup: " + healthChance + "%");
+		Debug.Log("Player health: " + playerController.health + "/" + playerController.healthMax + " Chance for this to be a health pickup: " + healthChance + "%");
 
 		FindPoint();
 	}
@@ -154,12 +159,15 @@ public class HeadPickup : MonoBehaviour {
 	void OnDestroy() {
 		Destroy(this.transform.parent.gameObject);
 		if (collected) {
-			if (isGold) {
-				gameMan.playerController.meter = gameMan.playerController.meterMax;
-				gameMan.playerController.frenzyTimer = 5f;
+			if (meterOrHealth) { // if it's meter
+				if (isGold) {
+					gameMan.playerController.meter = gameMan.playerController.meterMax;
+					gameMan.playerController.frenzyTimer = 5f;
+				}
+				else { gameMan.playerController.meter += meterValue; }
+			} else { // if it's health
+				gameMan.playerController.health += healthOnCatch;
 			}
-			else { gameMan.playerController.meter += meterValue; }
-			if (!isOnGround) gameMan.playerController.health += healthOnCatch;
 		}
 	}
 }
