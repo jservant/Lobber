@@ -1448,6 +1448,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   dashForce: 20
+  chopMovementMultiplier: 6
   meterDashMultiplier: 2
   dashTime: 0
   maxDashCooldown: 0.6
@@ -1457,8 +1458,9 @@ MonoBehaviour:
   healthMax: 10
   health: 0
   meter: 0
-  meterMax: 10
+  meterMax: 8
   hitflashTimer: 0
+  frenzyTimer: 0
   targetSphereRadius: 2
 --- !u!114 &3072909949348366208
 MonoBehaviour:
