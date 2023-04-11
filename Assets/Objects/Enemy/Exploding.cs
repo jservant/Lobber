@@ -40,13 +40,17 @@ public class Exploding : MonoBehaviour {
 	Quaternion moveDirection;
 	float[] directionWeights = new float[32];
 
-	readonly float FollowingRadius = 17.0f;
-	readonly float MoveSpeed = 12.0f * 2;
-	readonly float MovementBustLength = 0.40f;
-	readonly float WaitLength = 1.0f;
+	public float FollowingRadius;
+	public float MoveSpeed;
+	public float MovementBustLength;
+	public float WaitLength;
+	public float waitMultiplier; //how much faster it shortens its wait time as the player gets closer (2f = twice as fast)
 
 	readonly float LaunchHeight = 6.0f;
 	readonly float LaunchLength = 1.0f;
+
+	public float fuseMin; //minimum fuse duration
+	public float fuseMax; //maximum fuse duration
 
 	// Internal References
 	NavMeshAgent navAgent;
@@ -126,7 +130,7 @@ public class Exploding : MonoBehaviour {
 		directive = Directive.Spawn;
 
 		if (randomizeStats) {
-			fuseDuration = Random.Range(10f, 20f);
+			fuseDuration = Random.Range(fuseMin, fuseMax);
 		}
 
 		handModel = transform.Find("Skeleton_Bombois").GetComponent<SkinnedMeshRenderer>();
@@ -193,7 +197,7 @@ public class Exploding : MonoBehaviour {
 					}
 
 					if (movementBurstDuration <= 0.0f) {
-						waitDuration = WaitLength + Random.Range(-0.2f, 0.2f);
+						waitDuration = WaitLength + Random.Range(-0.2f, 0.4f);
 					}
 				}
 
@@ -279,7 +283,7 @@ public class Exploding : MonoBehaviour {
 					}
 				}
 
-				float waitModifier = Mathf.Lerp(3, 1, distanceToPlayer/17f);
+				float waitModifier = Mathf.Lerp(waitMultiplier, 1, distanceToPlayer/FollowingRadius);
 				if (waitDuration > 0.0f) {
 					waitDuration -= Time.deltaTime * waitModifier;
 				}
