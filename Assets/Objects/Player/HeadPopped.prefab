@@ -90,22 +90,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5194c7dae03c18b4aa50b330d9ea50ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifetime: 10
-  healthOnCatch: 1
+  skull: {fileID: 5261835233175669580}
   indicator: {fileID: 6508561049238588556}
-  randomForce: 20
-  canCollect: 0
+  goldMat: {fileID: 2100000, guid: ccb4fdb354ca8ae4f8b4ed998d4e784f, type: 2}
   flightAngle: 60
   gravity: 9.8
-  skull: {fileID: 5261835233175669580}
-  RotationSpeed: 360
-  FollowSpeed: 20
-  GatherRadius: 3
-  value: 1
+  rotationSpeed: 360
+  followSpeed: 20
+  gatherRadius: 3
+  lifetime: 10
+  timeUntilCollect: 0.5
   isOnGround: 0
   collected: 0
+  randomForce: 20
+  healthOnCatch: 1
+  meterValue: 1
   goldChance: 20
-  goldMat: {fileID: 2100000, guid: ccb4fdb354ca8ae4f8b4ed998d4e784f, type: 2}
 --- !u!54 &6681924456866291294
 Rigidbody:
   m_ObjectHideFlags: 0

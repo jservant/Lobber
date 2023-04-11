@@ -20,6 +20,8 @@ public class BonePile : MonoBehaviour
 	private void Start() {
 		player = transform.Find("/Player").GetComponent<PlayerController>();
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
+		model = GetComponent<MeshRenderer>();
+		materials = model.materials;
 		heads = Random.Range(headTotal - 3, headTotal + 3);
 	}
 

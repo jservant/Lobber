@@ -15,7 +15,6 @@ public class GameManager : MonoBehaviour {
 	public static float storedPlayerMeter = 0;
 
 	[Header("UI")]
-	EventSystem eSystem;
 	public Canvas mainUI;
 	public Canvas pauseBG;
 	public Button resumeButton;
@@ -29,6 +28,7 @@ public class GameManager : MonoBehaviour {
 	public Transform healthBar;
 	public Transform meterBar;
 	public Image meterImage;
+	EventSystem eSystem;
 
 	[Header("Prefabs:")]
 	public GameObject PlayerPrefab;

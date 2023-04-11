@@ -192,6 +192,12 @@ public class PlayerController : MonoBehaviour {
 	#endregion
 
 	[Header("Object assignments:")]
+	public DefaultPlayerActions pActions;
+	GetKnockbackInfo axeGetKnockbackInfo;
+	SkinnedMeshRenderer model;
+	Material[] materials;
+	public Material hitflashMat;
+
 	CapsuleCollider capCol;
 	Rigidbody rb;
 	Animator animr;
@@ -204,13 +210,6 @@ public class PlayerController : MonoBehaviour {
 	Transform slamPoint;
 	Light spotLight;
 	GameManager gameMan;
-	Physics physics;
-
-	public DefaultPlayerActions pActions;
-	GetKnockbackInfo axeGetKnockbackInfo;
-	SkinnedMeshRenderer model;
-	Material[] materials;
-	public Material hitflashMat;
 
 	[Header("Movement:")]
 	public Vector2 trueInput;							// movement vector read from left stick
@@ -263,7 +262,6 @@ public class PlayerController : MonoBehaviour {
 	int AnimatorNormalizedTimeOfNextOrCurrentAttackState_LastSource;
 	bool wasNextValid = false; 
 	int lastAnimationStateHash = -1;
-
 
 	private void Awake() {
 		capCol = GetComponent<CapsuleCollider>();
@@ -538,7 +536,7 @@ public class PlayerController : MonoBehaviour {
 		}
 		else if (other.gameObject.layer == (int)Layers.Pickup) {
 			HeadPickup headPickup = other.gameObject.GetComponent<HeadPickup>();
-			if (headPickup.canCollect) {
+			if (headPickup.lifetime <= headPickup.timeUntilCollect) {
 				headPickup.collected = true;
 				GameObject.Destroy(other.transform.gameObject);
 			}
