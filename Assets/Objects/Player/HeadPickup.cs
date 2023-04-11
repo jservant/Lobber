@@ -10,6 +10,7 @@ public class HeadPickup : MonoBehaviour {
 	GameManager gameMan;
 	PlayerController playerController;
 	MeshRenderer headModel;
+	TrailRenderer headTrail;
 	public Material goldMat;
 
 	[Header("Movement:")]
@@ -43,6 +44,7 @@ public class HeadPickup : MonoBehaviour {
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 		playerController = gameMan.playerController;
 		headModel = transform.Find("SkullPosition/Skeleton_Head").GetComponent<MeshRenderer>();
+		headTrail = GetComponent<TrailRenderer>();
 		timeUntilCollect = lifetime - timeUntilCollect;
 		isOnGround = false;
 
@@ -58,6 +60,7 @@ public class HeadPickup : MonoBehaviour {
 				isGold = true;
 			}
 		}
+		headTrail.startColor = headModel.material.color;
 		Debug.Log("Player health: " + playerController.health + "/" + playerController.healthMax + " Chance for this to be a health pickup: " + healthChance + "%");
 
 		FindPoint();
@@ -87,6 +90,7 @@ public class HeadPickup : MonoBehaviour {
 				transform.position += ((gameMan.player.transform.position + Vector3.up * 1) - transform.position).normalized * followSpeed * Time.deltaTime;
 			}
 
+			headTrail.enabled = false;
 			if (indicator != null) Destroy(indicator);
 		}
 		else UpdateIndicator();
