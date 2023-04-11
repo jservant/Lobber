@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour {
 	public int enemiesKilledInLevel = 0;
 	public static int enemiesKilledInRun = 0;
 	public static int enemyKillingGoal = 30;
+	public static int pickupDropChance = 0;
 	bool transitioningLevel = false;
 	
 	[SerializeField] float spawnTokens;
@@ -117,6 +118,15 @@ public class GameManager : MonoBehaviour {
 		}
 
 		bool isMenuOpen = pauseUI.enabled || optionsUI.enabled;
+
+		//pickup drop chance adjustment
+		if (playerController.meter < playerController.meterMax / 2) {
+			pickupDropChance = 90;
+		} else if (playerController.meter < playerController.meterMax / 7) {
+			pickupDropChance = 65;
+		} else {
+			pickupDropChance = 25;
+		}
 
 		if (debugTools) {
 			if (!isMenuOpen) {

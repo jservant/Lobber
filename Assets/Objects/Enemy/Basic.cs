@@ -349,8 +349,6 @@ public class Basic : MonoBehaviour {
 						case PlayerController.Attacks.Chop:
 							shouldDie = true;
 							player.ChangeMeter(1);
-
-							dropChance = 0;
 							break;
 
 						default:
@@ -985,7 +983,7 @@ public class Basic : MonoBehaviour {
 
 		if (shouldDie) {
 			float HeadChance = Random.Range(1, 100f);
-			if (HeadChance <= dropChance) GameObject.Instantiate(gameMan.HeadPickupPrefab, transform.position + 3 * Vector3.up, Quaternion.identity);
+			if (HeadChance <= GameManager.pickupDropChance) GameObject.Instantiate(gameMan.HeadPickupPrefab, transform.position + 3 * Vector3.up, Quaternion.identity);
 			Destroy(this.gameObject);
 		}
 	}
