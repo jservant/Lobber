@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 715999990960213970}
   - component: {fileID: 3317826343828011800}
   - component: {fileID: 4164383636912610705}
+  - component: {fileID: -286279615617268924}
   m_Layer: 0
   m_Name: BushVariant2
   m_TagString: Untagged
@@ -98,3 +99,21 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: -0.0050000004, y: 0.58500004, z: -0.014}
   m_TimeToStationary: 0.5
+--- !u!114 &-286279615617268924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3822347768087878349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cdf65c6538e4be459e614dcd22a4925, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  headPop: {fileID: 0}
+  canDropHeads: 0
+  hitflashMat: {fileID: 0}
+  randomForce: 0
+  headTotal: 0
+  headOffset: 0

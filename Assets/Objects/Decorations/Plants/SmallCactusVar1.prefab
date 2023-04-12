@@ -11,12 +11,13 @@ GameObject:
   - component: {fileID: 2987987962756017034}
   - component: {fileID: 2222716278881657903}
   - component: {fileID: 4124272394467070181}
+  - component: {fileID: 129832607590412299}
   m_Layer: 0
   m_Name: SmallCactusVar1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967287
   m_IsActive: 1
 --- !u!4 &2987987962756017034
 Transform:
@@ -25,9 +26,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2467030950048395568}
-  m_LocalRotation: {x: -0, y: 0.9783302, z: -0, w: 0.20705083}
+  m_LocalRotation: {x: 0, y: 0.9783305, z: 0, w: 0.20704955}
   m_LocalPosition: {x: -13.304391, y: 1.02, z: 45.155613}
-  m_LocalScale: {x: 0.015917199, y: 0.015917199, z: 0.015917199}
+  m_LocalScale: {x: 0.0132112745, y: 0.0132112745, z: 0.0132112745}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -81,3 +82,21 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &129832607590412299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2467030950048395568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cdf65c6538e4be459e614dcd22a4925, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  headPop: {fileID: 0}
+  canDropHeads: 0
+  hitflashMat: {fileID: 0}
+  randomForce: 0
+  headTotal: 0
+  headOffset: 0

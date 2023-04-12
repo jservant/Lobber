@@ -2,21 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BonePile : MonoBehaviour
+public class DestructibleProp : MonoBehaviour
 {
-	PlayerController player;
+	[Header("References:")]
 	public GameObject headPop;
-	public float randomForce;
+	PlayerController player;
 	GameManager gameMan;
 
-	public int headTotal; //about how many heads the pile can contain
-	public int headOffset;
-	int heads = 0;
-
+	[Header("Integrity:")]
+	public bool canDropHeads = false;
 	float hitflashTimer = 0f;
 	MeshRenderer model;
 	Material[] materials;
 	public Material hitflashMat;
+
+	[Header("Head pop:")]
+	public float randomForce;
+	public int headTotal; //about how many heads the pile can contain
+	public int headOffset;
+	int heads = 0;
 
 	private void Start() {
 		player = transform.Find("/Player").GetComponent<PlayerController>();
@@ -42,12 +46,15 @@ public class BonePile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other) {
 		if (other.gameObject.layer == (int)Layers.PlayerHitbox) { // player is hitting enemy
-			Vector3 spawnPoint = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
-			gameMan.SpawnParticle(0, spawnPoint, 2f);
-			hitflashTimer = 0.15f;
-			int random = Random.Range(1, headOffset);
-			SpawnHeads(random);
-			if (heads <= 0) Destroy(gameObject);
+			if (!canDropHeads) { Destroy(gameObject); }
+			else {
+				Vector3 spawnPoint = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
+				gameMan.SpawnParticle(0, spawnPoint, 2f);
+				hitflashTimer = 0.15f;
+				int random = Random.Range(1, headOffset);
+				SpawnHeads(random);
+				if (heads <= 0) Destroy(gameObject);
+			}
 		}
 	}
 
