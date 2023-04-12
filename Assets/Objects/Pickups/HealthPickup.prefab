@@ -266,12 +266,14 @@ MonoBehaviour:
   followSpeed: 20
   gatherRadius: 3
   lifetime: 10
-  timeUntilCollect: 0.5
+  timeUntilCollect: 1
   isOnGround: 0
   collected: 0
   randomForce: 20
   meterValue: 0
   healthValue: 1
+  meterCatchBonus: 0
+  healthCatchBonus: 1
 --- !u!54 &4020394830800620345
 Rigidbody:
   m_ObjectHideFlags: 0

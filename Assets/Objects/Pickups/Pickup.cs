@@ -30,7 +30,7 @@ public class Pickup : MonoBehaviour {
 
 	[Header("Lifespan:")]
 	public float lifetime;
-	public float timeUntilCollect = 1.5f; //small delay where the head can't initially be caught
+	public float timeUntilCollect; //small delay where the head can't initially be caught
 	public bool isOnGround;
 	public bool collected;
 	public float randomForce;
@@ -38,6 +38,8 @@ public class Pickup : MonoBehaviour {
 	[Header("Bonuses:")]
 	public float meterValue;
 	public int healthValue;
+	public float meterCatchBonus; //how much bonus value is given when caught
+	public int healthCatchBonus; 
 
 	void Start() {
 		transform.rotation = Random.rotation;
@@ -57,17 +59,17 @@ public class Pickup : MonoBehaviour {
 		if (lifetime <= 0) Destroy(this.gameObject);
 		if (transform.position.y <= 0) if (indicator != null) Destroy(indicator);
 
-		if (Physics.Raycast(transform.position, Vector3.down, 1.5f, ~(int)Layers.Ground)) {
+		if (Physics.Raycast(transform.position, Vector3.down, 1.0f, ~(int)Layers.Ground)) {
 			if (lifetime <= timeUntilCollect) {
 				isOnGround = true;
 				if (indicator != null) Destroy(indicator);
 			}
 		}
 
-		if (isOnGround) {
+		if (isOnGround && !collected) {
 			transform.rotation *= Quaternion.AngleAxis(rotationSpeed * Time.deltaTime, Vector3.up);
 
-			if (!Physics.Raycast(transform.position, Vector3.down, 1.5f)) {
+			if (!Physics.Raycast(transform.position, Vector3.down, 1.0f)) {
 				transform.position += Vector3.down * gravity * Time.deltaTime;
 			}
 
@@ -147,6 +149,7 @@ public class Pickup : MonoBehaviour {
 
 	void OnDestroy() {
 		Destroy(this.transform.parent.gameObject);
+		if (!isOnGround) { meterValue += meterCatchBonus; healthValue += healthCatchBonus; } //get +1 value if you can catch it!
 		if (collected) {
 			if (pickupType == Type.Skull) { // skull
 				gameMan.playerController.meter += meterValue;

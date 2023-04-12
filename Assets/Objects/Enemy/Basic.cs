@@ -92,6 +92,7 @@ public class Basic : MonoBehaviour {
 	// NOTE(Roskuski): End of ai state
 
 	public float health;
+	public float partialMeter; //how much meter the player gets for just hitting this?
 	bool shouldDie = false;
 	public float dropChance; //chance to drop a head (0-100)
 
@@ -279,6 +280,7 @@ public class Basic : MonoBehaviour {
 								health -= 1;
 								ChangeDirective_Stunned(StunTime.ShortStun, newKnockbackInfo);
 							}
+							gameMan.playerController.meter += partialMeter;
 							break;
 
 						case PlayerController.Attacks.LAttack2:
@@ -290,6 +292,7 @@ public class Basic : MonoBehaviour {
 								health -= 1;
 								ChangeDirective_Stunned(StunTime.ShortStun, newKnockbackInfo);
 							}
+							gameMan.playerController.meter += partialMeter;
 							break;
 
 						case PlayerController.Attacks.LAttack3:
@@ -301,6 +304,7 @@ public class Basic : MonoBehaviour {
 								health -= 2;
 								ChangeDirective_Stunned(StunTime.LongStun, newKnockbackInfo);
 							}
+							gameMan.playerController.meter += partialMeter * 2f;
 							break;
 
 						case PlayerController.Attacks.Spin:

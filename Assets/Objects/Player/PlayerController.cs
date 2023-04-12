@@ -449,20 +449,20 @@ public class PlayerController : MonoBehaviour {
 			if (pActions.Player.HeavyAttack.WasPerformedThisFrame()) {
 				attackButtonPrep = AttackButton.HeavyAttack;
 			}
-			if (canUseMeter(1) && pActions.Player.Throw.WasPerformedThisFrame()) {
+			if (canUseMeter(0.7f) && pActions.Player.Throw.WasPerformedThisFrame()) {
 				attackButtonPrep = AttackButton.Throw;
 			}
-			if (canUseMeter(1) && pActions.Player.LightAttack.WasPerformedThisFrame() && pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
+			if (canUseMeter(0.2f) && pActions.Player.LightAttack.WasPerformedThisFrame() && pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
 				attackButtonPrep = AttackButton.ModLight;
 			}
-			if (canUseMeter(5) && pActions.Player.HeavyAttack.WasPerformedThisFrame() && pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
+			if (canUseMeter(3.7f) && pActions.Player.HeavyAttack.WasPerformedThisFrame() && pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
 				attackButtonPrep = AttackButton.ModHeavy;
 			}
-			if (canUseMeter(3) && pActions.Player.Throw.WasPerformedThisFrame() && pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
+			if (canUseMeter(2.7f) && pActions.Player.Throw.WasPerformedThisFrame() && pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
 				attackButtonPrep = AttackButton.ModThrow;
 			}
 		
-			if (canUseMeter(1) && pActions.Player.Dash.WasPerformedThisFrame() && pActions.Player.MeterModifier.phase == InputActionPhase.Performed && trueInput.sqrMagnitude >= 0.1f && dashCooldown <= 0f  && isGrounded) {
+			if (canUseMeter(0.7f) && pActions.Player.Dash.WasPerformedThisFrame() && pActions.Player.MeterModifier.phase == InputActionPhase.Performed && trueInput.sqrMagnitude >= 0.1f && dashCooldown <= 0f  && isGrounded) {
 				attackButtonPrep = AttackButton.ModDash;
 				dashTime = 0;
 				dashCooldown = maxDashCooldown;
@@ -617,9 +617,9 @@ public class PlayerController : MonoBehaviour {
 			setupHoming = false;
 		}
 		else if (attack == Attacks.Chop) { speedTime = 0; }
-		else if (attack == Attacks.Spin) { ChangeMeter(-1); speedTime = 0.4f; } // meter change done in animator
+		else if (attack == Attacks.Spin) { ChangeMeter(-0.5f); speedTime = 0.4f; } // meter change done in animator
 		else if (attack == Attacks.LethalDash) { ChangeMeter(-1); setupHoming = false; }
-		else if (attack == Attacks.Slam) { ChangeMeter(-5); setupHoming = false; }
+		else if (attack == Attacks.Slam) { ChangeMeter(-4); setupHoming = false; }
 		else if (attack == Attacks.Dashing) { setupHoming = false; }
 
 		animr.SetInteger("currentAttack", (int)attack);
@@ -781,7 +781,7 @@ public class PlayerController : MonoBehaviour {
 		return Result;
 	}
 
-	public bool canUseMeter(int cost) {
+	public bool canUseMeter(float cost) {
 		if (frenzyTimer > 0) return true;
 		else if (meter >= cost) return true;
 		else return false;
