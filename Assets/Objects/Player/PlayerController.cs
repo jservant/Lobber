@@ -233,7 +233,7 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField] float meterDashMultiplier = 2f;    // what to multiply dashForce by when using Lethal Dash
 	[SerializeField] float dashTime = 0f;				// how long has player been dashing for?
 	[SerializeField] float maxDashCooldown = 1.5f;		// how long does it take for player to dash again after dashing?
-	[SerializeField] float dashCooldown = 1f;
+	[SerializeField] public float dashCooldown = 1f;
 	public bool isWalking;
 	[Header("Health/Damage:")]
 	public bool vulnerable = true;

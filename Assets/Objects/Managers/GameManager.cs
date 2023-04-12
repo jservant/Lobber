@@ -28,6 +28,11 @@ public class GameManager : MonoBehaviour {
 	public Transform healthBar;
 	public Transform meterBar;
 	public Image meterImage;
+	public Image[] AttackIcons;
+	public TMP_Text[] IconText;
+	public float unlitTextOpacity; //0 = transparent, 1 = opaque;
+	public Color tempColorLit;
+	public Color tempColorUnlit;
 	EventSystem eSystem;
 
 	[Header("Prefabs:")]
@@ -106,6 +111,11 @@ public class GameManager : MonoBehaviour {
 		Time.timeScale = 1;
 		
 		spawnTokens = 100;
+
+		//tempColorLit = new Color();
+		//tempColorUnlit = new Color();
+		tempColorLit.a = 1f;
+		tempColorUnlit.a = unlitTextOpacity;
 	}
 
 	private void Update() {
@@ -205,7 +215,7 @@ public class GameManager : MonoBehaviour {
 
 		UpdateHealthBar();
 		UpdateMeter();
-
+		UpdateIcons();
 
 		// Manage Spawns
 		if (enemiesKilledInLevel < enemyKillingGoal && canSpawn) {
@@ -355,6 +365,76 @@ public class GameManager : MonoBehaviour {
 		if (playerController.frenzyTimer > 0) { meterImage.color = Color.yellow; }
 		else { meterImage.color = Color.white; }
 	}
+
+	public void UpdateIcons() {
+		/*Icons & Associated Text correspond except for Special which has two textboxes (IconText[4 & 5])
+		Icon[0] = AttackIcon;
+		Icon[1] = ThrowIcon;
+		Icon[2] = DashIcon;
+		Icon[3] = ChopIcon;
+		Icon[4] = SpecialIcon;
+		*/
+		var pm = playerController.meter;
+
+		if (pm >= 0.2f) { //Can I use meter?
+			AttackIcons[4].color = tempColorLit;
+			IconText[4].color = tempColorLit;
+			IconText[5].color = tempColorLit;
+		}
+		else {
+			var tempColor = AttackIcons[4].color;
+			tempColor.a = 0.15f;
+			AttackIcons[4].color = tempColor;
+			IconText[4].color = tempColor;
+			IconText[5].color = tempColor;
+		}
+
+		if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed) { //Am I currently trying to use meter?
+			IconText[0].text = "SPIN";
+			IconText[1].text = "SHOTGUN";
+			IconText[2].text = "SUPER DASH";
+			IconText[3].text = "SLAM";
+
+			if (pm >= 0.2f) { AttackIcons[0].color = tempColorLit; IconText[0].color = tempColorLit; } //Can I spin?
+			else { AttackIcons[0].color = tempColorUnlit; IconText[0].color = tempColorUnlit; } 
+
+			if (pm >= 2.7f) { AttackIcons[1].color = tempColorLit; IconText[1].color = tempColorLit; } //Can I shotgun?
+			else { AttackIcons[1].color = tempColorUnlit; IconText[1].color = tempColorUnlit; }
+
+			if (pm >= 0.7f && playerController.dashCooldown <= 0f) { AttackIcons[2].color = tempColorLit; IconText[2].color = tempColorLit; } //Can I lethaldash?
+			else { AttackIcons[2].color = tempColorUnlit; IconText[2].color = tempColorUnlit; }
+
+			if (pm >= 3.7f) { AttackIcons[3].color = tempColorLit; IconText[3].color = tempColorLit; } //Can I slam?
+			else { AttackIcons[3].color = tempColorUnlit; IconText[3].color = tempColorUnlit; }
+		}
+		else {
+			IconText[0].text = "ATTACK";
+			IconText[1].text = "THROW";
+			IconText[2].text = "DASH";
+			IconText[3].text = "CHOP";
+
+			AttackIcons[0].color = tempColorLit; IconText[0].color = tempColorLit;
+			AttackIcons[3].color = tempColorLit; IconText[3].color = tempColorLit;
+
+			if (pm >= 0.7f) { //Can I throw?
+				AttackIcons[1].color = tempColorLit;
+				IconText[1].color = tempColorLit;
+			}
+			else {
+				AttackIcons[1].color = tempColorUnlit;
+				IconText[1].color = tempColorUnlit;
+			}
+
+			if (playerController.dashCooldown <= 0f) { //Can I dash?
+				AttackIcons[2].color = tempColorLit;
+				IconText[2].color = tempColorLit;
+			}
+			else {
+				AttackIcons[2].color = tempColorUnlit;
+				IconText[2].color = tempColorUnlit;
+			}
+		}
+    }
 
 	public void OnResume() {
 		eSystem.SetSelectedGameObject(null);
