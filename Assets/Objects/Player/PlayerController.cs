@@ -355,7 +355,7 @@ public class PlayerController : MonoBehaviour {
 				transform.rotation = Quaternion.Euler(0f, angle, 0f);
 				Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
 				moveDelta = moveDirection.normalized * (topSpeed * Mathf.Lerp(0, 1, movementCurve.Evaluate(speedTime / maxSpeedTime)));
-				if (currentAttack == Attacks.Chop) moveDelta *= chopMovementMultiplier;
+				//if (currentAttack == Attacks.Chop) moveDelta *= chopMovementMultiplier;
 			}
 			float moveWeight = Mathf.Lerp(1, 0, Mathf.Clamp01(remainingKnockbackTime / knockbackInfo.time));
 			float knockbackWeight = 1f - moveWeight;
@@ -616,7 +616,6 @@ public class PlayerController : MonoBehaviour {
 			speedTime = 0;
 			setupHoming = false;
 		}
-		else if (attack == Attacks.Chop) { speedTime = 0; }
 		else if (attack == Attacks.Spin) { ChangeMeter(-0.5f); speedTime = 0.4f; } // meter change done in animator
 		else if (attack == Attacks.LethalDash) { ChangeMeter(-1); setupHoming = false; }
 		else if (attack == Attacks.Slam) { ChangeMeter(-4); setupHoming = false; }
