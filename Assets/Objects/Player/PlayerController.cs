@@ -723,6 +723,7 @@ public class PlayerController : MonoBehaviour {
 		SetupHoming();
 		headProj.speed = 50f;
 		headProj.canStun = true;
+		//headProj.canPierce = true; disabled for now
 		Instantiate(headProj, projSpawn.position, transform.rotation);
 		for (int i = 1; i < shotgunProjSpawns.Length; i++) { // i starts at 1 to ignore the parent object
 			Instantiate(headProj, shotgunProjSpawns[i].position, shotgunProjSpawns[i].localRotation * transform.rotation);

@@ -8,6 +8,7 @@ public class HeadProjectile : MonoBehaviour {
 	public float lifetime = 3f;
 	public float stunSphereRadius = 3f;
 	public bool canStun = true;
+	//public bool canPierce = false;
 
 	Transform head;
 	Rigidbody rb;
@@ -37,6 +38,9 @@ public class HeadProjectile : MonoBehaviour {
 					basicEnemy.ChangeDirective_Stunned(Basic.StunTime.LongStun, knockbackInfo);
 				}
 			}
+			/*int enemiesKilled = 0;
+			if (canPierce && enemiesKilled < 2) { enemiesKilled++; }
+			else { Destroy(gameObject); }*/
 		}
 		
 	}
