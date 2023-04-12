@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour {
 			               new QueueInfo(0.7f, 1.0f, Attacks.LAttack), // Light Attack
 			               new QueueInfo(0.5f, 1.0f, Attacks.Chop), // Heavy Attack
 			               new QueueInfo(0.7f, 1.0f, Attacks.HeadThrow), // Throw
-			               new QueueInfo(0.5f, 1.0f, Attacks.Dashing), // Dash
+			               new QueueInfo(0.2f, 1.0f, Attacks.Dashing), // Dash
 			               new QueueInfo(0.5f, 1.0f, Attacks.Spin), // Mod Light Attack
 			               new QueueInfo(0.7f, 1.0f, Attacks.Slam), // Mod Heavy Attack
 			               new QueueInfo(0.7f, 1.0f, Attacks.ShotgunThrow), // Mod Throw
@@ -723,7 +723,7 @@ public class PlayerController : MonoBehaviour {
 		SetupHoming();
 		headProj.speed = 50f;
 		headProj.canStun = true;
-		//headProj.canPierce = true; disabled for now
+		headProj.canPierce = true; //disabled for now
 		Instantiate(headProj, projSpawn.position, transform.rotation);
 		for (int i = 1; i < shotgunProjSpawns.Length; i++) { // i starts at 1 to ignore the parent object
 			Instantiate(headProj, shotgunProjSpawns[i].position, shotgunProjSpawns[i].localRotation * transform.rotation);

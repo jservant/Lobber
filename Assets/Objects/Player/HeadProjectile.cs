@@ -8,7 +8,8 @@ public class HeadProjectile : MonoBehaviour {
 	public float lifetime = 3f;
 	public float stunSphereRadius = 3f;
 	public bool canStun = true;
-	//public bool canPierce = false;
+	public bool canPierce = false;
+	int enemiesKilled = 0;
 
 	Transform head;
 	Rigidbody rb;
@@ -28,8 +29,6 @@ public class HeadProjectile : MonoBehaviour {
 
 	private void OnTriggerEnter(Collider other) {
 		if (other.gameObject.layer == (int)Layers.EnemyHurtbox) {
-			Destroy(gameObject);
-
 			if (canStun) {
 				Collider[] eColliders = Physics.OverlapSphere(transform.position, stunSphereRadius, Mask.Get(Layers.EnemyHurtbox));
 				for (int index = 0; index < eColliders.Length; index += 1) {
@@ -38,11 +37,14 @@ public class HeadProjectile : MonoBehaviour {
 					basicEnemy.ChangeDirective_Stunned(Basic.StunTime.LongStun, knockbackInfo);
 				}
 			}
-			/*int enemiesKilled = 0;
-			if (canPierce && enemiesKilled < 2) { enemiesKilled++; }
-			else { Destroy(gameObject); }*/
+			Destroy(gameObject);
+			if (canPierce && enemiesKilled < 2) { 
+				enemiesKilled++;
+				Debug.Log("Enemies killed on this skull: " + enemiesKilled);
+			}
+			else { Destroy(gameObject); }
 		}
-		
+
 	}
 
 	void OnDrawGizmos() {
