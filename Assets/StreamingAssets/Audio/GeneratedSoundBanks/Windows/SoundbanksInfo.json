@@ -17,7 +17,7 @@
     "Id": "1355168291",
     "Type": "User",
     "Language": "SFX",
-    "Hash": "{150107AF-9F94-3F0E-2065-12C2FD846F38}",
+    "Hash": "{D0C30F82-EDB4-A01C-175F-A034DA327BBF}",
     "ShortName": "Init",
     "Path": "Init.bnk",
     "Plugins": {
@@ -43,6 +43,10 @@
      ]
     },
     "Busses": [
+     {
+      "Id": "746452412",
+      "Name": "MSC"
+     },
      {
       "Id": "985987111",
       "Name": "Motion Factory Bus"
@@ -120,12 +124,30 @@
     ],
     "SwitchGroups": [
      {
+      "Id": "557188943",
+      "Name": "Player_Bushes",
+      "Switches": [
+       {
+        "Id": "447277938",
+        "Name": "InBushes"
+       },
+       {
+        "Id": "1681065157",
+        "Name": "OutBushes"
+       }
+      ]
+     },
+     {
       "Id": "855030670",
       "Name": "Skel_FS",
       "Switches": [
        {
         "Id": "2185786256",
         "Name": "Gravel"
+       },
+       {
+        "Id": "4248645337",
+        "Name": "Grass"
        }
       ]
      },
@@ -136,6 +158,14 @@
        {
         "Id": "2185786256",
         "Name": "Gravel"
+       },
+       {
+        "Id": "2195636714",
+        "Name": "Dirt"
+       },
+       {
+        "Id": "4248645337",
+        "Name": "Grass"
        }
       ]
      }
@@ -511,7 +541,7 @@
     "Id": "1496463651",
     "Type": "User",
     "Language": "SFX",
-    "Hash": "{CC023E60-CC6B-0FCD-8D58-B3A3D3D3F835}",
+    "Hash": "{ED81E960-F18D-F547-4C45-5BBF7B5DDD2D}",
     "ShortName": "Bank_01",
     "Path": "Bank_01.bnk",
     "Media": [
@@ -524,12 +554,44 @@
       "CachePath": "SFX/skel_dash_02_10C4C929.wem"
      },
      {
+      "Id": "29787403",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "fs_skel_gravel_06.wav",
+      "CachePath": "SFX/fs_skel_gravel_06_10C4C929.wem"
+     },
+     {
       "Id": "33849619",
       "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "player_gethit_01.wav",
       "CachePath": "SFX/player_gethit_01_10C4C929.wem"
+     },
+     {
+      "Id": "35430952",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "fs_player_dirt_05.wav",
+      "CachePath": "SFX/fs_player_dirt_05_10C4C929.wem"
+     },
+     {
+      "Id": "42617762",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "fs_player_grass_01.wav",
+      "CachePath": "SFX/fs_player_grass_01_10C4C929.wem"
+     },
+     {
+      "Id": "49626874",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "fs_skel_gravel_08.wav",
+      "CachePath": "SFX/fs_skel_gravel_08_10C4C929.wem"
      },
      {
       "Id": "50507017",
@@ -548,12 +610,52 @@
       "CachePath": "SFX/skel_slash_01_10C4C929.wem"
      },
      {
+      "Id": "72982658",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "fs_player_grass_04.wav",
+      "CachePath": "SFX/fs_player_grass_04_10C4C929.wem"
+     },
+     {
+      "Id": "77368139",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "fs_skel_grass_01.wav",
+      "CachePath": "SFX/fs_skel_grass_01_10C4C929.wem"
+     },
+     {
+      "Id": "95473702",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "fs_player_dirt_06.wav",
+      "CachePath": "SFX/fs_player_dirt_06_10C4C929.wem"
+     },
+     {
+      "Id": "97026588",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "fs_skel_gravel_07.wav",
+      "CachePath": "SFX/fs_skel_gravel_07_10C4C929.wem"
+     },
+     {
       "Id": "97539198",
       "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "player_attack2_02.wav",
       "CachePath": "SFX/player_attack2_02_10C4C929.wem"
+     },
+     {
+      "Id": "101552163",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "player_chop_init.wav",
+      "CachePath": "SFX/player_chop_init_10C4C929.wem"
      },
      {
       "Id": "115604974",
@@ -564,12 +666,52 @@
       "CachePath": "SFX/skel_vo_01_10C4C929.wem"
      },
      {
+      "Id": "123446656",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "fs_skel_grass_04.wav",
+      "CachePath": "SFX/fs_skel_grass_04_10C4C929.wem"
+     },
+     {
+      "Id": "138826314",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "fs_skel_grass_07.wav",
+      "CachePath": "SFX/fs_skel_grass_07_10C4C929.wem"
+     },
+     {
       "Id": "144792552",
       "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "skel_slash_02.wav",
       "CachePath": "SFX/skel_slash_02_10C4C929.wem"
+     },
+     {
+      "Id": "150208270",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "emit_fire_01.wav",
+      "CachePath": "SFX/emit_fire_01_D79FB2B7.wem"
+     },
+     {
+      "Id": "196376984",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "fs_player_dirt_08.wav",
+      "CachePath": "SFX/fs_player_dirt_08_10C4C929.wem"
+     },
+     {
+      "Id": "198597785",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "fs_player_grass_05.wav",
+      "CachePath": "SFX/fs_player_grass_05_10C4C929.wem"
      },
      {
       "Id": "204565514",
@@ -612,6 +754,22 @@
       "CachePath": "SFX/player_attack1_03_10C4C929.wem"
      },
      {
+      "Id": "252319005",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "fs_skel_grass_02.wav",
+      "CachePath": "SFX/fs_skel_grass_02_10C4C929.wem"
+     },
+     {
+      "Id": "271929651",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "portal_open.wav",
+      "CachePath": "SFX/portal_open_10C4C929.wem"
+     },
+     {
       "Id": "278421329",
       "Language": "SFX",
       "Streaming": "false",
@@ -636,12 +794,36 @@
       "CachePath": "SFX/skel_gethit_04_10C4C929.wem"
      },
      {
+      "Id": "342867081",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "amb_main_lv_B.wav",
+      "CachePath": "SFX/amb_main_lv_B_D79FB2B7.wem"
+     },
+     {
       "Id": "344656176",
       "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "skel_gethit_02.wav",
       "CachePath": "SFX/skel_gethit_02_10C4C929.wem"
+     },
+     {
+      "Id": "364177697",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "fs_skel_grass_06.wav",
+      "CachePath": "SFX/fs_skel_grass_06_10C4C929.wem"
+     },
+     {
+      "Id": "368379455",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "fs_skel_grass_05.wav",
+      "CachePath": "SFX/fs_skel_grass_05_10C4C929.wem"
      },
      {
       "Id": "429319015",
@@ -658,6 +840,14 @@
       "Location": "Memory",
       "ShortName": "skel_spawn_jump.wav",
       "CachePath": "SFX/skel_spawn_jump_10C4C929.wem"
+     },
+     {
+      "Id": "449139250",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "fs_player_grass_08.wav",
+      "CachePath": "SFX/fs_player_grass_08_10C4C929.wem"
      },
      {
       "Id": "456320475",
@@ -692,6 +882,14 @@
       "CachePath": "SFX/fs_skel_gravel_01_10C4C929.wem"
      },
      {
+      "Id": "495527006",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "portal_idle_close.wav",
+      "CachePath": "SFX/portal_idle_close_6508827C.wem"
+     },
+     {
       "Id": "500052017",
       "Language": "SFX",
       "Streaming": "false",
@@ -708,12 +906,44 @@
       "CachePath": "SFX/fs_skel_gravel_02_10C4C929.wem"
      },
      {
+      "Id": "531488359",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "player_bushes.wav",
+      "CachePath": "SFX/player_bushes_D79FB2B7.wem"
+     },
+     {
       "Id": "541494156",
       "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "fs_player_gravel_01.wav",
       "CachePath": "SFX/fs_player_gravel_01_10C4C929.wem"
+     },
+     {
+      "Id": "583178948",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "fs_skel_gravel_05.wav",
+      "CachePath": "SFX/fs_skel_gravel_05_10C4C929.wem"
+     },
+     {
+      "Id": "591414233",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "fs_player_dirt_01.wav",
+      "CachePath": "SFX/fs_player_dirt_01_10C4C929.wem"
+     },
+     {
+      "Id": "607533289",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "fs_skel_gravel_04.wav",
+      "CachePath": "SFX/fs_skel_gravel_04_10C4C929.wem"
      },
      {
       "Id": "620386747",
@@ -740,12 +970,28 @@
       "CachePath": "SFX/skel_vo_04_10C4C929.wem"
      },
      {
-      "Id": "657646852",
+      "Id": "669688938",
       "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
-      "ShortName": "player_chop_01.wav",
-      "CachePath": "SFX/player_chop_01_10C4C929.wem"
+      "ShortName": "fs_player_dirt_07.wav",
+      "CachePath": "SFX/fs_player_dirt_07_10C4C929.wem"
+     },
+     {
+      "Id": "677937057",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "lobber_mx_combat1-loop.wav",
+      "CachePath": "SFX/lobber_mx_combat1-loop_D79FB2B7.wem"
+     },
+     {
+      "Id": "683213108",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "fs_skel_gravel_03.wav",
+      "CachePath": "SFX/fs_skel_gravel_03_10C4C929.wem"
      },
      {
       "Id": "701618492",
@@ -756,12 +1002,44 @@
       "CachePath": "SFX/skel_vo_02_10C4C929.wem"
      },
      {
+      "Id": "712810717",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "portal_idle_close.wav",
+      "CachePath": "SFX/portal_idle_close_BBE62D10.wem"
+     },
+     {
       "Id": "735764590",
       "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "fs_player_gravel_05.wav",
       "CachePath": "SFX/fs_player_gravel_05_10C4C929.wem"
+     },
+     {
+      "Id": "754981410",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "player_chop_tail.wav",
+      "CachePath": "SFX/player_chop_tail_10C4C929.wem"
+     },
+     {
+      "Id": "776172988",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "fs_player_dirt_04.wav",
+      "CachePath": "SFX/fs_player_dirt_04_10C4C929.wem"
+     },
+     {
+      "Id": "780375067",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "fs_player_grass_06.wav",
+      "CachePath": "SFX/fs_player_grass_06_10C4C929.wem"
      },
      {
       "Id": "799007945",
@@ -786,6 +1064,14 @@
       "Location": "Memory",
       "ShortName": "player_gethit_02.wav",
       "CachePath": "SFX/player_gethit_02_10C4C929.wem"
+     },
+     {
+      "Id": "823792418",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "fs_player_grass_07.wav",
+      "CachePath": "SFX/fs_player_grass_07_10C4C929.wem"
      },
      {
       "Id": "824198949",
@@ -820,6 +1106,14 @@
       "CachePath": "SFX/player_attack1_01_10C4C929.wem"
      },
      {
+      "Id": "897235700",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "fs_player_grass_03.wav",
+      "CachePath": "SFX/fs_player_grass_03_10C4C929.wem"
+     },
+     {
       "Id": "912969297",
       "Language": "SFX",
       "Streaming": "false",
@@ -828,16 +1122,70 @@
       "CachePath": "SFX/fs_player_gravel_02_10C4C929.wem"
      },
      {
+      "Id": "913163461",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "fs_player_dirt_03.wav",
+      "CachePath": "SFX/fs_player_dirt_03_10C4C929.wem"
+     },
+     {
+      "Id": "914370410",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "lobber_mx_combat1-intro.wav",
+      "CachePath": "SFX/lobber_mx_combat1-intro_A389B95C.wem"
+     },
+     {
+      "Id": "963225850",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "fs_player_dirt_02.wav",
+      "CachePath": "SFX/fs_player_dirt_02_10C4C929.wem"
+     },
+     {
+      "Id": "985831120",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "fs_skel_grass_08.wav",
+      "CachePath": "SFX/fs_skel_grass_08_10C4C929.wem"
+     },
+     {
       "Id": "1005504680",
       "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "skel_dash_03.wav",
       "CachePath": "SFX/skel_dash_03_10C4C929.wem"
+     },
+     {
+      "Id": "1005933419",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "fs_skel_grass_03.wav",
+      "CachePath": "SFX/fs_skel_grass_03_10C4C929.wem"
+     },
+     {
+      "Id": "1041017189",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "fs_player_grass_02.wav",
+      "CachePath": "SFX/fs_player_grass_02_10C4C929.wem"
      }
     ],
     "Plugins": {
      "Custom": [
+      {
+       "Id": "415235728",
+       "Name": "Silence",
+       "LibName": "Wwise Silence",
+       "LibId": "6619138"
+      },
       {
        "Id": "496940353",
        "Name": "Sine",
@@ -847,6 +1195,40 @@
      ]
     },
     "Events": [
+     {
+      "Id": "3207324726",
+      "Name": "amb_fire",
+      "MediaRefs": [
+       {
+        "Id": "150208270"
+       }
+      ]
+     },
+     {
+      "Id": "3334362129",
+      "Name": "amb_LV1",
+      "MediaRefs": [
+       {
+        "Id": "342867081"
+       }
+      ]
+     },
+     {
+      "Id": "3554795103",
+      "Name": "Combat1_Start",
+      "MediaRefs": [
+       {
+        "Id": "677937057"
+       },
+       {
+        "Id": "914370410"
+       }
+      ]
+     },
+     {
+      "Id": "2415455525",
+      "Name": "Combat1_Stop"
+     },
      {
       "Id": "799884986",
       "Name": "player_attack1",
@@ -878,11 +1260,57 @@
       ]
      },
      {
-      "Id": "2021701749",
-      "Name": "player_chop",
+      "Id": "557188943",
+      "Name": "player_bushes",
+      "SwitchContainers": [
+       {
+        "SwitchValue": {
+         "GroupType": "Switch",
+         "GroupId": "557188943",
+         "Id": "1681065157",
+         "Default": "true"
+        },
+        "PluginRefs": {
+         "Custom": [
+          {
+           "Id": "415235728"
+          }
+         ]
+        }
+       },
+       {
+        "SwitchValue": {
+         "GroupType": "Switch",
+         "GroupId": "557188943",
+         "Id": "447277938"
+        },
+        "MediaRefs": [
+         {
+          "Id": "531488359"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "Id": "4216026318",
+      "Name": "player_bushes_out"
+     },
+     {
+      "Id": "927599014",
+      "Name": "player_chop_init",
       "MediaRefs": [
        {
-        "Id": "657646852"
+        "Id": "101552163"
+       }
+      ]
+     },
+     {
+      "Id": "1752115990",
+      "Name": "player_chop_tail",
+      "MediaRefs": [
+       {
+        "Id": "754981410"
        }
       ]
      },
@@ -894,8 +1322,74 @@
         "SwitchValue": {
          "GroupType": "Switch",
          "GroupId": "4276063004",
-         "Id": "2185786256",
+         "Id": "2195636714",
          "Default": "true"
+        },
+        "MediaRefs": [
+         {
+          "Id": "35430952"
+         },
+         {
+          "Id": "95473702"
+         },
+         {
+          "Id": "196376984"
+         },
+         {
+          "Id": "591414233"
+         },
+         {
+          "Id": "669688938"
+         },
+         {
+          "Id": "776172988"
+         },
+         {
+          "Id": "913163461"
+         },
+         {
+          "Id": "963225850"
+         }
+        ]
+       },
+       {
+        "SwitchValue": {
+         "GroupType": "Switch",
+         "GroupId": "4276063004",
+         "Id": "4248645337"
+        },
+        "MediaRefs": [
+         {
+          "Id": "42617762"
+         },
+         {
+          "Id": "72982658"
+         },
+         {
+          "Id": "198597785"
+         },
+         {
+          "Id": "449139250"
+         },
+         {
+          "Id": "780375067"
+         },
+         {
+          "Id": "823792418"
+         },
+         {
+          "Id": "897235700"
+         },
+         {
+          "Id": "1041017189"
+         }
+        ]
+       },
+       {
+        "SwitchValue": {
+         "GroupType": "Switch",
+         "GroupId": "4276063004",
+         "Id": "2185786256"
         },
         "MediaRefs": [
          {
@@ -951,6 +1445,33 @@
       ]
      },
      {
+      "Id": "2062853598",
+      "Name": "portal_close",
+      "MediaRefs": [
+       {
+        "Id": "495527006"
+       }
+      ]
+     },
+     {
+      "Id": "3086941384",
+      "Name": "portal_idle",
+      "MediaRefs": [
+       {
+        "Id": "712810717"
+       }
+      ]
+     },
+     {
+      "Id": "762878330",
+      "Name": "portal_open",
+      "MediaRefs": [
+       {
+        "Id": "271929651"
+       }
+      ]
+     },
+     {
       "Id": "2376412427",
       "Name": "skel_dash",
       "MediaRefs": [
@@ -982,15 +1503,66 @@
         "SwitchValue": {
          "GroupType": "Switch",
          "GroupId": "855030670",
-         "Id": "2185786256",
+         "Id": "4248645337",
          "Default": "true"
         },
         "MediaRefs": [
+         {
+          "Id": "77368139"
+         },
+         {
+          "Id": "123446656"
+         },
+         {
+          "Id": "138826314"
+         },
+         {
+          "Id": "252319005"
+         },
+         {
+          "Id": "364177697"
+         },
+         {
+          "Id": "368379455"
+         },
+         {
+          "Id": "985831120"
+         },
+         {
+          "Id": "1005933419"
+         }
+        ]
+       },
+       {
+        "SwitchValue": {
+         "GroupType": "Switch",
+         "GroupId": "855030670",
+         "Id": "2185786256"
+        },
+        "MediaRefs": [
+         {
+          "Id": "29787403"
+         },
+         {
+          "Id": "49626874"
+         },
+         {
+          "Id": "97026588"
+         },
          {
           "Id": "484460241"
          },
          {
           "Id": "530298481"
+         },
+         {
+          "Id": "583178948"
+         },
+         {
+          "Id": "607533289"
+         },
+         {
+          "Id": "683213108"
          }
         ]
        }
@@ -1085,12 +1657,30 @@
     ],
     "SwitchGroups": [
      {
+      "Id": "557188943",
+      "Name": "Player_Bushes",
+      "Switches": [
+       {
+        "Id": "447277938",
+        "Name": "InBushes"
+       },
+       {
+        "Id": "1681065157",
+        "Name": "OutBushes"
+       }
+      ]
+     },
+     {
       "Id": "855030670",
       "Name": "Skel_FS",
       "Switches": [
        {
         "Id": "2185786256",
         "Name": "Gravel"
+       },
+       {
+        "Id": "4248645337",
+        "Name": "Grass"
        }
       ]
      },
@@ -1101,12 +1691,20 @@
        {
         "Id": "2185786256",
         "Name": "Gravel"
+       },
+       {
+        "Id": "2195636714",
+        "Name": "Dirt"
+       },
+       {
+        "Id": "4248645337",
+        "Name": "Grass"
        }
       ]
      }
     ]
    }
   ],
-  "FileHash": "{9CBF398A-A3A8-384D-1E04-2FD9FC8907DC}"
+  "FileHash": "{E3D4E6DA-847C-8F15-BC00-7C8BF326E655}"
  }
 }
