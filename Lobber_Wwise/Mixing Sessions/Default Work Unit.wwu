@@ -3,7 +3,15 @@
 	<MixingSessions>
 		<WorkUnit Name="Default Work Unit" ID="{A79FEFFB-D185-431F-A4E4-16C14A308C7B}" PersistMode="Standalone">
 			<ChildrenList>
-				<MixingSession Name="Main Mix" ID="{FE6EE1F8-EC92-48B4-8B6B-6E9B7F7DC914}"/>
+				<MixingSession Name="Main Mix" ID="{FE6EE1F8-EC92-48B4-8B6B-6E9B7F7DC914}">
+					<ObjectList>
+						<ObjectRef Name="ACT_Player" ID="{AF7759AC-4DFC-406C-A42F-03E2A91C2172}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+						<ObjectRef Name="ACT_Skeletons" ID="{61754236-71DF-4511-848C-E40A381E25FF}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+						<ObjectRef Name="AMB" ID="{07AACAE3-BF76-4A02-8631-32B65B75463D}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+						<ObjectRef Name="FS" ID="{2D8870B2-3BA4-41BA-95F7-E5C182124B9F}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+						<ObjectRef Name="MSC" ID="{A7ED5BA2-7FEC-4670-86F5-EE7841828E5F}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+					</ObjectList>
+				</MixingSession>
 			</ChildrenList>
 		</WorkUnit>
 	</MixingSessions>

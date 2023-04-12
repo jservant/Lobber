@@ -18,11 +18,18 @@ public class MotionAudio_Player : MonoBehaviour
         Character_Attack2.Post(gameObject);
     }
 
-    public AK.Wwise.Event Character_Chop;
+    public AK.Wwise.Event Character_Chop_Init;
 
-    void CharacterChop()
+    void CharacterChopInit()
     {
-        Character_Chop.Post(gameObject);
+        Character_Chop_Init.Post(gameObject);
+    }
+
+    public AK.Wwise.Event Character_Chop_Tail;
+
+    void CharacterChopTail()
+    {
+        Character_Chop_Tail.Post(gameObject);
     }
 
     public AK.Wwise.Event Character_Death;
@@ -34,7 +41,7 @@ public class MotionAudio_Player : MonoBehaviour
 
     public AK.Wwise.Event Character_GetHit;
 
-    void Sound_CharacterGetHit()
+    void CharacterGetHit()
     {
         Character_GetHit.Post(gameObject);
     }
