@@ -122,7 +122,7 @@ public class Exploding : MonoBehaviour {
 		enemyCommunication = GetComponent<EnemyCommunication>();
 		explosionHitbox = transform.Find("Hitbox").GetComponent<CapsuleCollider>();
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
-		attackWarningTransform = transform.Find("Main/MrBomb (1)");
+		attackWarningTransform = transform.Find("Main/MrBomb");
 
 		navAgent.updatePosition = false;
 		navAgent.updateRotation = false;

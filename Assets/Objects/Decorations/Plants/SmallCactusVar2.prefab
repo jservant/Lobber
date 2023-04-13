@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7290955819815316534}
   - component: {fileID: 5945162885048542099}
   - component: {fileID: 8459309779384751961}
+  - component: {fileID: 7349555781235897567}
   m_Layer: 0
   m_Name: SmallCactusVar2
   m_TagString: Untagged
@@ -81,3 +82,21 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &7349555781235897567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7954901880253511308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cdf65c6538e4be459e614dcd22a4925, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  headPop: {fileID: 0}
+  canDropHeads: 0
+  hitflashMat: {fileID: 2100000, guid: 27625c58fe45e654f9e128ba019e7db7, type: 2}
+  randomForce: 0
+  headTotal: 0
+  headOffset: 0
