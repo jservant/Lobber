@@ -10,125 +10,139 @@ public class PlayerController : MonoBehaviour {
 	#region Combo tree
 	readonly QueueInfo[][] QueueInfoTable = {
 		// When in None
-		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
-			               new QueueInfo(0.0f, 1.0f, Attacks.LAttack), // Light Attack
-			               new QueueInfo(0.0f, 1.0f, Attacks.Chop), // Heavy Attack
-			               new QueueInfo(0.0f, 1.0f, Attacks.HeadThrow), // Throw
-			               new QueueInfo(0.0f, 1.0f, Attacks.Dashing), // Dash
-			               new QueueInfo(0.0f, 1.0f, Attacks.Spin), // Mod Light Attack
-			               new QueueInfo(0.0f, 1.0f, Attacks.Slam), // Mod Heavy Attack
-			               new QueueInfo(0.0f, 1.0f, Attacks.ShotgunThrow), // Mod Throw
-			               new QueueInfo(0.0f, 1.0f, Attacks.LethalDash)}, // Mod Dash
+		new QueueInfo[]{ NoQueueInfo, // None
+			               new QueueInfo(0.0f, 1.0f, 0.0f, 0.0f, 0.0f, Attacks.LAttack), // Light Attack
+			               new QueueInfo(0.0f, 1.0f, 0.0f, 0.0f, 0.0f, Attacks.Chop), // Heavy Attack
+			               new QueueInfo(0.0f, 1.0f, 0.0f, 0.0f, 0.0f, Attacks.HeadThrow), // Throw
+			               new QueueInfo(0.0f, 1.0f, 0.0f, 0.0f, 0.0f, Attacks.Dashing), // Dash
+			               new QueueInfo(0.0f, 1.0f, 0.0f, 0.0f, 0.0f, Attacks.Spin), // Mod Light Attack
+			               new QueueInfo(0.0f, 1.0f, 0.0f, 0.0f, 0.0f, Attacks.Slam), // Mod Heavy Attack
+			               new QueueInfo(0.0f, 1.0f, 0.0f, 0.0f, 0.0f, Attacks.ShotgunThrow), // Mod Throw
+			               new QueueInfo(0.0f, 1.0f, 0.0f, 0.0f, 0.24f, Attacks.LethalDash)}, // Mod Dash
 		// When in LAttack
-		new QueueInfo[]{ new QueueInfo(0.0f, 0f, Attacks.None), // None
-			               new QueueInfo(0.0f, 1.0f, Attacks.LAttack2), // Light Attack
-			               new QueueInfo(0.5f, 1.0f, Attacks.Chop), // Heavy Attack
-			               new QueueInfo(0.0f, 1.0f, Attacks.HeadThrow), // Throw
-			               new QueueInfo(0.0f, 1.0f, Attacks.Dashing), // Dash
-			               new QueueInfo(0.2f, 1.0f, Attacks.Spin), // Mod Light Attack
-			               new QueueInfo(0.5f, 1.0f, Attacks.Slam), // Mod Heavy Attack
-			               new QueueInfo(0.5f, 1.0f, Attacks.ShotgunThrow), // Mod Throw
-			               new QueueInfo(0.5f, 1.0f, Attacks.LethalDash)}, // Mod Dash
+		new QueueInfo[]{ NoQueueInfo, // None
+			               new QueueInfo(0.0f, 1.0f, 0.886f, 0.103f, 0.167f, Attacks.LAttack2), // Light Attack
+			               new QueueInfo(0.5f, 1.0f, 0.818f, 0.122f, 0.070f, Attacks.Chop), // Heavy Attack
+			               new QueueInfo(0.0f, 1.0f, 0.949f, 0.041f, 0.107f, Attacks.HeadThrow), // Throw
+			               new QueueInfo(0.0f, 1.0f, 0.717f, 0.094f, 0.000f, Attacks.Dashing), // Dash
+			               new QueueInfo(0.2f, 1.0f, 0.747f, 0.082f, 0.000f, Attacks.Spin), // Mod Light Attack
+			               new QueueInfo(0.5f, 1.0f, 0.916f, 0.082f, 0.202f, Attacks.Slam), // Mod Heavy Attack
+			               new QueueInfo(0.5f, 1.0f, 0.931f, 0.059f, 0.157f, Attacks.ShotgunThrow), // Mod Throw
+			               new QueueInfo(0.5f, 1.0f, 1.000f, 0.024f, 0.290f, Attacks.LethalDash)}, // Mod Dash
 		// When in LAttack2
-		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
-			               new QueueInfo(0.3f, 1.0f, Attacks.LAttack3), // Light Attack
-			               new QueueInfo(0.3f, 1.0f, Attacks.Chop), // Heavy Attack
-			               new QueueInfo(0.0f, 1.0f, Attacks.HeadThrow), // Throw
-			               new QueueInfo(0.0f, 1.0f, Attacks.Dashing), // Dash
-			               new QueueInfo(0.0f, 1.0f, Attacks.Spin), // Mod Light Attack
-			               new QueueInfo(0.3f, 1.0f, Attacks.Slam), // Mod Heavy Attack
-			               new QueueInfo(0.0f, 1.0f, Attacks.ShotgunThrow), // Mod Throw
-			               new QueueInfo(0.0f, 1.0f, Attacks.LethalDash)}, // Mod Dash
+		new QueueInfo[]{ NoQueueInfo, // None
+			               new QueueInfo(0.3f, 1.0f, 1.000f, 0.000f, 0.000f, Attacks.LAttack3), // Light Attack
+			               new QueueInfo(0.3f, 1.0f, 0.939f, 0.057f, 0.189f, Attacks.Chop), // Heavy Attack
+			               new QueueInfo(0.0f, 1.0f, 0.652f, 0.163f, 0.139f, Attacks.HeadThrow), // Throw
+			               new QueueInfo(0.0f, 1.0f, 0.647f, 0.082f, 0.000f, Attacks.Dashing), // Dash
+			               new QueueInfo(0.0f, 1.0f, 0.765f, 0.144f, 0.000f, Attacks.Spin), // Mod Light Attack
+			               new QueueInfo(0.3f, 1.0f, 0.811f, 0.061f, 0.224f, Attacks.Slam), // Mod Heavy Attack
+			               new QueueInfo(0.0f, 1.0f, 0.932f, 0.057f, 0.150f, Attacks.ShotgunThrow), // Mod Throw
+			               new QueueInfo(0.0f, 1.0f, 0.878f, 0.273f, 0.000f, Attacks.LethalDash)}, // Mod Dash
 		// When in LAttack3
-		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Light Attack
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Heavy Attack
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Throw
-			               new QueueInfo(0.3f, 1.0f, Attacks.Dashing), // Dash
-			               new QueueInfo(0.3f, 1.0f, Attacks.Spin), // Mod Light Attack
-			               new QueueInfo(0.5f, 1.0f, Attacks.Slam), // Mod Heavy Attack
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Throw
-			               new QueueInfo(0.3f, 1.0f, Attacks.LethalDash)}, // Mod Dash
+		new QueueInfo[]{ NoQueueInfo, // None
+			               NoQueueInfo, // Light Attack
+			               NoQueueInfo, // Heavy Attack
+			               NoQueueInfo, // Throw
+			               new QueueInfo(0.3f, 1.0f, 0.708f, 0.189f, 0.000f, Attacks.Dashing), // Dash
+			               new QueueInfo(0.3f, 1.0f, 0.792f, 0.071f, 0.000f, Attacks.Spin), // Mod Light Attack
+			               new QueueInfo(0.5f, 1.0f, 0.804f, 0.110f, 0.138f, Attacks.Slam), // Mod Heavy Attack
+			               NoQueueInfo, // Mod Throw
+			               new QueueInfo(0.3f, 1.0f, 0.892f, 0.144f, 0.000f, Attacks.LethalDash)}, // Mod Dash
 		// When in Chop
-		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // Nonel
-			               new QueueInfo(0.7f, 1.0f, Attacks.LAttack), // Light Attack
-			               new QueueInfo(0.5f, 1.0f, Attacks.Chop), // Heavy Attack
-			               new QueueInfo(0.7f, 1.0f, Attacks.HeadThrow), // Throw
-			               new QueueInfo(0.2f, 1.0f, Attacks.Dashing), // Dash
-			               new QueueInfo(0.5f, 1.0f, Attacks.Spin), // Mod Light Attack
-			               new QueueInfo(0.7f, 1.0f, Attacks.Slam), // Mod Heavy Attack
-			               new QueueInfo(0.7f, 1.0f, Attacks.ShotgunThrow), // Mod Throw
-			               new QueueInfo(0.5f, 1.0f, Attacks.LethalDash)}, // Mod Dash
+		new QueueInfo[]{ NoQueueInfo, // None
+			               new QueueInfo(0.7f, 1.0f, 0.982f, 0.094f, 0.000f, Attacks.LAttack), // Light Attack
+			               new QueueInfo(0.5f, 1.0f, 1.000f, 0.000f, 0.107f, Attacks.Chop), // Heavy Attack
+			               new QueueInfo(0.7f, 1.0f, 0.898f, 0.105f, 0.091f, Attacks.HeadThrow), // Throw
+			               new QueueInfo(0.5f, 1.0f, 0.965f, 0.093f, 0.000f, Attacks.Dashing), // Dash
+			               new QueueInfo(0.5f, 1.0f, 0.830f, 0.160f, 0.000f, Attacks.Spin), // Mod Light Attack
+			               new QueueInfo(0.7f, 1.0f, 0.934f, 0.111f, 0.216f, Attacks.Slam), // Mod Heavy Attack
+			               new QueueInfo(0.7f, 1.0f, 0.919f, 0.088f, 0.154f, Attacks.ShotgunThrow), // Mod Throw
+			               new QueueInfo(0.5f, 1.0f, 0.938f, 0.052f, 0.120f, Attacks.LethalDash)}, // Mod Dash
 		// When in Slam
-		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Light Attack
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Heavy Attack
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Throw
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Dash
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Light Attack
-			               new QueueInfo(0.5f, 1.0f, Attacks.Slam), // Mod Heavy Attack
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Mod Throw
-			               new QueueInfo(0.0f, 0.0f, Attacks.None)}, // Mod Dash
+		new QueueInfo[]{ NoQueueInfo, // None
+			               NoQueueInfo, // Light Attack
+			               NoQueueInfo, // Heavy Attack
+			               NoQueueInfo, // Throw
+			               NoQueueInfo, // Dash
+			               NoQueueInfo, // Mod Light Attack
+			               new QueueInfo(0.5f, 1.0f, 0.0683f, 0.048f, 0.367f, Attacks.Slam), // Mod Heavy Attack
+			               NoQueueInfo, // Mod Throw
+			               NoQueueInfo}, // Mod Dash
 		// When in Spin
-		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
-			               new QueueInfo(0.2f, 1.0f, Attacks.LAttack), // Light Attack
-			               new QueueInfo(0.2f, 1.0f, Attacks.Chop), // Heavy Attack
-			               new QueueInfo(0.2f, 1.0f, Attacks.HeadThrow), // Throw
-			               new QueueInfo(0.0f, 1.0f, Attacks.Dashing), // Dash
-			               new QueueInfo(0.2f, 1.0f, Attacks.Spin), // Mod Light Attack
-			               new QueueInfo(0.2f, 1.0f, Attacks.Slam), // Mod Heavy Attack
-			               new QueueInfo(0.2f, 1.0f, Attacks.ShotgunThrow), // Mod Throw
-			               new QueueInfo(0.0f, 1.0f, Attacks.LethalDash)}, // Mod Dash
+		new QueueInfo[]{ NoQueueInfo, // None
+			               new QueueInfo(0.2f, 1.0f, 0.936f, 0.045f, 0.141f, Attacks.LAttack), // Light Attack
+			               new QueueInfo(0.2f, 1.0f, 0.764f, 0.030f, 0.173f, Attacks.Chop), // Heavy Attack
+			               new QueueInfo(0.2f, 1.0f, 0.822f, 0.090f, 0.156f, Attacks.HeadThrow), // Throw
+			               new QueueInfo(0.0f, 1.0f, 0.970f, 0.051f, 0.000f, Attacks.Dashing), // Dash
+			               new QueueInfo(0.2f, 1.0f, 0.994f, 0.031f, 0.000f, Attacks.Spin), // Mod Light Attack
+			               new QueueInfo(0.2f, 1.0f, 0.824f, 0.102f, 0.221f, Attacks.Slam), // Mod Heavy Attack
+			               new QueueInfo(0.2f, 1.0f, 0.970f, 0.023f, 0.178f, Attacks.ShotgunThrow), // Mod Throw
+			               new QueueInfo(0.0f, 1.0f, 0.892f, 0.142f, 0.081f, Attacks.LethalDash)}, // Mod Dash
 		// When in HeadThrow
-		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
-			               new QueueInfo(0.5f, 1.0f, Attacks.LAttack), // Light Attack
-			               new QueueInfo(0.5f, 1.0f, Attacks.Chop), // Heavy Attack
-			               new QueueInfo(0.5f, 1.0f, Attacks.HeadThrow), // Throw
-			               new QueueInfo(0.3f, 1.0f, Attacks.Dashing), // Dash
-			               new QueueInfo(0.5f, 1.0f, Attacks.Spin), // Mod Light Attack
-			               new QueueInfo(0.5f, 1.0f, Attacks.Slam), // Mod Heavy Attack
-			               new QueueInfo(0.5f, 1.0f, Attacks.ShotgunThrow), // Mod Throw
-			               new QueueInfo(0.3f, 1.0f, Attacks.LethalDash)}, // Mod Dash
+		new QueueInfo[]{ NoQueueInfo, // None
+			               new QueueInfo(0.5f, 1.0f, 0.948f, 0.060f, 0.000f, Attacks.LAttack), // Light Attack
+			               new QueueInfo(0.5f, 1.0f, 0.908f, 0.064f, 0.146f, Attacks.Chop), // Heavy Attack
+			               new QueueInfo(0.5f, 1.0f, 0.913f, 0.123f, 0.067f, Attacks.HeadThrow), // Throw
+			               new QueueInfo(0.3f, 1.0f, 0.670f, 0.264f, 0.000f, Attacks.Dashing), // Dash
+			               new QueueInfo(0.5f, 1.0f, 0.894f, 0.087f, 0.000f, Attacks.Spin), // Mod Light Attack
+			               new QueueInfo(0.5f, 1.0f, 0.927f, 0.082f, 0.183f, Attacks.Slam), // Mod Heavy Attack
+			               new QueueInfo(0.5f, 1.0f, 0.946f, 0.118f, 0.149f, Attacks.ShotgunThrow), // Mod Throw
+			               new QueueInfo(0.3f, 1.0f, 0.934f, 0.253f, 0.167f, Attacks.LethalDash)}, // Mod Dash
 		// When in Dashing
-		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
-			               new QueueInfo(0.2f, 1.0f, Attacks.LAttack), // Light Attack
-			               new QueueInfo(0.2f, 1.0f, Attacks.Chop), // Heavy Attack
-			               new QueueInfo(0.2f, 1.0f, Attacks.HeadThrow), // Throw
-			               new QueueInfo(0.0f, 0.0f, Attacks.None), // Dash
-			               new QueueInfo(0.2f, 1.0f, Attacks.Spin), // Mod Light Attack
-			               new QueueInfo(0.2f, 1.0f, Attacks.Slam), // Mod Heavy Attack
-			               new QueueInfo(0.2f, 1.0f, Attacks.ShotgunThrow), // Mod Throw
-			               new QueueInfo(0.2f, 1.0f, Attacks.LethalDash)}, // Mod Dash
+		new QueueInfo[]{ NoQueueInfo, // None
+			               new QueueInfo(0.2f, 1.0f, 0.722f, 0.112f, 0.000f, Attacks.LAttack), // Light Attack
+			               new QueueInfo(0.2f, 1.0f, 0.927f, 0.153f, 0.167f, Attacks.Chop), // Heavy Attack
+			               new QueueInfo(0.2f, 1.0f, 0.940f, 0.122f, 0.158f, Attacks.HeadThrow), // Throw
+			               NoQueueInfo, // Dash
+			               new QueueInfo(0.2f, 1.0f, 0.726f, 0.083f, 0.000f, Attacks.Spin), // Mod Light Attack
+			               new QueueInfo(0.2f, 1.0f, 0.842f, 0.091f, 0.091f, Attacks.Slam), // Mod Heavy Attack
+			               new QueueInfo(0.2f, 1.0f, 0.692f, 0.189f, 0.080f, Attacks.ShotgunThrow), // Mod Throw
+			               new QueueInfo(0.2f, 1.0f, 0.904f, 0.086f, 0.129f, Attacks.LethalDash)}, // Mod Dash
 		// When in LethalDash
-		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
-			               new QueueInfo(0.4f, 1.0f, Attacks.LAttack), // Light Attack
-			               new QueueInfo(0.4f, 1.0f, Attacks.Chop), // Heavy Attack
-			               new QueueInfo(0.4f, 1.0f, Attacks.HeadThrow), // Throw
-			               new QueueInfo(0.4f, 1.0f, Attacks.Dashing), // Dash
-			               new QueueInfo(0.4f, 1.0f, Attacks.Spin), // Mod Light Attack
-			               new QueueInfo(0.4f, 1.0f, Attacks.Slam), // Mod Heavy Attack
-			               new QueueInfo(0.4f, 1.0f, Attacks.ShotgunThrow), // Mod Throw
-			               new QueueInfo(0.4f, 1.0f, Attacks.LethalDash)}, // Mod Dash
+		new QueueInfo[]{ NoQueueInfo, // None
+			               new QueueInfo(0.4f, 1.0f, 0.830f, 0.110f, 0.002f, Attacks.LAttack), // Light Attack
+			               new QueueInfo(0.4f, 1.0f, 0.795f, 0.128f, 0.080f, Attacks.Chop), // Heavy Attack
+			               new QueueInfo(0.4f, 1.0f, 0.852f, 0.111f, 0.000f, Attacks.HeadThrow), // Throw
+			               new QueueInfo(0.4f, 1.0f, 0.916f, 0.074f, 0.000f, Attacks.Dashing), // Dash
+			               new QueueInfo(0.4f, 1.0f, 0.861f, 0.185f, 0.000f, Attacks.Spin), // Mod Light Attack
+			               new QueueInfo(0.4f, 1.0f, 0.542f, 0.259f, 0.207f, Attacks.Slam), // Mod Heavy Attack
+			               new QueueInfo(0.4f, 1.0f, 0.905f, 0.055f, 0.200f, Attacks.ShotgunThrow), // Mod Throw
+			               new QueueInfo(0.4f, 1.0f, 0.907f, 0.091f, 0.157f, Attacks.LethalDash)}, // Mod Dash
 		// When in ShotgunThrow
-		new QueueInfo[]{ new QueueInfo(0.0f, 0.0f, Attacks.None), // None
-			               new QueueInfo(0.3f, 1.0f, Attacks.LAttack), // Light Attack
-			               new QueueInfo(0.3f, 1.0f, Attacks.Chop), // Heavy Attack
-			               new QueueInfo(0.3f, 1.0f, Attacks.HeadThrow), // Throw
-			               new QueueInfo(0.3f, 1.0f, Attacks.Dashing), // Dash
-			               new QueueInfo(0.3f, 1.0f, Attacks.Spin), // Mod Light Attack
-			               new QueueInfo(0.3f, 1.0f, Attacks.Slam), // Mod Heavy Attack
-			               new QueueInfo(0.4f, 1.0f, Attacks.ShotgunThrow), // Mod Throw
-			               new QueueInfo(0.3f, 1.0f, Attacks.LethalDash)}, // Mod Dash
+		new QueueInfo[]{ NoQueueInfo, // None
+			               new QueueInfo(0.3f, 1.0f, 0.949f, 0.052f, 0.037f, Attacks.LAttack), // Light Attack
+			               new QueueInfo(0.3f, 1.0f, 0.935f, 0.052f, 0.117f, Attacks.Chop), // Heavy Attack
+			               new QueueInfo(0.3f, 1.0f, 0.979f, 0.045f, 0.093f, Attacks.HeadThrow), // Throw
+			               new QueueInfo(0.3f, 1.0f, 0.983f, 0.045f, 0.000f, Attacks.Dashing), // Dash
+			               new QueueInfo(0.3f, 1.0f, 0.917f, 0.091f, 0.000f, Attacks.Spin), // Mod Light Attack
+			               new QueueInfo(0.3f, 1.0f, 0.866f, 0.097f, 0.198f, Attacks.Slam), // Mod Heavy Attack
+			               new QueueInfo(0.4f, 1.0f, 0.967f, 0.035f, 0.160f, Attacks.ShotgunThrow), // Mod Throw
+			               new QueueInfo(0.3f, 1.0f, 0.962f, 0.043f, 0.125f, Attacks.LethalDash)}, // Mod Dash
 	};
 
-	struct QueueInfo {
-		public float startPercent;
-		public float endPercent;
-		public Attacks attack;
-		public QueueInfo(float startPercent, float endPercent, Attacks attack) {
-			this.startPercent = startPercent;
-			this.endPercent = endPercent;
-			this.attack = attack;
+	readonly static QueueInfo NoQueueInfo = new QueueInfo(0, 0, 0, 0, 0, Attacks.None);
+
+	public struct QueueInfo {
+		// When queueing is allowed
+		public float startQueuePercent;
+		public float endQueuePercent;
+		// After this percent we'll start the next animation.
+		public float transitionStartPercent;
+		// How long the transition will take of the next animation
+		public float transitionDurationPercent;
+		// At what percent to start the next animation
+		public float nextOffset;
+		// Attack to trigger
+		public Attacks nextAttack;
+
+		public QueueInfo(float startQueuePercent, float endQueuePercent, float transitionStartPercent, float transitionDurationPercent, float nextOffset, Attacks nextAttack) {
+			this.startQueuePercent = startQueuePercent;
+			this.endQueuePercent = endQueuePercent;
+			this.transitionStartPercent = transitionStartPercent;
+			this.transitionDurationPercent = transitionDurationPercent;
+			this.nextOffset = nextOffset;
+			this.nextAttack = nextAttack;
 		}
 	}
 
@@ -162,6 +176,20 @@ public class PlayerController : MonoBehaviour {
 		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // ShotgunThrow
 	};
 
+	readonly public static float[] AttackMeterCost = {
+		0.0f, // None
+		0.0f, // LAttack
+		0.0f, // LAttack2
+		0.0f, // LAttack3
+		0.0f, // Chop
+		4.0f, // Slam
+		0.5f, // Spin
+		1.0f, // HeadThrow
+		0.0f, // Dashing
+		1.0f, // LethalDashing
+		3.0f, // ShotgunThrow
+	};
+
 	static readonly string[] AttackToStateName = {
 		"None",
 		"Base.Attacks.LAttack",
@@ -184,10 +212,13 @@ public class PlayerController : MonoBehaviour {
 
 	public enum States { Idle = 0, Walking, Attacking, Death };
 	public States currentState = 0;
+
 	public enum Attacks { None = 0, LAttack, LAttack2, LAttack3, Chop, Slam, Spin, HeadThrow, Dashing, LethalDash, ShotgunThrow };
 	public Attacks currentAttack = 0;
-	public Attacks queuedAttack = 0;
+	public QueueInfo queuedAttackInfo = NoQueueInfo;
+
 	public enum AttackButton { None = 0, LightAttack, HeavyAttack, Throw, Dash, ModLight, ModHeavy, ModThrow, ModDash };
+
 	[Space]
 	#endregion
 
@@ -233,7 +264,7 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField] float meterDashMultiplier = 2f;    // what to multiply dashForce by when using Lethal Dash
 	[SerializeField] float dashTime = 0f;				// how long has player been dashing for?
 	[SerializeField] float maxDashCooldown = 1.5f;		// how long does it take for player to dash again after dashing?
-	[SerializeField] public float dashCooldown = 1f;
+	public float dashCooldown = 1f;
 	public bool isWalking;
 	[Header("Health/Damage:")]
 	public bool vulnerable = true;
@@ -299,7 +330,8 @@ public class PlayerController : MonoBehaviour {
 		health = GameManager.storedPlayerHealth;
 		meter = GameManager.storedPlayerMeter;
 		tsr = targetSphereRadius;
-		topSpeed = 10f;
+		if (meter == meterMax) { topSpeed = 8f; }
+		else { topSpeed = 10f; }
 	}
 
 	private void FixedUpdate() { // calculate movement here
@@ -343,7 +375,6 @@ public class PlayerController : MonoBehaviour {
 					currentState = States.Idle;
 					trueAngle = 0;
 					currentAttack = 0;
-					animr.SetInteger("currentAttack", 0);
 					dashTime = 0;
 				}
 			}
@@ -354,7 +385,7 @@ public class PlayerController : MonoBehaviour {
 				transform.rotation = Quaternion.Euler(0f, angle, 0f);
 				Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
 				moveDelta = moveDirection.normalized * (topSpeed * Mathf.Lerp(0, 1, movementCurve.Evaluate(speedTime / maxSpeedTime)));
-				//if (currentAttack == Attacks.Chop) moveDelta *= chopMovementMultiplier;
+				if (currentAttack == Attacks.Chop) moveDelta *= chopMovementMultiplier;
 			}
 			float moveWeight = Mathf.Lerp(1, 0, Mathf.Clamp01(remainingKnockbackTime / knockbackInfo.time));
 			float knockbackWeight = 1f - moveWeight;
@@ -362,6 +393,7 @@ public class PlayerController : MonoBehaviour {
 
 			translationDelta = (moveDelta * moveWeight + knockbackDelta * knockbackWeight) * Time.fixedDeltaTime;
 		}
+
 
 		float fallingSpeed = 30.0f;
 		float stepUp = 0.75f;
@@ -402,8 +434,6 @@ public class PlayerController : MonoBehaviour {
 
 		if (health > healthMax) { health = healthMax; }
 		if (meter > meterMax) { meter = meterMax; }
-		if (meter == meterMax) { topSpeed = 8f; }
-		else { topSpeed = 10f; }
 
 		hitflashTimer -= Time.deltaTime;
 		Material[] materialList = model.materials;
@@ -423,88 +453,153 @@ public class PlayerController : MonoBehaviour {
 
 		//Input
 		if (currentState != States.Death) {
-			// check if moving for sake of animator
-			if (pActions.Player.Move.phase == InputActionPhase.Started) { animr.SetBool("isWalking", true); }
-			else { animr.SetBool("isWalking", false); }
 			if (currentState != States.Attacking) {
-				// actually move
 				mInput = pActions.Player.Move.ReadValue<Vector2>();
 				if (pActions.Player.Move.WasReleasedThisFrame()) {
+					animr.SetBool("isWalking", false);
 					isWalking = false;
 					currentState = States.Idle;
 				}
 				else if (pActions.Player.Move.phase == InputActionPhase.Started) {
 					currentState = States.Walking;
+					animr.SetBool("isWalking", true);
 					isWalking = true;
 					movement = movement = new Vector3(mInput.x, 0, mInput.y);
 				}
-				else if (pActions.Player.Move.phase == InputActionPhase.Waiting) {	
+				else if (pActions.Player.Move.phase == InputActionPhase.Waiting) {
+					
 					animr.SetBool("isWalking", false);
+					isWalking = false;
 				}
 			}
 
 			if (pActions.Player.LightAttack.WasPerformedThisFrame()) {
-				attackButtonPrep = AttackButton.LightAttack;
+				if (CanAffordMove(Attacks.Spin) && pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
+					attackButtonPrep = AttackButton.ModLight;
+				}
+				else { 
+					attackButtonPrep = AttackButton.LightAttack;
+				}
 			}
+
 			if (pActions.Player.HeavyAttack.WasPerformedThisFrame()) {
-				attackButtonPrep = AttackButton.HeavyAttack;
+				if (CanAffordMove(Attacks.Slam) && pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
+					attackButtonPrep = AttackButton.ModHeavy;
+				}
+				else {
+					attackButtonPrep = AttackButton.HeavyAttack;
+				}
 			}
-			if (canUseMeter(0.7f) && pActions.Player.Throw.WasPerformedThisFrame()) {
-				attackButtonPrep = AttackButton.Throw;
+
+			if (pActions.Player.Throw.WasPerformedThisFrame()) {
+				if (CanAffordMove(Attacks.ShotgunThrow) && pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
+					attackButtonPrep = AttackButton.ModThrow;
+				}
+				else if (CanAffordMove(Attacks.HeadThrow)) {
+					attackButtonPrep = AttackButton.Throw;
+				}
 			}
-			if (canUseMeter(0.2f) && pActions.Player.LightAttack.WasPerformedThisFrame() && pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
-				attackButtonPrep = AttackButton.ModLight;
-			}
-			if (canUseMeter(3.7f) && pActions.Player.HeavyAttack.WasPerformedThisFrame() && pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
-				attackButtonPrep = AttackButton.ModHeavy;
-			}
-			if (canUseMeter(2.7f) && pActions.Player.Throw.WasPerformedThisFrame() && pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
-				attackButtonPrep = AttackButton.ModThrow;
-			}
-		
-			if (canUseMeter(0.7f) && pActions.Player.Dash.WasPerformedThisFrame() && pActions.Player.MeterModifier.phase == InputActionPhase.Performed && trueInput.sqrMagnitude >= 0.1f && dashCooldown <= 0f  && isGrounded) {
-				attackButtonPrep = AttackButton.ModDash;
+
+			if (pActions.Player.Dash.WasPerformedThisFrame() && trueInput.sqrMagnitude >= 0.1f && dashCooldown <= 0f && isGrounded) {
+				// NOTE(Roskuski): Common variables for dashing.
 				dashTime = 0;
 				dashCooldown = maxDashCooldown;
-				trueAngle = Mathf.Atan2(trueInput.x, trueInput.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
-			}
-			else if (pActions.Player.Dash.WasPerformedThisFrame() && trueInput.sqrMagnitude >= 0.1f && dashCooldown <= 0f && isGrounded) {
-				attackButtonPrep = AttackButton.Dash;
-				dashTime = 0;
-				dashCooldown = maxDashCooldown;
-				trueAngle = Mathf.Atan2(trueInput.x, trueInput.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
+
+				if (CanAffordMove(Attacks.LethalDash) && pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
+					attackButtonPrep = AttackButton.ModDash;
+				}
+				else {
+					attackButtonPrep = AttackButton.Dash;
+				}
 			}
 
 			if (attackButtonPrep != AttackButton.None) {
 				QueueInfo queueInfo = QueueInfoTable[(int)currentAttack][(int)attackButtonPrep];
 				float animationPercent = AnimatorNormalizedTimeOfNextOrCurrentAttackState() % 1.0f;
-				if (queueInfo.attack != Attacks.None) {
-					if (animationPercent >= queueInfo.startPercent && animationPercent <= queueInfo.endPercent) {
-						queuedAttack = queueInfo.attack;
+				if (queueInfo.nextAttack != Attacks.None) {
+					if (animationPercent >= queueInfo.startQueuePercent && animationPercent <= queueInfo.endQueuePercent) {
+						queuedAttackInfo = queueInfo;
 					}
 				}
 			}
-			if (queuedAttack == Attacks.Dashing || queuedAttack == Attacks.LethalDash) {
+
+			// NOTE(Roskuski): Update the angle we'll dash in every frame that a dash is queued.
+			if (queuedAttackInfo.nextAttack == Attacks.Dashing || queuedAttackInfo.nextAttack == Attacks.LethalDash) {
 				trueAngle = Mathf.Atan2(trueInput.x, trueInput.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
 			}
-			animr.SetInteger("prepAttack", (int)queuedAttack);
 
 			// animator controller
-			if (currentAttack == Attacks.None ||
-					(!wasNextValid && isNextValid && queuedAttack != Attacks.None && IsAttackState(Next)) || // NOTE(Roskuski): This is a hack to make sure that this script stays in sync with the animator when it takes a transition early.
-					((AnimatorNormalizedTimeOfNextOrCurrentAttackState() >= 1.0f) && Current.IsName(AttackToStateName[(int)currentAttack]))) {
-				if (queuedAttack != Attacks.None) {
-					SetCurrentAttack(queuedAttack);
-					queuedAttack = Attacks.None;
+			{
+				if (queuedAttackInfo.nextAttack != Attacks.None && queuedAttackInfo.transitionStartPercent < Current.normalizedTime) {
+					bool setupHoming = true;
+					tsr = targetSphereRadius;
+					currentState = States.Attacking;
+					lastAnimationStateHash = animr.GetCurrentAnimatorStateInfo(0).fullPathHash;
+
+					animr.CrossFade(AttackToStateName[(int)queuedAttackInfo.nextAttack], queuedAttackInfo.transitionDurationPercent, -1, queuedAttackInfo.nextOffset);
+
+					currentAttack = queuedAttackInfo.nextAttack;
+					queuedAttackInfo = NoQueueInfo;
+
+					switch (currentAttack) {
+						case Attacks.HeadThrow:
+						case Attacks.ShotgunThrow:
+							tsr = targetSphereRadius * 2.5f;
+							speedTime = 0;
+							setupHoming = false;
+							break;
+
+						case Attacks.Chop:
+							speedTime = 0;
+							break;
+
+						case Attacks.Spin:
+							ChangeMeter(-AttackMeterCost[(int)Attacks.Spin]);
+							speedTime = 0.4f;
+							break;
+
+						case Attacks.LethalDash:
+							ChangeMeter(-AttackMeterCost[(int)Attacks.LethalDash]);
+							setupHoming = false;
+							break;
+
+						case Attacks.Slam:
+							ChangeMeter(-AttackMeterCost[(int)Attacks.Slam]);
+							setupHoming = false;
+							break; 
+
+						case Attacks.Dashing:
+							setupHoming = false;
+							break;
+					}
+
+					if (meter >= meterMax/2.0f) {
+						axeGetKnockbackInfo.constantInfo = FullAxeAttackKnockbackTable[(int)currentAttack];
+					}
+					else {
+						axeGetKnockbackInfo.constantInfo = EmptyAxeAttackKnockbackTable[(int)currentAttack];
+					}
+
+					if (pActions.Player.Aim.ReadValue<Vector2>().sqrMagnitude >= 0.02) {
+						movement = new Vector3(rAimInput.x, 0, rAimInput.y); // this and next line allow for movement between hits
+					}
+					else if (pActions.Player.Move.ReadValue<Vector2>().sqrMagnitude >= 0.02) {
+						movement = new Vector3(trueInput.x, 0, trueInput.y);
+					}
+
+					if (setupHoming) {
+						SetupHoming();
+					}
+					else {
+						speedTime = 0; // stops player movement when throwing. change later if other attacks don't snap
+					}
 				}
-				else {
-					//animr.Play();
+				else if (IsAttackState(Current) && Current.normalizedTime >= 1f && Next.normalizedTime == 0f) {
 					currentAttack = Attacks.None;
 					currentState = States.Idle;
+					animr.Play("Base.Idle");
 				}
 			}
-
-			animr.SetInteger("currentAttack", (int)currentAttack);
 
 			wasNextValid = isNextValid;
 		}
@@ -548,8 +643,6 @@ public class PlayerController : MonoBehaviour {
 	public void Hit(int damageTaken, Collider other) {
 		currentAttack = Attacks.None;
 		animr.SetBool("isWalking", false);
-		animr.SetInteger("currentAttack", (int)Attacks.None);
-		animr.SetInteger("prepAttack", (int)AttackButton.None);
 		health -= damageTaken;
 		if (health <= 0) {
 			health = 0;
@@ -601,54 +694,14 @@ public class PlayerController : MonoBehaviour {
 		if (meter == meterMax) { topSpeed = 8f; }
 		else { topSpeed = 10f; }
 	}
-	void SetCurrentAttack(Attacks attack) {
-		bool setupHoming = true;
-		tsr = targetSphereRadius;
-		currentState = States.Attacking;
-		lastAnimationStateHash = animr.GetCurrentAnimatorStateInfo(0).fullPathHash;
 
-		if (attack == Attacks.HeadThrow) {
-			tsr = targetSphereRadius * 2.5f;
-			speedTime = 0;
-			setupHoming = false;
-		} 
-		else if (attack == Attacks.ShotgunThrow) {
-			tsr = targetSphereRadius * 2.5f;
-			speedTime = 0;
-			setupHoming = false;
-		}
-		else if (attack == Attacks.Spin) { ChangeMeter(-0.5f); speedTime = 0.4f; } // meter change done in animator
-		else if (attack == Attacks.LethalDash) { ChangeMeter(-1); setupHoming = false; }
-		else if (attack == Attacks.Slam) { ChangeMeter(-4); setupHoming = false; }
-		else if (attack == Attacks.Dashing) { setupHoming = false; }
-		//else if (attack == Attacks.None) { animr.SetBool("isWalking", false); }
-
-		animr.SetInteger("currentAttack", (int)attack);
-		currentAttack = attack;
-		if (meter >= meterMax/2.0f) {
-			axeGetKnockbackInfo.constantInfo = FullAxeAttackKnockbackTable[(int)attack];
-		}
-		else {
-			axeGetKnockbackInfo.constantInfo = EmptyAxeAttackKnockbackTable[(int)attack];
-		}
-
-		if (pActions.Player.Aim.ReadValue<Vector2>().sqrMagnitude >= 0.02) {
-			movement = new Vector3(rAimInput.x, 0, rAimInput.y); // this and next line allow for movement between hits
-		}
-		else if (pActions.Player.Move.ReadValue<Vector2>().sqrMagnitude >= 0.02) {
-			movement = new Vector3(trueInput.x, 0, trueInput.y);
-		}
-
-		if (setupHoming) {
-			SetupHoming();
-		}
-		else { speedTime = 0; } // stops player movement when throwing. change later if other attacks don't snap
+	// @TODO(Roskuski): As of right now (2023-04-13) SetCurrentAttack is only being called from PlayerContriller:Update(). We should consider removing this function.
+	void SetCurrentAttack() {
 	}
 
 	void SetupHoming() { // attack homing function
-		if (doHoming) {
-			doHoming = false;
-		}
+		// NOTE(Roskuski): If homing is currently taking place, cancel it.
+		doHoming = false;
 
 		//Collider[] newEColliders = Util.ConeCastAll(transform.position, tsr, Vector3.forward, );
 		Collider[] eColliders = Physics.OverlapSphere(GetTargetSphereLocation(), tsr, Mask.Get(Layers.EnemyHurtbox));
@@ -712,7 +765,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public void LobThrow() { // triggered in animator
-		ChangeMeter(-1);
+		ChangeMeter(-AttackMeterCost[(int)Attacks.HeadThrow]);
 		SetupHoming();
 		headProj.speed = 50f;
 		headProj.canStun = true;
@@ -720,11 +773,11 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public void ShotgunThrow() { // triggered in animator
-		ChangeMeter(-3);
+		ChangeMeter(-AttackMeterCost[(int)Attacks.ShotgunThrow]);
 		SetupHoming();
 		headProj.speed = 50f;
 		headProj.canStun = true;
-		headProj.canPierce = true; //disabled for now
+		//headProj.canPierce = true; disabled for now
 		Instantiate(headProj, projSpawn.position, transform.rotation);
 		for (int i = 1; i < shotgunProjSpawns.Length; i++) { // i starts at 1 to ignore the parent object
 			Instantiate(headProj, shotgunProjSpawns[i].position, shotgunProjSpawns[i].localRotation * transform.rotation);
@@ -782,9 +835,9 @@ public class PlayerController : MonoBehaviour {
 		return Result;
 	}
 
-	public bool canUseMeter(float cost) {
+	public bool CanAffordMove(Attacks attack) {
 		if (frenzyTimer > 0) return true;
-		else if (meter >= cost) return true;
+		else if (meter >= AttackMeterCost[(int)attack] - 0.3f) return true;
 		else return false;
 	}
 
@@ -794,7 +847,7 @@ public class PlayerController : MonoBehaviour {
 
 	public void Shotgun() {
 		gameMan.SpawnParticle(0, shotgunPoint.position, 1.5f);
-    }
+	}
 	#endregion
 
 
