@@ -363,7 +363,6 @@ public class PlayerController : MonoBehaviour {
 			translationDelta = (moveDelta * moveWeight + knockbackDelta * knockbackWeight) * Time.fixedDeltaTime;
 		}
 
-
 		float fallingSpeed = 30.0f;
 		float stepUp = 0.75f;
 		if (currentAttack == Attacks.Dashing || currentAttack == Attacks.LethalDash) {
@@ -424,23 +423,23 @@ public class PlayerController : MonoBehaviour {
 
 		//Input
 		if (currentState != States.Death) {
+			// check if moving for sake of animator
+			if (pActions.Player.Move.phase == InputActionPhase.Started) { animr.SetBool("isWalking", true); }
+			else { animr.SetBool("isWalking", false); }
 			if (currentState != States.Attacking) {
+				// actually move
 				mInput = pActions.Player.Move.ReadValue<Vector2>();
 				if (pActions.Player.Move.WasReleasedThisFrame()) {
-					animr.SetBool("isWalking", false);
 					isWalking = false;
 					currentState = States.Idle;
 				}
 				else if (pActions.Player.Move.phase == InputActionPhase.Started) {
 					currentState = States.Walking;
-					animr.SetBool("isWalking", true);
 					isWalking = true;
 					movement = movement = new Vector3(mInput.x, 0, mInput.y);
 				}
-				else if (pActions.Player.Move.phase == InputActionPhase.Waiting) {
-					
+				else if (pActions.Player.Move.phase == InputActionPhase.Waiting) {	
 					animr.SetBool("isWalking", false);
-					isWalking = false;
 				}
 			}
 
@@ -499,6 +498,7 @@ public class PlayerController : MonoBehaviour {
 					queuedAttack = Attacks.None;
 				}
 				else {
+					//animr.Play();
 					currentAttack = Attacks.None;
 					currentState = States.Idle;
 				}
@@ -621,6 +621,7 @@ public class PlayerController : MonoBehaviour {
 		else if (attack == Attacks.LethalDash) { ChangeMeter(-1); setupHoming = false; }
 		else if (attack == Attacks.Slam) { ChangeMeter(-4); setupHoming = false; }
 		else if (attack == Attacks.Dashing) { setupHoming = false; }
+		//else if (attack == Attacks.None) { animr.SetBool("isWalking", false); }
 
 		animr.SetInteger("currentAttack", (int)attack);
 		currentAttack = attack;
