@@ -103,6 +103,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "DEBUGDisableUI",
+                    "type": "Button",
+                    "id": "76b50d9c-0423-4682-86c1-6b0ee2da37de",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -466,6 +475,28 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "DEBUGLevelSkip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "699e3330-07a9-4a9b-8ca5-aa1482fd8fc5",
+                    "path": "<Gamepad>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "DEBUGDisableUI",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "664d9b04-4f6a-4be5-a099-5e31c5da34d9",
+                    "path": "<Keyboard>/0",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "DEBUGDisableUI",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

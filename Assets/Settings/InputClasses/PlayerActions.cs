@@ -125,6 +125,15 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DEBUGDisableUI"",
+                    ""type"": ""Button"",
+                    ""id"": ""76b50d9c-0423-4682-86c1-6b0ee2da37de"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -490,6 +499,28 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
                     ""action"": ""DEBUGLevelSkip"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""699e3330-07a9-4a9b-8ca5-aa1482fd8fc5"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""DEBUGDisableUI"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""664d9b04-4f6a-4be5-a099-5e31c5da34d9"",
+                    ""path"": ""<Keyboard>/0"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""DEBUGDisableUI"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -570,6 +601,7 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
         m_Player_MeterModifier = m_Player.FindAction("MeterModifier", throwIfNotFound: true);
         m_Player_DEBUGHeal = m_Player.FindAction("DEBUGHeal", throwIfNotFound: true);
         m_Player_DEBUGLevelSkip = m_Player.FindAction("DEBUGLevelSkip", throwIfNotFound: true);
+        m_Player_DEBUGDisableUI = m_Player.FindAction("DEBUGDisableUI", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -642,6 +674,7 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_MeterModifier;
     private readonly InputAction m_Player_DEBUGHeal;
     private readonly InputAction m_Player_DEBUGLevelSkip;
+    private readonly InputAction m_Player_DEBUGDisableUI;
     public struct PlayerActions
     {
         private @DefaultPlayerActions m_Wrapper;
@@ -657,6 +690,7 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
         public InputAction @MeterModifier => m_Wrapper.m_Player_MeterModifier;
         public InputAction @DEBUGHeal => m_Wrapper.m_Player_DEBUGHeal;
         public InputAction @DEBUGLevelSkip => m_Wrapper.m_Player_DEBUGLevelSkip;
+        public InputAction @DEBUGDisableUI => m_Wrapper.m_Player_DEBUGDisableUI;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -699,6 +733,9 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
             @DEBUGLevelSkip.started += instance.OnDEBUGLevelSkip;
             @DEBUGLevelSkip.performed += instance.OnDEBUGLevelSkip;
             @DEBUGLevelSkip.canceled += instance.OnDEBUGLevelSkip;
+            @DEBUGDisableUI.started += instance.OnDEBUGDisableUI;
+            @DEBUGDisableUI.performed += instance.OnDEBUGDisableUI;
+            @DEBUGDisableUI.canceled += instance.OnDEBUGDisableUI;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -736,6 +773,9 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
             @DEBUGLevelSkip.started -= instance.OnDEBUGLevelSkip;
             @DEBUGLevelSkip.performed -= instance.OnDEBUGLevelSkip;
             @DEBUGLevelSkip.canceled -= instance.OnDEBUGLevelSkip;
+            @DEBUGDisableUI.started -= instance.OnDEBUGDisableUI;
+            @DEBUGDisableUI.performed -= instance.OnDEBUGDisableUI;
+            @DEBUGDisableUI.canceled -= instance.OnDEBUGDisableUI;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -811,5 +851,6 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
         void OnMeterModifier(InputAction.CallbackContext context);
         void OnDEBUGHeal(InputAction.CallbackContext context);
         void OnDEBUGLevelSkip(InputAction.CallbackContext context);
+        void OnDEBUGDisableUI(InputAction.CallbackContext context);
     }
 }

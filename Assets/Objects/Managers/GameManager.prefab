@@ -133,8 +133,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 1}
-  m_Children:
-  - {fileID: 4859133923301401386}
+  m_Children: []
   m_Father: {fileID: 1280271595}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2148,6 +2147,7 @@ RectTransform:
   - {fileID: 377937842665905200}
   - {fileID: 6394588682977078608}
   - {fileID: 6050757114484547620}
+  - {fileID: 4859133923301401386}
   m_Father: {fileID: 1280271595}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2190,17 +2190,17 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4404950712416659987}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.099999905}
-  m_LocalScale: {x: 0.33333334, y: 0.33333334, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.099999726}
+  m_LocalScale: {x: 1.3333333, y: 1.3333333, z: 1}
   m_Children:
   - {fileID: 6185494664412766559}
   - {fileID: 8844002401224197558}
-  m_Father: {fileID: 752343044696632262}
-  m_RootOrder: 0
+  m_Father: {fileID: 4975298873810344099}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 95.8987, y: 5.2333374}
+  m_AnchoredPosition: {x: -1119.7383, y: -135.7333}
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2165270490543212030
@@ -3527,7 +3527,7 @@ MonoBehaviour:
   mainUI: {fileID: 0}
   pauseBG: {fileID: 0}
   resumeButton: {fileID: 0}
-  pauseUI: {fileID: 4145474456530881449}
+  pauseUI: {fileID: 0}
   optionsUI: {fileID: 0}
   statsButton: {fileID: 0}
   statsUI: {fileID: 0}
@@ -3537,19 +3537,9 @@ MonoBehaviour:
   healthBar: {fileID: 1317740716946293470}
   meterBar: {fileID: 694771950217479507}
   meterImage: {fileID: 0}
-  AttackIcons:
-  - {fileID: 4688953297607662889}
-  - {fileID: 2687663805331641786}
-  - {fileID: 6495421224628836169}
-  - {fileID: 7520246243259355378}
-  - {fileID: 6960362449919145362}
-  IconText:
-  - {fileID: 251501926042763149}
-  - {fileID: 8136672096701848518}
-  - {fileID: 5299986222752095939}
-  - {fileID: 8440698823097194574}
-  - {fileID: 2460831615793533715}
-  - {fileID: 6950965003119851098}
+  attackIcons: []
+  iconText: []
+  inputDisplayUI: {fileID: 0}
   unlitTextOpacity: 0.25
   tempColorLit: {r: 1, g: 1, b: 1, a: 1}
   tempColorUnlit: {r: 1, g: 1, b: 1, a: 1}

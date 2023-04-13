@@ -299,8 +299,7 @@ public class PlayerController : MonoBehaviour {
 		health = GameManager.storedPlayerHealth;
 		meter = GameManager.storedPlayerMeter;
 		tsr = targetSphereRadius;
-		if (meter == meterMax) { topSpeed = 8f; }
-		else { topSpeed = 10f; }
+		topSpeed = 10f;
 	}
 
 	private void FixedUpdate() { // calculate movement here
@@ -404,6 +403,8 @@ public class PlayerController : MonoBehaviour {
 
 		if (health > healthMax) { health = healthMax; }
 		if (meter > meterMax) { meter = meterMax; }
+		if (meter == meterMax) { topSpeed = 8f; }
+		else { topSpeed = 10f; }
 
 		hitflashTimer -= Time.deltaTime;
 		Material[] materialList = model.materials;

@@ -28,8 +28,9 @@ public class GameManager : MonoBehaviour {
 	public Transform healthBar;
 	public Transform meterBar;
 	public Image meterImage;
-	public Image[] AttackIcons;
-	public TMP_Text[] IconText;
+	public Image[] attackIcons;
+	public TMP_Text[] iconText;
+	//public GameObject inputDisplayUI;
 	public float unlitTextOpacity; //0 = transparent, 1 = opaque;
 	public Color tempColorLit;
 	public Color tempColorUnlit;
@@ -108,6 +109,7 @@ public class GameManager : MonoBehaviour {
 		statusTextboxText = transform.Find("StatusTextbox/StatusTextboxText").GetComponent<TMP_Text>();
 		statusTextboxText.text = "";
 		meterImage = transform.Find("MainUI/MeterBar").GetComponent<Image>();
+		//inputDisplayUI = transform.Find("MainUI/InputDisplay").gameObject;
 		Time.timeScale = 1;
 		
 		spawnTokens = 100;
@@ -188,7 +190,10 @@ public class GameManager : MonoBehaviour {
 				if (SceneManager.GetActiveScene().buildIndex == 4) { SceneManager.LoadScene(0); }
 				SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 			}
-			
+			/*if (playerController.pActions.Player.DEBUGDisableUI.WasPerformedThisFrame()) {
+				if (inputDisplayUI.activeSelf == true) { inputDisplayUI.SetActive(false); }
+				else { inputDisplayUI.SetActive(true); }
+			}*/
 		}
 
 		if (playerController.pActions.Player.Pause.WasPerformedThisFrame()) {
@@ -215,7 +220,7 @@ public class GameManager : MonoBehaviour {
 
 		UpdateHealthBar();
 		UpdateMeter();
-		UpdateIcons();
+		UpdateIcons(); //if (inputDisplayUI.activeSelf == true) {  }
 
 		// Manage Spawns
 		if (enemiesKilledInLevel < enemyKillingGoal && canSpawn) {
@@ -377,61 +382,61 @@ public class GameManager : MonoBehaviour {
 		var pm = playerController.meter;
 
 		if (pm >= 0.2f) { //Can I use meter?
-			AttackIcons[4].color = tempColorLit;
-			IconText[4].color = tempColorLit;
-			IconText[5].color = tempColorLit;
+			attackIcons[4].color = tempColorLit;
+			iconText[4].color = tempColorLit;
+			iconText[5].color = tempColorLit;
 		}
 		else {
-			var tempColor = AttackIcons[4].color;
+			var tempColor = attackIcons[4].color;
 			tempColor.a = 0.15f;
-			AttackIcons[4].color = tempColor;
-			IconText[4].color = tempColor;
-			IconText[5].color = tempColor;
+			attackIcons[4].color = tempColor;
+			iconText[4].color = tempColor;
+			iconText[5].color = tempColor;
 		}
 
 		if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed) { //Am I currently trying to use meter?
-			IconText[0].text = "SPIN";
-			IconText[1].text = "SHOTGUN";
-			IconText[2].text = "SUPER DASH";
-			IconText[3].text = "SLAM";
+			iconText[0].text = "SPIN";
+			iconText[1].text = "SHOTGUN";
+			iconText[2].text = "SUPER DASH";
+			iconText[3].text = "SLAM";
 
-			if (pm >= 0.2f) { AttackIcons[0].color = tempColorLit; IconText[0].color = tempColorLit; } //Can I spin?
-			else { AttackIcons[0].color = tempColorUnlit; IconText[0].color = tempColorUnlit; } 
+			if (pm >= 0.2f) { attackIcons[0].color = tempColorLit; iconText[0].color = tempColorLit; } //Can I spin?
+			else { attackIcons[0].color = tempColorUnlit; iconText[0].color = tempColorUnlit; } 
 
-			if (pm >= 2.7f) { AttackIcons[1].color = tempColorLit; IconText[1].color = tempColorLit; } //Can I shotgun?
-			else { AttackIcons[1].color = tempColorUnlit; IconText[1].color = tempColorUnlit; }
+			if (pm >= 2.7f) { attackIcons[1].color = tempColorLit; iconText[1].color = tempColorLit; } //Can I shotgun?
+			else { attackIcons[1].color = tempColorUnlit; iconText[1].color = tempColorUnlit; }
 
-			if (pm >= 0.7f && playerController.dashCooldown <= 0f) { AttackIcons[2].color = tempColorLit; IconText[2].color = tempColorLit; } //Can I lethaldash?
-			else { AttackIcons[2].color = tempColorUnlit; IconText[2].color = tempColorUnlit; }
+			if (pm >= 0.7f && playerController.dashCooldown <= 0f) { attackIcons[2].color = tempColorLit; iconText[2].color = tempColorLit; } //Can I lethaldash?
+			else { attackIcons[2].color = tempColorUnlit; iconText[2].color = tempColorUnlit; }
 
-			if (pm >= 3.7f) { AttackIcons[3].color = tempColorLit; IconText[3].color = tempColorLit; } //Can I slam?
-			else { AttackIcons[3].color = tempColorUnlit; IconText[3].color = tempColorUnlit; }
+			if (pm >= 3.7f) { attackIcons[3].color = tempColorLit; iconText[3].color = tempColorLit; } //Can I slam?
+			else { attackIcons[3].color = tempColorUnlit; iconText[3].color = tempColorUnlit; }
 		}
 		else {
-			IconText[0].text = "ATTACK";
-			IconText[1].text = "THROW";
-			IconText[2].text = "DASH";
-			IconText[3].text = "CHOP";
+			iconText[0].text = "ATTACK";
+			iconText[1].text = "THROW";
+			iconText[2].text = "DASH";
+			iconText[3].text = "CHOP";
 
-			AttackIcons[0].color = tempColorLit; IconText[0].color = tempColorLit;
-			AttackIcons[3].color = tempColorLit; IconText[3].color = tempColorLit;
+			attackIcons[0].color = tempColorLit; iconText[0].color = tempColorLit;
+			attackIcons[3].color = tempColorLit; iconText[3].color = tempColorLit;
 
 			if (pm >= 0.7f) { //Can I throw?
-				AttackIcons[1].color = tempColorLit;
-				IconText[1].color = tempColorLit;
+				attackIcons[1].color = tempColorLit;
+				iconText[1].color = tempColorLit;
 			}
 			else {
-				AttackIcons[1].color = tempColorUnlit;
-				IconText[1].color = tempColorUnlit;
+				attackIcons[1].color = tempColorUnlit;
+				iconText[1].color = tempColorUnlit;
 			}
 
 			if (playerController.dashCooldown <= 0f) { //Can I dash?
-				AttackIcons[2].color = tempColorLit;
-				IconText[2].color = tempColorLit;
+				attackIcons[2].color = tempColorLit;
+				iconText[2].color = tempColorLit;
 			}
 			else {
-				AttackIcons[2].color = tempColorUnlit;
-				IconText[2].color = tempColorUnlit;
+				attackIcons[2].color = tempColorUnlit;
+				iconText[2].color = tempColorUnlit;
 			}
 		}
     }
