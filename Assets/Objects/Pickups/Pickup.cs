@@ -42,7 +42,7 @@ public class Pickup : MonoBehaviour {
 	public int healthCatchBonus; 
 
 	void Start() {
-		transform.rotation = Random.rotation;
+		if (pickupType != Type.Health) transform.rotation = Random.rotation;
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 		playerController = gameMan.playerController;
 		headModel = transform.Find("SkullPosition/Skeleton_Head").GetComponent<MeshRenderer>();
@@ -95,6 +95,8 @@ public class Pickup : MonoBehaviour {
 				// TODO(@Ryan): Cap ranforce at 3 and -3 if below or above
 				float ranForceX = Random.Range(-randomForce, randomForce);
 				float ranForceZ = Random.Range(-randomForce, randomForce);
+				if (ranForceX < 3 && ranForceX >= 0) ranForceX = 3;
+				if (ranForceZ > -3 && ranForceZ <= 0) ranForceX = -3;
 				Vector3 point = new Vector3(transform.position.x + ranForceX, 5f, transform.position.z + ranForceZ); //calculates randomized point on XZ axis
 				RaycastHit hit;
 
@@ -106,6 +108,7 @@ public class Pickup : MonoBehaviour {
 					float ranY = Random.Range(-500f, 500f);
 					float ranZ = Random.Range(-500f, 500f);
 					spinForce = new Vector3(ranX, ranY, ranZ);
+					if (pickupType == Type.Health) spinForce = new Vector3(0f, rotationSpeed, 0f);
 					CalculateFlight();
 				}
 				else FindPoint();
