@@ -340,7 +340,7 @@ public class GameManager : MonoBehaviour {
 
 	public void DeterminePickups(Vector3 position) {
 		//Skull Pickup
-		float skullChance = (80 / playerController.meterMax) * (playerController.meterMax - playerController.meter);
+		float skullChance = (60 / playerController.meterMax) * (playerController.meterMax - playerController.meter);
 		float pickupDecider = Random.Range(1, 100);
 		if (pickupDecider <= skullChance) { //check for skulldrop
 			if (pickupDecider <= goldenSkullDropChance) SpawnPickup(1, position); //check for goldenskull
@@ -348,7 +348,7 @@ public class GameManager : MonoBehaviour {
 		}
 
 		//Health Pickup
-		int healthChance = (80 / playerController.healthMax) * (playerController.healthMax - playerController.health);
+		int healthChance = (60 / playerController.healthMax) * (playerController.healthMax - playerController.health);
 		pickupDecider = Random.Range(1, 100);
 		if (pickupDecider <= healthChance) SpawnPickup(2, position); //check for healthdrop
 		
