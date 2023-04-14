@@ -12,7 +12,7 @@ public class Pickup : MonoBehaviour {
 	public GameObject indicator;
 	GameManager gameMan;
 	PlayerController playerController;
-	MeshRenderer headModel;
+	public MeshRenderer headModel;
 	TrailRenderer headTrail;
 	public Material goldMat;
 
@@ -34,6 +34,9 @@ public class Pickup : MonoBehaviour {
 	public bool isOnGround;
 	public bool collected;
 	public float randomForce;
+	private float lowLifetime = 2f; //when to start blinking to indicate low lifetime
+	private float blinkDuration = 0.4f;
+	private float blinkTime = 0f;
 
 	[Header("Bonuses:")]
 	public float meterValue;
@@ -45,7 +48,7 @@ public class Pickup : MonoBehaviour {
 		if (pickupType != Type.Health) transform.rotation = Random.rotation;
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 		playerController = gameMan.playerController;
-		headModel = transform.Find("SkullPosition/Skeleton_Head").GetComponent<MeshRenderer>();
+		//headModel = transform.Find("SkullPosition/Skeleton_Head").GetComponent<MeshRenderer>();
 		headTrail = GetComponent<TrailRenderer>();
 		timeUntilCollect = lifetime - timeUntilCollect;
 		isOnGround = false;
@@ -56,6 +59,7 @@ public class Pickup : MonoBehaviour {
 	void Update() {
 		lifetime -= Time.deltaTime;
 
+		if (lifetime <= lowLifetime) StartBlinking();
 		if (lifetime <= 0) Destroy(this.gameObject);
 		if (transform.position.y <= 0) if (indicator != null) Destroy(indicator);
 
@@ -144,6 +148,24 @@ public class Pickup : MonoBehaviour {
 	void UpdateIndicator() {
 		if (indicator != null) indicator.transform.position = targetPoint;
 	}
+
+	void StartBlinking() {
+		
+		if (blinkTime < blinkDuration) {
+			headModel.enabled = false;
+		}
+		else {
+			headModel.enabled = true;
+		}
+
+		if (blinkTime >= blinkDuration * 2f) {
+			blinkTime = 0f;
+			blinkDuration -= 0.1f;
+        }
+
+		blinkTime += Time.deltaTime;
+		
+    }
 
 	void OnDrawGizmosSelected() {
 		Gizmos.color = Color.red;

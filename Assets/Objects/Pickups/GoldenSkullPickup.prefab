@@ -94,6 +94,7 @@ MonoBehaviour:
   pickupType: 1
   skull: {fileID: 6088120982181057250}
   indicator: {fileID: 5128367734733428002}
+  headModel: {fileID: 6761612050330186415}
   goldMat: {fileID: 2100000, guid: ccb4fdb354ca8ae4f8b4ed998d4e784f, type: 2}
   flightAngle: 60
   gravity: 9.8
@@ -107,6 +108,8 @@ MonoBehaviour:
   randomForce: 20
   meterValue: 0
   healthValue: 0
+  meterCatchBonus: 0
+  healthCatchBonus: 0
 --- !u!54 &4738460151140419568
 Rigidbody:
   m_ObjectHideFlags: 0
