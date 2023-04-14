@@ -8,7 +8,7 @@ using TMPro;
 public class PlayerController : MonoBehaviour {
 
 	#region Combo tree
-	readonly QueueInfo[][] QueueInfoTable = {
+	readonly public static QueueInfo[][] QueueInfoTable = {
 		// When in None
 		new QueueInfo[]{ NoQueueInfo, // None
 			               new QueueInfo(0.0f, 1.0f, 0.0f, 0.0f, 0.0f, Attacks.LAttack), // Light Attack
@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour {
 			               new QueueInfo(0.3f, 1.0f, 0.892f, 0.144f, 0.000f, Attacks.LethalDash)}, // Mod Dash
 		// When in Chop
 		new QueueInfo[]{ NoQueueInfo, // None
-			               new QueueInfo(0.7f, 1.0f, 0.982f, 0.094f, 0.000f, Attacks.LAttack), // Light Attack
+			               new QueueInfo(0.0f, 1.0f, 0.982f, 0.094f, 0.000f, Attacks.LAttack), // Light Attack
 			               new QueueInfo(0.5f, 1.0f, 1.000f, 0.000f, 0.107f, Attacks.Chop), // Heavy Attack
 			               new QueueInfo(0.7f, 1.0f, 0.898f, 0.105f, 0.091f, Attacks.HeadThrow), // Throw
 			               new QueueInfo(0.5f, 1.0f, 0.965f, 0.093f, 0.000f, Attacks.Dashing), // Dash
@@ -75,7 +75,7 @@ public class PlayerController : MonoBehaviour {
 			               new QueueInfo(0.2f, 1.0f, 0.764f, 0.030f, 0.173f, Attacks.Chop), // Heavy Attack
 			               new QueueInfo(0.2f, 1.0f, 0.822f, 0.090f, 0.156f, Attacks.HeadThrow), // Throw
 			               new QueueInfo(0.0f, 1.0f, 0.970f, 0.051f, 0.000f, Attacks.Dashing), // Dash
-			               new QueueInfo(0.2f, 1.0f, 0.994f, 0.031f, 0.000f, Attacks.Spin), // Mod Light Attack
+			               new QueueInfo(0.2f, 1.0f, 0.397f, 0.061f, 0.000f, Attacks.Spin), // Mod Light Attack
 			               new QueueInfo(0.2f, 1.0f, 0.824f, 0.102f, 0.221f, Attacks.Slam), // Mod Heavy Attack
 			               new QueueInfo(0.2f, 1.0f, 0.970f, 0.023f, 0.178f, Attacks.ShotgunThrow), // Mod Throw
 			               new QueueInfo(0.0f, 1.0f, 0.892f, 0.142f, 0.081f, Attacks.LethalDash)}, // Mod Dash
@@ -177,7 +177,7 @@ public class PlayerController : MonoBehaviour {
 	};
 
 	readonly public static float[] AttackMeterCost = {
-		0.0f, // None
+		100.0f, // None
 		0.0f, // LAttack
 		0.0f, // LAttack2
 		0.0f, // LAttack3
@@ -231,7 +231,7 @@ public class PlayerController : MonoBehaviour {
 
 	CapsuleCollider capCol;
 	Rigidbody rb;
-	Animator animr;
+	public Animator animr;
 	MeshRenderer headMesh;
 	TrailRenderer headMeshTrail;
 	HeadProjectile headProj;
@@ -474,7 +474,7 @@ public class PlayerController : MonoBehaviour {
 			}
 
 			if (pActions.Player.LightAttack.WasPerformedThisFrame()) {
-				if (CanAffordMove(Attacks.Spin) && pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
+				if (pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
 					attackButtonPrep = AttackButton.ModLight;
 				}
 				else { 
@@ -483,7 +483,7 @@ public class PlayerController : MonoBehaviour {
 			}
 
 			if (pActions.Player.HeavyAttack.WasPerformedThisFrame()) {
-				if (CanAffordMove(Attacks.Slam) && pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
+				if (pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
 					attackButtonPrep = AttackButton.ModHeavy;
 				}
 				else {
@@ -492,10 +492,10 @@ public class PlayerController : MonoBehaviour {
 			}
 
 			if (pActions.Player.Throw.WasPerformedThisFrame()) {
-				if (CanAffordMove(Attacks.ShotgunThrow) && pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
+				if (pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
 					attackButtonPrep = AttackButton.ModThrow;
 				}
-				else if (CanAffordMove(Attacks.HeadThrow)) {
+				else {
 					attackButtonPrep = AttackButton.Throw;
 				}
 			}
@@ -505,7 +505,7 @@ public class PlayerController : MonoBehaviour {
 				dashTime = 0;
 				dashCooldown = maxDashCooldown;
 
-				if (CanAffordMove(Attacks.LethalDash) && pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
+				if (pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
 					attackButtonPrep = AttackButton.ModDash;
 				}
 				else {
@@ -516,7 +516,7 @@ public class PlayerController : MonoBehaviour {
 			if (attackButtonPrep != AttackButton.None) {
 				QueueInfo queueInfo = QueueInfoTable[(int)currentAttack][(int)attackButtonPrep];
 				float animationPercent = AnimatorNormalizedTimeOfNextOrCurrentAttackState() % 1.0f;
-				if (queueInfo.nextAttack != Attacks.None) {
+				if (queueInfo.nextAttack != Attacks.None && CanAffordMove(queueInfo.nextAttack)) {
 					if (animationPercent >= queueInfo.startQueuePercent && animationPercent <= queueInfo.endQueuePercent) {
 						queuedAttackInfo = queueInfo;
 					}
@@ -540,6 +540,7 @@ public class PlayerController : MonoBehaviour {
 
 					currentAttack = queuedAttackInfo.nextAttack;
 					queuedAttackInfo = NoQueueInfo;
+					ChangeMeter(-AttackMeterCost[(int)currentAttack]);
 
 					switch (currentAttack) {
 						case Attacks.HeadThrow:
@@ -554,17 +555,14 @@ public class PlayerController : MonoBehaviour {
 							break;
 
 						case Attacks.Spin:
-							ChangeMeter(-AttackMeterCost[(int)Attacks.Spin]);
 							speedTime = 0.4f;
 							break;
 
 						case Attacks.LethalDash:
-							ChangeMeter(-AttackMeterCost[(int)Attacks.LethalDash]);
 							setupHoming = false;
 							break;
 
 						case Attacks.Slam:
-							ChangeMeter(-AttackMeterCost[(int)Attacks.Slam]);
 							setupHoming = false;
 							break; 
 

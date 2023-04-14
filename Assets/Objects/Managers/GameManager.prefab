@@ -328,7 +328,7 @@ GameObject:
   - component: {fileID: 8549003299413187807}
   - component: {fileID: 251501926042763149}
   m_Layer: 5
-  m_Name: IconText (2)
+  m_Name: IconBottomText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -670,7 +670,7 @@ GameObject:
   - component: {fileID: 8804476701937006015}
   - component: {fileID: 2687663805331641786}
   m_Layer: 5
-  m_Name: IconThrow
+  m_Name: IconLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2488,7 +2488,7 @@ GameObject:
   - component: {fileID: 4714633361762876419}
   - component: {fileID: 4688953297607662889}
   m_Layer: 5
-  m_Name: IconAttack
+  m_Name: IconBottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3274,7 +3274,7 @@ GameObject:
   - component: {fileID: 8828075978271183882}
   - component: {fileID: 8136672096701848518}
   m_Layer: 5
-  m_Name: IconText
+  m_Name: IconLeftText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3538,19 +3538,30 @@ MonoBehaviour:
   healthBar: {fileID: 1317740716946293470}
   meterBar: {fileID: 694771950217479507}
   meterImage: {fileID: 0}
-  attackIcons:
+  attackIconSprites:
+  - {fileID: 21300000, guid: ef284fd062b098642a9014acd16c9170, type: 3}
+  - {fileID: 21300000, guid: 18ac110da76af5646aae1645f03bfc9d, type: 3}
+  - {fileID: 21300000, guid: 18ac110da76af5646aae1645f03bfc9d, type: 3}
+  - {fileID: 21300000, guid: 18ac110da76af5646aae1645f03bfc9d, type: 3}
+  - {fileID: 21300000, guid: 5322a64f66abe8941afa98c6eeabc3b5, type: 3}
+  - {fileID: 21300000, guid: 5322a64f66abe8941afa98c6eeabc3b5, type: 3}
+  - {fileID: 21300000, guid: 18ac110da76af5646aae1645f03bfc9d, type: 3}
+  - {fileID: 21300000, guid: abbb18809548b254abb2c4eeed96f696, type: 3}
+  - {fileID: 21300000, guid: 8474abd0c4da49d4db1dfefd75fe5693, type: 3}
+  - {fileID: 21300000, guid: 8474abd0c4da49d4db1dfefd75fe5693, type: 3}
+  - {fileID: 21300000, guid: abbb18809548b254abb2c4eeed96f696, type: 3}
+  attackIconObjects:
   - {fileID: 4688953297607662889}
+  - {fileID: 7520246243259355378}
   - {fileID: 2687663805331641786}
   - {fileID: 6495421224628836169}
-  - {fileID: 7520246243259355378}
   - {fileID: 6960362449919145362}
   iconText:
   - {fileID: 251501926042763149}
+  - {fileID: 8440698823097194574}
   - {fileID: 8136672096701848518}
   - {fileID: 5299986222752095939}
-  - {fileID: 8440698823097194574}
   - {fileID: 2460831615793533715}
-  - {fileID: 6950965003119851098}
   unlitTextOpacity: 0.25
   tempColorLit: {r: 1, g: 1, b: 1, a: 1}
   tempColorUnlit: {r: 1, g: 1, b: 1, a: 1}
@@ -3915,7 +3926,7 @@ GameObject:
   - component: {fileID: 1039500749825103615}
   - component: {fileID: 8440698823097194574}
   m_Layer: 5
-  m_Name: IconText (1)
+  m_Name: IconRightText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4259,7 +4270,7 @@ GameObject:
   - component: {fileID: 7526937036703309994}
   - component: {fileID: 7520246243259355378}
   m_Layer: 5
-  m_Name: IconChop
+  m_Name: IconRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4335,7 +4346,7 @@ GameObject:
   - component: {fileID: 5257238247842121165}
   - component: {fileID: 5299986222752095939}
   m_Layer: 5
-  m_Name: IconText (1)
+  m_Name: IconTopText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4707,7 +4718,7 @@ GameObject:
   - component: {fileID: 7175617396115754960}
   - component: {fileID: 6495421224628836169}
   m_Layer: 5
-  m_Name: IconDash
+  m_Name: IconTop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

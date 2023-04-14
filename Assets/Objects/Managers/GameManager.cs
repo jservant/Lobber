@@ -34,15 +34,21 @@ public class GameManager : MonoBehaviour {
 	public Button statsBackButton;
 	public TMP_Text statsText;
 	public TMP_Text statusTextboxText;
+
 	public Transform healthBar;
 	public Transform meterBar;
 	public Image meterImage;
-	public Image[] attackIcons;
+
+	// NOTE(Roskuski): These are in the same order PlayerController.AttackButton (Bottom, Right, Left, Top)
+	public Sprite[] attackIconSprites;
+	public Image[] attackIconObjects;
 	public TMP_Text[] iconText;
+
 	//public GameObject inputDisplayUI;
 	public float unlitTextOpacity; //0 = transparent, 1 = opaque;
 	public Color tempColorLit;
 	public Color tempColorUnlit;
+
 	EventSystem eSystem;
 
 	[Header("Prefabs:")]
@@ -369,7 +375,7 @@ public class GameManager : MonoBehaviour {
 
 	public void SpawnPickup(int pickupID, Vector3 position) {
 		Instantiate(Pickups[pickupID], position, Quaternion.identity);
-    }
+	}
 
 	public void UpdateHealthBar() {
 		float healthMax = playerController.healthMax;
@@ -383,75 +389,84 @@ public class GameManager : MonoBehaviour {
 		else { meterImage.color = Color.white; }
 	}
 
+	enum AttackIconObjectIndex {
+		Bottom = 0,
+		Right,
+		Left,
+		Top,
+		Meter,
+	};
+
+	readonly string[] PlayerAttackToName = {
+		"",
+		"LIGHT ATTACK I",
+		"LIGHT ATTACK II",
+		"LIGHT ATTACK III",
+		"CHOP",
+		"SLAM",
+		"SPIN",
+		"THROW",
+		"DASH",
+		"SUPER DASH",
+		"SHOTGUN"
+	};
+
 	public void UpdateIcons() {
-		/*Icons & Associated Text correspond except for Special which has two textboxes (IconText[4 & 5])
-		Icon[0] = AttackIcon;
-		Icon[1] = ThrowIcon;
-		Icon[2] = DashIcon;
-		Icon[3] = ChopIcon;
-		Icon[4] = SpecialIcon;
-		*/
-		var pm = playerController.meter;
-
-		if (pm >= 0.2f) { //Can I use meter?
-			attackIcons[4].color = tempColorLit;
-			iconText[4].color = tempColorLit;
-			iconText[5].color = tempColorLit;
+		if (playerController.meter >= 0.2f) { //Can I use meter?
+			attackIconObjects[(int)AttackIconObjectIndex.Meter].color = tempColorLit;
+			iconText[(int)AttackIconObjectIndex.Meter].color = tempColorLit;
 		}
 		else {
-			var tempColor = attackIcons[4].color;
+			var tempColor = attackIconObjects[(int)AttackIconObjectIndex.Meter].color;
 			tempColor.a = 0.15f;
-			attackIcons[4].color = tempColor;
-			iconText[4].color = tempColor;
-			iconText[5].color = tempColor;
+			attackIconObjects[(int)AttackIconObjectIndex.Meter].color = tempColor;
+			iconText[(int)AttackIconObjectIndex.Meter].color = tempColor;
 		}
+		
+		PlayerController.QueueInfo[] availableQueueInfos = PlayerController.QueueInfoTable[(int)playerController.currentAttack];
 
-		if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed) { //Am I currently trying to use meter?
-			iconText[0].text = "SPIN";
-			iconText[1].text = "SHOTGUN";
-			iconText[2].text = "SUPER DASH";
-			iconText[3].text = "SLAM";
+		for (int index = (int)PlayerController.AttackButton.LightAttack; index <= (int)PlayerController.AttackButton.Dash; index += 1) {
+			PlayerController.AttackButton attackButton = (PlayerController.AttackButton)index;
+			if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed) { //Am I currently trying to use meter?
+				attackButton = (PlayerController.AttackButton)((int)index + 4);
+			}
 
-			if (pm >= 0.2f) { attackIcons[0].color = tempColorLit; iconText[0].color = tempColorLit; } //Can I spin?
-			else { attackIcons[0].color = tempColorUnlit; iconText[0].color = tempColorUnlit; } 
+			// NOTE(Roskuski) index here is off by one from the perspective of attackIconObjects Array
+			// PlayerController.AttackButton.LightAttack corrisponds with attackIconObjects[0]
+			PlayerController.Attacks nextAttack = availableQueueInfos[(int)attackButton].nextAttack;
+			attackIconObjects[index - 1].sprite = attackIconSprites[(int)nextAttack];
+			iconText[index - 1].text = PlayerAttackToName[(int)nextAttack];
 
-			if (pm >= 2.7f) { attackIcons[1].color = tempColorLit; iconText[1].color = tempColorLit; } //Can I shotgun?
-			else { attackIcons[1].color = tempColorUnlit; iconText[1].color = tempColorUnlit; }
+			bool canUse = false;
+			if (playerController.CanAffordMove(nextAttack)) {
+				canUse = true;
 
-			if (pm >= 0.7f && playerController.dashCooldown <= 0f) { attackIcons[2].color = tempColorLit; iconText[2].color = tempColorLit; } //Can I lethaldash?
-			else { attackIcons[2].color = tempColorUnlit; iconText[2].color = tempColorUnlit; }
+				if (playerController.currentState == PlayerController.States.Attacking) {
+					if ((availableQueueInfos[(int)attackButton].startQueuePercent < playerController.animr.GetCurrentAnimatorStateInfo(0).normalizedTime &&
+						   availableQueueInfos[(int)attackButton].endQueuePercent > playerController.animr.GetCurrentAnimatorStateInfo(0).normalizedTime)) {
+						canUse = true;
+					}
+					else {
+						canUse = false;
+					}
+				}
+			}
 
-			if (pm >= 3.7f) { attackIcons[3].color = tempColorLit; iconText[3].color = tempColorLit; } //Can I slam?
-			else { attackIcons[3].color = tempColorUnlit; iconText[3].color = tempColorUnlit; }
-		}
-		else {
-			iconText[0].text = "ATTACK";
-			iconText[1].text = "THROW";
-			iconText[2].text = "DASH";
-			iconText[3].text = "CHOP";
-
-			attackIcons[0].color = tempColorLit; iconText[0].color = tempColorLit;
-			attackIcons[3].color = tempColorLit; iconText[3].color = tempColorLit;
-
-			if (pm >= 0.7f) { //Can I throw?
-				attackIcons[1].color = tempColorLit;
-				iconText[1].color = tempColorLit;
+			if (canUse) {
+				attackIconObjects[index - 1].color = tempColorLit;
+				iconText[index - 1].color = tempColorLit;
 			}
 			else {
-				attackIcons[1].color = tempColorUnlit;
-				iconText[1].color = tempColorUnlit;
+				attackIconObjects[index - 1].color = tempColorUnlit;
+				iconText[index - 1].color = tempColorUnlit;
 			}
 
-			if (playerController.dashCooldown <= 0f) { //Can I dash?
-				attackIcons[2].color = tempColorLit;
-				iconText[2].color = tempColorLit;
-			}
-			else {
-				attackIcons[2].color = tempColorUnlit;
-				iconText[2].color = tempColorUnlit;
+			if (playerController.queuedAttackInfo.nextAttack == nextAttack && nextAttack != PlayerController.Attacks.None) {
+				attackIconObjects[index - 1].color = Color.yellow;
+				iconText[index - 1].color = Color.yellow;
 			}
 		}
-    }
+	}
 
 	public void OnResume() {
 		eSystem.SetSelectedGameObject(null);
