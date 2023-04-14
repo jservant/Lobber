@@ -389,14 +389,6 @@ public class GameManager : MonoBehaviour {
 		else { meterImage.color = Color.white; }
 	}
 
-	enum AttackIconObjectIndex {
-		Bottom = 0,
-		Right,
-		Left,
-		Top,
-		Meter,
-	};
-
 	readonly string[] PlayerAttackToName = {
 		"",
 		"LIGHT ATTACK I",
@@ -412,15 +404,17 @@ public class GameManager : MonoBehaviour {
 	};
 
 	public void UpdateIcons() {
+		// NOTE(Roskuski): 4 is the index of the ui meter button 
+
 		if (playerController.meter >= 0.2f) { //Can I use meter?
-			attackIconObjects[(int)AttackIconObjectIndex.Meter].color = tempColorLit;
-			iconText[(int)AttackIconObjectIndex.Meter].color = tempColorLit;
+			attackIconObjects[4].color = tempColorLit;
+			iconText[4].color = tempColorLit;
 		}
 		else {
-			var tempColor = attackIconObjects[(int)AttackIconObjectIndex.Meter].color;
+			var tempColor = attackIconObjects[4].color;
 			tempColor.a = 0.15f;
-			attackIconObjects[(int)AttackIconObjectIndex.Meter].color = tempColor;
-			iconText[(int)AttackIconObjectIndex.Meter].color = tempColor;
+			attackIconObjects[4].color = tempColor;
+			iconText[4].color = tempColor;
 		}
 		
 		PlayerController.QueueInfo[] availableQueueInfos = PlayerController.QueueInfoTable[(int)playerController.currentAttack];
@@ -428,7 +422,7 @@ public class GameManager : MonoBehaviour {
 		for (int index = (int)PlayerController.AttackButton.LightAttack; index <= (int)PlayerController.AttackButton.Dash; index += 1) {
 			PlayerController.AttackButton attackButton = (PlayerController.AttackButton)index;
 			if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed) { //Am I currently trying to use meter?
-				attackButton = (PlayerController.AttackButton)((int)index + 4);
+				attackButton = (PlayerController.AttackButton)((int)index + 4); // NOTE(Roskuski): The Mod enum values are 4 away from the non-mod enum values
 			}
 
 			// NOTE(Roskuski) index here is off by one from the perspective of attackIconObjects Array
