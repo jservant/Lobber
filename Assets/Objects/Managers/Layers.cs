@@ -19,6 +19,14 @@ public enum Layers : int {
 	AgnosticHurtbox,
 }
 
+public enum Scenes : int {
+	Initializer = 0,
+	MainMenu,
+	Level_B,
+	Level_K,
+	Level_I,
+}
+
 public class Mask {
 	public static int Get(Layers[] array) {
 		int Result = 0;
@@ -139,6 +147,13 @@ public class Util {
 
 		return result;
 	}
+
+    public static int randomIntExcept( int min, int max, int except )
+    {
+        int result = Random.Range( min, max+1 );
+        while (result == except) { result = Random.Range(min, max+1); }
+		return result;
+    }
 
 	// Credit for ConeCast code: Copyright (c) 2018 Walter Ellis
 	// https://github.com/walterellisfun/ConeCast/blob/master/LICENSE

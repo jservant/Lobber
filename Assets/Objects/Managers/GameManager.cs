@@ -187,8 +187,8 @@ public class GameManager : MonoBehaviour {
 				playerController.meter = playerController.meterMax;
 			}
 			if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed && playerController.pActions.Player.DEBUGLevelSkip.WasPerformedThisFrame()) {
-				if (SceneManager.GetActiveScene().buildIndex == 4) { SceneManager.LoadScene(0); }
-				SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+				int sceneChooser = Util.randomIntExcept((int)Scenes.Level_B, (int)Scenes.Level_I, SceneManager.GetActiveScene().buildIndex);
+				SceneManager.LoadScene(sceneChooser);
 			}
 			/*if (playerController.pActions.Player.DEBUGDisableUI.WasPerformedThisFrame()) {
 				if (inputDisplayUI.activeSelf == true) { inputDisplayUI.SetActive(false); }
@@ -303,15 +303,15 @@ public class GameManager : MonoBehaviour {
 
 	IEnumerator Win() {
 		transitioningLevel = true;
-		if (SceneManager.GetActiveScene().buildIndex == 4) {
+		/*if (SceneManager.GetActiveScene().buildIndex == 4) {
 			Initializer.timesWon++;
 			Initializer.Save();
 			statusTextboxText.text = "YOU WIN!!!";
 			Debug.Log("YOUR THE BUIGESS FUCKIN WINNER:; DAMMM");
 			yield return new WaitForSeconds(5);
 			SceneManager.LoadScene(1);
-		}
-		else {
+		} else */
+		{
 			Initializer.Save();
 			Debug.Log("YOU WIN!! Next stage starting shortly...");
 			statusTextboxText.text = "Stage Clear!";
@@ -319,7 +319,8 @@ public class GameManager : MonoBehaviour {
 			storedPlayerHealth = playerController.health;
 			storedPlayerMeter = playerController.meter;
 			enemyKillingGoal += 10;
-			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+			int sceneChooser = Util.randomIntExcept((int)Scenes.Level_B, (int)Scenes.Level_I, SceneManager.GetActiveScene().buildIndex);
+			SceneManager.LoadScene(sceneChooser);
 		}
 	}
 
@@ -481,7 +482,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void OnQuit() {
-		SceneManager.LoadScene(1);
+		SceneManager.LoadScene((int)Scenes.MainMenu);
 		enemiesKilledInRun = 0;
 		Time.timeScale = 1;
 		Initializer.Save();
