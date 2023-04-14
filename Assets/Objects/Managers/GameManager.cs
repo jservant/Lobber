@@ -9,6 +9,15 @@ using UnityEngine.UI;
 using TMPro;
 
 public class GameManager : MonoBehaviour {
+
+	public enum Objectives : int {
+		KillTheEnemies = 0,
+		DestroyTheCrystals,
+		SurviveTheOnslaught,
+		HarvestTheCrystals,
+	}
+	int currentObjective = 0;
+
 	public Transform player;
 	public PlayerController playerController;
 	public static int storedPlayerHealth = 0;
@@ -187,8 +196,9 @@ public class GameManager : MonoBehaviour {
 				playerController.meter = playerController.meterMax;
 			}
 			if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed && playerController.pActions.Player.DEBUGLevelSkip.WasPerformedThisFrame()) {
-				int sceneChooser = Util.randomIntExcept((int)Scenes.Level_B, (int)Scenes.Level_I, SceneManager.GetActiveScene().buildIndex);
-				SceneManager.LoadScene(sceneChooser);
+				float[] sceneChances = new float[] {0, 0, 1f, 1f, 1f };
+				sceneChances[SceneManager.GetActiveScene().buildIndex] = 0;
+				SceneManager.LoadScene(Util.RollWeightedChoice(sceneChances));
 			}
 			/*if (playerController.pActions.Player.DEBUGDisableUI.WasPerformedThisFrame()) {
 				if (inputDisplayUI.activeSelf == true) { inputDisplayUI.SetActive(false); }
@@ -319,8 +329,9 @@ public class GameManager : MonoBehaviour {
 			storedPlayerHealth = playerController.health;
 			storedPlayerMeter = playerController.meter;
 			enemyKillingGoal += 10;
-			int sceneChooser = Util.randomIntExcept((int)Scenes.Level_B, (int)Scenes.Level_I, SceneManager.GetActiveScene().buildIndex);
-			SceneManager.LoadScene(sceneChooser);
+			float[] sceneChances = new float[] { 0, 0, 1f, 1f, 1f };
+			sceneChances[SceneManager.GetActiveScene().buildIndex] = 0;
+			SceneManager.LoadScene(Util.RollWeightedChoice(sceneChances));
 		}
 	}
 

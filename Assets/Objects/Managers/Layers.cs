@@ -55,9 +55,10 @@ public class Util {
 		for (int index = 0; index < weight.Length; index += 1) {
 			total += weight[index];
 			Debug.Assert(weight[index] >= 0);
-			Debug.Assert(total > 0);
 		}
-		
+
+		Debug.Assert(total > 0);
+
 		float randomRoll = Random.Range(0, total);
 		float rollingTotal = 0;
 		for (int index = 0; index < weight.Length; index += 1) {
@@ -147,13 +148,6 @@ public class Util {
 
 		return result;
 	}
-
-    public static int randomIntExcept( int min, int max, int except )
-    {
-        int result = Random.Range( min, max+1 );
-        while (result == except) { result = Random.Range(min, max+1); }
-		return result;
-    }
 
 	// Credit for ConeCast code: Copyright (c) 2018 Walter Ellis
 	// https://github.com/walterellisfun/ConeCast/blob/master/LICENSE
