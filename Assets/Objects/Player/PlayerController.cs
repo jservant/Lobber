@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour {
 			               NoQueueInfo, // Throw
 			               NoQueueInfo, // Dash
 			               NoQueueInfo, // Mod Light Attack
-			               new QueueInfo(0.5f, 1.0f, 0.0683f, 0.048f, 0.367f, Attacks.Slam), // Mod Heavy Attack
+			               new QueueInfo(0.5f, 1.0f, 0.683f, 0.048f, 0.367f, Attacks.Slam), // Mod Heavy Attack
 			               NoQueueInfo, // Mod Throw
 			               NoQueueInfo}, // Mod Dash
 		// When in Spin
