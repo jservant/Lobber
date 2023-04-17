@@ -558,6 +558,7 @@ public class PlayerController : MonoBehaviour {
 
 						case Attacks.Spin:
 							speedTime = 0.4f;
+							setupHoming = false;
 							break;
 
 						case Attacks.LethalDash:
@@ -718,23 +719,29 @@ public class PlayerController : MonoBehaviour {
 			switch (currentAttack) {
 				case Attacks.None:
 				default:
-					Debug.Assert(false);
+					Debug.Assert(false, "currentAttack == " + currentAttack.ToString());
 					break;
+
 				case Attacks.LAttack:
 					homingTargetDelta *= 0.80f;
 					break;
+
 				case Attacks.LAttack2:
 					homingTargetDelta *= 1f;
 					break;
+
 				case Attacks.LAttack3:
 					homingTargetDelta *= 1f;
 					break;
+
 				case Attacks.Chop:
 					homingTargetDelta *= 1f;
 					break;
+
 				case Attacks.HeadThrow:
 					homingTargetDelta *= 0f;
 					break;
+
 				case Attacks.ShotgunThrow:
 					homingTargetDelta *= 0f;
 					break;
