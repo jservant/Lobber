@@ -968,7 +968,7 @@ public class Basic : MonoBehaviour {
 			default: Debug.Assert(false); break;
 		}
 
-		Util.PerformCheckedLateralMovement(this.gameObject, 0.75f, 0.5f, movementDelta); // Lateral movement
+		Util.PerformCheckedLateralMovement(this.gameObject, 0.75f, 0.5f, movementDelta, ~0);
 
 		if (directive != Directive.Spawn) {
 			Util.PerformCheckedVerticalMovement(this.gameObject, 0.75f, 0.2f, 0.5f, 30.0f);

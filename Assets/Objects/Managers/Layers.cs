@@ -73,7 +73,7 @@ public class Util {
 	}
 
 	// NOTE(Roskuski): Returns if we hit a wall.
-	public static bool PerformCheckedLateralMovement(GameObject gameObject, float verticalOffset, float spherecastRadius, Vector3 translationDelta, int depthCount = 0, bool hitWall = false) {
+	public static bool PerformCheckedLateralMovement(GameObject gameObject, float verticalOffset, float spherecastRadius, Vector3 translationDelta, int layerMask, int depthCount = 0, bool hitWall = false) {
 		depthCount += 1;
 
 		// NOTE(Roskuski): This avoids a infinite recursion, which would somehow lead to a crash.
@@ -85,7 +85,7 @@ public class Util {
 
 		RaycastHit hitInfo;
 		float checkDistance = translationDelta.magnitude > 0.1f ? translationDelta.magnitude : 0.1f;
-		if (Physics.SphereCast(gameObject.transform.position + Vector3.up * (verticalOffset), spherecastRadius, translationDelta, out hitInfo, checkDistance) && (hitInfo.collider.isTrigger == false)) {
+		if (Physics.SphereCast(gameObject.transform.position + Vector3.up * (verticalOffset), spherecastRadius, translationDelta, out hitInfo, checkDistance, layerMask) && (hitInfo.collider.isTrigger == false)) {
 
 			// Move up to the wall, with a safe distance
 			Vector3 hitDelta = hitInfo.point - gameObject.transform.position;
@@ -121,7 +121,7 @@ public class Util {
 			Vector3 remainingDelta = Quaternion.AngleAxis(angleToSlide, Vector3.up) * hitInfo.normal * remainingMove.magnitude;
 			
 			// attempt to do that move successfully
-			return PerformCheckedLateralMovement(gameObject, verticalOffset, spherecastRadius, remainingDelta, depthCount, true);
+			return PerformCheckedLateralMovement(gameObject, verticalOffset, spherecastRadius, remainingDelta, depthCount, layerMask, true);
 		}
 		else {
 			gameObject.transform.position += translationDelta;

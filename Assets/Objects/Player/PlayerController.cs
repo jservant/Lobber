@@ -397,12 +397,14 @@ public class PlayerController : MonoBehaviour {
 
 		float fallingSpeed = 30.0f;
 		float stepUp = 0.75f;
+		int layerMask = ~0;
 		if (currentAttack == Attacks.Dashing || currentAttack == Attacks.LethalDash) {
 			fallingSpeed = 0.0f;
 			stepUp = 1.5f;
+			layerMask &= ~Mask.Get(new Layers[] {Layers.EnemyHitbox, Layers.EnemyHurtbox});
 		}
 
-		Util.PerformCheckedLateralMovement(gameObject, stepUp, 0.5f, translationDelta);
+		Util.PerformCheckedLateralMovement(gameObject, stepUp, 0.5f, translationDelta, layerMask);
 		isGrounded = Util.PerformCheckedVerticalMovement(gameObject, stepUp, 0.2f, 0.5f, fallingSpeed);
 
 		if (freeAim) {

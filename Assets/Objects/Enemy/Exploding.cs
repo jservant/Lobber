@@ -341,7 +341,7 @@ public class Exploding : MonoBehaviour {
 		}
 
 		if (directive == Directive.WaitForFuse) {
-			reevaluateMovement = Util.PerformCheckedLateralMovement(this.gameObject, 0.75f, 0.5f, movementDelta);
+			reevaluateMovement = Util.PerformCheckedLateralMovement(this.gameObject, 0.75f, 0.5f, movementDelta, ~0);
 		}
 
 		if (directive == Directive.WaitForFuse || directive == Directive.Death || directive == Directive.Explosion) {
