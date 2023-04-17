@@ -997,7 +997,6 @@ public class Basic : MonoBehaviour {
 		gameMan.enemiesKilledInLevel += 1;
 		GameManager.enemiesKilledInRun += 1;
 		Initializer.save.versionLatest.allEnemiesKilled++;
-		Initializer.Save();
 	}
 
 	void OnDrawGizmosSelected() {

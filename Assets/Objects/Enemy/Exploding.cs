@@ -354,7 +354,6 @@ public class Exploding : MonoBehaviour {
 		gameMan.enemiesKilledInLevel += 1;
 		GameManager.enemiesKilledInRun += 1;
 		Initializer.save.versionLatest.allEnemiesKilled++;
-		Initializer.Save();
 	}
 
 	private void OnDrawGizmos() {
