@@ -78,7 +78,7 @@ public class Initializer : MonoBehaviour {
 		// NOTE(Roskuski): Upversion savefiles.
 		switch (loadedSave.version) {
 			default: 
-				if (loadedSave.version >= SaveVersion.LATEST_PLUS_1) {
+				if (loadedSave.version >= (int)SaveVersion.LATEST_PLUS_1) {
 					// NOTE(Roskuski): Unlikely that we'll encounter a savefile from the future, but incase we do...
 					save = DefaultSave;
 				}
