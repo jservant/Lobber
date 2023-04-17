@@ -391,9 +391,9 @@ public class GameManager : MonoBehaviour {
 
 	readonly string[] PlayerAttackToName = {
 		"",
-		"LIGHT ATTACK I",
-		"LIGHT ATTACK II",
-		"LIGHT ATTACK III",
+		"QUICK ATTACK",
+		"FOLLOW UP",
+		"FINISHER",
 		"CHOP",
 		"SLAM",
 		"SPIN",
