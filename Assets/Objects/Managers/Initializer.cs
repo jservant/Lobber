@@ -78,7 +78,13 @@ public class Initializer : MonoBehaviour {
 		// NOTE(Roskuski): Upversion savefiles.
 		switch (loadedSave.version) {
 			default: 
-				Debug.Assert(false, "I don't know how to upversion this save! (" + loadedSave.version + ")");
+				if (loadedSave.version >= SaveVersion.LATEST_PLUS_1) {
+					// NOTE(Roskuski): Unlikely that we'll encounter a savefile from the future, but incase we do...
+					save = DefaultSave;
+				}
+				else {
+					Debug.Assert(false, "I don't know how to upversion this save! (" + loadedSave.version + ")");
+				}
 				break;
 
 			case (int)SaveVersion.Init:
@@ -94,8 +100,6 @@ public class Initializer : MonoBehaviour {
 	}
 
 	public static void Save() {
-		// @TODO(Roskuski): Do we ever save before we know what our filename is?
-		if (fileName == null) fileName = Application.persistentDataPath + @"/options.dat";
 		using (FileStream fs = new FileStream(fileName, FileMode.Create)) {
 			using (BinaryWriter w = new BinaryWriter(fs)) {
 				int saveLength = Marshal.SizeOf(save);
