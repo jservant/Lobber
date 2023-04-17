@@ -482,9 +482,9 @@ public class GameManager : MonoBehaviour {
 		statsUI.enabled = true;
 		statsText = transform.Find("StatsUI/StatsText").GetComponent<TMP_Text>();
 		statsBackButton = transform.Find("StatsUI/StatsBackButton").GetComponent<Button>();
-		statsText.text = "Enemies Killed: " + Initializer.allEnemiesKilled
-			+ "\nRuns started: " + Initializer.runsStarted
-			+ "\n Wins: " + Initializer.timesWon;
+		statsText.text = "Enemies Killed: " + Initializer.save.versionLatest.allEnemiesKilled
+			+ "\nRuns started: " + Initializer.save.versionLatest.runsStarted
+			+ "\n Wins: " + Initializer.save.versionLatest.timesWon;
 		statsBackButton.Select();
 	}
 

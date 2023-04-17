@@ -5,74 +5,105 @@ using UnityEngine.SceneManagement;
 using System;
 using System.IO;
 using System.Text;
+using System.Runtime.InteropServices; 
 
-public class Initializer : MonoBehaviour
-{
+public class Initializer : MonoBehaviour {
 	public static string fileName;
-	public static int versionNum;
-	public static int allEnemiesKilled;
-	public static int runsStarted;
-	public static int timesWon;
 
-	enum saveVersion { Init, Win, LATEST_PLUS_1 };
+	[StructLayout(LayoutKind.Explicit, Pack=8)]
+	public struct SaveFile_VersionInit {
+		[FieldOffset(0)] public int allEnemiesKilled;
+		[FieldOffset(4)] public int runsStarted;
+	}
 
-    void Awake()
-    {
+	[StructLayout(LayoutKind.Explicit, Pack=8)]
+	public struct SaveFile_VersionWin {
+		[FieldOffset(0)] public int allEnemiesKilled;
+		[FieldOffset(4)] public int runsStarted;
+		[FieldOffset(8)] public int timesWon;
+	}
+
+	[StructLayout(LayoutKind.Explicit, Pack=8)]
+	public struct SaveFile {
+		[FieldOffset(0)] public int version;
+		// NOTE(Roskuski): versionNum is our "Tag" for this "Tagged Union"
+
+		[FieldOffset(4)] public SaveFile_VersionInit versionInit;
+		[FieldOffset(4)] public SaveFile_VersionWin versionWin;
+		// NOTE(Roskuski): Add additional versions here. at the same FieldOffset.
+
+		// NOTE(Roskuski): Make sure this type stays in sync with the _actual_ latest version! Modify savedata though this variable
+		[FieldOffset(4)] public SaveFile_VersionWin versionLatest;
+	}
+
+	public static SaveFile save;
+	readonly static SaveFile DefaultSave;
+
+	enum SaveVersion { Init, Win, LATEST_PLUS_1 };
+
+	static Initializer() {
+		DefaultSave.version = (int)SaveVersion.LATEST_PLUS_1 - 1;
+		DefaultSave.versionLatest.allEnemiesKilled = 0;
+		DefaultSave.versionLatest.runsStarted = 0;
+		DefaultSave.versionLatest.timesWon = 0;
+	}
+
+	void Awake() {
 		fileName = Application.persistentDataPath + @"/options.dat";
-		if (!File.Exists(fileName)) { WriteDefaultValues(); }
-		else { Debug.Log("The file already exists dummy"); }
-		Load();
-		Save();
+		save = DefaultSave;
+
+		if (!File.Exists(fileName)) {
+			Save();
+		}
+		else {
+			Load();
+		}
 
 		//load next scene last
-		SceneManager.LoadScene(1);
-    }
-
-	public static void WriteDefaultValues() {
-		Debug.Log("No save file found, making a new one with default values");
-		using (var stream = File.Open(fileName, FileMode.CreateNew)) {
-			using (var writer = new BinaryWriter(stream, Encoding.UTF8, false)) {
-				writer.Write((int)saveVersion.LATEST_PLUS_1 - 1);	//versionNum
-				writer.Write(0);									//allEnemiesKilled
-				writer.Write(0);									//timesGameBooted
-				writer.Write(0);									//timesWon
-			}
-		}
+		SceneManager.LoadScene((int)Scenes.MainMenu);
 	}
 
 	public static void Load() {
-		if (File.Exists(fileName)) {
-			using (var stream = File.Open(fileName, FileMode.Open)) {
-				using (var reader = new BinaryReader(stream, Encoding.UTF8, false)) {
-					versionNum = reader.ReadInt32();
-					if (versionNum == (int)saveVersion.Init) {
-						allEnemiesKilled = reader.ReadInt32();
-						runsStarted = reader.ReadInt32();
-						timesWon = 0;
-					}
-					if (versionNum == (int)saveVersion.Win) {
-						allEnemiesKilled = reader.ReadInt32();
-						runsStarted = reader.ReadInt32();
-						timesWon = reader.ReadInt32();
-					}
-				}
+		SaveFile loadedSave = DefaultSave;
+
+		using (var stream = File.Open(fileName, FileMode.Open)) {
+			using (var reader = new BinaryReader(stream, Encoding.UTF8, false)) {
+				byte[] rawSave = reader.ReadBytes(Marshal.SizeOf(save));
+				GCHandle rawSaveHandle = GCHandle.Alloc(rawSave, GCHandleType.Pinned);
+				loadedSave = (SaveFile)Marshal.PtrToStructure(rawSaveHandle.AddrOfPinnedObject(), typeof(SaveFile));
+				rawSaveHandle.Free();
 			}
-			Debug.Log("(Initializer) Version num: " + versionNum);
-			Debug.Log("(Initializer) Enemies killed: " + allEnemiesKilled);
-			Debug.Log("(Initializer) Times game has been booted: " + runsStarted);
-			Debug.Log("(Initializer) Times won: " + timesWon);
 		}
 
+		// NOTE(Roskuski): Upversion savefiles.
+		switch (loadedSave.version) {
+			default: 
+				Debug.Assert(false, "I don't know how to upversion this save! (" + loadedSave.version + ")");
+				break;
+
+			case (int)SaveVersion.Init:
+				save.versionLatest.allEnemiesKilled = loadedSave.versionInit.allEnemiesKilled;
+				save.versionLatest.runsStarted = loadedSave.versionInit.runsStarted;
+				save.versionLatest.timesWon = DefaultSave.versionLatest.timesWon;
+				break;
+
+			case (int)SaveVersion.LATEST_PLUS_1 - 1: // NOTE(Roskuski): Latest version never needs to be converted.
+				save = loadedSave;
+				break;
+		}
 	}
 
 	public static void Save() {
+		// @TODO(Roskuski): Do we ever save before we know what our filename is?
 		if (fileName == null) fileName = Application.persistentDataPath + @"/options.dat";
 		using (FileStream fs = new FileStream(fileName, FileMode.Create)) {
 			using (BinaryWriter w = new BinaryWriter(fs)) {
-				w.Write((int)saveVersion.LATEST_PLUS_1 - 1);
-				w.Write(allEnemiesKilled);
-				w.Write(runsStarted);
-				w.Write(timesWon);
+				int saveLength = Marshal.SizeOf(save);
+				byte[] rawSave = new byte[saveLength];
+				GCHandle saveHandle = GCHandle.Alloc(save, GCHandleType.Pinned);
+				Marshal.Copy(saveHandle.AddrOfPinnedObject(), rawSave, 0, saveLength);
+				w.Write(rawSave);
+				saveHandle.Free();
 			}
 		}
 	}

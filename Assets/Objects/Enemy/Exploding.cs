@@ -353,7 +353,7 @@ public class Exploding : MonoBehaviour {
 		gameMan.enemiesAlive -= 1;
 		gameMan.enemiesKilledInLevel += 1;
 		GameManager.enemiesKilledInRun += 1;
-		Initializer.allEnemiesKilled++;
+		Initializer.save.versionLatest.allEnemiesKilled++;
 		Initializer.Save();
 	}
 

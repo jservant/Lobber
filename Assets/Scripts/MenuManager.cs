@@ -16,8 +16,12 @@ public class MenuManager : MonoBehaviour
 		optionsUI = transform.Find("OptionsUI").GetComponent<Canvas>();
 		globalKillcount = transform.Find("MainUI/GlobalKillcount").GetComponent<TMP_Text>();
 
-		if (Initializer.allEnemiesKilled > 0) { globalKillcount.text = "Total Kills:\n" + Initializer.allEnemiesKilled; }
-		else { globalKillcount.text = ""; }
+		if (Initializer.save.versionLatest.allEnemiesKilled > 0) {
+			globalKillcount.text = "Total Kills:\n" + Initializer.save.versionLatest.allEnemiesKilled;
+		}
+		else {
+			globalKillcount.text = "";
+		}
 	}
 
 	public void OnPlay() {
@@ -25,7 +29,7 @@ public class MenuManager : MonoBehaviour
 		GameManager.storedPlayerMeter = 3;
 		GameManager.enemyKillingGoal = 30;
 		GameManager.enemiesKilledInRun = 0;
-		Initializer.runsStarted++;
+		Initializer.save.versionLatest.runsStarted++;
 		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 	}
 
