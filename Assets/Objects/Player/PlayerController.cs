@@ -289,10 +289,6 @@ public class PlayerController : MonoBehaviour {
 	bool doHoming = false;
 
 	// NOTE(Roskuski): C# doesn't support globals that are scoped to functions
-	float AnimatorNormalizedTimeOfNextOrCurrentAttackState_LastValue;
-	int AnimatorNormalizedTimeOfNextOrCurrentAttackState_LastSource;
-	bool wasNextValid = false; 
-	int lastAnimationStateHash = -1;
 
 	private void Awake() {
 		capCol = GetComponent<CapsuleCollider>();
@@ -426,8 +422,6 @@ public class PlayerController : MonoBehaviour {
 		AnimatorStateInfo Next = animr.GetNextAnimatorStateInfo(0);
 		AnimatorStateInfo Current = animr.GetCurrentAnimatorStateInfo(0);
 
-		bool isNextValid = Next.fullPathHash != 0;
-
 		if (transform.position.y <= -20f) {
 			movement = Vector3.zero; mInput = Vector2.zero; remainingKnockbackTime = 0f;
 			transform.position = gameMan.eSpawns[Random.Range(0, gameMan.eSpawns.Length)].transform.position;
@@ -517,7 +511,7 @@ public class PlayerController : MonoBehaviour {
 
 			if (attackButtonPrep != AttackButton.None) {
 				QueueInfo queueInfo = QueueInfoTable[(int)currentAttack][(int)attackButtonPrep];
-				float animationPercent = AnimatorNormalizedTimeOfNextOrCurrentAttackState() % 1.0f;
+				float animationPercent = Current.normalizedTime % 1.0f;
 				if (queueInfo.nextAttack != Attacks.None && CanAffordMove(queueInfo.nextAttack)) {
 					if (animationPercent >= queueInfo.startQueuePercent && animationPercent <= queueInfo.endQueuePercent) {
 						queuedAttackInfo = queueInfo;
@@ -536,7 +530,6 @@ public class PlayerController : MonoBehaviour {
 					bool setupHoming = true;
 					tsr = targetSphereRadius;
 					currentState = States.Attacking;
-					lastAnimationStateHash = animr.GetCurrentAnimatorStateInfo(0).fullPathHash;
 
 					animr.CrossFade(AttackToStateName[(int)queuedAttackInfo.nextAttack], queuedAttackInfo.transitionDurationPercent, -1, queuedAttackInfo.nextOffset);
 
@@ -601,8 +594,6 @@ public class PlayerController : MonoBehaviour {
 					animr.Play("Base.Idle");
 				}
 			}
-
-			wasNextValid = isNextValid;
 		}
 
 	}
@@ -696,10 +687,6 @@ public class PlayerController : MonoBehaviour {
 		else { topSpeed = 10f; }
 	}
 
-	// @TODO(Roskuski): As of right now (2023-04-13) SetCurrentAttack is only being called from PlayerContriller:Update(). We should consider removing this function.
-	void SetCurrentAttack() {
-	}
-
 	void SetupHoming() { // attack homing function
 		// NOTE(Roskuski): If homing is currently taking place, cancel it.
 		doHoming = false;
@@ -772,7 +759,6 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public void LobThrow() { // triggered in animator
-		//ChangeMeter(-AttackMeterCost[(int)Attacks.HeadThrow]);
 		SetupHoming();
 		headProj.speed = 50f;
 		headProj.canStun = true;
@@ -780,7 +766,6 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public void ShotgunThrow() { // triggered in animator
-		//ChangeMeter(-AttackMeterCost[(int)Attacks.ShotgunThrow]);
 		SetupHoming();
 		headProj.speed = 50f;
 		headProj.canStun = true;
@@ -809,37 +794,6 @@ public class PlayerController : MonoBehaviour {
 				stateInfo.IsName("Base.Hit") ||
 				stateInfo.IsName("Base.Death")
 			);
-	}
-
-	float AnimatorNormalizedTimeOfNextOrCurrentAttackState() {
-		// @TODO(Roskuski): I don't think it's a great choice, but for the time being I'm verifing that the AnimatorStateInfo is valid by checking if it's fullPathHash is 0. I imagine that the chances of actually having a zero hash is pretty low.
-		float Result = 100.0f;
-		int ResultSource = -1;
-
-		AnimatorStateInfo Next = animr.GetNextAnimatorStateInfo(0);
-		AnimatorStateInfo Current = animr.GetCurrentAnimatorStateInfo(0);
-
-		if (Next.fullPathHash != 0 && IsAttackState(Next)) {
-			Result = Next.normalizedTime;
-			ResultSource = 1;
-		}
-		else if (Current.fullPathHash != 0 && IsAttackState(Current)) {
-			Result = Current.normalizedTime;
-			ResultSource = 0;
-		}
-
-		if ((ResultSource == AnimatorNormalizedTimeOfNextOrCurrentAttackState_LastSource) &&
-		    (Result < AnimatorNormalizedTimeOfNextOrCurrentAttackState_LastValue)) {
-			AnimatorNormalizedTimeOfNextOrCurrentAttackState_LastValue = Result;
-			AnimatorNormalizedTimeOfNextOrCurrentAttackState_LastSource = ResultSource;
-			Result += 1;
-		}
-		else {
-			AnimatorNormalizedTimeOfNextOrCurrentAttackState_LastValue = Result;
-			AnimatorNormalizedTimeOfNextOrCurrentAttackState_LastSource = ResultSource;
-		}
-
-		return Result;
 	}
 
 	public bool CanAffordMove(Attacks attack) {
