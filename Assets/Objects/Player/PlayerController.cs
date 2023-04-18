@@ -538,6 +538,10 @@ public class PlayerController : MonoBehaviour {
 					tsr = targetSphereRadius;
 					currentState = States.Attacking;
 
+					if (doHoming) {
+						doHoming = false;
+					}
+
 					animr.CrossFade(AttackToStateName[(int)queuedAttackInfo.nextAttack], queuedAttackInfo.transitionDurationPercent, -1, queuedAttackInfo.nextOffset);
 
 					currentAttack = queuedAttackInfo.nextAttack;
