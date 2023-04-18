@@ -114,25 +114,31 @@ public class Initializer : MonoBehaviour {
 				}
 				break;
 
+				// NOTE(Roskuski): The following code incrementally upversions the save file.
+				// save is used as a "scratch" save, while loadedSave is used as a "reference" while updating.
 			case (int)SaveVersion.Init:
-				save.versionLatest.runsStarted = loadedSave.versionInit.runsStarted;
-				save.versionLatest.timesWon = DefaultSave.versionLatest.timesWon;
-				break;
+				save.versionWin.runsStarted = loadedSave.versionInit.runsStarted;
+				save.versionWin.timesWon = DefaultSave.versionLatest.timesWon;
+				loadedSave = save;
+				goto case (int)SaveVersion.Win; // NOTE(Roskuski): c# is an annoying language. Why can't there be a "fallthough" keyword
 
 			case (int)SaveVersion.Win:
-				save.versionLatest.runsStarted = loadedSave.versionWin.runsStarted;
-				save.versionLatest.timesWon = loadedSave.versionWin.timesWon;
-				break;
+				save.versionDiffKillCount.runsStarted = loadedSave.versionWin.runsStarted;
+				save.versionDiffKillCount.timesWon = loadedSave.versionWin.timesWon;
+				loadedSave = save;
+				goto case (int)SaveVersion.DiffKillCount;
 
 			case (int)SaveVersion.DiffKillCount:
-				save.versionLatest.basicEnemyKills = loadedSave.versionDiffKillCount.basicEnemyKills;
-				save.versionLatest.explosiveEnemyKills = loadedSave.versionDiffKillCount.explosiveEnemyKills;
-				save.versionLatest.necroEnemyKills = loadedSave.versionDiffKillCount.necroEnemyKills;
-				save.versionLatest.bruteEnemyKills = loadedSave.versionDiffKillCount.bruteEnemyKills;
-				save.versionLatest.runsStarted = loadedSave.versionDiffKillCount.runsStarted;
-				save.versionLatest.timesWon = loadedSave.versionDiffKillCount.timesWon;
-				break;
+				save.versionLongestRun.basicEnemyKills = loadedSave.versionDiffKillCount.basicEnemyKills;
+				save.versionLongestRun.explosiveEnemyKills = loadedSave.versionDiffKillCount.explosiveEnemyKills;
+				save.versionLongestRun.necroEnemyKills = loadedSave.versionDiffKillCount.necroEnemyKills;
+				save.versionLongestRun.bruteEnemyKills = loadedSave.versionDiffKillCount.bruteEnemyKills;
+				save.versionLongestRun.runsStarted = loadedSave.versionDiffKillCount.runsStarted;
+				save.versionLongestRun.timesWon = loadedSave.versionDiffKillCount.timesWon;
+				loadedSave = save;
+				goto case (int)SaveVersion.LongestRun;
 
+			case (int)SaveVersion.LongestRun:
 			case (int)SaveVersion.LATEST_PLUS_1 - 1: // NOTE(Roskuski): Latest version never needs to be converted.
 				save = loadedSave;
 				break;
