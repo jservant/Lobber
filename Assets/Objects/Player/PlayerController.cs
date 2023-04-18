@@ -339,6 +339,12 @@ public class PlayerController : MonoBehaviour {
 		// if no movement input and not attacking, decelerate
 		if (currentState != States.Attacking) { speedTime = Mathf.Clamp(speedTime, 0, maxSpeedTime); }
 		// clamp accel value between 0 and a static maximum
+		if (currentState == States.Attacking && currentAttack == Attacks.Spin) {
+			speedTime = maxSpeedTime * 0.75f;
+		}
+
+
+
 		remainingKnockbackTime -= Time.fixedDeltaTime;
 
 		Vector3 translationDelta = Vector3.zero;
@@ -460,7 +466,7 @@ public class PlayerController : MonoBehaviour {
 					currentState = States.Walking;
 					animr.SetBool("isWalking", true);
 					isWalking = true;
-					movement = movement = new Vector3(mInput.x, 0, mInput.y);
+					movement = new Vector3(mInput.x, 0, mInput.y);
 				}
 				else if (pActions.Player.Move.phase == InputActionPhase.Waiting) {
 					
