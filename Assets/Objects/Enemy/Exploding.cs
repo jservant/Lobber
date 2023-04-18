@@ -32,6 +32,7 @@ public class Exploding : MonoBehaviour {
 	bool launchHasStarted = false;
 
 	float explosionTimer = 0.1f;
+	float explosionDelay = 0;
 
 	[SerializeField] float hitflashTimer = 0f;
 	SkinnedMeshRenderer handModel;
@@ -95,10 +96,11 @@ public class Exploding : MonoBehaviour {
 		}
 	}
 
-	void ChangeDirective_Explosion() {
+	void ChangeDirective_Explosion(float delay = 0) {
 		directive = Directive.Explosion;
 		explosionHitbox.gameObject.SetActive(true);
 		selfHurtbox.isTrigger = true;
+		explosionDelay = delay; 
 	}
 
 	bool CanAttemptNavigation() {
@@ -129,7 +131,7 @@ public class Exploding : MonoBehaviour {
 			gameMan.SpawnParticle(0, spawnPoint, 1f);
 		}
 		else if (other.gameObject.layer == (int)Layers.AgnosticHitbox) {
-			ChangeDirective_Explosion();
+			ChangeDirective_Explosion(0.5f);
 		}
 	}
 
@@ -346,14 +348,18 @@ public class Exploding : MonoBehaviour {
 				break;
 
 			case Directive.Explosion: 
-				if (explosionTimer >= 0) {
-					explosionTimer -= Time.deltaTime;
+				if (explosionDelay > 0) {
+					explosionDelay -= Time.deltaTime;
 				}
 				else {
-					gameMan.SpawnParticle(3, transform.position, 1f);
-					Destroy(this.gameObject);
+					if (explosionTimer >= 0) {
+						explosionTimer -= Time.deltaTime;
+					}
+					else {
+						gameMan.SpawnParticle(3, transform.position, 1f);
+						Destroy(this.gameObject);
+					}
 				}
-				
 				break;
 
 			default:
