@@ -18,7 +18,7 @@ public class Exploding : MonoBehaviour {
 
 	float spawnDuration = 2.0f;
 
-	float fuseDuration = 0;
+	[SerializeField] float fuseDuration = 0;
 	float waitDuration = 0;
 	float movementBurstDuration = 0;
 	bool reevaluateMovement = false;
@@ -57,6 +57,7 @@ public class Exploding : MonoBehaviour {
 	Animator animator;
 	EnemyCommunication enemyCommunication;
 	CapsuleCollider explosionHitbox;
+	CapsuleCollider selfHurtbox;
 	Transform attackWarningTransform;
 
 	// External References
@@ -87,12 +88,14 @@ public class Exploding : MonoBehaviour {
 		if (directive != Directive.Death && directive != Directive.Explosion) {
 			animator.SetTrigger("Dead");
 			directive = Directive.Death;
+			selfHurtbox.isTrigger = true;
 		}
 	}
 
 	void ChangeDirective_Explosion() {
 		directive = Directive.Explosion;
 		explosionHitbox.gameObject.SetActive(true);
+		selfHurtbox.isTrigger = true;
 	}
 
 	bool CanAttemptNavigation() {
@@ -121,8 +124,10 @@ public class Exploding : MonoBehaviour {
 		animator = GetComponent<Animator>();
 		enemyCommunication = GetComponent<EnemyCommunication>();
 		explosionHitbox = transform.Find("Hitbox").GetComponent<CapsuleCollider>();
+		selfHurtbox = GetComponent<CapsuleCollider>();
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 		attackWarningTransform = transform.Find("Main/MrBomb");
+
 
 		navAgent.updatePosition = false;
 		navAgent.updateRotation = false;
