@@ -244,6 +244,20 @@ public class GameManager : MonoBehaviour {
 				if (playerController.godMode) playerController.godMode = false;
 				else playerController.godMode = true;
 			}
+			if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed && playerController.pActions.Player.DEBUGKillAll.WasPerformedThisFrame()) {
+				if (canSpawn) {
+					Basic[] allBasic = FindObjectsOfType<Basic>();
+					foreach (Basic basicEnemy in allBasic) {
+						Destroy(basicEnemy.gameObject);
+					}
+					Exploding[] allExplosive = FindObjectsOfType<Exploding>();
+					foreach (Exploding explodingEnemy in allExplosive) {
+						Destroy(explodingEnemy.gameObject);
+					}
+					canSpawn = false;
+				}
+				else canSpawn = true;
+			}
 			/*if (playerController.pActions.Player.DEBUGDisableUI.WasPerformedThisFrame()) {
 				if (inputDisplayUI.activeSelf == true) { inputDisplayUI.SetActive(false); }
 				else { inputDisplayUI.SetActive(true); }
