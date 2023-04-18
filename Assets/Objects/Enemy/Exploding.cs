@@ -23,6 +23,9 @@ public class Exploding : MonoBehaviour {
 	float movementBurstDuration = 0;
 	bool reevaluateMovement = false;
 
+	KnockbackInfo knockbackInfo;
+	float remainingKnockbackTime;
+
 	float launchDuration = 0;
 	Vector3 launchTarget;
 	Vector3 launchInitalPosition;
@@ -106,6 +109,12 @@ public class Exploding : MonoBehaviour {
 		if (other.gameObject.layer == (int)Layers.PlayerHitbox) {
 			if (other.gameObject.GetComponentInParent<PlayerController>()) {
 				ChangeDirective_Death();
+
+				GetKnockbackInfo getKnockbackInfo = other.gameObject.GetComponent<GetKnockbackInfo>();
+				if (getKnockbackInfo != null) {
+					knockbackInfo = getKnockbackInfo.GetInfo(this.gameObject);
+					remainingKnockbackTime = knockbackInfo.time;
+				}
 			}
 			else {
 				ChangeDirective_Explosion();
@@ -166,6 +175,11 @@ public class Exploding : MonoBehaviour {
 			}
 		}
 		bombModel.materials = bombMaterialList;
+
+		if (remainingKnockbackTime > 0) {
+			remainingKnockbackTime -= Time.deltaTime;
+			movementDelta += knockbackInfo.direction * Vector3.forward * knockbackInfo.force * Mathf.Lerp(1, 0, Mathf.Clamp01(Mathf.Pow((remainingKnockbackTime/knockbackInfo.time), 2))) * Time.deltaTime;
+		}
 
 		// Processing information from other enemies
 		switch (directive) {
@@ -345,11 +359,8 @@ public class Exploding : MonoBehaviour {
 			Destroy(gameObject);
 		}
 
-		if (directive == Directive.WaitForFuse) {
-			reevaluateMovement = Util.PerformCheckedLateralMovement(this.gameObject, 0.75f, 0.5f, movementDelta, ~0);
-		}
-
 		if (directive == Directive.WaitForFuse || directive == Directive.Death || directive == Directive.Explosion) {
+			reevaluateMovement = Util.PerformCheckedLateralMovement(this.gameObject, 0.75f, 0.5f, movementDelta, ~0);
 			Util.PerformCheckedVerticalMovement(this.gameObject, 0.75f, 0.2f, 0.5f, 30.0f);
 		}
 	}
