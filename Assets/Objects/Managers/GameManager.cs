@@ -240,6 +240,10 @@ public class GameManager : MonoBehaviour {
 				sceneChances[SceneManager.GetActiveScene().buildIndex] = 0;
 				SceneManager.LoadScene(Util.RollWeightedChoice(sceneChances));
 			}
+			if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed && playerController.pActions.Player.DEBUGGodmode.WasPerformedThisFrame()) {
+				if (playerController.godMode) playerController.godMode = false;
+				else playerController.godMode = true;
+			}
 			/*if (playerController.pActions.Player.DEBUGDisableUI.WasPerformedThisFrame()) {
 				if (inputDisplayUI.activeSelf == true) { inputDisplayUI.SetActive(false); }
 				else { inputDisplayUI.SetActive(true); }

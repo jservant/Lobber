@@ -134,6 +134,15 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DEBUGGodmode"",
+                    ""type"": ""Button"",
+                    ""id"": ""423579b5-ed6d-46de-b100-95c5b2f97e30"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -521,6 +530,28 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
                     ""action"": ""DEBUGDisableUI"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4d58b406-93c4-4c5f-9de1-a50c91375b0a"",
+                    ""path"": ""<Keyboard>/9"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""DEBUGGodmode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f3394c79-9342-4d6c-8f00-f0c9dfb4f27e"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""DEBUGGodmode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -602,6 +633,7 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
         m_Player_DEBUGHeal = m_Player.FindAction("DEBUGHeal", throwIfNotFound: true);
         m_Player_DEBUGLevelSkip = m_Player.FindAction("DEBUGLevelSkip", throwIfNotFound: true);
         m_Player_DEBUGDisableUI = m_Player.FindAction("DEBUGDisableUI", throwIfNotFound: true);
+        m_Player_DEBUGGodmode = m_Player.FindAction("DEBUGGodmode", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -675,6 +707,7 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_DEBUGHeal;
     private readonly InputAction m_Player_DEBUGLevelSkip;
     private readonly InputAction m_Player_DEBUGDisableUI;
+    private readonly InputAction m_Player_DEBUGGodmode;
     public struct PlayerActions
     {
         private @DefaultPlayerActions m_Wrapper;
@@ -691,6 +724,7 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
         public InputAction @DEBUGHeal => m_Wrapper.m_Player_DEBUGHeal;
         public InputAction @DEBUGLevelSkip => m_Wrapper.m_Player_DEBUGLevelSkip;
         public InputAction @DEBUGDisableUI => m_Wrapper.m_Player_DEBUGDisableUI;
+        public InputAction @DEBUGGodmode => m_Wrapper.m_Player_DEBUGGodmode;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -736,6 +770,9 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
             @DEBUGDisableUI.started += instance.OnDEBUGDisableUI;
             @DEBUGDisableUI.performed += instance.OnDEBUGDisableUI;
             @DEBUGDisableUI.canceled += instance.OnDEBUGDisableUI;
+            @DEBUGGodmode.started += instance.OnDEBUGGodmode;
+            @DEBUGGodmode.performed += instance.OnDEBUGGodmode;
+            @DEBUGGodmode.canceled += instance.OnDEBUGGodmode;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -776,6 +813,9 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
             @DEBUGDisableUI.started -= instance.OnDEBUGDisableUI;
             @DEBUGDisableUI.performed -= instance.OnDEBUGDisableUI;
             @DEBUGDisableUI.canceled -= instance.OnDEBUGDisableUI;
+            @DEBUGGodmode.started -= instance.OnDEBUGGodmode;
+            @DEBUGGodmode.performed -= instance.OnDEBUGGodmode;
+            @DEBUGGodmode.canceled -= instance.OnDEBUGGodmode;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -852,5 +892,6 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
         void OnDEBUGHeal(InputAction.CallbackContext context);
         void OnDEBUGLevelSkip(InputAction.CallbackContext context);
         void OnDEBUGDisableUI(InputAction.CallbackContext context);
+        void OnDEBUGGodmode(InputAction.CallbackContext context);
     }
 }
