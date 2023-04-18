@@ -34,6 +34,17 @@ public class Initializer : MonoBehaviour {
 	}
 
 	[StructLayout(LayoutKind.Explicit, Pack=8)]
+	public struct SaveFile_VersionLongestRun {
+		[FieldOffset(0)]  public int basicEnemyKills;
+		[FieldOffset(4)]  public int explosiveEnemyKills;
+		[FieldOffset(8)]  public int necroEnemyKills;
+		[FieldOffset(12)] public int bruteEnemyKills;
+		[FieldOffset(16)] public int runsStarted;
+		[FieldOffset(20)] public int longestRun;
+		[FieldOffset(24)] public int timesWon;
+	}
+
+	[StructLayout(LayoutKind.Explicit, Pack=8)]
 	public struct SaveFile {
 		[FieldOffset(0)] public int version;
 		// NOTE(Roskuski): versionNum is our "Tag" for this "Tagged Union"
@@ -41,16 +52,17 @@ public class Initializer : MonoBehaviour {
 		[FieldOffset(4)] public SaveFile_VersionInit versionInit;
 		[FieldOffset(4)] public SaveFile_VersionWin versionWin;
 		[FieldOffset(4)] public SaveFile_VersionDiffKillCount versionDiffKillCount;
+		[FieldOffset(4)] public SaveFile_VersionLongestRun versionLongestRun;
 		// NOTE(Roskuski): Add additional versions here. at the same FieldOffset.
 
 		// NOTE(Roskuski): Make sure this type stays in sync with the _actual_ latest version! Modify savedata though this variable
-		[FieldOffset(4)] public SaveFile_VersionDiffKillCount versionLatest;
+		[FieldOffset(4)] public SaveFile_VersionLongestRun versionLatest;
 	}
 
 	public static SaveFile save;
 	readonly static SaveFile DefaultSave;
 
-	enum SaveVersion { Init, Win, DiffKillCount, LATEST_PLUS_1 };
+	enum SaveVersion { Init, Win, DiffKillCount, LongestRun, LATEST_PLUS_1 };
 
 	static Initializer() {
 		DefaultSave.version = (int)SaveVersion.LATEST_PLUS_1 - 1;
@@ -59,6 +71,7 @@ public class Initializer : MonoBehaviour {
 		DefaultSave.versionLatest.necroEnemyKills = 0;
 		DefaultSave.versionLatest.bruteEnemyKills = 0;
 		DefaultSave.versionLatest.runsStarted = 0;
+		DefaultSave.versionLatest.longestRun = 0;
 		DefaultSave.versionLatest.timesWon = 0;
 	}
 
@@ -109,6 +122,15 @@ public class Initializer : MonoBehaviour {
 			case (int)SaveVersion.Win:
 				save.versionLatest.runsStarted = loadedSave.versionWin.runsStarted;
 				save.versionLatest.timesWon = loadedSave.versionWin.timesWon;
+				break;
+
+			case (int)SaveVersion.DiffKillCount:
+				save.versionLatest.basicEnemyKills = loadedSave.versionDiffKillCount.basicEnemyKills;
+				save.versionLatest.explosiveEnemyKills = loadedSave.versionDiffKillCount.explosiveEnemyKills;
+				save.versionLatest.necroEnemyKills = loadedSave.versionDiffKillCount.necroEnemyKills;
+				save.versionLatest.bruteEnemyKills = loadedSave.versionDiffKillCount.bruteEnemyKills;
+				save.versionLatest.runsStarted = loadedSave.versionDiffKillCount.runsStarted;
+				save.versionLatest.timesWon = loadedSave.versionDiffKillCount.timesWon;
 				break;
 
 			case (int)SaveVersion.LATEST_PLUS_1 - 1: // NOTE(Roskuski): Latest version never needs to be converted.

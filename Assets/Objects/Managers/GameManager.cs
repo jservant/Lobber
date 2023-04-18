@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour {
 	public Canvas statsUI;
 	public Button statsBackButton;
 	public TMP_Text statsText;
+	public TMP_Text statsText2;
 	public TMP_Text statusTextboxText;
 
 	public Transform healthBar;
@@ -71,7 +72,7 @@ public class GameManager : MonoBehaviour {
 	public static int enemiesKilledInRun = 0;
 	public static int enemyKillingGoal = 30;
 	public static int pickupDropChance = 0;
-	public int goldenSkullDropChance = 5; //out of 100
+	public int goldenSkullDropChance = 2; //out of 100
 	bool transitioningLevel = false;
 	
 	[SerializeField] float spawnTokens;
@@ -361,6 +362,7 @@ public class GameManager : MonoBehaviour {
 			SceneManager.LoadScene(1);
 		} else */
 		{
+			if (levelCount > Initializer.save.versionLatest.longestRun) { Initializer.save.versionLatest.longestRun = levelCount; }
 			Initializer.Save();
 			Debug.Log("YOU WIN!! Next stage starting shortly...");
 			statusTextboxText.text = "Stage Clear!";
@@ -524,21 +526,26 @@ public class GameManager : MonoBehaviour {
 		optionsUI.enabled = false;
 		statsUI.enabled = true;
 		statsText = transform.Find("StatsUI/StatsText").GetComponent<TMP_Text>();
+		statsText2 = transform.Find("StatsUI/StatsText2").GetComponent<TMP_Text>();
 		statsBackButton = transform.Find("StatsUI/StatsBackButton").GetComponent<Button>();
-		statsText.text = 
+		statsText.text =
 			"<b>ENEMIES:</b>" +
 			"\nTotal Kills: " + (Initializer.save.versionLatest.basicEnemyKills + Initializer.save.versionLatest.explosiveEnemyKills + Initializer.save.versionLatest.necroEnemyKills + Initializer.save.versionLatest.bruteEnemyKills)
-			+ (Initializer.save.versionLatest.basicEnemyKills > 0 ? "\nBasic Killed: " + Initializer.save.versionLatest.basicEnemyKills : "\n??? : ???")
-			+ (Initializer.save.versionLatest.explosiveEnemyKills > 0 ? "\nBomb Spiders Killed: " + Initializer.save.versionLatest.explosiveEnemyKills : "\n??? : ???")
-			+ (Initializer.save.versionLatest.necroEnemyKills > 0 ? "\nNecromancers Killed: " + Initializer.save.versionLatest.necroEnemyKills : "\n??? : ???")
-			+ (Initializer.save.versionLatest.bruteEnemyKills > 0 ? "\nBrutes Killed: " + Initializer.save.versionLatest.bruteEnemyKills : "\n??? : ???")
+			+ (Initializer.save.versionLatest.basicEnemyKills > 0 ? "\nBasic: " + Initializer.save.versionLatest.basicEnemyKills : "\n??? : ???")
+			+ (Initializer.save.versionLatest.explosiveEnemyKills > 0 ? "\nBomb Spiders: " + Initializer.save.versionLatest.explosiveEnemyKills : "\n??? : ???")
+			+ (Initializer.save.versionLatest.necroEnemyKills > 0 ? "\nNecromancers: " + Initializer.save.versionLatest.necroEnemyKills : "\n??? : ???")
+			+ (Initializer.save.versionLatest.bruteEnemyKills > 0 ? "\nBrutes: " + Initializer.save.versionLatest.bruteEnemyKills : "\n??? : ???");
+		statsText2.text = 
+			"<b>RUNS:</b>"
 			+ "\nRuns started: " + Initializer.save.versionLatest.runsStarted
+			+ (Initializer.save.versionLatest.longestRun > 0 ? "\nLongest run: " + Initializer.save.versionLatest.longestRun + " Levels" : "\n??? : ???")
 			+ (Initializer.save.versionLatest.timesWon > 0 ? "\nWins: " + Initializer.save.versionLatest.timesWon : "\n??? : ???");
 		statsBackButton.Select();
 	}
 
 	public void OnStatsBack() {
 		statsText.text = "";
+		statsText2.text = "";
 		statsUI.enabled = false;
 		optionsUI.enabled = true;
 		statsButton.Select();
