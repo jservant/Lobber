@@ -268,6 +268,7 @@ public class PlayerController : MonoBehaviour {
 	public bool isWalking;
 	[Header("Health/Damage:")]
 	public bool vulnerable = true;
+	public bool godMode = false;
 	public int healthMax = 20;
 	public int health = 0;
 	public float meter = 0;
@@ -606,29 +607,32 @@ public class PlayerController : MonoBehaviour {
 
 	//@TODO(Jaden): Add i-frames and trigger hitstun state when hit
 	private void OnTriggerEnter(Collider other) {
-		if (other.gameObject.layer == (int)Layers.EnemyHitbox && vulnerable == true && remainingKnockbackTime <= 0) { // player is getting hit
-			Basic otherBasic = other.GetComponentInParent<Basic>();
-			int damage = 0;
-			switch (otherBasic.currentAttack) {
-				case Basic.Attack.Slash:
-					damage = 1;
-					break;
-				case Basic.Attack.Lunge:
-					damage = 2;
-					break;
-				default:
-					Debug.Assert(false);
-					break;
+		if (vulnerable && !godMode) {
+			if (other.gameObject.layer == (int)Layers.EnemyHitbox  && remainingKnockbackTime <= 0) { // player is getting hit
+				Basic otherBasic = other.GetComponentInParent<Basic>();
+				int damage = 0;
+				switch (otherBasic.currentAttack) {
+					case Basic.Attack.Slash:
+						damage = 1;
+						break;
+					case Basic.Attack.Lunge:
+						damage = 2;
+						break;
+					default:
+						Debug.Assert(false);
+						break;
+				}
+				Hit(damage, other);
 			}
-			Hit(damage, other);
-		}
-		else if (other.gameObject.layer == (int)Layers.AgnosticHitbox) {
-			if (other.GetComponentInParent<Exploding>() != null) {
-				// NOTE(Roskuski): Explosive enemy
-				Hit(3, other);
+			else if (other.gameObject.layer == (int)Layers.AgnosticHitbox) {
+				if (other.GetComponentInParent<Exploding>() != null) {
+					// NOTE(Roskuski): Explosive enemy
+					Hit(3, other);
+				}
 			}
 		}
-		else if (other.gameObject.layer == (int)Layers.Pickup) {
+
+		if (other.gameObject.layer == (int)Layers.Pickup) {
 			Pickup headPickup = other.gameObject.GetComponent<Pickup>();
 			if (headPickup.lifetime <= headPickup.timeUntilCollect) {
 				headPickup.collected = true;

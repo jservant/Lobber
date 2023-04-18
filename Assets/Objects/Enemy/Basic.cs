@@ -704,6 +704,20 @@ public class Basic : MonoBehaviour {
 						}
 					}
 
+					// Consider Walls
+					{
+						Vector3 consideredDelta = Vector3.forward;
+						for (int index = 0; index < directionWeights.Length; index += 1) {
+							if (Physics.Raycast(this.transform.position + Vector3.up * 0.75f, consideredDelta, 1.5f, ~Mask.Get(new Layers[]{Layers.PlayerHitbox, Layers.EnemyHitbox, Layers.AgnosticHitbox}))) {
+								directionWeights[index] *= 0.25f;
+							}
+
+							// NOTE(Roskuski): Advance the angle to the next index.
+							consideredDelta = angleStep * consideredDelta;
+						}
+
+					}
+
 					// Bias towards current direction
 					{
 						Vector3 consideredDelta = Vector3.forward;
@@ -999,8 +1013,10 @@ public class Basic : MonoBehaviour {
 		Initializer.save.versionLatest.basicEnemyKills++;
 	}
 
-	void OnDrawGizmosSelected() {
+	void OnDrawGizmos() {
 		Gizmos.color = Color.blue;
+		Gizmos.DrawWireSphere(transform.position, enemyCommunicationRange);
+
 		Gizmos.DrawRay(transform.position + Vector3.up * 2.2f, moveDirection * Vector3.forward);
 
 		float maxWeight = 0;
@@ -1018,10 +1034,5 @@ public class Basic : MonoBehaviour {
 			// NOTE(Roskuski): Advance the angle to the next index.
 			consideredDelta = angleStep * consideredDelta;
 		}
-	}
-
-	void OnDrawGizmos() {
-		Gizmos.color = Color.blue;
-		Gizmos.DrawWireSphere(transform.position, enemyCommunicationRange);
 	}
 }

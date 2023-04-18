@@ -10,7 +10,7 @@ using TMPro;
 
 public class GameManager : MonoBehaviour {
 	public enum Objectives : int {
-		KillTheEnemies = 0,
+		KillTheEnemies = 0, // basically done, needs to be better implemented into a more official obj switcher
 		DestroyTheCrystals,
 		SurviveTheOnslaught,
 		HarvestTheCrystals,
@@ -236,9 +236,27 @@ public class GameManager : MonoBehaviour {
 				playerController.meter = playerController.meterMax;
 			}
 			if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed && playerController.pActions.Player.DEBUGLevelSkip.WasPerformedThisFrame()) {
-				float[] sceneChances = new float[] {0, 0, 1f, 1f, 1f };
+				float[] sceneChances = new float[] {0, 1f, 1f, 1f };
 				sceneChances[SceneManager.GetActiveScene().buildIndex] = 0;
 				SceneManager.LoadScene(Util.RollWeightedChoice(sceneChances));
+			}
+			if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed && playerController.pActions.Player.DEBUGGodmode.WasPerformedThisFrame()) {
+				if (playerController.godMode) playerController.godMode = false;
+				else playerController.godMode = true;
+			}
+			if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed && playerController.pActions.Player.DEBUGKillAll.WasPerformedThisFrame()) {
+				if (canSpawn) {
+					Basic[] allBasic = FindObjectsOfType<Basic>();
+					foreach (Basic basicEnemy in allBasic) {
+						Destroy(basicEnemy.gameObject);
+					}
+					Exploding[] allExplosive = FindObjectsOfType<Exploding>();
+					foreach (Exploding explodingEnemy in allExplosive) {
+						Destroy(explodingEnemy.gameObject);
+					}
+					canSpawn = false;
+				}
+				else canSpawn = true;
 			}
 			/*if (playerController.pActions.Player.DEBUGDisableUI.WasPerformedThisFrame()) {
 				if (inputDisplayUI.activeSelf == true) { inputDisplayUI.SetActive(false); }
