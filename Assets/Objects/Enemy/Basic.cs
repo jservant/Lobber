@@ -86,6 +86,7 @@ public class Basic : MonoBehaviour {
 	float spawnLateralSpeed = 5.0f;
 
 	Quaternion moveDirection = Quaternion.identity;
+	Vector3 movementDelta = Vector3.zero;
 
 	float[] directionWeights = new float[32];
 
@@ -432,11 +433,20 @@ public class Basic : MonoBehaviour {
 		materials = model.materials;
 	}
 
+	void FixedUpdate() {
+		Util.PerformCheckedLateralMovement(this.gameObject, 0.75f, 0.5f, movementDelta * Time.fixedDeltaTime, ~0);
+
+		if (directive != Directive.Spawn) {
+			Util.PerformCheckedVerticalMovement(this.gameObject, 0.75f, 0.2f, 0.5f, 30.0f);
+		}
+	}
+
 	void Update() {
 		Vector3 playerPosition = gameMan.player.position;
 		Quaternion playerRotation = gameMan.player.rotation;
 		Vector3 deltaToPlayer = gameMan.player.position - this.transform.position;
 		float distanceToPlayer = Vector3.Distance(this.transform.position, gameMan.player.position);
+		movementDelta = Vector3.zero; 
 
 		hitflashTimer -= Time.deltaTime;
 		Material[] materialList = model.materials;
@@ -461,11 +471,10 @@ public class Basic : MonoBehaviour {
 			swordHitbox.enabled = false;
 		}
 
-		Vector3 movementDelta = Vector3.zero; 
 		// Preform knockback regardless of what we want to do
 		if (remainingKnockbackTime > 0) {
 			remainingKnockbackTime -= Time.deltaTime;
-			movementDelta += knockbackInfo.direction * Vector3.forward * knockbackInfo.force * Mathf.Lerp(1, 0, Mathf.Clamp01(Mathf.Pow((remainingKnockbackTime/knockbackInfo.time), 2))) * Time.deltaTime;
+			movementDelta += knockbackInfo.direction * Vector3.forward * knockbackInfo.force * Mathf.Lerp(1, 0, Mathf.Clamp01(Mathf.Pow((remainingKnockbackTime/knockbackInfo.time), 2)));
 		}
 
 		// Directive Changing
@@ -803,7 +812,7 @@ public class Basic : MonoBehaviour {
 					speedModifier = Mathf.Lerp(0.5f, 1, (Vector3.Distance(this.transform.position, playerPosition + targetOffset) - approchDistance) + 1);
 				}
 
-				movementDelta += moveDirection * Vector3.forward * MoveSpeed * speedModifier * Time.deltaTime;
+				movementDelta += moveDirection * Vector3.forward * MoveSpeed * speedModifier;
 				{
 					Quaternion rotationDelta = moveDirection * Quaternion.Inverse(this.transform.rotation);
 					Vector3 animatorMove = rotationDelta * Vector3.back;
@@ -943,7 +952,7 @@ public class Basic : MonoBehaviour {
 							}
 
 							if (animationTimerRatio >= 0.25f && animationTimerRatio <= 0.5f) {
-								movementDelta += this.transform.rotation * Vector3.forward * 15f * Time.deltaTime * Mathf.Lerp(0.25f, 1f, (animationTimerRatio - 0.25f) / (0.5f - 0.25f));
+								movementDelta += this.transform.rotation * Vector3.forward * 15f * Mathf.Lerp(0.25f, 1f, (animationTimerRatio - 0.25f) / (0.5f - 0.25f));
 							}
 
 							if (animationTimer < 0.0f) {
@@ -967,7 +976,7 @@ public class Basic : MonoBehaviour {
 							}
 
 							if (animationTimerRatio >= 0.45f && animationTimerRatio <= 0.8f) {
-								movementDelta += (this.transform.rotation * Vector3.forward) * LungeSpeed * Time.deltaTime;
+								movementDelta += (this.transform.rotation * Vector3.forward) * LungeSpeed;
 							}
 
 							if (animationTimer < 0.0f) {
@@ -980,12 +989,6 @@ public class Basic : MonoBehaviour {
 				}
 				break;
 			default: Debug.Assert(false); break;
-		}
-
-		Util.PerformCheckedLateralMovement(this.gameObject, 0.75f, 0.5f, movementDelta, ~0);
-
-		if (directive != Directive.Spawn) {
-			Util.PerformCheckedVerticalMovement(this.gameObject, 0.75f, 0.2f, 0.5f, 30.0f);
 		}
 
 		animator.SetInteger("Ai Directive", (int)directive);
