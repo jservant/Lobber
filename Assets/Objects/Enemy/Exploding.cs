@@ -129,7 +129,7 @@ public class Exploding : MonoBehaviour {
 			gameMan.SpawnParticle(0, spawnPoint, 1f);
 		}
 		else if (other.gameObject.layer == (int)Layers.AgnosticHitbox) {
-			ChangeDirective_Death();
+			ChangeDirective_Explosion();
 		}
 	}
 
