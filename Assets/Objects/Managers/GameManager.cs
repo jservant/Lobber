@@ -10,7 +10,7 @@ using TMPro;
 
 public class GameManager : MonoBehaviour {
 	public enum Objectives : int {
-		KillTheEnemies = 0,
+		KillTheEnemies = 0, // basically done, needs to be better implemented into a more official obj switcher
 		DestroyTheCrystals,
 		SurviveTheOnslaught,
 		HarvestTheCrystals,
@@ -236,7 +236,7 @@ public class GameManager : MonoBehaviour {
 				playerController.meter = playerController.meterMax;
 			}
 			if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed && playerController.pActions.Player.DEBUGLevelSkip.WasPerformedThisFrame()) {
-				float[] sceneChances = new float[] {0, 0, 1f, 1f, 1f };
+				float[] sceneChances = new float[] {0, 1f, 1f, 1f };
 				sceneChances[SceneManager.GetActiveScene().buildIndex] = 0;
 				SceneManager.LoadScene(Util.RollWeightedChoice(sceneChances));
 			}
