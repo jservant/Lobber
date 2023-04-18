@@ -21,6 +21,7 @@ public class Exploding : MonoBehaviour {
 	[SerializeField] float fuseDuration = 0;
 	float waitDuration = 0;
 	float movementBurstDuration = 0;
+	Vector3 movementDelta;
 	bool reevaluateMovement = false;
 
 	KnockbackInfo knockbackInfo;
@@ -160,12 +161,19 @@ public class Exploding : MonoBehaviour {
 		bombMaterials = bombModel.materials;
 	}
 
+	void FixedUpdate() {
+		if (directive == Directive.WaitForFuse || directive == Directive.Death || directive == Directive.Explosion) {
+			reevaluateMovement = Util.PerformCheckedLateralMovement(this.gameObject, 0.75f, 0.5f, movementDelta * Time.fixedDeltaTime, ~0);
+			Util.PerformCheckedVerticalMovement(this.gameObject, 0.75f, 0.2f, 0.5f, 30.0f);
+		}
+	} 
+
 	void Update() {
 		Vector3 playerPosition = gameMan.player.position;
 		Quaternion playerRotation = gameMan.player.rotation;
 		Vector3 deltaToPlayer = gameMan.player.position - this.transform.position;
 		float distanceToPlayer = Vector3.Distance(this.transform.position, gameMan.player.position);
-		Vector3 movementDelta = Vector3.zero;
+		movementDelta = Vector3.zero;
 
 		animator.SetBool("IsMoving", false);
 
@@ -185,7 +193,7 @@ public class Exploding : MonoBehaviour {
 
 		if (remainingKnockbackTime > 0) {
 			remainingKnockbackTime -= Time.deltaTime;
-			movementDelta += knockbackInfo.direction * Vector3.forward * knockbackInfo.force * Mathf.Lerp(1, 0, Mathf.Clamp01(Mathf.Pow((remainingKnockbackTime/knockbackInfo.time), 2))) * Time.deltaTime;
+			movementDelta += knockbackInfo.direction * Vector3.forward * knockbackInfo.force * Mathf.Lerp(1, 0, Mathf.Clamp01(Mathf.Pow((remainingKnockbackTime/knockbackInfo.time), 2)));
 		}
 
 		// Processing information from other enemies
@@ -218,7 +226,7 @@ public class Exploding : MonoBehaviour {
 					}
 
 					if (!reevaluateMovement) {
-						movementDelta += moveDirection * Vector3.forward * MoveSpeed * Time.deltaTime;
+						movementDelta += moveDirection * Vector3.forward * MoveSpeed;
 						this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, moveDirection, 360 * 2 * Time.deltaTime);
 					}
 
@@ -371,10 +379,6 @@ public class Exploding : MonoBehaviour {
 			Destroy(gameObject);
 		}
 
-		if (directive == Directive.WaitForFuse || directive == Directive.Death || directive == Directive.Explosion) {
-			reevaluateMovement = Util.PerformCheckedLateralMovement(this.gameObject, 0.75f, 0.5f, movementDelta, ~0);
-			Util.PerformCheckedVerticalMovement(this.gameObject, 0.75f, 0.2f, 0.5f, 30.0f);
-		}
 	}
 
 	private void OnDestroy() {
