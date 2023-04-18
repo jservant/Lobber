@@ -136,6 +136,7 @@ public class Initializer : MonoBehaviour {
 				save.versionLongestRun.runsStarted = loadedSave.versionDiffKillCount.runsStarted;
 				save.versionLongestRun.timesWon = loadedSave.versionDiffKillCount.timesWon;
 				loadedSave = save;
+				goto case (int)SaveVersion.LongestRun;
 
 			case (int)SaveVersion.LATEST_PLUS_1 - 1: // NOTE(Roskuski): Latest version never needs to be converted.
 				save = loadedSave;
