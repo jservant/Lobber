@@ -107,8 +107,13 @@ public class Exploding : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other) {
 		if (other.gameObject.layer == (int)Layers.PlayerHitbox) {
-			if (other.gameObject.GetComponentInParent<PlayerController>()) {
+			PlayerController playerController = other.gameObject.GetComponentInParent<PlayerController>();
+			if (playerController) {
 				ChangeDirective_Death();
+
+				if (playerController.currentAttack == PlayerController.Attacks.Chop) {
+					ChangeDirective_Explosion();
+				}
 
 				GetKnockbackInfo getKnockbackInfo = other.gameObject.GetComponent<GetKnockbackInfo>();
 				if (getKnockbackInfo != null) {
@@ -226,6 +231,7 @@ public class Exploding : MonoBehaviour {
 					bool withinTargetRange = navAgent.remainingDistance <= FollowingRadius;
 					Vector3 targetDelta = Vector3.zero;
 
+					// @TODO(Roskuski): We can get here if Exploding is off the navmesh. making this line not valid.
 					targetDelta = Vector3.Normalize(navAgent.path.corners[1] - navAgent.path.corners[0]);
 					Quaternion angleStep = Quaternion.AngleAxis(360.0f / directionWeights.Length, Vector3.up);
 
