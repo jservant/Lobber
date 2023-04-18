@@ -605,9 +605,10 @@ public class PlayerController : MonoBehaviour {
 
 	}
 
+	//@TODO(Jaden): Add i-frames and trigger hitstun state when hit
 	private void OnTriggerEnter(Collider other) {
-		if (!godMode) {
-			if (other.gameObject.layer == (int)Layers.EnemyHitbox && vulnerable == true && remainingKnockbackTime <= 0) { // player is getting hit
+		if (vulnerable && !godMode) {
+			if (other.gameObject.layer == (int)Layers.EnemyHitbox  && remainingKnockbackTime <= 0) { // player is getting hit
 				Basic otherBasic = other.GetComponentInParent<Basic>();
 				int damage = 0;
 				switch (otherBasic.currentAttack) {
@@ -629,15 +630,15 @@ public class PlayerController : MonoBehaviour {
 					Hit(3, other);
 				}
 			}
-			else if (other.gameObject.layer == (int)Layers.Pickup) {
-				Pickup headPickup = other.gameObject.GetComponent<Pickup>();
-				if (headPickup.lifetime <= headPickup.timeUntilCollect) {
-					headPickup.collected = true;
-					GameObject.Destroy(other.transform.gameObject);
-				}
+		}
+
+		if (other.gameObject.layer == (int)Layers.Pickup) {
+			Pickup headPickup = other.gameObject.GetComponent<Pickup>();
+			if (headPickup.lifetime <= headPickup.timeUntilCollect) {
+				headPickup.collected = true;
+				GameObject.Destroy(other.transform.gameObject);
 			}
 		}
-		
 	}
 
 	#region Combat functions
