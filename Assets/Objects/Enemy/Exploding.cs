@@ -227,6 +227,10 @@ public class Exploding : MonoBehaviour {
 
 				// Choose Move direction
 				if (CanAttemptNavigation() && ((reevaluateMovement) || ((movementBurstDuration <= 0.0f) && (waitDuration <= 0.0f)))) {
+					if (!reevaluateMovement) { 
+						movementBurstDuration = MovementBustLength;
+					}
+
 					reevaluateMovement = false;
 					bool withinTargetRange = navAgent.remainingDistance <= FollowingRadius;
 					Vector3 targetDelta = Vector3.zero;
@@ -302,9 +306,6 @@ public class Exploding : MonoBehaviour {
 					}
 
 					moveDirection = resultAngle;
-					if (!reevaluateMovement) { 
-						movementBurstDuration = MovementBustLength;
-					}
 				}
 
 				float waitModifier = Mathf.Lerp(waitMultiplier, 1, distanceToPlayer/FollowingRadius);
