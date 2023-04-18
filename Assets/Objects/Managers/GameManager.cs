@@ -482,9 +482,15 @@ public class GameManager : MonoBehaviour {
 		statsUI.enabled = true;
 		statsText = transform.Find("StatsUI/StatsText").GetComponent<TMP_Text>();
 		statsBackButton = transform.Find("StatsUI/StatsBackButton").GetComponent<Button>();
-		statsText.text = "Enemies Killed: " + Initializer.save.versionLatest.allEnemiesKilled
+		statsText.text = 
+			"<b>ENEMIES:</b>" +
+			"\nTotal Kills: " + (Initializer.save.versionLatest.basicEnemyKills + Initializer.save.versionLatest.explosiveEnemyKills + Initializer.save.versionLatest.necroEnemyKills + Initializer.save.versionLatest.bruteEnemyKills)
+			+ (Initializer.save.versionLatest.basicEnemyKills > 0 ? "\nBasic Killed: " + Initializer.save.versionLatest.basicEnemyKills : "\n??? : ???")
+			+ (Initializer.save.versionLatest.explosiveEnemyKills > 0 ? "\nBomb Spiders Killed: " + Initializer.save.versionLatest.explosiveEnemyKills : "\n??? : ???")
+			+ (Initializer.save.versionLatest.necroEnemyKills > 0 ? "\nNecromancers Killed: " + Initializer.save.versionLatest.necroEnemyKills : "\n??? : ???")
+			+ (Initializer.save.versionLatest.bruteEnemyKills > 0 ? "\nBrutes Killed: " + Initializer.save.versionLatest.bruteEnemyKills : "\n??? : ???")
 			+ "\nRuns started: " + Initializer.save.versionLatest.runsStarted
-			+ "\n Wins: " + Initializer.save.versionLatest.timesWon;
+			+ (Initializer.save.versionLatest.timesWon > 0 ? "\nWins: " + Initializer.save.versionLatest.timesWon : "\n??? : ???");
 		statsBackButton.Select();
 	}
 

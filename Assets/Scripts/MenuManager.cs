@@ -15,13 +15,6 @@ public class MenuManager : MonoBehaviour
 		mainUI = transform.Find("MainUI").GetComponent<Canvas>();
 		optionsUI = transform.Find("OptionsUI").GetComponent<Canvas>();
 		globalKillcount = transform.Find("MainUI/GlobalKillcount").GetComponent<TMP_Text>();
-
-		if (Initializer.save.versionLatest.allEnemiesKilled > 0) {
-			globalKillcount.text = "Total Kills:\n" + Initializer.save.versionLatest.allEnemiesKilled;
-		}
-		else {
-			globalKillcount.text = "";
-		}
 	}
 
 	public void OnPlay() {
