@@ -9,7 +9,6 @@ using UnityEngine.UI;
 using TMPro;
 
 public class GameManager : MonoBehaviour {
-
 	public enum Objectives : int {
 		KillTheEnemies = 0,
 		DestroyTheCrystals,
@@ -18,10 +17,12 @@ public class GameManager : MonoBehaviour {
 	}
 	int currentObjective = 0;
 
+	[Header("Persistent Variables:")]
 	public Transform player;
 	public PlayerController playerController;
 	public static int storedPlayerHealth = 0;
 	public static float storedPlayerMeter = 0;
+	public static int levelCount = 0;
 
 	[Header("UI")]
 	public Canvas mainUI;
@@ -334,7 +335,7 @@ public class GameManager : MonoBehaviour {
 			yield return new WaitForSeconds(5);
 			storedPlayerHealth = playerController.health;
 			storedPlayerMeter = playerController.meter;
-			enemyKillingGoal += 10;
+			levelCount++; enemyKillingGoal += 10;
 			float[] sceneChances = new float[] { 0, 0, 1f, 1f, 1f };
 			sceneChances[SceneManager.GetActiveScene().buildIndex] = 0;
 			SceneManager.LoadScene(Util.RollWeightedChoice(sceneChances));
@@ -468,6 +469,16 @@ public class GameManager : MonoBehaviour {
 		Time.timeScale = 1;
 		pauseUI.enabled = false;
 		pauseBG.enabled = false;
+	}
+
+	public void OnRestart() {
+		storedPlayerHealth = 10;
+		storedPlayerMeter = 3;
+		levelCount = 1;
+		enemyKillingGoal = 30;
+		enemiesKilledInRun = 0;
+		Initializer.save.versionLatest.runsStarted++;
+		SceneManager.LoadScene((int)Scenes.Level_B);
 	}
 
 	public void OnOptions() {
