@@ -99,7 +99,6 @@ public class Exploding : MonoBehaviour {
 
 	void ChangeDirective_Explosion(float delay = 0) {
 		directive = Directive.Explosion;
-		explosionHitbox.gameObject.SetActive(true);
 		selfHurtbox.isTrigger = true;
 		explosionDelay = delay; 
 	}
@@ -132,7 +131,9 @@ public class Exploding : MonoBehaviour {
 			gameMan.SpawnParticle(0, spawnPoint, 1f);
 		}
 		else if (other.gameObject.layer == (int)Layers.AgnosticHitbox) {
-			ChangeDirective_Explosion(0.5f);
+			hitflashTimer = 0.25f;
+			float randomDelay = Random.Range(0.1f, 0.3f);
+			ChangeDirective_Explosion(randomDelay);
 		}
 	}
 
@@ -360,6 +361,7 @@ public class Exploding : MonoBehaviour {
 					explosionDelay -= Time.deltaTime;
 				}
 				else {
+					explosionHitbox.gameObject.SetActive(true);
 					if (explosionTimer >= 0) {
 						explosionTimer -= Time.deltaTime;
 					}
