@@ -392,8 +392,13 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void DeterminePickups(Vector3 position) {
+		float meterBeforeUse = playerController.meter + PlayerController.AttackMeterCost[(int)playerController.currentAttack];
+		if (playerController.currentAttack == PlayerController.Attacks.None) {
+			meterBeforeUse = playerController.meter;
+		}
+
 		//Skull Pickup
-		float skullChance = (60 / playerController.meterMax) * (playerController.meterMax - playerController.meter);
+		float skullChance = (60 / playerController.meterMax) * (playerController.meterMax - meterBeforeUse);
 		float pickupDecider = Random.Range(1, 100);
 		if (pickupDecider <= skullChance) { //check for skulldrop
 			if (pickupDecider <= goldenSkullDropChance) SpawnPickup(1, position); //check for goldenskull
