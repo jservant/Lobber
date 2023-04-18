@@ -370,7 +370,7 @@ public class GameManager : MonoBehaviour {
 			storedPlayerHealth = playerController.health;
 			storedPlayerMeter = playerController.meter;
 			levelCount++; enemyKillingGoal += 10;
-			float[] sceneChances = new float[] { 0, 0, 1f, 1f, 1f };
+			float[] sceneChances = new float[] {0, 1f, 1f, 1f };
 			sceneChances[SceneManager.GetActiveScene().buildIndex] = 0;
 			SceneManager.LoadScene(Util.RollWeightedChoice(sceneChances));
 		}

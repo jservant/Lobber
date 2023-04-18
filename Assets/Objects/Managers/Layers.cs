@@ -20,8 +20,7 @@ public enum Layers : int {
 }
 
 public enum Scenes : int {
-	Initializer = 0,
-	MainMenu,
+	MainMenu = 0,
 	Level_B,
 	Level_K,
 	Level_I,
