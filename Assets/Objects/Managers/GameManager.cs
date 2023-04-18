@@ -50,6 +50,8 @@ public class GameManager : MonoBehaviour {
 	public Color tempColorLit;
 	public Color tempColorUnlit;
 
+	float objectiveFadeTimer;
+	bool isTimerOver = false;
 	EventSystem eSystem;
 
 	[Header("Prefabs:")]
@@ -93,7 +95,6 @@ public class GameManager : MonoBehaviour {
 	[Header("Particle System:")]
 	public ParticleSystem[] particles;
 
-
 	void Awake() {
 		player = transform.Find("/Player");
 		playerController = player.GetComponent<PlayerController>();
@@ -127,8 +128,31 @@ public class GameManager : MonoBehaviour {
 		meterImage = transform.Find("MainUI/MeterBar").GetComponent<Image>();
 		//inputDisplayUI = transform.Find("MainUI/InputDisplay").gameObject;
 		Time.timeScale = 1;
-		
 		spawnTokens = 100;
+		objectiveFadeTimer = 5f;
+
+		switch (currentObjective) {
+			case (int)Objectives.KillTheEnemies:
+				statusTextboxText.text = "Level " + levelCount +
+				"\nKill the Enemies!";
+				break;
+			case (int)Objectives.DestroyTheCrystals:
+				statusTextboxText.text = "Level " + levelCount +
+				"\nDestroy the Crystals!";
+				break;
+			case (int)Objectives.HarvestTheCrystals:
+				statusTextboxText.text = "Level " + levelCount +
+				"\nHarvest the Crystals!";
+				break;
+			case (int)Objectives.SurviveTheOnslaught:
+				statusTextboxText.text = "Level " + levelCount +
+				"\nSurvive the Onslaught!";
+				break;
+			default:
+				statusTextboxText.text = "Level " + levelCount +
+				"\nsomething is wrong";
+				break;
+		}
 
 		//tempColorLit = new Color();
 		//tempColorUnlit = new Color();
@@ -144,6 +168,14 @@ public class GameManager : MonoBehaviour {
 			}
 			else {
 				//Time.timeScale = 1.0f;
+			}
+		}
+
+		if (!isTimerOver) {
+			objectiveFadeTimer -= Time.deltaTime;
+			if (objectiveFadeTimer <= 0) {
+				isTimerOver = true;
+				statusTextboxText.text = "";
 			}
 		}
 
