@@ -8,7 +8,7 @@ using System.Text;
 using System.Runtime.InteropServices; 
 
 public class Initializer : MonoBehaviour {
-	public static string fileName;
+	public readonly static string fileName;
 
 	[StructLayout(LayoutKind.Explicit, Pack=8)]
 	public struct SaveFile_VersionInit {
@@ -73,10 +73,9 @@ public class Initializer : MonoBehaviour {
 		DefaultSave.versionLatest.runsStarted = 0;
 		DefaultSave.versionLatest.longestRun = 0;
 		DefaultSave.versionLatest.timesWon = 0;
-	}
 
-	void Awake() {
 		fileName = Application.persistentDataPath + @"/options.dat";
+
 		save = DefaultSave;
 
 		if (!File.Exists(fileName)) {
@@ -85,9 +84,6 @@ public class Initializer : MonoBehaviour {
 		else {
 			Load();
 		}
-
-		//load next scene last
-		SceneManager.LoadScene((int)Scenes.MainMenu);
 	}
 
 	public static void Load() {
