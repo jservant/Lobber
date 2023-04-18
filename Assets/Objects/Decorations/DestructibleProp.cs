@@ -45,16 +45,14 @@ public class DestructibleProp : MonoBehaviour
 	}
 
     private void OnTriggerEnter(Collider other) {
-		if (other.gameObject.layer == (int)Layers.PlayerHitbox) { // player is hitting enemy
-			if (!canDropHeads) { Destroy(gameObject); }
-			else {
-				Vector3 spawnPoint = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
-				gameMan.SpawnParticle(0, spawnPoint, 2f);
-				hitflashTimer = 0.15f;
-				int random = Random.Range(1, headOffset);
-				SpawnHeads(random);
-				if (heads <= 0) Destroy(gameObject);
-			}
+		if (!canDropHeads) { Destroy(gameObject); }
+		else {
+			Vector3 spawnPoint = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
+			gameMan.SpawnParticle(0, spawnPoint, 2f);
+			hitflashTimer = 0.15f;
+			int random = Random.Range(1, headOffset);
+			SpawnHeads(random);
+			if (heads <= 0) Destroy(gameObject);
 		}
 	}
 
