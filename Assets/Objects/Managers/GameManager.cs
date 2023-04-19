@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour {
 	public GameObject FlashPrefab;
 	public GameObject OrbSpawnPrefab;
 	public GameObject[] Pickups;
-	public CrystalDropoff crystalDropoff;
+	public GameObject crystalDropoff;
 
 	[Header("Spawning:")]
 	public Transform[] eSpawns;
@@ -128,14 +128,14 @@ public class GameManager : MonoBehaviour {
 		statusTextboxText = transform.Find("StatusTextbox/StatusTextboxText").GetComponent<TMP_Text>();
 		statusTextboxText.text = "";
 		meterImage = transform.Find("MainUI/MeterBar").GetComponent<Image>();
-		crystalDropoff = transform.Find("/CrystalDropoff").GetComponent<CrystalDropoff>();
 		//inputDisplayUI = transform.Find("MainUI/InputDisplay").gameObject;
 		Time.timeScale = 1;
 		spawnTokens = 100;
 		objectiveFadeTimer = 5f;
 
-		float[] objectiveChoices = new float[] { 1f, 1f, 1f, 1f };
+		/*float[] objectiveChoices = new float[] { 1f, 1f, 1f, 1f };
 		objectiveChoices[currentObjective] = 0;
+		objectiveChoices[(int)Objectives.DestroyTheCrystals] = 0;
 		objectiveChoices[(int)Objectives.DestroyTheCrystals] = 0;
 		objectiveChoices[(int)Objectives.SurviveTheOnslaught] = 0;
 		// PREVIOUS TWO LINES ARE TEMP while they don't work
@@ -143,7 +143,7 @@ public class GameManager : MonoBehaviour {
 
 		if (currentObjective != (int)Objectives.HarvestTheCrystals) {
 			crystalDropoff.gameObject.SetActive(false);
-		}
+		}*/
 
 		switch (currentObjective) {
 			case (int)Objectives.KillTheEnemies:
