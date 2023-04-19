@@ -146,7 +146,7 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-	readonly KnockbackInfo[] EmptyAxeAttackKnockbackTable = new KnockbackInfo[] {
+	readonly KnockbackInfo[] AttackKnockbackTable = new KnockbackInfo[] {
 		//                Set Direction,      force , time 
 		new KnockbackInfo(Quaternion.identity,  0.0f, 0.0f), // None
 		new KnockbackInfo(Quaternion.identity, 10.0f, 0.25f), // LAttack
@@ -158,21 +158,6 @@ public class PlayerController : MonoBehaviour {
 		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // HeadThrow
 		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // Dashing
 		new KnockbackInfo(Quaternion.identity, 30.0f, 0.25f), // LethalDashing
-		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // ShotgunThrow
-	};
-
-	readonly KnockbackInfo[] FullAxeAttackKnockbackTable = new KnockbackInfo[] {
-		//                Set Direction,      force , time 
-		new KnockbackInfo(Quaternion.identity,  0.0f, 0.0f), // None
-		new KnockbackInfo(Quaternion.identity, 20.0f, 0.25f), // LAttack
-		new KnockbackInfo(Quaternion.identity, 20.0f, 0.25f), // LAttack2
-		new KnockbackInfo(Quaternion.identity, 40.0f, 0.25f), // LAttack3
-		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // Chop
-		new KnockbackInfo(Quaternion.identity, 40.0f, 0.25f), // Slam
-		new KnockbackInfo(Quaternion.identity, 20.0f, 0.25f), // Spin
-		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // HeadThrow
-		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // Dashing
-		new KnockbackInfo(Quaternion.identity, 40.0f, 0.25f), // LethalDashing
 		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // ShotgunThrow
 	};
 
@@ -328,8 +313,6 @@ public class PlayerController : MonoBehaviour {
 		health = GameManager.storedPlayerHealth;
 		meter = GameManager.storedPlayerMeter;
 		tsr = targetSphereRadius;
-		if (meter == meterMax) { topSpeed = 8f; }
-		else { topSpeed = 10f; }
 	}
 
 	private void FixedUpdate() { // calculate movement here
@@ -579,12 +562,7 @@ public class PlayerController : MonoBehaviour {
 							break;
 					}
 
-					if (meter >= meterMax/2.0f) {
-						axeGetKnockbackInfo.constantInfo = FullAxeAttackKnockbackTable[(int)currentAttack];
-					}
-					else {
-						axeGetKnockbackInfo.constantInfo = EmptyAxeAttackKnockbackTable[(int)currentAttack];
-					}
+					axeGetKnockbackInfo.constantInfo = AttackKnockbackTable[(int)currentAttack];
 
 					if (pActions.Player.Aim.ReadValue<Vector2>().sqrMagnitude >= 0.02) {
 						movement = new Vector3(rAimInput.x, 0, rAimInput.y); // this and next line allow for movement between hits

@@ -267,67 +267,35 @@ public class Basic : MonoBehaviour {
 				ExplosiveTrap explosiveTrap = other.GetComponentInParent<ExplosiveTrap>();
 
 				if (player != null) {
-					bool fullAxe = player.meter >= player.meterMax/2;
-
 					KnockbackInfo newKnockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
 					gameMan.SpawnParticle(0, other.transform.position, 1f);
 					switch (gameMan.playerController.currentAttack) {
 						case PlayerController.Attacks.LAttack:
-							if (fullAxe) {
-								health -= 0.5f;
-								ChangeDirective_Stunned(StunTime.ShortStun, newKnockbackInfo);
-							}
-							else {
-								health -= 1;
-								ChangeDirective_Stunned(StunTime.ShortStun, newKnockbackInfo);
-							}
+							health -= 1;
+							ChangeDirective_Stunned(StunTime.ShortStun, newKnockbackInfo);
 							gameMan.playerController.meter += partialMeter;
 							break;
 
 						case PlayerController.Attacks.LAttack2:
-							if (fullAxe) {
-								health -= 0.5f;
-								ChangeDirective_Stunned(StunTime.ShortStun, newKnockbackInfo);
-							}
-							else {
-								health -= 1;
-								ChangeDirective_Stunned(StunTime.ShortStun, newKnockbackInfo);
-							}
+							health -= 1;
+							ChangeDirective_Stunned(StunTime.ShortStun, newKnockbackInfo);
 							gameMan.playerController.meter += partialMeter;
 							break;
 
 						case PlayerController.Attacks.LAttack3:
-							if (fullAxe) {
-								health -= 1;
-								ChangeDirective_Stunned(StunTime.LongStun, newKnockbackInfo);
-							}
-							else {
-								health -= 2;
-								ChangeDirective_Stunned(StunTime.LongStun, newKnockbackInfo);
-							}
+							health -= 2;
+							ChangeDirective_Stunned(StunTime.LongStun, newKnockbackInfo);
 							gameMan.playerController.meter += partialMeter * 2f;
 							break;
 
 						case PlayerController.Attacks.Spin:
-							if (fullAxe) {
-								health -= 1;
-								ChangeDirective_Stunned(StunTime.ShortStun, newKnockbackInfo);
-							}
-							else {
-								health -= 2;
-								ChangeDirective_Stunned(StunTime.ShortStun, newKnockbackInfo);
-							}
+							health -= 2;
+							ChangeDirective_Stunned(StunTime.ShortStun, newKnockbackInfo);
 							break;
 
 						case PlayerController.Attacks.LethalDash:
-							if (fullAxe) {
-								health -= 1;
-								ChangeDirective_Stunned(StunTime.ShortStun, newKnockbackInfo);
-							}
-							else {
-								health -= 2;
-								ChangeDirective_Stunned(StunTime.ShortStun, newKnockbackInfo);
-							}
+							health -= 2;
+							ChangeDirective_Stunned(StunTime.ShortStun, newKnockbackInfo);
 							break;
 
 						case PlayerController.Attacks.Slam:
@@ -337,14 +305,8 @@ public class Basic : MonoBehaviour {
 								shouldDie = true;
 							} 
 							else if (posDifference < 80f) {
-								if (fullAxe) {
-									health -= 2;
-									ChangeDirective_Stunned(StunTime.LongStun, newKnockbackInfo);
-								}
-								else {
-									health -= 4;
-									ChangeDirective_Stunned(StunTime.LongStun, newKnockbackInfo);
-								}
+								health -= 4;
+								ChangeDirective_Stunned(StunTime.LongStun, newKnockbackInfo);
 							} 
 							else {
 								ChangeDirective_Stunned(StunTime.LongStun, newKnockbackInfo);
