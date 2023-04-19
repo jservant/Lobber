@@ -17,6 +17,7 @@ public enum Layers : int {
 	Ground,
 	AgnosticHitbox,
 	AgnosticHurtbox,
+	SoundTrigger,
 }
 
 public enum Scenes : int {

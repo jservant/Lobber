@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class HeadProjectile_DestroyOnHit : MonoBehaviour {
 	void OnTriggerEnter(Collider other) {
-		Destroy(this.transform.Find("../").gameObject);
+		if (other.gameObject.layer != (int)Layers.SoundTrigger) {
+			Destroy(this.transform.Find("../").gameObject);
+		}
 	}
 }

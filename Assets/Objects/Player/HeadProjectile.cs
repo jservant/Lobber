@@ -28,13 +28,15 @@ public class HeadProjectile : MonoBehaviour {
 	}
 
 	private void OnTriggerEnter(Collider other) {
-		if (other.gameObject.layer == (int)Layers.EnemyHurtbox) {
+		if (other.gameObject.layer == (int)Layers.EnemyHurtbox || other.gameObject.layer == (int)Layers.AgnosticHurtbox) {
 			if (canStun) {
 				Collider[] eColliders = Physics.OverlapSphere(transform.position, stunSphereRadius, Mask.Get(Layers.EnemyHurtbox));
 				for (int index = 0; index < eColliders.Length; index += 1) {
 					Basic basicEnemy = eColliders[index].gameObject.GetComponent<Basic>();
-					KnockbackInfo knockbackInfo = getKnockbackInfo.GetInfo(basicEnemy.gameObject);
-					basicEnemy.ChangeDirective_Stunned(Basic.StunTime.LongStun, knockbackInfo);
+					if (basicEnemy != null) {
+						KnockbackInfo knockbackInfo = getKnockbackInfo.GetInfo(basicEnemy.gameObject);
+						basicEnemy.ChangeDirective_Stunned(Basic.StunTime.LongStun, knockbackInfo);
+					}
 				}
 			}
 			Destroy(gameObject);
