@@ -275,6 +275,7 @@ public class PlayerController : MonoBehaviour {
 	public float meterMax = 5;
 	public float hitflashTimer = 0;
 	public float frenzyTimer = 0f;
+	public bool hasCrystal = false;
 
 	KnockbackInfo knockbackInfo = new KnockbackInfo(Quaternion.identity, 0, 0);
 	float remainingKnockbackTime;

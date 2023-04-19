@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour {
 		SurviveTheOnslaught,
 		HarvestTheCrystals,
 	}
-	int currentObjective = 0;
+	public static int currentObjective = 0;
 
 	[Header("Persistent Variables:")]
 	public Transform player;
@@ -64,6 +64,7 @@ public class GameManager : MonoBehaviour {
 	public GameObject FlashPrefab;
 	public GameObject OrbSpawnPrefab;
 	public GameObject[] Pickups;
+	public CrystalDropoff crystalDropoff;
 
 	[Header("Spawning:")]
 	public Transform[] eSpawns;
@@ -127,17 +128,31 @@ public class GameManager : MonoBehaviour {
 		statusTextboxText = transform.Find("StatusTextbox/StatusTextboxText").GetComponent<TMP_Text>();
 		statusTextboxText.text = "";
 		meterImage = transform.Find("MainUI/MeterBar").GetComponent<Image>();
+		crystalDropoff = transform.Find("/CrystalDropoff").GetComponent<CrystalDropoff>();
 		//inputDisplayUI = transform.Find("MainUI/InputDisplay").gameObject;
 		Time.timeScale = 1;
 		spawnTokens = 100;
 		objectiveFadeTimer = 5f;
 
+		float[] objectiveChoices = new float[] { 1f, 1f, 1f, 1f };
+		objectiveChoices[currentObjective] = 0;
+		objectiveChoices[(int)Objectives.DestroyTheCrystals] = 0;
+		objectiveChoices[(int)Objectives.SurviveTheOnslaught] = 0;
+		// PREVIOUS TWO LINES ARE TEMP while they don't work
+		currentObjective = Util.RollWeightedChoice(objectiveChoices);
+
+		if (currentObjective != (int)Objectives.HarvestTheCrystals) {
+			crystalDropoff.gameObject.SetActive(false);
+		}
+
 		switch (currentObjective) {
 			case (int)Objectives.KillTheEnemies:
+				// assign enemy killing goal to a UI object here
 				statusTextboxText.text = "Level " + levelCount +
 				"\nKill the Enemies!";
 				break;
 			case (int)Objectives.DestroyTheCrystals:
+
 				statusTextboxText.text = "Level " + levelCount +
 				"\nDestroy the Crystals!";
 				break;
@@ -369,7 +384,7 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
-	IEnumerator Win() {
+	public IEnumerator Win() {
 		transitioningLevel = true;
 		/*if (SceneManager.GetActiveScene().buildIndex == 4) {
 			Initializer.timesWon++;
