@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Pickup : MonoBehaviour {
 
@@ -53,7 +54,57 @@ public class Pickup : MonoBehaviour {
 		timeUntilCollect = lifetime - timeUntilCollect;
 		isOnGround = false;
 
-		FindPoint();
+		if (transform.position.y > 0) {
+			SetRandomFlightPath(); 
+		}
+	}
+
+	void SetRandomFlightPath() {
+		// NOTE(Roskuski): Loop terminates with a break.
+		while (true) {
+			// TODO(@Ryan): Cap ranforce at 3 and -3 if below or above
+			float ranForceX = Random.Range(-randomForce, randomForce);
+			float ranForceZ = Random.Range(-randomForce, randomForce);
+			if (ranForceX < 3 && ranForceX >= 0) ranForceX = 3;
+			if (ranForceZ > -3 && ranForceZ <= 0) ranForceX = -3;
+			Vector3 point = new Vector3(transform.position.x + ranForceX, 5f, transform.position.z + ranForceZ); //calculates randomized point on XZ axis
+			RaycastHit rayHit;
+			if (Physics.Raycast(point, Vector3.down, out rayHit, 100f)) {
+				NavMeshHit navHit;
+				if (NavMesh.SamplePosition(rayHit.point, out navHit, 0.1f, NavMesh.AllAreas)) { //Checks to see if it's above a collider on the ground layer
+					targetPoint = point;
+					targetPoint.y = navHit.position.y + 0.2f;
+					float ranX = Random.Range(-500f, 500f);
+					float ranY = Random.Range(-500f, 500f);
+					float ranZ = Random.Range(-500f, 500f);
+					spinForce = new Vector3(ranX, ranY, ranZ);
+					if (pickupType == Type.Health) spinForce = new Vector3(0f, rotationSpeed, 0f);
+
+					// Calculate distance to target
+					float target_Distance = Vector3.Distance(transform.position, targetPoint);
+
+					// Calculate the velocity needed to throw the object to the target at specified angle.
+					float projectile_Velocity = target_Distance / (Mathf.Sin(2 * flightAngle * Mathf.Deg2Rad) / gravity);
+
+					// Extract the X  Y componenent of the velocity
+					velocity = new Vector2(Mathf.Sqrt(projectile_Velocity) * Mathf.Cos(flightAngle * Mathf.Deg2Rad), Mathf.Sqrt(projectile_Velocity) * Mathf.Sin(flightAngle * Mathf.Deg2Rad));
+
+					// Calculate flight time.
+					flightTime = target_Distance / velocity.x;
+					currentFlightTime = 0f;
+
+					// Rotate projectile to face the target.
+					transform.rotation = Quaternion.LookRotation(targetPoint - transform.position);
+					break;
+				}
+			}
+		}
+	}
+	
+	void OnTriggerEnter(Collider other) {
+		if (other.gameObject.layer != (int)Layers.Ground && other.gameObject.layer != (int)Layers.Pickup && ((currentFlightTime < flightTime) && !isOnGround)) {
+			SetRandomFlightPath();
+		}
 	}
 
 	void Update() {
@@ -63,7 +114,7 @@ public class Pickup : MonoBehaviour {
 		if (lifetime <= 0) Destroy(this.gameObject);
 		if (transform.position.y <= 0) if (indicator != null) Destroy(indicator);
 
-		if (Physics.Raycast(transform.position, Vector3.down, 1.0f, ~(int)Layers.Ground)) {
+		if (Physics.Raycast(transform.position, Vector3.down, 1.0f, Mask.Get(Layers.Ground))) {
 			if (lifetime <= timeUntilCollect) {
 				isOnGround = true;
 				if (indicator != null) Destroy(indicator);
@@ -86,63 +137,14 @@ public class Pickup : MonoBehaviour {
 		}
 		else UpdateIndicator();
 
-		Flight();
-
-		if (collected) Destroy(this);
-	}
-
-	void FindPoint() {
-		bool foundPoint = false;
-
-		if (transform.position.y > 0) {
-			if (foundPoint == false) {
-				// TODO(@Ryan): Cap ranforce at 3 and -3 if below or above
-				float ranForceX = Random.Range(-randomForce, randomForce);
-				float ranForceZ = Random.Range(-randomForce, randomForce);
-				if (ranForceX < 3 && ranForceX >= 0) ranForceX = 3;
-				if (ranForceZ > -3 && ranForceZ <= 0) ranForceX = -3;
-				Vector3 point = new Vector3(transform.position.x + ranForceX, 5f, transform.position.z + ranForceZ); //calculates randomized point on XZ axis
-				RaycastHit hit;
-
-				if (Physics.Raycast(point, Vector3.down, out hit, 10f, ~(int)Layers.Ground)) { //Checks to see if it's above a collider on the ground layer
-					foundPoint = true;
-					targetPoint = point;
-					targetPoint.y = hit.point.y + 0.2f;
-					float ranX = Random.Range(-500f, 500f);
-					float ranY = Random.Range(-500f, 500f);
-					float ranZ = Random.Range(-500f, 500f);
-					spinForce = new Vector3(ranX, ranY, ranZ);
-					if (pickupType == Type.Health) spinForce = new Vector3(0f, rotationSpeed, 0f);
-					CalculateFlight();
-				}
-				else FindPoint();
-			}
-		}
-	}
-
-	void CalculateFlight() {
-		// Calculate distance to target
-		float target_Distance = Vector3.Distance(transform.position, targetPoint);
-
-		// Calculate the velocity needed to throw the object to the target at specified angle.
-		float projectile_Velocity = target_Distance / (Mathf.Sin(2 * flightAngle * Mathf.Deg2Rad) / gravity);
-
-		// Extract the X  Y componenent of the velocity
-		velocity = new Vector2(Mathf.Sqrt(projectile_Velocity) * Mathf.Cos(flightAngle * Mathf.Deg2Rad), Mathf.Sqrt(projectile_Velocity) * Mathf.Sin(flightAngle * Mathf.Deg2Rad));
-
-		// Calculate flight time.
-		flightTime = target_Distance / velocity.x;
-
-		// Rotate projectile to face the target.
-		transform.rotation = Quaternion.LookRotation(targetPoint - transform.position);
-	}
-
-	void Flight() {
+		// Fly though the air
 		if ((currentFlightTime < flightTime) && !isOnGround) {
 			transform.Translate(0, (velocity.y - (gravity * currentFlightTime)) * Time.deltaTime, velocity.x * Time.deltaTime);
 			skull.Rotate(spinForce * Time.deltaTime);
 			currentFlightTime += Time.deltaTime;
 		}
+
+		if (collected) Destroy(this);
 	}
 
 	void UpdateIndicator() {
@@ -161,11 +163,11 @@ public class Pickup : MonoBehaviour {
 		if (blinkTime >= blinkDuration * 2f) {
 			blinkTime = 0f;
 			blinkDuration -= 0.1f;
-        }
+		}
 
 		blinkTime += Time.deltaTime;
 		
-    }
+	}
 
 	void OnDrawGizmosSelected() {
 		Gizmos.color = Color.red;
