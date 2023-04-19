@@ -190,6 +190,11 @@
 						<SwitchContainer Name="player_fs" ID="{DEB878D8-13EE-4BFB-A7B0-5C99D61C14F0}" ShortID="304610299">
 							<PropertyList>
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-20</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -1622,6 +1627,11 @@
 						<SwitchContainer Name="skel_fs" ID="{3C2264A0-C689-4121-9FB6-1FAAB8825707}" ShortID="1006702377">
 							<PropertyList>
 								<Property Name="OverrideOutput" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-20</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">

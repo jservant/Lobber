@@ -121,6 +121,7 @@ public class Basic : MonoBehaviour {
 	Animator animator;
 	BoxCollider swordHitbox;
 	EnemyCommunication enemyCommunication;
+	MotionAudio_Skel sounds;
 
 	SkinnedMeshRenderer model;
 	Material[] materials;
@@ -316,6 +317,7 @@ public class Basic : MonoBehaviour {
 						case PlayerController.Attacks.Chop:
 							shouldDie = true;
 							player.ChangeMeter(1);
+							sounds.Sound_EnemyLob();
 							break;
 
 						default:
@@ -351,6 +353,7 @@ public class Basic : MonoBehaviour {
 		animator = this.GetComponent<Animator>();
 		swordHitbox = transform.Find("Weapon_Controller").GetComponent<BoxCollider>();
 		enemyCommunication = this.GetComponent<EnemyCommunication>();
+		sounds = this.GetComponent<MotionAudio_Skel>();
 		flashSpot = transform.Find("Weapon_Controller");
 
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();

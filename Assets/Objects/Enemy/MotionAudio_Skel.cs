@@ -6,7 +6,7 @@ public class MotionAudio_Skel : MonoBehaviour
 {
     public AK.Wwise.Event Enemy_GetHit;
     
-    void Sound_CharacterGetHit()
+    void CharacterGetHit()
     {
         Enemy_GetHit.Post(gameObject);
     }
@@ -51,6 +51,13 @@ public class MotionAudio_Skel : MonoBehaviour
     void Sound_EnemyStun()
     {
         Enemy_Stun.Post(gameObject);
+    }
+
+    public AK.Wwise.Event Enemy_Lob;
+
+    public void Sound_EnemyLob() 
+    {
+        Enemy_Lob.Post(gameObject);
     }
 
     public AK.Wwise.Event Enemy_VO;
