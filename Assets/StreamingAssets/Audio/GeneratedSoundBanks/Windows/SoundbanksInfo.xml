@@ -178,7 +178,7 @@
 				</AcousticTexture>
 			</AcousticTextures>
 		</SoundBank>
-		<SoundBank Id="1496463651" Type="User" Language="SFX" Hash="{ED81E960-F18D-F547-4C45-5BBF7B5DDD2D}">
+		<SoundBank Id="1496463651" Type="User" Language="SFX" Hash="{83D0208A-DC69-29D4-CF0C-1C743B089B65}">
 			<ShortName>Bank_01</ShortName>
 			<Path>Bank_01.bnk</Path>
 			<Media>
@@ -226,6 +226,10 @@
 					<ShortName>fs_player_dirt_06.wav</ShortName>
 					<CachePath>SFX/fs_player_dirt_06_10C4C929.wem</CachePath>
 				</File>
+				<File Id="96698159" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>head_impact_03.wav</ShortName>
+					<CachePath>SFX/head_impact_03_10C4C929.wem</CachePath>
+				</File>
 				<File Id="97026588" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fs_skel_gravel_07.wav</ShortName>
 					<CachePath>SFX/fs_skel_gravel_07_10C4C929.wem</CachePath>
@@ -257,6 +261,10 @@
 				<File Id="150208270" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>emit_fire_01.wav</ShortName>
 					<CachePath>SFX/emit_fire_01_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="166049200" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>head_impact_02.wav</ShortName>
+					<CachePath>SFX/head_impact_02_10C4C929.wem</CachePath>
 				</File>
 				<File Id="196376984" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fs_player_dirt_08.wav</ShortName>
@@ -458,6 +466,10 @@
 					<ShortName>skel_death_01.wav</ShortName>
 					<CachePath>SFX/skel_death_01_10C4C929.wem</CachePath>
 				</File>
+				<File Id="865086151" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>head_impact_01.wav</ShortName>
+					<CachePath>SFX/head_impact_01_10C4C929.wem</CachePath>
+				</File>
 				<File Id="872431774" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>player_attack1_01.wav</ShortName>
 					<CachePath>SFX/player_attack1_01_10C4C929.wem</CachePath>
@@ -478,9 +490,17 @@
 					<ShortName>lobber_mx_combat1-intro.wav</ShortName>
 					<CachePath>SFX/lobber_mx_combat1-intro_A389B95C.wem</CachePath>
 				</File>
+				<File Id="922362666" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>head_pickup.wav</ShortName>
+					<CachePath>SFX/head_pickup_10C4C929.wem</CachePath>
+				</File>
 				<File Id="963225850" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fs_player_dirt_02.wav</ShortName>
 					<CachePath>SFX/fs_player_dirt_02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="966189127" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>head_impact_04.wav</ShortName>
+					<CachePath>SFX/head_impact_04_10C4C929.wem</CachePath>
 				</File>
 				<File Id="985831120" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fs_skel_grass_08.wav</ShortName>
@@ -494,9 +514,17 @@
 					<ShortName>fs_skel_grass_03.wav</ShortName>
 					<CachePath>SFX/fs_skel_grass_03_10C4C929.wem</CachePath>
 				</File>
+				<File Id="1011639198" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>head_impact_05.wav</ShortName>
+					<CachePath>SFX/head_impact_05_10C4C929.wem</CachePath>
+				</File>
 				<File Id="1041017189" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fs_player_grass_02.wav</ShortName>
 					<CachePath>SFX/fs_player_grass_02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="1070028639" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>head_flying.wav</ShortName>
+					<CachePath>SFX/head_flying_10C4C929.wem</CachePath>
 				</File>
 			</Media>
 			<Plugins>
@@ -523,6 +551,25 @@
 					</MediaRefs>
 				</Event>
 				<Event Id="2415455525" Name="Combat1_Stop"/>
+				<Event Id="375965827" Name="head_flying">
+					<MediaRefs>
+						<MediaRef Id="1070028639"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="4015037628" Name="head_impact">
+					<MediaRefs>
+						<MediaRef Id="96698159"/>
+						<MediaRef Id="166049200"/>
+						<MediaRef Id="865086151"/>
+						<MediaRef Id="966189127"/>
+						<MediaRef Id="1011639198"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2586367166" Name="head_pickup">
+					<MediaRefs>
+						<MediaRef Id="922362666"/>
+					</MediaRefs>
+				</Event>
 				<Event Id="799884986" Name="player_attack1">
 					<MediaRefs>
 						<MediaRef Id="233950051"/>
@@ -744,5 +791,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{976700AE-6084-0069-4546-9C88FEBE0AF7}</FileHash>
+	<FileHash>{FA0853DB-754A-5AE1-A2FE-31439EC1F48A}</FileHash>
 </SoundBanksInfo>

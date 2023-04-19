@@ -318,6 +318,43 @@
 						</Event>
 					</ChildrenList>
 				</Folder>
+				<Folder Name="Head" ID="{0A93B7DF-BB98-4A08-920F-933CE11ED046}" ShortID="698004119">
+					<ChildrenList>
+						<Event Name="head_impact" ID="{336EA081-8E26-490D-A682-87577119378F}">
+							<ChildrenList>
+								<Action Name="" ID="{E19A6CE6-E028-4694-AD67-8B134D262108}" ShortID="799386579">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="head_impact" ID="{91287350-CEEA-4020-BB45-57D5CE95ADA9}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="head_flying" ID="{707AFA71-C79D-4541-994E-55CF4AFD78D0}">
+							<ChildrenList>
+								<Action Name="" ID="{AF175330-2B1C-4486-8AE2-45DB267E8715}" ShortID="737785596">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="head_flying" ID="{E8DEDBA6-57CF-47AE-9B2C-669FD6FCE70D}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="head_pickup" ID="{A2FE05FB-7A77-4399-BDB1-9BA2793B58D1}">
+							<ChildrenList>
+								<Action Name="" ID="{D5DE9E22-81A5-498A-A7CA-6AA1E698F0ED}" ShortID="404340538">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="head_pickup" ID="{A599EFB0-C1F3-41AD-82A0-4048332B166F}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+					</ChildrenList>
+				</Folder>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>
