@@ -680,7 +680,8 @@ public class PlayerController : MonoBehaviour {
 		float deathTimer = animationTimes["Character_Death_Test"];
 		deathTimer -= Time.deltaTime;
 		Debug.Log("Player died, game over");
-		gameMan.statusTextboxText.text = "GAME OVER \n Enemies Killed: " + GameManager.enemiesKilledInRun;
+		gameMan.statusTextboxText.text = "GAME OVER \nLevel " + GameManager.levelCount + ", " + GameManager.enemiesKilledInRun + " enemies killed"
+			+ (GameManager.levelCount > Initializer.save.versionLatest.longestRun ? "\nNew Longest Run!" : "");
 		GameManager.enemiesKilledInRun = 0;
 		yield return new WaitForSeconds(deathTimer + 1);
 		SceneManager.LoadScene((int)Scenes.MainMenu);
