@@ -226,6 +226,7 @@ public class PlayerController : MonoBehaviour {
 	Transform slamPoint;
 	Light spotLight;
 	GameManager gameMan;
+	MotionAudio_Player sounds;
 
 	[Header("Movement:")]
 	public Vector2 trueInput;							// movement vector read from left stick
@@ -280,6 +281,7 @@ public class PlayerController : MonoBehaviour {
 	private void Awake() {
 		capCol = GetComponent<CapsuleCollider>();
 		rb = GetComponent<Rigidbody>();
+		sounds = GetComponent<MotionAudio_Player>();
 		animr = GetComponent<Animator>();
 		pActions = new DefaultPlayerActions();
 		model = transform.Find("Lobber").GetComponent<SkinnedMeshRenderer>();
@@ -619,6 +621,7 @@ public class PlayerController : MonoBehaviour {
 			Pickup headPickup = other.gameObject.GetComponent<Pickup>();
 			if (headPickup.lifetime <= headPickup.timeUntilCollect) {
 				headPickup.collected = true;
+				sounds.Sound_HeadPickup();
 				GameObject.Destroy(other.transform.gameObject);
 			}
 		}

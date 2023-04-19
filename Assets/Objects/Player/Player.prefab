@@ -1389,8 +1389,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: 0
   currentAttack: 0
-  queuedAttack: 0
   hitflashMat: {fileID: 2100000, guid: 27625c58fe45e654f9e128ba019e7db7, type: 2}
+  animr: {fileID: 0}
   trueInput: {x: 0, y: 0}
   mInput: {x: 0, y: 0}
   movement: {x: 0, y: 0, z: 0}
@@ -1457,12 +1457,14 @@ MonoBehaviour:
   dashCooldown: 1
   isWalking: 0
   vulnerable: 1
+  godMode: 0
   healthMax: 10
   health: 0
   meter: 0
   meterMax: 8
   hitflashTimer: 0
   frenzyTimer: 0
+  hasCrystal: 0
   targetSphereRadius: 2
 --- !u!114 &3072909949348366208
 MonoBehaviour:
@@ -1668,14 +1670,6 @@ MonoBehaviour:
     idInternal: 0
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: 139f654aa419d415b8a1562419dbd587, type: 2}
-  Character_InBushes:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: bf16165edf2ac45fcaa249ca3f1b8993, type: 2}
-  Character_OutBushes:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 8339b3e06a4f042d6aaac4dc059f4ab9, type: 2}
   Character_Shotgun:
     idInternal: 0
     valueGuidInternal: 
@@ -1692,6 +1686,10 @@ MonoBehaviour:
     idInternal: 0
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 0}
+  HeadPickup:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 53c8c2dc588c42f498294ec649e7974b, type: 2}
 --- !u!114 &6734317139091190991
 MonoBehaviour:
   m_ObjectHideFlags: 0

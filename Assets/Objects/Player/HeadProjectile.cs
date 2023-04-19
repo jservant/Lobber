@@ -15,6 +15,8 @@ public class HeadProjectile : MonoBehaviour {
 	Rigidbody rb;
 	GetKnockbackInfo getKnockbackInfo;
 
+	public AK.Wwise.Event HeadImpactSound;
+
 	private void Start() {
 		head = transform.Find("Model");
 		rb = GetComponent<Rigidbody>();
@@ -39,17 +41,23 @@ public class HeadProjectile : MonoBehaviour {
 					}
 				}
 			}
+			Sound_HeadImpact();
 			Destroy(gameObject);
 			if (canPierce && enemiesKilled < 2) { 
 				enemiesKilled++;
 				Debug.Log("Enemies killed on this skull: " + enemiesKilled);
 			}
-			else { Destroy(gameObject); }
+			else {
+				Destroy(gameObject); 
+			}
 		}
-
 	}
 
-	void OnDrawGizmos() {
+	public void Sound_HeadImpact() {
+		HeadImpactSound.Post(gameObject);
+	}
+
+    void OnDrawGizmos() {
 		Gizmos.color = Color.white;
 		Gizmos.DrawWireSphere(transform.position, stunSphereRadius);
 	}
