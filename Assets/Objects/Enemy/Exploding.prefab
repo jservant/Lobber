@@ -497,6 +497,25 @@ Transform:
   m_Father: {fileID: 2949441896838376976}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &5085830154055123511
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7583502707902624642}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 06066b24b9c7148428de1edb888176fe, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8088946241306347972
 GameObject:
   m_ObjectHideFlags: 0
@@ -763,8 +782,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   randomizeStats: 1
   fuseDuration: 0
+  lowFuseTime: 6
   hitflashTimer: 0
   hitflashMat: {fileID: 2100000, guid: 27625c58fe45e654f9e128ba019e7db7, type: 2}
+  bombFlashMat: {fileID: 2100000, guid: a739f8a7ce8f40f4f8fb6c450f7d1f22, type: 2}
   FollowingRadius: 17
   MoveSpeed: 24
   MovementBustLength: 0.4
@@ -772,6 +793,7 @@ MonoBehaviour:
   waitMultiplier: 2
   fuseMin: 10
   fuseMax: 20
+  bombAnimator: {fileID: 5085830154055123511}
 --- !u!1001 &7349710048545902291
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -852,5 +874,10 @@ PrefabInstance:
 --- !u!4 &7094808940555266360 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9ae8fc283fedd0c4680cacee0d34da45, type: 3}
+  m_PrefabInstance: {fileID: 7349710048545902291}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7583502707902624642 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 9ae8fc283fedd0c4680cacee0d34da45, type: 3}
   m_PrefabInstance: {fileID: 7349710048545902291}
   m_PrefabAsset: {fileID: 0}

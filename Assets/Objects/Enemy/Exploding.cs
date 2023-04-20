@@ -19,6 +19,9 @@ public class Exploding : MonoBehaviour {
 	float spawnDuration = 2.0f;
 
 	[SerializeField] float fuseDuration = 0;
+	public float lowFuseTime; //when to start flashing red
+	float bombFlashWait = 1.0f; //how long to wait between flashes
+	float bombFlashWaitTime = 0f;
 	float waitDuration = 0;
 	float movementBurstDuration = 0;
 	Vector3 movementDelta;
@@ -41,6 +44,7 @@ public class Exploding : MonoBehaviour {
 	Material[] bombMaterials;
 	Material handMaterial;
 	public Material hitflashMat;
+	public Material bombFlashMat;
 
 	Quaternion moveDirection;
 	float[] directionWeights = new float[32];
@@ -60,6 +64,7 @@ public class Exploding : MonoBehaviour {
 	// Internal References
 	NavMeshAgent navAgent;
 	Animator animator;
+	public Animator bombAnimator;
 	EnemyCommunication enemyCommunication;
 	CapsuleCollider explosionHitbox;
 	CapsuleCollider selfHurtbox;
@@ -126,11 +131,13 @@ public class Exploding : MonoBehaviour {
 			else {
 				ChangeDirective_Explosion();
 			}
+			fuseDuration = 0;
 			hitflashTimer = 0.25f;
 			Vector3 spawnPoint = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
 			gameMan.SpawnParticle(0, spawnPoint, 1f);
 		}
 		else if (other.gameObject.layer == (int)Layers.AgnosticHitbox) {
+			fuseDuration = 0f;
 			hitflashTimer = 0.25f;
 			float randomDelay = Random.Range(0.1f, 0.3f);
 			ChangeDirective_Explosion(randomDelay);
@@ -178,6 +185,19 @@ public class Exploding : MonoBehaviour {
 
 		animator.SetBool("IsMoving", false);
 
+		//Bombflash
+		if (fuseDuration <= lowFuseTime) {
+			if (fuseDuration <= lowFuseTime / 2f) bombFlashWait = 0.6f;
+			if (fuseDuration <= lowFuseTime / 4f) bombFlashWait = 0.4f;
+
+			if (bombFlashWaitTime <= 0) {
+				bombAnimator.Play("Mr_Bomb_Pulse");
+				bombFlashWaitTime = bombFlashWait;
+			}
+			bombFlashWaitTime -= Time.deltaTime;
+		}
+        
+		//Hitflash
 		hitflashTimer -= Time.deltaTime;
 		Material[] bombMaterialList = bombModel.materials;
 		for (int i = 0; i < bombMaterialList.Length; i++) {

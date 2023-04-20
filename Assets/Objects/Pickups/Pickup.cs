@@ -35,8 +35,8 @@ public class Pickup : MonoBehaviour {
 	public bool isOnGround;
 	public bool collected;
 	public float randomForce;
-	private float lowLifetime = 2f; //when to start blinking to indicate low lifetime
-	private float blinkDuration = 0.4f;
+	private float lowLifetime = 3.5f; //when to start blinking to indicate low lifetime
+	private float blinkDuration = 0.5f;
 	private float blinkTime = 0f;
 
 	[Header("Bonuses:")]
@@ -163,6 +163,7 @@ public class Pickup : MonoBehaviour {
 		if (blinkTime >= blinkDuration * 2f) {
 			blinkTime = 0f;
 			blinkDuration -= 0.1f;
+			if (blinkDuration <= 0f) blinkDuration = 0.1f;
 		}
 
 		blinkTime += Time.deltaTime;
