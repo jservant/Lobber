@@ -541,7 +541,7 @@
     "Id": "1496463651",
     "Type": "User",
     "Language": "SFX",
-    "Hash": "{4FAF5AC6-16C4-94A5-B808-CF9DE31062A7}",
+    "Hash": "{DEA09734-C785-6119-6C21-D292AE0FEABA}",
     "ShortName": "Bank_01",
     "Path": "Bank_01.bnk",
     "Media": [
@@ -728,6 +728,14 @@
       "Location": "Memory",
       "ShortName": "head_impact_02.wav",
       "CachePath": "SFX/head_impact_02_10C4C929.wem"
+     },
+     {
+      "Id": "195194557",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "player_shotgun_atk.wav",
+      "CachePath": "SFX/player_shotgun_atk_10C4C929.wem"
      },
      {
       "Id": "196376984",
@@ -1122,6 +1130,14 @@
       "CachePath": "SFX/skel_vo_05_10C4C929.wem"
      },
      {
+      "Id": "848350748",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "player_shotgun_init.wav",
+      "CachePath": "SFX/player_shotgun_init_10C4C929.wem"
+     },
+     {
       "Id": "858779314",
       "Language": "SFX",
       "Streaming": "false",
@@ -1186,6 +1202,14 @@
       "CachePath": "SFX/head_pickup_10C4C929.wem"
      },
      {
+      "Id": "933496307",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "player_slam_init.wav",
+      "CachePath": "SFX/player_slam_init_10C4C929.wem"
+     },
+     {
       "Id": "963225850",
       "Language": "SFX",
       "Streaming": "false",
@@ -1200,6 +1224,14 @@
       "Location": "Memory",
       "ShortName": "head_impact_04.wav",
       "CachePath": "SFX/head_impact_04_10C4C929.wem"
+     },
+     {
+      "Id": "966389329",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "player_slam_atk.wav",
+      "CachePath": "SFX/player_slam_atk_10C4C929.wem"
      },
      {
       "Id": "985831120",
@@ -1532,6 +1564,42 @@
       ]
      },
      {
+      "Id": "1199887854",
+      "Name": "player_shotgun_atk",
+      "MediaRefs": [
+       {
+        "Id": "195194557"
+       }
+      ]
+     },
+     {
+      "Id": "255574742",
+      "Name": "player_shotgun_init",
+      "MediaRefs": [
+       {
+        "Id": "848350748"
+       }
+      ]
+     },
+     {
+      "Id": "2909104693",
+      "Name": "player_slam_atk",
+      "MediaRefs": [
+       {
+        "Id": "966389329"
+       }
+      ]
+     },
+     {
+      "Id": "3131540599",
+      "Name": "player_slam_init",
+      "MediaRefs": [
+       {
+        "Id": "933496307"
+       }
+      ]
+     },
+     {
       "Id": "2062853598",
       "Name": "portal_close",
       "MediaRefs": [
@@ -1778,6 +1846,6 @@
     ]
    }
   ],
-  "FileHash": "{A5D4DECA-E32C-47FA-DD9F-E8D3BBD578F1}"
+  "FileHash": "{605FE0EA-AB4F-85F6-4625-00D2FFA495CA}"
  }
 }

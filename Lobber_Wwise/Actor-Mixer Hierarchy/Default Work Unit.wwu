@@ -976,6 +976,13 @@
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="player_lob" ID="{D5444886-584B-4354-A902-80B20871DE79}" ShortID="71726635">
+							<PropertyList>
+								<Property Name="Highpass" Type="int16">
+									<ValueList>
+										<Value>12</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
@@ -1220,6 +1227,94 @@
 								</Sound>
 							</ChildrenList>
 						</RandomSequenceContainer>
+						<Sound Name="player_shotgun_atk" ID="{8B6FB35C-24B8-473F-B9CD-4164C9DD76E1}" ShortID="560516673">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="player_shotgun_atk" ID="{773A393E-AD76-493E-B488-7614E94268FD}">
+									<Language>SFX</Language>
+									<AudioFile>player_shotgun_atk.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="195194557"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="player_shotgun_atk" ID="{773A393E-AD76-493E-B488-7614E94268FD}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="player_shotgun_init" ID="{E74C89C3-A81C-4E74-81E4-ECF2FA6D920B}" ShortID="954064648">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="player_shotgun_init" ID="{BBE5FB3B-F508-4517-A388-489992AE8DE2}">
+									<Language>SFX</Language>
+									<AudioFile>player_shotgun_init.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="848350748"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="player_shotgun_init" ID="{BBE5FB3B-F508-4517-A388-489992AE8DE2}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="player_slam_init" ID="{2964C266-43E4-4B0D-A7DF-922529DB95E5}" ShortID="230169604">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="player_slam_init" ID="{B9DDCCA9-B69E-4D94-82DD-6E5E678475F9}">
+									<Language>SFX</Language>
+									<AudioFile>player_slam_init.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="933496307"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="player_slam_init" ID="{B9DDCCA9-B69E-4D94-82DD-6E5E678475F9}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="player_slam_atk" ID="{2A29C513-BD07-4ECD-BE6C-90D86AD02A2F}" ShortID="217787634">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="player_slam_atk" ID="{01289C42-BF95-4DB9-887D-376BAB56EB0C}">
+									<Language>SFX</Language>
+									<AudioFile>player_slam_atk.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="966389329"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="player_slam_atk" ID="{01289C42-BF95-4DB9-887D-376BAB56EB0C}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
 					</ChildrenList>
 				</ActorMixer>
 				<ActorMixer Name="Skeletons" ID="{66B391D0-C7B2-463A-8BA3-3A4E2B9499D7}" ShortID="491509316">
@@ -1240,6 +1335,13 @@
 					</ReferenceList>
 					<ChildrenList>
 						<RandomSequenceContainer Name="skel_vo" ID="{7A8825C7-1182-47C8-BED2-C7B2A0722282}" ShortID="410510939">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-20</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
@@ -2569,6 +2671,266 @@
 							</ChildrenList>
 							<ActiveSourceList>
 								<ActiveSource Name="portal_idle_close" ID="{F8FE44B7-6752-4A90-A5E5-8421AE315341}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</ActorMixer>
+				<ActorMixer Name="PestBomb" ID="{06BB7408-2D76-4694-9C6E-FD8D4BC670B4}" ShortID="434270064">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="pest_bomb_fuse" ID="{76821511-E631-4A5F-98AB-ECC6193EF190}" ShortID="537190590">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="pest_bomb_fuse" ID="{35DF939D-518D-4327-9678-B6ACCCB3A2FB}">
+									<PropertyList>
+										<Property Name="CrossfadeDuration" Type="Real64" Value="1100.219"/>
+										<Property Name="LoopBegin" Type="Real64" Value="0.834"/>
+										<Property Name="LoopEnd" Type="Real64" Value="10.3002326565144"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimBegin" Type="Real64" Value="0.269295926672713"/>
+										<Property Name="TrimEnd" Type="Real64" Value="10.8856810490694"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>pest_bomb_fuse.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="367181203"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="pest_bomb_fuse" ID="{35DF939D-518D-4327-9678-B6ACCCB3A2FB}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="pest_bomb_expload" ID="{BCC34142-4C30-4E9C-83B7-81A5D2B39490}" ShortID="279109613">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="pest_bomb_expload" ID="{690412F5-FEE8-402C-B45F-437506F3B6E3}">
+									<Language>SFX</Language>
+									<AudioFile>pest_bomb_expload.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="395551192"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="pest_bomb_expload" ID="{690412F5-FEE8-402C-B45F-437506F3B6E3}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<RandomSequenceContainer Name="pest_fs" ID="{9C5AB3DB-D5DC-4416-95FB-518D53ECBBE6}" ShortID="734401655">
+							<PropertyList>
+								<Property Name="OverrideOutput" Type="bool" Value="True"/>
+								<Property Name="Pitch" Type="int32">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{48E11D06-6642-45F4-AE55-BCF5690078C8}">
+												<PropertyList>
+													<Property Name="Enabled" Type="bool" Value="True"/>
+													<Property Name="Max" Type="Real64" Value="50"/>
+													<Property Name="Min" Type="Real64" Value="-50"/>
+												</PropertyList>
+											</Modifier>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
+								<Property Name="RandomAvoidRepeatingCount" Type="int32" Value="2"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-18</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="FS" ID="{2D8870B2-3BA4-41BA-95F7-E5C182124B9F}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="fs_pest_01" ID="{E9B4916A-67B3-4549-883A-412B2228F323}" ShortID="345062968">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="fs_pest_01" ID="{FBDB72DF-3902-48EE-8A8F-14DDCEE13049}">
+											<Language>SFX</Language>
+											<AudioFile>fs_pest_01.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="227964973"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="fs_pest_01" ID="{FBDB72DF-3902-48EE-8A8F-14DDCEE13049}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="fs_pest_02" ID="{62D8E7EB-B537-4B66-BCE5-D55159C27B73}" ShortID="915613840">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="fs_pest_02" ID="{4281A070-A326-40F2-B662-7DD8FF3E37AC}">
+											<Language>SFX</Language>
+											<AudioFile>fs_pest_02.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="295499900"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="fs_pest_02" ID="{4281A070-A326-40F2-B662-7DD8FF3E37AC}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="fs_pest_03" ID="{0E2B75F4-EF27-427B-8CF6-F0839B557746}" ShortID="822028256">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="fs_pest_03" ID="{CF0B9574-F9B7-435A-B7DD-D59BCD1D98CE}">
+											<Language>SFX</Language>
+											<AudioFile>fs_pest_03.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="571414843"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="fs_pest_03" ID="{CF0B9574-F9B7-435A-B7DD-D59BCD1D98CE}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="fs_pest_04" ID="{09828C83-0D56-4FA3-9092-12145760A605}" ShortID="102250776">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="fs_pest_04" ID="{21DDC2FB-1889-47B0-A9EE-A053AC6B238C}">
+											<Language>SFX</Language>
+											<AudioFile>fs_pest_04.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="795672063"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="fs_pest_04" ID="{21DDC2FB-1889-47B0-A9EE-A053AC6B238C}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="fs_pest_05" ID="{BFCB44BF-B4F9-4344-9AF1-B2CCB8C8032A}" ShortID="1059031859">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="fs_pest_05" ID="{E671DEEC-C61B-4818-A4DB-E6A7611A84D9}">
+											<Language>SFX</Language>
+											<AudioFile>fs_pest_05.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="776325564"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="fs_pest_05" ID="{E671DEEC-C61B-4818-A4DB-E6A7611A84D9}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="fs_pest_06" ID="{04324BD5-E28A-4AA0-9C41-D12254309EE4}" ShortID="448273249">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="fs_pest_06" ID="{02DD14B2-38FF-4A89-8FCB-34AA06762685}">
+											<Language>SFX</Language>
+											<AudioFile>fs_pest_06.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="40688363"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="fs_pest_06" ID="{02DD14B2-38FF-4A89-8FCB-34AA06762685}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<Sound Name="pest_bomb_jump" ID="{04C26418-05F7-4239-9300-A5CC016D3732}" ShortID="316068730">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="pest_bomb_jump" ID="{2EDA22D5-2A0F-4B89-B8D1-F11C9AD2538A}">
+									<PropertyList>
+										<Property Name="FadeOutDuration" Type="Real64" Value="1.01269035532995"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimEnd" Type="Real64" Value="3.04251269035533"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>pest_bomb_jump.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="163626921"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="pest_bomb_jump" ID="{2EDA22D5-2A0F-4B89-B8D1-F11C9AD2538A}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
 					</ChildrenList>

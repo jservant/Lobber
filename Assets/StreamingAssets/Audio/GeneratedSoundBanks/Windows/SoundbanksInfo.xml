@@ -178,7 +178,7 @@
 				</AcousticTexture>
 			</AcousticTextures>
 		</SoundBank>
-		<SoundBank Id="1496463651" Type="User" Language="SFX" Hash="{4FAF5AC6-16C4-94A5-B808-CF9DE31062A7}">
+		<SoundBank Id="1496463651" Type="User" Language="SFX" Hash="{DEA09734-C785-6119-6C21-D292AE0FEABA}">
 			<ShortName>Bank_01</ShortName>
 			<Path>Bank_01.bnk</Path>
 			<Media>
@@ -273,6 +273,10 @@
 				<File Id="166049200" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>head_impact_02.wav</ShortName>
 					<CachePath>SFX/head_impact_02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="195194557" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>player_shotgun_atk.wav</ShortName>
+					<CachePath>SFX/player_shotgun_atk_10C4C929.wem</CachePath>
 				</File>
 				<File Id="196376984" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fs_player_dirt_08.wav</ShortName>
@@ -470,6 +474,10 @@
 					<ShortName>skel_vo_05.wav</ShortName>
 					<CachePath>SFX/skel_vo_05_10C4C929.wem</CachePath>
 				</File>
+				<File Id="848350748" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>player_shotgun_init.wav</ShortName>
+					<CachePath>SFX/player_shotgun_init_10C4C929.wem</CachePath>
+				</File>
 				<File Id="858779314" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>skel_death_01.wav</ShortName>
 					<CachePath>SFX/skel_death_01_10C4C929.wem</CachePath>
@@ -502,6 +510,10 @@
 					<ShortName>head_pickup.wav</ShortName>
 					<CachePath>SFX/head_pickup_10C4C929.wem</CachePath>
 				</File>
+				<File Id="933496307" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>player_slam_init.wav</ShortName>
+					<CachePath>SFX/player_slam_init_10C4C929.wem</CachePath>
+				</File>
 				<File Id="963225850" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fs_player_dirt_02.wav</ShortName>
 					<CachePath>SFX/fs_player_dirt_02_10C4C929.wem</CachePath>
@@ -509,6 +521,10 @@
 				<File Id="966189127" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>head_impact_04.wav</ShortName>
 					<CachePath>SFX/head_impact_04_10C4C929.wem</CachePath>
+				</File>
+				<File Id="966389329" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>player_slam_atk.wav</ShortName>
+					<CachePath>SFX/player_slam_atk_10C4C929.wem</CachePath>
 				</File>
 				<File Id="985831120" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fs_skel_grass_08.wav</ShortName>
@@ -664,6 +680,26 @@
 						<MediaRef Id="222124175"/>
 					</MediaRefs>
 				</Event>
+				<Event Id="1199887854" Name="player_shotgun_atk">
+					<MediaRefs>
+						<MediaRef Id="195194557"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="255574742" Name="player_shotgun_init">
+					<MediaRefs>
+						<MediaRef Id="848350748"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2909104693" Name="player_slam_atk">
+					<MediaRefs>
+						<MediaRef Id="966389329"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3131540599" Name="player_slam_init">
+					<MediaRefs>
+						<MediaRef Id="933496307"/>
+					</MediaRefs>
+				</Event>
 				<Event Id="2062853598" Name="portal_close">
 					<MediaRefs>
 						<MediaRef Id="495527006"/>
@@ -781,5 +817,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{E9729F79-27A5-F7B4-575C-218540B1E13F}</FileHash>
+	<FileHash>{BCFA6A1E-4037-0B9F-A82D-1CD7B51829AC}</FileHash>
 </SoundBanksInfo>

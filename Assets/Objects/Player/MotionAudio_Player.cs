@@ -81,18 +81,32 @@ public class MotionAudio_Player : MonoBehaviour
         Character_Run.Post(gameObject);
     }
 
-    public AK.Wwise.Event Character_Shotgun;
+    public AK.Wwise.Event Character_Shotgun_Init;
 
-    void CharacterShotgun()
+    void CharacterShotgunInit()
     {
-        Character_Shotgun.Post(gameObject);
+        Character_Shotgun_Init.Post(gameObject);
     }
 
-    public AK.Wwise.Event Character_Slam;
+    public AK.Wwise.Event Character_Shotgun_Atk;
 
-    void CharacterSlam()
+    void CharacterShotgunAtk()
     {
-        Character_Slam.Post(gameObject);
+        Character_Shotgun_Atk.Post(gameObject);
+    }
+
+    public AK.Wwise.Event Character_Slam_Init;
+
+    void CharacterSlamInit()
+    {
+        Character_Slam_Init.Post(gameObject);
+    }
+
+    public AK.Wwise.Event Character_Slam_Atk;
+
+    void CharacterSlamAtk()
+    {
+        Character_Slam_Atk.Post(gameObject);
     }
 
     public AK.Wwise.Event Character_Spin;

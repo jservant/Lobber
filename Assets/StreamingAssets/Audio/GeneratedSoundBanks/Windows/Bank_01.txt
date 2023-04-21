@@ -1,5 +1,6 @@
 Event	ID	Name			Wwise Object Path	Notes
 	215823421	player_bush_ent			\Default Work Unit\Player\player_bush_ent	
+	255574742	player_shotgun_init			\Default Work Unit\Player\player_shotgun_init	
 	375965827	head_flying			\Default Work Unit\Head\head_flying	
 	500517664	skel_spwan_land			\Default Work Unit\Skeletons\skel_spwan_land	
 	762878330	portal_open			\Default Work Unit\SFX\portal_open	
@@ -10,13 +11,16 @@ Event	ID	Name			Wwise Object Path	Notes
 	973170820	player_lob			\Default Work Unit\Player\player_lob	
 	1091450755	skel_spwan_jump			\Default Work Unit\Skeletons\skel_spwan_jump	
 	1123472706	skel_vo			\Default Work Unit\Skeletons\skel_vo	
+	1199887854	player_shotgun_atk			\Default Work Unit\Player\player_shotgun_atk	
 	1504289659	skel_death			\Default Work Unit\Skeletons\skel_death	
 	1752115990	player_chop_tail			\Default Work Unit\Player\player_chop_tail	
 	2062853598	portal_close			\Default Work Unit\SFX\portal_close	
 	2376412427	skel_dash			\Default Work Unit\Skeletons\skel_dash	
 	2415455525	Combat1_Stop			\Default Work Unit\Music\Combat1_Stop	
 	2586367166	head_pickup			\Default Work Unit\Head\head_pickup	
+	2909104693	player_slam_atk			\Default Work Unit\Player\player_slam_atk	
 	3086941384	portal_idle			\Default Work Unit\SFX\portal_idle	
+	3131540599	player_slam_init			\Default Work Unit\Player\player_slam_init	
 	3157003241	TEST			\Default Work Unit\TEST	
 	3207324726	amb_fire			\Default Work Unit\AMB\amb_fire	
 	3334362129	amb_LV1			\Default Work Unit\AMB\amb_LV1	
@@ -60,17 +64,18 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	97539198	player_attack2_02	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\player_attack2_02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_attack2\player_attack2_02		50740
 	101552163	player_chop_init	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\player_chop_init_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_chop_init		126096
 	102229063	bush_ent_01	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\bush_ent_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_bush_ent\bush_ent_01		102096
-	115604974	skel_vo_01	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\skel_vo_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_vo\skel_vo_01		354468
+	115604974	skel_vo_01	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\skel_vo_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_vo\skel_vo_01		342116
 	123446656	fs_skel_grass_04	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_skel_grass_04_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_fs\skel_fs_grass\fs_skel_grass_04		52108
 	138826314	fs_skel_grass_07	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_skel_grass_07_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_fs\skel_fs_grass\fs_skel_grass_07		50652
 	144792552	skel_slash_02	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\skel_slash_02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_slash\skel_slash_02		96096
 	150208270	emit_fire_01	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\emit_fire_01_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\AMB_LV1\emit_fire_01		2496096
 	166049200	head_impact_02	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\head_impact_02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Head\head_impact\head_impact_02		72096
+	195194557	player_shotgun_atk	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\player_shotgun_atk_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_shotgun_atk		600096
 	196376984	fs_player_dirt_08	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_player_dirt_08_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_fs\player_fs_dirt\fs_player_dirt_08		30096
 	198597785	fs_player_grass_05	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_player_grass_05_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_fs\player_fs_grass\fs_player_grass_05		29054
 	204565514	fs_player_gravel_07	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_player_gravel_07_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_fs\player_fs_gravel\fs_player_gravel_07		38336
 	222124175	player_lob	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\player_lob_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_lob		336096
-	226075322	skel_vo_03	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\skel_vo_03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_vo\skel_vo_03		244316
+	226075322	skel_vo_03	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\skel_vo_03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_vo\skel_vo_03		303200
 	226886049	skel_dash_01	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\skel_dash_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_dash\skel_dash_01		288096
 	233950051	player_attack1_03	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\player_attack1_03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_attack1\player_attack1_03		56108
 	252319005	fs_skel_grass_02	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_skel_grass_02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_fs\skel_fs_grass\fs_skel_grass_02		51444
@@ -90,7 +95,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	482700904	fs_player_gravel_03	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_player_gravel_03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_fs\player_fs_gravel\fs_player_gravel_03		46876
 	482864927	fs_player_gravel_04	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_player_gravel_04_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_fs\player_fs_gravel\fs_player_gravel_04		38468
 	484460241	fs_skel_gravel_01	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_skel_gravel_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_fs\skel_fs_gravel\fs_skel_gravel_01		48096
-	495527006	portal_close	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\portal_idle_close_6508827C.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\portal_close		236512
+	495527006	portal_close	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\portal_idle_close_6508827C.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\portal_close		230624
 	500052017	skel_spawn_land	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\skel_spawn_land_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_spawn_land		258204
 	530298481	fs_skel_gravel_02	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_skel_gravel_02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_fs\skel_fs_gravel\fs_skel_gravel_02		48980
 	541494156	fs_player_gravel_01	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_player_gravel_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_fs\player_fs_gravel\fs_player_gravel_01		50020
@@ -99,12 +104,12 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	607533289	fs_skel_gravel_04	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_skel_gravel_04_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_fs\skel_fs_gravel\fs_skel_gravel_04		52436
 	620386747	skel_gethit_03	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\skel_gethit_03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_gethit\skel_gethit_03		63424
 	650088066	player_attack1_02	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\player_attack1_02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_attack1\player_attack1_02		66096
-	654628775	skel_vo_04	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\skel_vo_04_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_vo\skel_vo_04		288096
+	654628775	skel_vo_04	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\skel_vo_04_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_vo\skel_vo_04		434272
 	669688938	fs_player_dirt_07	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_player_dirt_07_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_fs\player_fs_dirt\fs_player_dirt_07		28306
 	677937057	lobber_mx_combat1-loop	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\lobber_mx_combat1-loop_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\Combat1\Combat1\Combat1-loop\lobber_mx_combat1-loop		6291616
 	683213108	fs_skel_gravel_03	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_skel_gravel_03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_fs\skel_fs_gravel\fs_skel_gravel_03		43760
-	701618492	skel_vo_02	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\skel_vo_02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_vo\skel_vo_02		322916
-	712810717	portal_idle	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\portal_idle_close_BBE62D10.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\portal_idle		1152144
+	701618492	skel_vo_02	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\skel_vo_02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_vo\skel_vo_02		348256
+	712810717	portal_idle	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\portal_idle_close_BBE62D10.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\portal_idle		1146256
 	735764590	fs_player_gravel_05	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_player_gravel_05_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_fs\player_fs_gravel\fs_player_gravel_05		37464
 	754981410	player_chop_tail	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\player_chop_tail_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_chop_tail		186096
 	776172988	fs_player_dirt_04	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_player_dirt_04_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_fs\player_fs_dirt\fs_player_dirt_04		22800
@@ -114,7 +119,8 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	821072770	player_gethit_02	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\player_gethit_02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_gethit\player_gethit_02		123140
 	823792418	fs_player_grass_07	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_player_grass_07_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_fs\player_fs_grass\fs_player_grass_07		35444
 	824198949	player_gethit_03	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\player_gethit_03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_gethit\player_gethit_03		136688
-	834267316	skel_vo_05	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\skel_vo_05_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_vo\skel_vo_05		288096
+	834267316	skel_vo_05	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\skel_vo_05_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_vo\skel_vo_05		267808
+	848350748	player_shotgun_init	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\player_shotgun_init_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_shotgun_init		84096
 	858779314	skel_death	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\skel_death_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_death		204096
 	865086151	head_impact_01	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\head_impact_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Head\head_impact\head_impact_01		69192
 	872431774	player_attack1_01	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\player_attack1_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_attack1\player_attack1_01		57072
@@ -123,8 +129,10 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	913163461	fs_player_dirt_03	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_player_dirt_03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_fs\player_fs_dirt\fs_player_dirt_03		25194
 	914370410	lobber_mx_combat1-intro	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\lobber_mx_combat1-intro_A389B95C.wem		\Interactive Music Hierarchy\Default Work Unit\Combat1\Combat1\Combat1-intro\lobber_mx_combat1-intro		3932432
 	922362666	head_pickup	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\head_pickup_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Head\head_pickup		57864
+	933496307	player_slam_init	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\player_slam_init_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_slam_init		162324
 	963225850	fs_player_dirt_02	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_player_dirt_02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_fs\player_fs_dirt\fs_player_dirt_02		23036
 	966189127	head_impact_04	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\head_impact_04_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Head\head_impact\head_impact_04		69788
+	966389329	player_slam_atk	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\player_slam_atk_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_slam_atk		294096
 	985831120	fs_skel_grass_08	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_skel_grass_08_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_fs\skel_fs_grass\fs_skel_grass_08		48096
 	1005504680	skel_dash_03	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\skel_dash_03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_dash\skel_dash_03		288096
 	1005933419	fs_skel_grass_03	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_skel_grass_03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_fs\skel_fs_grass\fs_skel_grass_03		49808

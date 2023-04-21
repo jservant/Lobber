@@ -118,6 +118,50 @@
 								</Action>
 							</ChildrenList>
 						</Event>
+						<Event Name="player_shotgun_init" ID="{F6B3F7F9-342D-4883-B963-44FE472798E5}">
+							<ChildrenList>
+								<Action Name="" ID="{3D916529-E72E-456C-A1D1-1BC99BDC7D4F}" ShortID="1061489110">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="player_shotgun_init" ID="{E74C89C3-A81C-4E74-81E4-ECF2FA6D920B}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="player_shotgun_atk" ID="{D4F99440-9056-4FE0-8EE8-A0CA3A3BD101}">
+							<ChildrenList>
+								<Action Name="" ID="{6A6490F2-D79D-48D1-AD5B-D20031A4E63D}" ShortID="79811635">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="player_shotgun_atk" ID="{8B6FB35C-24B8-473F-B9CD-4164C9DD76E1}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="player_slam_init" ID="{E77EC97F-A960-49D0-8082-F88A44F0554C}">
+							<ChildrenList>
+								<Action Name="" ID="{45EB0A34-E981-484B-B6E3-9FE052A45470}" ShortID="181089648">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="player_slam_init" ID="{2964C266-43E4-4B0D-A7DF-922529DB95E5}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="player_slam_atk" ID="{DE84BD0D-44DF-40F1-A8ED-9B402F27BE45}">
+							<ChildrenList>
+								<Action Name="" ID="{02D82678-58D6-4328-B61B-AB11F83463AC}" ShortID="251209542">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="player_slam_atk" ID="{2A29C513-BD07-4ECD-BE6C-90D86AD02A2F}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
 					</ChildrenList>
 				</Folder>
 				<Folder Name="Skeletons" ID="{52B80696-1DC9-440D-86B4-8D98D4620CE9}" ShortID="401187278">
@@ -349,6 +393,65 @@
 									<ReferenceList>
 										<Reference Name="Target">
 											<ObjectRef Name="head_pickup" ID="{A599EFB0-C1F3-41AD-82A0-4048332B166F}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="Pest Bomb" ID="{AA370F07-8478-4A6C-A78D-2E4F804AE60A}" ShortID="601532586">
+					<ChildrenList>
+						<Event Name="pest_bomb_fuse" ID="{3764E9D7-9F99-4365-BF4F-FEA4611D0EEA}">
+							<ChildrenList>
+								<Action Name="" ID="{C20044DC-FA52-45FF-AF76-A65E4EE4E036}" ShortID="844972506">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="pest_bomb_fuse" ID="{76821511-E631-4A5F-98AB-ECC6193EF190}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="pest_bomb_expload" ID="{8FA35605-9555-4B86-AF4A-2BF480E963A5}">
+							<ChildrenList>
+								<Action Name="" ID="{B5DE2CE3-5878-4D36-A144-23E4F7F5E23A}" ShortID="484830376">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="2"/>
+										<Property Name="FadeTime" Type="Real64" Value="0.5"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="pest_bomb_fuse" ID="{76821511-E631-4A5F-98AB-ECC6193EF190}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{0765B574-FBC8-4BF5-8B56-BFB7428B0166}" ShortID="31304274">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="pest_bomb_expload" ID="{BCC34142-4C30-4E9C-83B7-81A5D2B39490}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="pest_bomb_jump" ID="{9945CC30-1F49-4349-AD39-F96349C06E60}">
+							<ChildrenList>
+								<Action Name="" ID="{857C5B29-61CB-4A2E-A91E-62F264AAE49A}" ShortID="224454438">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="pest_bomb_jump" ID="{04C26418-05F7-4239-9300-A5CC016D3732}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="pest_fs" ID="{A29D10DE-A0A2-4F4F-994E-4FF97AEFCC9D}">
+							<ChildrenList>
+								<Action Name="" ID="{F19D7630-26F4-4D3A-9F42-861458A6B9E0}" ShortID="304281136">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="pest_fs" ID="{9C5AB3DB-D5DC-4416-95FB-518D53ECBBE6}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>
