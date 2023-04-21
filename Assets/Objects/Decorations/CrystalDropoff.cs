@@ -19,6 +19,7 @@ public class CrystalDropoff : MonoBehaviour
 		if (other.gameObject.layer == (int)Layers.PlayerHitbox && playerController.hasCrystal) {
             crystalCount++;
             playerController.hasCrystal = false;
+            gameManager.crystalPickupImage.enabled = false;
             if (crystalCount >= crystalGoal) {
                 StartCoroutine(gameManager.Win());
 			}

@@ -94,6 +94,7 @@ public class Basic : MonoBehaviour {
 
 	public float health;
 	public float partialMeter; //how much meter the player gets for just hitting this?
+	bool wasHitByChop = false;
 	bool shouldDie = false;
 	public float dropChance; //chance to drop a head (0-100)
 
@@ -316,6 +317,7 @@ public class Basic : MonoBehaviour {
 
 						case PlayerController.Attacks.Chop:
 							shouldDie = true;
+							wasHitByChop = true;
 							player.ChangeMeter(1);
 							sounds.Sound_EnemyLob();
 							break;
@@ -969,7 +971,7 @@ public class Basic : MonoBehaviour {
 
 		if (shouldDie) {
 			Vector3 spawnPos = transform.position + 3 * Vector3.up;
-			if (gameMan.playerController.currentAttack != PlayerController.Attacks.Chop) gameMan.DeterminePickups(spawnPos);
+			if (!wasHitByChop && transform.position.y > -49f) gameMan.DeterminePickups(spawnPos);
 			Destroy(this.gameObject); 
 		}
 	}

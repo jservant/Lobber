@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour {
 
 	[Header("UI")]
 	public Canvas mainUI;
+	public Image crystalPickupImage;
 	public Canvas pauseBG;
 	public Button resumeButton;
 	public Canvas pauseUI;
@@ -122,6 +123,7 @@ public class GameManager : MonoBehaviour {
 		dActions = new DebugActions();
 		eSystem = GetComponent<EventSystem>();
 		mainUI = transform.Find("MainUI").GetComponent<Canvas>();
+		crystalPickupImage = transform.Find("MainUI/HasCrystalImage").GetComponent<Image>();
 		pauseBG = transform.Find("PauseBG").GetComponent<Canvas>();
 		resumeButton = transform.Find("PauseUI/ResumeButton").GetComponent<Button>();
 		pauseUI = transform.Find("PauseUI").GetComponent<Canvas>();
@@ -378,7 +380,7 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 
-		if (enemiesKilledInLevel >= enemyKillingGoal && enemiesAlive <= 0 && transitioningLevel == false) {
+		if (enemiesKilledInLevel >= enemyKillingGoal && enemiesAlive <= 0 && transitioningLevel == false && currentObjective == (int)Objectives.KillTheEnemies) {
 			StartCoroutine(Win());
 		}
 	}
@@ -433,16 +435,22 @@ public class GameManager : MonoBehaviour {
 		float skullChance = (60 / playerController.meterMax) * (playerController.meterMax - meterBeforeUse);
 		float pickupDecider = Random.Range(1, 100);
 		if (pickupDecider <= skullChance) { //check for skulldrop
-			if (pickupDecider <= goldenSkullDropChance) SpawnPickup(1, position); //check for goldenskull
-			else SpawnPickup(0, position);
+			if (pickupDecider <= goldenSkullDropChance) SpawnPickup((int)Pickup.Type.GoldenSkull, position); //check for goldenskull
+			else SpawnPickup((int)Pickup.Type.Skull, position);
 		}
 
 		//Health Pickup
 		int healthChance = (60 / playerController.healthMax) * (playerController.healthMax - playerController.health);
 		pickupDecider = Random.Range(1, 100);
-		if (pickupDecider <= healthChance) SpawnPickup(2, position); //check for healthdrop
+		if (pickupDecider <= healthChance) SpawnPickup((int)Pickup.Type.Health, position); //check for healthdrop
 		
-		Debug.Log("Player health: " + playerController.health + "/" + playerController.healthMax + " Chance for this to be a health pickup: " + healthChance + "%");
+		//Crystal Pickup
+		if (currentObjective == (int)Objectives.HarvestTheCrystals) {
+			int crystalChance = (100 / (enemyKillingGoal / 3));
+			pickupDecider = Random.Range(1, 100);
+			if (pickupDecider <= crystalChance) SpawnPickup((int)Pickup.Type.Crystal, position); //check for crystal drop
+			Debug.Log("Crystal Pickup spawned");
+		}
 	}
 
 	public void SpawnPickup(int pickupID, Vector3 position) {

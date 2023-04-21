@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class Pickup : MonoBehaviour {
 
-	public enum Type { Skull = 0, GoldenSkull, Health };
+	public enum Type { Skull = 0, GoldenSkull, Health, Crystal };
 	public Type pickupType;
 
 	[Header("References:")]
@@ -15,7 +15,6 @@ public class Pickup : MonoBehaviour {
 	PlayerController playerController;
 	public MeshRenderer headModel;
 	TrailRenderer headTrail;
-	public Material goldMat;
 
 	[Header("Movement:")]
 	public float flightAngle; //degree to which head flies upwards
@@ -108,10 +107,11 @@ public class Pickup : MonoBehaviour {
 	}
 
 	void Update() {
-		lifetime -= Time.deltaTime;
-
-		if (lifetime <= lowLifetime) StartBlinking();
-		if (lifetime <= 0) Destroy(this.gameObject);
+		if (pickupType != Type.Crystal) {
+			lifetime -= Time.deltaTime;
+			if (lifetime <= lowLifetime) StartBlinking();
+			if (lifetime <= 0) Destroy(this.gameObject);
+		}
 		if (transform.position.y <= 0) if (indicator != null) Destroy(indicator);
 
 		if (Physics.Raycast(transform.position, Vector3.down, 1.0f, Mask.Get(Layers.Ground))) {
@@ -167,7 +167,6 @@ public class Pickup : MonoBehaviour {
 		}
 
 		blinkTime += Time.deltaTime;
-		
 	}
 
 	void OnDrawGizmosSelected() {
@@ -179,17 +178,24 @@ public class Pickup : MonoBehaviour {
 		Destroy(this.transform.parent.gameObject);
 		if (!isOnGround) { meterValue += meterCatchBonus; healthValue += healthCatchBonus; } //get +1 value if you can catch it!
 		if (collected) {
-			if (pickupType == Type.Skull) { // skull
-				gameMan.playerController.meter += meterValue;
-			}
-
-			if (pickupType == Type.GoldenSkull) { // golden skull
-				gameMan.playerController.meter = gameMan.playerController.meterMax;
-				gameMan.playerController.frenzyTimer = 5f;
-			}
-
-			if (pickupType == Type.Health) { // health
-				gameMan.playerController.health += healthValue;
+			switch(pickupType) {
+				case Type.Skull:
+					gameMan.playerController.meter += meterValue;
+					break;
+				case Type.GoldenSkull:
+					gameMan.playerController.meter = gameMan.playerController.meterMax;
+					gameMan.playerController.frenzyTimer = 5f;
+					break;
+				case Type.Health:
+					gameMan.playerController.health += healthValue;
+					break;
+				case Type.Crystal:
+					gameMan.playerController.hasCrystal = true;
+					gameMan.crystalPickupImage.enabled = true;
+					break;
+				default:
+					Debug.Log("Something is wrong with a pickup");
+					break;
 			}
 		}
 	}
