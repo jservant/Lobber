@@ -64,10 +64,11 @@ public class GameManager : MonoBehaviour {
 	public GameObject FlashPrefab;
 	public GameObject OrbSpawnPrefab;
 	public GameObject[] Pickups;
-	public GameObject crystalDropoff;
+	public GameObject crystalDropoffPrefab;
 
 	[Header("Spawning:")]
 	public Transform[] eSpawns;
+	public Transform crystalDropoffSpawn;
 	public int enemiesAlive = 0;
 	public int enemiesKilledInLevel = 0;
 	public static int enemiesKilledInRun = 0;
@@ -116,6 +117,7 @@ public class GameManager : MonoBehaviour {
 			}
 			eSpawns = TempArray;
 		}
+		crystalDropoffSpawn = transform.Find("/CrystalDropoffSpawn");
 
 		dActions = new DebugActions();
 		eSystem = GetComponent<EventSystem>();
@@ -133,17 +135,13 @@ public class GameManager : MonoBehaviour {
 		spawnTokens = 100;
 		objectiveFadeTimer = 5f;
 
-		/*float[] objectiveChoices = new float[] { 1f, 1f, 1f, 1f };
-		objectiveChoices[currentObjective] = 0;
-		objectiveChoices[(int)Objectives.DestroyTheCrystals] = 0;
+		float[] objectiveChoices = new float[] { 1f, 1f, 1f, 1f };
+		//objectiveChoices[currentObjective] = 0;
+		objectiveChoices[(int)Objectives.HarvestTheCrystals] = 0;
 		objectiveChoices[(int)Objectives.DestroyTheCrystals] = 0;
 		objectiveChoices[(int)Objectives.SurviveTheOnslaught] = 0;
 		// PREVIOUS TWO LINES ARE TEMP while they don't work
 		currentObjective = Util.RollWeightedChoice(objectiveChoices);
-
-		if (currentObjective != (int)Objectives.HarvestTheCrystals) {
-			crystalDropoff.gameObject.SetActive(false);
-		}*/
 
 		switch (currentObjective) {
 			case (int)Objectives.KillTheEnemies:
@@ -152,11 +150,12 @@ public class GameManager : MonoBehaviour {
 				"\nKill the Enemies!";
 				break;
 			case (int)Objectives.DestroyTheCrystals:
-
 				statusTextboxText.text = "Level " + levelCount +
 				"\nDestroy the Crystals!";
 				break;
 			case (int)Objectives.HarvestTheCrystals:
+				Instantiate(crystalDropoffPrefab, crystalDropoffSpawn.position, crystalDropoffSpawn.rotation);
+				Debug.Log("Crystal dropoff should have spawned at " + crystalDropoffSpawn.position);
 				statusTextboxText.text = "Level " + levelCount +
 				"\nHarvest the Crystals!";
 				break;
