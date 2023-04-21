@@ -7650,7 +7650,7 @@ Transform:
   - {fileID: 1682396440}
   - {fileID: 1275986471}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &336185828
 GameObject:
@@ -9684,67 +9684,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d6650ca35788887499bbcfee81f4797d, type: 3}
---- !u!1001 &470867210
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 7377315695150461880, guid: bd3c51ea3b5fd5b4ab49d55a12a59af6, type: 3}
-      propertyPath: m_Name
-      value: CrystalDropoff
-      objectReference: {fileID: 0}
-    - target: {fileID: 7377315695150461880, guid: bd3c51ea3b5fd5b4ab49d55a12a59af6, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7866290074251110658, guid: bd3c51ea3b5fd5b4ab49d55a12a59af6, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7866290074251110658, guid: bd3c51ea3b5fd5b4ab49d55a12a59af6, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -25.141382
-      objectReference: {fileID: 0}
-    - target: {fileID: 7866290074251110658, guid: bd3c51ea3b5fd5b4ab49d55a12a59af6, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.93807226
-      objectReference: {fileID: 0}
-    - target: {fileID: 7866290074251110658, guid: bd3c51ea3b5fd5b4ab49d55a12a59af6, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 86.887146
-      objectReference: {fileID: 0}
-    - target: {fileID: 7866290074251110658, guid: bd3c51ea3b5fd5b4ab49d55a12a59af6, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7866290074251110658, guid: bd3c51ea3b5fd5b4ab49d55a12a59af6, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7866290074251110658, guid: bd3c51ea3b5fd5b4ab49d55a12a59af6, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7866290074251110658, guid: bd3c51ea3b5fd5b4ab49d55a12a59af6, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7866290074251110658, guid: bd3c51ea3b5fd5b4ab49d55a12a59af6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7866290074251110658, guid: bd3c51ea3b5fd5b4ab49d55a12a59af6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7866290074251110658, guid: bd3c51ea3b5fd5b4ab49d55a12a59af6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: bd3c51ea3b5fd5b4ab49d55a12a59af6, type: 3}
 --- !u!43 &484684660
 Mesh:
   m_ObjectHideFlags: 0
@@ -43080,6 +43019,36 @@ Transform:
   m_Father: {fileID: 1550556040}
   m_RootOrder: 28
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1158465734
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1158465735}
+  m_Layer: 0
+  m_Name: CrystalDropoffSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1158465735
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1158465734}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -56.46, y: 1.53, z: 39.47}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1168755095
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -46314,7 +46283,7 @@ Transform:
   - {fileID: 992044347}
   - {fileID: 742525950}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1551558149
 PrefabInstance:
@@ -48777,7 +48746,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1940138490361210162, guid: 1537e0167d2119944945a74f2fe91845, type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 1940138490361210162, guid: 1537e0167d2119944945a74f2fe91845, type: 3}
       propertyPath: m_LocalPosition.x
