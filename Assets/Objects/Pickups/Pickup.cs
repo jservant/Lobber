@@ -35,7 +35,7 @@ public class Pickup : MonoBehaviour {
 	public bool isOnGround;
 	public bool collected;
 	public float randomForce;
-	private float lowLifetime = 3.5f; //when to start blinking to indicate low lifetime
+	private float lowLifetime = 4f; //when to start blinking to indicate low lifetime
 	private float blinkDuration = 0.5f;
 	private float blinkTime = 0f;
 
