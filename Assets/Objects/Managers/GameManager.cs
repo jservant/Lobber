@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour {
 		KillTheEnemies = 0, // basically done, needs to be better implemented into a more official obj switcher
 		DestroyTheCrystals,
 		SurviveTheOnslaught,
-		HarvestTheCrystals,
+		HarvestTheCrystals, // workinonit
 	}
 	public static int currentObjective = 0;
 
@@ -403,7 +403,7 @@ public class GameManager : MonoBehaviour {
 			storedPlayerHealth = playerController.health;
 			storedPlayerMeter = playerController.meter;
 			levelCount++; enemyKillingGoal += 10;
-			float[] sceneChances = new float[] {0, 1f, 1f, 1f };
+			float[] sceneChances = new float[] {0, 0f, 1f, 1f }; // @TODO(Jaden): PUT LEVEL B BACK IN LATER
 			sceneChances[SceneManager.GetActiveScene().buildIndex] = 0;
 			SceneManager.LoadScene(Util.RollWeightedChoice(sceneChances));
 		}

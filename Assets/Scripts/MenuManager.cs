@@ -24,7 +24,8 @@ public class MenuManager : MonoBehaviour
 		GameManager.enemyKillingGoal = 30;
 		GameManager.enemiesKilledInRun = 0;
 		Initializer.save.versionLatest.runsStarted++;
-		SceneManager.LoadScene((int)Scenes.Level_B);
+		SceneManager.LoadScene((int)Scenes.Level_K); // disabling B for now
+
 	}
 
 	public void OnOptions() {
