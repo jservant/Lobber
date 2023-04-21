@@ -139,6 +139,7 @@ public class GameManager : MonoBehaviour {
 
 		float[] objectiveChoices = new float[] { 1f, 1f, 1f, 1f };
 		//objectiveChoices[currentObjective] = 0;
+		//objectiveChoices[(int)Objectives.KillTheEnemies] = 0;
 		objectiveChoices[(int)Objectives.HarvestTheCrystals] = 0;
 		objectiveChoices[(int)Objectives.DestroyTheCrystals] = 0;
 		objectiveChoices[(int)Objectives.SurviveTheOnslaught] = 0;
@@ -446,7 +447,7 @@ public class GameManager : MonoBehaviour {
 		
 		//Crystal Pickup
 		if (currentObjective == (int)Objectives.HarvestTheCrystals) {
-			int crystalChance = (100 / (enemyKillingGoal / 3));
+			int crystalChance = (100);
 			pickupDecider = Random.Range(1, 100);
 			if (pickupDecider <= crystalChance) SpawnPickup((int)Pickup.Type.Crystal, position); //check for crystal drop
 			Debug.Log("Crystal Pickup spawned");

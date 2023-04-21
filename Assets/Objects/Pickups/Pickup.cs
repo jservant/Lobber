@@ -107,11 +107,14 @@ public class Pickup : MonoBehaviour {
 	}
 
 	void Update() {
-		if (pickupType != Type.Crystal) {
+		lifetime -= Time.deltaTime;
+		if (lifetime <= lowLifetime) StartBlinking();
+		if (lifetime <= 0) Destroy(this.gameObject);
+		/*if (pickupType != Type.Crystal) {
 			lifetime -= Time.deltaTime;
 			if (lifetime <= lowLifetime) StartBlinking();
 			if (lifetime <= 0) Destroy(this.gameObject);
-		}
+		}*/
 		if (transform.position.y <= 0) if (indicator != null) Destroy(indicator);
 
 		if (Physics.Raycast(transform.position, Vector3.down, 1.0f, Mask.Get(Layers.Ground))) {
