@@ -1019,34 +1019,37 @@
 								<ActiveSource Name="player_chop_tail" ID="{370C3F28-8DD8-4D94-9F0D-44E6908F1AFC}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
-						<SwitchContainer Name="player_bushes" ID="{0B02D155-2A40-4ADD-B272-ABAD84BBCBD7}" ShortID="346747658">
+						<RandomSequenceContainer Name="player_bush_ent" ID="{FA08439F-ACB5-47B0-90C7-CE48472E1C76}" ShortID="626749287">
 							<PropertyList>
-								<Property Name="SwitchBehavior" Type="int16" Value="1"/>
+								<Property Name="Pitch" Type="int32">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{844447C1-CB35-47A2-BD02-D754126DDA68}">
+												<PropertyList>
+													<Property Name="Enabled" Type="bool" Value="True"/>
+													<Property Name="Max" Type="Real64" Value="100"/>
+													<Property Name="Min" Type="Real64" Value="-100"/>
+												</PropertyList>
+											</Modifier>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-20</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
 								</Reference>
-								<Reference Name="DefaultSwitchOrState">
-									<ObjectRef Name="OutBushes" ID="{68668E01-8B7C-4E9B-83C3-D0509C4F83A5}" WorkUnitID="{99733758-4F79-4710-9017-E0662FAA2094}"/>
-								</Reference>
 								<Reference Name="OutputBus">
 									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
 								</Reference>
-								<Reference Name="SwitchGroupOrStateGroup">
-									<ObjectRef Name="Player_Bushes" ID="{76125838-7F53-43CF-BF34-4EAE3C2E4A1B}" WorkUnitID="{99733758-4F79-4710-9017-E0662FAA2094}"/>
-								</Reference>
 							</ReferenceList>
 							<ChildrenList>
-								<Sound Name="player_bushes" ID="{DD5B88A8-1B72-44FB-8DF9-86DC38774190}" ShortID="518369900">
-									<PropertyList>
-										<Property Name="Highpass" Type="int16">
-											<ValueList>
-												<Value>30</Value>
-											</ValueList>
-										</Property>
-										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-									</PropertyList>
+								<Sound Name="bush_ent_01" ID="{A8BB2C3E-201D-40E0-9A11-E0BCE0B6EC5E}" ShortID="894899433">
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
@@ -1056,22 +1059,19 @@
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
-										<AudioFileSource Name="player_bushes" ID="{E17EB833-5666-4874-8A14-DDC3C56BD852}">
+										<AudioFileSource Name="bush_ent_01" ID="{D9AAB3CA-E712-45AA-91D1-C655F39B475E}">
 											<Language>SFX</Language>
-											<AudioFile>player_bushes.wav</AudioFile>
+											<AudioFile>bush_ent_01.wav</AudioFile>
 											<MediaIDList>
-												<MediaID ID="531488359"/>
+												<MediaID ID="102229063"/>
 											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
 									<ActiveSourceList>
-										<ActiveSource Name="player_bushes" ID="{E17EB833-5666-4874-8A14-DDC3C56BD852}" Platform="Linked"/>
+										<ActiveSource Name="bush_ent_01" ID="{D9AAB3CA-E712-45AA-91D1-C655F39B475E}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
-								<Sound Name="player_outbushes" ID="{35C4C88B-D544-4263-B774-0B4DFC475FFC}" ShortID="409308168">
-									<PropertyList>
-										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-									</PropertyList>
+								<Sound Name="bush_ent_02" ID="{EECDC2AD-C379-4332-A78A-8FAC0A691182}" ShortID="507236306">
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
@@ -1081,52 +1081,145 @@
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
-										<SourcePlugin Name="Silence" ID="{F423EEBF-0BCA-4F4E-9074-7668DD0AA3F0}" ShortID="415235728" PluginName="Wwise Silence" CompanyID="0" PluginID="101">
+										<AudioFileSource Name="bush_ent_02" ID="{10D92C44-9D16-4BBE-BE34-209B0E3381B3}">
 											<Language>SFX</Language>
-										</SourcePlugin>
+											<AudioFile>bush_ent_02.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="51859721"/>
+											</MediaIDList>
+										</AudioFileSource>
 									</ChildrenList>
 									<ActiveSourceList>
-										<ActiveSource Name="Silence" ID="{F423EEBF-0BCA-4F4E-9074-7668DD0AA3F0}" Platform="Linked"/>
+										<ActiveSource Name="bush_ent_02" ID="{10D92C44-9D16-4BBE-BE34-209B0E3381B3}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="bush_ent_03" ID="{ECE3A428-EED9-4D31-AF2C-7B68A660FAE0}" ShortID="238917966">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="bush_ent_03" ID="{F55338E9-10AD-40F0-AB7F-82C06E39C5EB}">
+											<Language>SFX</Language>
+											<AudioFile>bush_ent_03.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="400764545"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="bush_ent_03" ID="{F55338E9-10AD-40F0-AB7F-82C06E39C5EB}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
 							</ChildrenList>
-							<GroupingInfo>
-								<GroupingBehaviorList>
-									<GroupingBehavior>
-										<ItemRef Name="player_outbushes" ID="{35C4C88B-D544-4263-B774-0B4DFC475FFC}"/>
-									</GroupingBehavior>
-									<GroupingBehavior>
-										<ItemRef Name="player_bushes" ID="{DD5B88A8-1B72-44FB-8DF9-86DC38774190}"/>
-										<PropertyList>
-											<Property Name="FadeInTime" Type="Real64">
-												<ValueList>
-													<Value>0.2</Value>
-												</ValueList>
-											</Property>
-											<Property Name="FadeOutTime" Type="Real64">
-												<ValueList>
-													<Value>0.2</Value>
-												</ValueList>
-											</Property>
-										</PropertyList>
-									</GroupingBehavior>
-								</GroupingBehaviorList>
-								<GroupingList>
-									<Grouping>
-										<SwitchRef Name="OutBushes" ID="{68668E01-8B7C-4E9B-83C3-D0509C4F83A5}"/>
-										<ItemList>
-											<ItemRef Name="player_outbushes" ID="{35C4C88B-D544-4263-B774-0B4DFC475FFC}"/>
-										</ItemList>
-									</Grouping>
-									<Grouping>
-										<SwitchRef Name="InBushes" ID="{47F8181B-1C00-433E-9718-AA6ED57BAD97}"/>
-										<ItemList>
-											<ItemRef Name="player_bushes" ID="{DD5B88A8-1B72-44FB-8DF9-86DC38774190}"/>
-										</ItemList>
-									</Grouping>
-								</GroupingList>
-							</GroupingInfo>
-						</SwitchContainer>
+						</RandomSequenceContainer>
+						<RandomSequenceContainer Name="player_bush_ext" ID="{4B0156F9-826F-4DB8-A106-F524870B7592}" ShortID="537572802">
+							<PropertyList>
+								<Property Name="Pitch" Type="int32">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{7E638F80-645E-4F22-8C25-242C8F2CD1B2}">
+												<PropertyList>
+													<Property Name="Enabled" Type="bool" Value="True"/>
+													<Property Name="Max" Type="Real64" Value="100"/>
+													<Property Name="Min" Type="Real64" Value="-100"/>
+												</PropertyList>
+											</Modifier>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-20</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="bush_ext_01" ID="{C3695704-A122-4061-9060-0532E1A3ADE1}" ShortID="268122526">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="bush_ext_01" ID="{3494671D-6574-45CC-97BE-E202A87AF625}">
+											<PropertyList>
+												<Property Name="FadeInDuration" Type="Real64" Value="0.102430555555555"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.0138888888888889"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>bush_ext_01.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="445207777"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="bush_ext_01" ID="{3494671D-6574-45CC-97BE-E202A87AF625}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="bush_ext_02" ID="{3C7BE518-3EE5-429D-B57E-7CBEA076B981}" ShortID="907895468">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="bush_ext_02" ID="{66E3D421-7C15-4010-A2B7-9BC9B65191C0}">
+											<Language>SFX</Language>
+											<AudioFile>bush_ext_02.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="652860339"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="bush_ext_02" ID="{66E3D421-7C15-4010-A2B7-9BC9B65191C0}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="bush_ext_03" ID="{DDA97452-CF20-4276-8212-A860EEAC6DC5}" ShortID="384677746">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="bush_ext_03" ID="{04E52475-26ED-4BE9-B329-9596510E3D77}">
+											<Language>SFX</Language>
+											<AudioFile>bush_ext_03.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="196352832"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="bush_ext_03" ID="{04E52475-26ED-4BE9-B329-9596510E3D77}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
 					</ChildrenList>
 				</ActorMixer>
 				<ActorMixer Name="Skeletons" ID="{66B391D0-C7B2-463A-8BA3-3A4E2B9499D7}" ShortID="491509316">

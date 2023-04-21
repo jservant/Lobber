@@ -93,18 +93,18 @@
 								</Action>
 							</ChildrenList>
 						</Event>
-						<Event Name="player_bushes" ID="{635BB409-3601-4D4E-A59A-814154A80FE4}">
+						<Event Name="player_bush_ent" ID="{635BB409-3601-4D4E-A59A-814154A80FE4}">
 							<ChildrenList>
 								<Action Name="" ID="{C8421853-AF12-4E6F-8F10-A1D19FCBA0D5}" ShortID="516695921">
 									<ReferenceList>
 										<Reference Name="Target">
-											<ObjectRef Name="player_bushes" ID="{0B02D155-2A40-4ADD-B272-ABAD84BBCBD7}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
+											<ObjectRef Name="player_bush_ent" ID="{FA08439F-ACB5-47B0-90C7-CE48472E1C76}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>
 							</ChildrenList>
 						</Event>
-						<Event Name="player_bushes_out" ID="{14917CE3-50D6-429C-9419-3BA9E5AEF8AA}">
+						<Event Name="player_bush_ext" ID="{14917CE3-50D6-429C-9419-3BA9E5AEF8AA}">
 							<ChildrenList>
 								<Action Name="" ID="{DF991CC9-F117-4FCE-AF16-35638E9633C8}" ShortID="982552181">
 									<PropertyList>
@@ -112,7 +112,7 @@
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Target">
-											<ObjectRef Name="player_bushes" ID="{0B02D155-2A40-4ADD-B272-ABAD84BBCBD7}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
+											<ObjectRef Name="player_bush_ext" ID="{4B0156F9-826F-4DB8-A106-F524870B7592}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>
@@ -230,6 +230,7 @@
 								<Action Name="" ID="{E3F81958-857F-4274-A78B-F98698F8AEEB}" ShortID="1017879061">
 									<PropertyList>
 										<Property Name="ActionType" Type="int16" Value="2"/>
+										<Property Name="FadeTime" Type="Real64" Value="0.5"/>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Target">
