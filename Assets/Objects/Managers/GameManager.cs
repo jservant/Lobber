@@ -253,7 +253,7 @@ public class GameManager : MonoBehaviour {
 				playerController.meter = playerController.meterMax;
 			}
 			if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed && playerController.pActions.Player.DEBUGLevelSkip.WasPerformedThisFrame()) {
-				float[] sceneChances = new float[] {0, 1f, 1f, 1f };
+				float[] sceneChances = new float[] {0, 0f, 1f, 1f }; //@TODO(Jaden): PUT LEVEL B BACK IN LATER
 				sceneChances[SceneManager.GetActiveScene().buildIndex] = 0;
 				SceneManager.LoadScene(Util.RollWeightedChoice(sceneChances));
 			}
