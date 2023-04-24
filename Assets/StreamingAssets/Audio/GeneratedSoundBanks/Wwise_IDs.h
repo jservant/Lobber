@@ -20,6 +20,10 @@ namespace AK
         static const AkUniqueID HEAD_FLYING = 375965827U;
         static const AkUniqueID HEAD_IMPACT = 4015037628U;
         static const AkUniqueID HEAD_PICKUP = 2586367166U;
+        static const AkUniqueID PEST_BOMB_EXPLOAD = 4234617796U;
+        static const AkUniqueID PEST_BOMB_FUSE = 437942920U;
+        static const AkUniqueID PEST_BOMB_JUMP = 1736279191U;
+        static const AkUniqueID PEST_FS = 718104337U;
         static const AkUniqueID PLAYER_ATTACK1 = 799884986U;
         static const AkUniqueID PLAYER_ATTACK2 = 799884985U;
         static const AkUniqueID PLAYER_BUSH_ENT = 215823421U;
@@ -45,6 +49,8 @@ namespace AK
         static const AkUniqueID SKEL_SPWAN_LAND = 500517664U;
         static const AkUniqueID SKEL_VO = 1123472706U;
         static const AkUniqueID TEST = 3157003241U;
+        static const AkUniqueID TRANSITION_START = 3587827325U;
+        static const AkUniqueID TRANSITION_STOP = 1619304959U;
     } // namespace EVENTS
 
     namespace SWITCHES

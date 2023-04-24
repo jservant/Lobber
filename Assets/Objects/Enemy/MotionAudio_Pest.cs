@@ -6,7 +6,7 @@ public class MotionAudio_Pest : MonoBehaviour
 {
     public AK.Wwise.Event Pest_FS;
     
-    void PestFS()
+    public void PestFS()
     {
         Pest_FS.Post(gameObject);
     }

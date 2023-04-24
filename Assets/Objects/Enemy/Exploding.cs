@@ -261,7 +261,7 @@ public class Exploding : MonoBehaviour {
 
 				// Choose Move direction
 				if (CanAttemptNavigation() && ((reevaluateMovement) || ((movementBurstDuration <= 0.0f) && (waitDuration <= 0.0f)))) {
-					if (!reevaluateMovement) { 
+					if (!reevaluateMovement) {
 						movementBurstDuration = MovementBustLength;
 					}
 
@@ -389,7 +389,7 @@ public class Exploding : MonoBehaviour {
 						explosionTimer -= Time.deltaTime;
 					}
 					else {
-						//sounds.PestBombExpload();
+						sounds.PestBombExpload();
 						gameMan.SpawnParticle(3, transform.position, 1f);
 						Destroy(this.gameObject);
 					}
