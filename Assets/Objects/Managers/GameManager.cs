@@ -140,7 +140,7 @@ public class GameManager : MonoBehaviour {
 		float[] objectiveChoices = new float[] { 1f, 1f, 1f, 1f };
 		//objectiveChoices[currentObjective] = 0;
 		//objectiveChoices[(int)Objectives.KillTheEnemies] = 0;
-		objectiveChoices[(int)Objectives.HarvestTheCrystals] = 0;
+		//objectiveChoices[(int)Objectives.HarvestTheCrystals] = 0;
 		objectiveChoices[(int)Objectives.DestroyTheCrystals] = 0;
 		objectiveChoices[(int)Objectives.SurviveTheOnslaught] = 0;
 		// PREVIOUS TWO LINES ARE TEMP while they don't work
@@ -253,7 +253,7 @@ public class GameManager : MonoBehaviour {
 				playerController.meter = playerController.meterMax;
 			}
 			if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed && playerController.pActions.Player.DEBUGLevelSkip.WasPerformedThisFrame()) {
-				float[] sceneChances = new float[] {0, 1f, 1f, 1f };
+				float[] sceneChances = new float[] {0, 0f, 1f, 1f };
 				sceneChances[SceneManager.GetActiveScene().buildIndex] = 0;
 				SceneManager.LoadScene(Util.RollWeightedChoice(sceneChances));
 			}
@@ -426,14 +426,23 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
-	public void DeterminePickups(Vector3 position) {
+	public void DeterminePickups(Vector3 position, bool isCrystallized) {
 		float meterBeforeUse = playerController.meter + PlayerController.AttackMeterCost[(int)playerController.currentAttack];
 		if (playerController.currentAttack == PlayerController.Attacks.None) {
 			meterBeforeUse = playerController.meter;
 		}
 
-		//Skull Pickup
 		float skullChance = (60 / playerController.meterMax) * (playerController.meterMax - meterBeforeUse);
+		int healthChance = (60 / playerController.healthMax) * (playerController.healthMax - playerController.health);
+
+		if (isCrystallized == true && playerController.hasCrystal == false) {
+			skullChance = 0;
+			healthChance = 0;
+			SpawnPickup((int)Pickup.Type.Crystal, position);
+			Debug.Log("Crystal Pickup spawned");
+		}
+
+		//Skull Pickup
 		float pickupDecider = Random.Range(1, 100);
 		if (pickupDecider <= skullChance) { //check for skulldrop
 			if (pickupDecider <= goldenSkullDropChance) SpawnPickup((int)Pickup.Type.GoldenSkull, position); //check for goldenskull
@@ -441,17 +450,9 @@ public class GameManager : MonoBehaviour {
 		}
 
 		//Health Pickup
-		int healthChance = (60 / playerController.healthMax) * (playerController.healthMax - playerController.health);
 		pickupDecider = Random.Range(1, 100);
 		if (pickupDecider <= healthChance) SpawnPickup((int)Pickup.Type.Health, position); //check for healthdrop
 		
-		//Crystal Pickup
-		if (currentObjective == (int)Objectives.HarvestTheCrystals) {
-			int crystalChance = (100);
-			pickupDecider = Random.Range(1, 100);
-			if (pickupDecider <= crystalChance) SpawnPickup((int)Pickup.Type.Crystal, position); //check for crystal drop
-			Debug.Log("Crystal Pickup spawned");
-		}
 	}
 
 	public void SpawnPickup(int pickupID, Vector3 position) {

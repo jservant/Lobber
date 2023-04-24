@@ -130,6 +130,7 @@ public class Basic : MonoBehaviour {
 
 	// NOTE(Roskuski): External references
 	GameManager gameMan;
+	public bool isCrystallized = false;
 
 	// NOTE(Roskuski): abs(traitMods) array should sum to 1
 	// @TODO(Roskuski): Mathematically prove that this true with negtive numbers
@@ -971,7 +972,10 @@ public class Basic : MonoBehaviour {
 
 		if (shouldDie) {
 			Vector3 spawnPos = transform.position + 3 * Vector3.up;
-			if (!wasHitByChop && transform.position.y > -49f) gameMan.DeterminePickups(spawnPos);
+			if (transform.position.y > -49f) {
+				if (isCrystallized) gameMan.DeterminePickups(spawnPos, true);
+				else if (!wasHitByChop) gameMan.DeterminePickups(spawnPos, isCrystallized);
+			}
 			Destroy(this.gameObject); 
 		}
 	}
