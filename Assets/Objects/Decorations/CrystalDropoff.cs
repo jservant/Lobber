@@ -18,9 +18,7 @@ public class CrystalDropoff : MonoBehaviour
             gameManager.crystalCount++;
             playerController.hasCrystal = false;
             gameManager.crystalPickupImage.enabled = false;
-            if (gameManager.crystalCount >= GameManager.crystalHarvestingGoal) {
-                StartCoroutine(gameManager.Win());
-			}
+
 		}
 	}
 }

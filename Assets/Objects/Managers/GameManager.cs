@@ -11,8 +11,7 @@ using TMPro;
 public class GameManager : MonoBehaviour {
 	public enum Objectives : int {
 		KillTheEnemies = 0, // basically done, needs to be better implemented into a more official obj switcher
-		DestroyTheCrystals,
-		SurviveTheOnslaught,
+		DestroyTheShrines,
 		HarvestTheCrystals, // workinonit
 	}
 	public static int currentObjective = 0;
@@ -27,6 +26,10 @@ public class GameManager : MonoBehaviour {
 	public static int crystalHarvestingGoal = 3;
 	public static int pickupDropChance = 0;
 	public static int levelCount = 0;
+
+	[Header("Non-static objective variables:")]
+	public int enemiesKilledInLevel = 0;
+	public int crystalCount;
 
 	[Header("UI")]
 	public Canvas mainUI;
@@ -76,9 +79,7 @@ public class GameManager : MonoBehaviour {
 	public Transform[] eSpawns;
 	public Transform crystalDropoffSpawn;
 	public int enemiesAlive = 0;
-	public int enemiesKilledInLevel = 0;
 	public int goldenSkullDropChance = 2; //out of 100
-	public int crystalCount;
 	bool transitioningLevel = false;
 	
 	[SerializeField] float spawnTokens;
@@ -142,12 +143,11 @@ public class GameManager : MonoBehaviour {
 		spawnTokens = 100;
 		objectiveFadeTimer = 5f;
 
-		float[] objectiveChoices = new float[] { 1f, 1f, 1f, 1f };
+		float[] objectiveChoices = new float[] { 4f, 1.5f, 3f, 1.5f };
 		//objectiveChoices[currentObjective] = 0;
 		//objectiveChoices[(int)Objectives.KillTheEnemies] = 0;
+		objectiveChoices[(int)Objectives.DestroyTheShrines] = 0;
 		//objectiveChoices[(int)Objectives.HarvestTheCrystals] = 0;
-		objectiveChoices[(int)Objectives.DestroyTheCrystals] = 0;
-		objectiveChoices[(int)Objectives.SurviveTheOnslaught] = 0;
 		// PREVIOUS TWO LINES ARE TEMP while they don't work
 		currentObjective = Util.RollWeightedChoice(objectiveChoices);
 
@@ -157,7 +157,7 @@ public class GameManager : MonoBehaviour {
 				statusTextboxText.text = "Level " + levelCount +
 				"\nKill the Enemies!";
 				break;
-			case (int)Objectives.DestroyTheCrystals:
+			case (int)Objectives.DestroyTheShrines:
 				statusTextboxText.text = "Level " + levelCount +
 				"\nDestroy the Crystals!";
 				break;
@@ -166,10 +166,6 @@ public class GameManager : MonoBehaviour {
 				Debug.Log("Crystal dropoff should have spawned at " + crystalDropoffSpawn.position);
 				statusTextboxText.text = "Level " + levelCount +
 				"\nHarvest the Crystals!";
-				break;
-			case (int)Objectives.SurviveTheOnslaught:
-				statusTextboxText.text = "Level " + levelCount +
-				"\nSurvive the Onslaught!";
 				break;
 			default:
 				statusTextboxText.text = "Level " + levelCount +
@@ -216,28 +212,24 @@ public class GameManager : MonoBehaviour {
 		//Objective text setter
 		switch (currentObjective) {
 			case (int)Objectives.KillTheEnemies:
-				// assign enemy killing goal to a UI object here
-				objectiveText.text = "Level " + levelCount +
-				"\nEnemies killed: " + enemiesKilledInLevel + "/" + enemyKillingGoal;
+				objectiveText.text = "Enemies killed: " + enemiesKilledInLevel + "/" + enemyKillingGoal;
+				if (enemiesKilledInLevel >= enemyKillingGoal && enemiesAlive <= 0 && transitioningLevel == false) {
+					StartCoroutine(Win());
+				}
 				break;
-			case (int)Objectives.DestroyTheCrystals:
-				objectiveText.text = "Level " + levelCount +
-				"\nDestroy the Crystals!";
+			case (int)Objectives.DestroyTheShrines:
+				objectiveText.text = "Destroy the Crystals!";
 				break;
 			case (int)Objectives.HarvestTheCrystals:
-				objectiveText.text = "Level " + levelCount +
-				"\nCrystals harvested: " + crystalCount + "/" + crystalHarvestingGoal;
-				break;
-			case (int)Objectives.SurviveTheOnslaught:
-				objectiveText.text = "Level " + levelCount +
-				"\nSurvive the Onslaught!";
+				objectiveText.text = "Crystals harvested: " + crystalCount + "/" + crystalHarvestingGoal;
+				if (crystalCount >= crystalHarvestingGoal && transitioningLevel == false) {
+					StartCoroutine(Win());
+				}
 				break;
 			default:
-				objectiveText.text = "Level " + levelCount +
-				"\nsomething is wrong";
+				objectiveText.text = "something is wrong";
 				break;
 		}
-
 
 		UpdateHealthBar();
 		UpdateMeter();
@@ -413,9 +405,8 @@ public class GameManager : MonoBehaviour {
 		}
 
 
-		if (enemiesKilledInLevel >= enemyKillingGoal && enemiesAlive <= 0 && transitioningLevel == false && currentObjective == (int)Objectives.KillTheEnemies) {
-			StartCoroutine(Win());
-		}
+		
+		
 	}
 
 	public IEnumerator Win() {
@@ -441,11 +432,10 @@ public class GameManager : MonoBehaviour {
 				case (int)Objectives.KillTheEnemies:
 					enemyKillingGoal += 10;
 					break;
-				case (int)Objectives.DestroyTheCrystals:
-					break;
-				case (int)Objectives.SurviveTheOnslaught:
+				case (int)Objectives.DestroyTheShrines:
 					break;
 				case (int)Objectives.HarvestTheCrystals:
+					crystalHarvestingGoal += 1;
 					break;
 				default:
 					break;
