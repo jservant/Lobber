@@ -89,7 +89,7 @@ public class Util {
 
 			// Move up to the wall, with a safe distance
 			Vector3 hitDelta = hitInfo.point - gameObject.transform.position;
-			Vector3 hitMove = (new Vector3 (hitDelta.x, 0, hitDelta.y) * translationDelta.magnitude) - translationDelta.normalized * spherecastRadius;
+			Vector3 hitMove = (new Vector3 (hitDelta.normalized.x, 0, hitDelta.normalized.y) * translationDelta.magnitude) - hitInfo.point.normalized * (spherecastRadius * 1f);
 			bool tookParticalMove = false;
 			if (Vector3.Dot(hitDelta, translationDelta) >= 0.9f) {
 				tookParticalMove = true;
@@ -121,7 +121,7 @@ public class Util {
 			Vector3 remainingDelta = Quaternion.AngleAxis(angleToSlide, Vector3.up) * hitInfo.normal * remainingMove.magnitude;
 			
 			// attempt to do that move successfully
-			return PerformCheckedLateralMovement(gameObject, verticalOffset, spherecastRadius, remainingDelta, depthCount, layerMask, true);
+			return PerformCheckedLateralMovement(gameObject, verticalOffset, spherecastRadius, remainingDelta, layerMask, depthCount, true);
 		}
 		else {
 			gameObject.transform.position += translationDelta;
