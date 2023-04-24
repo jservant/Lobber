@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SoundBanksInfo Platform="Mac" BasePlatform="Mac" SchemaVersion="16" SoundBankVersion="145">
 	<RootPaths>
-		<ProjectRoot>../../../../../Lobber_Wwise</ProjectRoot>
-		<SourceFilesRoot>../../../../../Lobber_Wwise/.cache/Mac</SourceFilesRoot>
+		<ProjectRoot>../../../../../Lobber_Wwise/</ProjectRoot>
+		<SourceFilesRoot>../../../../../Lobber_Wwise/.cache/Mac/</SourceFilesRoot>
 		<SoundBanksRoot>.</SoundBanksRoot>
 		<ExternalSourcesInputFile></ExternalSourcesInputFile>
 		<ExternalSourcesOutputRoot>../../../../../Lobber_Wwise/GeneratedSoundBanks/Mac</ExternalSourcesOutputRoot>
@@ -177,7 +177,7 @@
 				</AcousticTexture>
 			</AcousticTextures>
 		</SoundBank>
-		<SoundBank Id="1496463651" Type="User" Language="SFX" Hash="{2A65ECFE-B882-D1E2-D7E1-8964CB865378}">
+		<SoundBank Id="1496463651" Type="User" Language="SFX" Hash="{E89A1B70-267E-8814-B114-243AB33FD4B6}">
 			<ShortName>Bank_01</ShortName>
 			<Path>Bank_01.bnk</Path>
 			<Media>
@@ -196,6 +196,10 @@
 				<File Id="35430952" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fs_player_dirt_05.wav</ShortName>
 					<CachePath>SFX/fs_player_dirt_05_10C4C929.wem</CachePath>
+				</File>
+				<File Id="40688363" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_pest_06.wav</ShortName>
+					<CachePath>SFX/fs_pest_06_10C4C929.wem</CachePath>
 				</File>
 				<File Id="42617762" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fs_player_grass_01.wav</ShortName>
@@ -269,6 +273,10 @@
 					<ShortName>emit_fire_01.wav</ShortName>
 					<CachePath>SFX/emit_fire_01_D79FB2B7.wem</CachePath>
 				</File>
+				<File Id="163626921" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>pest_bomb_jump.wav</ShortName>
+					<CachePath>SFX/pest_bomb_jump_57E723D9.wem</CachePath>
+				</File>
 				<File Id="166049200" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>head_impact_02.wav</ShortName>
 					<CachePath>SFX/head_impact_02_10C4C929.wem</CachePath>
@@ -301,6 +309,10 @@
 					<ShortName>skel_dash_01.wav</ShortName>
 					<CachePath>SFX/skel_dash_01_10C4C929.wem</CachePath>
 				</File>
+				<File Id="227964973" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_pest_01.wav</ShortName>
+					<CachePath>SFX/fs_pest_01_10C4C929.wem</CachePath>
+				</File>
 				<File Id="233950051" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>player_attack1_03.wav</ShortName>
 					<CachePath>SFX/player_attack1_03_10C4C929.wem</CachePath>
@@ -321,6 +333,10 @@
 					<ShortName>fs_player_gravel_06.wav</ShortName>
 					<CachePath>SFX/fs_player_gravel_06_10C4C929.wem</CachePath>
 				</File>
+				<File Id="295499900" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_pest_02.wav</ShortName>
+					<CachePath>SFX/fs_pest_02_10C4C929.wem</CachePath>
+				</File>
 				<File Id="300101372" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>skel_gethit_04.wav</ShortName>
 					<CachePath>SFX/skel_gethit_04_10C4C929.wem</CachePath>
@@ -337,9 +353,17 @@
 					<ShortName>fs_skel_grass_06.wav</ShortName>
 					<CachePath>SFX/fs_skel_grass_06_10C4C929.wem</CachePath>
 				</File>
+				<File Id="367181203" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>pest_bomb_fuse.wav</ShortName>
+					<CachePath>SFX/pest_bomb_fuse_2FFC467A.wem</CachePath>
+				</File>
 				<File Id="368379455" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fs_skel_grass_05.wav</ShortName>
 					<CachePath>SFX/fs_skel_grass_05_10C4C929.wem</CachePath>
+				</File>
+				<File Id="395551192" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>pest_bomb_expload.wav</ShortName>
+					<CachePath>SFX/pest_bomb_expload_10C4C929.wem</CachePath>
 				</File>
 				<File Id="400764545" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>bush_ent_03.wav</ShortName>
@@ -388,6 +412,10 @@
 				<File Id="541494156" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fs_player_gravel_01.wav</ShortName>
 					<CachePath>SFX/fs_player_gravel_01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="571414843" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_pest_03.wav</ShortName>
+					<CachePath>SFX/fs_pest_03_10C4C929.wem</CachePath>
 				</File>
 				<File Id="583178948" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fs_skel_gravel_05.wav</ShortName>
@@ -445,9 +473,17 @@
 					<ShortName>fs_player_dirt_04.wav</ShortName>
 					<CachePath>SFX/fs_player_dirt_04_10C4C929.wem</CachePath>
 				</File>
+				<File Id="776325564" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_pest_05.wav</ShortName>
+					<CachePath>SFX/fs_pest_05_10C4C929.wem</CachePath>
+				</File>
 				<File Id="780375067" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fs_player_grass_06.wav</ShortName>
 					<CachePath>SFX/fs_player_grass_06_10C4C929.wem</CachePath>
+				</File>
+				<File Id="795672063" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_pest_04.wav</ShortName>
+					<CachePath>SFX/fs_pest_04_10C4C929.wem</CachePath>
 				</File>
 				<File Id="799007945" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>player_attack2_01.wav</ShortName>
@@ -556,29 +592,29 @@
 				</Custom>
 			</Plugins>
 			<Events>
-				<Event Id="3207324726" Name="amb_fire" MaxAttenuation="100" DurationType="Infinite">
+				<Event Id="3207324726" Name="amb_fire">
 					<MediaRefs>
 						<MediaRef Id="150208270"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3334362129" Name="amb_LV1" DurationType="Infinite">
+				<Event Id="3334362129" Name="amb_LV1">
 					<MediaRefs>
 						<MediaRef Id="342867081"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3554795103" Name="Combat1_Start" DurationType="Infinite">
+				<Event Id="3554795103" Name="Combat1_Start">
 					<MediaRefs>
 						<MediaRef Id="677937057"/>
 						<MediaRef Id="914370410"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="2415455525" Name="Combat1_Stop" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
-				<Event Id="375965827" Name="head_flying" DurationType="OneShot" DurationMin="4.2034583" DurationMax="4.2034583">
+				<Event Id="2415455525" Name="Combat1_Stop"/>
+				<Event Id="375965827" Name="head_flying">
 					<MediaRefs>
 						<MediaRef Id="1070028639"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="4015037628" Name="head_impact" MaxAttenuation="100" DurationType="OneShot" DurationMin="0.359875" DurationMax="0.37647918">
+				<Event Id="4015037628" Name="head_impact">
 					<MediaRefs>
 						<MediaRef Id="96698159"/>
 						<MediaRef Id="166049200"/>
@@ -587,44 +623,69 @@
 						<MediaRef Id="1011639198"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="2586367166" Name="head_pickup" DurationType="OneShot" DurationMin="0.300875" DurationMax="0.300875">
+				<Event Id="2586367166" Name="head_pickup">
 					<MediaRefs>
 						<MediaRef Id="922362666"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="799884986" Name="player_attack1" DurationType="OneShot" DurationMin="0.29172915" DurationMax="0.34375">
+				<Event Id="4234617796" Name="pest_bomb_expload">
+					<MediaRefs>
+						<MediaRef Id="395551192"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="437942920" Name="pest_bomb_fuse">
+					<MediaRefs>
+						<MediaRef Id="367181203"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1736279191" Name="pest_bomb_jump">
+					<MediaRefs>
+						<MediaRef Id="163626921"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="718104337" Name="pest_fs">
+					<MediaRefs>
+						<MediaRef Id="40688363"/>
+						<MediaRef Id="227964973"/>
+						<MediaRef Id="295499900"/>
+						<MediaRef Id="571414843"/>
+						<MediaRef Id="776325564"/>
+						<MediaRef Id="795672063"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="799884986" Name="player_attack1">
 					<MediaRefs>
 						<MediaRef Id="233950051"/>
 						<MediaRef Id="650088066"/>
 						<MediaRef Id="872431774"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="799884985" Name="player_attack2" DurationType="OneShot" DurationMin="0.26377082" DurationMax="0.3125">
+				<Event Id="799884985" Name="player_attack2">
 					<MediaRefs>
 						<MediaRef Id="97539198"/>
 						<MediaRef Id="278421329"/>
 						<MediaRef Id="799007945"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="215823421" Name="player_bush_ent" DurationType="OneShot" DurationMin="0.41294497" DurationMax="0.5628398">
+				<Event Id="215823421" Name="player_bush_ent">
 					<MediaRefs>
 						<MediaRef Id="51859721"/>
 						<MediaRef Id="102229063"/>
 						<MediaRef Id="400764545"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="4275904075" Name="player_bush_ext" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
-				<Event Id="927599014" Name="player_chop_init" DurationType="OneShot" DurationMin="0.65625" DurationMax="0.65625">
+				<Event Id="4275904075" Name="player_bush_ext"/>
+				<Event Id="927599014" Name="player_chop_init">
 					<MediaRefs>
 						<MediaRef Id="101552163"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="1752115990" Name="player_chop_tail" DurationType="OneShot" DurationMin="0.96875" DurationMax="0.96875">
+				<Event Id="1752115990" Name="player_chop_tail">
 					<MediaRefs>
 						<MediaRef Id="754981410"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="4276063004" Name="player_fs" DurationType="OneShot" DurationMin="0.18448988" DurationMax="0.38598835">
+				<Event Id="4276063004" Name="player_fs">
 					<SwitchContainers>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="4276063004" Id="2195636714" Default="true"/>
@@ -667,66 +728,66 @@
 						</SwitchContainer>
 					</SwitchContainers>
 				</Event>
-				<Event Id="3945457670" Name="player_gethit" DurationType="OneShot" DurationMin="0.63122916" DurationMax="0.71141666">
+				<Event Id="3945457670" Name="player_gethit">
 					<MediaRefs>
 						<MediaRef Id="33849619"/>
 						<MediaRef Id="821072770"/>
 						<MediaRef Id="824198949"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="973170820" Name="player_lob" DurationType="OneShot" DurationMin="1.75" DurationMax="1.75">
+				<Event Id="973170820" Name="player_lob">
 					<MediaRefs>
 						<MediaRef Id="222124175"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="1199887854" Name="player_shotgun_atk" DurationType="OneShot" DurationMin="3.125" DurationMax="3.125">
+				<Event Id="1199887854" Name="player_shotgun_atk">
 					<MediaRefs>
 						<MediaRef Id="195194557"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="255574742" Name="player_shotgun_init" DurationType="OneShot" DurationMin="0.27788714" DurationMax="0.27788714">
+				<Event Id="255574742" Name="player_shotgun_init">
 					<MediaRefs>
 						<MediaRef Id="848350748"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="2909104693" Name="player_slam_atk" DurationType="OneShot" DurationMin="1.53125" DurationMax="1.53125">
+				<Event Id="2909104693" Name="player_slam_atk">
 					<MediaRefs>
 						<MediaRef Id="966389329"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3131540599" Name="player_slam_init" DurationType="OneShot" DurationMin="0.8449375" DurationMax="0.8449375">
+				<Event Id="3131540599" Name="player_slam_init">
 					<MediaRefs>
 						<MediaRef Id="933496307"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="2062853598" Name="portal_close" DurationType="OneShot" DurationMin="1.2006766" DurationMax="1.2006766">
+				<Event Id="2062853598" Name="portal_close">
 					<MediaRefs>
 						<MediaRef Id="495527006"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3086941384" Name="portal_idle" DurationType="Infinite">
+				<Event Id="3086941384" Name="portal_idle">
 					<MediaRefs>
 						<MediaRef Id="712810717"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="762878330" Name="portal_open" DurationType="OneShot" DurationMin="1.125" DurationMax="1.125">
+				<Event Id="762878330" Name="portal_open">
 					<MediaRefs>
 						<MediaRef Id="271929651"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="2376412427" Name="skel_dash" MaxAttenuation="50" DurationType="OneShot" DurationMin="1.5" DurationMax="1.5">
+				<Event Id="2376412427" Name="skel_dash">
 					<MediaRefs>
 						<MediaRef Id="18472167"/>
 						<MediaRef Id="226886049"/>
 						<MediaRef Id="1005504680"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="1504289659" Name="skel_death" MaxAttenuation="50" DurationType="OneShot" DurationMin="1.0625" DurationMax="1.0625">
+				<Event Id="1504289659" Name="skel_death">
 					<MediaRefs>
 						<MediaRef Id="858779314"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="855030670" Name="skel_fs" MaxAttenuation="50" DurationType="OneShot" DurationMin="0.21465273" DurationMax="0.330089">
+				<Event Id="855030670" Name="skel_fs">
 					<SwitchContainers>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="855030670" Id="4248645337" Default="true"/>
@@ -756,7 +817,7 @@
 						</SwitchContainer>
 					</SwitchContainers>
 				</Event>
-				<Event Id="3336220324" Name="skel_gethit" MaxAttenuation="50" DurationType="OneShot" DurationMin="0.318375" DurationMax="0.33570832">
+				<Event Id="3336220324" Name="skel_gethit">
 					<MediaRefs>
 						<MediaRef Id="300101372"/>
 						<MediaRef Id="344656176"/>
@@ -765,24 +826,24 @@
 						<MediaRef Id="799731881"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3644427658" Name="skel_slash" MaxAttenuation="50" DurationType="OneShot" DurationMin="0.3984375" DurationMax="0.5546875">
+				<Event Id="3644427658" Name="skel_slash">
 					<MediaRefs>
 						<MediaRef Id="66995461"/>
 						<MediaRef Id="144792552"/>
 						<MediaRef Id="429319015"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="1091450755" Name="skel_spwan_jump" MaxAttenuation="50" DurationType="OneShot" DurationMin="0.625" DurationMax="0.625">
+				<Event Id="1091450755" Name="skel_spwan_jump">
 					<MediaRefs>
 						<MediaRef Id="443484975"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="500517664" Name="skel_spwan_land" MaxAttenuation="50" DurationType="OneShot" DurationMin="1.3443125" DurationMax="1.3443125">
+				<Event Id="500517664" Name="skel_spwan_land">
 					<MediaRefs>
 						<MediaRef Id="500052017"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="1123472706" Name="skel_vo" MaxAttenuation="50" DurationType="OneShot" DurationMin="1.3943334" DurationMax="2.2613332">
+				<Event Id="1123472706" Name="skel_vo">
 					<MediaRefs>
 						<MediaRef Id="115604974"/>
 						<MediaRef Id="226075322"/>
@@ -791,13 +852,15 @@
 						<MediaRef Id="834267316"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3157003241" Name="TEST" DurationType="OneShot" DurationMin="1" DurationMax="1">
+				<Event Id="3157003241" Name="TEST">
 					<PluginRefs>
 						<Custom>
 							<PluginRef Id="496940353"/>
 						</Custom>
 					</PluginRefs>
 				</Event>
+				<Event Id="3587827325" Name="Transition_Start"/>
+				<Event Id="1619304959" Name="Transition_Stop"/>
 			</Events>
 			<SwitchGroups>
 				<SwitchGroup Id="855030670" Name="Skel_FS">
@@ -816,5 +879,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{B9E37B28-3388-29E7-9F70-3528EAB41257}</FileHash>
+	<FileHash>{B331DEC3-F5B8-65EF-0C65-53F922F07E82}</FileHash>
 </SoundBanksInfo>

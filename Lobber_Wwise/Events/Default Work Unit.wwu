@@ -284,6 +284,31 @@
 								</Action>
 							</ChildrenList>
 						</Event>
+						<Event Name="Transition_Start" ID="{D3AE3E3A-B70E-4AFD-8473-08B0817B128E}">
+							<ChildrenList>
+								<Action Name="" ID="{91BE6F03-CBF9-4C3A-8966-B571AFFE4A05}" ShortID="932833434">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Transition" ID="{21206243-3747-4BE3-BDA7-DF0C1E3540BA}" WorkUnitID="{F43B963E-1E30-4B47-8131-8F9BC057EE78}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Transition_Stop" ID="{B31DDEE4-F63E-4D10-A0C2-7179F0B28ECB}">
+							<ChildrenList>
+								<Action Name="" ID="{6EF30621-5BA4-424A-BE1A-08EA74644599}" ShortID="368783457">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="2"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Transition" ID="{21206243-3747-4BE3-BDA7-DF0C1E3540BA}" WorkUnitID="{F43B963E-1E30-4B47-8131-8F9BC057EE78}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
 					</ChildrenList>
 				</Folder>
 				<Folder Name="AMB" ID="{B28EA6F1-CF54-4CF7-B2EB-6DDC72C379E5}" ShortID="795440211">
