@@ -85,7 +85,7 @@ public class GameManager : MonoBehaviour {
 	readonly static float TokenCost_SmallSpawn = 30;
 	readonly static float TokenCost_MediumSpawn = 60;
 	readonly static float TokenCost_BigSpawn = 80;
-	readonly static float TokensPerSecond = 3.0f;
+	readonly static float TokensPerSecond = 10.0f;
 	readonly static int HighEnemies = 18;
 	readonly static int TargetEnemies = 12;
 	readonly static int LowEnemies = 4;

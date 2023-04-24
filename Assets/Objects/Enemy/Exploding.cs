@@ -69,6 +69,7 @@ public class Exploding : MonoBehaviour {
 	CapsuleCollider explosionHitbox;
 	CapsuleCollider selfHurtbox;
 	Transform attackWarningTransform;
+	MotionAudio_Pest sounds;
 
 	// External References
 	GameManager gameMan;
@@ -152,6 +153,7 @@ public class Exploding : MonoBehaviour {
 		selfHurtbox = GetComponent<CapsuleCollider>();
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 		attackWarningTransform = transform.Find("Main/MrBomb");
+		sounds = GetComponent<MotionAudio_Pest>();
 
 
 		navAgent.updatePosition = false;
@@ -227,6 +229,7 @@ public class Exploding : MonoBehaviour {
 				break;
 
 			case Directive.WaitForFuse:
+				//sounds.PestBombFuse();
 				fuseDuration -= Time.deltaTime;
 				if (fuseDuration < 0 && movementBurstDuration < 0.0f) {
 					ChangeDirective_LaunchSelf(playerPosition);
@@ -386,6 +389,7 @@ public class Exploding : MonoBehaviour {
 						explosionTimer -= Time.deltaTime;
 					}
 					else {
+						//sounds.PestBombExpload();
 						gameMan.SpawnParticle(3, transform.position, 1f);
 						Destroy(this.gameObject);
 					}

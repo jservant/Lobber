@@ -13,14 +13,14 @@ public class MotionAudio_Pest : MonoBehaviour
 
     public AK.Wwise.Event Pest_Bomb_Expload;
 
-    void PestBombExpload()
+    public void PestBombExpload()
     {
         Pest_Bomb_Expload.Post(gameObject);
     }
 
     public AK.Wwise.Event Pest_Bomb_Fuse;
 
-    void PestBombFuse()
+    public void PestBombFuse()
     {
         Pest_Bomb_Fuse.Post(gameObject);
     }

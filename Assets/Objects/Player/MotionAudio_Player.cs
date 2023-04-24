@@ -83,7 +83,7 @@ public class MotionAudio_Player : MonoBehaviour
 
     public AK.Wwise.Event Character_Shotgun_Init;
 
-    void CharacterShotgunInit()
+    public void CharacterShotgunInit()
     {
         Character_Shotgun_Init.Post(gameObject);
     }

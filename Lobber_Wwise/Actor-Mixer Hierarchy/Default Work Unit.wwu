@@ -1260,6 +1260,10 @@
 							</ReferenceList>
 							<ChildrenList>
 								<AudioFileSource Name="player_shotgun_init" ID="{BBE5FB3B-F508-4517-A388-489992AE8DE2}">
+									<PropertyList>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimBegin" Type="Real64" Value="0.159612860892388"/>
+									</PropertyList>
 									<Language>SFX</Language>
 									<AudioFile>player_shotgun_init.wav</AudioFile>
 									<MediaIDList>
@@ -2688,6 +2692,11 @@
 						<Sound Name="pest_bomb_fuse" ID="{76821511-E631-4A5F-98AB-ECC6193EF190}" ShortID="537190590">
 							<PropertyList>
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-12</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
@@ -2759,7 +2768,7 @@
 								<Property Name="RandomAvoidRepeatingCount" Type="int32" Value="2"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-18</Value>
+										<Value>-10</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -2907,6 +2916,13 @@
 							</ChildrenList>
 						</RandomSequenceContainer>
 						<Sound Name="pest_bomb_jump" ID="{04C26418-05F7-4239-9300-A5CC016D3732}" ShortID="316068730">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-10</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
@@ -2920,6 +2936,7 @@
 									<PropertyList>
 										<Property Name="FadeOutDuration" Type="Real64" Value="1.01269035532995"/>
 										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimBegin" Type="Real64" Value="1.30446194225722"/>
 										<Property Name="TrimEnd" Type="Real64" Value="3.04251269035533"/>
 									</PropertyList>
 									<Language>SFX</Language>
