@@ -232,7 +232,7 @@ public class PlayerController : MonoBehaviour {
 	public Vector2 trueInput;							// movement vector read from left stick
 	float trueAngle = 0f;								// movement angle float generated from trueInput
 	public Vector2 mInput;								// processed movement vector read from input
-	[SerializeField] Vector3 movement;					// actual movement vector used. mInput(x, y) = movement(x, z)
+	public Vector3 movement;					// actual movement vector used. mInput(x, y) = movement(x, z)
 	public bool freeAim = false;
 	public Vector2 rAimInput;                           // aiming vector read from right stick
 	bool isGrounded;

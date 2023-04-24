@@ -585,7 +585,6 @@ public class Basic : MonoBehaviour {
 					}
 
 					// Consider if the player is moving straight for me!
-					// @TODO(Roskuski): is this a good way of determining if mInput is not inputting stuff?
 					if (DistanceToTravel() < 1.5f) {
 						Vector3 mInput3d = new Vector3(gameMan.playerController.mInput.x, 0, gameMan.playerController.mInput.y);
 						if (gameMan.playerController.mInput != Vector2.zero &&
