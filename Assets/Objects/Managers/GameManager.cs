@@ -41,6 +41,7 @@ public class GameManager : MonoBehaviour {
 	public TMP_Text statsText;
 	public TMP_Text statsText2;
 	public TMP_Text statusTextboxText;
+	public TMP_Text objectiveText;
 
 	public Transform healthBar;
 	public Transform meterBar;
@@ -77,6 +78,7 @@ public class GameManager : MonoBehaviour {
 	public int enemiesAlive = 0;
 	public int enemiesKilledInLevel = 0;
 	public int goldenSkullDropChance = 2; //out of 100
+	public int crystalCount;
 	bool transitioningLevel = false;
 	
 	[SerializeField] float spawnTokens;
@@ -132,6 +134,8 @@ public class GameManager : MonoBehaviour {
 		statsUI = transform.Find("StatsUI").GetComponent<Canvas>();
 		statusTextboxText = transform.Find("StatusTextbox/StatusTextboxText").GetComponent<TMP_Text>();
 		statusTextboxText.text = "";
+		objectiveText = transform.Find("StatusTextbox/ObjectiveText").GetComponent<TMP_Text>();
+		objectiveText.text = "";
 		meterImage = transform.Find("MainUI/MeterBar").GetComponent<Image>();
 		//inputDisplayUI = transform.Find("MainUI/InputDisplay").gameObject;
 		Time.timeScale = 1;
@@ -209,100 +213,31 @@ public class GameManager : MonoBehaviour {
 			pickupDropChance = 25;
 		}
 
-		if (debugTools) {
-			if (!isMenuOpen) {
-				{ // Spawn at point
-					GameObject toSpawn = null;
-					Vector3 offset = Vector3.zero;
-
-					if (dActions.DebugTools.SpawnBasic.WasPerformedThisFrame()) {
-						toSpawn = BasicPrefab;
-					}
-					if (dActions.DebugTools.SpawnExploding.WasPerformedThisFrame()) { 
-						toSpawn = ExplodingPrefab;
-					}
-					if (dActions.DebugTools.SummonSpawnPortal.WasPerformedThisFrame()) {
-						OrbSpawnPrefab.GetComponent<OrbSpawn>().basicAmount = 5;
-						OrbSpawnPrefab.GetComponent<OrbSpawn>().explodingAmount = 5;
-						toSpawn = OrbSpawnPrefab;
-						offset = Vector3.up * 5f;
-					}
-
-					if (toSpawn != null) {
-						Vector2 MouseLocation2D = dActions.DebugTools.MouseLocation.ReadValue<Vector2>();
-						Vector3 MouseLocation = new Vector3(MouseLocation2D.x, MouseLocation2D.y, 0);
-						Ray ray = Camera.main.ScreenPointToRay(MouseLocation);
-						RaycastHit hit;
-
-						if (Physics.Raycast(ray.origin, ray.direction, out hit, 1000.0f)) {
-							Instantiate(toSpawn, hit.point + offset, Quaternion.identity);
-
-							if (toSpawn == BasicPrefab || toSpawn == ExplodingPrefab) {
-								enemiesAlive += 1;
-							}
-						}
-					}
-				}
-			}
-
-			if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed && playerController.pActions.Player.DEBUGRestart.WasPerformedThisFrame()) {
-				Debug.Log("Restart called");
-				SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-			}
-			if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed && playerController.pActions.Player.DEBUGHeal.WasPerformedThisFrame()) {
-				playerController.health = playerController.healthMax;
-				playerController.meter = playerController.meterMax;
-			}
-			if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed && playerController.pActions.Player.DEBUGLevelSkip.WasPerformedThisFrame()) {
-				float[] sceneChances = new float[] {0, 0f, 1f, 1f };
-				sceneChances[SceneManager.GetActiveScene().buildIndex] = 0;
-				SceneManager.LoadScene(Util.RollWeightedChoice(sceneChances));
-			}
-			if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed && playerController.pActions.Player.DEBUGGodmode.WasPerformedThisFrame()) {
-				if (playerController.godMode) playerController.godMode = false;
-				else playerController.godMode = true;
-			}
-			if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed && playerController.pActions.Player.DEBUGKillAll.WasPerformedThisFrame()) {
-				if (canSpawn) {
-					Basic[] allBasic = FindObjectsOfType<Basic>();
-					foreach (Basic basicEnemy in allBasic) {
-						Destroy(basicEnemy.gameObject);
-					}
-					Exploding[] allExplosive = FindObjectsOfType<Exploding>();
-					foreach (Exploding explodingEnemy in allExplosive) {
-						Destroy(explodingEnemy.gameObject);
-					}
-					canSpawn = false;
-				}
-				else canSpawn = true;
-			}
-			/*if (playerController.pActions.Player.DEBUGDisableUI.WasPerformedThisFrame()) {
-				if (inputDisplayUI.activeSelf == true) { inputDisplayUI.SetActive(false); }
-				else { inputDisplayUI.SetActive(true); }
-			}*/
+		//Objective text setter
+		switch (currentObjective) {
+			case (int)Objectives.KillTheEnemies:
+				// assign enemy killing goal to a UI object here
+				objectiveText.text = "Level " + levelCount +
+				"\nEnemies killed: " + enemiesKilledInLevel + "/" + enemyKillingGoal;
+				break;
+			case (int)Objectives.DestroyTheCrystals:
+				objectiveText.text = "Level " + levelCount +
+				"\nDestroy the Crystals!";
+				break;
+			case (int)Objectives.HarvestTheCrystals:
+				objectiveText.text = "Level " + levelCount +
+				"\nCrystals harvested: " + crystalCount + "/" + crystalHarvestingGoal;
+				break;
+			case (int)Objectives.SurviveTheOnslaught:
+				objectiveText.text = "Level " + levelCount +
+				"\nSurvive the Onslaught!";
+				break;
+			default:
+				objectiveText.text = "Level " + levelCount +
+				"\nsomething is wrong";
+				break;
 		}
 
-		if (playerController.pActions.Player.Pause.WasPerformedThisFrame()) {
-			if (optionsUI.enabled == true) {
-				resumeButton.Select();
-				pauseUI.enabled = true;
-				optionsUI.enabled = false;
-			}
-			else if (pauseUI.enabled == false) {
-				resumeButton.Select();
-				updateTimeScale = false;
-				Time.timeScale = 0;
-				pauseBG.enabled = true;
-				pauseUI.enabled = true;
-			}
-			else {
-				eSystem.SetSelectedGameObject(null);
-				updateTimeScale = true;
-				Time.timeScale = 1;
-				pauseUI.enabled = false;
-				pauseBG.enabled = false;
-			}
-		}
 
 		UpdateHealthBar();
 		UpdateMeter();
@@ -381,6 +316,102 @@ public class GameManager : MonoBehaviour {
 				}
 			}
 		}
+
+		if (debugTools) {
+			if (!isMenuOpen) {
+				{ // Spawn at point
+					GameObject toSpawn = null;
+					Vector3 offset = Vector3.zero;
+
+					if (dActions.DebugTools.SpawnBasic.WasPerformedThisFrame()) {
+						toSpawn = BasicPrefab;
+					}
+					if (dActions.DebugTools.SpawnExploding.WasPerformedThisFrame()) {
+						toSpawn = ExplodingPrefab;
+					}
+					if (dActions.DebugTools.SummonSpawnPortal.WasPerformedThisFrame()) {
+						OrbSpawnPrefab.GetComponent<OrbSpawn>().basicAmount = 5;
+						OrbSpawnPrefab.GetComponent<OrbSpawn>().explodingAmount = 5;
+						toSpawn = OrbSpawnPrefab;
+						offset = Vector3.up * 5f;
+					}
+
+					if (toSpawn != null) {
+						Vector2 MouseLocation2D = dActions.DebugTools.MouseLocation.ReadValue<Vector2>();
+						Vector3 MouseLocation = new Vector3(MouseLocation2D.x, MouseLocation2D.y, 0);
+						Ray ray = Camera.main.ScreenPointToRay(MouseLocation);
+						RaycastHit hit;
+
+						if (Physics.Raycast(ray.origin, ray.direction, out hit, 1000.0f)) {
+							Instantiate(toSpawn, hit.point + offset, Quaternion.identity);
+
+							if (toSpawn == BasicPrefab || toSpawn == ExplodingPrefab) {
+								enemiesAlive += 1;
+							}
+						}
+					}
+				}
+			}
+
+			if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed && playerController.pActions.Player.DEBUGRestart.WasPerformedThisFrame()) {
+				Debug.Log("Restart called");
+				SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+			}
+			if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed && playerController.pActions.Player.DEBUGHeal.WasPerformedThisFrame()) {
+				playerController.health = playerController.healthMax;
+				playerController.meter = playerController.meterMax;
+			}
+			if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed && playerController.pActions.Player.DEBUGLevelSkip.WasPerformedThisFrame()) {
+				float[] sceneChances = new float[] { 0, 0f, 1f, 1f };
+				sceneChances[SceneManager.GetActiveScene().buildIndex] = 0;
+				SceneManager.LoadScene(Util.RollWeightedChoice(sceneChances));
+			}
+			if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed && playerController.pActions.Player.DEBUGGodmode.WasPerformedThisFrame()) {
+				if (playerController.godMode) playerController.godMode = false;
+				else playerController.godMode = true;
+			}
+			if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed && playerController.pActions.Player.DEBUGKillAll.WasPerformedThisFrame()) {
+				if (canSpawn) {
+					Basic[] allBasic = FindObjectsOfType<Basic>();
+					foreach (Basic basicEnemy in allBasic) {
+						Destroy(basicEnemy.gameObject);
+					}
+					Exploding[] allExplosive = FindObjectsOfType<Exploding>();
+					foreach (Exploding explodingEnemy in allExplosive) {
+						Destroy(explodingEnemy.gameObject);
+					}
+					canSpawn = false;
+				}
+				else canSpawn = true;
+			}
+			/*if (playerController.pActions.Player.DEBUGDisableUI.WasPerformedThisFrame()) {
+				if (inputDisplayUI.activeSelf == true) { inputDisplayUI.SetActive(false); }
+				else { inputDisplayUI.SetActive(true); }
+			}*/
+		}
+
+		if (playerController.pActions.Player.Pause.WasPerformedThisFrame()) {
+			if (optionsUI.enabled == true) {
+				resumeButton.Select();
+				pauseUI.enabled = true;
+				optionsUI.enabled = false;
+			}
+			else if (pauseUI.enabled == false) {
+				resumeButton.Select();
+				updateTimeScale = false;
+				Time.timeScale = 0;
+				pauseBG.enabled = true;
+				pauseUI.enabled = true;
+			}
+			else {
+				eSystem.SetSelectedGameObject(null);
+				updateTimeScale = true;
+				Time.timeScale = 1;
+				pauseUI.enabled = false;
+				pauseBG.enabled = false;
+			}
+		}
+
 
 		if (enemiesKilledInLevel >= enemyKillingGoal && enemiesAlive <= 0 && transitioningLevel == false && currentObjective == (int)Objectives.KillTheEnemies) {
 			StartCoroutine(Win());
