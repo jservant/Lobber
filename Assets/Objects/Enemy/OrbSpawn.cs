@@ -7,7 +7,6 @@ public class OrbSpawn : MonoBehaviour {
 	public int basicAmount;
 	public int explodingAmount;
 
-
 	float despawnTime = 3;
 	bool[] spawnedEnemies;
 	float angleOffset;

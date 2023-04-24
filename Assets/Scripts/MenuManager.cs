@@ -17,11 +17,12 @@ public class MenuManager : MonoBehaviour
 		globalKillcount = transform.Find("MainUI/GlobalKillcount").GetComponent<TMP_Text>();
 	}
 
-	public void OnPlay() {
+	public static void OnPlay() {
 		GameManager.storedPlayerHealth = 10;
 		GameManager.storedPlayerMeter = 3;
 		GameManager.levelCount = 1;
-		GameManager.enemyKillingGoal = 30;
+		GameManager.enemyKillingGoal = 20;
+		GameManager.crystalHarvestingGoal = 3;
 		GameManager.enemiesKilledInRun = 0;
 		Initializer.save.versionLatest.runsStarted++;
 		SceneManager.LoadScene((int)Scenes.Level_K); // disabling B for now

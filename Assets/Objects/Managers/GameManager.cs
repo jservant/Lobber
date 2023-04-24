@@ -22,6 +22,10 @@ public class GameManager : MonoBehaviour {
 	public PlayerController playerController;
 	public static int storedPlayerHealth = 0;
 	public static float storedPlayerMeter = 0;
+	public static int enemiesKilledInRun = 0;
+	public static int enemyKillingGoal = 20;
+	public static int crystalHarvestingGoal = 3;
+	public static int pickupDropChance = 0;
 	public static int levelCount = 0;
 
 	[Header("UI")]
@@ -72,9 +76,6 @@ public class GameManager : MonoBehaviour {
 	public Transform crystalDropoffSpawn;
 	public int enemiesAlive = 0;
 	public int enemiesKilledInLevel = 0;
-	public static int enemiesKilledInRun = 0;
-	public static int enemyKillingGoal = 30;
-	public static int pickupDropChance = 0;
 	public int goldenSkullDropChance = 2; //out of 100
 	bool transitioningLevel = false;
 	
@@ -404,7 +405,20 @@ public class GameManager : MonoBehaviour {
 			yield return new WaitForSeconds(5);
 			storedPlayerHealth = playerController.health;
 			storedPlayerMeter = playerController.meter;
-			levelCount++; enemyKillingGoal += 10;
+			levelCount++; 
+			switch (currentObjective) {
+				case (int)Objectives.KillTheEnemies:
+					enemyKillingGoal += 10;
+					break;
+				case (int)Objectives.DestroyTheCrystals:
+					break;
+				case (int)Objectives.SurviveTheOnslaught:
+					break;
+				case (int)Objectives.HarvestTheCrystals:
+					break;
+				default:
+					break;
+			}
 			float[] sceneChances = new float[] {0, 0f, 1f, 1f }; // @TODO(Jaden): PUT LEVEL B BACK IN LATER
 			sceneChances[SceneManager.GetActiveScene().buildIndex] = 0;
 			SceneManager.LoadScene(Util.RollWeightedChoice(sceneChances));
@@ -553,13 +567,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void OnRestart() {
-		storedPlayerHealth = 10;
-		storedPlayerMeter = 3;
-		levelCount = 1;
-		enemyKillingGoal = 30;
-		enemiesKilledInRun = 0;
-		Initializer.save.versionLatest.runsStarted++;
-		SceneManager.LoadScene((int)Scenes.Level_B);
+		MenuManager.OnPlay();
 	}
 
 	public void OnOptions() {

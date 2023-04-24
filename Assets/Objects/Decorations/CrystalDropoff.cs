@@ -5,7 +5,6 @@ using UnityEngine;
 public class CrystalDropoff : MonoBehaviour
 {
     public int crystalCount;
-    public int crystalGoal;
     GameManager gameManager;
     PlayerController playerController;
 
@@ -20,7 +19,7 @@ public class CrystalDropoff : MonoBehaviour
             crystalCount++;
             playerController.hasCrystal = false;
             gameManager.crystalPickupImage.enabled = false;
-            if (crystalCount >= crystalGoal) {
+            if (crystalCount >= GameManager.crystalHarvestingGoal) {
                 StartCoroutine(gameManager.Win());
 			}
 		}
