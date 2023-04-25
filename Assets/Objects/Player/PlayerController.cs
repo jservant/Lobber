@@ -719,7 +719,7 @@ public class PlayerController : MonoBehaviour {
 					break;
 
 				case Attacks.Chop:
-					homingTargetDelta *= 1f;
+					homingTargetDelta *= 0.2f;
 					break;
 
 				case Attacks.HeadThrow:
