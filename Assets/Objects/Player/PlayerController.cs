@@ -276,8 +276,6 @@ public class PlayerController : MonoBehaviour {
 	float homingTimerMax;
 	bool doHoming = false;
 
-	// NOTE(Roskuski): C# doesn't support globals that are scoped to functions
-
 	private void Awake() {
 		capCol = GetComponent<CapsuleCollider>();
 		rb = GetComponent<Rigidbody>();
@@ -586,7 +584,7 @@ public class PlayerController : MonoBehaviour {
 				}
 				else {
 					QueueInfo queueInfo = QueueInfoTable[(int)currentAttack][(int)AttackButton.None];
-					if (IsAttackState(Current) && Current.normalizedTime >= queueInfo.transitionStartPercent && Next.normalizedTime == 0f) {
+					if (currentAttack != Attacks.None && IsAttackState(Current) && Current.normalizedTime >= queueInfo.transitionStartPercent && Next.normalizedTime == 0f) {
 						animr.CrossFade("Base.Idle", queueInfo.transitionDurationPercent, -1, queueInfo.nextOffset);
 						currentAttack = Attacks.None;
 						currentState = States.Idle;
