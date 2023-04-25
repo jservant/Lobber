@@ -775,7 +775,9 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public void StartHoming(float time) { // called in animator; starts the homing lerp in FixedUpdate()
-		movement = new Vector3(trueInput.x, 0, trueInput.y);
+		if (trueInput.magnitude > 0.1f) {
+			movement = new Vector3(trueInput.x, 0, trueInput.y);
+		}
 		homingInitalPosition = this.transform.position;
 		homingTimer = time;
 		homingTimerMax = time;
