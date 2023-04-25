@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour {
 	public static int enemyKillingGoal = 20;
 	public static int crystalHarvestingGoal = 3;
 	public static int shrineDestroyingGoal = 3;
+	public static int shrineMaxHealth = 15;
 	public static int pickupDropChance = 0;
 	public static int levelCount = 0;
 
@@ -145,10 +146,10 @@ public class GameManager : MonoBehaviour {
 		spawnTokens = 100;
 		objectiveFadeTimer = 5f;
 
-		float[] objectiveChoices = new float[] { 4f, 1.5f, 3f };
-		//objectiveChoices[currentObjective] = 0;
+		float[] objectiveChoices = new float[] { 4f, 3f, 3f };
+		objectiveChoices[currentObjective] = 0;
 		//objectiveChoices[(int)Objectives.KillTheEnemies] = 0;
-		objectiveChoices[(int)Objectives.DestroyTheShrines] = 0;
+		//objectiveChoices[(int)Objectives.DestroyTheShrines] = 0;
 		//objectiveChoices[(int)Objectives.HarvestTheCrystals] = 0;
 		// PREVIOUS TWO LINES ARE TEMP while they don't work
 		currentObjective = Util.RollWeightedChoice(objectiveChoices);
@@ -434,7 +435,18 @@ public class GameManager : MonoBehaviour {
 				enemyKillingGoal += 10;
 				break;
 			case (int)Objectives.DestroyTheShrines:
-				//do something, DON'T raise tower count
+				shrineMaxHealth += 5;
+				if (shrineMaxHealth >= 26f) {
+					if (shrineDestroyingGoal <= 5) break;
+					else if (shrineDestroyingGoal == 4) {
+						shrineDestroyingGoal++;
+						shrineMaxHealth -= 10;
+					}
+					else {
+						shrineDestroyingGoal++;
+						shrineMaxHealth -= 15;
+					}
+				}
 				break;
 			case (int)Objectives.HarvestTheCrystals:
 				crystalHarvestingGoal += 1;
@@ -610,11 +622,11 @@ public class GameManager : MonoBehaviour {
 			+ (Initializer.save.versionLatest.explosiveEnemyKills > 0 ? "\nBomb Spiders: " + Initializer.save.versionLatest.explosiveEnemyKills : "\n??? : ???")
 			+ (Initializer.save.versionLatest.necroEnemyKills > 0 ? "\nNecromancers: " + Initializer.save.versionLatest.necroEnemyKills : "\n??? : ???")
 			+ (Initializer.save.versionLatest.bruteEnemyKills > 0 ? "\nBrutes: " + Initializer.save.versionLatest.bruteEnemyKills : "\n??? : ???");
-		statsText2.text = 
+		statsText2.text =
 			"<b>RUNS:</b>"
 			+ "\nRuns started: " + Initializer.save.versionLatest.runsStarted
-			+ (Initializer.save.versionLatest.longestRun > 0 ? "\nLongest run: " + Initializer.save.versionLatest.longestRun + " Levels" : "\n??? : ???")
-			+ (Initializer.save.versionLatest.timesWon > 0 ? "\nWins: " + Initializer.save.versionLatest.timesWon : "\n??? : ???");
+			+ (Initializer.save.versionLatest.longestRun > 0 ? "\nLongest run: " + Initializer.save.versionLatest.longestRun + " Levels" : "\n??? : ???");
+			//+ (Initializer.save.versionLatest.timesWon > 0 ? "\nWins: " + Initializer.save.versionLatest.timesWon : "\n??? : ???");
 		statsBackButton.Select();
 	}
 
