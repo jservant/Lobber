@@ -580,10 +580,13 @@ public class PlayerController : MonoBehaviour {
 						speedTime = 0; // stops player movement when throwing. change later if other attacks don't snap
 					}
 				}
-				else if (IsAttackState(Current) && Current.normalizedTime >= 1f && Next.normalizedTime == 0f) {
-					currentAttack = Attacks.None;
-					currentState = States.Idle;
-					animr.Play("Base.Idle");
+				else {
+					QueueInfo queueInfo = QueueInfoTable[(int)currentAttack][(int)AttackButton.None];
+					if (IsAttackState(Current) && Current.normalizedTime >= queueInfo.transitionStartPercent && Next.normalizedTime == 0f) {
+						animr.CrossFade("Base.Idle", queueInfo.transitionDurationPercent, -1, queueInfo.nextOffset);
+						currentAttack = Attacks.None;
+						currentState = States.Idle;
+					}
 				}
 			}
 		}
