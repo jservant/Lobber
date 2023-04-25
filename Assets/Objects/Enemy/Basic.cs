@@ -402,7 +402,13 @@ public class Basic : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
-		Util.PerformCheckedLateralMovement(this.gameObject, 0.75f, 0.5f, movementDelta * Time.fixedDeltaTime, ~Mask.Get(Layers.EnemyHitbox));
+		int layerMask = ~Mask.Get(Layers.EnemyHitbox);
+
+		if (remainingKnockbackTime > 0) {
+			layerMask &= ~Mask.Get(Layers.StickyLedge);
+		}
+
+		Util.PerformCheckedLateralMovement(this.gameObject, 0.75f, 0.5f, movementDelta * Time.fixedDeltaTime, layerMask);
 
 		if (directive != Directive.Spawn) {
 			Util.PerformCheckedVerticalMovement(this.gameObject, 0.75f, 0.2f, 0.5f, 30.0f);

@@ -173,7 +173,13 @@ public class Exploding : MonoBehaviour {
 
 	void FixedUpdate() {
 		if (directive == Directive.WaitForFuse || directive == Directive.Death || directive == Directive.Explosion) {
-			reevaluateMovement = Util.PerformCheckedLateralMovement(this.gameObject, 0.75f, 0.5f, movementDelta * Time.fixedDeltaTime, ~0);
+			int layerMask = ~Mask.Get(Layers.EnemyHitbox);
+
+			if (remainingKnockbackTime > 0) {
+				layerMask &= ~Mask.Get(Layers.StickyLedge);
+			}
+
+			reevaluateMovement = Util.PerformCheckedLateralMovement(this.gameObject, 0.75f, 0.5f, movementDelta * Time.fixedDeltaTime, layerMask);
 			Util.PerformCheckedVerticalMovement(this.gameObject, 0.75f, 0.2f, 0.5f, 30.0f);
 		}
 	} 

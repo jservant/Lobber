@@ -390,7 +390,11 @@ public class PlayerController : MonoBehaviour {
 		if (currentAttack == Attacks.Dashing || currentAttack == Attacks.LethalDash) {
 			fallingSpeed = 0.0f;
 			stepUp = 1.5f;
-			layerMask &= ~Mask.Get(new Layers[] {Layers.EnemyHitbox, Layers.EnemyHurtbox});
+			layerMask &= ~Mask.Get(new Layers[] {Layers.EnemyHitbox, Layers.EnemyHurtbox, Layers.StickyLedge});
+		}
+
+		if (remainingKnockbackTime > 0) {
+			layerMask &= ~Mask.Get(Layers.StickyLedge);
 		}
 
 		Util.PerformCheckedLateralMovement(gameObject, stepUp, 0.5f, translationDelta, layerMask);
@@ -596,21 +600,23 @@ public class PlayerController : MonoBehaviour {
 	//@TODO(Jaden): Add i-frames and trigger hitstun state when hit
 	private void OnTriggerEnter(Collider other) {
 		if (vulnerable && !godMode) {
-			if (other.gameObject.layer == (int)Layers.EnemyHitbox  && remainingKnockbackTime <= 0) { // player is getting hit
+			if (other.gameObject.layer == (int)Layers.EnemyHitbox && remainingKnockbackTime <= 0) { // player is getting hit
 				Basic otherBasic = other.GetComponentInParent<Basic>();
-				int damage = 0;
-				switch (otherBasic.currentAttack) {
-					case Basic.Attack.Slash:
-						damage = 1;
-						break;
-					case Basic.Attack.Lunge:
-						damage = 2;
-						break;
-					default:
-						Debug.Assert(false);
-						break;
+				if (otherBasic != null) {
+					int damage = 0;
+					switch (otherBasic.currentAttack) {
+						case Basic.Attack.Slash:
+							damage = 1;
+							break;
+						case Basic.Attack.Lunge:
+							damage = 2;
+							break;
+						default:
+							Debug.Assert(false);
+							break;
+					}
+					Hit(damage, other);
 				}
-				Hit(damage, other);
 			}
 			else if (other.gameObject.layer == (int)Layers.AgnosticHitbox) {
 				if (other.GetComponentInParent<Exploding>() != null) {
