@@ -143,7 +143,7 @@ public class GameManager : MonoBehaviour {
 		spawnTokens = 100;
 		objectiveFadeTimer = 5f;
 
-		float[] objectiveChoices = new float[] { 4f, 1.5f, 3f, 1.5f };
+		float[] objectiveChoices = new float[] { 4f, 1.5f, 3f };
 		//objectiveChoices[currentObjective] = 0;
 		//objectiveChoices[(int)Objectives.KillTheEnemies] = 0;
 		objectiveChoices[(int)Objectives.DestroyTheShrines] = 0;
@@ -424,6 +424,9 @@ public class GameManager : MonoBehaviour {
 			Initializer.Save();
 			Debug.Log("YOU WIN!! Next stage starting shortly...");
 			statusTextboxText.text = "Stage Clear!";
+			float[] sceneChances = new float[] { 0, 0f, 1f, 1f }; // @TODO(Jaden): PUT LEVEL B BACK IN LATER
+			sceneChances[SceneManager.GetActiveScene().buildIndex] = 0;
+			AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(Util.RollWeightedChoice(sceneChances));
 			yield return new WaitForSeconds(5);
 			storedPlayerHealth = playerController.health;
 			storedPlayerMeter = playerController.meter;
@@ -440,9 +443,12 @@ public class GameManager : MonoBehaviour {
 				default:
 					break;
 			}
-			float[] sceneChances = new float[] {0, 0f, 1f, 1f }; // @TODO(Jaden): PUT LEVEL B BACK IN LATER
-			sceneChances[SceneManager.GetActiveScene().buildIndex] = 0;
-			SceneManager.LoadScene(Util.RollWeightedChoice(sceneChances));
+			//SceneManager.LoadScene(Util.RollWeightedChoice(sceneChances));
+
+			// Wait until the asynchronous scene fully loads
+			while (!asyncLoad.isDone) {
+				yield return null;
+			}
 		}
 	}
 
