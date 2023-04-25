@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class Shrine : MonoBehaviour
 {
-	public float health;
+	public float health = 10;
 
+	Canvas healthUI;
 	GameManager gameManager;
 
 	MeshRenderer model;
@@ -16,6 +17,8 @@ public class Shrine : MonoBehaviour
 	void Start()
     {
 		gameManager = transform.Find("/GameManager").GetComponent<GameManager>();
+		healthUI = transform.Find("Canvas").GetComponent<Canvas>();
+		//healthUI.worldCamera = Camera.main.transform.Find("UI Camera").GetComponent<Camera>();
 		model = GetComponent<MeshRenderer>();
 		materials = model.materials;
 	}
@@ -36,8 +39,39 @@ public class Shrine : MonoBehaviour
 
 	private void OnTriggerEnter(Collider other) {
 		if (other.gameObject.layer == (int)Layers.PlayerHitbox) {
-			health--;
-			hitflashTimer = 0.1f;
+			switch (gameManager.playerController.currentAttack) {
+				case PlayerController.Attacks.LAttack:
+					health -= 1;
+					break;
+				case PlayerController.Attacks.LAttack2:
+					health -= 1;
+					break;
+				case PlayerController.Attacks.LAttack3:
+					health -= 2;
+					break;
+				case PlayerController.Attacks.Spin:
+					health -= 2;
+					break;
+				case PlayerController.Attacks.LethalDash:
+					health -= 2;
+					break;
+				case PlayerController.Attacks.Slam:
+					float posDifference = Mathf.Abs((gameManager.player.transform.position - transform.position).sqrMagnitude);
+					Debug.Log(gameObject.name + "'s posDifference after slam: " + posDifference);
+					if (posDifference < 40f) {
+						health -= 3;
+					}
+					else if (posDifference < 80f) {
+						health -= 2;
+					}
+					break;
+				case PlayerController.Attacks.Chop:
+					health -= 2f;
+					break;
+				default:
+					Debug.Log("I, " + this.name + " was hit by an unhandled attack (" + gameManager.playerController.currentAttack + ")");
+					break;
+			}
 			if (health <= 0) {
 				gameManager.shrinesDestroyed++;
 				Destroy(gameObject);
