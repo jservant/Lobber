@@ -18,6 +18,8 @@ public class ExplosiveTrap : MonoBehaviour {
 
 	private bool check = true;
 
+	public AK.Wwise.Event ExplosionSound;
+
 	void Start() {
 		capsule = this.GetComponent<CapsuleCollider>();
 		hitbox.SetActive(false);
@@ -64,6 +66,11 @@ public class ExplosiveTrap : MonoBehaviour {
 		currentTriggerTime = triggerTime;
 		hitbox.SetActive(true);
 		gameMan.SpawnParticle(2, explosionPoint.position, 1f);
+		Explosion_Sound();
+	}
+
+	void Explosion_Sound() {
+		ExplosionSound.Post(gameObject);
 	}
 
 	void OnDrawGizmos() {
