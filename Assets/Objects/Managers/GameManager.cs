@@ -10,7 +10,8 @@ using TMPro;
 
 public class GameManager : MonoBehaviour {
 	public enum Objectives : int {
-		KillTheEnemies = 0, // basically done, needs to be better implemented into a more official obj switcher
+		None = 0,
+		KillTheEnemies, // basically done, needs to be better implemented into a more official obj switcher
 		DestroyTheShrines,
 		HarvestTheCrystals, // workinonit
 	}
@@ -114,18 +115,7 @@ public class GameManager : MonoBehaviour {
 		}
 		else Debug.LogWarning("Object Named Player Not found");
 
-		{
-			GameObject eSpawnParent = GameObject.Find("EnemySpawns");
-			eSpawns = eSpawnParent.GetComponentsInChildren<Transform>();
-			Transform[] TempArray =  new Transform[eSpawns.Length - 1];
-			for (int index = 0; index < eSpawns.Length; index += 1) {
-				if (index - 1 >= 0) {
-					TempArray[index - 1] = eSpawns[index];
-				}
-			}
-			eSpawns = TempArray;
-		}
-		crystalDropoffSpawn = transform.Find("/CrystalDropoffSpawn");
+		
 
 		dActions = new DebugActions();
 		eSystem = GetComponent<EventSystem>();
@@ -146,15 +136,34 @@ public class GameManager : MonoBehaviour {
 		spawnTokens = 100;
 		objectiveFadeTimer = 5f;
 
-		float[] objectiveChoices = new float[] { 4f, 3f, 3f };
-		objectiveChoices[currentObjective] = 0;
-		//objectiveChoices[(int)Objectives.KillTheEnemies] = 0;
-		//objectiveChoices[(int)Objectives.DestroyTheShrines] = 0;
-		//objectiveChoices[(int)Objectives.HarvestTheCrystals] = 0;
-		// PREVIOUS TWO LINES ARE TEMP while they don't work
-		currentObjective = Util.RollWeightedChoice(objectiveChoices);
+		if (canSpawn) {
+			GameObject eSpawnParent = GameObject.Find("EnemySpawns");
+			eSpawns = eSpawnParent.GetComponentsInChildren<Transform>();
+			Transform[] TempArray = new Transform[eSpawns.Length - 1];
+			for (int index = 0; index < eSpawns.Length; index += 1) {
+				if (index - 1 >= 0) {
+					TempArray[index - 1] = eSpawns[index];
+				}
+			}
+			eSpawns = TempArray;
+
+			float[] objectiveChoices = new float[] { 0f, 4f, 3f, 3f };
+			objectiveChoices[currentObjective] = 0;
+			//objectiveChoices[(int)Objectives.KillTheEnemies] = 0;
+			//objectiveChoices[(int)Objectives.DestroyTheShrines] = 0;
+			//objectiveChoices[(int)Objectives.HarvestTheCrystals] = 0;
+			// PREVIOUS TWO LINES ARE TEMP while they don't work
+			currentObjective = Util.RollWeightedChoice(objectiveChoices);
+		} else {
+			playerController.health = playerController.healthMax;
+			playerController.meter = playerController.meterMax;
+		}
+		crystalDropoffSpawn = transform.Find("/CrystalDropoffSpawn");
+
 
 		switch (currentObjective) {
+			case (int)Objectives.None:
+				break;
 			case (int)Objectives.KillTheEnemies:
 				// assign enemy killing goal to a UI object here
 				statusTextboxText.text = "Level " + levelCount +
@@ -221,6 +230,8 @@ public class GameManager : MonoBehaviour {
 
 		//Objective text setter
 		switch (currentObjective) {
+			case (int)Objectives.None:
+				break;
 			case (int)Objectives.KillTheEnemies:
 				objectiveText.text = "Enemies killed: " + enemiesKilledInLevel + "/" + enemyKillingGoal;
 				if (enemiesKilledInLevel >= enemyKillingGoal && enemiesAlive <= 0 && transitioningLevel == false) {
