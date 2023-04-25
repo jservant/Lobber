@@ -24,12 +24,14 @@ public class GameManager : MonoBehaviour {
 	public static int enemiesKilledInRun = 0;
 	public static int enemyKillingGoal = 20;
 	public static int crystalHarvestingGoal = 3;
+	public static int shrineDestroyingGoal = 3;
 	public static int pickupDropChance = 0;
 	public static int levelCount = 0;
 
 	[Header("Non-static objective variables:")]
 	public int enemiesKilledInLevel = 0;
-	public int crystalCount;
+	public int crystalCount = 0;
+	public int shrinesDestroyed = 0;
 
 	[Header("UI")]
 	public Canvas mainUI;
@@ -69,11 +71,11 @@ public class GameManager : MonoBehaviour {
 	public HeadProjectile SkullPrefab;
 	public GameObject BasicPrefab;
 	public GameObject ExplodingPrefab;
-	public GameObject HeadPickupPrefab;
 	public GameObject FlashPrefab;
 	public GameObject OrbSpawnPrefab;
 	public GameObject[] Pickups;
 	public GameObject crystalDropoffPrefab;
+	public GameObject shrinePrefab;
 
 	[Header("Spawning:")]
 	public Transform[] eSpawns;
@@ -158,8 +160,15 @@ public class GameManager : MonoBehaviour {
 				"\nKill the Enemies!";
 				break;
 			case (int)Objectives.DestroyTheShrines:
+				int indexSpawnPoint = -1;
+				for (int t = 0; t < shrineDestroyingGoal; t++) {
+					do {
+						indexSpawnPoint = Random.Range(0, eSpawns.Length);
+					} while (Physics.CheckSphere(eSpawns[indexSpawnPoint].position, 10f, Mask.Get(Layers.EnemyHurtbox)));
+					GameObject shrine = Instantiate(shrinePrefab, eSpawns[indexSpawnPoint]);
+				}
 				statusTextboxText.text = "Level " + levelCount +
-				"\nDestroy the Crystals!";
+				"\nDestroy the Shrines!";
 				break;
 			case (int)Objectives.HarvestTheCrystals:
 				Instantiate(crystalDropoffPrefab, crystalDropoffSpawn.position, crystalDropoffSpawn.rotation);
@@ -218,7 +227,10 @@ public class GameManager : MonoBehaviour {
 				}
 				break;
 			case (int)Objectives.DestroyTheShrines:
-				objectiveText.text = "Destroy the Crystals!";
+				objectiveText.text = "Shrines destroyed: " + shrinesDestroyed + "/" + shrineDestroyingGoal;
+				if (shrinesDestroyed >= shrineDestroyingGoal && transitioningLevel == false) {
+					StartCoroutine(Win());
+				}
 				break;
 			case (int)Objectives.HarvestTheCrystals:
 				objectiveText.text = "Crystals harvested: " + crystalCount + "/" + crystalHarvestingGoal;
@@ -403,53 +415,34 @@ public class GameManager : MonoBehaviour {
 				pauseBG.enabled = false;
 			}
 		}
-
-
-		
-		
 	}
 
 	public IEnumerator Win() {
 		transitioningLevel = true;
-		/*if (SceneManager.GetActiveScene().buildIndex == 4) {
-			Initializer.timesWon++;
-			Initializer.Save();
-			statusTextboxText.text = "YOU WIN!!!";
-			Debug.Log("YOUR THE BUIGESS FUCKIN WINNER:; DAMMM");
-			yield return new WaitForSeconds(5);
-			SceneManager.LoadScene(1);
-		} else */
-		{
-			if (levelCount > Initializer.save.versionLatest.longestRun) { Initializer.save.versionLatest.longestRun = levelCount; }
-			Initializer.Save();
-			Debug.Log("YOU WIN!! Next stage starting shortly...");
-			statusTextboxText.text = "Stage Clear!";
-			float[] sceneChances = new float[] { 0, 0f, 1f, 1f }; // @TODO(Jaden): PUT LEVEL B BACK IN LATER
-			sceneChances[SceneManager.GetActiveScene().buildIndex] = 0;
-			AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(Util.RollWeightedChoice(sceneChances));
-			yield return new WaitForSeconds(5);
-			storedPlayerHealth = playerController.health;
-			storedPlayerMeter = playerController.meter;
-			levelCount++; 
-			switch (currentObjective) {
-				case (int)Objectives.KillTheEnemies:
-					enemyKillingGoal += 10;
-					break;
-				case (int)Objectives.DestroyTheShrines:
-					break;
-				case (int)Objectives.HarvestTheCrystals:
-					crystalHarvestingGoal += 1;
-					break;
-				default:
-					break;
-			}
-			//SceneManager.LoadScene(Util.RollWeightedChoice(sceneChances));
-
-			// Wait until the asynchronous scene fully loads
-			while (!asyncLoad.isDone) {
-				yield return null;
-			}
+		if (levelCount > Initializer.save.versionLatest.longestRun) { Initializer.save.versionLatest.longestRun = levelCount; }
+		Initializer.Save();
+		Debug.Log("YOU WIN!! Next stage starting shortly...");
+		statusTextboxText.text = "Stage Clear!";
+		float[] sceneChances = new float[] { 0, 0f, 1f, 1f }; // @TODO(Jaden): PUT LEVEL B BACK IN LATER
+		sceneChances[SceneManager.GetActiveScene().buildIndex] = 0;
+		yield return new WaitForSeconds(5);
+		storedPlayerHealth = playerController.health;
+		storedPlayerMeter = playerController.meter;
+		levelCount++; 
+		switch (currentObjective) {
+			case (int)Objectives.KillTheEnemies:
+				enemyKillingGoal += 10;
+				break;
+			case (int)Objectives.DestroyTheShrines:
+				//do something, DON'T raise tower count
+				break;
+			case (int)Objectives.HarvestTheCrystals:
+				crystalHarvestingGoal += 1;
+				break;
+			default:
+				break;
 		}
+		SceneManager.LoadScene(Util.RollWeightedChoice(sceneChances));
 	}
 
 	// NOTE(Ryan): Can be called to freeze the game for the time specified.
