@@ -328,8 +328,6 @@ public class PlayerController : MonoBehaviour {
 			speedTime = maxSpeedTime * 1.0f;
 		}
 
-
-
 		remainingKnockbackTime -= Time.fixedDeltaTime;
 
 		Vector3 translationDelta = Vector3.zero;
@@ -691,15 +689,21 @@ public class PlayerController : MonoBehaviour {
 		else { topSpeed = 10f; }
 	}
 
+	float maxHomingDistance;
+
 	void SetupHoming() { // attack homing function
 		// NOTE(Roskuski): If homing is currently taking place, cancel it.
 		doHoming = false;
 
-		//Collider[] newEColliders = Util.ConeCastAll(transform.position, tsr, Vector3.forward, );
-		Collider[] eColliders = Physics.OverlapSphere(GetTargetSphereLocation(), tsr, Mask.Get(Layers.EnemyHurtbox));
+		Vector3 targetSphere = GetTargetSphereLocation();
+		maxHomingDistance = (transform.position - new Vector3(targetSphere.x, targetSphere.y, targetSphere.z + tsr)).sqrMagnitude;
+		//maxHomingDistance = currentAttack == Attacks.HeadThrow || currentAttack == Attacks.ShotgunThrow ? 20f : 10f;
+		Debug.Log("maxHomingDistance: " + maxHomingDistance);
+		RaycastHit[] eColliders = Util.ConeCastAll(transform.position, tsr, transform.rotation * Vector3.forward, maxHomingDistance, 30f);
 
 		homingTargetDelta = Vector3.forward * 10;
 		for (int index = 0; index < eColliders.Length; index += 1) {
+			Debug.Log("Collider #" + index + "/" + eColliders.Length + ": " + eColliders[index].transform.gameObject.name);
 			Vector3 newDelta = eColliders[index].transform.position - transform.position;
 			if (newDelta.magnitude < homingTargetDelta.magnitude) {
 				homingTargetDelta = newDelta;
@@ -817,14 +821,21 @@ public class PlayerController : MonoBehaviour {
 	}
 	#endregion
 
-
 	#region Minor utility functions
 	void OnEnable() { pActions.Enable(); }
 	void OnDisable() { pActions.Disable(); }
 
 	private void OnDrawGizmos() {
-		Gizmos.color = Color.red;
-		Gizmos.DrawWireSphere(GetTargetSphereLocation(), tsr);
+		Gizmos.color = Color.red; // homing cone
+		Vector3 targetSphere = GetTargetSphereLocation();
+		Gizmos.DrawWireSphere(targetSphere, tsr);
+		Gizmos.DrawLine(transform.position, new Vector3(targetSphere.x + tsr, targetSphere.y, targetSphere.z));
+		Gizmos.DrawLine(transform.position, new Vector3(targetSphere.x - tsr, targetSphere.y, targetSphere.z));
+		Gizmos.DrawLine(transform.position, new Vector3(targetSphere.x, targetSphere.y + tsr, targetSphere.z));
+		Gizmos.DrawLine(transform.position, new Vector3(targetSphere.x, targetSphere.y - tsr, targetSphere.z));
+
+		Gizmos.color = Color.blue; // max homing distance
+		Gizmos.DrawLine(transform.position, new Vector3(targetSphere.x, targetSphere.y, targetSphere.z + tsr));
 
 		Gizmos.color = Color.yellow;
 		Gizmos.DrawWireSphere(transform.position, 17);
