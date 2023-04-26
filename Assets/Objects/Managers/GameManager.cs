@@ -89,13 +89,13 @@ public class GameManager : MonoBehaviour {
 	[SerializeField] float spawnTokens;
 	float spawnDelay;
 
-	readonly static float TokenCost_SmallSpawn = 30;
-	readonly static float TokenCost_MediumSpawn = 60;
-	readonly static float TokenCost_BigSpawn = 80;
-	readonly static float TokensPerSecond = 10.0f;
-	readonly static int HighEnemies = 18;
-	readonly static int TargetEnemies = 12;
-	readonly static int LowEnemies = 4;
+	const float TokenCost_SmallSpawn = 30;
+	const float TokenCost_MediumSpawn = 60;
+	const float TokenCost_BigSpawn = 80;
+	const float TokensPerSecond = 10.0f;
+	const int HighEnemies = 18;
+	const int TargetEnemies = 12;
+	const int LowEnemies = 4;
 
 	[Header("Bools:")]
 	public bool updateTimeScale = true;
