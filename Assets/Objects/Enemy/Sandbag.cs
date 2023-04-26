@@ -14,7 +14,7 @@ public class Sandbag : MonoBehaviour
 
 	GameManager gameManager;
 
-	MeshRenderer model;
+	public SkinnedMeshRenderer model;
 	Material[] materials;
 	public Material hitflashMat;
 	float hitflashTimer = 0;
@@ -23,7 +23,6 @@ public class Sandbag : MonoBehaviour
     {
         health = maxHealth;
 		gameManager = transform.Find("/GameManager").GetComponent<GameManager>();
-		model = GetComponent<MeshRenderer>();
 		materials = model.materials;
 	}
 
