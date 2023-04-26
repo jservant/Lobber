@@ -162,6 +162,17 @@
 								</Action>
 							</ChildrenList>
 						</Event>
+						<Event Name="player_roll" ID="{902E301D-AFB9-49D1-A877-390429BF6925}">
+							<ChildrenList>
+								<Action Name="" ID="{2D834604-E4B6-465A-A21A-A46957271584}" ShortID="942862776">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="player_roll" ID="{1D623E5B-AEDD-4630-BA87-0766A7445A13}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
 					</ChildrenList>
 				</Folder>
 				<Folder Name="Skeletons" ID="{52B80696-1DC9-440D-86B4-8D98D4620CE9}" ShortID="401187278">
@@ -423,6 +434,17 @@
 								</Action>
 							</ChildrenList>
 						</Event>
+						<Event Name="head_golden_idle" ID="{86F64938-9709-4B50-8951-217CBB447FEA}">
+							<ChildrenList>
+								<Action Name="" ID="{C33CD676-23D6-4EAC-9626-17918F278B26}" ShortID="370646815">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="head_golden_idle" ID="{DC99EAE4-607B-4A21-9624-5B2919B04D3E}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
 					</ChildrenList>
 				</Folder>
 				<Folder Name="Pest Bomb" ID="{AA370F07-8478-4A6C-A78D-2E4F804AE60A}" ShortID="601532586">
@@ -477,6 +499,32 @@
 									<ReferenceList>
 										<Reference Name="Target">
 											<ObjectRef Name="pest_fs" ID="{9C5AB3DB-D5DC-4416-95FB-518D53ECBBE6}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="Axe Hit" ID="{9568776E-478B-4C90-91EA-90147DEB63F9}" ShortID="298426474">
+					<ChildrenList>
+						<Event Name="axe_hit_rock" ID="{9C9D9E86-AD2F-490F-B054-48EDAFB70F7D}">
+							<ChildrenList>
+								<Action Name="" ID="{6DC16740-7824-4115-8814-1A9F41319CB8}" ShortID="537271337">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="axe_hit_rock" ID="{832FDB32-8E1D-4795-8DC0-F409377BDC3C}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="axe_hit_wood" ID="{39D358B0-9F01-4B45-A0C3-B00E7DBAC999}">
+							<ChildrenList>
+								<Action Name="" ID="{65DF00C3-23A1-4C29-80D5-DC34866C0E1C}" ShortID="264318766">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="axe_hit_wood" ID="{C18F9DEC-11B3-491F-AE57-C5866B38AAD7}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>

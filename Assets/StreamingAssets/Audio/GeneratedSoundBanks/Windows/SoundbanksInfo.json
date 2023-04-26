@@ -5,8 +5,8 @@
   "SchemaVersion": "16",
   "SoundBankVersion": "145",
   "RootPaths": {
-   "ProjectRoot": "../../../../../Lobber_Wwise",
-   "SourceFilesRoot": "../../../../../Lobber_Wwise/.cache/Windows",
+   "ProjectRoot": "../../../../../Lobber_Wwise/",
+   "SourceFilesRoot": "../../../../../Lobber_Wwise/.cache/Windows/",
    "SoundBanksRoot": ".",
    "ExternalSourcesInputFile": "",
    "ExternalSourcesOutputRoot": "../../../../../Lobber_Wwise/GeneratedSoundBanks/Windows"
@@ -17,7 +17,7 @@
     "Id": "1355168291",
     "Type": "User",
     "Language": "SFX",
-    "Hash": "{57779935-EB1F-29E9-2AA5-204792065257}",
+    "Hash": "{69723FFC-3F84-CF60-9EAB-4A86D1680952}",
     "ShortName": "Init",
     "Path": "Init.bnk",
     "Plugins": {
@@ -43,6 +43,10 @@
      ]
     },
     "Busses": [
+     {
+      "Id": "393239870",
+      "Name": "SFX"
+     },
      {
       "Id": "746452412",
       "Name": "MSC"
@@ -541,10 +545,18 @@
     "Id": "1496463651",
     "Type": "User",
     "Language": "SFX",
-    "Hash": "{1AAE2BF2-4BDE-69A0-CE62-E2346E4AE57C}",
+    "Hash": "{594FEC35-B75D-B7E5-A2DC-EE2FC0EEB987}",
     "ShortName": "Bank_01",
     "Path": "Bank_01.bnk",
     "Media": [
+     {
+      "Id": "5743150",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "axe_hit_wood_02.wav",
+      "CachePath": "SFX/axe_hit_wood_02_10C4C929.wem"
+     },
      {
       "Id": "18472167",
       "Language": "SFX",
@@ -610,6 +622,14 @@
       "CachePath": "SFX/bush_ent_02_10C4C929.wem"
      },
      {
+      "Id": "55141243",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "player_roll_grass.wav",
+      "CachePath": "SFX/player_roll_grass_10C4C929.wem"
+     },
+     {
       "Id": "66995461",
       "Language": "SFX",
       "Streaming": "false",
@@ -640,6 +660,14 @@
       "Location": "Memory",
       "ShortName": "fs_player_dirt_06.wav",
       "CachePath": "SFX/fs_player_dirt_06_10C4C929.wem"
+     },
+     {
+      "Id": "96127275",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "head_golden_idlewav.wav",
+      "CachePath": "SFX/head_golden_idlewav_66CB2B9D.wem"
      },
      {
       "Id": "96698159",
@@ -680,6 +708,14 @@
       "Location": "Memory",
       "ShortName": "bush_ent_01.wav",
       "CachePath": "SFX/bush_ent_01_10C4C929.wem"
+     },
+     {
+      "Id": "111457560",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "player_roll_gravel.wav",
+      "CachePath": "SFX/player_roll_gravel_10C4C929.wem"
      },
      {
       "Id": "115604974",
@@ -858,6 +894,14 @@
       "CachePath": "SFX/skel_gethit_04_10C4C929.wem"
      },
      {
+      "Id": "332932540",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "axe_hit_wood_03.wav",
+      "CachePath": "SFX/axe_hit_wood_03_10C4C929.wem"
+     },
+     {
       "Id": "342867081",
       "Language": "SFX",
       "Streaming": "false",
@@ -896,6 +940,14 @@
       "Location": "Memory",
       "ShortName": "fs_skel_grass_05.wav",
       "CachePath": "SFX/fs_skel_grass_05_10C4C929.wem"
+     },
+     {
+      "Id": "374074499",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "axe_hit_rock_02.wav",
+      "CachePath": "SFX/axe_hit_rock_02_10C4C929.wem"
      },
      {
       "Id": "395551192",
@@ -944,6 +996,22 @@
       "Location": "Memory",
       "ShortName": "skel_gethit_01.wav",
       "CachePath": "SFX/skel_gethit_01_10C4C929.wem"
+     },
+     {
+      "Id": "459679263",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "axe_hit_rock_03.wav",
+      "CachePath": "SFX/axe_hit_rock_03_10C4C929.wem"
+     },
+     {
+      "Id": "479754207",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "axe_hit_rock_01.wav",
+      "CachePath": "SFX/axe_hit_rock_01_10C4C929.wem"
      },
      {
       "Id": "482700904",
@@ -1000,6 +1068,14 @@
       "Location": "Memory",
       "ShortName": "fs_player_gravel_01.wav",
       "CachePath": "SFX/fs_player_gravel_01_10C4C929.wem"
+     },
+     {
+      "Id": "557305244",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "player_roll_dirt.wav",
+      "CachePath": "SFX/player_roll_dirt_10C4C929.wem"
      },
      {
       "Id": "571414843",
@@ -1210,6 +1286,14 @@
       "CachePath": "SFX/head_impact_01_10C4C929.wem"
      },
      {
+      "Id": "865623118",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "axe_hit_wood_01.wav",
+      "CachePath": "SFX/axe_hit_wood_01_10C4C929.wem"
+     },
+     {
       "Id": "872431774",
       "Language": "SFX",
       "Streaming": "false",
@@ -1352,8 +1436,6 @@
      {
       "Id": "3207324726",
       "Name": "amb_fire",
-      "MaxAttenuation": "100",
-      "DurationType": "Infinite",
       "MediaRefs": [
        {
         "Id": "150208270"
@@ -1363,7 +1445,6 @@
      {
       "Id": "3334362129",
       "Name": "amb_LV1",
-      "DurationType": "Infinite",
       "MediaRefs": [
        {
         "Id": "342867081"
@@ -1371,9 +1452,38 @@
       ]
      },
      {
+      "Id": "2080575975",
+      "Name": "axe_hit_rock",
+      "MediaRefs": [
+       {
+        "Id": "374074499"
+       },
+       {
+        "Id": "459679263"
+       },
+       {
+        "Id": "479754207"
+       }
+      ]
+     },
+     {
+      "Id": "979945107",
+      "Name": "axe_hit_wood",
+      "MediaRefs": [
+       {
+        "Id": "5743150"
+       },
+       {
+        "Id": "332932540"
+       },
+       {
+        "Id": "865623118"
+       }
+      ]
+     },
+     {
       "Id": "3554795103",
       "Name": "Combat1_Start",
-      "DurationType": "Infinite",
       "MediaRefs": [
        {
         "Id": "677937057"
@@ -1385,18 +1495,11 @@
      },
      {
       "Id": "2415455525",
-      "Name": "Combat1_Stop",
-      "MaxAttenuation": "0",
-      "DurationType": "OneShot",
-      "DurationMin": "0",
-      "DurationMax": "0"
+      "Name": "Combat1_Stop"
      },
      {
       "Id": "375965827",
       "Name": "head_flying",
-      "DurationType": "OneShot",
-      "DurationMin": "4.2034583",
-      "DurationMax": "4.2034583",
       "MediaRefs": [
        {
         "Id": "1070028639"
@@ -1404,12 +1507,17 @@
       ]
      },
      {
+      "Id": "3507359558",
+      "Name": "head_golden_idle",
+      "MediaRefs": [
+       {
+        "Id": "96127275"
+       }
+      ]
+     },
+     {
       "Id": "4015037628",
       "Name": "head_impact",
-      "MaxAttenuation": "100",
-      "DurationType": "OneShot",
-      "DurationMin": "0.359875",
-      "DurationMax": "0.37647918",
       "MediaRefs": [
        {
         "Id": "96698159"
@@ -1431,9 +1539,6 @@
      {
       "Id": "2586367166",
       "Name": "head_pickup",
-      "DurationType": "OneShot",
-      "DurationMin": "0.300875",
-      "DurationMax": "0.300875",
       "MediaRefs": [
        {
         "Id": "922362666"
@@ -1443,9 +1548,6 @@
      {
       "Id": "4234617796",
       "Name": "pest_bomb_expload",
-      "DurationType": "OneShot",
-      "DurationMin": "1.9375",
-      "DurationMax": "1.9375",
       "MediaRefs": [
        {
         "Id": "395551192"
@@ -1455,7 +1557,6 @@
      {
       "Id": "437942920",
       "Name": "pest_bomb_fuse",
-      "DurationType": "Infinite",
       "MediaRefs": [
        {
         "Id": "367181203"
@@ -1465,9 +1566,6 @@
      {
       "Id": "1736279191",
       "Name": "pest_bomb_jump",
-      "DurationType": "OneShot",
-      "DurationMin": "1.7380507",
-      "DurationMax": "1.7380507",
       "MediaRefs": [
        {
         "Id": "163626921"
@@ -1477,9 +1575,6 @@
      {
       "Id": "718104337",
       "Name": "pest_fs",
-      "DurationType": "OneShot",
-      "DurationMin": "0.48222393",
-      "DurationMax": "0.6433139",
       "MediaRefs": [
        {
         "Id": "227964973"
@@ -1498,9 +1593,6 @@
      {
       "Id": "799884986",
       "Name": "player_attack1",
-      "DurationType": "OneShot",
-      "DurationMin": "0.29172915",
-      "DurationMax": "0.34375",
       "MediaRefs": [
        {
         "Id": "233950051"
@@ -1516,9 +1608,6 @@
      {
       "Id": "799884985",
       "Name": "player_attack2",
-      "DurationType": "OneShot",
-      "DurationMin": "0.26377082",
-      "DurationMax": "0.3125",
       "MediaRefs": [
        {
         "Id": "97539198"
@@ -1534,9 +1623,6 @@
      {
       "Id": "215823421",
       "Name": "player_bush_ent",
-      "DurationType": "OneShot",
-      "DurationMin": "0.41294497",
-      "DurationMax": "0.5628398",
       "MediaRefs": [
        {
         "Id": "51859721"
@@ -1551,18 +1637,11 @@
      },
      {
       "Id": "4275904075",
-      "Name": "player_bush_ext",
-      "MaxAttenuation": "0",
-      "DurationType": "OneShot",
-      "DurationMin": "0",
-      "DurationMax": "0"
+      "Name": "player_bush_ext"
      },
      {
       "Id": "927599014",
       "Name": "player_chop_init",
-      "DurationType": "OneShot",
-      "DurationMin": "0.65625",
-      "DurationMax": "0.65625",
       "MediaRefs": [
        {
         "Id": "101552163"
@@ -1572,9 +1651,6 @@
      {
       "Id": "1752115990",
       "Name": "player_chop_tail",
-      "DurationType": "OneShot",
-      "DurationMin": "0.96875",
-      "DurationMax": "0.96875",
       "MediaRefs": [
        {
         "Id": "754981410"
@@ -1584,9 +1660,6 @@
      {
       "Id": "4276063004",
       "Name": "player_fs",
-      "DurationType": "OneShot",
-      "DurationMin": "0.18448988",
-      "DurationMax": "0.38598835",
       "SwitchContainers": [
        {
         "SwitchValue": {
@@ -1693,9 +1766,6 @@
      {
       "Id": "3945457670",
       "Name": "player_gethit",
-      "DurationType": "OneShot",
-      "DurationMin": "0.63122916",
-      "DurationMax": "0.71141666",
       "MediaRefs": [
        {
         "Id": "33849619"
@@ -1711,9 +1781,6 @@
      {
       "Id": "973170820",
       "Name": "player_lob",
-      "DurationType": "OneShot",
-      "DurationMin": "1.75",
-      "DurationMax": "1.75",
       "MediaRefs": [
        {
         "Id": "222124175"
@@ -1721,11 +1788,51 @@
       ]
      },
      {
+      "Id": "841226244",
+      "Name": "player_roll",
+      "SwitchContainers": [
+       {
+        "SwitchValue": {
+         "GroupType": "Switch",
+         "GroupId": "4276063004",
+         "Id": "2195636714",
+         "Default": "true"
+        },
+        "MediaRefs": [
+         {
+          "Id": "557305244"
+         }
+        ]
+       },
+       {
+        "SwitchValue": {
+         "GroupType": "Switch",
+         "GroupId": "4276063004",
+         "Id": "4248645337"
+        },
+        "MediaRefs": [
+         {
+          "Id": "55141243"
+         }
+        ]
+       },
+       {
+        "SwitchValue": {
+         "GroupType": "Switch",
+         "GroupId": "4276063004",
+         "Id": "2185786256"
+        },
+        "MediaRefs": [
+         {
+          "Id": "111457560"
+         }
+        ]
+       }
+      ]
+     },
+     {
       "Id": "1199887854",
       "Name": "player_shotgun_atk",
-      "DurationType": "OneShot",
-      "DurationMin": "3.125",
-      "DurationMax": "3.125",
       "MediaRefs": [
        {
         "Id": "195194557"
@@ -1735,9 +1842,6 @@
      {
       "Id": "255574742",
       "Name": "player_shotgun_init",
-      "DurationType": "OneShot",
-      "DurationMin": "0.27788714",
-      "DurationMax": "0.27788714",
       "MediaRefs": [
        {
         "Id": "848350748"
@@ -1747,9 +1851,6 @@
      {
       "Id": "2909104693",
       "Name": "player_slam_atk",
-      "DurationType": "OneShot",
-      "DurationMin": "1.53125",
-      "DurationMax": "1.53125",
       "MediaRefs": [
        {
         "Id": "966389329"
@@ -1759,9 +1860,6 @@
      {
       "Id": "3131540599",
       "Name": "player_slam_init",
-      "DurationType": "OneShot",
-      "DurationMin": "0.8449375",
-      "DurationMax": "0.8449375",
       "MediaRefs": [
        {
         "Id": "933496307"
@@ -1771,9 +1869,6 @@
      {
       "Id": "2062853598",
       "Name": "portal_close",
-      "DurationType": "OneShot",
-      "DurationMin": "1.2006766",
-      "DurationMax": "1.2006766",
       "MediaRefs": [
        {
         "Id": "495527006"
@@ -1783,7 +1878,6 @@
      {
       "Id": "3086941384",
       "Name": "portal_idle",
-      "DurationType": "Infinite",
       "MediaRefs": [
        {
         "Id": "712810717"
@@ -1793,9 +1887,6 @@
      {
       "Id": "762878330",
       "Name": "portal_open",
-      "DurationType": "OneShot",
-      "DurationMin": "1.125",
-      "DurationMax": "1.125",
       "MediaRefs": [
        {
         "Id": "271929651"
@@ -1805,10 +1896,6 @@
      {
       "Id": "2376412427",
       "Name": "skel_dash",
-      "MaxAttenuation": "50",
-      "DurationType": "OneShot",
-      "DurationMin": "1.5",
-      "DurationMax": "1.5",
       "MediaRefs": [
        {
         "Id": "18472167"
@@ -1824,10 +1911,6 @@
      {
       "Id": "1504289659",
       "Name": "skel_death",
-      "MaxAttenuation": "50",
-      "DurationType": "OneShot",
-      "DurationMin": "1.0625",
-      "DurationMax": "1.0625",
       "MediaRefs": [
        {
         "Id": "858779314"
@@ -1837,10 +1920,6 @@
      {
       "Id": "855030670",
       "Name": "skel_fs",
-      "MaxAttenuation": "50",
-      "DurationType": "OneShot",
-      "DurationMin": "0.21465273",
-      "DurationMax": "0.330089",
       "SwitchContainers": [
        {
         "SwitchValue": {
@@ -1914,10 +1993,6 @@
      {
       "Id": "3336220324",
       "Name": "skel_gethit",
-      "MaxAttenuation": "50",
-      "DurationType": "OneShot",
-      "DurationMin": "0.318375",
-      "DurationMax": "0.33570832",
       "MediaRefs": [
        {
         "Id": "300101372"
@@ -1939,10 +2014,6 @@
      {
       "Id": "3644427658",
       "Name": "skel_slash",
-      "MaxAttenuation": "50",
-      "DurationType": "OneShot",
-      "DurationMin": "0.3984375",
-      "DurationMax": "0.5546875",
       "MediaRefs": [
        {
         "Id": "66995461"
@@ -1958,10 +2029,6 @@
      {
       "Id": "1091450755",
       "Name": "skel_spwan_jump",
-      "MaxAttenuation": "50",
-      "DurationType": "OneShot",
-      "DurationMin": "0.625",
-      "DurationMax": "0.625",
       "MediaRefs": [
        {
         "Id": "443484975"
@@ -1971,10 +2038,6 @@
      {
       "Id": "500517664",
       "Name": "skel_spwan_land",
-      "MaxAttenuation": "50",
-      "DurationType": "OneShot",
-      "DurationMin": "1.3443125",
-      "DurationMax": "1.3443125",
       "MediaRefs": [
        {
         "Id": "500052017"
@@ -1984,10 +2047,6 @@
      {
       "Id": "1123472706",
       "Name": "skel_vo",
-      "MaxAttenuation": "50",
-      "DurationType": "OneShot",
-      "DurationMin": "1.3943334",
-      "DurationMax": "2.2613332",
       "MediaRefs": [
        {
         "Id": "115604974"
@@ -2009,9 +2068,6 @@
      {
       "Id": "3157003241",
       "Name": "TEST",
-      "DurationType": "OneShot",
-      "DurationMin": "1",
-      "DurationMax": "1",
       "PluginRefs": {
        "Custom": [
         {
@@ -2022,16 +2078,11 @@
      },
      {
       "Id": "3587827325",
-      "Name": "Transition_Start",
-      "DurationType": "Infinite"
+      "Name": "Transition_Start"
      },
      {
       "Id": "1619304959",
-      "Name": "Transition_Stop",
-      "MaxAttenuation": "0",
-      "DurationType": "OneShot",
-      "DurationMin": "0",
-      "DurationMax": "0"
+      "Name": "Transition_Stop"
      }
     ],
     "SwitchGroups": [
@@ -2070,6 +2121,6 @@
     ]
    }
   ],
-  "FileHash": "{684C1715-9A3A-F026-F41B-E57FEC3E0BF9}"
+  "FileHash": "{8B4A1773-CE99-DBC7-0286-B03DB9344362}"
  }
 }

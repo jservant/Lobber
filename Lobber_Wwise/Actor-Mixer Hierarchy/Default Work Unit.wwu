@@ -1319,6 +1319,137 @@
 								<ActiveSource Name="player_slam_atk" ID="{01289C42-BF95-4DB9-887D-376BAB56EB0C}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
+						<SwitchContainer Name="player_roll" ID="{1D623E5B-AEDD-4630-BA87-0766A7445A13}" ShortID="148702790">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-20</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="DefaultSwitchOrState">
+									<ObjectRef Name="Dirt" ID="{F41CDE36-903C-416A-8742-ADD8CF0F63EB}" WorkUnitID="{99733758-4F79-4710-9017-E0662FAA2094}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+								<Reference Name="SwitchGroupOrStateGroup">
+									<ObjectRef Name="Player_FS" ID="{560F51E4-AAEF-4534-8410-3889C0072AA2}" WorkUnitID="{99733758-4F79-4710-9017-E0662FAA2094}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="player_roll_dirt" ID="{F052BB9D-9F54-4938-87B2-244BEF717688}" ShortID="913320533">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="player_roll_dirt" ID="{39A29A19-7C13-4DCC-87B6-5B49C53B3DEC}">
+											<Language>SFX</Language>
+											<AudioFile>player_roll_dirt.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="557305244"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="player_roll_dirt" ID="{39A29A19-7C13-4DCC-87B6-5B49C53B3DEC}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="player_roll_grass" ID="{7E95E4A6-35D0-41BD-9056-2E7AF0624C32}" ShortID="193765272">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-2</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="player_roll_grass" ID="{E30D1D94-357B-42EE-AF94-F5292DF2BEDA}">
+											<Language>SFX</Language>
+											<AudioFile>player_roll_grass.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="55141243"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="player_roll_grass" ID="{E30D1D94-357B-42EE-AF94-F5292DF2BEDA}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="player_roll_gravel" ID="{43411A4C-424C-453A-80F8-227B965BB49E}" ShortID="895267464">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="player_roll_gravel" ID="{A57A8EE1-0744-4E95-A139-1FF04E4F2428}">
+											<Language>SFX</Language>
+											<AudioFile>player_roll_gravel.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="111457560"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="player_roll_gravel" ID="{A57A8EE1-0744-4E95-A139-1FF04E4F2428}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+							<GroupingInfo>
+								<GroupingBehaviorList>
+									<GroupingBehavior>
+										<ItemRef Name="player_roll_gravel" ID="{43411A4C-424C-453A-80F8-227B965BB49E}"/>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="player_roll_dirt" ID="{F052BB9D-9F54-4938-87B2-244BEF717688}"/>
+									</GroupingBehavior>
+									<GroupingBehavior>
+										<ItemRef Name="player_roll_grass" ID="{7E95E4A6-35D0-41BD-9056-2E7AF0624C32}"/>
+									</GroupingBehavior>
+								</GroupingBehaviorList>
+								<GroupingList>
+									<Grouping>
+										<SwitchRef Name="Dirt" ID="{F41CDE36-903C-416A-8742-ADD8CF0F63EB}"/>
+										<ItemList>
+											<ItemRef Name="player_roll_dirt" ID="{F052BB9D-9F54-4938-87B2-244BEF717688}"/>
+										</ItemList>
+									</Grouping>
+									<Grouping>
+										<SwitchRef Name="Grass" ID="{0CD9A363-EC63-4D84-B4CA-3B18FC8D611B}"/>
+										<ItemList>
+											<ItemRef Name="player_roll_grass" ID="{7E95E4A6-35D0-41BD-9056-2E7AF0624C32}"/>
+										</ItemList>
+									</Grouping>
+									<Grouping>
+										<SwitchRef Name="Gravel" ID="{AAC6486C-BAB5-4AA4-BEB6-17D89BDD0C83}"/>
+										<ItemList>
+											<ItemRef Name="player_roll_gravel" ID="{43411A4C-424C-453A-80F8-227B965BB49E}"/>
+										</ItemList>
+									</Grouping>
+								</GroupingList>
+							</GroupingInfo>
+						</SwitchContainer>
 					</ChildrenList>
 				</ActorMixer>
 				<ActorMixer Name="Skeletons" ID="{66B391D0-C7B2-463A-8BA3-3A4E2B9499D7}" ShortID="491509316">
@@ -2573,6 +2704,49 @@
 								</Sound>
 							</ChildrenList>
 						</RandomSequenceContainer>
+						<Sound Name="head_golden_idle" ID="{DC99EAE4-607B-4A21-9624-5B2919B04D3E}" ShortID="371853698">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="2"/>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-20</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="Fire" ID="{411352E6-B0FE-47A3-B079-14A951B6B574}" WorkUnitID="{30AA0E61-053C-47AE-8A92-C475047387BF}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="head_golden_idle" ID="{4444661F-3E1F-4575-B316-275116B55AFF}">
+									<PropertyList>
+										<Property Name="CrossfadeDuration" Type="Real64" Value="286.316"/>
+										<Property Name="FadeInDuration" Type="Real64" Value="0.182686567164179"/>
+										<Property Name="LoopBegin" Type="Real64" Value="1.09611940298507"/>
+										<Property Name="LoopEnd" Type="Real64" Value="10.3928358208955"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimBegin" Type="Real64" Value="0.487164179104478"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>head_golden_idlewav.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="96127275"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="head_golden_idle" ID="{4444661F-3E1F-4575-B316-275116B55AFF}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
 					</ChildrenList>
 				</ActorMixer>
 				<ActorMixer Name="SFX" ID="{FDAD68AF-5B82-4058-B20A-9511B65B21DC}" ShortID="100347218">
@@ -2680,7 +2854,14 @@
 					</ChildrenList>
 				</ActorMixer>
 				<ActorMixer Name="PestBomb" ID="{06BB7408-2D76-4694-9C6E-FD8D4BC670B4}" ShortID="434270064">
+					<PropertyList>
+						<Property Name="3DSpatialization" Type="int16" Value="2"/>
+						<Property Name="SpeakerPanning3DSpatializationMix" Type="int32" Value="80"/>
+					</PropertyList>
 					<ReferenceList>
+						<Reference Name="Attenuation">
+							<ObjectRef Name="Skeletons" ID="{81AC410A-2577-4510-BD6D-B74F3C77652C}" WorkUnitID="{30AA0E61-053C-47AE-8A92-C475047387BF}"/>
+						</Reference>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
 						</Reference>
@@ -2964,6 +3145,174 @@
 								<ActiveSource Name="pest_bomb_jump" ID="{2EDA22D5-2A0F-4B89-B8D1-F11C9AD2538A}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
+					</ChildrenList>
+				</ActorMixer>
+				<ActorMixer Name="Axe Hit" ID="{0D6C5939-C5F7-44F9-BDC4-7234E29FF6E2}" ShortID="313143509">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<RandomSequenceContainer Name="axe_hit_rock" ID="{832FDB32-8E1D-4795-8DC0-F409377BDC3C}" ShortID="203385377">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="axe_hit_rock_01" ID="{D30A1601-C8E1-4A05-A131-46EF715DD789}" ShortID="686617744">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="axe_hit_rock_01" ID="{9C327860-546F-4991-A2BA-A7878E2FE2F4}">
+											<Language>SFX</Language>
+											<AudioFile>axe_hit_rock_01.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="479754207"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="axe_hit_rock_01" ID="{9C327860-546F-4991-A2BA-A7878E2FE2F4}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="axe_hit_rock_02" ID="{FD4D54D6-B36B-4A05-BC36-0C60DBFFF4AA}" ShortID="1044574519">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="axe_hit_rock_02" ID="{148E3E14-8EFF-47A0-B409-688F5F931734}">
+											<Language>SFX</Language>
+											<AudioFile>axe_hit_rock_02.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="374074499"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="axe_hit_rock_02" ID="{148E3E14-8EFF-47A0-B409-688F5F931734}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="axe_hit_rock_03" ID="{F92A9D53-604D-4736-85A4-EA8B3C6136DE}" ShortID="661535670">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="axe_hit_rock_03" ID="{8C0C27D9-33FF-43FB-9FCE-193B4CBBAFDD}">
+											<Language>SFX</Language>
+											<AudioFile>axe_hit_rock_03.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="459679263"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="axe_hit_rock_03" ID="{8C0C27D9-33FF-43FB-9FCE-193B4CBBAFDD}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<RandomSequenceContainer Name="axe_hit_wood" ID="{C18F9DEC-11B3-491F-AE57-C5866B38AAD7}" ShortID="596032304">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="axe_hit_wood_01" ID="{A05A6042-8608-4BCF-896C-928E0B8BD99F}" ShortID="954945544">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="axe_hit_wood_01" ID="{EA342382-5B51-4D99-B210-D7609C0A9CCF}">
+											<Language>SFX</Language>
+											<AudioFile>axe_hit_wood_01.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="865623118"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="axe_hit_wood_01" ID="{EA342382-5B51-4D99-B210-D7609C0A9CCF}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="axe_hit_wood_02" ID="{652D8C3D-90A2-4C23-AB90-9AF7C73D3642}" ShortID="846946333">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="axe_hit_wood_02" ID="{DAAF5D2A-29CC-4924-9F87-57647C4A040A}">
+											<Language>SFX</Language>
+											<AudioFile>axe_hit_wood_02.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="5743150"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="axe_hit_wood_02" ID="{DAAF5D2A-29CC-4924-9F87-57647C4A040A}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="axe_hit_wood_03" ID="{C023430F-9300-4483-A1DB-EF52510EABC0}" ShortID="216498381">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="axe_hit_wood_03" ID="{6CDF0957-1370-495A-93E3-926CE2334E4D}">
+											<Language>SFX</Language>
+											<AudioFile>axe_hit_wood_03.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="332932540"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="axe_hit_wood_03" ID="{6CDF0957-1370-495A-93E3-926CE2334E4D}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
 					</ChildrenList>
 				</ActorMixer>
 			</ChildrenList>

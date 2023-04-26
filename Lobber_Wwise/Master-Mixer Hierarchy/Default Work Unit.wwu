@@ -10,34 +10,6 @@
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
-						<Bus Name="ACT_Player" ID="{AF7759AC-4DFC-406C-A42F-03E2A91C2172}">
-							<PropertyList>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>-5</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
-						</Bus>
-						<Bus Name="ACT_Skeletons" ID="{61754236-71DF-4511-848C-E40A381E25FF}">
-							<PropertyList>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>5</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
-						</Bus>
-						<Bus Name="AMB" ID="{07AACAE3-BF76-4A02-8631-32B65B75463D}"/>
-						<Bus Name="FS" ID="{2D8870B2-3BA4-41BA-95F7-E5C182124B9F}">
-							<PropertyList>
-								<Property Name="Volume" Type="Real64">
-									<ValueList>
-										<Value>-5</Value>
-									</ValueList>
-								</Property>
-							</PropertyList>
-						</Bus>
 						<Bus Name="MSC" ID="{A7ED5BA2-7FEC-4670-86F5-EE7841828E5F}">
 							<PropertyList>
 								<Property Name="Volume" Type="Real64">
@@ -46,6 +18,38 @@
 									</ValueList>
 								</Property>
 							</PropertyList>
+						</Bus>
+						<Bus Name="SFX" ID="{6CD3A0B6-29F9-4BD1-8DE2-9F395B06AF27}">
+							<ChildrenList>
+								<Bus Name="ACT_Player" ID="{AF7759AC-4DFC-406C-A42F-03E2A91C2172}">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-5</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+								</Bus>
+								<Bus Name="ACT_Skeletons" ID="{61754236-71DF-4511-848C-E40A381E25FF}">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>5</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+								</Bus>
+								<Bus Name="AMB" ID="{07AACAE3-BF76-4A02-8631-32B65B75463D}"/>
+								<Bus Name="FS" ID="{2D8870B2-3BA4-41BA-95F7-E5C182124B9F}">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-5</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+								</Bus>
+							</ChildrenList>
 						</Bus>
 					</ChildrenList>
 				</Bus>
