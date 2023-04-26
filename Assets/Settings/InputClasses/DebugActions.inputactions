@@ -33,6 +33,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "SpawnNecro",
+                    "type": "Button",
+                    "id": "c0a37e79-0240-4068-96e6-919adf1d4f80",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "SummonSpawnPortal",
                     "type": "Button",
                     "id": "7631f52b-c3b5-45c7-8262-1bd5c9f4428b",
@@ -84,6 +93,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "SummonSpawnPortal",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e9b0300f-6555-4df3-af59-99814e0024ba",
+                    "path": "<Keyboard>/f3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SpawnNecro",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

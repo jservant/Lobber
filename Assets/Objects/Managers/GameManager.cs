@@ -347,6 +347,9 @@ public class GameManager : MonoBehaviour {
 					if (dActions.DebugTools.SpawnExploding.WasPerformedThisFrame()) {
 						toSpawn = ExplodingPrefab;
 					}
+					if (dActions.DebugTools.SpawnNecro.WasPerformedThisFrame()) {
+						toSpawn = NecroPrefab;
+					}
 					if (dActions.DebugTools.SummonSpawnPortal.WasPerformedThisFrame()) {
 						OrbSpawnPrefab.GetComponent<OrbSpawn>().basicAmount = 5;
 						OrbSpawnPrefab.GetComponent<OrbSpawn>().explodingAmount = 5;
@@ -363,7 +366,7 @@ public class GameManager : MonoBehaviour {
 						if (Physics.Raycast(ray.origin, ray.direction, out hit, 1000.0f)) {
 							Instantiate(toSpawn, hit.point + offset, Quaternion.identity);
 
-							if (toSpawn == BasicPrefab || toSpawn == ExplodingPrefab) {
+							if (toSpawn == BasicPrefab || toSpawn == ExplodingPrefab || toSpawn == NecroPrefab) {
 								enemiesAlive += 1;
 							}
 						}
