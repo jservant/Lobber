@@ -14,31 +14,38 @@ public class Necro : MonoBehaviour {
 		Wander,
 		Death,
 	}
-	Directive directive;
+	[SerializeField] Directive directive;
 
 	enum Attack {
 		None = 0,
+		// Launch a slow moving homing projectile 
 		Projectile,
+		// Summon a portal and call forth enemies
 		Summon,
 	}
-	Attack currentAttack = Attack.None;
+	[SerializeField] Attack currentAttack = Attack.None;
+	[SerializeField] float attackDelay = 0;
+	[SerializeField] const float ReferenceAttackDelay = 7f;
 
-	const float MoveSpeed = 7.5f;
-	const float VerticalCorrectSpeed = 1.0f;
-	const float MoveTimeMax = 3f;
-	const float TurnSpeed = 360f / 1f;
+	[SerializeField] Vector3 attackTarget;
 
-	float flankStrength = 0;
-	bool preferRightStrafe = false;
-	float comfortableDistance = 15f;
+	[SerializeField] const float MoveSpeed = 7.5f;
+	[SerializeField] const float VerticalCorrectSpeed = 1.0f;
+	[SerializeField] const float MoveTimeMax = 3f;
+	[SerializeField] const float TurnSpeed = 360f / 1f;
 
-	Vector3 movementDelta;
-	Quaternion moveDirection;
-	float[] directionWeights = new float[32];
-	float moveTime = 0;
+	[SerializeField] float flankStrength = 0;
+	[SerializeField] bool preferRightStrafe = false;
+	[SerializeField] float comfortableDistance = 15f;
+
+	[SerializeField] Vector3 movementDelta;
+	[SerializeField] Quaternion moveDirection;
+	[SerializeField] float[] directionWeights = new float[32];
 
 	// NOTE(Roskuski): Internal references
 	Animator animator;
+	Transform ProjectileSpawnPoint;
+	GameObject Projectile;
 
 	// NOTE(Roskuski): External references
 	GameManager gameMan;
@@ -50,18 +57,47 @@ public class Necro : MonoBehaviour {
 
 	void ChangeDirective_Wander() {
 		directive = Directive.Wander;
+		currentAttack = Attack.None;
+		this.attackDelay = Random.Range(ReferenceAttackDelay * 0.8f, ReferenceAttackDelay * 1.2f);
 	}
 
-	void ChangeDirective_Attack() {
+	void ChangeDirective_Attack(Attack attack) {
 		directive = Directive.Attack;
+		currentAttack = attack;
+
+		switch (currentAttack) {
+			default: 
+				Debug.Assert(false, "Invalid Attack " + currentAttack, this);
+				break;
+
+			case Attack.Projectile:
+				break;
+
+			case Attack.Summon:
+				attackTarget = Vector3.zero;
+				for (int count = 0; count < 10; count += 1) {
+					Vector3 test = Quaternion.AngleAxis(Random.Range(0f, 360f), Vector3.up) * Vector3.forward * Random.Range(5f, 10f);
+					if (Physics.Raycast(test, Vector3.down, 10f, Mask.Get(Layers.Ground))) { // if valid
+						attackTarget = test;
+						break;
+					}
+				}
+
+				if (attackTarget == Vector3.zero) {
+					ChangeDirective_Wander(); // Failed to find a suitable place to spawn in.
+				}
+				break;
+		}
 	}
 	
 	void ChangeDirective_Death() {
 		directive = Directive.Death;
+		currentAttack = Attack.None;
 	}
 
 	void Start() {
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
+		ProjectileSpawnPoint = transform.Find("MAIN_JOINT/MidTorso_Joint/Chest_Joint/Neck_Joint/Head_Joint/Projectile Spawnpoint");
 		animator = this.GetComponent<Animator>();
 
 		directive = Directive.Spawn;
@@ -90,8 +126,6 @@ public class Necro : MonoBehaviour {
 		Vector3 deltaToPlayer = gameMan.player.position - this.transform.position;
 		float distanceToPlayer = Vector3.Distance(this.transform.position, gameMan.player.position);
 		movementDelta = Vector3.zero;
-
-		moveTime -= Time.deltaTime;
 
 		switch (directive) {
 			case Directive.Spawn:
@@ -182,9 +216,59 @@ public class Necro : MonoBehaviour {
 
 				moveDirection = Quaternion.RotateTowards(moveDirection, chosenAngle, TurnSpeed * Time.deltaTime);
 				movementDelta += moveDirection * Vector3.forward * MoveSpeed;
+
+				// Attack consideration
+				attackDelay -= Time.deltaTime;
+				if (attackDelay < 0 && distanceToPlayer > comfortableDistance - 5f && distanceToPlayer < comfortableDistance + 5f) {
+					float[] attackWeights = new float[]{0.50f, 3f, 0f};
+					attackWeights[(int)Attack.Summon] = Mathf.Lerp(2f, 0.1f, gameMan.enemiesAlive/GameManager.HighEnemies);
+					Attack attackChoice = (Attack)Util.RollWeightedChoice(attackWeights);
+
+					// @TODO(Roskuski): Removeme when we actually have the animations for summoning
+					attackWeights[(int)Attack.Summon] = 0;
+
+					switch (attackChoice) {
+						case Attack.None:
+							attackDelay = Random.Range(ReferenceAttackDelay*0.3f, ReferenceAttackDelay*0.5f);
+							break;
+
+						case Attack.Projectile:
+							ChangeDirective_Attack(Attack.Projectile);
+							break;
+
+						case Attack.Summon:
+							ChangeDirective_Attack(Attack.Summon);
+							break;
+
+						default:
+							Debug.Assert(false, "Unknown Necro.Attack value " + attackChoice, this);
+							break;
+					}
+				}
+
 				break;
 
 			case Directive.Attack:
+				AnimatorStateInfo Current = animator.GetCurrentAnimatorStateInfo(0);
+				switch(currentAttack) {
+					case Attack.None:
+					default:
+						Debug.Assert(false, "Invalid currentAttack " + currentAttack, this);
+						ChangeDirective_Wander();
+						break;
+
+					case Attack.Projectile:
+						if (Current.IsName("Base Layer.Attack") && Current.normalizedTime >= 1f) {
+							ChangeDirective_Wander();
+						}
+						break;
+
+					case Attack.Summon:
+						if (Current.IsName("Base Layer.Summon Enemies") && Current.normalizedTime >= 1f) {
+							ChangeDirective_Wander();
+						}
+						break;
+				}
 				break;
 
 			default:
@@ -194,7 +278,21 @@ public class Necro : MonoBehaviour {
 
 		animator.SetInteger("directive", (int)directive);
 		animator.SetInteger("attack", (int)currentAttack);
+	}
 
+	void AnimationClip_ReadyProjectile() {
+		Projectile = Object.Instantiate(gameMan.NecroProjectilePrefab, ProjectileSpawnPoint);
+	}
 
+	void AnimationClip_LaunchProjectile() {
+		Debug.Assert(Projectile != null);
+		Projectile.transform.parent = null;
+		Projectile = null;
+	}
+
+	void AnimationClip_OpenPortal() {
+	}
+
+	void ANimationClip_ClosePortal() {
 	}
 }
