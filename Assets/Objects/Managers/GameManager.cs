@@ -73,6 +73,8 @@ public class GameManager : MonoBehaviour {
 	public HeadProjectile SkullPrefab;
 	public GameObject BasicPrefab;
 	public GameObject ExplodingPrefab;
+	public GameObject NecroPrefab;
+	public GameObject NecroProjectilePrefab;
 	public GameObject FlashPrefab;
 	public GameObject OrbSpawnPrefab;
 	public GameObject[] Pickups;
@@ -89,13 +91,13 @@ public class GameManager : MonoBehaviour {
 	[SerializeField] float spawnTokens;
 	float spawnDelay;
 
-	const float TokenCost_SmallSpawn = 30;
-	const float TokenCost_MediumSpawn = 60;
-	const float TokenCost_BigSpawn = 80;
-	const float TokensPerSecond = 10.0f;
-	const int HighEnemies = 18;
-	const int TargetEnemies = 12;
-	const int LowEnemies = 4;
+	public const float TokenCost_SmallSpawn = 30;
+	public const float TokenCost_MediumSpawn = 60;
+	public const float TokenCost_BigSpawn = 80;
+	public const float TokensPerSecond = 10.0f;
+	public const int HighEnemies = 18;
+	public const int TargetEnemies = 12;
+	public const int LowEnemies = 4;
 
 	[Header("Bools:")]
 	public bool updateTimeScale = true;
