@@ -83,6 +83,7 @@ public class GameManager : MonoBehaviour {
 
 	[Header("Spawning:")]
 	public Transform[] eSpawns;
+	public Transform[] playerRespawnPoints;
 	public Transform crystalDropoffSpawn;
 	public int enemiesAlive = 0;
 	public int goldenSkullDropChance = 2; //out of 100
@@ -137,6 +138,20 @@ public class GameManager : MonoBehaviour {
 		Time.timeScale = 1;
 		spawnTokens = 100;
 		objectiveFadeTimer = 5f;
+
+		{
+			GameObject parent = GameObject.Find("PlayerRespawnPoints");
+			if (parent != null) {
+				Transform[] points = parent.GetComponentsInChildren<Transform>();
+				Transform[] TempArray = new Transform[points.Length - 1];
+				for (int index = 0; index < points.Length; index += 1) {
+					if (index - 1 >= 0) {
+						TempArray[index - 1] = points[index];
+					}
+				}
+				playerRespawnPoints = TempArray;
+			}
+		}
 
 		if (canSpawn) {
 			GameObject eSpawnParent = GameObject.Find("EnemySpawns");
