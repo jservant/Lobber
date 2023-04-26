@@ -15,11 +15,13 @@ public class DestructibleProp : MonoBehaviour
 	MeshRenderer model;
 	Material[] materials;
 	public Material hitflashMat;
+	public AK.Wwise.Event ImpactSound;
 
 	[Header("Head pop:")]
 	public float randomForce;
 	public int headTotal; //about how many heads the pile can contain
 	public int headOffset;
+	public bool isUnlimited;
 	int heads = 0;
 
 	private void Start() {
@@ -46,6 +48,7 @@ public class DestructibleProp : MonoBehaviour
 
 	private void OnTriggerEnter(Collider other) {
 		if (other.gameObject.layer == (int)Layers.PlayerHitbox || other.gameObject.layer == (int)Layers.EnemyHitbox || other.gameObject.layer == (int)Layers.AgnosticHitbox) {
+			Impact_Sound();
 			if (!canDropHeads) { Destroy(gameObject); }
 			else {
 				Vector3 spawnPoint = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
@@ -59,7 +62,7 @@ public class DestructibleProp : MonoBehaviour
 	}
 
 	public void SpawnHeads(int number) {
-		heads -= number;
+		if (!isUnlimited) heads -= number;
 		for (int i = 0; i < number; i++) {
 			GameObject headInstance = Instantiate(gameMan.Pickups[0], transform.position, transform.rotation);
 			Pickup hpop = headInstance.transform.Find("Head").GetComponent<Pickup>();
@@ -67,4 +70,8 @@ public class DestructibleProp : MonoBehaviour
 			hpop.flightAngle = 70f;
 		}
     }
+
+	void Impact_Sound() {
+		ImpactSound.Post(gameObject);
+	}
 }
