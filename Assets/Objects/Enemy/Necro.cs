@@ -145,7 +145,7 @@ public class Necro : MonoBehaviour {
 					Vector3 consideredDelta = Vector3.forward;
 					for (int index = 0; index < directionWeights.Length; index += 1) {
 						RaycastHit hitInfo;
-						if (Physics.SphereCast(this.transform.position + Vector3.up * 0.75f, 0.5f, consideredDelta, out hitInfo, 1.5f, ~Mask.Get(new Layers[]{Layers.PlayerHitbox, Layers.EnemyHitbox, Layers.EnemyHurtbox, Layers.AgnosticHitbox}))) {
+						if (Physics.SphereCast(this.transform.position + Vector3.up * 0.75f, 0.5f, consideredDelta, out hitInfo, 1.5f, ~Mask.Get(new Layers[]{Layers.PlayerHitbox, Layers.EnemyHitbox, Layers.EnemyHurtbox, Layers.AgnosticHitbox, Layers.StickyLedge}))) {
 							directionWeights[index] *= 0.25f;
 							if (index == strafeIndex) {
 								preferRightStrafe = !preferRightStrafe;
