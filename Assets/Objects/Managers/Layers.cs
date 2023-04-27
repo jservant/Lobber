@@ -80,7 +80,7 @@ public class Util {
 		// NOTE(Roskuski): This avoids a infinite recursion, which would somehow lead to a crash.
 		// Sometimes, translationDelta arrives at zero and then infinitely recurses. This early out should pervent infinite loops
 		// After adapting basicEnemy to use this code, high recursion was rearing it's head again. 15 cap should be reasonable.
-		if ((depthCount > 1 && translationDelta.magnitude < 0.1f) || depthCount >= 15) {
+		if ((depthCount > 1 && translationDelta.magnitude < 0.01f) || depthCount >= 15) {
 			return hitWall;
 		}
 
