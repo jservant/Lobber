@@ -1,0 +1,169 @@
+Event	ID	Name			Wwise Object Path	Notes
+	215823421	player_bush_ent			\Default Work Unit\Player\player_bush_ent	
+	255574742	player_shotgun_init			\Default Work Unit\Player\player_shotgun_init	
+	375965827	head_flying			\Default Work Unit\Head\head_flying	
+	437942920	pest_bomb_fuse			\Default Work Unit\Pest Bomb\pest_bomb_fuse	
+	500517664	skel_spwan_land			\Default Work Unit\Skeletons\skel_spwan_land	
+	718104337	pest_fs			\Default Work Unit\Pest Bomb\pest_fs	
+	762878330	portal_open			\Default Work Unit\SFX\portal_open	
+	799884985	player_attack2			\Default Work Unit\Player\player_attack2	
+	799884986	player_attack1			\Default Work Unit\Player\player_attack1	
+	841226244	player_roll			\Default Work Unit\Player\player_roll	
+	855030670	skel_fs			\Default Work Unit\Skeletons\skel_fs	
+	927599014	player_chop_init			\Default Work Unit\Player\player_chop_init	
+	973170820	player_lob			\Default Work Unit\Player\player_lob	
+	979945107	axe_hit_wood			\Default Work Unit\Axe Hit\axe_hit_wood	
+	1091450755	skel_spwan_jump			\Default Work Unit\Skeletons\skel_spwan_jump	
+	1123472706	skel_vo			\Default Work Unit\Skeletons\skel_vo	
+	1199887854	player_shotgun_atk			\Default Work Unit\Player\player_shotgun_atk	
+	1504289659	skel_death			\Default Work Unit\Skeletons\skel_death	
+	1619304959	Transition_Stop			\Default Work Unit\Music\Transition_Stop	
+	1736279191	pest_bomb_jump			\Default Work Unit\Pest Bomb\pest_bomb_jump	
+	1752115990	player_chop_tail			\Default Work Unit\Player\player_chop_tail	
+	2062853598	portal_close			\Default Work Unit\SFX\portal_close	
+	2080575975	axe_hit_rock			\Default Work Unit\Axe Hit\axe_hit_rock	
+	2376412427	skel_dash			\Default Work Unit\Skeletons\skel_dash	
+	2415455525	Combat1_Stop			\Default Work Unit\Music\Combat1_Stop	
+	2586367166	head_pickup			\Default Work Unit\Head\head_pickup	
+	2909104693	player_slam_atk			\Default Work Unit\Player\player_slam_atk	
+	3086941384	portal_idle			\Default Work Unit\SFX\portal_idle	
+	3131540599	player_slam_init			\Default Work Unit\Player\player_slam_init	
+	3157003241	TEST			\Default Work Unit\TEST	
+	3207324726	amb_fire			\Default Work Unit\AMB\amb_fire	
+	3334362129	amb_LV1			\Default Work Unit\AMB\amb_LV1	
+	3336220324	skel_gethit			\Default Work Unit\Skeletons\skel_gethit	
+	3507359558	head_golden_idle			\Default Work Unit\Head\head_golden_idle	
+	3554795103	Combat1_Start			\Default Work Unit\Music\Combat1_Start	
+	3587827325	Transition_Start			\Default Work Unit\Music\Transition_Start	
+	3644427658	skel_slash			\Default Work Unit\Skeletons\skel_slash	
+	3945457670	player_gethit			\Default Work Unit\Player\player_gethit	
+	4015037628	head_impact			\Default Work Unit\Head\head_impact	
+	4234617796	pest_bomb_expload			\Default Work Unit\Pest Bomb\pest_bomb_expload	
+	4275904075	player_bush_ext			\Default Work Unit\Player\player_bush_ext	
+	4276063004	player_fs			\Default Work Unit\Player\player_fs	
+
+Switch Group	ID	Name			Wwise Object Path	Notes
+	855030670	Skel_FS			\Default Work Unit\Skel_FS	
+	4276063004	Player_FS			\Default Work Unit\Player_FS	
+
+Switch	ID	Name	Switch Group			Notes
+	2185786256	Gravel	Skel_FS			
+	4248645337	Grass	Skel_FS			
+	2185786256	Gravel	Player_FS			
+	2195636714	Dirt	Player_FS			
+	4248645337	Grass	Player_FS			
+
+Source plug-ins	ID	Name	Type		Wwise Object Path	Notes
+	496940353	Sine	Wwise Sine		\Actor-Mixer Hierarchy\Default Work Unit\TEST\Sine	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	5743150	axe_hit_wood_02	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\axe_hit_wood_02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Axe Hit\axe_hit_wood\axe_hit_wood_02		177952
+	18472167	skel_dash_02	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\skel_dash_02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_dash\skel_dash_02		288096
+	29787403	fs_skel_gravel_06	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_skel_gravel_06_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_fs\skel_fs_gravel\fs_skel_gravel_06		48096
+	33849619	player_gethit_01	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\player_gethit_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_gethit\player_gethit_01		121292
+	35430952	fs_player_dirt_05	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_player_dirt_05_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_fs\player_fs_dirt\fs_player_dirt_05		27274
+	42617762	fs_player_grass_01	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_player_grass_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_fs\player_fs_grass\fs_player_grass_01		26856
+	49626874	fs_skel_gravel_08	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_skel_gravel_08_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_fs\skel_fs_gravel\fs_skel_gravel_08		46076
+	50507017	fs_player_gravel_08	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_player_gravel_08_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_fs\player_fs_gravel\fs_player_gravel_08		40176
+	51859721	bush_ent_02	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\bush_ent_02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_bush_ent\bush_ent_02		102096
+	55141243	player_roll_grass	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\player_roll_grass_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_roll\player_roll_grass		108096
+	66995461	skel_slash_01	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\skel_slash_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_slash\skel_slash_01		106596
+	72982658	fs_player_grass_04	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_player_grass_04_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_fs\player_fs_grass\fs_player_grass_04		29484
+	77368139	fs_skel_grass_01	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_skel_grass_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_fs\skel_fs_grass\fs_skel_grass_01		59916
+	95473702	fs_player_dirt_06	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_player_dirt_06_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_fs\player_fs_dirt\fs_player_dirt_06		25888
+	96127275	head_golden_idle	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\head_golden_idlewav_66CB2B9D.wem		\Actor-Mixer Hierarchy\Default Work Unit\Head\head_golden_idle		1995568
+	96698159	head_impact_03	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\head_impact_03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Head\head_impact\head_impact_03		72380
+	97026588	fs_skel_gravel_07	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_skel_gravel_07_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_fs\skel_fs_gravel\fs_skel_gravel_07		48096
+	97539198	player_attack2_02	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\player_attack2_02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_attack2\player_attack2_02		50740
+	101552163	player_chop_init	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\player_chop_init_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_chop_init		126096
+	102229063	bush_ent_01	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\bush_ent_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_bush_ent\bush_ent_01		102096
+	111457560	player_roll_gravel	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\player_roll_gravel_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_roll\player_roll_gravel		116832
+	115604974	skel_vo_01	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\skel_vo_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_vo\skel_vo_01		342116
+	123446656	fs_skel_grass_04	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_skel_grass_04_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_fs\skel_fs_grass\fs_skel_grass_04		52108
+	138826314	fs_skel_grass_07	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_skel_grass_07_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_fs\skel_fs_grass\fs_skel_grass_07		50652
+	144792552	skel_slash_02	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\skel_slash_02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_slash\skel_slash_02		96096
+	150208270	emit_fire_01	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\emit_fire_01_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\AMB_LV1\emit_fire_01		2496096
+	163626921	pest_bomb_jump	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\pest_bomb_jump_57E723D9.wem		\Actor-Mixer Hierarchy\Default Work Unit\PestBomb\pest_bomb_jump		333804
+	166049200	head_impact_02	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\head_impact_02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Head\head_impact\head_impact_02		72096
+	195194557	player_shotgun_atk	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\player_shotgun_atk_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_shotgun_atk		600096
+	196376984	fs_player_dirt_08	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_player_dirt_08_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_fs\player_fs_dirt\fs_player_dirt_08		30096
+	198597785	fs_player_grass_05	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_player_grass_05_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_fs\player_fs_grass\fs_player_grass_05		29054
+	204565514	fs_player_gravel_07	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_player_gravel_07_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_fs\player_fs_gravel\fs_player_gravel_07		38336
+	222124175	player_lob	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\player_lob_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_lob		336096
+	226075322	skel_vo_03	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\skel_vo_03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_vo\skel_vo_03		303200
+	226886049	skel_dash_01	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\skel_dash_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_dash\skel_dash_01		288096
+	227964973	fs_pest_01	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_pest_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\PestBomb\pest_fs\fs_pest_01		96096
+	233950051	player_attack1_03	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\player_attack1_03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_attack1\player_attack1_03		56108
+	252319005	fs_skel_grass_02	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_skel_grass_02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_fs\skel_fs_grass\fs_skel_grass_02		51444
+	271929651	portal_open	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\portal_open_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\portal_open		216096
+	278421329	player_attack2_03	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\player_attack2_03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_attack2\player_attack2_03		60096
+	290589915	fs_player_gravel_06	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_player_gravel_06_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_fs\player_fs_gravel\fs_player_gravel_06		36556
+	295499900	fs_pest_02	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_pest_02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\PestBomb\pest_fs\fs_pest_02		95396
+	300101372	skel_gethit_04	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\skel_gethit_04_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_gethit\skel_gethit_04		63400
+	332932540	axe_hit_wood_03	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\axe_hit_wood_03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Axe Hit\axe_hit_wood\axe_hit_wood_03		189832
+	342867081	amb_main_lv_B	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\amb_main_lv_B_D79FB2B7.wem		\Actor-Mixer Hierarchy\Default Work Unit\AMB_LV1\amb_main_lv_B		16896096
+	344656176	skel_gethit_02	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\skel_gethit_02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_gethit\skel_gethit_02		62580
+	364177697	fs_skel_grass_06	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_skel_grass_06_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_fs\skel_fs_grass\fs_skel_grass_06		57224
+	367181203	pest_bomb_fuse	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\pest_bomb_fuse_2FFC467A.wem		\Actor-Mixer Hierarchy\Default Work Unit\PestBomb\pest_bomb_fuse		2038492
+	368379455	fs_skel_grass_05	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_skel_grass_05_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_fs\skel_fs_grass\fs_skel_grass_05		48096
+	374074499	axe_hit_rock_02	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\axe_hit_rock_02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Axe Hit\axe_hit_rock\axe_hit_rock_02		288736
+	395551192	pest_bomb_expload	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\pest_bomb_expload_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\PestBomb\pest_bomb_expload		372096
+	400764545	bush_ent_03	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\bush_ent_03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_bush_ent\bush_ent_03		84096
+	429319015	skel_slash_03	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\skel_slash_03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_slash\skel_slash_03		76596
+	443484975	skel_spawn_jump	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\skel_spawn_jump_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_spawn_jump		120096
+	449139250	fs_player_grass_08	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_player_grass_08_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_fs\player_fs_grass\fs_player_grass_08		36096
+	456320475	skel_gethit_01	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\skel_gethit_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_gethit\skel_gethit_01		64552
+	459679263	axe_hit_rock_03	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\axe_hit_rock_03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Axe Hit\axe_hit_rock\axe_hit_rock_03		292296
+	479754207	axe_hit_rock_01	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\axe_hit_rock_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Axe Hit\axe_hit_rock\axe_hit_rock_01		340208
+	482700904	fs_player_gravel_03	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_player_gravel_03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_fs\player_fs_gravel\fs_player_gravel_03		46876
+	482864927	fs_player_gravel_04	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_player_gravel_04_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_fs\player_fs_gravel\fs_player_gravel_04		38468
+	484460241	fs_skel_gravel_01	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_skel_gravel_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_fs\skel_fs_gravel\fs_skel_gravel_01		48096
+	495527006	portal_close	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\portal_idle_close_6508827C.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\portal_close		230624
+	500052017	skel_spawn_land	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\skel_spawn_land_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_spawn_land		258204
+	530298481	fs_skel_gravel_02	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_skel_gravel_02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_fs\skel_fs_gravel\fs_skel_gravel_02		48980
+	541494156	fs_player_gravel_01	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_player_gravel_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_fs\player_fs_gravel\fs_player_gravel_01		50020
+	557305244	player_roll_dirt	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\player_roll_dirt_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_roll\player_roll_dirt		110976
+	571414843	fs_pest_03	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_pest_03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\PestBomb\pest_fs\fs_pest_03		96096
+	583178948	fs_skel_gravel_05	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_skel_gravel_05_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_fs\skel_fs_gravel\fs_skel_gravel_05		46764
+	591414233	fs_player_dirt_01	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_player_dirt_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_fs\player_fs_dirt\fs_player_dirt_01		24096
+	607533289	fs_skel_gravel_04	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_skel_gravel_04_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_fs\skel_fs_gravel\fs_skel_gravel_04		52436
+	620386747	skel_gethit_03	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\skel_gethit_03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_gethit\skel_gethit_03		63424
+	650088066	player_attack1_02	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\player_attack1_02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_attack1\player_attack1_02		66096
+	654628775	skel_vo_04	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\skel_vo_04_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_vo\skel_vo_04		434272
+	669688938	fs_player_dirt_07	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_player_dirt_07_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_fs\player_fs_dirt\fs_player_dirt_07		28306
+	677937057	lobber_mx_combat1-loop	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\lobber_mx_combat1-loop_D79FB2B7.wem		\Interactive Music Hierarchy\Default Work Unit\Combat1\Combat1\Combat1-loop\lobber_mx_combat1-loop		6291616
+	683213108	fs_skel_gravel_03	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_skel_gravel_03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_fs\skel_fs_gravel\fs_skel_gravel_03		43760
+	701618492	skel_vo_02	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\skel_vo_02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_vo\skel_vo_02		348256
+	712810717	portal_idle	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\portal_idle_close_BBE62D10.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\portal_idle		1146256
+	735764590	fs_player_gravel_05	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_player_gravel_05_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_fs\player_fs_gravel\fs_player_gravel_05		37464
+	754981410	player_chop_tail	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\player_chop_tail_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_chop_tail		186096
+	776172988	fs_player_dirt_04	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_player_dirt_04_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_fs\player_fs_dirt\fs_player_dirt_04		22800
+	780375067	fs_player_grass_06	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_player_grass_06_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_fs\player_fs_grass\fs_player_grass_06		25374
+	795672063	fs_pest_04	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_pest_04_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\PestBomb\pest_fs\fs_pest_04		120096
+	799007945	player_attack2_01	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\player_attack2_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_attack2\player_attack2_01		51988
+	799731881	skel_gethit_05	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\skel_gethit_05_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_gethit\skel_gethit_05		61224
+	821072770	player_gethit_02	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\player_gethit_02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_gethit\player_gethit_02		123140
+	823792418	fs_player_grass_07	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_player_grass_07_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_fs\player_fs_grass\fs_player_grass_07		35444
+	824198949	player_gethit_03	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\player_gethit_03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_gethit\player_gethit_03		136688
+	834267316	skel_vo_05	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\skel_vo_05_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_vo\skel_vo_05		267808
+	848350748	player_shotgun_init	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\player_shotgun_init_0018D3D5.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_shotgun_init		53452
+	858779314	skel_death	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\skel_death_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_death		204096
+	865086151	head_impact_01	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\head_impact_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Head\head_impact\head_impact_01		69192
+	865623118	axe_hit_wood_01	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\axe_hit_wood_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Axe Hit\axe_hit_wood\axe_hit_wood_01		144348
+	872431774	player_attack1_01	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\player_attack1_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_attack1\player_attack1_01		57072
+	897235700	fs_player_grass_03	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_player_grass_03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_fs\player_fs_grass\fs_player_grass_03		30462
+	912969297	fs_player_gravel_02	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_player_gravel_02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_fs\player_fs_gravel\fs_player_gravel_02		43320
+	913163461	fs_player_dirt_03	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_player_dirt_03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_fs\player_fs_dirt\fs_player_dirt_03		25194
+	914370410	lobber_mx_combat1-intro	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\lobber_mx_combat1-intro_A389B95C.wem		\Interactive Music Hierarchy\Default Work Unit\Combat1\Combat1\Combat1-intro\lobber_mx_combat1-intro		3932432
+	922362666	head_pickup	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\head_pickup_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Head\head_pickup		57864
+	933496307	player_slam_init	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\player_slam_init_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_slam_init		162324
+	963225850	fs_player_dirt_02	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_player_dirt_02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_fs\player_fs_dirt\fs_player_dirt_02		23036
+	966189127	head_impact_04	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\head_impact_04_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Head\head_impact\head_impact_04		69788
+	966389329	player_slam_atk	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\player_slam_atk_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_slam_atk		294096
+	985831120	fs_skel_grass_08	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_skel_grass_08_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_fs\skel_fs_grass\fs_skel_grass_08		48096
+	1005504680	skel_dash_03	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\skel_dash_03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_dash\skel_dash_03		288096
+	1005933419	fs_skel_grass_03	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_skel_grass_03_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_fs\skel_fs_grass\fs_skel_grass_03		49808
+	1011639198	head_impact_05	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\head_impact_05_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Head\head_impact\head_impact_05		69496
+	1041017189	fs_player_grass_02	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_player_grass_02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_fs\player_fs_grass\fs_player_grass_02		29700
+	1070028639	head_flying	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\head_flying_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Head\head_flying		807160
+

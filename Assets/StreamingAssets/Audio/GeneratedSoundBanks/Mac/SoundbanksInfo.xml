@@ -1,0 +1,955 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SoundBanksInfo Platform="Mac" BasePlatform="Mac" SchemaVersion="16" SoundBankVersion="145">
+	<RootPaths>
+		<ProjectRoot>../../../../../Lobber_Wwise/</ProjectRoot>
+		<SourceFilesRoot>../../../../../Lobber_Wwise/.cache/Mac/</SourceFilesRoot>
+		<SoundBanksRoot>.</SoundBanksRoot>
+		<ExternalSourcesInputFile></ExternalSourcesInputFile>
+		<ExternalSourcesOutputRoot>../../../../../Lobber_Wwise/GeneratedSoundBanks/Mac</ExternalSourcesOutputRoot>
+	</RootPaths>
+	<DialogueEvents/>
+	<SoundBanks>
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{2DF7BB71-62E9-621C-0161-F8A8B80F2289}">
+			<ShortName>Init</ShortName>
+			<Path>Init.bnk</Path>
+			<Plugins>
+				<AudioDevices>
+					<Plugin Id="2317455096" Name="No_Output" LibName="No Output" LibId="11862023"/>
+					<Plugin Id="3859886410" Name="System" LibName="System" LibId="11403271"/>
+				</AudioDevices>
+			</Plugins>
+			<Busses>
+				<Bus Id="393239870" Name="SFX"/>
+				<Bus Id="746452412" Name="MSC"/>
+				<Bus Id="985987111" Name="Motion Factory Bus"/>
+				<Bus Id="1117531639" Name="AMB"/>
+				<Bus Id="1802970376" Name="FS"/>
+				<Bus Id="2300130741" Name="ACT_Player"/>
+				<Bus Id="3655014198" Name="ACT_Skeletons"/>
+				<Bus Id="3803692087" Name="Master Audio Bus"/>
+			</Busses>
+			<GameParameters>
+				<GameParameter Id="796049864" Name="RPM"/>
+				<GameParameter Id="822163944" Name="SS_Air_RPM"/>
+				<GameParameter Id="1029930033" Name="SS_Air_Fury"/>
+				<GameParameter Id="1351367891" Name="SS_Air_Fear"/>
+				<GameParameter Id="1524500807" Name="Playback_Rate"/>
+				<GameParameter Id="2648548617" Name="SS_Air_Month"/>
+				<GameParameter Id="3002758120" Name="SS_Air_Freefall"/>
+				<GameParameter Id="3074696722" Name="SS_Air_Size"/>
+				<GameParameter Id="3203397129" Name="SS_Air_TimeOfDay"/>
+				<GameParameter Id="3715662592" Name="SS_Air_Storm"/>
+				<GameParameter Id="3847924954" Name="SS_Air_Presence"/>
+				<GameParameter Id="4160247818" Name="SS_Air_Turbulence"/>
+			</GameParameters>
+			<SwitchGroups>
+				<SwitchGroup Id="557188943" Name="Player_Bushes">
+					<Switches>
+						<Switch Id="447277938" Name="InBushes"/>
+						<Switch Id="1681065157" Name="OutBushes"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="855030670" Name="Skel_FS">
+					<Switches>
+						<Switch Id="2185786256" Name="Gravel"/>
+						<Switch Id="4248645337" Name="Grass"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="4276063004" Name="Player_FS">
+					<Switches>
+						<Switch Id="2185786256" Name="Gravel"/>
+						<Switch Id="2195636714" Name="Dirt"/>
+						<Switch Id="4248645337" Name="Grass"/>
+					</Switches>
+				</SwitchGroup>
+			</SwitchGroups>
+			<AcousticTextures>
+				<AcousticTexture Id="504532776" Name="Brick">
+					<Properties>
+						<Property Name="AbsorptionLow" Type="Real32" Value="12"/>
+						<Property Name="AbsorptionMidLow" Type="Real32" Value="18"/>
+						<Property Name="AbsorptionMidHigh" Type="Real32" Value="23"/>
+						<Property Name="AbsorptionHigh" Type="Real32" Value="35"/>
+					</Properties>
+				</AcousticTexture>
+				<AcousticTexture Id="513139656" Name="Mountain">
+					<Properties>
+						<Property Name="AbsorptionLow" Type="Real32" Value="0"/>
+						<Property Name="AbsorptionMidLow" Type="Real32" Value="0"/>
+						<Property Name="AbsorptionMidHigh" Type="Real32" Value="0"/>
+						<Property Name="AbsorptionHigh" Type="Real32" Value="0"/>
+					</Properties>
+				</AcousticTexture>
+				<AcousticTexture Id="841620460" Name="Concrete">
+					<Properties>
+						<Property Name="AbsorptionLow" Type="Real32" Value="6"/>
+						<Property Name="AbsorptionMidLow" Type="Real32" Value="6"/>
+						<Property Name="AbsorptionMidHigh" Type="Real32" Value="6"/>
+						<Property Name="AbsorptionHigh" Type="Real32" Value="14"/>
+					</Properties>
+				</AcousticTexture>
+				<AcousticTexture Id="1755085759" Name="Wood_Deep">
+					<Properties>
+						<Property Name="AbsorptionLow" Type="Real32" Value="1"/>
+						<Property Name="AbsorptionMidLow" Type="Real32" Value="8"/>
+						<Property Name="AbsorptionMidHigh" Type="Real32" Value="20"/>
+						<Property Name="AbsorptionHigh" Type="Real32" Value="35"/>
+					</Properties>
+				</AcousticTexture>
+				<AcousticTexture Id="1873957695" Name="Anechoic">
+					<Properties>
+						<Property Name="AbsorptionLow" Type="Real32" Value="100"/>
+						<Property Name="AbsorptionMidLow" Type="Real32" Value="100"/>
+						<Property Name="AbsorptionMidHigh" Type="Real32" Value="100"/>
+						<Property Name="AbsorptionHigh" Type="Real32" Value="100"/>
+					</Properties>
+				</AcousticTexture>
+				<AcousticTexture Id="1970351858" Name="Fabric">
+					<Properties>
+						<Property Name="AbsorptionLow" Type="Real32" Value="3"/>
+						<Property Name="AbsorptionMidLow" Type="Real32" Value="13"/>
+						<Property Name="AbsorptionMidHigh" Type="Real32" Value="48"/>
+						<Property Name="AbsorptionHigh" Type="Real32" Value="72"/>
+					</Properties>
+				</AcousticTexture>
+				<AcousticTexture Id="2058049674" Name="Wood">
+					<Properties>
+						<Property Name="AbsorptionLow" Type="Real32" Value="32"/>
+						<Property Name="AbsorptionMidLow" Type="Real32" Value="25"/>
+						<Property Name="AbsorptionMidHigh" Type="Real32" Value="20"/>
+						<Property Name="AbsorptionHigh" Type="Real32" Value="35"/>
+					</Properties>
+				</AcousticTexture>
+				<AcousticTexture Id="2412606308" Name="Carpet">
+					<Properties>
+						<Property Name="AbsorptionLow" Type="Real32" Value="46"/>
+						<Property Name="AbsorptionMidLow" Type="Real32" Value="45"/>
+						<Property Name="AbsorptionMidHigh" Type="Real32" Value="76"/>
+						<Property Name="AbsorptionHigh" Type="Real32" Value="100"/>
+					</Properties>
+				</AcousticTexture>
+				<AcousticTexture Id="2637588553" Name="Tile">
+					<Properties>
+						<Property Name="AbsorptionLow" Type="Real32" Value="67"/>
+						<Property Name="AbsorptionMidLow" Type="Real32" Value="41"/>
+						<Property Name="AbsorptionMidHigh" Type="Real32" Value="12"/>
+						<Property Name="AbsorptionHigh" Type="Real32" Value="0"/>
+					</Properties>
+				</AcousticTexture>
+				<AcousticTexture Id="2928161104" Name="Curtains">
+					<Properties>
+						<Property Name="AbsorptionLow" Type="Real32" Value="7"/>
+						<Property Name="AbsorptionMidLow" Type="Real32" Value="60"/>
+						<Property Name="AbsorptionMidHigh" Type="Real32" Value="0"/>
+						<Property Name="AbsorptionHigh" Type="Real32" Value="84"/>
+					</Properties>
+				</AcousticTexture>
+				<AcousticTexture Id="3195498748" Name="Cork_Tiles">
+					<Properties>
+						<Property Name="AbsorptionLow" Type="Real32" Value="14"/>
+						<Property Name="AbsorptionMidLow" Type="Real32" Value="30"/>
+						<Property Name="AbsorptionMidHigh" Type="Real32" Value="73"/>
+						<Property Name="AbsorptionHigh" Type="Real32" Value="100"/>
+					</Properties>
+				</AcousticTexture>
+				<AcousticTexture Id="3670307564" Name="Drywall">
+					<Properties>
+						<Property Name="AbsorptionLow" Type="Real32" Value="2"/>
+						<Property Name="AbsorptionMidLow" Type="Real32" Value="2"/>
+						<Property Name="AbsorptionMidHigh" Type="Real32" Value="2"/>
+						<Property Name="AbsorptionHigh" Type="Real32" Value="2"/>
+					</Properties>
+				</AcousticTexture>
+				<AcousticTexture Id="4168643977" Name="Acoustic_Banner">
+					<Properties>
+						<Property Name="AbsorptionLow" Type="Real32" Value="37"/>
+						<Property Name="AbsorptionMidLow" Type="Real32" Value="100"/>
+						<Property Name="AbsorptionMidHigh" Type="Real32" Value="100"/>
+						<Property Name="AbsorptionHigh" Type="Real32" Value="100"/>
+					</Properties>
+				</AcousticTexture>
+				<AcousticTexture Id="4262522749" Name="Wood_Bright">
+					<Properties>
+						<Property Name="AbsorptionLow" Type="Real32" Value="32"/>
+						<Property Name="AbsorptionMidLow" Type="Real32" Value="25"/>
+						<Property Name="AbsorptionMidHigh" Type="Real32" Value="10"/>
+						<Property Name="AbsorptionHigh" Type="Real32" Value="9"/>
+					</Properties>
+				</AcousticTexture>
+			</AcousticTextures>
+		</SoundBank>
+		<SoundBank Id="1496463651" Type="User" Language="SFX" Hash="{594FEC35-B75D-B7E5-A2DC-EE2FC0EEB987}">
+			<ShortName>Bank_01</ShortName>
+			<Path>Bank_01.bnk</Path>
+			<Media>
+				<File Id="5743150" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>axe_hit_wood_02.wav</ShortName>
+					<CachePath>SFX/axe_hit_wood_02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="18472167" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>skel_dash_02.wav</ShortName>
+					<CachePath>SFX/skel_dash_02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="29787403" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_skel_gravel_06.wav</ShortName>
+					<CachePath>SFX/fs_skel_gravel_06_10C4C929.wem</CachePath>
+				</File>
+				<File Id="33849619" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>player_gethit_01.wav</ShortName>
+					<CachePath>SFX/player_gethit_01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="35430952" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_player_dirt_05.wav</ShortName>
+					<CachePath>SFX/fs_player_dirt_05_10C4C929.wem</CachePath>
+				</File>
+				<File Id="42617762" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_player_grass_01.wav</ShortName>
+					<CachePath>SFX/fs_player_grass_01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="49626874" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_skel_gravel_08.wav</ShortName>
+					<CachePath>SFX/fs_skel_gravel_08_10C4C929.wem</CachePath>
+				</File>
+				<File Id="50507017" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_player_gravel_08.wav</ShortName>
+					<CachePath>SFX/fs_player_gravel_08_10C4C929.wem</CachePath>
+				</File>
+				<File Id="51859721" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>bush_ent_02.wav</ShortName>
+					<CachePath>SFX/bush_ent_02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="55141243" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>player_roll_grass.wav</ShortName>
+					<CachePath>SFX/player_roll_grass_10C4C929.wem</CachePath>
+				</File>
+				<File Id="66995461" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>skel_slash_01.wav</ShortName>
+					<CachePath>SFX/skel_slash_01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="72982658" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_player_grass_04.wav</ShortName>
+					<CachePath>SFX/fs_player_grass_04_10C4C929.wem</CachePath>
+				</File>
+				<File Id="77368139" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_skel_grass_01.wav</ShortName>
+					<CachePath>SFX/fs_skel_grass_01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="95473702" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_player_dirt_06.wav</ShortName>
+					<CachePath>SFX/fs_player_dirt_06_10C4C929.wem</CachePath>
+				</File>
+				<File Id="96127275" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>head_golden_idlewav.wav</ShortName>
+					<CachePath>SFX/head_golden_idlewav_66CB2B9D.wem</CachePath>
+				</File>
+				<File Id="96698159" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>head_impact_03.wav</ShortName>
+					<CachePath>SFX/head_impact_03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="97026588" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_skel_gravel_07.wav</ShortName>
+					<CachePath>SFX/fs_skel_gravel_07_10C4C929.wem</CachePath>
+				</File>
+				<File Id="97539198" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>player_attack2_02.wav</ShortName>
+					<CachePath>SFX/player_attack2_02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="101552163" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>player_chop_init.wav</ShortName>
+					<CachePath>SFX/player_chop_init_10C4C929.wem</CachePath>
+				</File>
+				<File Id="102229063" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>bush_ent_01.wav</ShortName>
+					<CachePath>SFX/bush_ent_01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="111457560" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>player_roll_gravel.wav</ShortName>
+					<CachePath>SFX/player_roll_gravel_10C4C929.wem</CachePath>
+				</File>
+				<File Id="115604974" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>skel_vo_01.wav</ShortName>
+					<CachePath>SFX/skel_vo_01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="123446656" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_skel_grass_04.wav</ShortName>
+					<CachePath>SFX/fs_skel_grass_04_10C4C929.wem</CachePath>
+				</File>
+				<File Id="138826314" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_skel_grass_07.wav</ShortName>
+					<CachePath>SFX/fs_skel_grass_07_10C4C929.wem</CachePath>
+				</File>
+				<File Id="144792552" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>skel_slash_02.wav</ShortName>
+					<CachePath>SFX/skel_slash_02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="150208270" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>emit_fire_01.wav</ShortName>
+					<CachePath>SFX/emit_fire_01_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="163626921" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>pest_bomb_jump.wav</ShortName>
+					<CachePath>SFX/pest_bomb_jump_57E723D9.wem</CachePath>
+				</File>
+				<File Id="166049200" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>head_impact_02.wav</ShortName>
+					<CachePath>SFX/head_impact_02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="195194557" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>player_shotgun_atk.wav</ShortName>
+					<CachePath>SFX/player_shotgun_atk_10C4C929.wem</CachePath>
+				</File>
+				<File Id="196376984" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_player_dirt_08.wav</ShortName>
+					<CachePath>SFX/fs_player_dirt_08_10C4C929.wem</CachePath>
+				</File>
+				<File Id="198597785" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_player_grass_05.wav</ShortName>
+					<CachePath>SFX/fs_player_grass_05_10C4C929.wem</CachePath>
+				</File>
+				<File Id="204565514" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_player_gravel_07.wav</ShortName>
+					<CachePath>SFX/fs_player_gravel_07_10C4C929.wem</CachePath>
+				</File>
+				<File Id="222124175" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>player_lob_01.wav</ShortName>
+					<CachePath>SFX/player_lob_01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="226075322" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>skel_vo_03.wav</ShortName>
+					<CachePath>SFX/skel_vo_03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="226886049" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>skel_dash_01.wav</ShortName>
+					<CachePath>SFX/skel_dash_01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="227964973" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_pest_01.wav</ShortName>
+					<CachePath>SFX/fs_pest_01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="233950051" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>player_attack1_03.wav</ShortName>
+					<CachePath>SFX/player_attack1_03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="252319005" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_skel_grass_02.wav</ShortName>
+					<CachePath>SFX/fs_skel_grass_02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="271929651" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>portal_open.wav</ShortName>
+					<CachePath>SFX/portal_open_10C4C929.wem</CachePath>
+				</File>
+				<File Id="278421329" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>player_attack2_03.wav</ShortName>
+					<CachePath>SFX/player_attack2_03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="290589915" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_player_gravel_06.wav</ShortName>
+					<CachePath>SFX/fs_player_gravel_06_10C4C929.wem</CachePath>
+				</File>
+				<File Id="295499900" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_pest_02.wav</ShortName>
+					<CachePath>SFX/fs_pest_02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="300101372" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>skel_gethit_04.wav</ShortName>
+					<CachePath>SFX/skel_gethit_04_10C4C929.wem</CachePath>
+				</File>
+				<File Id="332932540" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>axe_hit_wood_03.wav</ShortName>
+					<CachePath>SFX/axe_hit_wood_03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="342867081" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>amb_main_lv_B.wav</ShortName>
+					<CachePath>SFX/amb_main_lv_B_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="344656176" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>skel_gethit_02.wav</ShortName>
+					<CachePath>SFX/skel_gethit_02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="364177697" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_skel_grass_06.wav</ShortName>
+					<CachePath>SFX/fs_skel_grass_06_10C4C929.wem</CachePath>
+				</File>
+				<File Id="367181203" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>pest_bomb_fuse.wav</ShortName>
+					<CachePath>SFX/pest_bomb_fuse_2FFC467A.wem</CachePath>
+				</File>
+				<File Id="368379455" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_skel_grass_05.wav</ShortName>
+					<CachePath>SFX/fs_skel_grass_05_10C4C929.wem</CachePath>
+				</File>
+				<File Id="374074499" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>axe_hit_rock_02.wav</ShortName>
+					<CachePath>SFX/axe_hit_rock_02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="395551192" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>pest_bomb_expload.wav</ShortName>
+					<CachePath>SFX/pest_bomb_expload_10C4C929.wem</CachePath>
+				</File>
+				<File Id="400764545" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>bush_ent_03.wav</ShortName>
+					<CachePath>SFX/bush_ent_03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="429319015" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>skel_slash_03.wav</ShortName>
+					<CachePath>SFX/skel_slash_03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="443484975" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>skel_spawn_jump.wav</ShortName>
+					<CachePath>SFX/skel_spawn_jump_10C4C929.wem</CachePath>
+				</File>
+				<File Id="449139250" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_player_grass_08.wav</ShortName>
+					<CachePath>SFX/fs_player_grass_08_10C4C929.wem</CachePath>
+				</File>
+				<File Id="456320475" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>skel_gethit_01.wav</ShortName>
+					<CachePath>SFX/skel_gethit_01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="459679263" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>axe_hit_rock_03.wav</ShortName>
+					<CachePath>SFX/axe_hit_rock_03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="479754207" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>axe_hit_rock_01.wav</ShortName>
+					<CachePath>SFX/axe_hit_rock_01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="482700904" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_player_gravel_03.wav</ShortName>
+					<CachePath>SFX/fs_player_gravel_03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="482864927" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_player_gravel_04.wav</ShortName>
+					<CachePath>SFX/fs_player_gravel_04_10C4C929.wem</CachePath>
+				</File>
+				<File Id="484460241" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_skel_gravel_01.wav</ShortName>
+					<CachePath>SFX/fs_skel_gravel_01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="495527006" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>portal_idle_close.wav</ShortName>
+					<CachePath>SFX/portal_idle_close_6508827C.wem</CachePath>
+				</File>
+				<File Id="500052017" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>skel_spawn_land.wav</ShortName>
+					<CachePath>SFX/skel_spawn_land_10C4C929.wem</CachePath>
+				</File>
+				<File Id="530298481" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_skel_gravel_02.wav</ShortName>
+					<CachePath>SFX/fs_skel_gravel_02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="541494156" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_player_gravel_01.wav</ShortName>
+					<CachePath>SFX/fs_player_gravel_01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="557305244" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>player_roll_dirt.wav</ShortName>
+					<CachePath>SFX/player_roll_dirt_10C4C929.wem</CachePath>
+				</File>
+				<File Id="571414843" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_pest_03.wav</ShortName>
+					<CachePath>SFX/fs_pest_03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="583178948" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_skel_gravel_05.wav</ShortName>
+					<CachePath>SFX/fs_skel_gravel_05_10C4C929.wem</CachePath>
+				</File>
+				<File Id="591414233" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_player_dirt_01.wav</ShortName>
+					<CachePath>SFX/fs_player_dirt_01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="607533289" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_skel_gravel_04.wav</ShortName>
+					<CachePath>SFX/fs_skel_gravel_04_10C4C929.wem</CachePath>
+				</File>
+				<File Id="620386747" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>skel_gethit_03.wav</ShortName>
+					<CachePath>SFX/skel_gethit_03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="650088066" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>player_attack1_02.wav</ShortName>
+					<CachePath>SFX/player_attack1_02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="654628775" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>skel_vo_04.wav</ShortName>
+					<CachePath>SFX/skel_vo_04_10C4C929.wem</CachePath>
+				</File>
+				<File Id="669688938" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_player_dirt_07.wav</ShortName>
+					<CachePath>SFX/fs_player_dirt_07_10C4C929.wem</CachePath>
+				</File>
+				<File Id="677937057" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>lobber_mx_combat1-loop.wav</ShortName>
+					<CachePath>SFX/lobber_mx_combat1-loop_D79FB2B7.wem</CachePath>
+				</File>
+				<File Id="683213108" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_skel_gravel_03.wav</ShortName>
+					<CachePath>SFX/fs_skel_gravel_03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="701618492" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>skel_vo_02.wav</ShortName>
+					<CachePath>SFX/skel_vo_02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="712810717" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>portal_idle_close.wav</ShortName>
+					<CachePath>SFX/portal_idle_close_BBE62D10.wem</CachePath>
+				</File>
+				<File Id="735764590" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_player_gravel_05.wav</ShortName>
+					<CachePath>SFX/fs_player_gravel_05_10C4C929.wem</CachePath>
+				</File>
+				<File Id="754981410" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>player_chop_tail.wav</ShortName>
+					<CachePath>SFX/player_chop_tail_10C4C929.wem</CachePath>
+				</File>
+				<File Id="776172988" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_player_dirt_04.wav</ShortName>
+					<CachePath>SFX/fs_player_dirt_04_10C4C929.wem</CachePath>
+				</File>
+				<File Id="780375067" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_player_grass_06.wav</ShortName>
+					<CachePath>SFX/fs_player_grass_06_10C4C929.wem</CachePath>
+				</File>
+				<File Id="795672063" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_pest_04.wav</ShortName>
+					<CachePath>SFX/fs_pest_04_10C4C929.wem</CachePath>
+				</File>
+				<File Id="799007945" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>player_attack2_01.wav</ShortName>
+					<CachePath>SFX/player_attack2_01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="799731881" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>skel_gethit_05.wav</ShortName>
+					<CachePath>SFX/skel_gethit_05_10C4C929.wem</CachePath>
+				</File>
+				<File Id="821072770" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>player_gethit_02.wav</ShortName>
+					<CachePath>SFX/player_gethit_02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="823792418" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_player_grass_07.wav</ShortName>
+					<CachePath>SFX/fs_player_grass_07_10C4C929.wem</CachePath>
+				</File>
+				<File Id="824198949" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>player_gethit_03.wav</ShortName>
+					<CachePath>SFX/player_gethit_03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="834267316" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>skel_vo_05.wav</ShortName>
+					<CachePath>SFX/skel_vo_05_10C4C929.wem</CachePath>
+				</File>
+				<File Id="848350748" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>player_shotgun_init.wav</ShortName>
+					<CachePath>SFX/player_shotgun_init_0018D3D5.wem</CachePath>
+				</File>
+				<File Id="858779314" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>skel_death_01.wav</ShortName>
+					<CachePath>SFX/skel_death_01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="865086151" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>head_impact_01.wav</ShortName>
+					<CachePath>SFX/head_impact_01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="865623118" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>axe_hit_wood_01.wav</ShortName>
+					<CachePath>SFX/axe_hit_wood_01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="872431774" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>player_attack1_01.wav</ShortName>
+					<CachePath>SFX/player_attack1_01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="897235700" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_player_grass_03.wav</ShortName>
+					<CachePath>SFX/fs_player_grass_03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="912969297" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_player_gravel_02.wav</ShortName>
+					<CachePath>SFX/fs_player_gravel_02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="913163461" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_player_dirt_03.wav</ShortName>
+					<CachePath>SFX/fs_player_dirt_03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="914370410" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>lobber_mx_combat1-intro.wav</ShortName>
+					<CachePath>SFX/lobber_mx_combat1-intro_A389B95C.wem</CachePath>
+				</File>
+				<File Id="922362666" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>head_pickup.wav</ShortName>
+					<CachePath>SFX/head_pickup_10C4C929.wem</CachePath>
+				</File>
+				<File Id="933496307" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>player_slam_init.wav</ShortName>
+					<CachePath>SFX/player_slam_init_10C4C929.wem</CachePath>
+				</File>
+				<File Id="963225850" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_player_dirt_02.wav</ShortName>
+					<CachePath>SFX/fs_player_dirt_02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="966189127" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>head_impact_04.wav</ShortName>
+					<CachePath>SFX/head_impact_04_10C4C929.wem</CachePath>
+				</File>
+				<File Id="966389329" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>player_slam_atk.wav</ShortName>
+					<CachePath>SFX/player_slam_atk_10C4C929.wem</CachePath>
+				</File>
+				<File Id="985831120" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_skel_grass_08.wav</ShortName>
+					<CachePath>SFX/fs_skel_grass_08_10C4C929.wem</CachePath>
+				</File>
+				<File Id="1005504680" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>skel_dash_03.wav</ShortName>
+					<CachePath>SFX/skel_dash_03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="1005933419" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_skel_grass_03.wav</ShortName>
+					<CachePath>SFX/fs_skel_grass_03_10C4C929.wem</CachePath>
+				</File>
+				<File Id="1011639198" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>head_impact_05.wav</ShortName>
+					<CachePath>SFX/head_impact_05_10C4C929.wem</CachePath>
+				</File>
+				<File Id="1041017189" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>fs_player_grass_02.wav</ShortName>
+					<CachePath>SFX/fs_player_grass_02_10C4C929.wem</CachePath>
+				</File>
+				<File Id="1070028639" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>head_flying.wav</ShortName>
+					<CachePath>SFX/head_flying_10C4C929.wem</CachePath>
+				</File>
+			</Media>
+			<Plugins>
+				<Custom>
+					<Plugin Id="496940353" Name="Sine" LibName="Wwise Sine" LibId="6553602"/>
+				</Custom>
+			</Plugins>
+			<Events>
+				<Event Id="3207324726" Name="amb_fire">
+					<MediaRefs>
+						<MediaRef Id="150208270"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3334362129" Name="amb_LV1">
+					<MediaRefs>
+						<MediaRef Id="342867081"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2080575975" Name="axe_hit_rock">
+					<MediaRefs>
+						<MediaRef Id="374074499"/>
+						<MediaRef Id="459679263"/>
+						<MediaRef Id="479754207"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="979945107" Name="axe_hit_wood">
+					<MediaRefs>
+						<MediaRef Id="5743150"/>
+						<MediaRef Id="332932540"/>
+						<MediaRef Id="865623118"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3554795103" Name="Combat1_Start">
+					<MediaRefs>
+						<MediaRef Id="677937057"/>
+						<MediaRef Id="914370410"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2415455525" Name="Combat1_Stop"/>
+				<Event Id="375965827" Name="head_flying">
+					<MediaRefs>
+						<MediaRef Id="1070028639"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3507359558" Name="head_golden_idle">
+					<MediaRefs>
+						<MediaRef Id="96127275"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="4015037628" Name="head_impact">
+					<MediaRefs>
+						<MediaRef Id="96698159"/>
+						<MediaRef Id="166049200"/>
+						<MediaRef Id="865086151"/>
+						<MediaRef Id="966189127"/>
+						<MediaRef Id="1011639198"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2586367166" Name="head_pickup">
+					<MediaRefs>
+						<MediaRef Id="922362666"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="4234617796" Name="pest_bomb_expload">
+					<MediaRefs>
+						<MediaRef Id="395551192"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="437942920" Name="pest_bomb_fuse">
+					<MediaRefs>
+						<MediaRef Id="367181203"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1736279191" Name="pest_bomb_jump">
+					<MediaRefs>
+						<MediaRef Id="163626921"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="718104337" Name="pest_fs">
+					<MediaRefs>
+						<MediaRef Id="227964973"/>
+						<MediaRef Id="295499900"/>
+						<MediaRef Id="571414843"/>
+						<MediaRef Id="795672063"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="799884986" Name="player_attack1">
+					<MediaRefs>
+						<MediaRef Id="233950051"/>
+						<MediaRef Id="650088066"/>
+						<MediaRef Id="872431774"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="799884985" Name="player_attack2">
+					<MediaRefs>
+						<MediaRef Id="97539198"/>
+						<MediaRef Id="278421329"/>
+						<MediaRef Id="799007945"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="215823421" Name="player_bush_ent">
+					<MediaRefs>
+						<MediaRef Id="51859721"/>
+						<MediaRef Id="102229063"/>
+						<MediaRef Id="400764545"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="4275904075" Name="player_bush_ext"/>
+				<Event Id="927599014" Name="player_chop_init">
+					<MediaRefs>
+						<MediaRef Id="101552163"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1752115990" Name="player_chop_tail">
+					<MediaRefs>
+						<MediaRef Id="754981410"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="4276063004" Name="player_fs">
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="4276063004" Id="2195636714" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="35430952"/>
+								<MediaRef Id="95473702"/>
+								<MediaRef Id="196376984"/>
+								<MediaRef Id="591414233"/>
+								<MediaRef Id="669688938"/>
+								<MediaRef Id="776172988"/>
+								<MediaRef Id="913163461"/>
+								<MediaRef Id="963225850"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="4276063004" Id="4248645337"/>
+							<MediaRefs>
+								<MediaRef Id="42617762"/>
+								<MediaRef Id="72982658"/>
+								<MediaRef Id="198597785"/>
+								<MediaRef Id="449139250"/>
+								<MediaRef Id="780375067"/>
+								<MediaRef Id="823792418"/>
+								<MediaRef Id="897235700"/>
+								<MediaRef Id="1041017189"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="4276063004" Id="2185786256"/>
+							<MediaRefs>
+								<MediaRef Id="50507017"/>
+								<MediaRef Id="204565514"/>
+								<MediaRef Id="290589915"/>
+								<MediaRef Id="482700904"/>
+								<MediaRef Id="482864927"/>
+								<MediaRef Id="541494156"/>
+								<MediaRef Id="735764590"/>
+								<MediaRef Id="912969297"/>
+							</MediaRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+				<Event Id="3945457670" Name="player_gethit">
+					<MediaRefs>
+						<MediaRef Id="33849619"/>
+						<MediaRef Id="821072770"/>
+						<MediaRef Id="824198949"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="973170820" Name="player_lob">
+					<MediaRefs>
+						<MediaRef Id="222124175"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="841226244" Name="player_roll">
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="4276063004" Id="2195636714" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="557305244"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="4276063004" Id="4248645337"/>
+							<MediaRefs>
+								<MediaRef Id="55141243"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="4276063004" Id="2185786256"/>
+							<MediaRefs>
+								<MediaRef Id="111457560"/>
+							</MediaRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+				<Event Id="1199887854" Name="player_shotgun_atk">
+					<MediaRefs>
+						<MediaRef Id="195194557"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="255574742" Name="player_shotgun_init">
+					<MediaRefs>
+						<MediaRef Id="848350748"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2909104693" Name="player_slam_atk">
+					<MediaRefs>
+						<MediaRef Id="966389329"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3131540599" Name="player_slam_init">
+					<MediaRefs>
+						<MediaRef Id="933496307"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2062853598" Name="portal_close">
+					<MediaRefs>
+						<MediaRef Id="495527006"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3086941384" Name="portal_idle">
+					<MediaRefs>
+						<MediaRef Id="712810717"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="762878330" Name="portal_open">
+					<MediaRefs>
+						<MediaRef Id="271929651"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2376412427" Name="skel_dash">
+					<MediaRefs>
+						<MediaRef Id="18472167"/>
+						<MediaRef Id="226886049"/>
+						<MediaRef Id="1005504680"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1504289659" Name="skel_death">
+					<MediaRefs>
+						<MediaRef Id="858779314"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="855030670" Name="skel_fs">
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="855030670" Id="4248645337" Default="true"/>
+							<MediaRefs>
+								<MediaRef Id="77368139"/>
+								<MediaRef Id="123446656"/>
+								<MediaRef Id="138826314"/>
+								<MediaRef Id="252319005"/>
+								<MediaRef Id="364177697"/>
+								<MediaRef Id="368379455"/>
+								<MediaRef Id="985831120"/>
+								<MediaRef Id="1005933419"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="Switch" GroupId="855030670" Id="2185786256"/>
+							<MediaRefs>
+								<MediaRef Id="29787403"/>
+								<MediaRef Id="49626874"/>
+								<MediaRef Id="97026588"/>
+								<MediaRef Id="484460241"/>
+								<MediaRef Id="530298481"/>
+								<MediaRef Id="583178948"/>
+								<MediaRef Id="607533289"/>
+								<MediaRef Id="683213108"/>
+							</MediaRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+				<Event Id="3336220324" Name="skel_gethit">
+					<MediaRefs>
+						<MediaRef Id="300101372"/>
+						<MediaRef Id="344656176"/>
+						<MediaRef Id="456320475"/>
+						<MediaRef Id="620386747"/>
+						<MediaRef Id="799731881"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3644427658" Name="skel_slash">
+					<MediaRefs>
+						<MediaRef Id="66995461"/>
+						<MediaRef Id="144792552"/>
+						<MediaRef Id="429319015"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1091450755" Name="skel_spwan_jump">
+					<MediaRefs>
+						<MediaRef Id="443484975"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="500517664" Name="skel_spwan_land">
+					<MediaRefs>
+						<MediaRef Id="500052017"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1123472706" Name="skel_vo">
+					<MediaRefs>
+						<MediaRef Id="115604974"/>
+						<MediaRef Id="226075322"/>
+						<MediaRef Id="654628775"/>
+						<MediaRef Id="701618492"/>
+						<MediaRef Id="834267316"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3157003241" Name="TEST">
+					<PluginRefs>
+						<Custom>
+							<PluginRef Id="496940353"/>
+						</Custom>
+					</PluginRefs>
+				</Event>
+				<Event Id="3587827325" Name="Transition_Start"/>
+				<Event Id="1619304959" Name="Transition_Stop"/>
+			</Events>
+			<SwitchGroups>
+				<SwitchGroup Id="855030670" Name="Skel_FS">
+					<Switches>
+						<Switch Id="2185786256" Name="Gravel"/>
+						<Switch Id="4248645337" Name="Grass"/>
+					</Switches>
+				</SwitchGroup>
+				<SwitchGroup Id="4276063004" Name="Player_FS">
+					<Switches>
+						<Switch Id="2185786256" Name="Gravel"/>
+						<Switch Id="2195636714" Name="Dirt"/>
+						<Switch Id="4248645337" Name="Grass"/>
+					</Switches>
+				</SwitchGroup>
+			</SwitchGroups>
+		</SoundBank>
+	</SoundBanks>
+	<FileHash>{C6FEC9A8-8739-F604-1A26-7B36D3C3541D}</FileHash>
+</SoundBanksInfo>
