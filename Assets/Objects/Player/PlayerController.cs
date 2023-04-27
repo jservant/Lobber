@@ -149,15 +149,15 @@ public class PlayerController : MonoBehaviour {
 	readonly KnockbackInfo[] AttackKnockbackTable = new KnockbackInfo[] {
 		//                Set Direction,      force , time 
 		new KnockbackInfo(Quaternion.identity,  0.0f, 0.0f), // None
-		new KnockbackInfo(Quaternion.identity, 10.0f, 0.25f), // LAttack
-		new KnockbackInfo(Quaternion.identity, 10.0f, 0.25f), // LAttack2
-		new KnockbackInfo(Quaternion.identity, 30.0f, 0.25f), // LAttack3
+		new KnockbackInfo(Quaternion.identity, 30.0f, 0.25f), // LAttack
+		new KnockbackInfo(Quaternion.identity, 30.0f, 0.25f), // LAttack2
+		new KnockbackInfo(Quaternion.identity, 60.0f, 0.25f), // LAttack3
 		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // Chop
-		new KnockbackInfo(Quaternion.identity, 20.0f, 0.25f), // Slam
-		new KnockbackInfo(Quaternion.identity, 10.0f, 0.25f), // Spin
+		new KnockbackInfo(Quaternion.identity, 60.0f, 0.25f), // Slam
+		new KnockbackInfo(Quaternion.identity, 20.0f, 0.25f), // Spin
 		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // HeadThrow
 		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // Dashing
-		new KnockbackInfo(Quaternion.identity, 30.0f, 0.25f), // LethalDashing
+		new KnockbackInfo(Quaternion.identity, 10.0f, 0.25f), // LethalDashing
 		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // ShotgunThrow
 	};
 
