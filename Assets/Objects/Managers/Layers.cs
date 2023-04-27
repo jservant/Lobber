@@ -150,6 +150,17 @@ public class Util {
 		return result;
 	}
 
+	public static Vector3 ProcessKnockback(ref float remainingKnockbackTime, KnockbackInfo knockbackInfo) {
+		Vector3 result = Vector3.zero;
+
+		if (remainingKnockbackTime > 0) {
+			remainingKnockbackTime -= Time.deltaTime;
+			result = knockbackInfo.direction * Vector3.forward * knockbackInfo.force * Mathf.Lerp(0, 1, Mathf.Clamp01(Mathf.Pow((remainingKnockbackTime/knockbackInfo.time), 2)));
+		}
+
+		return result;
+	}
+
 	// Credit for ConeCast code: Copyright (c) 2018 Walter Ellis
 	// https://github.com/walterellisfun/ConeCast/blob/master/LICENSE
 	public static RaycastHit[] ConeCastAll(Vector3 origin, float maxRadius, Vector3 direction, float maxDistance, float coneAngle) {

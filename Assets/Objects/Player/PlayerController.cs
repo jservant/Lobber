@@ -328,8 +328,6 @@ public class PlayerController : MonoBehaviour {
 			speedTime = maxSpeedTime * 1.0f;
 		}
 
-		remainingKnockbackTime -= Time.fixedDeltaTime;
-
 		Vector3 translationDelta = Vector3.zero;
 		if (doHoming) {
 			Vector3 nextHomingPos = Vector3.Lerp(homingInitalPosition + homingTargetDelta, homingInitalPosition, Mathf.Clamp01(Mathf.Pow((homingTimer/homingTimerMax), 2)));
@@ -372,11 +370,9 @@ public class PlayerController : MonoBehaviour {
 				moveDelta = moveDirection.normalized * (topSpeed * Mathf.Lerp(0, 1, movementCurve.Evaluate(speedTime / maxSpeedTime)));
 				if (currentAttack == Attacks.Chop) moveDelta *= chopMovementMultiplier;
 			}
-			float moveWeight = Mathf.Lerp(1, 0, Mathf.Clamp01(remainingKnockbackTime / knockbackInfo.time));
-			float knockbackWeight = 1f - moveWeight;
-			Vector3 knockbackDelta = (knockbackInfo.direction * Vector3.forward) * knockbackInfo.force;
+			Vector3 knockbackDelta = Util.ProcessKnockback(ref remainingKnockbackTime, knockbackInfo);
 
-			translationDelta = (moveDelta * moveWeight + knockbackDelta * knockbackWeight) * Time.fixedDeltaTime;
+			translationDelta = (moveDelta + knockbackDelta) * Time.fixedDeltaTime;
 		}
 
 

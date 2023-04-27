@@ -446,10 +446,7 @@ public class Basic : MonoBehaviour {
 		}
 
 		// Preform knockback regardless of what we want to do
-		if (remainingKnockbackTime > 0) {
-			remainingKnockbackTime -= Time.deltaTime;
-			movementDelta += knockbackInfo.direction * Vector3.forward * knockbackInfo.force * Mathf.Lerp(1, 0, Mathf.Clamp01(Mathf.Pow((remainingKnockbackTime/knockbackInfo.time), 2)));
-		}
+		movementDelta += Util.ProcessKnockback(ref remainingKnockbackTime, knockbackInfo);
 
 		// Directive Changing
 		switch (directive) {
