@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class Shrine : MonoBehaviour
-{
+public class Shrine : MonoBehaviour {
 	public float health = 15;
 
 	TMP_Text healthText;
@@ -15,13 +14,12 @@ public class Shrine : MonoBehaviour
 	public Material hitflashMat;
 	float hitflashTimer = 0;
 
-	void Start()
-    {
+	void Start() {
 		gameManager = transform.Find("/GameManager").GetComponent<GameManager>();
 		health = GameManager.shrineMaxHealth;
-		healthText = transform.Find("Canvas/HealthText").GetComponent<TMP_Text>();
+		healthText = transform.Find("Visual/Canvas/HealthText").GetComponent<TMP_Text>();
 		//healthUI.worldCamera = Camera.main.transform.Find("UI Camera").GetComponent<Camera>();
-		model = GetComponent<MeshRenderer>();
+		model = transform.Find("Visual").GetComponent<MeshRenderer>();
 		materials = model.materials;
 	}
 

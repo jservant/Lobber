@@ -195,7 +195,10 @@ public class GameManager : MonoBehaviour {
 					do {
 						indexSpawnPoint = Random.Range(0, enemySpawnPoints.Length);
 					} while (Physics.CheckSphere(enemySpawnPoints[indexSpawnPoint].position, 10f, Mask.Get(Layers.EnemyHurtbox)));
-					shrineObjects[count] = Instantiate(shrinePrefab, enemySpawnPoints[indexSpawnPoint]);
+					RaycastHit hitInfo;
+					bool didHit = Physics.Raycast(enemySpawnPoints[indexSpawnPoint].position, Vector3.down, out hitInfo, 10f, Mask.Get(Layers.Ground));
+					Debug.Assert(didHit, "A Shrine failed to find the ground!"); // NOTE(Roskuski) should always happen if spawnpoint are configured correctly!
+					shrineObjects[count] = Instantiate(shrinePrefab, hitInfo.point, Quaternion.AngleAxis(180f, Vector3.up), enemySpawnPoints[indexSpawnPoint]);
 				}
 				statusTextboxText.text = "Level " + levelCount +
 				"\nDestroy the Shrines!";
@@ -214,8 +217,6 @@ public class GameManager : MonoBehaviour {
 				break;
 		}
 
-		//tempColorLit = new Color();
-		//tempColorUnlit = new Color();
 		tempColorLit.a = 1f;
 		tempColorUnlit.a = unlitTextOpacity;
 	}
@@ -417,7 +418,7 @@ public class GameManager : MonoBehaviour {
 								}
 
 								int shrineChoice = Util.RollWeightedChoice(spawnPointWeights);
-								Instantiate(OrbSpawnPrefab, shrineObjects[shrineChoice].transform.parent);
+								Instantiate(OrbSpawnPrefab, shrineObjects[shrineChoice].transform.parent.position + Vector3.up * 5.4f, Quaternion.identity, shrineObjects[shrineChoice].transform.parent);
 							}
 							break;
 
