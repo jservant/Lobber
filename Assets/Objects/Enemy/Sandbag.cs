@@ -19,6 +19,8 @@ public class Sandbag : MonoBehaviour
 	public Material hitflashMat;
 	float hitflashTimer = 0;
 
+	public AK.Wwise.Event Get_Hit_Sound;
+
 	void Start()
     {
         health = maxHealth;
@@ -53,10 +55,16 @@ public class Sandbag : MonoBehaviour
 			}
 
 			if (hasHealth) health -= 1f;
-			hitflashTimer = 0.1f;
+			hitflashTimer = 0.15f;
 			if (health <= 0) {
 				Destroy(gameObject);
 			}
+
+			Sound_Hit();
 		}
+	}
+
+	void Sound_Hit() {
+		Get_Hit_Sound.Post(gameObject);
 	}
 }
