@@ -95,7 +95,7 @@ public class GameManager : MonoBehaviour {
 	public const float TokenCost_SmallSpawn = 30;
 	public const float TokenCost_MediumSpawn = 60;
 	public const float TokenCost_BigSpawn = 80;
-	public const float TokensPerSecond = 10.0f;
+	public const float TokensPerSecond = 5.0f;
 	public const int HighEnemies = 18;
 	public const int TargetEnemies = 12;
 	public const int LowEnemies = 4;
@@ -277,7 +277,7 @@ public class GameManager : MonoBehaviour {
 		UpdateIcons(); //if (inputDisplayUI.activeSelf == true) {  }
 
 		// Manage Spawns
-		if (enemiesKilledInLevel < enemyKillingGoal && canSpawn) {
+		if (canSpawn && !transitioningLevel) {
 			spawnTokens += TokensPerSecond * Time.deltaTime;
 			if (enemiesAlive < HighEnemies) {
 				// Determine enemy amount
