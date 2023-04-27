@@ -2475,11 +2475,16 @@
 								<Property Name="3DSpatialization" Type="int16" Value="2"/>
 								<Property Name="Highpass" Type="int16">
 									<ValueList>
-										<Value>46</Value>
+										<Value>61</Value>
 									</ValueList>
 								</Property>
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-15</Value>
+									</ValueList>
+								</Property>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Attenuation">
@@ -2501,6 +2506,9 @@
 									</MediaIDList>
 								</AudioFileSource>
 							</ChildrenList>
+							<PositioningInfo>
+								<Position Name="" ID="{F71DF8CD-2EA7-4BCD-BB77-0AD0A572F157}"/>
+							</PositioningInfo>
 							<ActiveSourceList>
 								<ActiveSource Name="emit_fire_01" ID="{B1F664F8-E15C-4398-96F0-A60655CB6828}" Platform="Linked"/>
 							</ActiveSourceList>

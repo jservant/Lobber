@@ -15,9 +15,12 @@ namespace AK
     {
         static const AkUniqueID AMB_FIRE = 3207324726U;
         static const AkUniqueID AMB_LV1 = 3334362129U;
+        static const AkUniqueID AXE_HIT_ROCK = 2080575975U;
+        static const AkUniqueID AXE_HIT_WOOD = 979945107U;
         static const AkUniqueID COMBAT1_START = 3554795103U;
         static const AkUniqueID COMBAT1_STOP = 2415455525U;
         static const AkUniqueID HEAD_FLYING = 375965827U;
+        static const AkUniqueID HEAD_GOLDEN_IDLE = 3507359558U;
         static const AkUniqueID HEAD_IMPACT = 4015037628U;
         static const AkUniqueID HEAD_PICKUP = 2586367166U;
         static const AkUniqueID PEST_BOMB_EXPLOAD = 4234617796U;
@@ -33,6 +36,7 @@ namespace AK
         static const AkUniqueID PLAYER_FS = 4276063004U;
         static const AkUniqueID PLAYER_GETHIT = 3945457670U;
         static const AkUniqueID PLAYER_LOB = 973170820U;
+        static const AkUniqueID PLAYER_ROLL = 841226244U;
         static const AkUniqueID PLAYER_SHOTGUN_ATK = 1199887854U;
         static const AkUniqueID PLAYER_SHOTGUN_INIT = 255574742U;
         static const AkUniqueID PLAYER_SLAM_ATK = 2909104693U;
@@ -122,6 +126,7 @@ namespace AK
         static const AkUniqueID MASTER_AUDIO_BUS = 3803692087U;
         static const AkUniqueID MOTION_FACTORY_BUS = 985987111U;
         static const AkUniqueID MSC = 746452412U;
+        static const AkUniqueID SFX = 393239870U;
     } // namespace BUSSES
 
     namespace AUDIO_DEVICES
