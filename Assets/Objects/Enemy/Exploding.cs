@@ -104,9 +104,11 @@ public class Exploding : MonoBehaviour {
 	}
 
 	void ChangeDirective_Explosion(float delay = 0) {
-		directive = Directive.Explosion;
-		selfHurtbox.isTrigger = true;
-		explosionDelay = delay; 
+		if (directive != Directive.Explosion) {
+			directive = Directive.Explosion;
+			selfHurtbox.isTrigger = true;
+			explosionDelay = delay; 
+		}
 	}
 
 	bool CanAttemptNavigation() {
