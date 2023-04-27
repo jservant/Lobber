@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour {
 		DestroyTheShrines,
 		HarvestTheCrystals, // workinonit
 	}
-	public static int currentObjective = 0;
+	public static Objectives currentObjective = 0;
 
 	[Header("Persistent Variables:")]
 	public Transform player;
@@ -82,7 +82,8 @@ public class GameManager : MonoBehaviour {
 	public GameObject shrinePrefab;
 
 	[Header("Spawning:")]
-	public Transform[] eSpawns;
+	public Transform[] enemySpawnPoints;
+	public GameObject[] shrineObjects;
 	public Transform[] playerRespawnPoints;
 	public Transform crystalDropoffSpawn;
 	public int enemiesAlive = 0;
@@ -154,24 +155,25 @@ public class GameManager : MonoBehaviour {
 		}
 
 		if (canSpawn) {
-			GameObject eSpawnParent = GameObject.Find("EnemySpawns");
-			eSpawns = eSpawnParent.GetComponentsInChildren<Transform>();
-			Transform[] TempArray = new Transform[eSpawns.Length - 1];
-			for (int index = 0; index < eSpawns.Length; index += 1) {
+			GameObject enemySpawnParent = GameObject.Find("EnemySpawns");
+			enemySpawnPoints = enemySpawnParent.GetComponentsInChildren<Transform>();
+			Transform[] TempArray = new Transform[enemySpawnPoints.Length - 1];
+			for (int index = 0; index < enemySpawnPoints.Length; index += 1) {
 				if (index - 1 >= 0) {
-					TempArray[index - 1] = eSpawns[index];
+					TempArray[index - 1] = enemySpawnPoints[index];
 				}
 			}
-			eSpawns = TempArray;
+			enemySpawnPoints = TempArray;
 
 			float[] objectiveChoices = new float[] { 0f, 4f, 3f, 3f };
-			objectiveChoices[currentObjective] = 0;
+			objectiveChoices[(int)currentObjective] = 0;
 			//objectiveChoices[(int)Objectives.KillTheEnemies] = 0;
 			//objectiveChoices[(int)Objectives.DestroyTheShrines] = 0;
 			//objectiveChoices[(int)Objectives.HarvestTheCrystals] = 0;
 			// PREVIOUS TWO LINES ARE TEMP while they don't work
-			currentObjective = Util.RollWeightedChoice(objectiveChoices);
-		} else {
+			currentObjective = (Objectives)Util.RollWeightedChoice(objectiveChoices);
+		}
+		else {
 			playerController.health = playerController.healthMax;
 			playerController.meter = playerController.meterMax;
 		}
@@ -179,30 +181,33 @@ public class GameManager : MonoBehaviour {
 
 
 		switch (currentObjective) {
-			case (int)Objectives.None:
-				break;
-			case (int)Objectives.KillTheEnemies:
+			case Objectives.KillTheEnemies:
 				// assign enemy killing goal to a UI object here
 				statusTextboxText.text = "Level " + levelCount +
 				"\nKill the Enemies!";
 				break;
-			case (int)Objectives.DestroyTheShrines:
+
+			case Objectives.DestroyTheShrines:
 				int indexSpawnPoint = -1;
-				for (int t = 0; t < shrineDestroyingGoal; t++) {
+				// @TODO(Roskuski): Make sure shrineDestroyGoal cannot exceed spawnpoints. if it does this becomes an infinite loop
+				shrineObjects = new GameObject[shrineDestroyingGoal];
+				for (int count = 0; count < shrineDestroyingGoal; count++) {
 					do {
-						indexSpawnPoint = Random.Range(0, eSpawns.Length);
-					} while (Physics.CheckSphere(eSpawns[indexSpawnPoint].position, 10f, Mask.Get(Layers.EnemyHurtbox)));
-					GameObject shrine = Instantiate(shrinePrefab, eSpawns[indexSpawnPoint]);
+						indexSpawnPoint = Random.Range(0, enemySpawnPoints.Length);
+					} while (Physics.CheckSphere(enemySpawnPoints[indexSpawnPoint].position, 10f, Mask.Get(Layers.EnemyHurtbox)));
+					shrineObjects[count] = Instantiate(shrinePrefab, enemySpawnPoints[indexSpawnPoint]);
 				}
 				statusTextboxText.text = "Level " + levelCount +
 				"\nDestroy the Shrines!";
 				break;
-			case (int)Objectives.HarvestTheCrystals:
+
+			case Objectives.HarvestTheCrystals:
 				Instantiate(crystalDropoffPrefab, crystalDropoffSpawn.position, crystalDropoffSpawn.rotation);
 				Debug.Log("Crystal dropoff should have spawned at " + crystalDropoffSpawn.position);
 				statusTextboxText.text = "Level " + levelCount +
 				"\nHarvest the Crystals!";
 				break;
+
 			default:
 				statusTextboxText.text = "Level " + levelCount +
 				"\nsomething is wrong";
@@ -247,28 +252,33 @@ public class GameManager : MonoBehaviour {
 
 		//Objective text setter
 		switch (currentObjective) {
-			case (int)Objectives.None:
+			case Objectives.None:
 				break;
-			case (int)Objectives.KillTheEnemies:
+
+			case Objectives.KillTheEnemies:
 				objectiveText.text = "Enemies killed: " + enemiesKilledInLevel + "/" + enemyKillingGoal;
 				if (enemiesKilledInLevel >= enemyKillingGoal && enemiesAlive <= 0 && transitioningLevel == false) {
 					StartCoroutine(Win());
 				}
 				break;
-			case (int)Objectives.DestroyTheShrines:
+
+			case Objectives.DestroyTheShrines:
 				objectiveText.text = "Shrines destroyed: " + shrinesDestroyed + "/" + shrineDestroyingGoal;
 				if (shrinesDestroyed >= shrineDestroyingGoal && transitioningLevel == false) {
 					StartCoroutine(Win());
 				}
 				break;
-			case (int)Objectives.HarvestTheCrystals:
+
+			case Objectives.HarvestTheCrystals:
 				objectiveText.text = "Crystals harvested: " + crystalCount + "/" + crystalHarvestingGoal;
 				if (crystalCount >= crystalHarvestingGoal && transitioningLevel == false) {
 					StartCoroutine(Win());
 				}
 				break;
+
 			default:
 				objectiveText.text = "something is wrong";
+				Debug.Assert(false, "Invalid objective " + currentObjective);
 				break;
 		}
 
@@ -282,36 +292,56 @@ public class GameManager : MonoBehaviour {
 			if (enemiesAlive < HighEnemies) {
 				// Determine enemy amount
 				int amountEnemy = 0;
-				float[][] weightEnemyAmount = new float[][]{
-					new float[] {0.1f, 3.0f, 6.0f}, // Low Enemies
-					new float[] {3.0f, 4.0f, 3.0f}, // Med Enemies
-					new float[] {6.0f, 3.0f, 0.1f}, // High Enemies
+				float[] weightEnemyAmount = new float[4]{
+					0f, // No Spawn
+					Mathf.Lerp(0f, 5f, 1 - (Mathf.Abs(HighEnemies - enemiesAlive) / TargetEnemies)), // Small Spawn 
+					Mathf.Lerp(0f, 7f, 1 - (Mathf.Abs(TargetEnemies - enemiesAlive) / TargetEnemies)), // Med Spawn
+					Mathf.Lerp(0f, 5f, 1 - (Mathf.Abs(LowEnemies - enemiesAlive) / TargetEnemies)), // Large Spawn
 				};
-				int weightIndexEnemyAmount = 0;
-				if (enemiesAlive > LowEnemies) { weightIndexEnemyAmount = 1; }
-				if (enemiesAlive > TargetEnemies) { weightIndexEnemyAmount = 2; }
 
-				int choiceEnemyAmount = Util.RollWeightedChoice(weightEnemyAmount[weightIndexEnemyAmount]);
+				switch (currentObjective) {
+					case Objectives.None:
+						weightEnemyAmount = new float[] { 1f };
+						break;
+
+					case Objectives.KillTheEnemies:
+						break;
+
+					case Objectives.DestroyTheShrines:
+						break;
+
+					case Objectives.HarvestTheCrystals:
+						// @TODO(Roskuski): Do spawn pacing mechanics
+						break;
+				}
+
+				int choiceEnemyAmount = Util.RollWeightedChoice(weightEnemyAmount);
 				// NOTE(Roskuski): Random.Range(int, int)'s upper bound is EXCLUSIVE. NOT INCLUSIVE.
 				switch (choiceEnemyAmount) {
 					case 0:
+						break;
+
+					case 1:
 						if (spawnTokens > TokenCost_SmallSpawn) {
 							amountEnemy = Random.Range(3, 5);
 							spawnTokens -= TokenCost_SmallSpawn;
 						}
 						break;
-					case 1:
+
+					case 2:
 						if (spawnTokens > TokenCost_MediumSpawn) {
 							amountEnemy = Random.Range(5, 8);
 							spawnTokens -= TokenCost_MediumSpawn;
 						}
 						break;
-					case 2:
+
+					case 3:
 						if (spawnTokens > TokenCost_BigSpawn) {
 							amountEnemy = Random.Range(7, 10);
 							spawnTokens -= TokenCost_BigSpawn;
 						}
 						break;
+
 					default:
 						Debug.Assert(false);
 						break;
@@ -323,29 +353,96 @@ public class GameManager : MonoBehaviour {
 					int amountBasic = 0;
 					int amountExploding = 0;
 					for (int count = 0; count < amountEnemy; count += 1) {
-						int choiceEnemyKind = Util.RollWeightedChoice(new float[] {6f, 1f});
+						int choiceEnemyKind = Util.RollWeightedChoice(new float[] {9f, 1f});
 						switch (choiceEnemyKind) {
 							case 0:
 								amountBasic += 1;
 								break;
+
 							case 1:
 								amountExploding += 1;
+								// @TODO(Roskuski): We should probably cap Exploding spawn count so you can't roll a lot of them.
 								break;
+
 							default:
 								Debug.Assert(false);
 								break;
 						}
 					}
 
-					// choose a spawn point
-					int indexSpawnPoint = -1;
-					do {
-						indexSpawnPoint = Random.Range(0, eSpawns.Length);
-					} while (Physics.CheckSphere(eSpawns[indexSpawnPoint].position, 10f, Mask.Get(Layers.PlayerHitbox)));
-
 					OrbSpawnPrefab.GetComponent<OrbSpawn>().basicAmount = amountBasic;
 					OrbSpawnPrefab.GetComponent<OrbSpawn>().explodingAmount = amountExploding;
-					Instantiate(OrbSpawnPrefab, eSpawns[indexSpawnPoint]);
+
+					// choose a spawn point
+					switch (currentObjective) {
+						case Objectives.None:
+							break;
+
+						case Objectives.KillTheEnemies:
+							{
+								float[] spawnPointWeights = new float[enemySpawnPoints.Length];
+								for (int index = 0; index < enemySpawnPoints.Length; index += 1) {
+									if (!Physics.CheckSphere(enemySpawnPoints[index].position, 10f, Mask.Get(Layers.PlayerHitbox)) && enemySpawnPoints[index].transform.Find("OrbSpawnV2(Clone)") == null) {
+										spawnPointWeights[index] = 1f;
+									}
+									else {
+										spawnPointWeights[index] = 0f;
+									}
+								}
+
+								int spawnChoice = Util.RollWeightedChoice(spawnPointWeights);
+								Instantiate(OrbSpawnPrefab, enemySpawnPoints[spawnChoice]);
+							}
+							break;
+
+						case Objectives.DestroyTheShrines:
+							{
+								float[] distanceToPlayer = new float[shrineObjects.Length];
+								float minDistance = 100;
+								int minDistanceIndex = -1;
+								for (int index = 0; index < shrineObjects.Length; index += 1) {
+									distanceToPlayer[index] = Vector3.Distance(shrineObjects[index].transform.position, playerController.transform.position);
+									if (distanceToPlayer[index] < minDistance) {
+										minDistance = distanceToPlayer[index];
+										minDistanceIndex = index;
+									}
+								}
+								
+								float[] spawnPointWeights = new float[distanceToPlayer.Length];
+								for (int index = 0; index < shrineObjects.Length; index += 1) {
+									spawnPointWeights[index] = minDistance / distanceToPlayer[index];
+									if (enemySpawnPoints[index].transform.Find("OrbSpawnV2(Clone)") != null) {
+										spawnPointWeights[index] = 0f;
+									}
+								}
+
+								int shrineChoice = Util.RollWeightedChoice(spawnPointWeights);
+								Instantiate(OrbSpawnPrefab, shrineObjects[shrineChoice].transform.parent);
+							}
+							break;
+
+						case Objectives.HarvestTheCrystals:
+							{
+								// @TODO(Roskuski): We should do crystal chance here.
+								float[] spawnPointWeights = new float[enemySpawnPoints.Length];
+								for (int index = 0; index < enemySpawnPoints.Length; index += 1) {
+									if (!Physics.CheckSphere(enemySpawnPoints[index].position, 10f, Mask.Get(Layers.PlayerHitbox)) && enemySpawnPoints[index].transform.Find("OrbSpawnV2(Clone)") == null) {
+										spawnPointWeights[index] = 1f;
+									}
+									else {
+										spawnPointWeights[index] = 0f;
+									}
+								}
+
+								int spawnChoice = Util.RollWeightedChoice(spawnPointWeights);
+								Instantiate(OrbSpawnPrefab, enemySpawnPoints[spawnChoice]);
+							}
+							break;
+
+						default:
+							Debug.Assert(false, "Invalid Objective " + currentObjective);
+							break;
+					}
 				}
 			}
 		}
@@ -462,10 +559,11 @@ public class GameManager : MonoBehaviour {
 		storedPlayerMeter = playerController.meter;
 		levelCount++; 
 		switch (currentObjective) {
-			case (int)Objectives.KillTheEnemies:
+			case Objectives.KillTheEnemies:
 				enemyKillingGoal += 10;
 				break;
-			case (int)Objectives.DestroyTheShrines:
+
+			case Objectives.DestroyTheShrines:
 				shrineMaxHealth += 5;
 				if (shrineMaxHealth >= 26f) {
 					if (shrineDestroyingGoal <= 5) break;
@@ -479,10 +577,13 @@ public class GameManager : MonoBehaviour {
 					}
 				}
 				break;
-			case (int)Objectives.HarvestTheCrystals:
+
+			case Objectives.HarvestTheCrystals:
 				crystalHarvestingGoal += 1;
 				break;
+
 			default:
+				Debug.Assert(false, "Won with an invalid Objective " + currentObjective);
 				break;
 		}
 		SceneManager.LoadScene(Util.RollWeightedChoice(sceneChances));
