@@ -14,7 +14,6 @@ public class OrbSpawn : MonoBehaviour {
 	Animator anim;
 	GameManager gameMan;
 	public Material crystalizedMat;
-	bool hasCrystalEnemySpawned = false;
 
 	void Start() {
 		anim = transform.Find("SpawnOrbV2").GetComponent<Animator>();
@@ -46,11 +45,11 @@ public class OrbSpawn : MonoBehaviour {
 			}
 			else {
 				GameObject basicInstance = Instantiate(gameMan.BasicPrefab, this.transform.position + Vector3.down * 1.5f, Quaternion.AngleAxis(angle, Vector3.up));
-				if (GameManager.currentObjective == GameManager.Objectives.HarvestTheCrystals && !hasCrystalEnemySpawned && !gameMan.playerController.hasCrystal) {
+				if (GameManager.currentObjective == GameManager.Objectives.HarvestTheCrystals && !gameMan.isCrystalEnemyAlive && !gameMan.playerController.hasCrystal) {
+					gameMan.isCrystalEnemyAlive = true;
 					basicInstance.GetComponent<Basic>().isCrystallized = true;
 					SkinnedMeshRenderer basicModel = basicInstance.transform.Find("Skeleton_Base_Model").GetComponent<SkinnedMeshRenderer>();
 					basicModel.material = crystalizedMat;
-					hasCrystalEnemySpawned = true;
 					Debug.Log("Crystallized Skeleton should have spawned");
 				}
 			}

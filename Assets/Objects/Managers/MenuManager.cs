@@ -25,7 +25,7 @@ public class MenuManager : MonoBehaviour
 		GameManager.crystalHarvestingGoal = 3;
 		GameManager.enemiesKilledInRun = 0;
 		Initializer.save.versionLatest.runsStarted++;
-		SceneManager.LoadScene((int)Scenes.Level_K); // disabling B for now
+		SceneManager.LoadScene((int)Scenes.Level_A); // disabling B for now
 
 	}
 

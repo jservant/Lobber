@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour {
 	[Header("Non-static objective variables:")]
 	public int enemiesKilledInLevel = 0;
 	public int crystalCount = 0;
+	public bool isCrystalEnemyAlive = false;
 	public int shrinesDestroyed = 0;
 
 	[Header("UI")]
@@ -496,7 +497,7 @@ public class GameManager : MonoBehaviour {
 				playerController.meter = playerController.meterMax;
 			}
 			if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed && playerController.pActions.Player.DEBUGLevelSkip.WasPerformedThisFrame()) {
-				float[] sceneChances = new float[] { 0, 0f, 1f, 1f };
+				float[] sceneChances = new float[] { 0, 1f, 1f, 1f };
 				sceneChances[SceneManager.GetActiveScene().buildIndex] = 0;
 				SceneManager.LoadScene(Util.RollWeightedChoice(sceneChances));
 			}
@@ -553,7 +554,7 @@ public class GameManager : MonoBehaviour {
 		Initializer.Save();
 		Debug.Log("YOU WIN!! Next stage starting shortly...");
 		statusTextboxText.text = "Stage Clear!";
-		float[] sceneChances = new float[] { 0, 0f, 1f, 1f }; // @TODO(Jaden): PUT LEVEL B BACK IN LATER
+		float[] sceneChances = new float[] { 0, 1f, 1f, 1f };
 		sceneChances[SceneManager.GetActiveScene().buildIndex] = 0;
 		yield return new WaitForSeconds(5);
 		storedPlayerHealth = playerController.health;

@@ -975,7 +975,10 @@ public class Basic : MonoBehaviour {
 		if (shouldDie) {
 			Vector3 spawnPos = transform.position + 3 * Vector3.up;
 			if (transform.position.y > -49f) {
-				if (isCrystallized) gameMan.DeterminePickups(spawnPos, true);
+				if (isCrystallized) {
+					gameMan.DeterminePickups(spawnPos, true);
+					gameMan.isCrystalEnemyAlive = false;
+				}
 				else if (!wasHitByChop) gameMan.DeterminePickups(spawnPos, isCrystallized);
 			}
 			Destroy(this.gameObject); 
