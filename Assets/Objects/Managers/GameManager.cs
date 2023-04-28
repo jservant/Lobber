@@ -296,7 +296,10 @@ public class GameManager : MonoBehaviour {
 						weightEnemyAmount = new float[] { 1f };
 						break;
 
-					case Objectives.KillTheEnemies: 
+					case Objectives.KillTheEnemies:
+						if (enemiesAlive + enemiesKilledInLevel >= enemyKillingGoal) {
+							weightEnemyAmount = new float[] { 1f };
+						}
 						break;
 
 					case Objectives.DestroyTheShrines:
@@ -339,6 +342,15 @@ public class GameManager : MonoBehaviour {
 						break;
 				}
 
+				switch (currentObjective) {
+					case Objectives.KillTheEnemies:
+						if (amountEnemy > (enemiesAlive + enemiesKilledInLevel - enemyKillingGoal) && enemiesAlive + enemiesKilledInLevel >= enemyKillingGoal) {
+							amountEnemy = (enemiesAlive + enemiesKilledInLevel - enemyKillingGoal);
+						}
+						break;
+					default:
+						break;
+				}
 
 				if (amountEnemy > 0) {
 					// detremine enemy contents
