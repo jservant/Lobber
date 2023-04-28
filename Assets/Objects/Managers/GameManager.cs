@@ -296,7 +296,7 @@ public class GameManager : MonoBehaviour {
 						weightEnemyAmount = new float[] { 1f };
 						break;
 
-					case Objectives.KillTheEnemies:
+					case Objectives.KillTheEnemies: 
 						break;
 
 					case Objectives.DestroyTheShrines:

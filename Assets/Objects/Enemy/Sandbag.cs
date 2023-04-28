@@ -22,6 +22,7 @@ public class Sandbag : MonoBehaviour {
 	Material[] materials;
 	public Material hitflashMat;
 	float hitflashTimer = 0;
+	public Animator animator;
 
 	public AK.Wwise.Event Get_Hit_Sound;
 
@@ -53,6 +54,10 @@ public class Sandbag : MonoBehaviour {
 		model.materials = materialList;
 
 		movementDelta += Util.ProcessKnockback(ref remainingKnockbackTime, knockbackInfo);
+
+		if (transform.position.y < -20f) {
+			Destroy(gameObject);
+        }
 	}
 
 	private void OnTriggerEnter(Collider other) {
@@ -91,6 +96,7 @@ public class Sandbag : MonoBehaviour {
 					Destroy(gameObject);
 				}
 
+				animator.Play("Base Layer.Gethit", 0, 0f);
 				Sound_Hit();
 			}
 		}
