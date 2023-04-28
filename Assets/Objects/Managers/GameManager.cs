@@ -141,10 +141,8 @@ public class GameManager : MonoBehaviour {
 		spawnTokens = 100;
 		objectiveFadeTimer = 5f;
 
-		{
-			UpdatePlayerSpawns();
-		}
-
+		UpdatePlayerSpawns();
+		
 		if (canSpawn) {
 			GameObject enemySpawnParent = GameObject.Find("EnemySpawns");
 			enemySpawnPoints = enemySpawnParent.GetComponentsInChildren<Transform>();
@@ -449,6 +447,46 @@ public class GameManager : MonoBehaviour {
 					}
 				}
 			}
+		}
+
+		// respawn player if falling
+		if (playerController.transform.position.y <= -20f) {
+			playerController.movement = Vector3.zero; playerController.mInput = Vector2.zero; playerController.remainingKnockbackTime = 0f;
+
+			int[] enemyCounts = new int[playerRespawnPoints.Length];
+			int leastEnemyIndex = -1;
+			int leastEnemyAmount = 1000;
+			for (int index = 0; index < playerRespawnPoints.Length; index += 1) {
+				enemyCounts[index] = Physics.OverlapSphere(playerRespawnPoints[index].position, 5f, Mask.Get(Layers.EnemyHurtbox)).Length;
+				if (enemyCounts[index] < leastEnemyAmount) {
+					leastEnemyAmount = enemyCounts[index];
+					leastEnemyIndex = index;
+				}
+			}
+
+			float[] spawnPointWeights = new float[playerRespawnPoints.Length];
+			for (int index = 0; index < playerRespawnPoints.Length; index += 1) {
+				if (leastEnemyAmount == 0) {
+					if (enemyCounts[index] == 0) {
+						spawnPointWeights[index] = 1f;
+					}
+					else {
+						spawnPointWeights[index] = 0f;
+					}
+				}
+				else {
+					if (index == leastEnemyIndex) {
+						spawnPointWeights[index] = 1f;
+					}
+					else {
+						spawnPointWeights[index] = 0f;
+					}
+				}
+			}
+			int spawnPointIndex = Util.RollWeightedChoice(spawnPointWeights);
+			this.transform.position = playerRespawnPoints[spawnPointIndex].position;
+
+			if (currentObjective != Objectives.None) playerController.Hit(1, null);
 		}
 
 		if (debugTools) {

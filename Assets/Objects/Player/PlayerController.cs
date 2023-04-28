@@ -290,7 +290,7 @@ public class PlayerController : MonoBehaviour {
 	public bool hasCrystal = false;
 
 	KnockbackInfo knockbackInfo = new KnockbackInfo(Quaternion.identity, 0, 0);
-	float remainingKnockbackTime;
+	public float remainingKnockbackTime;
 
 	[SerializeField] float targetSphereRadius = 2f; // publically editable
 	float tsr = 0f;									// used internally
@@ -435,46 +435,7 @@ public class PlayerController : MonoBehaviour {
 		AttackButton attackButtonPrep = AttackButton.None;
 
 		AnimatorStateInfo Next = animr.GetNextAnimatorStateInfo(0);
-		AnimatorStateInfo Current = animr.GetCurrentAnimatorStateInfo(0);
-
-		if (transform.position.y <= -20f) {
-			movement = Vector3.zero; mInput = Vector2.zero; remainingKnockbackTime = 0f;
-
-			int[] enemyCounts = new int[gameMan.playerRespawnPoints.Length];
-			int leastEnemyIndex = -1;
-			int leastEnemyAmount = 1000;
-			for (int index = 0; index < gameMan.playerRespawnPoints.Length; index += 1) {
-				enemyCounts[index] = Physics.OverlapSphere(gameMan.playerRespawnPoints[index].position, 5f, Mask.Get(Layers.EnemyHurtbox)).Length;
-				if (enemyCounts[index] < leastEnemyAmount) {
-					leastEnemyAmount = enemyCounts[index];
-					leastEnemyIndex = index;
-				}
-			}
-
-			float[] spawnPointWeights = new float[gameMan.playerRespawnPoints.Length];
-			for (int index = 0; index < gameMan.playerRespawnPoints.Length; index += 1) {
-				if (leastEnemyAmount == 0) {
-					if (enemyCounts[index] == 0) {
-						spawnPointWeights[index] = 1f;
-					}
-					else {
-						spawnPointWeights[index] = 0f;
-					} 
-				}
-				else {
-					if (index == leastEnemyIndex) {
-						spawnPointWeights[index] = 1f;
-					}
-					else {
-						spawnPointWeights[index] = 0f;
-					}
-				}
-			}
-			int spawnPointIndex = Util.RollWeightedChoice(spawnPointWeights);
-			this.transform.position = gameMan.playerRespawnPoints[spawnPointIndex].position;
-
-			Hit(1, null);
-		}
+		AnimatorStateInfo Current = animr.GetCurrentAnimatorStateInfo(0)
 
 		if (health > healthMax) { health = healthMax; }
 		if (meter > meterMax) { meter = meterMax; }

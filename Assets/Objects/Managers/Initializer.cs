@@ -43,6 +43,19 @@ public class Initializer : MonoBehaviour {
 		[FieldOffset(20)] public int longestRun;
 		[FieldOffset(24)] public int timesWon;
 	}
+	
+
+	[StructLayout(LayoutKind.Explicit, Pack=8)]
+	public struct SaveFile_VersionTutorial {
+		[FieldOffset(0)]  public int basicEnemyKills;
+		[FieldOffset(4)]  public int explosiveEnemyKills;
+		[FieldOffset(8)]  public int necroEnemyKills;
+		[FieldOffset(12)] public int bruteEnemyKills;
+		[FieldOffset(16)] public int runsStarted;
+		[FieldOffset(20)] public int longestRun;
+		[FieldOffset(24)] public int timesWon;
+		[FieldOffset(28)] public bool tutorialComplete;
+	}
 
 	[StructLayout(LayoutKind.Explicit, Pack=8)]
 	public struct SaveFile {
@@ -53,16 +66,17 @@ public class Initializer : MonoBehaviour {
 		[FieldOffset(4)] public SaveFile_VersionWin versionWin;
 		[FieldOffset(4)] public SaveFile_VersionDiffKillCount versionDiffKillCount;
 		[FieldOffset(4)] public SaveFile_VersionLongestRun versionLongestRun;
+		[FieldOffset(4)] public SaveFile_VersionTutorial versionTutorial;
 		// NOTE(Roskuski): Add additional versions here. at the same FieldOffset.
 
 		// NOTE(Roskuski): Make sure this type stays in sync with the _actual_ latest version! Modify savedata though this variable
-		[FieldOffset(4)] public SaveFile_VersionLongestRun versionLatest;
+		[FieldOffset(4)] public SaveFile_VersionTutorial versionLatest;
 	}
 
 	public static SaveFile save;
 	readonly static SaveFile DefaultSave;
 
-	enum SaveVersion { Init, Win, DiffKillCount, LongestRun, LATEST_PLUS_1 };
+	enum SaveVersion { Init, Win, DiffKillCount, LongestRun, Tutorial, LATEST_PLUS_1 };
 
 	static Initializer() {
 		DefaultSave.version = (int)SaveVersion.LATEST_PLUS_1 - 1;
@@ -133,6 +147,16 @@ public class Initializer : MonoBehaviour {
 				save.versionLongestRun.timesWon = loadedSave.versionDiffKillCount.timesWon;
 				loadedSave = save;
 				goto case (int)SaveVersion.LongestRun;
+
+			case (int)SaveVersion.LongestRun:
+				save.versionDiffKillCount.basicEnemyKills = loadedSave.versionLongestRun.basicEnemyKills;
+				save.versionDiffKillCount.explosiveEnemyKills = loadedSave.versionLongestRun.explosiveEnemyKills;
+				save.versionDiffKillCount.necroEnemyKills = loadedSave.versionLongestRun.necroEnemyKills;
+				save.versionDiffKillCount.bruteEnemyKills = loadedSave.versionLongestRun.bruteEnemyKills;
+				save.versionDiffKillCount.runsStarted = loadedSave.versionLongestRun.runsStarted;
+				save.versionDiffKillCount.timesWon = loadedSave.versionLongestRun.timesWon;
+				loadedSave = save;
+				goto case (int)SaveVersion.Tutorial;
 
 			case (int)SaveVersion.LATEST_PLUS_1 - 1: // NOTE(Roskuski): Latest version never needs to be converted.
 				save = loadedSave;
