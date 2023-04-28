@@ -435,7 +435,7 @@ public class PlayerController : MonoBehaviour {
 		AttackButton attackButtonPrep = AttackButton.None;
 
 		AnimatorStateInfo Next = animr.GetNextAnimatorStateInfo(0);
-		AnimatorStateInfo Current = animr.GetCurrentAnimatorStateInfo(0)
+		AnimatorStateInfo Current = animr.GetCurrentAnimatorStateInfo(0);
 
 		if (health > healthMax) { health = healthMax; }
 		if (meter > meterMax) { meter = meterMax; }
