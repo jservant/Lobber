@@ -58,18 +58,25 @@ public class Sandbag : MonoBehaviour {
 	private void OnTriggerEnter(Collider other) {
 		if (other.gameObject.layer == (int)Layers.PlayerHitbox) {
 			bool validHit = false;
+			Vector3 sourcePosition = Vector3.zero;
 
 			if (other.GetComponentInParent<PlayerController>() != null) {
 				int currentAttackBit = 1 << (int)gameMan.playerController.currentAttack;
 				if (((int)VulnerabilityMask & currentAttackBit) != 0) {
 					validHit = true;
 				}
+				sourcePosition = gameMan.playerController.transform.position;
 			}
 			else if (VurnerableToHeadProjectiles && other.GetComponentInParent<HeadProjectile>() != null) {
 				validHit = true;
+				sourcePosition = other.transform.position;
 			}
 
 			if (validHit) {
+				Vector3 deltaNoY = sourcePosition - this.transform.position;
+				deltaNoY.y = 0f;
+				this.transform.rotation = Quaternion.LookRotation(deltaNoY, Vector3.up);
+
 				if (canBeKnockedBack) {
 					GetKnockbackInfo getKnockbackInfo = other.gameObject.GetComponent<GetKnockbackInfo>();
 					if (getKnockbackInfo != null) {
