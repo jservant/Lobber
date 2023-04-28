@@ -57,7 +57,7 @@ public class Sandbag : MonoBehaviour {
 
 		if (transform.position.y < -20f) {
 			Destroy(gameObject);
-        }
+		}
 	}
 
 	private void OnTriggerEnter(Collider other) {
@@ -80,7 +80,7 @@ public class Sandbag : MonoBehaviour {
 			if (validHit) {
 				Vector3 deltaNoY = sourcePosition - this.transform.position;
 				deltaNoY.y = 0f;
-				this.transform.rotation = Quaternion.LookRotation(deltaNoY, Vector3.up);
+				//this.transform.rotation = Quaternion.LookRotation(deltaNoY, Vector3.up);
 
 				if (canBeKnockedBack) {
 					GetKnockbackInfo getKnockbackInfo = other.gameObject.GetComponent<GetKnockbackInfo>();
@@ -96,7 +96,9 @@ public class Sandbag : MonoBehaviour {
 					Destroy(gameObject);
 				}
 
-				animator.Play("Base Layer.Gethit", 0, 0f);
+				animator.SetFloat("X", deltaNoY.normalized.x);
+				animator.SetFloat("Y", deltaNoY.normalized.z);
+				animator.Play("Base Layer.GetHit_Tree", 0, 0f);
 				Sound_Hit();
 			}
 		}
