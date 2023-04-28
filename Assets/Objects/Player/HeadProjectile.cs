@@ -42,7 +42,6 @@ public class HeadProjectile : MonoBehaviour {
 				}
 			}
 			Sound_HeadImpact();
-			Destroy(gameObject);
 			if (canPierce && enemiesKilled < 2) { 
 				enemiesKilled++;
 				Debug.Log("Enemies killed on this skull: " + enemiesKilled);

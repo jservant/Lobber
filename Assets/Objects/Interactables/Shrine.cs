@@ -41,40 +41,40 @@ public class Shrine : MonoBehaviour {
 
 	private void OnTriggerEnter(Collider other) {
 		if (other.gameObject.layer == (int)Layers.PlayerHitbox) {
-			switch (gameManager.playerController.currentAttack) {
-				case PlayerController.Attacks.LAttack:
-					health -= 1;
-					break;
-				case PlayerController.Attacks.LAttack2:
-					health -= 1;
-					break;
-				case PlayerController.Attacks.LAttack3:
-					health -= 2;
-					break;
-				case PlayerController.Attacks.Spin:
-					health -= 2;
-					break;
-				case PlayerController.Attacks.LethalDash:
-					health -= 2;
-					break;
-				case PlayerController.Attacks.Slam:
-					float posDifference = Mathf.Abs((gameManager.player.transform.position - transform.position).sqrMagnitude);
-					Debug.Log(gameObject.name + "'s posDifference after slam: " + posDifference);
-					if (posDifference < 40f) {
-						health -= 8;
-					}
-					else if (posDifference < 80f) {
-						health -= 4;
-					}
-					break;
-				case PlayerController.Attacks.Chop:
-					health -= 2f;
-					break;
-				default:
-					Debug.Log("I, " + this.name + " was hit by an unhandled attack (" + gameManager.playerController.currentAttack + ")");
-					break;
+			if (other.GetComponentInParent<PlayerController>() != null) {
+				switch (gameManager.playerController.currentAttack) {
+					case PlayerController.Attacks.LAttack:
+					case PlayerController.Attacks.LAttack2:
+						health -= 1;
+						break;
+					case PlayerController.Attacks.LAttack3:
+					case PlayerController.Attacks.Spin:
+					case PlayerController.Attacks.LethalDash:
+						health -= 2;
+						break;
+					case PlayerController.Attacks.Slam:
+						float posDifference = Mathf.Abs((gameManager.player.transform.position - transform.position).sqrMagnitude);
+						Debug.Log(gameObject.name + "'s posDifference after slam: " + posDifference);
+						if (posDifference < 40f) {
+							health -= 8;
+						}
+						else if (posDifference < 80f) {
+							health -= 4;
+						}
+						break;
+					case PlayerController.Attacks.Chop:
+						health -= 2f;
+						break;
+					default:
+						Debug.Log("I, " + this.name + " was hit by an unhandled attack (" + gameManager.playerController.currentAttack + ")");
+						break;
+				}
+				hitflashTimer = 0.1f;
 			}
-			hitflashTimer = 0.1f;
+			else if (other.GetComponentInParent<HeadProjectile>() != null) {
+				health -= 2f;
+				hitflashTimer = 0.1f;
+			}
 			if (health <= 0) {
 				gameManager.shrinesDestroyed++;
 				Destroy(gameObject);

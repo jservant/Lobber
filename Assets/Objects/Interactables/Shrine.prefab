@@ -111,7 +111,6 @@ GameObject:
   - component: {fileID: 93541900407633116}
   - component: {fileID: 3944726393212895502}
   - component: {fileID: 5233575375917033295}
-  - component: {fileID: 5735527991893891249}
   m_Layer: 7
   m_Name: Visual
   m_TagString: Untagged
@@ -192,19 +191,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &5735527991893891249
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4313757554356119495}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 3000, y: 6000, z: 2800}
-  m_Center: {x: 36.96875, y: -700, z: -100}
 --- !u!1 &4359714900249615650
 GameObject:
   m_ObjectHideFlags: 0
@@ -215,6 +201,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4020308427118692248}
   - component: {fileID: 4928625504988996393}
+  - component: {fileID: 8873907799771101251}
   m_Layer: 7
   m_Name: Shrine
   m_TagString: Untagged
@@ -251,6 +238,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 5
   hitflashMat: {fileID: 2100000, guid: 27625c58fe45e654f9e128ba019e7db7, type: 2}
+--- !u!65 &8873907799771101251
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4359714900249615650}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3000, y: 6000, z: 2800}
+  m_Center: {x: 36.96875, y: 3050, z: -100}
 --- !u!1 &5132834002418462647
 GameObject:
   m_ObjectHideFlags: 0
