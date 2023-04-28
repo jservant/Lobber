@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: FogShader4
+  m_Name: FireFog
   m_Shader: {fileID: -6465566751694194690, guid: 72923940029b9d0458aae896eeb0f150, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -76,14 +76,14 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - BaseScale_: 10
+    - BaseScale_: 5
     - BaseSpeed_: 0
     - NoiseEdge2_: 0.41
     - NoiseEdge_1_: 0.19
     - NoiseGraph_: 0.17
     - NoiseHeight_: 0.16
-    - NoisePower_: 1.16
-    - Vector1_d0af4a7601ec4780b93d7aa93d2cfaf6: 5
+    - NoisePower_: 1
+    - Vector1_d0af4a7601ec4780b93d7aa93d2cfaf6: 10
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -111,8 +111,8 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - ColorPeak_: {r: 0.29988885, g: 0, b: 0.5, a: 0}
-    - ColorValley_: {r: 0.73198074, g: 0.38352907, b: 0.9528302, a: 0}
+    - ColorPeak_: {r: 1, g: 0.24738617, b: 0, a: 0}
+    - ColorValley_: {r: 0.9528302, g: 0.49779156, b: 0.059926324, a: 0}
     - NoiseRemap_: {r: 0, g: 2.1, b: 0, a: 1}
     - PropertyProjection_: {r: 1, g: 0, b: 0, a: 500}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
