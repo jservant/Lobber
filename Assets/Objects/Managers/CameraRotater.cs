@@ -21,7 +21,7 @@ public class CameraRotater : MonoBehaviour {
 		cInput = player.pActions.Player.Aim.ReadValue<Vector2>();
 		if (player.transform.position.y >= yConst) { transform.position = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z); }
 		else { transform.position = new Vector3(player.transform.position.x, yConst, player.transform.position.z); }
-		//transform.Rotate(0f, cInput.x * cSpeed * Time.fixedDeltaTime, 0f, Space.World);
-		//camera2.transform.Rotate(cInput.y * -cSpeed * Time.fixedDeltaTime, 0f, 0f, Space.Self);
+		transform.Rotate(0f, cInput.x * cSpeed * Time.fixedDeltaTime, 0f, Space.World);
+		camera2.transform.Rotate(cInput.y * -cSpeed * Time.fixedDeltaTime, 0f, 0f, Space.Self);
 	}
 }

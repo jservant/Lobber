@@ -4,38 +4,64 @@ using UnityEngine;
 
 public class TutorialManager : MonoBehaviour
 {
+    GameManager gameMan;
+    private Transform player;
     public GameObject[] areas;
+    public Transform[] playerRespawnPoints;
     public List<GameObject> currentTargets = new List<GameObject>();
-    private int areasCompleted = 0;
+    public int areasCompleted = 0;
     public bool targetsExist;
+
+    private void Awake() {
+        gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
+        player = transform.Find("/Player");
+        UpdateAreas();
+        UpdateSpawns();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        targetsExist = false;
-        UpdateAreas();
+       
     }
 
     // Update is called once per frame
     void Update() {
         targetsExist = CheckTargets();
-        if (!targetsExist && (areasCompleted != 5)) {
+        if (!targetsExist && (areasCompleted < 5)) {
             areasCompleted += 1;
             UpdateAreas();
+        }
+
+        if (player.position.z > 65f) {
+            areasCompleted = 6;
+            UpdateSpawns();
         }
     }
 
     void UpdateAreas() {
-            for (int i = 0; i < areas.Length; i++) {
-                if (i <= areasCompleted) {
-                    areas[i].SetActive(true);
-                }
-                else areas[i].SetActive(false);
+        for (int i = 0; i < areas.Length; i++) {
+            if (i <= areasCompleted) {
+                areas[i].SetActive(true);
             }
+            else areas[i].SetActive(false);
+        }
+        currentTargets.Clear();
 
-            foreach (Transform child in areas[areasCompleted].transform) {
-                if (child.gameObject.name == "Sandbag") currentTargets.Add(child.gameObject);
-            }
+        foreach (Transform child in areas[areasCompleted].transform) {
+            if (child.gameObject.layer == (int)Layers.EnemyHitbox) currentTargets.Add(child.gameObject);
+        }
+
+        UpdateSpawns();
+    }
+
+
+    void UpdateSpawns() { 
+        for (int i = 0; i < playerRespawnPoints.Length; i++) {
+            playerRespawnPoints[i].gameObject.SetActive(false);
+        }
+        playerRespawnPoints[areasCompleted].gameObject.SetActive(true);
+        gameMan.UpdatePlayerSpawns();
     }
 
     private bool CheckTargets() {

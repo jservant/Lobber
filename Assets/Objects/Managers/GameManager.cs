@@ -142,17 +142,7 @@ public class GameManager : MonoBehaviour {
 		objectiveFadeTimer = 5f;
 
 		{
-			GameObject parent = GameObject.Find("PlayerRespawnPoints");
-			if (parent != null) {
-				Transform[] points = parent.GetComponentsInChildren<Transform>();
-				Transform[] TempArray = new Transform[points.Length - 1];
-				for (int index = 0; index < points.Length; index += 1) {
-					if (index - 1 >= 0) {
-						TempArray[index - 1] = points[index];
-					}
-				}
-				playerRespawnPoints = TempArray;
-			}
+			UpdatePlayerSpawns();
 		}
 
 		if (canSpawn) {
@@ -545,6 +535,20 @@ public class GameManager : MonoBehaviour {
 				pauseUI.enabled = false;
 				pauseBG.enabled = false;
 			}
+		}
+	}
+
+	public void UpdatePlayerSpawns() {
+		GameObject parent = GameObject.Find("PlayerRespawnPoints");
+		if (parent != null) {
+			Transform[] points = parent.GetComponentsInChildren<Transform>();
+			Transform[] TempArray = new Transform[points.Length - 1];
+			for (int index = 0; index < points.Length; index += 1) {
+				if (index - 1 >= 0) {
+					TempArray[index - 1] = points[index];
+				}
+			}
+			playerRespawnPoints = TempArray;
 		}
 	}
 
