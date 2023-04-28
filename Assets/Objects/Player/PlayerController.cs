@@ -725,8 +725,8 @@ public class PlayerController : MonoBehaviour {
 		doHoming = false;
 
 		Vector3 targetSphere = GetTargetSphereLocation();
-		maxHomingDistance = (transform.position - new Vector3(targetSphere.x, targetSphere.y, targetSphere.z + tsr)).sqrMagnitude;
-		//maxHomingDistance = currentAttack == Attacks.HeadThrow || currentAttack == Attacks.ShotgunThrow ? 20f : 10f;
+		//maxHomingDistance = (transform.position - new Vector3(targetSphere.x, targetSphere.y, targetSphere.z + tsr)).sqrMagnitude;
+		maxHomingDistance = currentAttack == Attacks.HeadThrow || currentAttack == Attacks.ShotgunThrow ? 8f : 4f;
 		Debug.Log("maxHomingDistance: " + maxHomingDistance);
 		RaycastHit[] eColliders = Util.ConeCastAll(transform.position, tsr, transform.rotation * Vector3.forward, maxHomingDistance, 30f);
 
