@@ -36,6 +36,7 @@ public class Necro : MonoBehaviour {
 
 	[SerializeField] float flankStrength = 0;
 	[SerializeField] bool preferRightStrafe = false;
+	const float ReferenceComfortableDistance = 15f;
 	[SerializeField] float comfortableDistance = 15f;
 
 	[SerializeField] Vector3 movementDelta;
@@ -99,13 +100,22 @@ public class Necro : MonoBehaviour {
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 		ProjectileSpawnPoint = transform.Find("MAIN_JOINT/MidTorso_Joint/Chest_Joint/Neck_Joint/Head_Joint/Projectile Spawnpoint");
 		animator = this.GetComponent<Animator>();
+		comfortableDistance = Random.Range(ReferenceComfortableDistance - 2, ReferenceComfortableDistance + 2);
 
 		directive = Directive.Spawn;
 	}
 
 	void FixedUpdate() {
+		Vector3 deltaToPlayer = gameMan.player.position - this.transform.position;
+		// NOTE(Roskuski): how close the current movement is to going straight towards the player.
+		float directScore = Vector3.Dot(movementDelta.normalized, deltaToPlayer.normalized) + 1f;
+		float speedModifer = 1f;
+		if (directScore > 1.6f) {
+			speedModifer = Mathf.Lerp(1.00f, 0.75f, (directScore - 1.6f) / (2.0f - 1.6f));
+		}
+
 		// NOTE(Roskuski): Copying the values from PlayerController, for now.
-		Util.PerformCheckedLateralMovement(this.gameObject, 1.0f, 0.5f, movementDelta * Time.fixedDeltaTime, ~Mask.Get(Layers.StickyLedge));
+		Util.PerformCheckedLateralMovement(this.gameObject, 1.0f, 0.5f, movementDelta * speedModifer * Time.fixedDeltaTime, ~Mask.Get(Layers.StickyLedge));
 		this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, Quaternion.LookRotation(gameMan.player.position - this.transform.position, Vector3.up), TurnSpeed * Time.fixedDeltaTime);
 
 		// NOTE(Roskuski): float to the same height as the player
@@ -150,9 +160,9 @@ public class Necro : MonoBehaviour {
 						float backScore = Vector3.Dot(Quaternion.AngleAxis(180, Vector3.up) * deltaToPlayer.normalized, consideredDelta) + 1;
 						float forwardScore = Vector3.Dot(deltaToPlayer.normalized, consideredDelta) + 1;
 
-						float strafeWeight = Mathf.Lerp(1, 0, Mathf.Abs(comfortableDistance - distanceToPlayer) / 1);
-						float backWeight = Mathf.Lerp(2, 0, distanceToPlayer/comfortableDistance);
-						float forwardWeight = Mathf.Lerp(0, 2, ((distanceToPlayer/comfortableDistance) - 1));
+						float strafeWeight = Mathf.Lerp(2, 0, Mathf.Abs(comfortableDistance - distanceToPlayer) / 1);
+						float backWeight = Mathf.Lerp(3, 0, distanceToPlayer/comfortableDistance);
+						float forwardWeight = Mathf.Lerp(0, 1, ((distanceToPlayer/comfortableDistance) - 1));
 
 						directionWeights[index] = (strafeScore * strafeWeight + backScore * backWeight + forwardScore * forwardWeight) / (strafeWeight + backWeight + forwardWeight);
 
@@ -258,15 +268,12 @@ public class Necro : MonoBehaviour {
 						break;
 
 					case Attack.Projectile:
-						if (Current.IsName("Base Layer.Attack") && Current.normalizedTime >= 1f) {
+						if (Current.IsName("Base Layer.Throw") && Current.normalizedTime >= 1f) {
 							ChangeDirective_Wander();
 						}
 						break;
 
 					case Attack.Summon:
-						if (Current.IsName("Base Layer.Summon Enemies") && Current.normalizedTime >= 1f) {
-							ChangeDirective_Wander();
-						}
 						break;
 				}
 				break;
@@ -277,7 +284,7 @@ public class Necro : MonoBehaviour {
 		}
 
 		animator.SetInteger("directive", (int)directive);
-		animator.SetInteger("attack", (int)currentAttack);
+		animator.SetInteger("currentAttack", (int)currentAttack);
 	}
 
 	void AnimationClip_ReadyProjectile() {
