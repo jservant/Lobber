@@ -8,12 +8,15 @@ public class Sandbag : MonoBehaviour {
 	KnockbackInfo knockbackInfo;
 	float remainingKnockbackTime;
 
+	[SerializeField] [BitField] PlayerController.AttackBitMask VulnerabilityMask;
+	[SerializeField] bool VurnerableToHeadProjectiles;
+
 	Vector3 movementDelta;
 
 	public float maxHealth;
 	public float health;
 
-	GameManager gameManager;
+	GameManager gameMan;
 
 	public SkinnedMeshRenderer model;
 	Material[] materials;
@@ -24,7 +27,7 @@ public class Sandbag : MonoBehaviour {
 
 	void Start() {
 		health = maxHealth;
-		gameManager = transform.Find("/GameManager").GetComponent<GameManager>();
+		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 		materials = model.materials;
 	}
 
@@ -54,21 +57,35 @@ public class Sandbag : MonoBehaviour {
 
 	private void OnTriggerEnter(Collider other) {
 		if (other.gameObject.layer == (int)Layers.PlayerHitbox) {
-			if (canBeKnockedBack) {
-				GetKnockbackInfo getKnockbackInfo = other.gameObject.GetComponent<GetKnockbackInfo>();
-				if (getKnockbackInfo != null) {
-					knockbackInfo = getKnockbackInfo.GetInfo(this.gameObject);
-					remainingKnockbackTime = knockbackInfo.time;
+			bool validHit = false;
+
+			if (other.GetComponentInParent<PlayerController>() != null) {
+				int currentAttackBit = 1 << (int)gameMan.playerController.currentAttack;
+				if (((int)VulnerabilityMask & currentAttackBit) != 0) {
+					validHit = true;
 				}
 			}
-
-			if (hasHealth) health -= 1f;
-			hitflashTimer = 0.15f;
-			if (health <= 0) {
-				Destroy(gameObject);
+			else if (VurnerableToHeadProjectiles && other.GetComponentInParent<HeadProjectile>() != null) {
+				validHit = true;
 			}
 
-			Sound_Hit();
+			if (validHit) {
+				if (canBeKnockedBack) {
+					GetKnockbackInfo getKnockbackInfo = other.gameObject.GetComponent<GetKnockbackInfo>();
+					if (getKnockbackInfo != null) {
+						knockbackInfo = getKnockbackInfo.GetInfo(this.gameObject);
+						remainingKnockbackTime = knockbackInfo.time;
+					}
+				}
+
+				if (hasHealth) health -= 1f;
+				hitflashTimer = 0.15f;
+				if (health <= 0) {
+					Destroy(gameObject);
+				}
+
+				Sound_Hit();
+			}
 		}
 	}
 

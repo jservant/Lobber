@@ -198,7 +198,33 @@ public class PlayerController : MonoBehaviour {
 	public enum States { Idle = 0, Walking, Attacking, Death };
 	public States currentState = 0;
 
-	public enum Attacks { None = 0, LAttack, LAttack2, LAttack3, Chop, Slam, Spin, HeadThrow, Dashing, LethalDash, ShotgunThrow };
+	public enum Attacks {
+		None = 0,
+		LAttack,
+		LAttack2,
+		LAttack3,
+		Chop,
+		Slam,
+		Spin,
+		HeadThrow,
+		Dashing,
+		LethalDash,
+		ShotgunThrow
+	};
+	
+	public enum AttackBitMask : int {
+		None = 1 << Attacks.None,
+		LAttack = 1 << Attacks.LAttack,
+		LAttack2 = 1 << Attacks.LAttack2,
+		LAttack3 = 1 << Attacks.LAttack3,
+		Chop = 1 << Attacks.Chop,
+		Slam = 1 << Attacks.Slam,
+		Spin = 1 << Attacks.Spin,
+		HeadThrow = 1 << Attacks.HeadThrow,
+		Dashing = 1 << Attacks.Dashing,
+		LethalDash = 1 << Attacks.LethalDash,
+		ShotgunThrow = 1 << Attacks.ShotgunThrow
+	}
 	public Attacks currentAttack = 0;
 	public QueueInfo queuedAttackInfo = NoQueueInfo;
 
