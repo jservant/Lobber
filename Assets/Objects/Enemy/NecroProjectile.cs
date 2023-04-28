@@ -5,6 +5,7 @@ using UnityEngine;
 public class NecroProjectile : MonoBehaviour {
 	public Vector3 moveDirection;
 	const float MoveSpeed = 10f;
+	const float TurnSpeed = 360f/1f;
 
 	// NOTE(Roskuski): External references
 	GameManager gameMan;
@@ -28,6 +29,7 @@ public class NecroProjectile : MonoBehaviour {
 			Vector3 deltaToPlayer = gameMan.player.position - this.transform.position + Vector3.up * 0.6f;
 			moveDirection = Vector3.RotateTowards(moveDirection.normalized, deltaToPlayer.normalized, Mathf.PI*2f * (120f/360f) * Time.fixedDeltaTime, 0);
 			this.transform.position += moveDirection * MoveSpeed * Time.fixedDeltaTime;
+			this.transform.rotation = Quaternion.LookRotation(moveDirection, Vector3.up);
 		}
 	}
 
