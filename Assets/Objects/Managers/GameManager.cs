@@ -154,14 +154,19 @@ public class GameManager : MonoBehaviour {
 			}
 			enemySpawnPoints = TempArray;
 
-			float[] objectiveChoices = new float[] { 0f, 4f, 3f, 3f };
-			objectiveChoices[(int)currentObjective] = 0;
-			//objectiveChoices[(int)Objectives.KillTheEnemies] = 0;
-			//objectiveChoices[(int)Objectives.DestroyTheShrines] = 0;
-			//objectiveChoices[(int)Objectives.HarvestTheCrystals] = 0;
-			// PREVIOUS TWO LINES ARE TEMP while they don't work
-			currentObjective = (Objectives)Util.RollWeightedChoice(objectiveChoices);
-		}
+			if (SceneManager.GetActiveScene().buildIndex == (int)Scenes.Tutorial) {
+				currentObjective = Objectives.None;
+			} else {
+                float[] objectiveChoices = new float[] { 0f, 4f, 3f, 3f };
+                objectiveChoices[(int)currentObjective] = 0;
+                //objectiveChoices[(int)Objectives.KillTheEnemies] = 0;
+                //objectiveChoices[(int)Objectives.DestroyTheShrines] = 0;
+                //objectiveChoices[(int)Objectives.HarvestTheCrystals] = 0;
+                // PREVIOUS TWO LINES ARE TEMP while they don't work
+                currentObjective = (Objectives)Util.RollWeightedChoice(objectiveChoices);
+            }
+
+        }
 		else {
 			playerController.health = playerController.healthMax;
 			playerController.meter = playerController.meterMax;
@@ -170,6 +175,9 @@ public class GameManager : MonoBehaviour {
 
 
 		switch (currentObjective) {
+			case Objectives.None:
+				break;
+
 			case Objectives.KillTheEnemies:
 				// assign enemy killing goal to a UI object here
 				statusTextboxText.text = "Level " + levelCount +
@@ -833,7 +841,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void OnQuit() {
-		SceneManager.LoadScene((int)Scenes.MainMenu);
+		SceneManager.LoadScene((int)Scenes.Tutorial);
 		enemiesKilledInRun = 0;
 		Time.timeScale = 1;
 		Initializer.Save();

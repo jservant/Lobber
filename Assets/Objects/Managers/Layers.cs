@@ -22,7 +22,7 @@ public enum Layers : int {
 }
 
 public enum Scenes : int {
-	MainMenu = 0,
+	Tutorial = 0,
 	Level_A,
 	Level_K,
 	Level_I,

@@ -686,7 +686,7 @@ public class PlayerController : MonoBehaviour {
 			+ (GameManager.levelCount > Initializer.save.versionLatest.longestRun ? "\nNew Longest Run!" : "");
 		GameManager.enemiesKilledInRun = 0;
 		yield return new WaitForSeconds(deathTimer + 1);
-		SceneManager.LoadScene((int)Scenes.MainMenu);
+		SceneManager.LoadScene((int)Scenes.Tutorial);
 	}
 
 	public void ChangeMeter(float Amount) {
