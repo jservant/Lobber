@@ -401,7 +401,6 @@ public class PlayerController : MonoBehaviour {
 			translationDelta = (moveDelta + knockbackDelta) * Time.fixedDeltaTime;
 		}
 
-
 		float fallingSpeed = 30.0f;
 		float stepUp = 0.75f;
 		int layerMask = ~0;

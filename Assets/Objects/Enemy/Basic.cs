@@ -980,6 +980,7 @@ public class Basic : MonoBehaviour {
 					gameMan.isCrystalEnemyAlive = false;
 				}
 				else if (!wasHitByChop) gameMan.DeterminePickups(spawnPos, isCrystallized);
+				GameManager.score += 10;
 			}
 			Destroy(this.gameObject); 
 		}

@@ -394,7 +394,8 @@ public class Exploding : MonoBehaviour {
 						explosionTimer -= Time.deltaTime;
 					}
 					else {
-						sounds.PestBombExpload();
+						sounds.PestBombExplode();
+						GameManager.score += 10;
 						gameMan.SpawnParticle(3, transform.position, 1f);
 						Destroy(this.gameObject);
 					}
