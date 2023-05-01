@@ -101,7 +101,7 @@ public class Pickup : MonoBehaviour {
 	}
 	
 	void OnTriggerEnter(Collider other) {
-		if (other.gameObject.layer != (int)Layers.Ground && other.gameObject.layer != (int)Layers.Pickup && ((currentFlightTime < flightTime) && !isOnGround)) {
+		if (other.gameObject.layer != (int)Layers.Ground && other.gameObject.layer != (int)Layers.Pickup && other.gameObject.layer != (int)Layers.SoundTrigger && other.gameObject.layer != (int)Layers.StickyLedge && ((currentFlightTime < flightTime) && !isOnGround)) {
 			SetRandomFlightPath();
 		}
 	}
