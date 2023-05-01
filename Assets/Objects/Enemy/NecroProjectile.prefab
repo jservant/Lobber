@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: -6043461900665182082}
   - component: {fileID: 2713233787962994459}
   - component: {fileID: 1767847469902351812}
+  - component: {fileID: 6096905440448814386}
   m_Layer: 6
   m_Name: NecroProjectile
   m_TagString: Untagged
@@ -77,6 +78,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &6096905440448814386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7542190441628579119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c078c4934c279084ca9975b62a2b4da8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  infoSource: 2
+  constantInfo:
+    direction: {x: 0, y: 0, z: 0, w: 0}
+    force: 50
+    time: 0.25
+  linkedObject: {fileID: 7542190441628579119}
 --- !u!1 &7566750189025444503
 GameObject:
   m_ObjectHideFlags: 0

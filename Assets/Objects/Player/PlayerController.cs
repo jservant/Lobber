@@ -614,6 +614,7 @@ public class PlayerController : MonoBehaviour {
 		if (vulnerable && !godMode) {
 			if (other.gameObject.layer == (int)Layers.EnemyHitbox && remainingKnockbackTime <= 0) { // player is getting hit
 				Basic otherBasic = other.GetComponentInParent<Basic>();
+				NecroProjectile otherNecroProjectile = other.GetComponent<NecroProjectile>();
 				if (otherBasic != null) {
 					int damage = 0;
 					switch (otherBasic.currentAttack) {
@@ -628,6 +629,9 @@ public class PlayerController : MonoBehaviour {
 							break;
 					}
 					Hit(damage, other);
+				}
+				else if (otherNecroProjectile != null) {
+					Hit(3, other);
 				}
 			}
 			else if (other.gameObject.layer == (int)Layers.AgnosticHitbox) {
