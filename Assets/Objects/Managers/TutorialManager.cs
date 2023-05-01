@@ -22,7 +22,9 @@ public class TutorialManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       
+      /* if (Initializer.save.versionLatest.tutorialComplete == true) {
+            gameMan.playerController.transform.position = playerRespawnPoints[playerRespawnPoints.Length].position;
+		}*/
     }
 
     // Update is called once per frame
@@ -35,6 +37,7 @@ public class TutorialManager : MonoBehaviour
 
         if (player.position.z > 65f) {
             areasCompleted = 6;
+            Initializer.save.versionLatest.tutorialComplete = true;
             UpdateSpawns();
         }
     }

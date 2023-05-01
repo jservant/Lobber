@@ -120,8 +120,6 @@ public class GameManager : MonoBehaviour {
 		}
 		else Debug.LogWarning("Object Named Player Not found");
 
-		
-
 		dActions = new DebugActions();
 		eSystem = GetComponent<EventSystem>();
 		mainUI = transform.Find("MainUI").GetComponent<Canvas>();
@@ -492,7 +490,7 @@ public class GameManager : MonoBehaviour {
 				}
 			}
 			int spawnPointIndex = Util.RollWeightedChoice(spawnPointWeights);
-			this.transform.position = playerRespawnPoints[spawnPointIndex].position;
+			playerController.transform.position = playerRespawnPoints[spawnPointIndex].position;
 
 			if (currentObjective != Objectives.None) playerController.Hit(1, null);
 		}

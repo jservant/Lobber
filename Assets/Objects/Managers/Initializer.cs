@@ -87,6 +87,7 @@ public class Initializer : MonoBehaviour {
 		DefaultSave.versionLatest.runsStarted = 0;
 		DefaultSave.versionLatest.longestRun = 0;
 		DefaultSave.versionLatest.timesWon = 0;
+		DefaultSave.versionLatest.tutorialComplete = false;
 
 		fileName = Application.persistentDataPath + @"/options.dat";
 
