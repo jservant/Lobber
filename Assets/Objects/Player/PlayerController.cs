@@ -664,12 +664,12 @@ public class PlayerController : MonoBehaviour {
 		else {
 			animr.SetTrigger("wasHurt");
 			currentState = States.Idle;
-			remainingKnockbackTime = knockbackInfo.time;
 			float healthPercentage = (float)health / (float)healthMax;
 			spotLight.intensity = 50f * (healthPercentage);
 			hitflashTimer = 0.15f;
 			if (other != null) {
 				knockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
+				remainingKnockbackTime = knockbackInfo.time;
 				Debug.Log("OWIE " + other.name + " JUST HIT ME! I have " + health + " health");
 			}
 		}
