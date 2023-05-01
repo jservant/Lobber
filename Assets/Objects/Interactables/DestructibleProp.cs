@@ -15,6 +15,8 @@ public class DestructibleProp : MonoBehaviour
 	MeshRenderer model;
 	Material[] materials;
 	public Material hitflashMat;
+	public Transform particleSpawnPoint;
+	public int particleID; //which particle from gameMan to spawn
 	public float particleScale; //how big to scale the associated particles
 	public AK.Wwise.Event ImpactSound;
 
@@ -50,13 +52,11 @@ public class DestructibleProp : MonoBehaviour
 	private void OnTriggerEnter(Collider other) {
 		if (other.gameObject.layer == (int)Layers.PlayerHitbox || other.gameObject.layer == (int)Layers.EnemyHitbox || other.gameObject.layer == (int)Layers.AgnosticHitbox) {
 			Impact_Sound();
+			gameMan.SpawnParticle(particleID, particleSpawnPoint.position, particleScale);
 			if (!canDropHeads) {
-				gameMan.SpawnParticle(0, transform.position, particleScale);
 				Destroy(gameObject); 
 			}
 			else {
-				Vector3 spawnPoint = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
-				gameMan.SpawnParticle(0, spawnPoint, particleScale);
 				hitflashTimer = 0.15f;
 				int random = Random.Range(1, headOffset);
 				SpawnHeads(random);

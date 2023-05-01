@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8414256921981937210
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7535061700904099076}
+  m_Layer: 14
+  m_Name: particlespawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7535061700904099076
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8414256921981937210}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.52, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8381101063865685472}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &9152571938926530394
 GameObject:
   m_ObjectHideFlags: 0
@@ -30,7 +60,8 @@ Transform:
   m_LocalRotation: {x: -0, y: 0.71744853, z: -0, w: -0.6966115}
   m_LocalPosition: {x: -35.92, y: 0.033, z: 27.99}
   m_LocalScale: {x: 1.356772, y: 1.356772, z: 1.356772}
-  m_Children: []
+  m_Children:
+  - {fileID: 7535061700904099076}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 268.312, z: 0}
@@ -98,9 +129,17 @@ MonoBehaviour:
   headPop: {fileID: 0}
   canDropHeads: 0
   hitflashMat: {fileID: 2100000, guid: 27625c58fe45e654f9e128ba019e7db7, type: 2}
+  particleSpawnPoint: {fileID: 7535061700904099076}
+  particleID: 5
+  particleScale: 0.5
+  ImpactSound:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: bf16165edf2ac45fcaa249ca3f1b8993, type: 2}
   randomForce: 0
   headTotal: 0
   headOffset: 0
+  isUnlimited: 0
 --- !u!65 &9055155022581448228
 BoxCollider:
   m_ObjectHideFlags: 0

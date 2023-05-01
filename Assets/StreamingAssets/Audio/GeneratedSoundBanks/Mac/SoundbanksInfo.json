@@ -5,8 +5,8 @@
   "SchemaVersion": "16",
   "SoundBankVersion": "145",
   "RootPaths": {
-   "ProjectRoot": "../../../../../Lobber_Wwise/",
-   "SourceFilesRoot": "../../../../../Lobber_Wwise/.cache/Mac/",
+   "ProjectRoot": "../../../../../Lobber_Wwise",
+   "SourceFilesRoot": "../../../../../Lobber_Wwise/.cache/Mac",
    "SoundBanksRoot": ".",
    "ExternalSourcesInputFile": "",
    "ExternalSourcesOutputRoot": "../../../../../Lobber_Wwise/GeneratedSoundBanks/Mac"
@@ -539,7 +539,7 @@
     "Id": "1496463651",
     "Type": "User",
     "Language": "SFX",
-    "Hash": "{594FEC35-B75D-B7E5-A2DC-EE2FC0EEB987}",
+    "Hash": "{892DCB16-6B7E-DEF8-013F-34EE9FEC51D2}",
     "ShortName": "Bank_01",
     "Path": "Bank_01.bnk",
     "Media": [
@@ -661,7 +661,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "head_golden_idlewav.wav",
-      "CachePath": "SFX/head_golden_idlewav_66CB2B9D.wem"
+      "CachePath": "SFX/head_golden_idlewav_A0F52801.wem"
      },
      {
       "Id": "96698159",
@@ -1430,6 +1430,8 @@
      {
       "Id": "3207324726",
       "Name": "amb_fire",
+      "MaxAttenuation": "100",
+      "DurationType": "Infinite",
       "MediaRefs": [
        {
         "Id": "150208270"
@@ -1439,6 +1441,7 @@
      {
       "Id": "3334362129",
       "Name": "amb_LV1",
+      "DurationType": "Infinite",
       "MediaRefs": [
        {
         "Id": "342867081"
@@ -1448,6 +1451,9 @@
      {
       "Id": "2080575975",
       "Name": "axe_hit_rock",
+      "DurationType": "OneShot",
+      "DurationMin": "1.5033333",
+      "DurationMax": "1.7714167",
       "MediaRefs": [
        {
         "Id": "374074499"
@@ -1463,6 +1469,9 @@
      {
       "Id": "979945107",
       "Name": "axe_hit_wood",
+      "DurationType": "OneShot",
+      "DurationMin": "0.7513125",
+      "DurationMax": "0.98820835",
       "MediaRefs": [
        {
         "Id": "5743150"
@@ -1478,6 +1487,7 @@
      {
       "Id": "3554795103",
       "Name": "Combat1_Start",
+      "DurationType": "Infinite",
       "MediaRefs": [
        {
         "Id": "677937057"
@@ -1489,11 +1499,18 @@
      },
      {
       "Id": "2415455525",
-      "Name": "Combat1_Stop"
+      "Name": "Combat1_Stop",
+      "MaxAttenuation": "0",
+      "DurationType": "OneShot",
+      "DurationMin": "0",
+      "DurationMax": "0"
      },
      {
       "Id": "375965827",
       "Name": "head_flying",
+      "DurationType": "OneShot",
+      "DurationMin": "4.2034583",
+      "DurationMax": "4.2034583",
       "MediaRefs": [
        {
         "Id": "1070028639"
@@ -1503,6 +1520,8 @@
      {
       "Id": "3507359558",
       "Name": "head_golden_idle",
+      "MaxAttenuation": "100",
+      "DurationType": "Infinite",
       "MediaRefs": [
        {
         "Id": "96127275"
@@ -1512,6 +1531,10 @@
      {
       "Id": "4015037628",
       "Name": "head_impact",
+      "MaxAttenuation": "100",
+      "DurationType": "OneShot",
+      "DurationMin": "0.359875",
+      "DurationMax": "0.37647918",
       "MediaRefs": [
        {
         "Id": "96698159"
@@ -1533,6 +1556,9 @@
      {
       "Id": "2586367166",
       "Name": "head_pickup",
+      "DurationType": "OneShot",
+      "DurationMin": "0.300875",
+      "DurationMax": "0.300875",
       "MediaRefs": [
        {
         "Id": "922362666"
@@ -1542,6 +1568,10 @@
      {
       "Id": "4234617796",
       "Name": "pest_bomb_expload",
+      "MaxAttenuation": "50",
+      "DurationType": "OneShot",
+      "DurationMin": "1.9375",
+      "DurationMax": "1.9375",
       "MediaRefs": [
        {
         "Id": "395551192"
@@ -1551,6 +1581,8 @@
      {
       "Id": "437942920",
       "Name": "pest_bomb_fuse",
+      "MaxAttenuation": "50",
+      "DurationType": "Infinite",
       "MediaRefs": [
        {
         "Id": "367181203"
@@ -1560,6 +1592,10 @@
      {
       "Id": "1736279191",
       "Name": "pest_bomb_jump",
+      "MaxAttenuation": "50",
+      "DurationType": "OneShot",
+      "DurationMin": "1.7380507",
+      "DurationMax": "1.7380507",
       "MediaRefs": [
        {
         "Id": "163626921"
@@ -1569,6 +1605,10 @@
      {
       "Id": "718104337",
       "Name": "pest_fs",
+      "MaxAttenuation": "50",
+      "DurationType": "OneShot",
+      "DurationMin": "0.48222393",
+      "DurationMax": "0.6433139",
       "MediaRefs": [
        {
         "Id": "227964973"
@@ -1587,6 +1627,9 @@
      {
       "Id": "799884986",
       "Name": "player_attack1",
+      "DurationType": "OneShot",
+      "DurationMin": "0.29172915",
+      "DurationMax": "0.34375",
       "MediaRefs": [
        {
         "Id": "233950051"
@@ -1602,6 +1645,9 @@
      {
       "Id": "799884985",
       "Name": "player_attack2",
+      "DurationType": "OneShot",
+      "DurationMin": "0.26377082",
+      "DurationMax": "0.3125",
       "MediaRefs": [
        {
         "Id": "97539198"
@@ -1617,6 +1663,9 @@
      {
       "Id": "215823421",
       "Name": "player_bush_ent",
+      "DurationType": "OneShot",
+      "DurationMin": "0.41294497",
+      "DurationMax": "0.5628398",
       "MediaRefs": [
        {
         "Id": "51859721"
@@ -1631,11 +1680,18 @@
      },
      {
       "Id": "4275904075",
-      "Name": "player_bush_ext"
+      "Name": "player_bush_ext",
+      "MaxAttenuation": "0",
+      "DurationType": "OneShot",
+      "DurationMin": "0",
+      "DurationMax": "0"
      },
      {
       "Id": "927599014",
       "Name": "player_chop_init",
+      "DurationType": "OneShot",
+      "DurationMin": "0.65625",
+      "DurationMax": "0.65625",
       "MediaRefs": [
        {
         "Id": "101552163"
@@ -1645,6 +1701,9 @@
      {
       "Id": "1752115990",
       "Name": "player_chop_tail",
+      "DurationType": "OneShot",
+      "DurationMin": "0.96875",
+      "DurationMax": "0.96875",
       "MediaRefs": [
        {
         "Id": "754981410"
@@ -1654,6 +1713,9 @@
      {
       "Id": "4276063004",
       "Name": "player_fs",
+      "DurationType": "OneShot",
+      "DurationMin": "0.18448988",
+      "DurationMax": "0.38598835",
       "SwitchContainers": [
        {
         "SwitchValue": {
@@ -1760,6 +1822,9 @@
      {
       "Id": "3945457670",
       "Name": "player_gethit",
+      "DurationType": "OneShot",
+      "DurationMin": "0.63122916",
+      "DurationMax": "0.71141666",
       "MediaRefs": [
        {
         "Id": "33849619"
@@ -1775,6 +1840,9 @@
      {
       "Id": "973170820",
       "Name": "player_lob",
+      "DurationType": "OneShot",
+      "DurationMin": "1.75",
+      "DurationMax": "1.75",
       "MediaRefs": [
        {
         "Id": "222124175"
@@ -1784,6 +1852,9 @@
      {
       "Id": "841226244",
       "Name": "player_roll",
+      "DurationType": "OneShot",
+      "DurationMin": "0.5625",
+      "DurationMax": "0.608",
       "SwitchContainers": [
        {
         "SwitchValue": {
@@ -1827,6 +1898,9 @@
      {
       "Id": "1199887854",
       "Name": "player_shotgun_atk",
+      "DurationType": "OneShot",
+      "DurationMin": "3.125",
+      "DurationMax": "3.125",
       "MediaRefs": [
        {
         "Id": "195194557"
@@ -1836,6 +1910,9 @@
      {
       "Id": "255574742",
       "Name": "player_shotgun_init",
+      "DurationType": "OneShot",
+      "DurationMin": "0.27788714",
+      "DurationMax": "0.27788714",
       "MediaRefs": [
        {
         "Id": "848350748"
@@ -1845,6 +1922,9 @@
      {
       "Id": "2909104693",
       "Name": "player_slam_atk",
+      "DurationType": "OneShot",
+      "DurationMin": "1.53125",
+      "DurationMax": "1.53125",
       "MediaRefs": [
        {
         "Id": "966389329"
@@ -1854,6 +1934,9 @@
      {
       "Id": "3131540599",
       "Name": "player_slam_init",
+      "DurationType": "OneShot",
+      "DurationMin": "0.8449375",
+      "DurationMax": "0.8449375",
       "MediaRefs": [
        {
         "Id": "933496307"
@@ -1863,6 +1946,9 @@
      {
       "Id": "2062853598",
       "Name": "portal_close",
+      "DurationType": "OneShot",
+      "DurationMin": "1.2006766",
+      "DurationMax": "1.2006766",
       "MediaRefs": [
        {
         "Id": "495527006"
@@ -1872,6 +1958,7 @@
      {
       "Id": "3086941384",
       "Name": "portal_idle",
+      "DurationType": "Infinite",
       "MediaRefs": [
        {
         "Id": "712810717"
@@ -1881,6 +1968,9 @@
      {
       "Id": "762878330",
       "Name": "portal_open",
+      "DurationType": "OneShot",
+      "DurationMin": "1.125",
+      "DurationMax": "1.125",
       "MediaRefs": [
        {
         "Id": "271929651"
@@ -1890,6 +1980,10 @@
      {
       "Id": "2376412427",
       "Name": "skel_dash",
+      "MaxAttenuation": "50",
+      "DurationType": "OneShot",
+      "DurationMin": "1.5",
+      "DurationMax": "1.5",
       "MediaRefs": [
        {
         "Id": "18472167"
@@ -1905,6 +1999,10 @@
      {
       "Id": "1504289659",
       "Name": "skel_death",
+      "MaxAttenuation": "50",
+      "DurationType": "OneShot",
+      "DurationMin": "1.0625",
+      "DurationMax": "1.0625",
       "MediaRefs": [
        {
         "Id": "858779314"
@@ -1914,6 +2012,10 @@
      {
       "Id": "855030670",
       "Name": "skel_fs",
+      "MaxAttenuation": "50",
+      "DurationType": "OneShot",
+      "DurationMin": "0.21465273",
+      "DurationMax": "0.330089",
       "SwitchContainers": [
        {
         "SwitchValue": {
@@ -1987,6 +2089,10 @@
      {
       "Id": "3336220324",
       "Name": "skel_gethit",
+      "MaxAttenuation": "50",
+      "DurationType": "OneShot",
+      "DurationMin": "0.318375",
+      "DurationMax": "0.33570832",
       "MediaRefs": [
        {
         "Id": "300101372"
@@ -2008,6 +2114,10 @@
      {
       "Id": "3644427658",
       "Name": "skel_slash",
+      "MaxAttenuation": "50",
+      "DurationType": "OneShot",
+      "DurationMin": "0.3984375",
+      "DurationMax": "0.5546875",
       "MediaRefs": [
        {
         "Id": "66995461"
@@ -2023,6 +2133,10 @@
      {
       "Id": "1091450755",
       "Name": "skel_spwan_jump",
+      "MaxAttenuation": "50",
+      "DurationType": "OneShot",
+      "DurationMin": "0.625",
+      "DurationMax": "0.625",
       "MediaRefs": [
        {
         "Id": "443484975"
@@ -2032,6 +2146,10 @@
      {
       "Id": "500517664",
       "Name": "skel_spwan_land",
+      "MaxAttenuation": "50",
+      "DurationType": "OneShot",
+      "DurationMin": "1.3443125",
+      "DurationMax": "1.3443125",
       "MediaRefs": [
        {
         "Id": "500052017"
@@ -2041,6 +2159,10 @@
      {
       "Id": "1123472706",
       "Name": "skel_vo",
+      "MaxAttenuation": "50",
+      "DurationType": "OneShot",
+      "DurationMin": "1.3943334",
+      "DurationMax": "2.2613332",
       "MediaRefs": [
        {
         "Id": "115604974"
@@ -2062,6 +2184,9 @@
      {
       "Id": "3157003241",
       "Name": "TEST",
+      "DurationType": "OneShot",
+      "DurationMin": "1",
+      "DurationMax": "1",
       "PluginRefs": {
        "Custom": [
         {
@@ -2072,11 +2197,16 @@
      },
      {
       "Id": "3587827325",
-      "Name": "Transition_Start"
+      "Name": "Transition_Start",
+      "DurationType": "Infinite"
      },
      {
       "Id": "1619304959",
-      "Name": "Transition_Stop"
+      "Name": "Transition_Stop",
+      "MaxAttenuation": "0",
+      "DurationType": "OneShot",
+      "DurationMin": "0",
+      "DurationMax": "0"
      }
     ],
     "SwitchGroups": [
@@ -2115,6 +2245,6 @@
     ]
    }
   ],
-  "FileHash": "{BB67615C-23B3-1402-7EF5-FEF888E7E060}"
+  "FileHash": "{AF5C6125-0C8D-9243-588A-D2A4FCC00AAB}"
  }
 }
