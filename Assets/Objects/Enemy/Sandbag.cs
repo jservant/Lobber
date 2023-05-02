@@ -94,7 +94,15 @@ public class Sandbag : MonoBehaviour {
 					}
 				}
 
-				if (hasHealth) health -= 1f;
+				if (other.GetComponentInParent<PlayerController>() != null) {
+					if (gameMan.playerController.currentAttack == PlayerController.Attacks.Chop) {
+						gameMan.playerController.ChangeMeter(1f);
+						if (canRespawn) Respawn();
+						Destroy(gameObject);
+                    }
+				}
+
+					if (hasHealth) health -= 1f;
 				hitflashTimer = 0.15f;
 				if (health <= 0) {
 					if (canRespawn) Respawn();
