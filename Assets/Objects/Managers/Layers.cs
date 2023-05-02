@@ -47,7 +47,7 @@ public class Util {
 	}
 
 	public static void ShowAttackWarning(GameManager gameMan, Vector3 position) {
-		GameObject.Instantiate(gameMan.FlashPrefab, position, Quaternion.LookRotation(Camera.main.transform.position - position, Vector3.up));
+		GameObject.Instantiate(gameMan.FlashPrefab, position, Quaternion.LookRotation(UnityEngine.Camera.main.transform.position - position, Vector3.up));
 	}
 
 	public static int RollWeightedChoice(float[] weight) {

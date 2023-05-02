@@ -520,7 +520,7 @@ public class GameManager : MonoBehaviour {
 					if (toSpawn != null) {
 						Vector2 MouseLocation2D = dActions.DebugTools.MouseLocation.ReadValue<Vector2>();
 						Vector3 MouseLocation = new Vector3(MouseLocation2D.x, MouseLocation2D.y, 0);
-						Ray ray = Camera.main.ScreenPointToRay(MouseLocation);
+						Ray ray = UnityEngine.Camera.main.ScreenPointToRay(MouseLocation);
 						RaycastHit hit;
 
 						if (Physics.Raycast(ray.origin, ray.direction, out hit, 1000.0f)) {

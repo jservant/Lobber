@@ -391,7 +391,7 @@ public class PlayerController : MonoBehaviour {
 				}
 			}
 			else {
-				float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
+				float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg + UnityEngine.Camera.main.transform.eulerAngles.y;
 				float turnVelocity = 0f;  // annoying float that is only referenced and has to exist for movement math to work
 				float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnVelocity, turnSpeed);
 				transform.rotation = Quaternion.Euler(0f, angle, 0f);
@@ -532,7 +532,7 @@ public class PlayerController : MonoBehaviour {
 
 			// NOTE(Roskuski): Update the angle we'll dash in every frame that a dash is queued.
 			if (queuedAttackInfo.nextAttack == Attacks.Dashing || queuedAttackInfo.nextAttack == Attacks.LethalDash) {
-				trueAngle = Mathf.Atan2(trueInput.x, trueInput.y) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
+				trueAngle = Mathf.Atan2(trueInput.x, trueInput.y) * Mathf.Rad2Deg + UnityEngine.Camera.main.transform.eulerAngles.y;
 			}
 
 			// animator controller

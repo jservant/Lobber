@@ -6,7 +6,7 @@ using UnityEngine;
 public class RenderTerrainMap : MonoBehaviour
 {
 
-    public Camera camToDrawWith;
+    public UnityEngine.Camera camToDrawWith;
     // layer to render
     [SerializeField]
     LayerMask layer;
@@ -103,7 +103,7 @@ public class RenderTerrainMap : MonoBehaviour
     {
         if (camToDrawWith == null)
         {
-            camToDrawWith = GetComponentInChildren<Camera>();
+			camToDrawWith = GetComponentInChildren<UnityEngine.Camera>();
         }
         float size = bounds.size.magnitude;
         camToDrawWith.cullingMask = layer;
