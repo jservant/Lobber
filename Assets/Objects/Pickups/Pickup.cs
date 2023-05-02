@@ -178,17 +178,18 @@ public class Pickup : MonoBehaviour {
 		if (collected) {
 			switch(pickupType) {
 				case Type.Skull:
-					gameMan.playerController.meter += meterValue;
+					playerController.meter += meterValue;
 					break;
 				case Type.GoldenSkull:
-					gameMan.playerController.meter = gameMan.playerController.meterMax;
-					gameMan.playerController.frenzyTimer = 5f;
+					playerController.meter = gameMan.playerController.meterMax;
+					playerController.frenzyTimer = 5f;
 					break;
 				case Type.Health:
-					gameMan.playerController.health += healthValue;
+					playerController.health += healthValue;
 					break;
 				case Type.Crystal:
-					gameMan.playerController.hasCrystal = true;
+					playerController.hasCrystal = true;
+					playerController.crystalHolster.SetActive(true);
 					gameMan.crystalPickupImage.enabled = true;
 					break;
 				default:

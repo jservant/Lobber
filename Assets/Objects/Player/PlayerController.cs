@@ -250,6 +250,7 @@ public class PlayerController : MonoBehaviour {
 	Transform[] shotgunProjSpawns;
 	Transform shotgunPoint;
 	Transform slamPoint;
+	public GameObject crystalHolster;
 	Light spotLight;
 	GameManager gameMan;
 	MotionAudio_Player sounds;
@@ -321,6 +322,8 @@ public class PlayerController : MonoBehaviour {
 		headProj = gameMan.SkullPrefab;
 		slamPoint = transform.Find("SlamPoint");
 		shotgunPoint = transform.Find("ShotgunPoint");
+		crystalHolster = transform.Find("MAIN_JOINT/R_Leg_Hip_Joint/CrystalHipSpawn/CrystalPatch").gameObject;
+		crystalHolster.SetActive(false);
 
 		#region debug
 		if (headMesh != null) { Debug.Log("Axe headmesh found on player."); } else { Debug.LogWarning("Axe headmesh not found on player."); }
@@ -704,8 +707,6 @@ public class PlayerController : MonoBehaviour {
 			headMeshTrail.enabled = false;
 		}
 		if (meter < 0) { meter = 0; }
-		if (meter == meterMax) { topSpeed = 8f; }
-		else { topSpeed = 10f; }
 	}
 
 	float maxHomingDistance;

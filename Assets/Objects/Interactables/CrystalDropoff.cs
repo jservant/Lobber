@@ -18,6 +18,7 @@ public class CrystalDropoff : MonoBehaviour
             gameManager.SpawnParticle(3, transform.position, 0.5f);
             gameManager.crystalCount++;
             playerController.hasCrystal = false;
+            playerController.crystalHolster.SetActive(false);
             gameManager.crystalPickupImage.enabled = false;
 		}
 	}
