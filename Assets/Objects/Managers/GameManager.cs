@@ -35,6 +35,8 @@ public class GameManager : MonoBehaviour {
 	public int crystalCount = 0;
 	public bool isCrystalEnemyAlive = false;
 	public int shrinesDestroyed = 0;
+	public Transform waypointTarget;
+	public Vector3 waypointOffset;
 
 	[Header("UI")]
 	public Canvas mainUI;
@@ -50,6 +52,8 @@ public class GameManager : MonoBehaviour {
 	public TMP_Text statsText2;
 	public TMP_Text statusTextboxText;
 	public TMP_Text objectiveText;
+	public TMP_Text waypointDistanceText;
+	public Image waypointMarker;
 
 	public Transform healthBar;
 	public Transform meterBar;
@@ -106,6 +110,7 @@ public class GameManager : MonoBehaviour {
 	public bool updateTimeScale = true;
 	public bool canSpawn = true;
 	public bool debugTools = true;
+	bool waypointTracking = true;
 	DebugActions dActions;
 	float frozenTime = 0;
 
@@ -133,6 +138,8 @@ public class GameManager : MonoBehaviour {
 		statusTextboxText.text = "";
 		objectiveText = transform.Find("StatusTextbox/ObjectiveText").GetComponent<TMP_Text>();
 		objectiveText.text = "";
+		waypointMarker = transform.Find("/GameManager/MainUI/WaypointMarker").GetComponent<Image>();
+		waypointDistanceText = transform.Find("/GameManager/MainUI/WaypointMarker/WaypointDistanceText").GetComponent<TMP_Text>();
 		meterImage = transform.Find("MainUI/MeterBar").GetComponent<Image>();
 		//inputDisplayUI = transform.Find("MainUI/InputDisplay").gameObject;
 		Time.timeScale = 1;
@@ -174,12 +181,14 @@ public class GameManager : MonoBehaviour {
 
 		switch (currentObjective) {
 			case Objectives.None:
+				waypointTracking = false; // temp?
 				break;
 
 			case Objectives.KillTheEnemies:
 				// assign enemy killing goal to a UI object here
 				statusTextboxText.text = "Level " + levelCount +
 				"\nKill the Enemies!";
+				waypointTracking = false; // temp?
 				break;
 
 			case Objectives.DestroyTheShrines:
@@ -197,6 +206,7 @@ public class GameManager : MonoBehaviour {
 				}
 				statusTextboxText.text = "Level " + levelCount +
 				"\nDestroy the Shrines!";
+				waypointTracking = false; // temp
 				break;
 
 			case Objectives.HarvestTheCrystals:
@@ -204,11 +214,13 @@ public class GameManager : MonoBehaviour {
 				Debug.Log("Crystal dropoff should have spawned at " + crystalDropoffSpawn.position);
 				statusTextboxText.text = "Level " + levelCount +
 				"\nHarvest the Crystals!";
+				waypointTarget = crystalDropoffSpawn;
 				break;
 
 			default:
 				statusTextboxText.text = "Level " + levelCount +
 				"\nsomething is wrong";
+				waypointTracking = false;
 				break;
 		}
 
@@ -494,6 +506,48 @@ public class GameManager : MonoBehaviour {
 
 			if (currentObjective != Objectives.None) playerController.Hit(1, null);
 		}
+
+		// Credit for waypoint tracking code:
+		// https://github.com/OBalfaqih/Unity-Tutorials/blob/master/Unity%20Tutorials/WaypointMarker/Scripts/MissionWaypoint.cs
+		if (waypointTracking) {
+			// Giving limits to the icon so it sticks on the screen
+			// Below calculations with the assumption that the icon anchor point is in the middle
+			// Minimum X position: half of the icon width
+			float minX = waypointMarker.GetPixelAdjustedRect().width / 2;
+			// Maximum X position: screen width - half of the icon width
+			float maxX = Screen.width - minX;
+
+			// Minimum Y position: half of the height
+			float minY = waypointMarker.GetPixelAdjustedRect().height / 2;
+			// Maximum Y position: screen height - half of the icon height
+			float maxY = Screen.height - minY;
+
+			// Temporary variable to store the converted position from 3D world point to 2D screen point
+			Vector2 pos = UnityEngine.Camera.main.WorldToScreenPoint(waypointTarget.position + waypointOffset);
+
+			// Check if the target is behind us, to only show the icon once the target is in front
+			if (Vector3.Dot((waypointTarget.position - UnityEngine.Camera.main.transform.position), transform.forward) < 0) {
+				// Check if the target is on the left side of the screen
+				if (pos.x < Screen.width / 2) {
+					// Place it on the right (Since it's behind the player, it's the opposite)
+					pos.x = maxX;
+				}
+				else {
+					// Place it on the left side
+					pos.x = minX;
+				}
+			}
+
+			// Limit the X and Y positions
+			pos.x = Mathf.Clamp(pos.x, minX, maxX);
+			pos.y = Mathf.Clamp(pos.y, minY, maxY);
+
+			// Update the marker's position
+			waypointMarker.transform.position = pos;
+			// Change the meter text to the distance with the meter unit 'm'
+			waypointDistanceText.text = ((int)Vector3.Distance(waypointTarget.position, player.transform.position)).ToString() + "m";
+		}
+	
 
 		if (debugTools) {
 			if (!isMenuOpen) {
