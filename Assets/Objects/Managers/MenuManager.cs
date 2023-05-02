@@ -20,14 +20,12 @@ public class MenuManager : MonoBehaviour
 	public static void OnPlay() {
 		GameManager.storedPlayerHealth = 10;
 		GameManager.storedPlayerMeter = 3;
-		GameManager.score = 0;
 		GameManager.levelCount = 1;
 		GameManager.enemyKillingGoal = 20;
 		GameManager.crystalHarvestingGoal = 3;
 		GameManager.enemiesKilledInRun = 0;
 		Initializer.save.versionLatest.runsStarted++;
 		SceneManager.LoadScene((int)Scenes.Level_A); // disabling B for now
-
 	}
 
 	public void OnOptions() {
