@@ -656,6 +656,8 @@ public class GameManager : MonoBehaviour {
 	public void FreezeFrames(int Frames60) {
 		frozenTime += (float)(Frames60) / 60.0f;
 	}
+
+	// @TODO(Roskuski): Particles' parent objects do not destory themselves after their particles have. this will leave empty gameobjects lying around the scene as the game progresses, but since we don't have respawning destructible props we should have to worry about this leak.
 	public void SpawnParticle(int particleID, Vector3 position, float scale) {
 		ParticleSystem particle = particles[particleID];
 		var TempParticle = Instantiate(particle, position, particle.gameObject.transform.rotation);
