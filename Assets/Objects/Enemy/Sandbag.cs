@@ -5,6 +5,8 @@ using UnityEngine;
 public class Sandbag : MonoBehaviour {
 	public bool hasHealth;
 	public bool canBeKnockedBack;
+	public bool canRespawn;
+	private Vector3 respawnPoint;
 	KnockbackInfo knockbackInfo;
 	float remainingKnockbackTime;
 
@@ -30,6 +32,7 @@ public class Sandbag : MonoBehaviour {
 		health = maxHealth;
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 		materials = model.materials;
+		respawnPoint = transform.position;
 	}
 
 	void FixedUpdate() {
@@ -56,6 +59,7 @@ public class Sandbag : MonoBehaviour {
 		movementDelta += Util.ProcessKnockback(ref remainingKnockbackTime, knockbackInfo);
 
 		if (transform.position.y < -20f) {
+			if (canRespawn) Respawn();
 			Destroy(gameObject);
 		}
 	}
@@ -93,6 +97,7 @@ public class Sandbag : MonoBehaviour {
 				if (hasHealth) health -= 1f;
 				hitflashTimer = 0.15f;
 				if (health <= 0) {
+					if (canRespawn) Respawn();
 					Destroy(gameObject);
 				}
 
@@ -103,6 +108,10 @@ public class Sandbag : MonoBehaviour {
 			}
 		}
 	}
+
+	void Respawn() {
+		var newSandbag = Instantiate(this, respawnPoint, transform.rotation);
+    }
 
 	void Sound_Hit() {
 		Get_Hit_Sound.Post(gameObject);
