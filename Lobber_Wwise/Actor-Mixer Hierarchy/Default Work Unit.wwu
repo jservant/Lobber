@@ -1450,6 +1450,28 @@
 								</GroupingList>
 							</GroupingInfo>
 						</SwitchContainer>
+						<Sound Name="player_heal" ID="{E5A62584-6A7C-4245-BF7D-E9DE401A743F}" ShortID="841944923">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="player_heal" ID="{4F25FB65-4102-45F2-B4DB-AB80A0047948}">
+									<Language>SFX</Language>
+									<AudioFile>player_heal.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="292669630"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="player_heal" ID="{4F25FB65-4102-45F2-B4DB-AB80A0047948}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
 					</ChildrenList>
 				</ActorMixer>
 				<ActorMixer Name="Skeletons" ID="{66B391D0-C7B2-463A-8BA3-3A4E2B9499D7}" ShortID="491509316">
@@ -2704,14 +2726,14 @@
 								</Sound>
 							</ChildrenList>
 						</RandomSequenceContainer>
-						<Sound Name="head_golden_idle" ID="{DC99EAE4-607B-4A21-9624-5B2919B04D3E}" ShortID="371853698">
+						<Sound Name="head_golden_idle" ID="{92D0968E-ABB2-485C-8B6A-F46B190FD873}" ShortID="583214154">
 							<PropertyList>
 								<Property Name="3DSpatialization" Type="int16" Value="2"/>
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 								<Property Name="OverridePositioning" Type="bool" Value="True"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
-										<Value>-20</Value>
+										<Value>-31</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -2727,24 +2749,22 @@
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
-								<AudioFileSource Name="head_golden_idle" ID="{4444661F-3E1F-4575-B316-275116B55AFF}">
+								<AudioFileSource Name="head_golden_idle" ID="{F5793C29-9FC2-44C3-937E-025299300C8D}">
 									<PropertyList>
-										<Property Name="CrossfadeDuration" Type="Real64" Value="286.316"/>
-										<Property Name="FadeInDuration" Type="Real64" Value="0.182686567164179"/>
-										<Property Name="LoopBegin" Type="Real64" Value="1.09611940298507"/>
-										<Property Name="LoopEnd" Type="Real64" Value="10.3928358208955"/>
+										<Property Name="CrossfadeDuration" Type="Real64" Value="278.906"/>
+										<Property Name="LoopBegin" Type="Real64" Value="1.045"/>
+										<Property Name="LoopEnd" Type="Real64" Value="9.343"/>
 										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-										<Property Name="TrimBegin" Type="Real64" Value="0.487164179104478"/>
 									</PropertyList>
 									<Language>SFX</Language>
-									<AudioFile>head_golden_idlewav.wav</AudioFile>
+									<AudioFile>head_golden_idle.wav</AudioFile>
 									<MediaIDList>
-										<MediaID ID="96127275"/>
+										<MediaID ID="859643133"/>
 									</MediaIDList>
 								</AudioFileSource>
 							</ChildrenList>
 							<ActiveSourceList>
-								<ActiveSource Name="head_golden_idle" ID="{4444661F-3E1F-4575-B316-275116B55AFF}" Platform="Linked"/>
+								<ActiveSource Name="head_golden_idle" ID="{F5793C29-9FC2-44C3-937E-025299300C8D}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
 					</ChildrenList>
@@ -3236,6 +3256,21 @@
 							</ChildrenList>
 						</RandomSequenceContainer>
 						<RandomSequenceContainer Name="axe_hit_wood" ID="{C18F9DEC-11B3-491F-AE57-C5866B38AAD7}" ShortID="596032304">
+							<PropertyList>
+								<Property Name="Pitch" Type="int32">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{12AC0B93-57C3-47EB-ACF4-CF1C56D0DB30}">
+												<PropertyList>
+													<Property Name="Enabled" Type="bool" Value="True"/>
+													<Property Name="Max" Type="Real64" Value="30"/>
+													<Property Name="Min" Type="Real64" Value="-30"/>
+												</PropertyList>
+											</Modifier>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
@@ -3246,6 +3281,13 @@
 							</ReferenceList>
 							<ChildrenList>
 								<Sound Name="axe_hit_wood_01" ID="{A05A6042-8608-4BCF-896C-928E0B8BD99F}" ShortID="954945544">
+									<PropertyList>
+										<Property Name="Volume" Type="Real64">
+											<ValueList>
+												<Value>-3</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
@@ -3278,6 +3320,11 @@
 									</ReferenceList>
 									<ChildrenList>
 										<AudioFileSource Name="axe_hit_wood_02" ID="{DAAF5D2A-29CC-4924-9F87-57647C4A040A}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.163802860696517"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimEnd" Type="Real64" Value="0.606815143034826"/>
+											</PropertyList>
 											<Language>SFX</Language>
 											<AudioFile>axe_hit_wood_02.wav</AudioFile>
 											<MediaIDList>
@@ -3300,6 +3347,11 @@
 									</ReferenceList>
 									<ChildrenList>
 										<AudioFileSource Name="axe_hit_wood_03" ID="{6CDF0957-1370-495A-93E3-926CE2334E4D}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.229127798507463"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimEnd" Type="Real64" Value="0.650652985074627"/>
+											</PropertyList>
 											<Language>SFX</Language>
 											<AudioFile>axe_hit_wood_03.wav</AudioFile>
 											<MediaIDList>
@@ -3314,6 +3366,16 @@
 							</ChildrenList>
 						</RandomSequenceContainer>
 					</ChildrenList>
+				</ActorMixer>
+				<ActorMixer Name="Props" ID="{A1159023-B958-4702-9256-32C621494448}" ShortID="910913932">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+						</Reference>
+					</ReferenceList>
 				</ActorMixer>
 			</ChildrenList>
 		</WorkUnit>

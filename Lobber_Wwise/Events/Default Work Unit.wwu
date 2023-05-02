@@ -173,6 +173,17 @@
 								</Action>
 							</ChildrenList>
 						</Event>
+						<Event Name="player_heal" ID="{D39E2699-1BF6-4B0C-90E3-4FCAD75BBFCA}">
+							<ChildrenList>
+								<Action Name="" ID="{747806D1-F3ED-4B05-A2C5-A6378CBCB52F}" ShortID="677855565">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="player_heal" ID="{E5A62584-6A7C-4245-BF7D-E9DE401A743F}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
 					</ChildrenList>
 				</Folder>
 				<Folder Name="Skeletons" ID="{52B80696-1DC9-440D-86B4-8D98D4620CE9}" ShortID="401187278">
@@ -439,7 +450,7 @@
 								<Action Name="" ID="{C33CD676-23D6-4EAC-9626-17918F278B26}" ShortID="370646815">
 									<ReferenceList>
 										<Reference Name="Target">
-											<ObjectRef Name="head_golden_idle" ID="{DC99EAE4-607B-4A21-9624-5B2919B04D3E}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
+											<ObjectRef Name="head_golden_idle" ID="{92D0968E-ABB2-485C-8B6A-F46B190FD873}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>
