@@ -22,7 +22,6 @@ public class GameManager : MonoBehaviour {
 	public PlayerController playerController;
 	public static int storedPlayerHealth = 0;
 	public static float storedPlayerMeter = 0;
-	public static int score = 0;
 	public static int enemiesKilledInRun = 0;
 	public static int enemyKillingGoal = 20;
 	public static int crystalHarvestingGoal = 3;
@@ -51,7 +50,6 @@ public class GameManager : MonoBehaviour {
 	public TMP_Text statsText2;
 	public TMP_Text statusTextboxText;
 	public TMP_Text objectiveText;
-	public TMP_Text scoreText;
 
 	public Transform healthBar;
 	public Transform meterBar;
@@ -135,8 +133,6 @@ public class GameManager : MonoBehaviour {
 		statusTextboxText.text = "";
 		objectiveText = transform.Find("StatusTextbox/ObjectiveText").GetComponent<TMP_Text>();
 		objectiveText.text = "";
-		scoreText = transform.Find("StatusTextbox/ScoreText").GetComponent<TMP_Text>();
-		objectiveText.text = score.ToString();
 		meterImage = transform.Find("MainUI/MeterBar").GetComponent<Image>();
 		//inputDisplayUI = transform.Find("MainUI/InputDisplay").gameObject;
 		Time.timeScale = 1;
@@ -284,7 +280,6 @@ public class GameManager : MonoBehaviour {
 
 		UpdateHealthBar();
 		UpdateMeter();
-		UpdateScore();
 		UpdateIcons(); //if (inputDisplayUI.activeSelf == true) {  }
 
 		// Manage Spawns
@@ -714,10 +709,6 @@ public class GameManager : MonoBehaviour {
 		meterBar.localScale = new Vector3((playerController.meter / playerController.meterMax), 1f, 1f);
 		if (playerController.frenzyTimer > 0) { meterImage.color = Color.yellow; }
 		else { meterImage.color = Color.white; }
-	}
-
-	public void UpdateScore() {
-		scoreText.text = score.ToString();
 	}
 
 	readonly string[] PlayerAttackToName = {

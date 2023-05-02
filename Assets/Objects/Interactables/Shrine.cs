@@ -14,10 +14,6 @@ public class Shrine : MonoBehaviour {
 	public Material hitflashMat;
 	float hitflashTimer = 0;
 
-	[Header("Score:")]
-	public int hitScore = 5;
-	public int destroyScore = 25;
-
 	void Start() {
 		gameManager = transform.Find("/GameManager").GetComponent<GameManager>();
 		health = GameManager.shrineMaxHealth;
@@ -81,11 +77,7 @@ public class Shrine : MonoBehaviour {
 			}
 			if (health <= 0) {
 				gameManager.shrinesDestroyed++;
-				GameManager.score += destroyScore;
 				Destroy(gameObject);
-			}
-			else {
-				GameManager.score += hitScore;
 			}
 		}
 	}
