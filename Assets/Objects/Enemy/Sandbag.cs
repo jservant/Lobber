@@ -96,8 +96,8 @@ public class Sandbag : MonoBehaviour {
 					Destroy(gameObject);
 				}
 
-				animator.SetFloat("X", deltaNoY.normalized.x);
-				animator.SetFloat("Y", deltaNoY.normalized.z);
+				animator.SetFloat("HitX", deltaNoY.normalized.x);
+				animator.SetFloat("HitY", deltaNoY.normalized.z);
 				animator.Play("Base Layer.GetHit_Tree", 0, 0f);
 				Sound_Hit();
 			}
