@@ -14,11 +14,13 @@ public class HeadProjectile : MonoBehaviour {
 	Transform head;
 	Rigidbody rb;
 	GetKnockbackInfo getKnockbackInfo;
+	GameManager gameMan;
 
 	public AK.Wwise.Event HeadImpactSound;
 
 	private void Start() {
 		head = transform.Find("Model");
+		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 		rb = GetComponent<Rigidbody>();
 		getKnockbackInfo = GetComponent<GetKnockbackInfo>();
 		Destroy(gameObject, lifetime);
@@ -31,6 +33,8 @@ public class HeadProjectile : MonoBehaviour {
 
 	private void OnTriggerEnter(Collider other) {
 		if (other.gameObject.layer == (int)Layers.EnemyHurtbox || other.gameObject.layer == (int)Layers.AgnosticHurtbox) {
+			gameMan.SpawnParticle(0, transform.position, 1f);
+			Sound_HeadImpact();
 			if (canStun) {
 				Collider[] eColliders = Physics.OverlapSphere(transform.position, stunSphereRadius, Mask.Get(Layers.EnemyHurtbox));
 				for (int index = 0; index < eColliders.Length; index += 1) {
@@ -41,7 +45,7 @@ public class HeadProjectile : MonoBehaviour {
 					}
 				}
 			}
-			Sound_HeadImpact();
+			
 			if (canPierce && enemiesKilled < 2) { 
 				enemiesKilled++;
 				Debug.Log("Enemies killed on this skull: " + enemiesKilled);

@@ -52,7 +52,7 @@ public class TutorialManager : MonoBehaviour
         currentTargets.Clear();
 
         foreach (Transform child in areas[areasCompleted].transform) {
-            if (child.gameObject.layer == (int)Layers.EnemyHitbox) currentTargets.Add(child.gameObject);
+            if (child.gameObject.layer == (int)Layers.EnemyHurtbox) currentTargets.Add(child.gameObject);
         }
 
         UpdateSpawns();

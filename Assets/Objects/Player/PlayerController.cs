@@ -153,7 +153,7 @@ public class PlayerController : MonoBehaviour {
 		new KnockbackInfo(Quaternion.identity, 30.0f, 0.25f), // LAttack2
 		new KnockbackInfo(Quaternion.identity, 60.0f, 0.25f), // LAttack3
 		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // Chop
-		new KnockbackInfo(Quaternion.identity, 60.0f, 0.25f), // Slam
+		new KnockbackInfo(Quaternion.identity, 70.0f, 0.35f), // Slam
 		new KnockbackInfo(Quaternion.identity, 20.0f, 0.25f), // Spin
 		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // HeadThrow
 		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // Dashing
