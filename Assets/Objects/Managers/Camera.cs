@@ -71,7 +71,7 @@ public class Camera : MonoBehaviour {
 			Vector2 pos = UnityEngine.Camera.main.WorldToScreenPoint(target.position + waypointOffset);
 
 			// Check if the target is behind us, to only show the icon once the target is in front
-			if (Vector3.Dot((target.position - transform.position), transform.forward) < 0) {
+			if (Vector3.Dot((target.position - UnityEngine.Camera.main.transform.position), transform.forward) < 0) {
 				// Check if the target is on the left side of the screen
 				if (pos.x < Screen.width / 2) {
 					// Place it on the right (Since it's behind the player, it's the opposite)
@@ -90,7 +90,7 @@ public class Camera : MonoBehaviour {
 			// Update the marker's position
 			waypointMarker.transform.position = pos;
 			// Change the meter text to the distance with the meter unit 'm'
-			distanceText.text = ((int)Vector3.Distance(target.position, transform.position)).ToString() + "m";
+			distanceText.text = ((int)Vector3.Distance(target.position, UnityEngine.Camera.main.transform.position)).ToString() + "m";
 		}
 	}
 }
