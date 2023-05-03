@@ -16,10 +16,8 @@ public class TutorialManager : MonoBehaviour
         gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
         player = transform.Find("/Player");
         UpdateAreas();
-        UpdateSpawns();
     }
 
-    // Start is called before the first frame update
     void Start()
     {
       /* if (Initializer.save.versionLatest.tutorialComplete == true) {
