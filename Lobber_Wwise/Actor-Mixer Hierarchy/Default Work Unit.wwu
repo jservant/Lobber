@@ -2543,7 +2543,12 @@
 							<PropertyList>
 								<Property Name="Highpass" Type="int16">
 									<ValueList>
-										<Value>25</Value>
+										<Value>55</Value>
+									</ValueList>
+								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-5</Value>
 									</ValueList>
 								</Property>
 							</PropertyList>
@@ -2557,6 +2562,11 @@
 							</ReferenceList>
 							<ChildrenList>
 								<AudioFileSource Name="head_flying" ID="{EDB214C8-C09C-41CC-9A30-12315D1D6F12}">
+									<PropertyList>
+										<Property Name="FadeOutDuration" Type="Real64" Value="0.688978618877555"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimEnd" Type="Real64" Value="0.754844775097878"/>
+									</PropertyList>
 									<Language>SFX</Language>
 									<AudioFile>head_flying.wav</AudioFile>
 									<MediaIDList>
@@ -3368,6 +3378,13 @@
 					</ChildrenList>
 				</ActorMixer>
 				<ActorMixer Name="Props" ID="{A1159023-B958-4702-9256-32C621494448}" ShortID="910913932">
+					<PropertyList>
+						<Property Name="Inclusion" Type="bool">
+							<ValueList>
+								<Value>False</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>

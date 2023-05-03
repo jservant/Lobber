@@ -35,6 +35,7 @@ namespace AK
         static const AkUniqueID PLAYER_CHOP_TAIL = 1752115990U;
         static const AkUniqueID PLAYER_FS = 4276063004U;
         static const AkUniqueID PLAYER_GETHIT = 3945457670U;
+        static const AkUniqueID PLAYER_HEAL = 780312891U;
         static const AkUniqueID PLAYER_LOB = 973170820U;
         static const AkUniqueID PLAYER_ROLL = 841226244U;
         static const AkUniqueID PLAYER_SHOTGUN_ATK = 1199887854U;
@@ -44,6 +45,11 @@ namespace AK
         static const AkUniqueID PORTAL_CLOSE = 2062853598U;
         static const AkUniqueID PORTAL_IDLE = 3086941384U;
         static const AkUniqueID PORTAL_OPEN = 762878330U;
+        static const AkUniqueID PROPS_CACTUS = 4272749033U;
+        static const AkUniqueID PROPS_PILLAR_RUMBLE = 92521196U;
+        static const AkUniqueID PROPS_POT = 2754391325U;
+        static const AkUniqueID PROPS_ROCK = 1871795543U;
+        static const AkUniqueID PROPS_WOOD = 729588163U;
         static const AkUniqueID SKEL_DASH = 2376412427U;
         static const AkUniqueID SKEL_DEATH = 1504289659U;
         static const AkUniqueID SKEL_FS = 855030670U;
