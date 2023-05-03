@@ -49,7 +49,6 @@ public class Pickup : MonoBehaviour {
 		if (pickupType != Type.Health) transform.rotation = Random.rotation;
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 		playerController = gameMan.playerController;
-		//headModel = transform.Find("SkullPosition/Skeleton_Head").GetComponent<MeshRenderer>();
 		headTrail = GetComponent<TrailRenderer>();
 		timeUntilCollect = lifetime - timeUntilCollect;
 		isOnGround = false;

@@ -93,6 +93,7 @@ public class GameManager : MonoBehaviour {
 	public Transform crystalDropoffSpawn;
 	public int enemiesAlive = 0;
 	public int goldenSkullDropChance = 2; //out of 100
+	public int goldSkullBuffer = 10;
 	bool transitioningLevel = false;
 	
 	[SerializeField] float spawnTokens;
@@ -665,38 +666,42 @@ public class GameManager : MonoBehaviour {
 		sceneChances[SceneManager.GetActiveScene().buildIndex] = 0;
 		KillAll();
 		yield return new WaitForSeconds(5);
-		storedPlayerHealth = playerController.health;
-		storedPlayerMeter = playerController.meter;
-		levelCount++; 
-		switch (currentObjective) {
-			case Objectives.KillTheEnemies:
-				enemyKillingGoal += 10;
-				break;
+		if (playerController.currentState == PlayerController.States.Death) {
+			SceneManager.LoadScene((int)Scenes.Tutorial);
+		} else {
+			storedPlayerHealth = playerController.health;
+			storedPlayerMeter = playerController.meter;
+			levelCount++;
+			switch (currentObjective) {
+				case Objectives.KillTheEnemies:
+					enemyKillingGoal += 10;
+					break;
 
-			case Objectives.DestroyTheShrines:
-				shrineMaxHealth += 5;
-				if (shrineMaxHealth >= 26f) {
-					if (shrineDestroyingGoal <= 5) break;
-					else if (shrineDestroyingGoal == 4) {
-						shrineDestroyingGoal++;
-						shrineMaxHealth -= 10;
+				case Objectives.DestroyTheShrines:
+					shrineMaxHealth += 5;
+					if (shrineMaxHealth >= 26f) {
+						if (shrineDestroyingGoal <= 5) break;
+						else if (shrineDestroyingGoal == 4) {
+							shrineDestroyingGoal++;
+							shrineMaxHealth -= 10;
+						}
+						else {
+							shrineDestroyingGoal++;
+							shrineMaxHealth -= 15;
+						}
 					}
-					else {
-						shrineDestroyingGoal++;
-						shrineMaxHealth -= 15;
-					}
-				}
-				break;
+					break;
 
-			case Objectives.HarvestTheCrystals:
-				crystalHarvestingGoal += 1;
-				break;
+				case Objectives.HarvestTheCrystals:
+					crystalHarvestingGoal += 1;
+					break;
 
-			default:
-				Debug.Assert(false, "Won with an invalid Objective " + currentObjective);
-				break;
+				default:
+					Debug.Assert(false, "Won with an invalid Objective " + currentObjective);
+					break;
+			}
+			SceneManager.LoadScene(Util.RollWeightedChoice(sceneChances));
 		}
-		SceneManager.LoadScene(Util.RollWeightedChoice(sceneChances));
 	}
 
 	// NOTE(Ryan): Can be called to freeze the game for the time specified.
@@ -729,14 +734,19 @@ public class GameManager : MonoBehaviour {
 			skullChance = 0;
 			healthChance = 0;
 			SpawnPickup((int)Pickup.Type.Crystal, position);
-			Debug.Log("Crystal Pickup spawned");
 		}
 
 		//Skull Pickup
 		float pickupDecider = Random.Range(1, 100);
 		if (pickupDecider <= skullChance) { //check for skulldrop
-			if (pickupDecider <= goldenSkullDropChance) SpawnPickup((int)Pickup.Type.GoldenSkull, position); //check for goldenskull
-			else SpawnPickup((int)Pickup.Type.Skull, position);
+			if (pickupDecider <= goldenSkullDropChance && goldSkullBuffer <= 0) {
+				SpawnPickup((int)Pickup.Type.GoldenSkull, position); //check for goldenskull
+				goldSkullBuffer = 50;
+			}
+			else {
+				SpawnPickup((int)Pickup.Type.Skull, position);
+				if (goldSkullBuffer > 0) goldSkullBuffer--;
+			}
 		}
 
 		//Health Pickup
