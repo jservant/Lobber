@@ -33,7 +33,6 @@ public class HeadProjectile : MonoBehaviour {
 
 	private void OnTriggerEnter(Collider other) {
 		if (other.gameObject.layer == (int)Layers.EnemyHurtbox || other.gameObject.layer == (int)Layers.AgnosticHurtbox) {
-			gameMan.SpawnParticle(0, transform.position, 1f);
 			Sound_HeadImpact();
 			if (canStun) {
 				Collider[] eColliders = Physics.OverlapSphere(transform.position, stunSphereRadius, Mask.Get(Layers.EnemyHurtbox));
@@ -60,7 +59,13 @@ public class HeadProjectile : MonoBehaviour {
 		HeadImpactSound.Post(gameObject);
 	}
 
-    void OnDrawGizmos() {
+	void OnDestroy() {
+		this.transform.Find("Model/Trail").parent = null;
+		this.transform.Find("Model/Trail 2").parent = null;
+		gameMan.SpawnParticle(0, transform.position, 1f);
+	}
+
+	void OnDrawGizmos() {
 		Gizmos.color = Color.white;
 		Gizmos.DrawWireSphere(transform.position, stunSphereRadius);
 	}
