@@ -322,7 +322,6 @@ public class PlayerController : MonoBehaviour {
 		headProj = gameMan.SkullPrefab;
 		slamPoint = transform.Find("SlamPoint");
 		shotgunPoint = transform.Find("ShotgunPoint");
-		crystalHolster = transform.Find("MAIN_JOINT/R_Leg_Hip_Joint/CrystalHipSpawn/CrystalPatch").gameObject;
 		crystalHolster.SetActive(false);
 
 		#region debug
