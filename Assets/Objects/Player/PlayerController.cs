@@ -654,7 +654,8 @@ public class PlayerController : MonoBehaviour {
 			Pickup headPickup = other.gameObject.GetComponent<Pickup>();
 			if (headPickup.lifetime <= headPickup.timeUntilCollect) {
 				headPickup.collected = true;
-				sounds.Sound_HeadPickup();
+				if (headPickup.pickupType == Pickup.Type.Skull) sounds.Sound_HeadPickup();
+				if (headPickup.pickupType == Pickup.Type.Health) sounds.Sound_HealthPickup();
 				GameObject.Destroy(other.transform.gameObject);
 			}
 		}

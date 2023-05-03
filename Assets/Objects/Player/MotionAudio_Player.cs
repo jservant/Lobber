@@ -129,4 +129,10 @@ public class MotionAudio_Player : MonoBehaviour
     {
         HeadPickup.Post(gameObject);
     }
+
+    public AK.Wwise.Event HealthPickup;
+
+    public void Sound_HealthPickup() {
+        HealthPickup.Post(gameObject);
+    }
 }

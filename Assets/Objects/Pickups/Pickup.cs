@@ -15,6 +15,7 @@ public class Pickup : MonoBehaviour {
 	PlayerController playerController;
 	public MeshRenderer headModel;
 	TrailRenderer headTrail;
+	public AK.Wwise.Event goldenSkullDrop;
 
 	[Header("Movement:")]
 	public float flightAngle; //degree to which head flies upwards
@@ -56,6 +57,8 @@ public class Pickup : MonoBehaviour {
 		if (transform.position.y > 0) {
 			SetRandomFlightPath(); 
 		}
+
+		if (pickupType == Type.GoldenSkull) Sound_GoldenSkullDrop();
 	}
 
 	void SetRandomFlightPath() {
@@ -165,6 +168,10 @@ public class Pickup : MonoBehaviour {
 		}
 
 		blinkTime += Time.deltaTime;
+	}
+
+	public void Sound_GoldenSkullDrop() {
+		goldenSkullDrop.Post(gameObject);
 	}
 
 	void OnDrawGizmosSelected() {
