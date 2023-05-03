@@ -380,6 +380,7 @@ public class Basic : MonoBehaviour {
 		directive = Directive.Spawn;
 		if (isSandbag) { directive = Directive.Sandbag; }
 		animationTimer = animationTimes["Enemy_Spawn"];
+		
 		{
 			// Between frames 10, 16, move upward
 			// Between frames 17, 24, move downward, hit the floor
@@ -408,10 +409,12 @@ public class Basic : MonoBehaviour {
 			layerMask &= ~Mask.Get(Layers.StickyLedge);
 		}
 
-		Util.PerformCheckedLateralMovement(this.gameObject, 0.75f, 0.5f, movementDelta * Time.fixedDeltaTime, layerMask);
-
 		if (directive != Directive.Spawn) {
+			Util.PerformCheckedLateralMovement(this.gameObject, 0.75f, 0.5f, movementDelta * Time.fixedDeltaTime, layerMask);
 			Util.PerformCheckedVerticalMovement(this.gameObject, 0.75f, 0.2f, 0.5f, 30.0f);
+		}
+		else if (directive == Directive.Spawn) {
+			transform.position += movementDelta * Time.fixedDeltaTime;
 		}
 	}
 
@@ -518,18 +521,18 @@ public class Basic : MonoBehaviour {
 					float animationTimerRatio = 1.0f - animationTimer / animationTimes["Enemy_Spawn"];
 					// Between frames 0, 24 move forward
 					if (animationTimerRatio > 0 && animationTimerRatio < 0.4285f) {
-						transform.position += this.transform.rotation * Vector3.forward * spawnLateralSpeed * Time.deltaTime;
+						movementDelta += this.transform.rotation * Vector3.forward * spawnLateralSpeed;
 					}
 					
 					// @TODO(Roskuski): Blend between up and down?
  
 					// Between frames 10, 16, move upward
 					if (animationTimerRatio > 0.1785f && animationTimerRatio < 0.2857f) {
-						transform.position += this.transform.rotation * Vector3.up * spawnUpwardsSpeed * Time.deltaTime;
+						movementDelta += this.transform.rotation * Vector3.up * spawnUpwardsSpeed;
 					}
 					// Between frames 17, 24, move downward, hit the floor
 					if (animationTimerRatio > 0.3035f && animationTimerRatio < 0.4285f) {
-						transform.position += this.transform.rotation * Vector3.down * spawnDownwardsSpeed * Time.deltaTime;
+						movementDelta += this.transform.rotation * Vector3.down * spawnDownwardsSpeed;
 					}
 					
 					if (animationTimerRatio > 0.4285f) {
