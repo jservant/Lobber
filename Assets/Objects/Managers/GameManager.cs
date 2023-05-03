@@ -508,43 +508,40 @@ public class GameManager : MonoBehaviour {
 			if (currentObjective != Objectives.None && transitioningLevel == false) playerController.Hit(1, null);
 		}
 
-		// Credit for waypoint tracking code:
-		// https://github.com/OBalfaqih/Unity-Tutorials/blob/master/Unity%20Tutorials/WaypointMarker/Scripts/MissionWaypoint.cs
 		if (waypointTracking) {
-			// Giving limits to the icon so it sticks on the screen
-			// Below calculations with the assumption that the icon anchor point is in the middle
-			// Minimum X position: half of the icon width
-			float minX = waypointMarker.GetPixelAdjustedRect().width / 2;
-			// Maximum X position: screen width - half of the icon width
-			float maxX = Screen.width - minX;
+			Vector2 markerScreenPosition = new Vector2(-1, -1);
+			Vector3 targetPosition = waypointTarget.position + waypointOffset;
 
-			// Minimum Y position: half of the height
-			float minY = waypointMarker.GetPixelAdjustedRect().height / 2;
-			// Maximum Y position: screen height - half of the icon height
-			float maxY = Screen.height - minY;
-
-			// Temporary variable to store the converted position from 3D world point to 2D screen point
-			Vector2 pos = UnityEngine.Camera.main.WorldToScreenPoint(waypointTarget.position + waypointOffset);
-
-			// Check if the target is behind us, to only show the icon once the target is in front
-			if (Vector3.Dot((waypointTarget.position - UnityEngine.Camera.main.transform.position), transform.forward) < 0) {
-				// Check if the target is on the left side of the screen
-				if (pos.x < Screen.width / 2) {
-					// Place it on the right (Since it's behind the player, it's the opposite)
-					pos.x = maxX;
+			Plane[] cameraPlanes = GeometryUtility.CalculateFrustumPlanes(UnityEngine.Camera.main);
+			if (GeometryUtility.TestPlanesAABB(cameraPlanes, new Bounds(targetPosition, new Vector3(0.1f, 0.1f, 0.1f)))) {
+				markerScreenPosition = UnityEngine.Camera.main.WorldToScreenPoint(targetPosition);
+			}
+			else {
+				float minDistance = Mathf.Infinity;
+				Ray rayToTarget = new Ray(playerController.transform.position, targetPosition - playerController.transform.position);
+				foreach (Plane plane in cameraPlanes) {
+					float distance;
+					if (plane.Raycast(rayToTarget, out distance)) {
+						if (minDistance > distance) {
+							minDistance = distance;
+						}
+					}
 				}
-				else {
-					// Place it on the left side
-					pos.x = minX;
+
+				if (minDistance != Mathf.Infinity) {
+					Vector3 markerPosition = rayToTarget.GetPoint(minDistance);
+					markerScreenPosition = UnityEngine.Camera.main.WorldToScreenPoint(markerPosition);
 				}
 			}
 
-			// Limit the X and Y positions
-			pos.x = Mathf.Clamp(pos.x, minX, maxX);
-			pos.y = Mathf.Clamp(pos.y, minY, maxY);
+			// @TODO(Roskuski): These limts should respect the UI. Also I think it would look cool if the limit was shaped like an oval.
+			// NOTE(Roskuski): Below assumes the anchor of the marker element is in the center.
+			Vector2 MarkerMin = new Vector2(waypointMarker.GetPixelAdjustedRect().width / 2, waypointMarker.GetPixelAdjustedRect().height / 2);
+			Vector2 MarkerMax = new Vector2(Screen.width - MarkerMin.x, Screen.height - MarkerMin.y);
+			markerScreenPosition.x = Mathf.Clamp(markerScreenPosition.x, MarkerMin.x, MarkerMax.x);
+			markerScreenPosition.y = Mathf.Clamp(markerScreenPosition.y, MarkerMin.y, MarkerMax.y);
 
-			// Update the marker's position
-			waypointMarker.transform.position = pos;
+			waypointMarker.transform.position = markerScreenPosition;
 			// Change the meter text to the distance with the meter unit 'm'
 			waypointDistanceText.text = ((int)Vector3.Distance(waypointTarget.position, player.transform.position)).ToString() + "m";
 		}
