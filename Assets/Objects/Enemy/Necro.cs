@@ -103,6 +103,7 @@ public class Necro : MonoBehaviour {
 		comfortableDistance = Random.Range(ReferenceComfortableDistance - 2, ReferenceComfortableDistance + 2);
 
 		directive = Directive.Spawn;
+		gameMan.SpawnParticle(9, transform.position, 1f);
 	}
 
 	void FixedUpdate() {

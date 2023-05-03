@@ -59,4 +59,8 @@ public class NecroProjectile : MonoBehaviour {
 			this.transform.localScale = new Vector3(1, 1, 1);
 		}
 	}
+
+    private void OnDestroy() {
+		gameMan.SpawnParticle(9, transform.position, 1f);
+    }
 }

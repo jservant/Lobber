@@ -12,6 +12,9 @@ public class Camera : MonoBehaviour {
 	PlayerController playerController;
 	Vector2 cInput;
 	public GameObject camera2;
+	public bool canRotate;
+
+	public Transform followTarget;
 
 	void Start() {
 		gameManager = transform.Find("/GameManager").GetComponent<GameManager>();
@@ -22,11 +25,14 @@ public class Camera : MonoBehaviour {
 
 	// Update is called once per frame
 	void FixedUpdate() {
-		//cInput = player.pActions.Player.Aim.ReadValue<Vector2>();
 		if (playerController.transform.position.y >= yConst) { transform.position = new Vector3(playerController.transform.position.x, playerController.transform.position.y, playerController.transform.position.z); }
 		else { transform.position = new Vector3(playerController.transform.position.x, yConst, playerController.transform.position.z); }
-		//transform.Rotate(0f, cInput.x * cSpeed * Time.fixedDeltaTime, 0f, Space.World);
-		//camera2.transform.Rotate(cInput.y * -cSpeed * Time.fixedDeltaTime, 0f, 0f, Space.Self);
+
+		if (canRotate) {
+			cInput = playerController.pActions.Player.Aim.ReadValue<Vector2>();
+			transform.Rotate(0f, cInput.x * cSpeed * Time.fixedDeltaTime, 0f, Space.World);
+			camera2.transform.Rotate(cInput.y * -cSpeed * Time.fixedDeltaTime, 0f, 0f, Space.Self);
+		}
 	}
 
 }
