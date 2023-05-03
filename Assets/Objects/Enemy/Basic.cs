@@ -190,7 +190,7 @@ public class Basic : MonoBehaviour {
 				animator.SetTrigger("wasHurt");
 				break;
 			case StunTime.LongStun:
-				stunValue = 2f;
+				stunValue = Random.Range(2f, 2.2f);
 				animator.SetTrigger("wasHeavyHurt");
 				isInHeavyStun = true;
 				break;
@@ -199,7 +199,7 @@ public class Basic : MonoBehaviour {
 				break;
 		}
 
-		stunDuration += stunValue;
+		stunDuration = stunValue;
 		hitflashTimer = 0.25f;
 
 		swordHitbox.enabled = false;
