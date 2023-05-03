@@ -609,6 +609,10 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 
+		if ((currentState == States.Idle || currentState == States.Walking) && IsAttackState(Current)) {
+			animr.Play("Base.Idle");
+		}
+
 	}
 
 	//@TODO(Jaden): Add i-frames and trigger hitstun state when hit
@@ -623,9 +627,11 @@ public class PlayerController : MonoBehaviour {
 						case Basic.Attack.Slash:
 							damage = 1;
 							break;
+
 						case Basic.Attack.Lunge:
 							damage = 2;
 							break;
+
 						default:
 							Debug.Assert(false);
 							break;
