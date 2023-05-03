@@ -25,7 +25,10 @@ public class Camera : MonoBehaviour {
 
 	// Update is called once per frame
 	void FixedUpdate() {
-		if (playerController.transform.position.y >= yConst) { transform.position = new Vector3(playerController.transform.position.x, playerController.transform.position.y, playerController.transform.position.z); }
+		if (followTarget != null) {
+			transform.position = followTarget.position;
+		}
+		else if (playerController.transform.position.y >= yConst) { transform.position = new Vector3(playerController.transform.position.x, playerController.transform.position.y, playerController.transform.position.z); }
 		else { transform.position = new Vector3(playerController.transform.position.x, yConst, playerController.transform.position.z); }
 
 		if (canRotate) {
