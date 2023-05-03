@@ -504,7 +504,7 @@ public class GameManager : MonoBehaviour {
 			int spawnPointIndex = Util.RollWeightedChoice(spawnPointWeights);
 			playerController.transform.position = playerRespawnPoints[spawnPointIndex].position;
 
-			if (currentObjective != Objectives.None) playerController.Hit(1, null);
+			if (currentObjective != Objectives.None && transitioningLevel == false) playerController.Hit(1, null);
 		}
 
 		// Credit for waypoint tracking code:
@@ -607,14 +607,7 @@ public class GameManager : MonoBehaviour {
 			}
 			if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed && playerController.pActions.Player.DEBUGKillAll.WasPerformedThisFrame()) {
 				if (canSpawn) {
-					Basic[] allBasic = FindObjectsOfType<Basic>();
-					foreach (Basic basicEnemy in allBasic) {
-						Destroy(basicEnemy.gameObject);
-					}
-					Exploding[] allExplosive = FindObjectsOfType<Exploding>();
-					foreach (Exploding explodingEnemy in allExplosive) {
-						Destroy(explodingEnemy.gameObject);
-					}
+					KillAll();
 					canSpawn = false;
 				}
 				else canSpawn = true;
@@ -670,6 +663,7 @@ public class GameManager : MonoBehaviour {
 		statusTextboxText.text = "Stage Clear!";
 		float[] sceneChances = new float[] { 0, 1f, 1f, 1f };
 		sceneChances[SceneManager.GetActiveScene().buildIndex] = 0;
+		KillAll();
 		yield return new WaitForSeconds(5);
 		storedPlayerHealth = playerController.health;
 		storedPlayerMeter = playerController.meter;
@@ -837,6 +831,25 @@ public class GameManager : MonoBehaviour {
 				attackIconObjects[index - 1].color = Color.yellow;
 				iconText[index - 1].color = Color.yellow;
 			}
+		}
+	}
+
+	public void KillAll() {
+		OrbSpawn[] allOrbs = FindObjectsOfType<OrbSpawn>();
+		foreach (OrbSpawn orb in allOrbs) {
+			Destroy(orb.gameObject);
+		}
+		Basic[] allBasic = FindObjectsOfType<Basic>();
+		foreach (Basic basicEnemy in allBasic) {
+			Destroy(basicEnemy.gameObject);
+		}
+		Exploding[] allExplosive = FindObjectsOfType<Exploding>();
+		foreach (Exploding explodingEnemy in allExplosive) {
+			Destroy(explodingEnemy.gameObject);
+		}
+		Necro[] allNecro = FindObjectsOfType<Necro>();
+		foreach (Necro necroEnemy in allNecro) {
+			Destroy(necroEnemy.gameObject);
 		}
 	}
 
