@@ -27,6 +27,10 @@ public class Exploding : MonoBehaviour {
 	Vector3 movementDelta;
 	bool reevaluateMovement = false;
 
+	float spawnLateralSpeed = 5f;
+	float spawnUpwardsSpeed = 5f;
+	float spawnDownwardsSpeed;
+
 	KnockbackInfo knockbackInfo;
 	float remainingKnockbackTime;
 
@@ -174,6 +178,10 @@ public class Exploding : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
+		if (directive == Directive.Spawn) {
+			this.transform.position += movementDelta * Time.fixedDeltaTime;
+		}
+
 		if (directive == Directive.WaitForFuse || directive == Directive.Death || directive == Directive.Explosion) {
 			int layerMask = ~Mask.Get(Layers.EnemyHitbox);
 
@@ -183,6 +191,22 @@ public class Exploding : MonoBehaviour {
 
 			reevaluateMovement = Util.PerformCheckedLateralMovement(this.gameObject, 0.75f, 0.5f, movementDelta * Time.fixedDeltaTime, layerMask);
 			Util.PerformCheckedVerticalMovement(this.gameObject, 0.75f, 0.2f, 0.5f, 30.0f);
+		}
+
+		{
+			// Between frames 10, 16, move upward
+			// Between frames 17, 24, move downward, hit the floor
+			float lateralTime = (2.0f - 1.2f);
+			float upwardsTime = (2.0f - 1.6f);
+			float downwardsTime = (1.6f - 1.2f);
+
+			RaycastHit hitInfo;
+			// NOTE(Roskuski): I'm not certain why we need to rotate Vector3.back to test in the correct direction here. Vector3.forward results in testing in the direction behind the skeleton.
+			if (!Physics.Raycast(this.transform.position + this.transform.rotation * Vector3.back * spawnLateralSpeed * lateralTime, Vector3.down, out hitInfo, Mathf.Infinity, Mask.Get(Layers.Ground))) {
+				Physics.Raycast(this.transform.position, Vector3.down, out hitInfo, Mathf.Infinity, Mask.Get(Layers.Ground));
+				spawnLateralSpeed = 0;
+			}
+			spawnDownwardsSpeed = (spawnUpwardsSpeed * upwardsTime + hitInfo.distance) / downwardsTime;
 		}
 	} 
 
@@ -231,6 +255,25 @@ public class Exploding : MonoBehaviour {
 				if (spawnDuration < 0) {
 					ChangeDirective_WaitForFuse();
 				}
+
+				if (spawnDuration < 2f && spawnDuration > 1.2f) {
+					movementDelta += this.transform.rotation * Vector3.forward * spawnLateralSpeed;
+				}
+
+				if (spawnDuration < 1.4f) {
+					animator.SetTrigger("SpawnMoveEnd");
+				}
+
+				if (spawnDuration < 2f && spawnDuration > 1.6f) {
+					movementDelta += Vector3.up * spawnUpwardsSpeed;
+					animator.SetBool("IsRising", true);
+				}
+
+				if (spawnDuration < 1.6f && spawnDuration > 1.2f) {
+					movementDelta += Vector3.down * spawnDownwardsSpeed;
+					animator.SetBool("IsRising", false);
+				}
+
 				break;
 
 			case Directive.WaitForFuse:
