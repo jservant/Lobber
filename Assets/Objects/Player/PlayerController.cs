@@ -255,6 +255,8 @@ public class PlayerController : MonoBehaviour {
 	GameManager gameMan;
 	MotionAudio_Player sounds;
 
+	public HapticEffect hitEffect;
+
 	[Header("Movement:")]
 	public Vector2 trueInput;							// movement vector read from left stick
 	float trueAngle = 0f;								// movement angle float generated from trueInput
@@ -681,6 +683,9 @@ public class PlayerController : MonoBehaviour {
 				Debug.Log("OWIE " + other.name + " JUST HIT ME! I have " + health + " health");
 			}
 		}
+
+		//trigger haptics here
+		if (GameObject.Find("HapticManager") != null) HapticManager.PlayEffect(hitEffect, this.transform.position);
 	}
 
 	IEnumerator Death() {
