@@ -197,6 +197,7 @@ public class Pickup : MonoBehaviour {
 					playerController.hasCrystal = true;
 					playerController.crystalHolster.SetActive(true);
 					gameMan.crystalPickupImage.enabled = true;
+					gameMan.waypointTracking = true;
 					break;
 				default:
 					Debug.Log("Something is wrong with a pickup");

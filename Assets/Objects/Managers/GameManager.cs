@@ -111,7 +111,7 @@ public class GameManager : MonoBehaviour {
 	public bool updateTimeScale = true;
 	public bool canSpawn = true;
 	public bool debugTools = true;
-	bool waypointTracking = true;
+	public bool waypointTracking = true;
 	DebugActions dActions;
 	float frozenTime = 0;
 
