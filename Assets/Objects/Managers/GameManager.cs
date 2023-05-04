@@ -232,11 +232,12 @@ public class GameManager : MonoBehaviour {
 	private void Update() {
 		if (updateTimeScale) {
 			if (frozenTime > 0) {
+				if (frozenTime > 4) frozenTime = 4;
 				Time.timeScale = 0.0f;
 				frozenTime -= Time.unscaledDeltaTime;
 			}
 			else {
-				//Time.timeScale = 1.0f;
+				Time.timeScale = 1.0f;
 			}
 		}
 

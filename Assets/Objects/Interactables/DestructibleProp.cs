@@ -57,9 +57,40 @@ public class DestructibleProp : MonoBehaviour
 				Destroy(gameObject); 
 			}
 			else {
-				hitflashTimer = 0.15f;
-				int random = Random.Range(1, headOffset);
-				SpawnHeads(random);
+				if (other.gameObject.layer == (int)Layers.PlayerHitbox) {
+					HeadProjectile head = other.GetComponentInParent<HeadProjectile>();
+					PlayerController player = other.GetComponentInParent<PlayerController>();
+					ExplosiveTrap explosiveTrap = other.GetComponentInParent<ExplosiveTrap>();
+
+					if (player != null) {
+						if (player.currentAttack == PlayerController.Attacks.Chop) {
+							hitflashTimer = 0.25f;
+							SpawnHeads(2);
+						}
+						else if (player.currentAttack == PlayerController.Attacks.Slam) {
+							hitflashTimer = 0.25f;
+							SpawnHeads(3);
+						}
+						else {
+							hitflashTimer = 0.15f;
+							SpawnHeads(1);
+						}
+					}
+					else if (head != null) {
+						hitflashTimer = 0.15f;
+						SpawnHeads(1);
+					}
+					else if (explosiveTrap != null) {
+						hitflashTimer = 0.25f;
+						SpawnHeads(3);
+					}
+
+				}
+				else {
+					hitflashTimer = 0.15f;
+					SpawnHeads(1);
+				}
+
 				if (heads <= 0) Destroy(gameObject);
 			}
 		}
