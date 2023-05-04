@@ -861,6 +861,7 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
+	#region Menu Navigation
 	public void OnResume() {
 		eSystem.SetSelectedGameObject(null);
 		updateTimeScale = true;
@@ -869,8 +870,16 @@ public class GameManager : MonoBehaviour {
 		pauseBG.enabled = false;
 	}
 
-	public void OnRestart() {
-		MenuManager.OnPlay();
+	public static void OnRestart() {
+		storedPlayerHealth = 10;
+		storedPlayerMeter = 3;
+		levelCount = 1;
+		enemyKillingGoal = 20;
+		crystalHarvestingGoal = 3;
+		enemiesKilledInRun = 0;
+		Initializer.save.versionLatest.runsStarted++;
+		SceneManager.LoadScene((int)Scenes.Level_A); // disabling B for now
+
 	}
 
 	public void OnOptions() {
@@ -927,6 +936,7 @@ public class GameManager : MonoBehaviour {
 		Initializer.Save();
 		Application.Quit();
 	}
+	#endregion
 
 	void OnEnable() { dActions.Enable(); }
 	void OnDisable() { dActions.Disable(); }
