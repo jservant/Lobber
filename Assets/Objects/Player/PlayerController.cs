@@ -845,10 +845,12 @@ public class PlayerController : MonoBehaviour {
 
 	public void Slam() {
 		gameMan.SpawnParticle(1, slamPoint.position, 1f);
+		gameMan.ShakeCamera(5f, 0.75f);
 	}
 
 	public void Shotgun() {
 		gameMan.SpawnParticle(0, shotgunPoint.position, 1.5f);
+		gameMan.ShakeCamera(3f, 0.25f);
 	}
 	#endregion
 

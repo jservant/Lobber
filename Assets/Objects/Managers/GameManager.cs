@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour {
 	[Header("Persistent Variables:")]
 	public Transform player;
 	public PlayerController playerController;
+	public CameraShake cameraShake;
 	public static int storedPlayerHealth = 0;
 	public static float storedPlayerMeter = 0;
 	public static int enemiesKilledInRun = 0;
@@ -126,6 +127,7 @@ public class GameManager : MonoBehaviour {
 		}
 		else Debug.LogWarning("Object Named Player Not found");
 
+		cameraShake = transform.Find("/CameraPoint").GetComponentInChildren<CameraShake>();
 		dActions = new DebugActions();
 		eSystem = GetComponent<EventSystem>();
 		mainUI = transform.Find("MainUI").GetComponent<Canvas>();
@@ -706,6 +708,10 @@ public class GameManager : MonoBehaviour {
 	// Frames60 is the amount of time, based on a 16.66ms long frame
 	public void FreezeFrames(int Frames60) {
 		frozenTime += (float)(Frames60) / 60.0f;
+	}
+
+	public void ShakeCamera(float intensity, float duration) {
+		cameraShake._ShakeCamera(intensity, duration);
 	}
 
 	// @TODO(Roskuski): Particles' parent objects do not destory themselves after their particles have. this will leave empty gameobjects lying around the scene as the game progresses, but since we don't have respawning destructible props we should have to worry about this leak.
