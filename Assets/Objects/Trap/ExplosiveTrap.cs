@@ -67,6 +67,7 @@ public class ExplosiveTrap : MonoBehaviour {
 		hitbox.SetActive(true);
 		gameMan.SpawnParticle(2, explosionPoint.position, 1f);
 		Explosion_Sound();
+		gameMan.ShakeCamera(5f, 0.25f);
 	}
 
 	void Explosion_Sound() {

@@ -321,6 +321,7 @@ public class Basic : MonoBehaviour {
 							wasHitByChop = true;
 							player.ChangeMeter(1);
 							sounds.Sound_EnemyLob();
+							gameMan.ShakeCamera(5f, 0.1f);
 							break;
 
 						default:

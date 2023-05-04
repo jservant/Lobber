@@ -255,7 +255,7 @@ public class PlayerController : MonoBehaviour {
 	GameManager gameMan;
 	MotionAudio_Player sounds;
 
-	public HapticEffect hitEffect;
+	public HapticEffect[] hapticEffects;
 
 	[Header("Movement:")]
 	public Vector2 trueInput;							// movement vector read from left stick
@@ -685,7 +685,8 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		//trigger haptics here
-		if (GameObject.Find("HapticManager") != null) HapticManager.PlayEffect(hitEffect, this.transform.position);
+		if (GameObject.Find("HapticManager") != null) HapticManager.PlayEffect(hapticEffects[0], this.transform.position);
+		gameMan.ShakeCamera(5f, 0.1f);
 	}
 
 	IEnumerator Death() {
@@ -845,11 +846,13 @@ public class PlayerController : MonoBehaviour {
 
 	public void Slam() {
 		gameMan.SpawnParticle(1, slamPoint.position, 1f);
+		if (GameObject.Find("HapticManager") != null) HapticManager.PlayEffect(hapticEffects[1], this.transform.position);
 		gameMan.ShakeCamera(5f, 0.75f);
 	}
 
 	public void Shotgun() {
 		gameMan.SpawnParticle(0, shotgunPoint.position, 1.5f);
+		if (GameObject.Find("HapticManager") != null) HapticManager.PlayEffect(hapticEffects[2], this.transform.position);
 		gameMan.ShakeCamera(3f, 0.25f);
 	}
 	#endregion

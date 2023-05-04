@@ -439,6 +439,7 @@ public class Exploding : MonoBehaviour {
 					else {
 						sounds.PestBombExplode();
 						gameMan.SpawnParticle(3, transform.position, 1f);
+						gameMan.ShakeCamera(5f, 0.25f);
 						Destroy(this.gameObject);
 					}
 				}
