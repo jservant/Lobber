@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviour {
 	public Button resumeButton;
 	public Canvas pauseUI;
 	public Canvas optionsUI;
+	public TMP_Dropdown resolutionDropdown;
 	public Button statsButton;
 	public Canvas statsUI;
 	public Button statsBackButton;
@@ -95,11 +96,10 @@ public class GameManager : MonoBehaviour {
 	public int enemiesAlive = 0;
 	public int goldenSkullDropChance = 2; //out of 100
 	public int goldSkullBuffer = 10;
-	bool transitioningLevel = false;
 	
 	[SerializeField] float spawnTokens;
-	float spawnDelay;
 
+	[Header("Spawn tokens:")]
 	public const float TokenCost_SmallSpawn = 30;
 	public const float TokenCost_MediumSpawn = 60;
 	public const float TokenCost_BigSpawn = 80;
@@ -115,9 +115,12 @@ public class GameManager : MonoBehaviour {
 	public bool waypointTracking = true;
 	DebugActions dActions;
 	float frozenTime = 0;
+	bool transitioningLevel = false;
 
 	[Header("Particle System:")]
 	public ParticleSystem[] particles;
+
+	Resolution[] resolutions;
 
 	void Awake() {
 		player = transform.Find("/Player");
@@ -136,6 +139,7 @@ public class GameManager : MonoBehaviour {
 		resumeButton = transform.Find("PauseUI/ResumeButton").GetComponent<Button>();
 		pauseUI = transform.Find("PauseUI").GetComponent<Canvas>();
 		optionsUI = transform.Find("OptionsUI").GetComponent<Canvas>();
+		resolutionDropdown = transform.Find("OptionsUI/VisualSettings/Resolution/ResolutionDropdown").GetComponent<TMP_Dropdown>();
 		statsUI = transform.Find("StatsUI").GetComponent<Canvas>();
 		statusTextboxText = transform.Find("StatusTextbox/StatusTextboxText").GetComponent<TMP_Text>();
 		statusTextboxText.text = "";
@@ -148,6 +152,23 @@ public class GameManager : MonoBehaviour {
 		Time.timeScale = 1;
 		spawnTokens = 100;
 		objectiveFadeTimer = 5f;
+
+		int resolutionIndex = 0;
+		resolutions = Screen.resolutions;
+		resolutionDropdown.ClearOptions();
+		List<string> resolutionOptions = new List<string>();
+		for (int i = 0; i < resolutions.Length; i++) {
+			string resolutionOption = resolutions[i].width + " x " + resolutions[i].height + " @ " + resolutions[i].refreshRate + "hz";
+			resolutionOptions.Add(resolutionOption);
+
+			if (resolutions[i].width == Screen.currentResolution.width && resolutions[i].height == Screen.currentResolution.height) {
+				resolutionIndex = i;
+			}
+		}
+
+		resolutionDropdown.AddOptions(resolutionOptions);
+		resolutionDropdown.value = resolutionIndex;
+		resolutionDropdown.RefreshShownValue();
 
 		UpdatePlayerSpawns();
 		
@@ -893,6 +914,19 @@ public class GameManager : MonoBehaviour {
 		optionsUI.enabled = true;
 		statsButton = transform.Find("OptionsUI/StatsButton").GetComponent<Button>();
 		statsButton.Select();
+	}
+
+	public void SetQuality(int qualityIndex) {
+		QualitySettings.SetQualityLevel(qualityIndex);
+	}
+
+	public void SetResolution(int resolutionIndex) {
+		Resolution resolution = resolutions[resolutionIndex];
+		Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+	}
+
+	public void SetFullScreen(bool isFullscreen) {
+		Screen.fullScreenMode = isFullscreen ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed;
 	}
 
 	public void OnStats() {
