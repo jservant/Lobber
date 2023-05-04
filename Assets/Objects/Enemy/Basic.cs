@@ -993,6 +993,7 @@ public class Basic : MonoBehaviour {
 		gameMan.enemiesAlive -= 1;
 		gameMan.enemiesKilledInLevel += 1;
 		GameManager.enemiesKilledInRun += 1;
+		if (isCrystallized) { gameMan.isCrystalEnemyAlive = false; }
 		Initializer.save.versionLatest.basicEnemyKills++;
 	}
 
