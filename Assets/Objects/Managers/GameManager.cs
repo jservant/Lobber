@@ -120,6 +120,7 @@ public class GameManager : MonoBehaviour {
 
 	[Header("Particle System:")]
 	public ParticleSystem[] particles;
+	public GameObject[] corpses;
 
 	public RenderPipelineAsset[] qualityLevels;
 	Resolution[] resolutions;
@@ -753,6 +754,13 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
+	public void SpawnCorpse(int corpseID, Vector3 position, Quaternion rotation, float forceMultiplier, bool hasHead) {
+		var corpse = Instantiate(corpses[corpseID], position, rotation);
+		var forceScript = corpse.GetComponent<RandomForce>();
+		forceScript.force *= forceMultiplier;
+		forceScript.hasHead = hasHead;
+    }
+
 	public void DeterminePickups(Vector3 position, bool isCrystallized) {
 		float meterBeforeUse = playerController.meter + PlayerController.AttackMeterCost[(int)playerController.currentAttack];
 		if (playerController.currentAttack == PlayerController.Attacks.None) {
@@ -784,7 +792,6 @@ public class GameManager : MonoBehaviour {
 		//Health Pickup
 		pickupDecider = Random.Range(1, 100);
 		if (pickupDecider <= healthChance) SpawnPickup((int)Pickup.Type.Health, position); //check for healthdrop
-		
 	}
 
 	public void SpawnPickup(int pickupID, Vector3 position) {

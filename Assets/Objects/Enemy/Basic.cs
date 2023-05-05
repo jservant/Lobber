@@ -306,6 +306,7 @@ public class Basic : MonoBehaviour {
 							Debug.Log(gameObject.name + "'s posDifference after slam: " + posDifference);
 							if (posDifference < 40f) {
 								shouldDie = true;
+								ChangeDirective_Stunned(StunTime.LongStun, newKnockbackInfo);
 							} 
 							else if (posDifference < 80f) {
 								health -= 4;
@@ -322,6 +323,7 @@ public class Basic : MonoBehaviour {
 							player.ChangeMeter(1);
 							sounds.Sound_EnemyLob();
 							gameMan.ShakeCamera(5f, 0.1f);
+							ChangeDirective_Stunned(StunTime.LongStun, newKnockbackInfo);
 							break;
 
 						default:
@@ -345,6 +347,7 @@ public class Basic : MonoBehaviour {
 					// NOTE(Roskuski): Explosive enemy
 					KnockbackInfo newKnockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
 					ChangeDirective_Stunned(StunTime.LongStun, newKnockbackInfo);
+					newKnockbackInfo.force *= 2f;
 					health -= health;
 				}
 			}
@@ -985,6 +988,11 @@ public class Basic : MonoBehaviour {
 				}
 				else if (!wasHitByChop) gameMan.DeterminePickups(spawnPos, isCrystallized);
 			}
+
+			float corpseForce = 0;
+			if (remainingKnockbackTime > 0) corpseForce = knockbackInfo.force / 10f;
+			if (!wasHitByChop) gameMan.SpawnCorpse(0, transform.position, transform.rotation, corpseForce, true);
+			else gameMan.SpawnCorpse(0, transform.position, transform.rotation, corpseForce, false);
 			Destroy(this.gameObject); 
 		}
 	}
