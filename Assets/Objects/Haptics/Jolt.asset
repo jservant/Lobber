@@ -15,12 +15,30 @@ MonoBehaviour:
   Type: 0
   variesWithDistance: 0
   maxDistance: 25
-  duration: 0
-  lowSpeedIntensity: 1
-  highSpeedIntensity: 2
+  duration: 0.1
+  lowSpeedIntensity: 5
+  highSpeedIntensity: 0
   lowSpeedMotor:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0.08879877
+      outSlope: -0.08879877
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.0083313
+      value: 0.9104614
+      inSlope: -0.08879877
+      outSlope: -0.08879877
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4

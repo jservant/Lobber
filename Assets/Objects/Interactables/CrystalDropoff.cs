@@ -20,6 +20,7 @@ public class CrystalDropoff : MonoBehaviour
             playerController.hasCrystal = false;
             playerController.crystalHolster.SetActive(false);
             gameManager.crystalPickupImage.enabled = false;
+            gameManager.waypointMarker.enabled = false;
             gameManager.waypointTracking = false;
 		}
 	}

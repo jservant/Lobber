@@ -54,7 +54,6 @@ public class GameManager : MonoBehaviour {
 	public TMP_Text statsText2;
 	public TMP_Text statusTextboxText;
 	public TMP_Text objectiveText;
-	public TMP_Text waypointDistanceText;
 	public Image waypointMarker;
 
 	public Transform healthBar;
@@ -145,8 +144,8 @@ public class GameManager : MonoBehaviour {
 		statusTextboxText.text = "";
 		objectiveText = transform.Find("StatusTextbox/ObjectiveText").GetComponent<TMP_Text>();
 		objectiveText.text = "";
+		crystalDropoffSpawn = transform.Find("/CrystalDropoffSpawn");
 		waypointMarker = transform.Find("/GameManager/MainUI/WaypointMarker").GetComponent<Image>();
-		waypointDistanceText = transform.Find("/GameManager/MainUI/WaypointMarker/WaypointDistanceText").GetComponent<TMP_Text>();
 		meterImage = transform.Find("MainUI/MeterBar").GetComponent<Image>();
 		//inputDisplayUI = transform.Find("MainUI/InputDisplay").gameObject;
 		Time.timeScale = 1;
@@ -182,25 +181,20 @@ public class GameManager : MonoBehaviour {
 				}
 			}
 			enemySpawnPoints = TempArray;
-
-			if (SceneManager.GetActiveScene().buildIndex == (int)Scenes.Tutorial) {
-				currentObjective = Objectives.None;
-			} else {
-                float[] objectiveChoices = new float[] { 0f, 4f, 3f, 3f };
-                objectiveChoices[(int)currentObjective] = 0;
-                //objectiveChoices[(int)Objectives.KillTheEnemies] = 0;
-                //objectiveChoices[(int)Objectives.DestroyTheShrines] = 0;
-                //objectiveChoices[(int)Objectives.HarvestTheCrystals] = 0;
-                // PREVIOUS TWO LINES ARE TEMP while they don't work
-                currentObjective = (Objectives)Util.RollWeightedChoice(objectiveChoices);
-            }
-
+			 
+            float[] objectiveChoices = new float[] { 0f, 4f, 3f, 3f };
+            objectiveChoices[(int)currentObjective] = 0;
+            //objectiveChoices[(int)Objectives.KillTheEnemies] = 0;
+            //objectiveChoices[(int)Objectives.DestroyTheShrines] = 0;
+            //objectiveChoices[(int)Objectives.HarvestTheCrystals] = 0;
+            // PREVIOUS TWO LINES ARE TEMP while they don't work
+            currentObjective = (Objectives)Util.RollWeightedChoice(objectiveChoices);
         }
 		else {
+			currentObjective = Objectives.None;
 			playerController.health = playerController.healthMax;
 			playerController.meter = playerController.meterMax;
 		}
-		crystalDropoffSpawn = transform.Find("/CrystalDropoffSpawn");
 
 
 		switch (currentObjective) {
@@ -567,9 +561,7 @@ public class GameManager : MonoBehaviour {
 
 			waypointMarker.transform.position = markerScreenPosition;
 			// Change the meter text to the distance with the meter unit 'm'
-			waypointDistanceText.text = ((int)Vector3.Distance(waypointTarget.position, player.transform.position)).ToString() + "m";
 		}
-	
 
 		if (debugTools) {
 			if (!isMenuOpen) {
