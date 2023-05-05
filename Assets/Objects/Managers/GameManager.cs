@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.Rendering;
 using TMPro;
 
 public class GameManager : MonoBehaviour {
@@ -47,6 +48,7 @@ public class GameManager : MonoBehaviour {
 	public Canvas pauseUI;
 	public Canvas optionsUI;
 	public TMP_Dropdown resolutionDropdown;
+	public TMP_Dropdown graphicsDropdown;
 	public Button statsButton;
 	public Canvas statsUI;
 	public Button statsBackButton;
@@ -119,6 +121,7 @@ public class GameManager : MonoBehaviour {
 	[Header("Particle System:")]
 	public ParticleSystem[] particles;
 
+	public RenderPipelineAsset[] qualityLevels;
 	Resolution[] resolutions;
 
 	void Awake() {
@@ -139,6 +142,7 @@ public class GameManager : MonoBehaviour {
 		pauseUI = transform.Find("PauseUI").GetComponent<Canvas>();
 		optionsUI = transform.Find("OptionsUI").GetComponent<Canvas>();
 		resolutionDropdown = transform.Find("OptionsUI/VisualSettings/Resolution/ResolutionDropdown").GetComponent<TMP_Dropdown>();
+		graphicsDropdown = transform.Find("OptionsUI/VisualSettings/Graphics/GraphicsDropdown").GetComponent<TMP_Dropdown>();
 		statsUI = transform.Find("StatsUI").GetComponent<Canvas>();
 		statusTextboxText = transform.Find("StatusTextbox/StatusTextboxText").GetComponent<TMP_Text>();
 		statusTextboxText.text = "";
@@ -169,6 +173,21 @@ public class GameManager : MonoBehaviour {
 		resolutionDropdown.value = resolutionIndex;
 		resolutionDropdown.RefreshShownValue();
 
+		int qualityIndex = 0;
+		graphicsDropdown.ClearOptions();
+		List<string> qualityOptions = new List<string>();
+		for (int i = 0; i < qualityLevels.Length; i++) {
+			string qualityOption = qualityLevels[i].name;
+			qualityOptions.Add(qualityOption);
+
+			if (QualitySettings.GetQualityLevel() == i) {
+				qualityIndex = i;
+			}
+		}
+		graphicsDropdown.AddOptions(qualityOptions);
+		graphicsDropdown.value = qualityIndex;
+		graphicsDropdown.RefreshShownValue();
+
 		UpdatePlayerSpawns();
 		
 		if (canSpawn) {
@@ -184,10 +203,6 @@ public class GameManager : MonoBehaviour {
 			 
             float[] objectiveChoices = new float[] { 0f, 4f, 3f, 3f };
             objectiveChoices[(int)currentObjective] = 0;
-            //objectiveChoices[(int)Objectives.KillTheEnemies] = 0;
-            //objectiveChoices[(int)Objectives.DestroyTheShrines] = 0;
-            //objectiveChoices[(int)Objectives.HarvestTheCrystals] = 0;
-            // PREVIOUS TWO LINES ARE TEMP while they don't work
             currentObjective = (Objectives)Util.RollWeightedChoice(objectiveChoices);
         }
 		else {
@@ -910,6 +925,7 @@ public class GameManager : MonoBehaviour {
 
 	public void SetQuality(int qualityIndex) {
 		QualitySettings.SetQualityLevel(qualityIndex);
+		QualitySettings.renderPipeline = qualityLevels[qualityIndex];
 	}
 
 	public void SetResolution(int resolutionIndex) {
@@ -932,8 +948,8 @@ public class GameManager : MonoBehaviour {
 			"\nTotal Kills: " + (Initializer.save.versionLatest.basicEnemyKills + Initializer.save.versionLatest.explosiveEnemyKills + Initializer.save.versionLatest.necroEnemyKills + Initializer.save.versionLatest.bruteEnemyKills)
 			+ (Initializer.save.versionLatest.basicEnemyKills > 0 ? "\nBasic: " + Initializer.save.versionLatest.basicEnemyKills : "\n??? : ???")
 			+ (Initializer.save.versionLatest.explosiveEnemyKills > 0 ? "\nBomb Spiders: " + Initializer.save.versionLatest.explosiveEnemyKills : "\n??? : ???")
-			+ (Initializer.save.versionLatest.necroEnemyKills > 0 ? "\nNecromancers: " + Initializer.save.versionLatest.necroEnemyKills : "\n??? : ???")
-			+ (Initializer.save.versionLatest.bruteEnemyKills > 0 ? "\nBrutes: " + Initializer.save.versionLatest.bruteEnemyKills : "\n??? : ???");
+			+ (Initializer.save.versionLatest.necroEnemyKills > 0 ? "\nNecromancers: " + Initializer.save.versionLatest.necroEnemyKills : "\n??? : ???");
+			//+ (Initializer.save.versionLatest.bruteEnemyKills > 0 ? "\nBrutes: " + Initializer.save.versionLatest.bruteEnemyKills : "\n??? : ???");
 		statsText2.text =
 			"<b>RUNS:</b>"
 			+ "\nRuns started: " + Initializer.save.versionLatest.runsStarted

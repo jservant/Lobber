@@ -2741,17 +2741,7 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: Ultra
-      m_Image: {fileID: 0}
-    - m_Text: Very High
-      m_Image: {fileID: 0}
-    - m_Text: High
-      m_Image: {fileID: 0}
-    - m_Text: Medium
-      m_Image: {fileID: 0}
-    - m_Text: Low
-      m_Image: {fileID: 0}
-    - m_Text: Very Low
+    - m_Text: test
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -7678,6 +7668,7 @@ MonoBehaviour:
   pauseUI: {fileID: 0}
   optionsUI: {fileID: 0}
   resolutionDropdown: {fileID: 0}
+  graphicsDropdown: {fileID: 0}
   statsButton: {fileID: 0}
   statsUI: {fileID: 0}
   statsBackButton: {fileID: 0}
@@ -7685,7 +7676,6 @@ MonoBehaviour:
   statsText2: {fileID: 0}
   statusTextboxText: {fileID: 0}
   objectiveText: {fileID: 0}
-  waypointDistanceText: {fileID: 0}
   waypointMarker: {fileID: 0}
   healthBar: {fileID: 1317740716946293470}
   meterBar: {fileID: 694771950217479507}
@@ -7756,6 +7746,11 @@ MonoBehaviour:
   - {fileID: 7120889674988704938, guid: d7a8ebcf6492d8745a85b79d170093e5, type: 3}
   - {fileID: 2760637321169323564, guid: 80fc8835e57999f4989681c7723e9e82, type: 3}
   - {fileID: 3637195931465282224, guid: 07284049e5bf61648bc42108affcca3f, type: 3}
+  qualityLevels:
+  - {fileID: 11400000, guid: 7099afd3b99fc8747899c9fe15c7d084, type: 2}
+  - {fileID: 11400000, guid: b95ca92b52a45234b96da2a6aded910a, type: 2}
+  - {fileID: 11400000, guid: a48fefeac26a72f4bb71bd48e6043074, type: 2}
+  - {fileID: 11400000, guid: 789bced15e21a6d4aac77144623c2996, type: 2}
 --- !u!114 &265965205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10340,7 +10335,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Ultra
+  m_text: test
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
