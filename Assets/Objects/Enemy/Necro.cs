@@ -116,7 +116,7 @@ public class Necro : MonoBehaviour {
 		}
 
 		// NOTE(Roskuski): Copying the values from PlayerController, for now.
-		Util.PerformCheckedLateralMovement(this.gameObject, 1.0f, 0.5f, movementDelta * speedModifer * Time.fixedDeltaTime, ~Mask.Get(Layers.StickyLedge));
+		Util.PerformCheckedLateralMovement(this.gameObject, 1.0f, 0.5f, movementDelta * speedModifer * Time.fixedDeltaTime, ~Mask.Get(new Layers[] {Layers.StickyLedge, Layers.Corpses}));
 		this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, Quaternion.LookRotation(gameMan.player.position - this.transform.position, Vector3.up), TurnSpeed * Time.fixedDeltaTime);
 
 		// NOTE(Roskuski): float to the same height as the player

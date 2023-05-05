@@ -183,7 +183,7 @@ public class Exploding : MonoBehaviour {
 		}
 
 		if (directive == Directive.WaitForFuse || directive == Directive.Death || directive == Directive.Explosion) {
-			int layerMask = ~Mask.Get(Layers.EnemyHitbox);
+			int layerMask = ~Mask.Get(new Layers[] {Layers.EnemyHitbox, Layers.Corpses});
 
 			if (remainingKnockbackTime > 0) {
 				layerMask &= ~Mask.Get(Layers.StickyLedge);

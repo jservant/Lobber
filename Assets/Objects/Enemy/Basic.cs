@@ -404,7 +404,7 @@ public class Basic : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
-		int layerMask = ~Mask.Get(Layers.EnemyHitbox);
+		int layerMask = ~Mask.Get(new Layers[] {Layers.EnemyHitbox, Layers.Corpses});
 
 		if (remainingKnockbackTime > 0 || directive == Directive.Spawn) {
 			layerMask &= ~Mask.Get(Layers.StickyLedge);

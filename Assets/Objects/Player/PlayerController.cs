@@ -407,7 +407,7 @@ public class PlayerController : MonoBehaviour {
 
 		float fallingSpeed = 30.0f;
 		float stepUp = 0.75f;
-		int layerMask = ~0;
+		int layerMask = ~Mask.Get(Layers.Corpses);
 		if (currentAttack == Attacks.Dashing || currentAttack == Attacks.LethalDash) {
 			fallingSpeed = 0.0f;
 			stepUp = 1.5f;
