@@ -84,7 +84,7 @@ MonoBehaviour:
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.226
+    m_Value: 0.195
     min: 0
     max: 1
   smoothness:
@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97c23e3b12dc18c42a140437e53d3951, type: 3}
   m_Name: Tonemapping
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   m_AdvancedMode: 0
   mode:
     m_OverrideState: 1
@@ -428,13 +428,13 @@ MonoBehaviour:
   m_AdvancedMode: 0
   lift:
     m_OverrideState: 0
-    m_Value: {x: 1, y: 0.9978149, z: 0.9925682, w: 0.027447393}
+    m_Value: {x: 1, y: 0.9978149, z: 0.9925682, w: -0.020179978}
   gamma:
     m_OverrideState: 1
-    m_Value: {x: 0.9647886, y: 1, z: 0.96463925, w: 0.05193713}
+    m_Value: {x: 0.9647886, y: 1, z: 0.96463925, w: 0.24399182}
   gain:
-    m_OverrideState: 1
-    m_Value: {x: 1, y: 1, z: 1, w: 0.08163265}
+    m_OverrideState: 0
+    m_Value: {x: 1, y: 1, z: 1, w: -0.31462497}
 --- !u!114 &5248284478861799210
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -528,7 +528,7 @@ MonoBehaviour:
   m_AdvancedMode: 0
   temperature:
     m_OverrideState: 1
-    m_Value: 10
+    m_Value: 35
     min: -100
     max: 100
   tint:
