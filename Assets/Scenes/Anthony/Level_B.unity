@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 3599501}
   - component: {fileID: 3599500}
   - component: {fileID: 3599499}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TopRampLeftEdge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -862,6 +862,10 @@ PrefabInstance:
       value: EndArenaPiece
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: c3aef27708ce2044e9bb47183bd4a936, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c3aef27708ce2044e9bb47183bd4a936, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -953,7 +957,7 @@ GameObject:
   - component: {fileID: 100547869}
   - component: {fileID: 100547868}
   - component: {fileID: 100547867}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: BottomStairs_Triangle (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1135,31 +1139,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5158884772349999004, guid: 9152bfe9484c48643a24135a71e0c78f, type: 3}
   m_PrefabInstance: {fileID: 800299107}
   m_PrefabAsset: {fileID: 0}
---- !u!21 &130606133
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Custom_GrassComputeHLSL(Clone)
-  m_Shader: {fileID: 4800000, guid: 723972bb23543f14e8d7f08492cc3de2, type: 3}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Floats:
-    - _AmbientAdjustment: 0
-    - _BlendFloor: 0
-    - _Fade: 0.25
-    m_Colors: []
-  m_BuildTextureStacks: []
 --- !u!4 &141058618 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 471167793697766012, guid: c88d58ade40a2274a9e8f00a4740cf0d, type: 3}
@@ -6034,6 +6013,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 379258278808694420, guid: 0d6e2d7e34e7fc94992ef7a7cf74aa0b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444664841814501104, guid: 0d6e2d7e34e7fc94992ef7a7cf74aa0b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2750983548471482973, guid: 0d6e2d7e34e7fc94992ef7a7cf74aa0b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4661667001760396164, guid: 0d6e2d7e34e7fc94992ef7a7cf74aa0b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5514810684998718986, guid: 0d6e2d7e34e7fc94992ef7a7cf74aa0b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6570164311200872252, guid: 0d6e2d7e34e7fc94992ef7a7cf74aa0b, type: 3}
       propertyPath: m_Name
       value: GameManager
@@ -6090,6 +6089,10 @@ PrefabInstance:
       propertyPath: canSpawn
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6623787118056380759, guid: 0d6e2d7e34e7fc94992ef7a7cf74aa0b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0d6e2d7e34e7fc94992ef7a7cf74aa0b, type: 3}
 --- !u!43 &154636692
@@ -6098,7 +6101,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh82632
+  m_Name: pb_Mesh341182
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -6475,7 +6478,7 @@ GameObject:
   - component: {fileID: 177611926}
   - component: {fileID: 177611925}
   - component: {fileID: 177611924}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: BottomStairs_Triangle (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6571,7 +6574,7 @@ GameObject:
   - component: {fileID: 182891269}
   - component: {fileID: 182891268}
   - component: {fileID: 182891267}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: BottomStairs_Triangle (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7096,7 +7099,7 @@ MonoBehaviour:
   castShadow: 0
   interactors:
   - {fileID: 170243034}
-  m_InstantiatedMaterial: {fileID: 130606133}
+  m_InstantiatedMaterial: {fileID: 1513125408}
 --- !u!114 &228609535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30595,7 +30598,7 @@ GameObject:
   - component: {fileID: 355902616}
   - component: {fileID: 355902615}
   - component: {fileID: 355902614}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: RampBorderRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31326,7 +31329,7 @@ GameObject:
   - component: {fileID: 380095349}
   - component: {fileID: 380095348}
   - component: {fileID: 380095347}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: BottomStairs_Triangle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31428,7 +31431,7 @@ GameObject:
   - component: {fileID: 394870191}
   - component: {fileID: 394870190}
   - component: {fileID: 394870193}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: WallBorder 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31860,7 +31863,7 @@ GameObject:
   - component: {fileID: 395222398}
   - component: {fileID: 395222397}
   - component: {fileID: 395222396}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TopPlatformEdge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32248,6 +32251,10 @@ PrefabInstance:
       value: CutPillar (1)
       objectReference: {fileID: 0}
     - target: {fileID: 1386181037056593861, guid: 51b94503fa6ae83459f6ad439abd3528, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1386181037056593861, guid: 51b94503fa6ae83459f6ad439abd3528, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -32300,7 +32307,27 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2305242257166539388, guid: 51b94503fa6ae83459f6ad439abd3528, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2305242257166539388, guid: 51b94503fa6ae83459f6ad439abd3528, type: 3}
       propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2305242257300054717, guid: 51b94503fa6ae83459f6ad439abd3528, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2305242258096369307, guid: 51b94503fa6ae83459f6ad439abd3528, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2305242258394292243, guid: 51b94503fa6ae83459f6ad439abd3528, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2305242258506107490, guid: 51b94503fa6ae83459f6ad439abd3528, type: 3}
+      propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2305242258506107490, guid: 51b94503fa6ae83459f6ad439abd3528, type: 3}
@@ -32437,7 +32464,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 503485921}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Edges
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32470,6 +32497,63 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &521314808
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1783365381}
+    m_Modifications:
+    - target: {fileID: 6711503087393983314, guid: 09ecbf70f13f04a4b97a6bd39f6f8c44, type: 3}
+      propertyPath: m_Name
+      value: HapticManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 8030715252222038327, guid: 09ecbf70f13f04a4b97a6bd39f6f8c44, type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8030715252222038327, guid: 09ecbf70f13f04a4b97a6bd39f6f8c44, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8030715252222038327, guid: 09ecbf70f13f04a4b97a6bd39f6f8c44, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8030715252222038327, guid: 09ecbf70f13f04a4b97a6bd39f6f8c44, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8030715252222038327, guid: 09ecbf70f13f04a4b97a6bd39f6f8c44, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8030715252222038327, guid: 09ecbf70f13f04a4b97a6bd39f6f8c44, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8030715252222038327, guid: 09ecbf70f13f04a4b97a6bd39f6f8c44, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8030715252222038327, guid: 09ecbf70f13f04a4b97a6bd39f6f8c44, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8030715252222038327, guid: 09ecbf70f13f04a4b97a6bd39f6f8c44, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8030715252222038327, guid: 09ecbf70f13f04a4b97a6bd39f6f8c44, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8030715252222038327, guid: 09ecbf70f13f04a4b97a6bd39f6f8c44, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 09ecbf70f13f04a4b97a6bd39f6f8c44, type: 3}
 --- !u!43 &522144042
 Mesh:
   m_ObjectHideFlags: 0
@@ -33324,6 +33408,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2059396335}
     m_Modifications:
+    - target: {fileID: 4973361392127543080, guid: 2892a8f132fcb844b9655926263444de, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4973361392323583553, guid: 2892a8f132fcb844b9655926263444de, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4973361392769061416, guid: 2892a8f132fcb844b9655926263444de, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5315800103332123597, guid: 2892a8f132fcb844b9655926263444de, type: 3}
       propertyPath: m_RootOrder
       value: 8
@@ -33371,6 +33467,10 @@ PrefabInstance:
     - target: {fileID: 5315800103332123599, guid: 2892a8f132fcb844b9655926263444de, type: 3}
       propertyPath: m_Name
       value: ChainLinkMoveUp (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5315800103332123599, guid: 2892a8f132fcb844b9655926263444de, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6774559144218981373, guid: 2892a8f132fcb844b9655926263444de, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -33528,6 +33628,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: dba09d4d975f62840ae76b562b552f02, type: 3}
       propertyPath: m_Name
       value: NecroBooth
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: dba09d4d975f62840ae76b562b552f02, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: dba09d4d975f62840ae76b562b552f02, type: 3}
       propertyPath: m_IsActive
@@ -33792,7 +33896,7 @@ GameObject:
   - component: {fileID: 724075614}
   - component: {fileID: 724075616}
   - component: {fileID: 724075615}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Fog_Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33977,7 +34081,7 @@ GameObject:
   - component: {fileID: 775140459}
   - component: {fileID: 775140458}
   - component: {fileID: 775140457}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: UnderStair_Triangle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40266,7 +40370,7 @@ GameObject:
   - component: {fileID: 779589631}
   - component: {fileID: 779589630}
   - component: {fileID: 779589629}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: UnderStair_Triangle (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40809,6 +40913,10 @@ PrefabInstance:
       value: MiddleArena (1)
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: dc4269143b202be4faf22eee81f13f76, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: dc4269143b202be4faf22eee81f13f76, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -41286,6 +41394,10 @@ PrefabInstance:
       value: RockSupports
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 011d8560322b6b9488f57de845790d29, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 011d8560322b6b9488f57de845790d29, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -41442,6 +41554,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: c3aef27708ce2044e9bb47183bd4a936, type: 3}
       propertyPath: m_Name
       value: EndArenaPiece (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c3aef27708ce2044e9bb47183bd4a936, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: c3aef27708ce2044e9bb47183bd4a936, type: 3}
       propertyPath: m_IsActive
@@ -70410,7 +70526,7 @@ GameObject:
   - component: {fileID: 1064922158}
   - component: {fileID: 1064922157}
   - component: {fileID: 1064922156}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: MiddlePlatform_Edge(Right)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70511,7 +70627,7 @@ GameObject:
   - component: {fileID: 1125782578}
   - component: {fileID: 1125782577}
   - component: {fileID: 1125782576}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TopRampRightEdge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70828,7 +70944,7 @@ GameObject:
   - component: {fileID: 1149873178}
   - component: {fileID: 1149873177}
   - component: {fileID: 1149873176}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: BackWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71658,7 +71774,7 @@ GameObject:
   - component: {fileID: 1208273286}
   - component: {fileID: 1208273285}
   - component: {fileID: 1208273284}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: MiddlePlatform_Edge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72809,7 +72925,7 @@ GameObject:
   - component: {fileID: 1308789599}
   - component: {fileID: 1308789598}
   - component: {fileID: 1308789597}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: RampBorderLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88118,6 +88234,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: ChainLinkMoveDown (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3779934366681596883, guid: 503c7388493b55f498bd320b41d1ce62, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4086013452200744673, guid: 503c7388493b55f498bd320b41d1ce62, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4086013453128958779, guid: 503c7388493b55f498bd320b41d1ce62, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4086013453536993222, guid: 503c7388493b55f498bd320b41d1ce62, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 503c7388493b55f498bd320b41d1ce62, type: 3}
 --- !u!1001 &1428700440
@@ -88240,6 +88372,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BottomArea
       objectReference: {fileID: 0}
+    - target: {fileID: 599885361307345615, guid: c09c7066e0b20234890ed7b60a3d8da2, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c09c7066e0b20234890ed7b60a3d8da2, type: 3}
 --- !u!4 &1438332855 stripped
@@ -88259,7 +88395,7 @@ GameObject:
   - component: {fileID: 1439660401}
   - component: {fileID: 1439660400}
   - component: {fileID: 1439660399}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: UnderStair_Triangle (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88574,6 +88710,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: dc4269143b202be4faf22eee81f13f76, type: 3}
       propertyPath: m_Name
       value: MiddleArena
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: dc4269143b202be4faf22eee81f13f76, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: dc4269143b202be4faf22eee81f13f76, type: 3}
       propertyPath: m_IsActive
@@ -94026,7 +94166,7 @@ GameObject:
   - component: {fileID: 1484756554}
   - component: {fileID: 1484756553}
   - component: {fileID: 1484756552}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: UnderStair_Triangle (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94122,7 +94262,7 @@ GameObject:
   - component: {fileID: 1493145871}
   - component: {fileID: 1493145870}
   - component: {fileID: 1493145869}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: EdgePlatformBottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94206,6 +94346,31 @@ Transform:
   m_Father: {fileID: 503485921}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -10.37, z: 0}
+--- !u!21 &1513125408
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Custom_GrassComputeHLSL(Clone)
+  m_Shader: {fileID: 4800000, guid: 723972bb23543f14e8d7f08492cc3de2, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Floats:
+    - _AmbientAdjustment: 0
+    - _BlendFloor: 0
+    - _Fade: 0.25
+    m_Colors: []
+  m_BuildTextureStacks: []
 --- !u!4 &1517390941 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8381101063865685472, guid: 2b08e72abc562b0489e9b8ca6a89595c, type: 3}
@@ -96050,6 +96215,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ArenaBottomEdge
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f26e6bbd3d42af5418af6248c7faad0f, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f26e6bbd3d42af5418af6248c7faad0f, type: 3}
 --- !u!1 &1695126266
@@ -96886,7 +97055,7 @@ GameObject:
   - component: {fileID: 1766358522}
   - component: {fileID: 1766358521}
   - component: {fileID: 1766358520}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Inside_Hole_Edge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97067,6 +97236,11 @@ Light:
 Transform:
   m_CorrespondingSourceObject: {fileID: 4559257663552963776, guid: 6492241fdf4404b4bb5746aab6925df2, type: 3}
   m_PrefabInstance: {fileID: 1028512937}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1783365381 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6570164311200872254, guid: 0d6e2d7e34e7fc94992ef7a7cf74aa0b, type: 3}
+  m_PrefabInstance: {fileID: 144842997}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1787315598
 GameObject:
@@ -98173,7 +98347,7 @@ GameObject:
   - component: {fileID: 1918234909}
   - component: {fileID: 1918234908}
   - component: {fileID: 1918234907}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: WallBorder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99362,7 +99536,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2059396335}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Arena
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99649,6 +99823,10 @@ PrefabInstance:
     - target: {fileID: 599885361307345615, guid: c09c7066e0b20234890ed7b60a3d8da2, type: 3}
       propertyPath: m_Name
       value: ArenaColliderEdge
+      objectReference: {fileID: 0}
+    - target: {fileID: 599885361307345615, guid: c09c7066e0b20234890ed7b60a3d8da2, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1392673309216326426, guid: c09c7066e0b20234890ed7b60a3d8da2, type: 3}
       propertyPath: m_Enabled
@@ -104644,6 +104822,10 @@ PrefabInstance:
       value: CutPillar
       objectReference: {fileID: 0}
     - target: {fileID: 1386181037056593861, guid: 51b94503fa6ae83459f6ad439abd3528, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1386181037056593861, guid: 51b94503fa6ae83459f6ad439abd3528, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -104696,7 +104878,27 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2305242257166539388, guid: 51b94503fa6ae83459f6ad439abd3528, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2305242257166539388, guid: 51b94503fa6ae83459f6ad439abd3528, type: 3}
       propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2305242257300054717, guid: 51b94503fa6ae83459f6ad439abd3528, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2305242258096369307, guid: 51b94503fa6ae83459f6ad439abd3528, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2305242258394292243, guid: 51b94503fa6ae83459f6ad439abd3528, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2305242258506107490, guid: 51b94503fa6ae83459f6ad439abd3528, type: 3}
+      propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2305242258506107490, guid: 51b94503fa6ae83459f6ad439abd3528, type: 3}
@@ -104784,6 +104986,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: ChainLinkMoveDown
       objectReference: {fileID: 0}
+    - target: {fileID: 3779934366681596883, guid: 503c7388493b55f498bd320b41d1ce62, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4086013452200744673, guid: 503c7388493b55f498bd320b41d1ce62, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4086013453128958779, guid: 503c7388493b55f498bd320b41d1ce62, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4086013453536993222, guid: 503c7388493b55f498bd320b41d1ce62, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 503c7388493b55f498bd320b41d1ce62, type: 3}
 --- !u!1001 &5315800104102057318
@@ -104793,6 +105011,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2059396335}
     m_Modifications:
+    - target: {fileID: 4973361392127543080, guid: 2892a8f132fcb844b9655926263444de, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4973361392323583553, guid: 2892a8f132fcb844b9655926263444de, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4973361392769061416, guid: 2892a8f132fcb844b9655926263444de, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5315800103332123597, guid: 2892a8f132fcb844b9655926263444de, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -104840,6 +105070,10 @@ PrefabInstance:
     - target: {fileID: 5315800103332123599, guid: 2892a8f132fcb844b9655926263444de, type: 3}
       propertyPath: m_Name
       value: ChainLinkMoveUp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5315800103332123599, guid: 2892a8f132fcb844b9655926263444de, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6774559144218981373, guid: 2892a8f132fcb844b9655926263444de, type: 3}
       propertyPath: m_Materials.Array.data[0]

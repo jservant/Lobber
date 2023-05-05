@@ -5,7 +5,7 @@ public enum Layers : int {
 	Default = 0,
 	TransparentFX,
 	IgnoreRaycast,
-	Unused1,
+	NoToonShader,
 	Water,
 	UI,
 	EnemyHitbox,

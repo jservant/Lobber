@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2969558014491917271}
   - component: {fileID: 2969558014491917270}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: PlantLight (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8874282286199026937}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Plant_Group
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -294,9 +294,17 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[2]
       value: 
       objectReference: {fileID: 2100000, guid: 30f2bb1488aafcc41a8ae254daa3957d, type: 2}
+    - target: {fileID: 3997905297242574838, guid: efbc0a66c1a5e384e83605f5f8118eff, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4303752935972228518, guid: efbc0a66c1a5e384e83605f5f8118eff, type: 3}
       propertyPath: m_Name
       value: PlantJiggle (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4303752935972228518, guid: efbc0a66c1a5e384e83605f5f8118eff, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4303752935972228519, guid: efbc0a66c1a5e384e83605f5f8118eff, type: 3}
       propertyPath: m_RootOrder

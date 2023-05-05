@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 390582755}
   - component: {fileID: 390582754}
   - component: {fileID: 390582753}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: BlackBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,7 +104,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7021682204487346701}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: ExplosionPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 7402271573601894392}
   - component: {fileID: 4618151075602216527}
   - component: {fileID: 5671011409900021364}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Hitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -201,7 +201,7 @@ GameObject:
   - component: {fileID: 2858041258915846440}
   - component: {fileID: 2713590515626176818}
   - component: {fileID: 6860576010927942207}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -285,7 +285,7 @@ GameObject:
   - component: {fileID: 5073047377671850587}
   - component: {fileID: 8127739752099235001}
   - component: {fileID: 2224961026019785379}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: ExplosiveTrap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -430,9 +430,33 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[3]
       value: 
       objectReference: {fileID: 2100000, guid: 78a38a61045f63d4a8c25df30f0fff9b, type: 2}
+    - target: {fileID: 5928389502321184852, guid: 8faf1c05c76f74f4fac0115145c76fb1, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5928389502961830213, guid: 8faf1c05c76f74f4fac0115145c76fb1, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5928389503319547821, guid: 8faf1c05c76f74f4fac0115145c76fb1, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5928389503691308100, guid: 8faf1c05c76f74f4fac0115145c76fb1, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5928389503783769642, guid: 8faf1c05c76f74f4fac0115145c76fb1, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6810769774548410773, guid: 8faf1c05c76f74f4fac0115145c76fb1, type: 3}
       propertyPath: m_Name
       value: BombBarrelSpawn
+      objectReference: {fileID: 0}
+    - target: {fileID: 6810769774548410773, guid: 8faf1c05c76f74f4fac0115145c76fb1, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6810769774548410779, guid: 8faf1c05c76f74f4fac0115145c76fb1, type: 3}
       propertyPath: m_RootOrder

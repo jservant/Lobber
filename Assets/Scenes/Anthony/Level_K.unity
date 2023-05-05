@@ -14,11 +14,11 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 0
+  m_Fog: 1
   m_FogColor: {r: 0.3247893, g: 0.61348265, b: 0.8679245, a: 1}
   m_FogMode: 1
   m_FogDensity: 0.0025
-  m_LinearFogStart: -51.9
+  m_LinearFogStart: -11.51
   m_LinearFogEnd: 381.7
   m_AmbientSkyColor: {r: 0.07025037, g: 0.28773713, b: 0.3018868, a: 0}
   m_AmbientEquatorColor: {r: 0.24682567, g: 0.27986234, b: 0.3018868, a: 1}
@@ -376,6 +376,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: c3aef27708ce2044e9bb47183bd4a936, type: 3}
       propertyPath: m_Name
       value: EndArenaPiece
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c3aef27708ce2044e9bb47183bd4a936, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: c3aef27708ce2044e9bb47183bd4a936, type: 3}
       propertyPath: m_IsActive
@@ -32852,7 +32856,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh389048
+  m_Name: pb_Mesh23248
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -33021,7 +33025,7 @@ GameObject:
   - component: {fileID: 206311330}
   - component: {fileID: 206311329}
   - component: {fileID: 206311328}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: StandBlocker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36522,6 +36526,10 @@ PrefabInstance:
       value: NecroBooth
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: dba09d4d975f62840ae76b562b552f02, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: dba09d4d975f62840ae76b562b552f02, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -37425,6 +37433,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: dc4269143b202be4faf22eee81f13f76, type: 3}
       propertyPath: m_Name
       value: MiddleArena (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: dc4269143b202be4faf22eee81f13f76, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: dc4269143b202be4faf22eee81f13f76, type: 3}
       propertyPath: m_IsActive
@@ -46060,6 +46072,10 @@ PrefabInstance:
       value: EndArenaPiece (1)
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: c3aef27708ce2044e9bb47183bd4a936, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c3aef27708ce2044e9bb47183bd4a936, type: 3}
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
@@ -46793,7 +46809,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4559257663552963776, guid: 6492241fdf4404b4bb5746aab6925df2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -31.85
+      value: -21.49
       objectReference: {fileID: 0}
     - target: {fileID: 4559257663552963776, guid: 6492241fdf4404b4bb5746aab6925df2, type: 3}
       propertyPath: m_LocalPosition.y
@@ -46801,7 +46817,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4559257663552963776, guid: 6492241fdf4404b4bb5746aab6925df2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 46.84
+      value: 51.05
       objectReference: {fileID: 0}
     - target: {fileID: 4559257663552963776, guid: 6492241fdf4404b4bb5746aab6925df2, type: 3}
       propertyPath: m_LocalRotation.w
@@ -46834,6 +46850,10 @@ PrefabInstance:
     - target: {fileID: 5025518568002297080, guid: 6492241fdf4404b4bb5746aab6925df2, type: 3}
       propertyPath: m_RootOrder
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7731968503150426117, guid: 6492241fdf4404b4bb5746aab6925df2, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8190140476647517472, guid: 6492241fdf4404b4bb5746aab6925df2, type: 3}
       propertyPath: m_RootOrder
@@ -48277,6 +48297,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 011d8560322b6b9488f57de845790d29, type: 3}
       propertyPath: m_Name
       value: PlatformRock
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 011d8560322b6b9488f57de845790d29, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 011d8560322b6b9488f57de845790d29, type: 3}
       propertyPath: m_IsActive
@@ -81642,6 +81666,10 @@ PrefabInstance:
       value: MiddleArena
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: dc4269143b202be4faf22eee81f13f76, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: dc4269143b202be4faf22eee81f13f76, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -82641,7 +82669,7 @@ GameObject:
   - component: {fileID: 1662778810}
   - component: {fileID: 1662778812}
   - component: {fileID: 1662778811}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Fog_Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83358,7 +83386,7 @@ GameObject:
   - component: {fileID: 1735744700}
   - component: {fileID: 1735744699}
   - component: {fileID: 1735744698}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: UpdatedFogEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85805,6 +85833,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ArenaBottomEdge
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f26e6bbd3d42af5418af6248c7faad0f, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f26e6bbd3d42af5418af6248c7faad0f, type: 3}
 --- !u!1 &1941099716
@@ -86797,7 +86829,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2059396335}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Arena
   m_TagString: Untagged
   m_Icon: {fileID: 0}
