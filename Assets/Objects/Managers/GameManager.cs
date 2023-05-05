@@ -54,7 +54,6 @@ public class GameManager : MonoBehaviour {
 	public TMP_Text statsText2;
 	public TMP_Text statusTextboxText;
 	public TMP_Text objectiveText;
-	public TMP_Text waypointDistanceText;
 	public Image waypointMarker;
 
 	public Transform healthBar;
@@ -146,7 +145,6 @@ public class GameManager : MonoBehaviour {
 		objectiveText = transform.Find("StatusTextbox/ObjectiveText").GetComponent<TMP_Text>();
 		objectiveText.text = "";
 		waypointMarker = transform.Find("/GameManager/MainUI/WaypointMarker").GetComponent<Image>();
-		waypointDistanceText = transform.Find("/GameManager/MainUI/WaypointMarker/WaypointDistanceText").GetComponent<TMP_Text>();
 		meterImage = transform.Find("MainUI/MeterBar").GetComponent<Image>();
 		//inputDisplayUI = transform.Find("MainUI/InputDisplay").gameObject;
 		Time.timeScale = 1;
@@ -567,9 +565,7 @@ public class GameManager : MonoBehaviour {
 
 			waypointMarker.transform.position = markerScreenPosition;
 			// Change the meter text to the distance with the meter unit 'm'
-			waypointDistanceText.text = ((int)Vector3.Distance(waypointTarget.position, player.transform.position)).ToString() + "m";
 		}
-	
 
 		if (debugTools) {
 			if (!isMenuOpen) {
