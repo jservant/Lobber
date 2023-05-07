@@ -792,9 +792,10 @@ MonoBehaviour:
   MovementBustLength: 0.4
   WaitLength: 1
   waitMultiplier: 2
-  fuseMin: 10
-  fuseMax: 20
+  fuseMin: 8
+  fuseMax: 18
   bombAnimator: {fileID: 5085830154055123511}
+  groundIndicator: {fileID: 7929051006144551942, guid: a4810f3a40024e74ba1b533c0e34628b, type: 3}
 --- !u!114 &929645480265083019
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -900,13 +901,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9ae8fc283fedd0c4680cacee0d34da45, type: 3}
---- !u!1 &7583502707902624642 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 9ae8fc283fedd0c4680cacee0d34da45, type: 3}
-  m_PrefabInstance: {fileID: 7349710048545902291}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7094808940555266360 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9ae8fc283fedd0c4680cacee0d34da45, type: 3}
+  m_PrefabInstance: {fileID: 7349710048545902291}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7583502707902624642 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 9ae8fc283fedd0c4680cacee0d34da45, type: 3}
   m_PrefabInstance: {fileID: 7349710048545902291}
   m_PrefabAsset: {fileID: 0}

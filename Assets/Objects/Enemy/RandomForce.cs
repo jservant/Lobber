@@ -32,7 +32,7 @@ public class RandomForce : MonoBehaviour {
 			rb[i].AddTorque(tf1, tf2, tf3, ForceMode.Impulse);
 		}
 
-		lifeTime = Random.Range(lifeTime - 0.5f, lifeTime + 0.5f);
+		lifeTime = Random.Range(lifeTime - 1f, lifeTime + 1f);
 		shrinkTimer = shrinkTime;
 	}
 

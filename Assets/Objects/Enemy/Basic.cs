@@ -323,6 +323,7 @@ public class Basic : MonoBehaviour {
 							player.ChangeMeter(1);
 							sounds.Sound_EnemyLob();
 							gameMan.ShakeCamera(5f, 0.1f);
+							if (GameObject.Find("HapticManager") != null) HapticManager.PlayEffect(player.hapticEffects[2], this.transform.position);
 							ChangeDirective_Stunned(StunTime.LongStun, newKnockbackInfo);
 							break;
 

@@ -74,6 +74,8 @@ public class Exploding : MonoBehaviour {
 	CapsuleCollider selfHurtbox;
 	Transform attackWarningTransform;
 	MotionAudio_Pest sounds;
+	public GameObject groundIndicator;
+	private GameObject groundIndicatorInstance;
 
 	// External References
 	GameManager gameMan;
@@ -96,6 +98,7 @@ public class Exploding : MonoBehaviour {
 			launchInitalPosition = this.transform.position;
 			animator.SetTrigger("StartAttack");
 			Util.ShowAttackWarning(gameMan, attackWarningTransform.position);
+			groundIndicatorInstance = Instantiate(groundIndicator, target, groundIndicator.transform.rotation);
 		}
 	}
 
@@ -104,6 +107,7 @@ public class Exploding : MonoBehaviour {
 			animator.SetTrigger("Dead");
 			directive = Directive.Death;
 			selfHurtbox.isTrigger = true;
+			if (groundIndicatorInstance != null) Destroy(groundIndicatorInstance);
 		}
 	}
 
@@ -111,7 +115,8 @@ public class Exploding : MonoBehaviour {
 		if (directive != Directive.Explosion) {
 			directive = Directive.Explosion;
 			selfHurtbox.isTrigger = true;
-			explosionDelay = delay; 
+			explosionDelay = delay;
+			if (groundIndicatorInstance != null) Destroy(groundIndicatorInstance);
 		}
 	}
 
@@ -462,6 +467,7 @@ public class Exploding : MonoBehaviour {
 		gameMan.enemiesKilledInLevel += 1;
 		GameManager.enemiesKilledInRun += 1;
 		Initializer.save.versionLatest.explosiveEnemyKills++;
+		if (groundIndicatorInstance != null) Destroy(groundIndicatorInstance);
 	}
 
 	private void OnDrawGizmos() {
