@@ -2527,6 +2527,184 @@
 								<ActiveSource Name="emit_fire_01" ID="{B1F664F8-E15C-4398-96F0-A60655CB6828}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
+						<RandomSequenceContainer Name="amb_crowd_cheer" ID="{625E07B9-AFB7-4DFA-8281-891BC41D933E}" ShortID="127098235">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-5</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="amb_crowd_cheer_01" ID="{EE4D7DFA-BA7A-4EB2-83F8-A6E57514674A}" ShortID="853425710">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="AMB" ID="{07AACAE3-BF76-4A02-8631-32B65B75463D}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="amb_crowd_cheer_01" ID="{2A0F8AFB-AA52-4F38-A142-C17116B59994}">
+											<Language>SFX</Language>
+											<AudioFile>amb_crowd_cheer_01.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="142263838"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="amb_crowd_cheer_01" ID="{2A0F8AFB-AA52-4F38-A142-C17116B59994}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="amb_crowd_cheer_02" ID="{A5CB9C68-FE90-4BB2-81B2-B660BB13C320}" ShortID="72568198">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="AMB" ID="{07AACAE3-BF76-4A02-8631-32B65B75463D}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="amb_crowd_cheer_02" ID="{942C5175-C1B8-437D-AFFE-569D189F8E60}">
+											<Language>SFX</Language>
+											<AudioFile>amb_crowd_cheer_02.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="20889059"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="amb_crowd_cheer_02" ID="{942C5175-C1B8-437D-AFFE-569D189F8E60}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="amb_crowd_cheer_03" ID="{DB5DD377-84AD-4B45-9971-F12D43AE4C1A}" ShortID="812721938">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="AMB" ID="{07AACAE3-BF76-4A02-8631-32B65B75463D}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="amb_crowd_cheer_03" ID="{C46CC573-66D1-4C61-95CC-B57857748284}">
+											<Language>SFX</Language>
+											<AudioFile>amb_crowd_cheer_03.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="793568326"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="amb_crowd_cheer_03" ID="{C46CC573-66D1-4C61-95CC-B57857748284}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<Sound Name="amb_crowd_chatter" ID="{B2859858-E71E-49C3-BDF7-12E7FA523C7A}" ShortID="594704272">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-20</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="amb_crowd_chatter" ID="{E915D877-E44F-449C-999C-673D47DC4414}">
+									<Language>SFX</Language>
+									<AudioFile>amb_crowd_chatter.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="443532807"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="amb_crowd_chatter" ID="{E915D877-E44F-449C-999C-673D47DC4414}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<RandomSequenceContainer Name="amb_crowd_applause" ID="{A5048D01-D83A-45A0-9857-AB75ADEEA9B0}" ShortID="947554511">
+							<PropertyList>
+								<Property Name="Highpass" Type="int16">
+									<ValueList>
+										<Value>21</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="amb_crowd_applause_01" ID="{D5D184C0-F40F-4CD8-BB3A-A71DF42297C2}" ShortID="455788169">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="amb_crowd_applause_01" ID="{49320187-EF19-4777-90A8-FFF36CC7CB75}">
+											<Language>SFX</Language>
+											<AudioFile>amb_crowd_applause_01.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="698958100"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="amb_crowd_applause_01" ID="{49320187-EF19-4777-90A8-FFF36CC7CB75}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="amb_crowd_applause_02" ID="{C35BD7F3-EB31-427B-B823-15EF43D2678E}" ShortID="257063995">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="amb_crowd_applause_02" ID="{F41E6360-1A0C-4F7D-ABAD-1321B0389207}">
+											<Language>SFX</Language>
+											<AudioFile>amb_crowd_applause_02.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="995409230"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="amb_crowd_applause_02" ID="{F41E6360-1A0C-4F7D-ABAD-1321B0389207}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
 					</ChildrenList>
 				</ActorMixer>
 				<ActorMixer Name="Head" ID="{B478937D-782F-4CA0-898E-1B5824B1D844}" ShortID="27246493">
@@ -3678,6 +3856,274 @@
 							</ChildrenList>
 							<ActiveSourceList>
 								<ActiveSource Name="props_pillar_rumble" ID="{6CCB7280-937B-4618-BA54-8F71D1C7C00E}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</ActorMixer>
+				<ActorMixer Name="UI" ID="{6058F756-5ADE-4603-9D22-52B0D14BD82B}" ShortID="389706960">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="ui_error" ID="{4B8F7BA1-439F-4B53-85BC-2DBF5915722D}" ShortID="354137601">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-4</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="ui_error" ID="{A120BB75-6FD7-4D95-8FB0-BD05B99D8BEA}">
+									<Language>SFX</Language>
+									<AudioFile>ui_error.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1070834637"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="ui_error" ID="{A120BB75-6FD7-4D95-8FB0-BD05B99D8BEA}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="ui_hover" ID="{468703C5-6F73-4A0D-B087-EAD6AEFD705D}" ShortID="153290844">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-10</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="ui_hover" ID="{B07EE907-3AA9-4DA4-AA19-832BB7BD02EB}">
+									<Language>SFX</Language>
+									<AudioFile>ui_hover.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="855748710"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="ui_hover" ID="{B07EE907-3AA9-4DA4-AA19-832BB7BD02EB}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="ui_select" ID="{C03B1F14-06DA-4D9A-9D04-A497B63371D7}" ShortID="365237690">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="ui_select" ID="{ED609168-B189-4B77-B76C-E0829D5276E1}">
+									<Language>SFX</Language>
+									<AudioFile>ui_select.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="643838728"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="ui_select" ID="{ED609168-B189-4B77-B76C-E0829D5276E1}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</ActorMixer>
+				<ActorMixer Name="Lil Necro" ID="{171580C1-B4EC-48A9-BFD2-949FF87F5C57}" ShortID="883684619">
+					<PropertyList>
+						<Property Name="3DSpatialization" Type="int16" Value="2"/>
+						<Property Name="SpeakerPanning3DSpatializationMix" Type="int32" Value="80"/>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Attenuation">
+							<ObjectRef Name="Skeletons" ID="{81AC410A-2577-4510-BD6D-B74F3C77652C}" WorkUnitID="{30AA0E61-053C-47AE-8A92-C475047387BF}"/>
+						</Reference>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="lilnecro_atk" ID="{04D377E6-B940-4118-8336-767A6AC6A099}" ShortID="565219886">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="lilnecro_atk" ID="{36DB78BD-0247-4442-86DD-084F045D2AA6}">
+									<Language>SFX</Language>
+									<AudioFile>lilnecro_atk.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="976768732"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="lilnecro_atk" ID="{36DB78BD-0247-4442-86DD-084F045D2AA6}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="lilnecro_death" ID="{53F4554F-5223-4D4E-9389-7E63A28977E2}" ShortID="694780799">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="lilnecro_death" ID="{CAC93328-428E-44CC-8B36-5F60EFC977AB}">
+									<Language>SFX</Language>
+									<AudioFile>lilnecro_death.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="254165928"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="lilnecro_death" ID="{CAC93328-428E-44CC-8B36-5F60EFC977AB}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="lilnecro_idle" ID="{F1A0C098-50B9-41B3-8652-2016DBD8B69A}" ShortID="754061946">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="lilnecro_idle" ID="{1603534E-216B-4B17-AC71-6B879A534796}">
+									<Language>SFX</Language>
+									<AudioFile>lilnecro_idle.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="744597208"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="lilnecro_idle" ID="{1603534E-216B-4B17-AC71-6B879A534796}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="lilnecro_orb_idle" ID="{66114D1D-A686-40E7-AAB7-319D6D6EB47C}" ShortID="112097415">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="lilnecro_orb_idle" ID="{21394783-E7F4-4766-AE3E-7F2299F49AFF}">
+									<Language>SFX</Language>
+									<AudioFile>lilnecro_orb_idle.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="85509357"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="lilnecro_orb_idle" ID="{21394783-E7F4-4766-AE3E-7F2299F49AFF}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="lilnecro_spwan" ID="{545069D2-2803-4685-A147-2D716A884BC2}" ShortID="380444406">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="lilnecro_spwan" ID="{BBA4B107-6B96-4F5F-9034-F144C81C5626}">
+									<Language>SFX</Language>
+									<AudioFile>lilnecro_spwan.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="778018502"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="lilnecro_spwan" ID="{BBA4B107-6B96-4F5F-9034-F144C81C5626}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="lilnecro_spwan_atk" ID="{96253C15-F49B-44AC-BA37-31148BA83807}" ShortID="12911174">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="lilnecro_spwan_atk" ID="{BE8F5F8B-D4B0-4FE4-8BDC-F7E3577076BB}">
+									<Language>SFX</Language>
+									<AudioFile>lilnecro_spwan_atk.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1023183490"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="lilnecro_spwan_atk" ID="{BE8F5F8B-D4B0-4FE4-8BDC-F7E3577076BB}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="lilnecro_fireball" ID="{71339379-E13C-47E4-AE4D-2DBBB82B9075}" ShortID="871764573">
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="HeadImpact" ID="{A1D950E6-8986-4A7D-B20F-A88932D7AB76}" WorkUnitID="{30AA0E61-053C-47AE-8A92-C475047387BF}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="lilnecro_fireball" ID="{46CD9C76-233B-41F9-A63C-0074EDFB71F3}">
+									<Language>SFX</Language>
+									<AudioFile>lilnecro_fireball.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1067808686"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="lilnecro_fireball" ID="{46CD9C76-233B-41F9-A63C-0074EDFB71F3}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
 					</ChildrenList>
