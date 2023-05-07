@@ -13,8 +13,12 @@ namespace AK
 {
     namespace EVENTS
     {
+        static const AkUniqueID AMB_CROWD_APPLAUSE = 2453516961U;
+        static const AkUniqueID AMB_CROWD_CHATTER = 1818881447U;
+        static const AkUniqueID AMB_CROWD_CHEER = 902986859U;
+        static const AkUniqueID AMB_CROWD_STOP = 2212572404U;
         static const AkUniqueID AMB_FIRE = 3207324726U;
-        static const AkUniqueID AMB_LV1 = 3334362129U;
+        static const AkUniqueID AMB_MAIN = 3004847309U;
         static const AkUniqueID AXE_HIT_ROCK = 2080575975U;
         static const AkUniqueID AXE_HIT_WOOD = 979945107U;
         static const AkUniqueID COMBAT1_START = 3554795103U;
@@ -23,6 +27,15 @@ namespace AK
         static const AkUniqueID HEAD_GOLDEN_IDLE = 3507359558U;
         static const AkUniqueID HEAD_IMPACT = 4015037628U;
         static const AkUniqueID HEAD_PICKUP = 2586367166U;
+        static const AkUniqueID LILNECRO_ATK = 3262445596U;
+        static const AkUniqueID LILNECRO_DEATH = 3515863408U;
+        static const AkUniqueID LILNECRO_FIREBALL = 3913127709U;
+        static const AkUniqueID LILNECRO_IDLE = 2187088412U;
+        static const AkUniqueID LILNECRO_IDLE_STOP = 1789607403U;
+        static const AkUniqueID LILNECRO_ORB_IDLE = 2603926142U;
+        static const AkUniqueID LILNECRO_ORB_IDLE_STOP = 2138803613U;
+        static const AkUniqueID LILNECRO_SPWAN = 3424642831U;
+        static const AkUniqueID LILNECRO_SPWAN_ATK = 922496904U;
         static const AkUniqueID PEST_BOMB_EXPLOAD = 4234617796U;
         static const AkUniqueID PEST_BOMB_FUSE = 437942920U;
         static const AkUniqueID PEST_BOMB_JUMP = 1736279191U;
@@ -61,6 +74,9 @@ namespace AK
         static const AkUniqueID TEST = 3157003241U;
         static const AkUniqueID TRANSITION_START = 3587827325U;
         static const AkUniqueID TRANSITION_STOP = 1619304959U;
+        static const AkUniqueID UI_ERROR = 1009189048U;
+        static const AkUniqueID UI_HOVER = 2118900976U;
+        static const AkUniqueID UI_SELECT = 2774129122U;
     } // namespace EVENTS
 
     namespace SWITCHES

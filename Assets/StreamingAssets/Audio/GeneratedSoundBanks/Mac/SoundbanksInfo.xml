@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SoundBanksInfo Platform="Mac" BasePlatform="Mac" SchemaVersion="16" SoundBankVersion="145">
 	<RootPaths>
-		<ProjectRoot>../../../../../Lobber_Wwise/</ProjectRoot>
-		<SourceFilesRoot>../../../../../Lobber_Wwise/.cache/Mac/</SourceFilesRoot>
+		<ProjectRoot>../../../../../Lobber_Wwise</ProjectRoot>
+		<SourceFilesRoot>../../../../../Lobber_Wwise/.cache/Mac</SourceFilesRoot>
 		<SoundBanksRoot>.</SoundBanksRoot>
 		<ExternalSourcesInputFile></ExternalSourcesInputFile>
 		<ExternalSourcesOutputRoot>../../../../../Lobber_Wwise/GeneratedSoundBanks/Mac</ExternalSourcesOutputRoot>
@@ -178,7 +178,7 @@
 				</AcousticTexture>
 			</AcousticTextures>
 		</SoundBank>
-		<SoundBank Id="1496463651" Type="User" Language="SFX" Hash="{7A9321C5-A385-AF2D-9FD5-486B87D2AD92}">
+		<SoundBank Id="1496463651" Type="User" Language="SFX" Hash="{BA563B32-B7B2-6BF8-FF0B-3E6D77098408}">
 			<ShortName>Bank_01</ShortName>
 			<Path>Bank_01.bnk</Path>
 			<Media>
@@ -308,7 +308,7 @@
 				</File>
 				<File Id="195194557" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>player_shotgun_atk.wav</ShortName>
-					<CachePath>SFX/player_shotgun_atk_10C4C929.wem</CachePath>
+					<CachePath>SFX/player_shotgun_atk_781DCB97.wem</CachePath>
 				</File>
 				<File Id="196376984" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fs_player_dirt_08.wav</ShortName>
@@ -737,67 +737,67 @@
 				</Custom>
 			</Plugins>
 			<Events>
-				<Event Id="2453516961" Name="amb_crowd_applause">
+				<Event Id="2453516961" Name="amb_crowd_applause" DurationType="OneShot" DurationMin="7.3386874" DurationMax="9.941334">
 					<MediaRefs>
 						<MediaRef Id="698958100"/>
 						<MediaRef Id="995409230"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="1818881447" Name="amb_crowd_chatter">
+				<Event Id="1818881447" Name="amb_crowd_chatter" DurationType="Infinite">
 					<MediaRefs>
 						<MediaRef Id="443532807"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="902986859" Name="amb_crowd_cheer">
+				<Event Id="902986859" Name="amb_crowd_cheer" DurationType="OneShot" DurationMin="6.4426875" DurationMax="11.093354">
 					<MediaRefs>
 						<MediaRef Id="20889059"/>
 						<MediaRef Id="142263838"/>
 						<MediaRef Id="793568326"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="2212572404" Name="amb_crowd_stop"/>
-				<Event Id="3207324726" Name="amb_fire">
+				<Event Id="2212572404" Name="amb_crowd_stop" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="3207324726" Name="amb_fire" MaxAttenuation="100" DurationType="Infinite">
 					<MediaRefs>
 						<MediaRef Id="150208270"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3004847309" Name="amb_main">
+				<Event Id="3004847309" Name="amb_main" DurationType="Infinite">
 					<MediaRefs>
 						<MediaRef Id="342867081"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="2080575975" Name="axe_hit_rock">
+				<Event Id="2080575975" Name="axe_hit_rock" DurationType="OneShot" DurationMin="1.5033333" DurationMax="1.7714167">
 					<MediaRefs>
 						<MediaRef Id="374074499"/>
 						<MediaRef Id="459679263"/>
 						<MediaRef Id="479754207"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="979945107" Name="axe_hit_wood">
+				<Event Id="979945107" Name="axe_hit_wood" DurationType="OneShot" DurationMin="0.5963905" DurationMax="0.76444525">
 					<MediaRefs>
 						<MediaRef Id="5743150"/>
 						<MediaRef Id="332932540"/>
 						<MediaRef Id="865623118"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3554795103" Name="Combat1_Start">
+				<Event Id="3554795103" Name="Combat1_Start" DurationType="Infinite">
 					<MediaRefs>
 						<MediaRef Id="677937057"/>
 						<MediaRef Id="914370410"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="2415455525" Name="Combat1_Stop"/>
-				<Event Id="375965827" Name="head_flying">
+				<Event Id="2415455525" Name="Combat1_Stop" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="375965827" Name="head_flying" DurationType="OneShot" DurationMin="0.7548448" DurationMax="0.7548448">
 					<MediaRefs>
 						<MediaRef Id="1070028639"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3507359558" Name="head_golden_idle">
+				<Event Id="3507359558" Name="head_golden_idle" MaxAttenuation="100" DurationType="Infinite">
 					<MediaRefs>
 						<MediaRef Id="859643133"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="4015037628" Name="head_impact">
+				<Event Id="4015037628" Name="head_impact" MaxAttenuation="100" DurationType="OneShot" DurationMin="0.359875" DurationMax="0.37647918">
 					<MediaRefs>
 						<MediaRef Id="96698159"/>
 						<MediaRef Id="166049200"/>
@@ -806,64 +806,64 @@
 						<MediaRef Id="1011639198"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="2586367166" Name="head_pickup">
+				<Event Id="2586367166" Name="head_pickup" DurationType="OneShot" DurationMin="0.300875" DurationMax="0.300875">
 					<MediaRefs>
 						<MediaRef Id="922362666"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3262445596" Name="lilnecro_atk">
+				<Event Id="3262445596" Name="lilnecro_atk" MaxAttenuation="50" DurationType="OneShot" DurationMin="2.3455625" DurationMax="2.3455625">
 					<MediaRefs>
 						<MediaRef Id="976768732"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3515863408" Name="lilnecro_death">
+				<Event Id="3515863408" Name="lilnecro_death" MaxAttenuation="50" DurationType="OneShot" DurationMin="1.7733333" DurationMax="1.7733333">
 					<MediaRefs>
 						<MediaRef Id="254165928"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3913127709" Name="lilnecro_fireball">
+				<Event Id="3913127709" Name="lilnecro_fireball" MaxAttenuation="50" DurationType="OneShot" DurationMin="4.245333" DurationMax="4.245333">
 					<MediaRefs>
 						<MediaRef Id="1067808686"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="2187088412" Name="lilnecro_idle">
+				<Event Id="2187088412" Name="lilnecro_idle" MaxAttenuation="50" DurationType="OneShot" DurationMin="1.5" DurationMax="1.5">
 					<MediaRefs>
 						<MediaRef Id="744597208"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="1789607403" Name="lilnecro_idle_stop"/>
-				<Event Id="2603926142" Name="lilnecro_orb_idle">
+				<Event Id="1789607403" Name="lilnecro_idle_stop" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="2603926142" Name="lilnecro_orb_idle" MaxAttenuation="50" DurationType="OneShot" DurationMin="18.165146" DurationMax="18.165146">
 					<MediaRefs>
 						<MediaRef Id="85509357"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="2138803613" Name="lilnecro_orb_idle_stop"/>
-				<Event Id="3424642831" Name="lilnecro_spwan">
+				<Event Id="2138803613" Name="lilnecro_orb_idle_stop" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="3424642831" Name="lilnecro_spwan" MaxAttenuation="50" DurationType="OneShot" DurationMin="2.5" DurationMax="2.5">
 					<MediaRefs>
 						<MediaRef Id="778018502"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="922496904" Name="lilnecro_spwan_atk">
+				<Event Id="922496904" Name="lilnecro_spwan_atk" MaxAttenuation="50" DurationType="OneShot" DurationMin="3.584" DurationMax="3.584">
 					<MediaRefs>
 						<MediaRef Id="1023183490"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="4234617796" Name="pest_bomb_expload">
+				<Event Id="4234617796" Name="pest_bomb_expload" MaxAttenuation="40" DurationType="OneShot" DurationMin="1.9375" DurationMax="1.9375">
 					<MediaRefs>
 						<MediaRef Id="395551192"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="437942920" Name="pest_bomb_fuse">
+				<Event Id="437942920" Name="pest_bomb_fuse" MaxAttenuation="50" DurationType="Infinite">
 					<MediaRefs>
 						<MediaRef Id="367181203"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="1736279191" Name="pest_bomb_jump">
+				<Event Id="1736279191" Name="pest_bomb_jump" MaxAttenuation="50" DurationType="OneShot" DurationMin="1.7380507" DurationMax="1.7380507">
 					<MediaRefs>
 						<MediaRef Id="163626921"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="718104337" Name="pest_fs">
+				<Event Id="718104337" Name="pest_fs" MaxAttenuation="50" DurationType="OneShot" DurationMin="0.48222393" DurationMax="0.6433139">
 					<MediaRefs>
 						<MediaRef Id="227964973"/>
 						<MediaRef Id="295499900"/>
@@ -871,39 +871,39 @@
 						<MediaRef Id="795672063"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="799884986" Name="player_attack1">
+				<Event Id="799884986" Name="player_attack1" DurationType="OneShot" DurationMin="0.29172915" DurationMax="0.34375">
 					<MediaRefs>
 						<MediaRef Id="233950051"/>
 						<MediaRef Id="650088066"/>
 						<MediaRef Id="872431774"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="799884985" Name="player_attack2">
+				<Event Id="799884985" Name="player_attack2" DurationType="OneShot" DurationMin="0.26377082" DurationMax="0.3125">
 					<MediaRefs>
 						<MediaRef Id="97539198"/>
 						<MediaRef Id="278421329"/>
 						<MediaRef Id="799007945"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="215823421" Name="player_bush_ent">
+				<Event Id="215823421" Name="player_bush_ent" DurationType="OneShot" DurationMin="0.41294497" DurationMax="0.5628398">
 					<MediaRefs>
 						<MediaRef Id="51859721"/>
 						<MediaRef Id="102229063"/>
 						<MediaRef Id="400764545"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="4275904075" Name="player_bush_ext"/>
-				<Event Id="927599014" Name="player_chop_init">
+				<Event Id="4275904075" Name="player_bush_ext" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="927599014" Name="player_chop_init" DurationType="OneShot" DurationMin="0.65625" DurationMax="0.65625">
 					<MediaRefs>
 						<MediaRef Id="101552163"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="1752115990" Name="player_chop_tail">
+				<Event Id="1752115990" Name="player_chop_tail" DurationType="OneShot" DurationMin="0.96875" DurationMax="0.96875">
 					<MediaRefs>
 						<MediaRef Id="754981410"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="4276063004" Name="player_fs">
+				<Event Id="4276063004" Name="player_fs" DurationType="OneShot" DurationMin="0.18448988" DurationMax="0.38598835">
 					<SwitchContainers>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="4276063004" Id="2195636714" Default="true"/>
@@ -946,24 +946,24 @@
 						</SwitchContainer>
 					</SwitchContainers>
 				</Event>
-				<Event Id="3945457670" Name="player_gethit">
+				<Event Id="3945457670" Name="player_gethit" DurationType="OneShot" DurationMin="0.63122916" DurationMax="0.71141666">
 					<MediaRefs>
 						<MediaRef Id="33849619"/>
 						<MediaRef Id="821072770"/>
 						<MediaRef Id="824198949"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="780312891" Name="player_heal">
+				<Event Id="780312891" Name="player_heal" DurationType="OneShot" DurationMin="2.2229376" DurationMax="2.2229376">
 					<MediaRefs>
 						<MediaRef Id="292669630"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="973170820" Name="player_lob">
+				<Event Id="973170820" Name="player_lob" DurationType="OneShot" DurationMin="1.75" DurationMax="1.75">
 					<MediaRefs>
 						<MediaRef Id="222124175"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="841226244" Name="player_roll">
+				<Event Id="841226244" Name="player_roll" DurationType="OneShot" DurationMin="0.5625" DurationMax="0.608">
 					<SwitchContainers>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="4276063004" Id="2195636714" Default="true"/>
@@ -985,85 +985,85 @@
 						</SwitchContainer>
 					</SwitchContainers>
 				</Event>
-				<Event Id="1199887854" Name="player_shotgun_atk">
+				<Event Id="1199887854" Name="player_shotgun_atk" DurationType="OneShot" DurationMin="0.7122507" DurationMax="0.7122507">
 					<MediaRefs>
 						<MediaRef Id="195194557"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="255574742" Name="player_shotgun_init">
+				<Event Id="255574742" Name="player_shotgun_init" DurationType="OneShot" DurationMin="0.27788714" DurationMax="0.27788714">
 					<MediaRefs>
 						<MediaRef Id="848350748"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="2909104693" Name="player_slam_atk">
+				<Event Id="2909104693" Name="player_slam_atk" DurationType="OneShot" DurationMin="1.53125" DurationMax="1.53125">
 					<MediaRefs>
 						<MediaRef Id="966389329"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3131540599" Name="player_slam_init">
+				<Event Id="3131540599" Name="player_slam_init" DurationType="OneShot" DurationMin="0.8449375" DurationMax="0.8449375">
 					<MediaRefs>
 						<MediaRef Id="933496307"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="2062853598" Name="portal_close">
+				<Event Id="2062853598" Name="portal_close" DurationType="OneShot" DurationMin="1.2006766" DurationMax="1.2006766">
 					<MediaRefs>
 						<MediaRef Id="495527006"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3086941384" Name="portal_idle">
+				<Event Id="3086941384" Name="portal_idle" DurationType="Infinite">
 					<MediaRefs>
 						<MediaRef Id="712810717"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="762878330" Name="portal_open">
+				<Event Id="762878330" Name="portal_open" DurationType="OneShot" DurationMin="1.125" DurationMax="1.125">
 					<MediaRefs>
 						<MediaRef Id="271929651"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="4272749033" Name="props_cactus">
+				<Event Id="4272749033" Name="props_cactus" DurationType="OneShot" DurationMin="0.8746667" DurationMax="0.96002084">
 					<MediaRefs>
 						<MediaRef Id="241135747"/>
 						<MediaRef Id="734646743"/>
 						<MediaRef Id="975226023"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="92521196" Name="props_pillar_rumble">
+				<Event Id="92521196" Name="props_pillar_rumble" DurationType="OneShot" DurationMin="19.884895" DurationMax="19.884895">
 					<MediaRefs>
 						<MediaRef Id="141369313"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="2754391325" Name="props_pot">
+				<Event Id="2754391325" Name="props_pot" DurationType="OneShot" DurationMin="0.929" DurationMax="0.929">
 					<MediaRefs>
 						<MediaRef Id="433454501"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="1871795543" Name="props_rock">
+				<Event Id="1871795543" Name="props_rock" DurationType="OneShot" DurationMin="2.4106874" DurationMax="2.7464793">
 					<MediaRefs>
 						<MediaRef Id="211891834"/>
 						<MediaRef Id="220527450"/>
 						<MediaRef Id="1063658389"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="729588163" Name="props_wood">
+				<Event Id="729588163" Name="props_wood" DurationType="OneShot" DurationMin="1.1997917" DurationMax="1.4375">
 					<MediaRefs>
 						<MediaRef Id="224090648"/>
 						<MediaRef Id="329592252"/>
 						<MediaRef Id="578345464"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="2376412427" Name="skel_dash">
+				<Event Id="2376412427" Name="skel_dash" MaxAttenuation="50" DurationType="OneShot" DurationMin="1.5" DurationMax="1.5">
 					<MediaRefs>
 						<MediaRef Id="18472167"/>
 						<MediaRef Id="226886049"/>
 						<MediaRef Id="1005504680"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="1504289659" Name="skel_death">
+				<Event Id="1504289659" Name="skel_death" MaxAttenuation="50" DurationType="OneShot" DurationMin="1.0625" DurationMax="1.0625">
 					<MediaRefs>
 						<MediaRef Id="858779314"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="855030670" Name="skel_fs">
+				<Event Id="855030670" Name="skel_fs" MaxAttenuation="50" DurationType="OneShot" DurationMin="0.21465273" DurationMax="0.330089">
 					<SwitchContainers>
 						<SwitchContainer>
 							<SwitchValue GroupType="Switch" GroupId="855030670" Id="4248645337" Default="true"/>
@@ -1093,7 +1093,7 @@
 						</SwitchContainer>
 					</SwitchContainers>
 				</Event>
-				<Event Id="3336220324" Name="skel_gethit">
+				<Event Id="3336220324" Name="skel_gethit" MaxAttenuation="50" DurationType="OneShot" DurationMin="0.318375" DurationMax="0.33570832">
 					<MediaRefs>
 						<MediaRef Id="300101372"/>
 						<MediaRef Id="344656176"/>
@@ -1102,24 +1102,24 @@
 						<MediaRef Id="799731881"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3644427658" Name="skel_slash">
+				<Event Id="3644427658" Name="skel_slash" MaxAttenuation="50" DurationType="OneShot" DurationMin="0.3984375" DurationMax="0.5546875">
 					<MediaRefs>
 						<MediaRef Id="66995461"/>
 						<MediaRef Id="144792552"/>
 						<MediaRef Id="429319015"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="1091450755" Name="skel_spwan_jump">
+				<Event Id="1091450755" Name="skel_spwan_jump" MaxAttenuation="50" DurationType="OneShot" DurationMin="0.625" DurationMax="0.625">
 					<MediaRefs>
 						<MediaRef Id="443484975"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="500517664" Name="skel_spwan_land">
+				<Event Id="500517664" Name="skel_spwan_land" MaxAttenuation="50" DurationType="OneShot" DurationMin="1.3443125" DurationMax="1.3443125">
 					<MediaRefs>
 						<MediaRef Id="500052017"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="1123472706" Name="skel_vo">
+				<Event Id="1123472706" Name="skel_vo" MaxAttenuation="50" DurationType="OneShot" DurationMin="1.6" DurationMax="1.8986875">
 					<MediaRefs>
 						<MediaRef Id="115604974"/>
 						<MediaRef Id="226075322"/>
@@ -1128,26 +1128,26 @@
 						<MediaRef Id="834267316"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3157003241" Name="TEST">
+				<Event Id="3157003241" Name="TEST" DurationType="OneShot" DurationMin="1" DurationMax="1">
 					<PluginRefs>
 						<Custom>
 							<PluginRef Id="496940353"/>
 						</Custom>
 					</PluginRefs>
 				</Event>
-				<Event Id="3587827325" Name="Transition_Start"/>
-				<Event Id="1619304959" Name="Transition_Stop"/>
-				<Event Id="1009189048" Name="ui_error">
+				<Event Id="3587827325" Name="Transition_Start" DurationType="Infinite"/>
+				<Event Id="1619304959" Name="Transition_Stop" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="1009189048" Name="ui_error" DurationType="OneShot" DurationMin="0.12839584" DurationMax="0.12839584">
 					<MediaRefs>
 						<MediaRef Id="1070834637"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="2118900976" Name="ui_hover">
+				<Event Id="2118900976" Name="ui_hover" DurationType="OneShot" DurationMin="0.051145833" DurationMax="0.051145833">
 					<MediaRefs>
 						<MediaRef Id="855748710"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="2774129122" Name="ui_select">
+				<Event Id="2774129122" Name="ui_select" DurationType="OneShot" DurationMin="0.1204375" DurationMax="0.1204375">
 					<MediaRefs>
 						<MediaRef Id="643838728"/>
 					</MediaRefs>
@@ -1170,5 +1170,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{B2B7D3E6-ABF3-BF3E-7548-3D451B820098}</FileHash>
+	<FileHash>{9D9EC199-4282-7D1F-A502-051EDA61C0C2}</FileHash>
 </SoundBanksInfo>

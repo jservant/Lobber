@@ -852,6 +852,7 @@ public class PlayerController : MonoBehaviour {
 
 	public void Shotgun() {
 		gameMan.SpawnParticle(0, shotgunPoint.position, 1.5f);
+		sounds.CharacterSpin();
 		if (GameObject.Find("HapticManager") != null) HapticManager.PlayEffect(hapticEffects[2], this.transform.position);
 		gameMan.ShakeCamera(3f, 0.25f);
 	}

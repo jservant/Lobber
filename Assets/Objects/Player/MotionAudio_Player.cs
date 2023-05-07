@@ -90,7 +90,7 @@ public class MotionAudio_Player : MonoBehaviour
 
     public AK.Wwise.Event Character_Shotgun_Atk;
 
-    void CharacterShotgunAtk()
+    public void CharacterShotgunAtk()
     {
         Character_Shotgun_Atk.Post(gameObject);
     }
@@ -111,7 +111,7 @@ public class MotionAudio_Player : MonoBehaviour
 
     public AK.Wwise.Event Character_Spin;
 
-    void CharacterSpin()
+    public void CharacterSpin()
     {
         Character_Spin.Post(gameObject);
     }

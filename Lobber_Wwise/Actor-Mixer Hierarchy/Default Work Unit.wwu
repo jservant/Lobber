@@ -1228,6 +1228,13 @@
 							</ChildrenList>
 						</RandomSequenceContainer>
 						<Sound Name="player_shotgun_atk" ID="{8B6FB35C-24B8-473F-B9CD-4164C9DD76E1}" ShortID="560516673">
+							<PropertyList>
+								<Property Name="Highpass" Type="int16">
+									<ValueList>
+										<Value>40</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
@@ -1238,6 +1245,11 @@
 							</ReferenceList>
 							<ChildrenList>
 								<AudioFileSource Name="player_shotgun_atk" ID="{773A393E-AD76-493E-B488-7614E94268FD}">
+									<PropertyList>
+										<Property Name="FadeOutDuration" Type="Real64" Value="0.39173789173789"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimEnd" Type="Real64" Value="0.712250712250709"/>
+									</PropertyList>
 									<Language>SFX</Language>
 									<AudioFile>player_shotgun_atk.wav</AudioFile>
 									<MediaIDList>
@@ -3117,7 +3129,19 @@
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="pest_bomb_expload" ID="{BCC34142-4C30-4E9C-83B7-81A5D2B39490}" ShortID="279109613">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>12</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="Explosion" ID="{36591613-FCCA-488E-8BC9-268A878F7EAF}" WorkUnitID="{30AA0E61-053C-47AE-8A92-C475047387BF}"/>
+								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
 								</Reference>

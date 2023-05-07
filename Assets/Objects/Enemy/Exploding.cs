@@ -175,6 +175,8 @@ public class Exploding : MonoBehaviour {
 		bombModel = transform.Find("Main/MrBomb").GetComponent<MeshRenderer>();
 		handMaterial = handModel.material;
 		bombMaterials = bombModel.materials;
+
+		sounds.PestBombFuse();
 	}
 
 	void FixedUpdate() {
@@ -277,7 +279,6 @@ public class Exploding : MonoBehaviour {
 				break;
 
 			case Directive.WaitForFuse:
-				//sounds.PestBombFuse();
 				fuseDuration -= Time.deltaTime;
 				if (fuseDuration < 0 && movementBurstDuration < 0.0f) {
 					ChangeDirective_LaunchSelf(playerPosition);
