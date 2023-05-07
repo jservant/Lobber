@@ -105,9 +105,9 @@ public class GameManager : MonoBehaviour {
 	public const float TokenCost_MediumSpawn = 60;
 	public const float TokenCost_BigSpawn = 80;
 	public const float TokensPerSecond = 5.0f;
-	public const int HighEnemies = 18;
-	public const int TargetEnemies = 12;
-	public const int LowEnemies = 4;
+	public const int HighEnemies = 24;
+	public const int TargetEnemies = 14;
+	public const int LowEnemies = 6;
 
 	[Header("Bools:")]
 	public bool updateTimeScale = true;
@@ -202,7 +202,7 @@ public class GameManager : MonoBehaviour {
 			}
 			enemySpawnPoints = TempArray;
 			 
-            float[] objectiveChoices = new float[] { 0f, 4f, 3f, 3f };
+            float[] objectiveChoices = new float[] { 0f, 6f, 0f, 4f };
             objectiveChoices[(int)currentObjective] = 0;
             currentObjective = (Objectives)Util.RollWeightedChoice(objectiveChoices);
         }
@@ -331,7 +331,7 @@ public class GameManager : MonoBehaviour {
 
 		// Manage Spawns
 		if (canSpawn && !transitioningLevel) {
-			spawnTokens += TokensPerSecond * Time.deltaTime;
+			spawnTokens += (TokensPerSecond + levelCount * 2) * Time.deltaTime;
 			if (enemiesAlive < HighEnemies) {
 				// Determine enemy amount
 				int amountEnemy = 0;
@@ -369,21 +369,21 @@ public class GameManager : MonoBehaviour {
 
 					case 1:
 						if (spawnTokens > TokenCost_SmallSpawn) {
-							amountEnemy = Random.Range(3, 5);
+							amountEnemy = Random.Range(4, 8);
 							spawnTokens -= TokenCost_SmallSpawn;
 						}
 						break;
 
 					case 2:
 						if (spawnTokens > TokenCost_MediumSpawn) {
-							amountEnemy = Random.Range(5, 8);
+							amountEnemy = Random.Range(8, 12);
 							spawnTokens -= TokenCost_MediumSpawn;
 						}
 						break;
 
 					case 3:
 						if (spawnTokens > TokenCost_BigSpawn) {
-							amountEnemy = Random.Range(7, 10);
+							amountEnemy = Random.Range(12, 16);
 							spawnTokens -= TokenCost_BigSpawn;
 						}
 						break;
@@ -691,7 +691,7 @@ public class GameManager : MonoBehaviour {
 		Initializer.Save();
 		Debug.Log("YOU WIN!! Next stage starting shortly...");
 		statusTextboxText.text = "Stage Clear!";
-		float[] sceneChances = new float[] { 0, 1f, 1f, 1f };
+		float[] sceneChances = new float[] { 0, 1f, 1f, 1f, 1f };
 		sceneChances[SceneManager.GetActiveScene().buildIndex] = 0;
 		KillAll();
 		yield return new WaitForSeconds(5);

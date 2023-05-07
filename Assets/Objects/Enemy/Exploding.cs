@@ -468,6 +468,7 @@ public class Exploding : MonoBehaviour {
 		GameManager.enemiesKilledInRun += 1;
 		Initializer.save.versionLatest.explosiveEnemyKills++;
 		if (groundIndicatorInstance != null) Destroy(groundIndicatorInstance);
+		sounds.PestBombExplode();
 	}
 
 	private void OnDrawGizmos() {
