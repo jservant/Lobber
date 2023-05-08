@@ -669,6 +669,10 @@ public class GameManager : MonoBehaviour {
 				pauseBG.enabled = false;
 			}
 		}
+
+		if (playerController.pActions.Player.Zoom.WasPerformedThisFrame()) {
+			cameraShake._CameraZoom();
+		}
 	}
 
 	public void UpdatePlayerSpawns() {

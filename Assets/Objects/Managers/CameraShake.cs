@@ -10,12 +10,18 @@ public class CameraShake : MonoBehaviour
     private float shakeTimer;
     public float shakeTime;
     private float startingIntensity;
+    public float currentFOV;
+    private float targetFOV;
+    public float zoomInFOV;
+    public float zoomOutFOV;
+    private float zoomTime;
 
     private void Awake() 
     {
         vcam = GetComponent<CinemachineVirtualCamera>();
         noise = vcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         shakeTime = 0;
+        currentFOV = vcam.m_Lens.FieldOfView;
     }
     // Start is called before the first frame update
     void Start()
@@ -34,6 +40,12 @@ public class CameraShake : MonoBehaviour
             shakeTime = 0;
             noise.m_AmplitudeGain = 0f;
         }
+
+        if (zoomTime > 0) {
+            zoomTime -= Time.deltaTime;
+            vcam.m_Lens.FieldOfView = Mathf.Lerp(targetFOV, currentFOV, zoomTime / 0.2f);
+        }
+        else currentFOV = currentFOV = vcam.m_Lens.FieldOfView;
     }
 
     public void _ShakeCamera(float intensity, float duration) {
@@ -41,5 +53,15 @@ public class CameraShake : MonoBehaviour
         startingIntensity = intensity;
         shakeTimer = duration;
         shakeTime = duration;
+    }
+
+    public void _CameraZoom() {
+        if (zoomTime <= 0) {
+            targetFOV = currentFOV - 15f;
+            if (targetFOV < zoomInFOV) {
+                targetFOV = zoomOutFOV;
+            }
+            zoomTime = 0.2f;
+        }
     }
 }
