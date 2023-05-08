@@ -161,7 +161,7 @@ public class GameManager : MonoBehaviour {
 		resolutions = Screen.resolutions;
 		resolutionDropdown.ClearOptions();
 		List<string> resolutionOptions = new List<string>();
-		for (int i = resolutions.Length-1; i >= 0; i--) {
+		for (int i = 0; i < resolutions.Length; i++) {
 			string resolutionOption = resolutions[i].width + " x " + resolutions[i].height + " @ " + resolutions[i].refreshRate + "hz";
 			resolutionOptions.Add(resolutionOption);
 
@@ -668,6 +668,10 @@ public class GameManager : MonoBehaviour {
 				pauseUI.enabled = false;
 				pauseBG.enabled = false;
 			}
+		}
+
+		if (playerController.pActions.Player.Zoom.WasPerformedThisFrame()) {
+			cameraShake._CameraZoom();
 		}
 	}
 

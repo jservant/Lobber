@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 293438076147819504}
   - component: {fileID: 293438076147819505}
   - component: {fileID: 293438076147819506}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: GroundCracks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4880,7 +4880,7 @@ GameObject:
   - component: {fileID: 293438076403132093}
   - component: {fileID: 293438076403132035}
   - component: {fileID: 293438076403132092}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Dirt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5615,7 +5615,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 2
+      value: 2.57
       mode: 0
       spread: 0
       speed:
@@ -5837,14 +5837,72 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    m_BurstCount: 1
+    m_BurstCount: 2
     m_Bursts:
     - serializedVersion: 2
       time: 0
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 60
+        scalar: 30
+        minScalar: 30
+        maxCurve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        minCurve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+      cycleCount: 1
+      repeatInterval: 0.01
+      probability: 1
+    - serializedVersion: 2
+      time: 0.1
+      countCurve:
+        serializedVersion: 2
+        minMaxState: 0
+        scalar: 30
         minScalar: 30
         maxCurve:
           serializedVersion: 2
@@ -9742,7 +9800,7 @@ GameObject:
   - component: {fileID: 293438076686098080}
   - component: {fileID: 293438076686098086}
   - component: {fileID: 293438076686098087}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Clouds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14613,7 +14671,7 @@ GameObject:
   - component: {fileID: 7372995309362315289}
   - component: {fileID: 905662339747179526}
   - component: {fileID: 617112666304683248}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Sparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19476,13 +19534,13 @@ GameObject:
   - component: {fileID: 5231904839718702777}
   - component: {fileID: 3053340457069161838}
   - component: {fileID: 8811903198417716211}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Bones
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5231904839718702777
 Transform:
   m_ObjectHideFlags: 0
@@ -24338,7 +24396,7 @@ GameObject:
   - component: {fileID: 2668882401613965365}
   - component: {fileID: 8038797209331366744}
   - component: {fileID: 1749984571069128398}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Fly Skelly
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29200,13 +29258,13 @@ GameObject:
   - component: {fileID: 9158164873465710623}
   - component: {fileID: 5500850459354664046}
   - component: {fileID: 2735798416002651195}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Sword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &9158164873465710623
 Transform:
   m_ObjectHideFlags: 0
@@ -34062,13 +34120,13 @@ GameObject:
   - component: {fileID: 4394730677953243102}
   - component: {fileID: 2309958928254362926}
   - component: {fileID: 4701125759557094358}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: RibCage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4394730677953243102
 Transform:
   m_ObjectHideFlags: 0
