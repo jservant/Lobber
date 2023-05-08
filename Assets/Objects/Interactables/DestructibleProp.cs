@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DestructibleProp : MonoBehaviour
-{
+public class DestructibleProp : MonoBehaviour {
 	[Header("References:")]
 	public GameObject headPop;
 	PlayerController player;
@@ -30,12 +29,15 @@ public class DestructibleProp : MonoBehaviour
 	private void Start() {
 		player = transform.Find("/Player").GetComponent<PlayerController>();
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
-		model = GetComponent<MeshRenderer>();
+		model = this.GetComponent<MeshRenderer>();
+		if (model == null) {
+			model = transform.Find("Visual").GetComponent<MeshRenderer>(); // Special case for Bonepile gameObject
+		}
 		materials = model.materials;
 		heads = Random.Range(headTotal - headOffset, headTotal + headOffset);
 	}
 
-    void Update() {
+	void Update() {
 		hitflashTimer -= Time.deltaTime;
 		Material[] materialList = model.materials;
 		for (int i = 0; i < materialList.Length; i++) {
