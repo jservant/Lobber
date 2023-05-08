@@ -65,6 +65,7 @@ public class DestructibleProp : MonoBehaviour {
 					if (player != null) {
 						if (player.currentAttack == PlayerController.Attacks.Chop) {
 							hitflashTimer = 0.25f;
+							player.ChangeMeter(1);
 							SpawnHeads(2);
 						}
 						else if (player.currentAttack == PlayerController.Attacks.Slam) {

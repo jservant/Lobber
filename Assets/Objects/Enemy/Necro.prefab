@@ -2393,6 +2393,7 @@ GameObject:
   - component: {fileID: 2751558784916490855}
   - component: {fileID: 1119766912951405162}
   - component: {fileID: 2122840787548723549}
+  - component: {fileID: 2938298979415412994}
   m_Layer: 7
   m_Name: Necro
   m_TagString: Untagged
@@ -2523,6 +2524,30 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2938298979415412994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5401689957874232711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ff17693a137f7343a18235b5fbeb23a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NecroSpawn:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: f8f101d63470ff24096c7525d167f133, type: 2}
+  NecroIdle:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 784c21af2f0598043a14b50465c9336e, type: 2}
+  NecroFireball:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: f49698ca6923b124fa359c1b91b9ea68, type: 2}
 --- !u!1 &5411499105986435972
 GameObject:
   m_ObjectHideFlags: 0
