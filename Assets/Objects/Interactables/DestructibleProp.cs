@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class DestructibleProp : MonoBehaviour
 {
-	[Header("References:")]
-	public GameObject headPop;
 	PlayerController player;
 	GameManager gameMan;
 
