@@ -261,6 +261,10 @@ public class Exploding : MonoBehaviour {
 				spawnDuration -= Time.deltaTime;
 				if (spawnDuration < 0) {
 					ChangeDirective_WaitForFuse();
+					RaycastHit hitInfo;
+					if (Physics.Raycast(this.transform.position + Vector3.up * 2.5f, Vector3.down, out hitInfo, 2.6f, Mask.Get(Layers.Ground))) {
+						this.transform.position += Vector3.down * (hitInfo.distance - 2.6f); // NOTE(Roskuski): should dislodge skeletons from the ground if frame lag causes them to sink inwards.
+					}
 				}
 
 				if (spawnDuration < 2f && spawnDuration > 1.2f) {
