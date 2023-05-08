@@ -57,7 +57,7 @@ public class CameraShake : MonoBehaviour
 
     public void _CameraZoom() {
         if (zoomTime <= 0) {
-            targetFOV = currentFOV - 15f;
+            targetFOV = currentFOV - 12f;
             if (targetFOV < zoomInFOV) {
                 targetFOV = zoomOutFOV;
             }
