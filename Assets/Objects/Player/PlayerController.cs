@@ -395,7 +395,9 @@ public class PlayerController : MonoBehaviour {
 				float targetAngle = Mathf.Atan2(movement.x, movement.z) * Mathf.Rad2Deg + UnityEngine.Camera.main.transform.eulerAngles.y;
 				float turnVelocity = 0f;  // annoying float that is only referenced and has to exist for movement math to work
 				float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnVelocity, turnSpeed);
-				transform.rotation = Quaternion.Euler(0f, angle, 0f);
+				if (currentAttack == Attacks.None) {
+					transform.rotation = Quaternion.Euler(0f, angle, 0f);
+				}
 				Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
 				moveDelta = moveDirection.normalized * (topSpeed * Mathf.Lerp(0, 1, movementCurve.Evaluate(speedTime / maxSpeedTime)));
 				if (currentAttack == Attacks.Chop) moveDelta *= chopMovementMultiplier;
@@ -773,14 +775,14 @@ public class PlayerController : MonoBehaviour {
 					homingTargetDelta *= 0f;
 					break;
 			}
-
-			transform.LookAt(homingTargetDelta + transform.position);
 		}
 		else {
 			Vector3 Location = GetTargetSphereLocation();
 			Location = new Vector3(Location.x, transform.position.y, Location.z);
 			homingTargetDelta = Quaternion.LookRotation(Location - transform.position, Vector3.up) * Vector3.forward * 2;
 		}
+
+        transform.LookAt(homingTargetDelta + transform.position);
 	}
 
 	Vector3 GetTargetSphereLocation() {
