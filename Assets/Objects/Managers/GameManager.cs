@@ -315,7 +315,7 @@ public class GameManager : MonoBehaviour {
 
 			case Objectives.HarvestTheCrystals:
 				if (trackCrystalsOrPos) objectiveText.text = "Crystals harvested: " + crystalCount + "/" + crystalHarvestingGoal;
-				else { objectiveText.text = "Crystal position: " + playerController.crystalPatch.transform.position; }
+				//else { objectiveText.text = "Crystal position: " + playerController.crystalPatch.transform.position; }
 				if (crystalCount >= crystalHarvestingGoal && transitioningLevel == false) {
 					StartCoroutine(Win());
 				}
