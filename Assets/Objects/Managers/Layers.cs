@@ -24,9 +24,12 @@ public enum Layers : int {
 
 public enum Scenes : int {
 	Tutorial = 0,
-	Level_A,
-	Level_K,
-	Level_I,
+	GrassBridge,
+	GrassPillars,
+	CrystalMine,
+	CrystalHill,
+	DesertIslands,
+	DesertCanyon
 }
 
 public class Mask {

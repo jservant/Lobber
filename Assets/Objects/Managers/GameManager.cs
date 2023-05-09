@@ -633,7 +633,7 @@ public class GameManager : MonoBehaviour {
 				playerController.meter = playerController.meterMax;
 			}
 			if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed && playerController.pActions.Player.DEBUGLevelSkip.WasPerformedThisFrame()) {
-				float[] sceneChances = new float[] { 0, 1f, 1f, 1f };
+				float[] sceneChances = new float[] { 0, 1f, 1f, 1f, 1f, 1f, 1f };
 				sceneChances[SceneManager.GetActiveScene().buildIndex] = 0;
 				SceneManager.LoadScene(Util.RollWeightedChoice(sceneChances));
 			}
@@ -701,7 +701,7 @@ public class GameManager : MonoBehaviour {
 		Initializer.Save();
 		Debug.Log("YOU WIN!! Next stage starting shortly...");
 		statusTextboxText.text = "Stage Clear!";
-		float[] sceneChances = new float[] { 0, 1f, 1f, 1f, 1f };
+		float[] sceneChances = new float[] { 0, 1f, 1f, 1f, 1f, 1f, 1f };
 		sceneChances[SceneManager.GetActiveScene().buildIndex] = 0;
 		KillAll();
 		yield return new WaitForSeconds(5);
@@ -929,8 +929,7 @@ public class GameManager : MonoBehaviour {
 		crystalHarvestingGoal = 3;
 		enemiesKilledInRun = 0;
 		Initializer.save.versionLatest.runsStarted++;
-		SceneManager.LoadScene((int)Scenes.Level_A); // disabling B for now
-
+		SceneManager.LoadScene((int)Scenes.GrassBridge);
 	}
 
 	public void OnOptions() {
