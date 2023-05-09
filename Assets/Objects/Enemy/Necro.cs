@@ -13,6 +13,7 @@ public class Necro : MonoBehaviour {
 		Attack,
 		Wander,
 		Death,
+		Stunned,
 	}
 	[SerializeField] Directive directive;
 
@@ -20,28 +21,40 @@ public class Necro : MonoBehaviour {
 		None = 0,
 		// Launch a slow moving homing projectile 
 		Projectile,
-		// Summon a portal and call forth enemies
-		Summon,
 	}
-	[SerializeField] Attack currentAttack = Attack.None;
-	[SerializeField] float attackDelay = 0;
-	[SerializeField] const float ReferenceAttackDelay = 7f;
+	Attack currentAttack = Attack.None;
+	float attackDelay = 0;
+	const float ReferenceAttackDelay = 7f;
 
-	[SerializeField] Vector3 attackTarget;
+	Vector3 attackTarget;
 
-	[SerializeField] const float MoveSpeed = 7.5f;
-	[SerializeField] const float VerticalCorrectSpeed = 1.0f;
-	[SerializeField] const float MoveTimeMax = 3f;
-	[SerializeField] const float TurnSpeed = 360f / 1f;
+	const float MoveSpeed = 7.5f;
+	const float VerticalCorrectSpeed = 1.0f;
+	const float MoveTimeMax = 3f;
+	const float TurnSpeed = 360f / 1f;
 
-	[SerializeField] float flankStrength = 0;
-	[SerializeField] bool preferRightStrafe = false;
+	float flankStrength = 0;
+	bool preferRightStrafe = false;
 	const float ReferenceComfortableDistance = 15f;
-	[SerializeField] float comfortableDistance = 15f;
+	float comfortableDistance = 15f;
 
-	[SerializeField] Vector3 movementDelta;
-	[SerializeField] Quaternion moveDirection;
-	[SerializeField] float[] directionWeights = new float[32];
+	Vector3 movementDelta;
+	Quaternion moveDirection;
+	float[] directionWeights = new float[32];
+
+	[SerializeField] Material hitflashMat;
+	Material[] materials;
+	float hitflashTimer;
+	SkinnedMeshRenderer model;
+
+	[SerializeField] float health;
+	bool shouldDie = false;
+	bool isImmune = false;
+	bool wasHitByChop = false;
+
+	float stunDuration = 0f;
+	KnockbackInfo knockbackInfo;
+	float remainingKnockbackTime;
 
 	// NOTE(Roskuski): Internal references
 	Animator animator;
@@ -57,53 +70,178 @@ public class Necro : MonoBehaviour {
 	}
 
 	void ChangeDirective_Wander() {
-		directive = Directive.Wander;
-		currentAttack = Attack.None;
-		this.attackDelay = Random.Range(ReferenceAttackDelay * 0.8f, ReferenceAttackDelay * 1.2f);
+		if (directive != Directive.Death) {
+			directive = Directive.Wander;
+			currentAttack = Attack.None;
+			this.attackDelay = Random.Range(ReferenceAttackDelay * 0.8f, ReferenceAttackDelay * 1.2f);
+		}
 	}
 
 	void ChangeDirective_Attack(Attack attack) {
-		directive = Directive.Attack;
-		currentAttack = attack;
+		if (directive != Directive.Death) {
+			directive = Directive.Attack;
+			currentAttack = attack;
 
-		switch (currentAttack) {
-			default: 
-				Debug.Assert(false, "Invalid Attack " + currentAttack, this);
-				break;
+			switch (currentAttack) {
+				default: 
+					Debug.Assert(false, "Invalid Attack " + currentAttack, this);
+					break;
 
-			case Attack.Projectile:
-				break;
+				case Attack.Projectile:
+					break;
+			}
+		}
+	}
 
-			case Attack.Summon:
-				attackTarget = Vector3.zero;
-				for (int count = 0; count < 10; count += 1) {
-					Vector3 test = Quaternion.AngleAxis(Random.Range(0f, 360f), Vector3.up) * Vector3.forward * Random.Range(5f, 10f);
-					if (Physics.Raycast(test, Vector3.down, 10f, Mask.Get(Layers.Ground))) { // if valid
-						attackTarget = test;
-						break;
-					}
-				}
+	public void ChangeDirective_Stunned(StunTime stunTime, KnockbackInfo newKnockbackInfo) {
+		if (directive != Directive.Death && directive != Directive.Spawn && stunTime != StunTime.None) {
+			directive = Directive.Stunned;
+			
+			float stunValue = 0;
+			switch (stunTime) {
+				case StunTime.Short:
+					stunValue = 0.5f;
+					break;
 
-				if (attackTarget == Vector3.zero) {
-					ChangeDirective_Wander(); // Failed to find a suitable place to spawn in.
-				}
-				break;
+				case StunTime.Long:
+					stunValue = Random.Range(2f, 2.2f);
+					break;
+
+				case StunTime.None:
+				default:
+					Debug.Assert(false);
+					break;
+			}
+
+			stunDuration = stunValue;
+			hitflashTimer = 0.25f;
+
+			knockbackInfo = newKnockbackInfo;
+			remainingKnockbackTime = knockbackInfo.time;
+			this.transform.rotation = Quaternion.AngleAxis(180, Vector3.up) * knockbackInfo.direction;
 		}
 	}
 	
 	void ChangeDirective_Death() {
-		directive = Directive.Death;
-		currentAttack = Attack.None;
+		if (directive != Directive.Death) {
+			directive = Directive.Death;
+			currentAttack = Attack.None;
+		}
+	}
+
+	static readonly StunTime[] AttackStunTimeTable = {
+		StunTime.None, // None
+		StunTime.Short, // LAttack
+		StunTime.Short, // LAttack2
+		StunTime.Long, // LAttack3
+		StunTime.Long, // Chop
+		StunTime.Long, // Slam
+		StunTime.Short, // Spin
+		StunTime.None, // HeadThrow (Handled by head projectile)
+		StunTime.None, // Dashing
+		StunTime.Short, // LethalDashing
+		StunTime.None, // ShotgunThrow (Handled by head projectile)
+	};
+
+	static readonly float[] AttackMeterGainOnHitTable = {
+		0.0f, // None
+		0.1f, // LAttack
+		0.1f, // LAttack2
+		0.2f, // LAttack3
+		1.0f, // Chop (Should be enough to kill a basic in one hit)
+		0.0f, // Slam (Special case, Slam does different damages at different radii)
+		0.0f, // Spin
+		0.0f, // HeadThrow (Hit + Damage is handled by the projectile, we shouldn't even get a hit while in this attack)
+		0.0f, // Dashing
+		0.0f, // LethalDash
+		0.0f, // ShotgunThrow (Hit + Damage is handled by the projectile, we shouldn't even get a hit while in this attack)
+	};
+
+	void OnTriggerEnter(Collider other) {
+		if (!isImmune) {
+			KnockbackInfo newKnockbackInfo = new KnockbackInfo(Quaternion.identity, 0, 0);
+			StunTime stunTime = StunTime.None;
+			float damage = 0f;
+			float meterGain = 0f;
+
+			if (other.gameObject.layer == (int)Layers.PlayerHitbox) {
+				HeadProjectile head = other.GetComponentInParent<HeadProjectile>();
+				PlayerController player = other.GetComponentInParent<PlayerController>();
+				ExplosiveTrap explosiveTrap = other.GetComponentInParent<ExplosiveTrap>();
+
+				if (player != null) {
+					gameMan.SpawnParticle(0, other.transform.position, 1f);
+					
+					newKnockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
+					stunTime = AttackStunTimeTable[(int)player.currentAttack];
+					damage = PlayerController.AttackDamageTable[(int)player.currentAttack];
+					meterGain = AttackMeterGainOnHitTable[(int)player.currentAttack];
+
+					// Attack specific code
+					switch (gameMan.playerController.currentAttack) {
+						case PlayerController.Attacks.Slam:
+							float posDifference = Mathf.Abs((player.transform.position - transform.position).sqrMagnitude);
+							Debug.Log(gameObject.name + "'s posDifference after slam: " + posDifference);
+							if (posDifference < 40f) {
+								damage = 8f;
+							} 
+							else if (posDifference < 80f) {
+								damage = 4f;
+							} 
+							break;
+
+						case PlayerController.Attacks.Chop:
+							// @TODO(Roskuski): Different System to prevent headpickup spawns from chop. this current system will not work well if we implment enemies with healthpools that can surrive a chop
+							wasHitByChop = true;
+							gameMan.ShakeCamera(5f, 0.1f);
+							if (GameObject.Find("HapticManager") != null) HapticManager.PlayEffect(player.hapticEffects[2], this.transform.position);
+							break;
+
+						default:
+							Debug.Log("I, " + this.name + " was hit by an unhandled attack (" + gameMan.playerController.currentAttack + ")");
+							break;
+					}
+
+				}
+				else if (head != null) {
+					// NOTE(Roskuski): Head projectial direct hit
+					gameMan.SpawnParticle(0, other.transform.position, 2f);
+					damage = 8f;
+				}
+				else if (explosiveTrap != null) {
+					// NOTE(Roskuski): Knockback trap
+					newKnockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
+					stunTime = StunTime.Long;
+				}
+			}
+			else if (other.gameObject.layer == (int)Layers.AgnosticHitbox) {
+				if (other.GetComponentInParent<Exploding>() != null) {
+					// NOTE(Roskuski): Explosive enemy
+					newKnockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
+					stunTime = StunTime.Long;
+					newKnockbackInfo.force *= 2f;
+					damage = 8f;
+				}
+			}
+
+			health -= damage;
+			gameMan.playerController.ChangeMeter(meterGain);
+			ChangeDirective_Stunned(stunTime, newKnockbackInfo);
+
+		}
 	}
 
 	void Start() {
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 		ProjectileSpawnPoint = transform.Find("MAIN_JOINT/MidTorso_Joint/Chest_Joint/Neck_Joint/Head_Joint/Projectile Spawnpoint");
 		animator = this.GetComponent<Animator>();
-		comfortableDistance = Random.Range(ReferenceComfortableDistance - 2, ReferenceComfortableDistance + 2);
+		model = transform.Find("Lil_Necromancer").GetComponent<SkinnedMeshRenderer>();
+		materials = model.materials;
 
+		comfortableDistance = Random.Range(ReferenceComfortableDistance - 2, ReferenceComfortableDistance + 2);
 		directive = Directive.Spawn;
 		gameMan.SpawnParticle(9, transform.position, 1f);
+		isImmune = true;
 	}
 
 	void FixedUpdate() {
@@ -138,12 +276,37 @@ public class Necro : MonoBehaviour {
 		float distanceToPlayer = Vector3.Distance(this.transform.position, gameMan.player.position);
 		movementDelta = Vector3.zero;
 
+		hitflashTimer -= Time.deltaTime;
+		Material[] materialList = model.materials;
+		for (int i = 0; i < materialList.Length; i++) {
+			if (hitflashTimer > 0) {
+				materialList[i] = hitflashMat;
+			}
+			else {
+				materialList[i] = materials[i];
+			}
+		}
+		model.materials = materialList;
+
+		if (health <= 0) {
+			ChangeDirective_Death();
+		}
+
 		switch (directive) {
 			case Directive.Spawn:
 				moveDirection = this.transform.rotation;
 				if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f) {
 					ChangeDirective_Wander();
+					isImmune = false;
 				} 
+				break;
+
+			case Directive.Stunned:
+				stunDuration -= Time.deltaTime;
+				if (stunDuration < 0) {
+					ChangeDirective_Wander();
+					stunDuration = 0;
+				}
 				break;
 
 			case Directive.Wander:
@@ -231,12 +394,10 @@ public class Necro : MonoBehaviour {
 				// Attack consideration
 				attackDelay -= Time.deltaTime;
 				if (attackDelay < 0 && distanceToPlayer > comfortableDistance - 5f && distanceToPlayer < comfortableDistance + 5f) {
-					float[] attackWeights = new float[]{0.50f, 3f, 0f};
-					attackWeights[(int)Attack.Summon] = Mathf.Lerp(2f, 0.1f, gameMan.enemiesAlive/GameManager.HighEnemies);
+					float[] attackWeights = new float[]{0.50f, 3f};
 					Attack attackChoice = (Attack)Util.RollWeightedChoice(attackWeights);
 
 					// @TODO(Roskuski): Removeme when we actually have the animations for summoning
-					attackWeights[(int)Attack.Summon] = 0;
 
 					switch (attackChoice) {
 						case Attack.None:
@@ -245,10 +406,6 @@ public class Necro : MonoBehaviour {
 
 						case Attack.Projectile:
 							ChangeDirective_Attack(Attack.Projectile);
-							break;
-
-						case Attack.Summon:
-							ChangeDirective_Attack(Attack.Summon);
 							break;
 
 						default:
@@ -260,22 +417,30 @@ public class Necro : MonoBehaviour {
 				break;
 
 			case Directive.Attack:
-				AnimatorStateInfo Current = animator.GetCurrentAnimatorStateInfo(0);
-				switch(currentAttack) {
-					case Attack.None:
-					default:
-						Debug.Assert(false, "Invalid currentAttack " + currentAttack, this);
-						ChangeDirective_Wander();
-						break;
-
-					case Attack.Projectile:
-						if (Current.IsName("Base Layer.Throw") && Current.normalizedTime >= 1f) {
+				{
+					AnimatorStateInfo current = animator.GetCurrentAnimatorStateInfo(0);
+					switch(currentAttack) {
+						case Attack.None:
+						default:
+							Debug.Assert(false, "Invalid currentAttack " + currentAttack, this);
 							ChangeDirective_Wander();
-						}
-						break;
+							break;
 
-					case Attack.Summon:
-						break;
+						case Attack.Projectile:
+							if (current.IsName("Base Layer.Throw") && current.normalizedTime >= 1f) {
+								ChangeDirective_Wander();
+							}
+							break;
+					}
+				}
+				break;
+
+			case Directive.Death:
+				{
+					AnimatorStateInfo current = animator.GetCurrentAnimatorStateInfo(0);
+					if (current.IsName("Base Layer.Death") && current.normalizedTime >= 1f) {
+						GameObject.Destroy(this.gameObject);
+					}
 				}
 				break;
 
@@ -296,11 +461,5 @@ public class Necro : MonoBehaviour {
 		Debug.Assert(Projectile != null);
 		Projectile.transform.parent = null;
 		Projectile = null;
-	}
-
-	void AnimationClip_OpenPortal() {
-	}
-
-	void ANimationClip_ClosePortal() {
 	}
 }

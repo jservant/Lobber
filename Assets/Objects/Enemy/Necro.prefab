@@ -2448,47 +2448,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   directive: 0
-  currentAttack: 0
-  attackDelay: 0
-  attackTarget: {x: 0, y: 0, z: 0}
-  flankStrength: 0
-  preferRightStrafe: 0
-  comfortableDistance: 15
-  movementDelta: {x: 0, y: 0, z: 0}
-  moveDirection: {x: 0, y: 0, z: 0, w: 0}
-  directionWeights:
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
+  hitflashMat: {fileID: 2100000, guid: 27625c58fe45e654f9e128ba019e7db7, type: 2}
+  health: 4
 --- !u!54 &1119766912951405162
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2681,7 +2642,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2910480934843345187}
   - component: {fileID: 6256772720468633577}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Lil_Necromancer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
