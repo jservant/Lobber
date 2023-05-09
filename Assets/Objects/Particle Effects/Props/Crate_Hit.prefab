@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2715269250452631875}
   - component: {fileID: 6244935648912681874}
   - component: {fileID: 7454986615133635664}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Crate Shard Particle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,11 +26,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4320483971950354724}
   m_LocalRotation: {x: -0, y: -0, z: 0.535048, w: 0.8448217}
-  m_LocalPosition: {x: 0, y: -0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 7120889674988704937}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!198 &6244935648912681874
 ParticleSystem:
@@ -40,7 +40,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4320483971950354724}
   serializedVersion: 7
-  lengthInSec: 2
+  lengthInSec: 5
   simulationSpeed: 1
   stopAction: 2
   cullingMode: 0
@@ -115,8 +115,8 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.4
-      minScalar: 0.1
+      scalar: 2.6
+      minScalar: 3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -168,7 +168,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 35
+      scalar: 15
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -284,8 +284,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.05
-      minScalar: 0.04
+      scalar: 0.008
+      minScalar: 0.009
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -549,8 +549,8 @@ ParticleSystem:
     startRotation:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 6.283185
-      minScalar: 0
+      scalar: 3.1415925
+      minScalar: 0.017453292
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -606,7 +606,7 @@ ParticleSystem:
     gravityModifier:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 10
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -1041,12 +1041,21 @@ ParticleSystem:
         - serializedVersion: 3
           time: 0
           value: 1
-          inSlope: -2
-          outSlope: -2
+          inSlope: -0.5871109
+          outSlope: -0.5871109
           tangentMode: 0
           weightedMode: 0
           inWeight: 0
-          outWeight: 0
+          outWeight: 0.19497813
+        - serializedVersion: 3
+          time: 0.64397234
+          value: 0.9385474
+          inSlope: -0.65511537
+          outSlope: -0.65511537
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.3154953
         - serializedVersion: 3
           time: 1
           value: 0
@@ -3668,11 +3677,11 @@ ParticleSystem:
         m_NumAlphaKeys: 2
     range: {x: 0, y: 1}
   CollisionModule:
-    enabled: 0
+    enabled: 1
     serializedVersion: 4
-    type: 0
+    type: 1
     collisionMode: 0
-    colliderForce: 0
+    colliderForce: 20.1
     multiplyColliderForceByParticleSize: 0
     multiplyColliderForceByParticleSpeed: 0
     multiplyColliderForceByCollisionAngle: 1
@@ -3680,7 +3689,7 @@ ParticleSystem:
     m_Dampen:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -3733,7 +3742,7 @@ ParticleSystem:
     m_Bounce:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -3838,7 +3847,7 @@ ParticleSystem:
         m_RotationOrder: 4
     minKillSpeed: 0
     maxKillSpeed: 10000
-    radiusScale: 1
+    radiusScale: 56.73
     collidesWith:
       serializedVersion: 2
       m_Bits: 4294967295
@@ -4873,7 +4882,7 @@ GameObject:
   - component: {fileID: 7842706948835874013}
   - component: {fileID: 8722346233327492229}
   - component: {fileID: 8529194225379362207}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Crate_Top_Particle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4902,8 +4911,8 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6303216588978559179}
   serializedVersion: 7
-  lengthInSec: 2
-  simulationSpeed: 0.5
+  lengthInSec: 5
+  simulationSpeed: 1
   stopAction: 2
   cullingMode: 0
   ringBufferMode: 0
@@ -4977,8 +4986,8 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.6
-      minScalar: 0.5
+      scalar: 2.6
+      minScalar: 3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -5146,8 +5155,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.02
-      minScalar: 0.01
+      scalar: 0.008
+      minScalar: 0.009
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -5411,7 +5420,7 @@ ParticleSystem:
     startRotation:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 6.283185
+      scalar: 3.1415925
       minScalar: 0.017453292
       maxCurve:
         serializedVersion: 2
@@ -5467,8 +5476,8 @@ ParticleSystem:
     rotation3D: 0
     gravityModifier:
       serializedVersion: 2
-      minMaxState: 3
-      scalar: 9
+      minMaxState: 0
+      scalar: 10
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -5903,12 +5912,21 @@ ParticleSystem:
         - serializedVersion: 3
           time: 0
           value: 1
-          inSlope: -2
-          outSlope: -2
+          inSlope: -0.5871109
+          outSlope: -0.5871109
           tangentMode: 0
           weightedMode: 0
           inWeight: 0
-          outWeight: 0
+          outWeight: 0.19497813
+        - serializedVersion: 3
+          time: 0.64397234
+          value: 0.9385474
+          inSlope: -0.65511537
+          outSlope: -0.65511537
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.3154953
         - serializedVersion: 3
           time: 1
           value: 0
@@ -6053,7 +6071,7 @@ ParticleSystem:
         m_RotationOrder: 4
     separateAxes: 0
   RotationModule:
-    enabled: 1
+    enabled: 0
     x:
       serializedVersion: 2
       minMaxState: 3
@@ -8530,11 +8548,11 @@ ParticleSystem:
         m_NumAlphaKeys: 2
     range: {x: 0, y: 1}
   CollisionModule:
-    enabled: 0
+    enabled: 1
     serializedVersion: 4
-    type: 0
+    type: 1
     collisionMode: 0
-    colliderForce: 0
+    colliderForce: 20.1
     multiplyColliderForceByParticleSize: 0
     multiplyColliderForceByParticleSpeed: 0
     multiplyColliderForceByCollisionAngle: 1
@@ -8542,7 +8560,7 @@ ParticleSystem:
     m_Dampen:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -8595,7 +8613,7 @@ ParticleSystem:
     m_Bounce:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -8700,7 +8718,7 @@ ParticleSystem:
         m_RotationOrder: 4
     minKillSpeed: 0
     maxKillSpeed: 10000
-    radiusScale: 1
+    radiusScale: 56.73
     collidesWith:
       serializedVersion: 2
       m_Bits: 4294967295
@@ -9735,7 +9753,7 @@ GameObject:
   - component: {fileID: 7120889674299538506}
   - component: {fileID: 7120889674299538507}
   - component: {fileID: 7120889674299538548}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Crate_Hit_Particle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9764,8 +9782,8 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7120889674299538549}
   serializedVersion: 7
-  lengthInSec: 2
-  simulationSpeed: 0.5
+  lengthInSec: 5
+  simulationSpeed: 1
   stopAction: 2
   cullingMode: 0
   ringBufferMode: 0
@@ -9839,8 +9857,8 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.6
-      minScalar: 0.5
+      scalar: 2.6
+      minScalar: 3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -10008,8 +10026,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.02
-      minScalar: 0.01
+      scalar: 0.008
+      minScalar: 0.009
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -10329,8 +10347,8 @@ ParticleSystem:
     rotation3D: 0
     gravityModifier:
       serializedVersion: 2
-      minMaxState: 3
-      scalar: 9
+      minMaxState: 0
+      scalar: 10
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -10765,12 +10783,21 @@ ParticleSystem:
         - serializedVersion: 3
           time: 0
           value: 1
-          inSlope: -2
-          outSlope: -2
+          inSlope: -0.5871109
+          outSlope: -0.5871109
           tangentMode: 0
           weightedMode: 0
           inWeight: 0
-          outWeight: 0
+          outWeight: 0.19497813
+        - serializedVersion: 3
+          time: 0.64397234
+          value: 0.9385474
+          inSlope: -0.65511537
+          outSlope: -0.65511537
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.3154953
         - serializedVersion: 3
           time: 1
           value: 0
@@ -10915,7 +10942,7 @@ ParticleSystem:
         m_RotationOrder: 4
     separateAxes: 0
   RotationModule:
-    enabled: 1
+    enabled: 0
     x:
       serializedVersion: 2
       minMaxState: 3
@@ -13392,11 +13419,11 @@ ParticleSystem:
         m_NumAlphaKeys: 2
     range: {x: 0, y: 1}
   CollisionModule:
-    enabled: 0
+    enabled: 1
     serializedVersion: 4
-    type: 0
+    type: 1
     collisionMode: 0
-    colliderForce: 0
+    colliderForce: 20.1
     multiplyColliderForceByParticleSize: 0
     multiplyColliderForceByParticleSpeed: 0
     multiplyColliderForceByCollisionAngle: 1
@@ -13404,7 +13431,7 @@ ParticleSystem:
     m_Dampen:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -13457,7 +13484,7 @@ ParticleSystem:
     m_Bounce:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -13562,7 +13589,7 @@ ParticleSystem:
         m_RotationOrder: 4
     minKillSpeed: 0
     maxKillSpeed: 10000
-    radiusScale: 1
+    radiusScale: 56.73
     collidesWith:
       serializedVersion: 2
       m_Bits: 4294967295
@@ -14597,7 +14624,7 @@ GameObject:
   - component: {fileID: 7120889674543629311}
   - component: {fileID: 7120889674543629309}
   - component: {fileID: 7120889674543629310}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Sparks Particle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14616,7 +14643,7 @@ Transform:
   m_LocalScale: {x: 0.270045, y: 0.270045, z: 0.270045}
   m_Children: []
   m_Father: {fileID: 7120889674988704937}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!198 &7120889674543629309
 ParticleSystem:
@@ -19460,7 +19487,7 @@ GameObject:
   - component: {fileID: 7120889674988704937}
   - component: {fileID: 7120889674988704938}
   - component: {fileID: 7120889674988704939}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Crate_Hit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19480,8 +19507,8 @@ Transform:
   m_Children:
   - {fileID: 7120889674299538506}
   - {fileID: 7842706948835874013}
-  - {fileID: 7120889674543629311}
   - {fileID: 2715269250452631875}
+  - {fileID: 7120889674543629311}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
