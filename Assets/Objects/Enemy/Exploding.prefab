@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1673837790592139795}
   - component: {fileID: 6734230658693482805}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Skeleton_Bombois
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51,6 +51,7 @@ SkinnedMeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 40f055eb675374f43afc914600acbb4e, type: 2}
+  - {fileID: 2100000, guid: a3f08a0fef44d63478af17c596627fdb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -888,6 +889,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 9ae8fc283fedd0c4680cacee0d34da45, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 9ae8fc283fedd0c4680cacee0d34da45, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: c412de3c99b7c2d4c94dd42d54496932, type: 2}
@@ -895,9 +900,17 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: 9b83d41adc4383d43a05217e4fd9afa9, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 9ae8fc283fedd0c4680cacee0d34da45, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: 187da54ff69ee75488892ae2a4cda6b5, type: 2}
     - target: {fileID: 919132149155446097, guid: 9ae8fc283fedd0c4680cacee0d34da45, type: 3}
       propertyPath: m_Name
       value: MrBomb
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9ae8fc283fedd0c4680cacee0d34da45, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9ae8fc283fedd0c4680cacee0d34da45, type: 3}
