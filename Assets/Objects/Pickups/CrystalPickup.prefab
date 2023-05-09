@@ -870,6 +870,7 @@ GameObject:
   - component: {fileID: 2501450380218560752}
   - component: {fileID: 1508258292642365106}
   - component: {fileID: 607101287098028431}
+  - component: {fileID: 2700650265090071434}
   m_Layer: 10
   m_Name: Head
   m_TagString: Untagged
@@ -921,6 +922,40 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &2700650265090071434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7958689742418589835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5194c7dae03c18b4aa50b330d9ea50ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickupType: 3
+  skull: {fileID: 6135485328899529380}
+  indicator: {fileID: 1046277986495808349}
+  headModel: {fileID: 361319949057103925}
+  goldenSkullDrop:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 0}
+  flightAngle: 60
+  gravity: 9.8
+  rotationSpeed: 360
+  followSpeed: 20
+  gatherRadius: 3
+  lifetime: 999
+  timeUntilCollect: 0.3
+  isOnGround: 0
+  collected: 0
+  randomForce: 20
+  meterValue: 0
+  healthValue: 0
+  meterCatchBonus: 0
+  healthCatchBonus: 0
 --- !u!1 &8055175439691773293
 GameObject:
   m_ObjectHideFlags: 0

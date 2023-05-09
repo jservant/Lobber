@@ -117,6 +117,7 @@ public class GameManager : MonoBehaviour {
 	DebugActions dActions;
 	float frozenTime = 0;
 	bool transitioningLevel = false;
+	bool trackCrystalsOrPos = true;
 
 	[Header("Particle System:")]
 	public ParticleSystem[] particles;
@@ -282,7 +283,7 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 
-		bool isMenuOpen = pauseUI.enabled || optionsUI.enabled;
+		bool isMenuOpen = pauseUI.enabled;
 
 		//pickup drop chance adjustment
 		if (playerController.meter < playerController.meterMax / 2) {
@@ -313,7 +314,8 @@ public class GameManager : MonoBehaviour {
 				break;
 
 			case Objectives.HarvestTheCrystals:
-				objectiveText.text = "Crystals harvested: " + crystalCount + "/" + crystalHarvestingGoal;
+				if (trackCrystalsOrPos) objectiveText.text = "Crystals harvested: " + crystalCount + "/" + crystalHarvestingGoal;
+				else { objectiveText.text = "Crystal position: " + playerController.crystalHolster.transform.position; }
 				if (crystalCount >= crystalHarvestingGoal && transitioningLevel == false) {
 					StartCoroutine(Win());
 				}
@@ -618,6 +620,10 @@ public class GameManager : MonoBehaviour {
 				}
 			}
 
+			if (playerController.pActions.Player.DEBUGHeal.WasPerformedThisFrame() && currentObjective == Objectives.HarvestTheCrystals) {
+				if (trackCrystalsOrPos == true) trackCrystalsOrPos = false;
+				else trackCrystalsOrPos = true;
+			}
 			if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed && playerController.pActions.Player.DEBUGRestart.WasPerformedThisFrame()) {
 				Debug.Log("Restart called");
 				SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
