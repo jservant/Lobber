@@ -662,7 +662,7 @@ public class PlayerController : MonoBehaviour {
 				headPickup.collected = true;
 				if (headPickup.pickupType == Pickup.Type.Skull) sounds.Sound_HeadPickup();
 				if (headPickup.pickupType == Pickup.Type.Health) sounds.Sound_HealthPickup();
-				GameObject.Destroy(other.transform.gameObject);
+				if (headPickup.pickupType != Pickup.Type.Crystal && !hasCrystal) GameObject.Destroy(other.transform.gameObject);
 			}
 		}
 	}
