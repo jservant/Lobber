@@ -93,7 +93,6 @@ public class Basic : MonoBehaviour {
 	// NOTE(Roskuski): End of ai state
 
 	public float health;
-	public float partialMeter; //how much meter the player gets for just hitting this?
 	bool wasHitByChop = false;
 	bool shouldDie = false;
 	public float dropChance; //chance to drop a head (0-100)
@@ -171,42 +170,45 @@ public class Basic : MonoBehaviour {
 	}
 
 	public enum StunTime {
-		ShortStun,
-		LongStun,
+		None,
+		Short,
+		Long,
 	}
 
 	public void ChangeDirective_Stunned(StunTime stunTime, KnockbackInfo newKnockbackInfo) {
-		if (directive == Directive.Spawn) {
-			return; // do not trans from Spawn -> Stunned
+		if (directive != Directive.Spawn && stunTime != StunTime.None) {
+			directive = Directive.Stunned;
+			hasStartedStunRecovery = false;
+			isInHeavyStun = false;
+			
+			float stunValue = 0;
+			switch (stunTime) {
+				case StunTime.Short:
+					stunValue = 0.5f;
+					animator.SetTrigger("wasHurt");
+					break;
+
+				case StunTime.Long:
+					stunValue = Random.Range(2f, 2.2f);
+					animator.SetTrigger("wasHeavyHurt");
+					isInHeavyStun = true;
+					break;
+
+				case StunTime.None:
+				default:
+					Debug.Assert(false);
+					break;
+			}
+
+			stunDuration = stunValue;
+			hitflashTimer = 0.25f;
+
+			swordHitbox.enabled = false;
+
+			knockbackInfo = newKnockbackInfo;
+			remainingKnockbackTime = knockbackInfo.time;
+			this.transform.rotation = Quaternion.AngleAxis(180, Vector3.up) * knockbackInfo.direction;
 		}
-		directive = Directive.Stunned;
-		hasStartedStunRecovery = false;
-		isInHeavyStun = false;
-		
-		float stunValue = 0;
-		switch (stunTime) {
-			case StunTime.ShortStun:
-				stunValue = 0.5f;
-				animator.SetTrigger("wasHurt");
-				break;
-			case StunTime.LongStun:
-				stunValue = Random.Range(2f, 2.2f);
-				animator.SetTrigger("wasHeavyHurt");
-				isInHeavyStun = true;
-				break;
-			default:
-				Debug.Assert(false);
-				break;
-		}
-
-		stunDuration = stunValue;
-		hitflashTimer = 0.25f;
-
-		swordHitbox.enabled = false;
-
-		knockbackInfo = newKnockbackInfo;
-		remainingKnockbackTime = knockbackInfo.time;
-		this.transform.rotation = Quaternion.AngleAxis(180, Vector3.up) * knockbackInfo.direction;
 	}
 
 	void ChangeDirective_Inactive(float inactiveWait) {
@@ -242,10 +244,12 @@ public class Basic : MonoBehaviour {
 			case Attack.None:
 				Debug.Assert(false);
 				break;
+
 			case Attack.Slash:
 				Util.ShowAttackWarning(gameMan, flashSpot.position);
 				animationTimer = animationTimes["Enemy_Attack_Slash"];
 				break;
+
 			case Attack.Lunge:
 				Util.ShowAttackWarning(gameMan, flashSpot.position);
 				animationTimer = animationTimes["Enemy_Attack_Dash"];
@@ -262,96 +266,105 @@ public class Basic : MonoBehaviour {
 		return (approchDistance >= distance) && (approchDistance <= distance + ApprochDeviance);
 	}
 
+	static readonly StunTime[] AttackStunTimeTable = {
+		StunTime.None, // None
+		StunTime.Short, // LAttack
+		StunTime.Short, // LAttack2
+		StunTime.Long, // LAttack3
+		StunTime.Long, // Chop
+		StunTime.Long, // Slam
+		StunTime.Short, // Spin
+		StunTime.None, // HeadThrow (Handled by head projectile)
+		StunTime.None, // Dashing
+		StunTime.Short, // LethalDashing
+		StunTime.None, // ShotgunThrow (Handled by head projectile)
+	};
+
+	static readonly float[] AttackMeterGainOnHitTable = {
+		0.0f, // None
+		0.1f, // LAttack
+		0.1f, // LAttack2
+		0.2f, // LAttack3
+		1.0f, // Chop (Should be enough to kill a basic in one hit)
+		0.0f, // Slam (Special case, Slam does different damages at different radii)
+		0.0f, // Spin
+		0.0f, // HeadThrow (Hit + Damage is handled by the projectile, we shouldn't even get a hit while in this attack)
+		0.0f, // Dashing
+		0.0f, // LethalDash
+		0.0f, // ShotgunThrow (Hit + Damage is handled by the projectile, we shouldn't even get a hit while in this attack)
+	};
+
 	void OnTriggerEnter(Collider other) {
 		if (!isImmune) {
+			KnockbackInfo newKnockbackInfo = new KnockbackInfo(Quaternion.identity, 0, 0);
+			StunTime stunTime = StunTime.None;
+			float damage = 0f;
+			float meterGain = 0f;
+
 			if (other.gameObject.layer == (int)Layers.PlayerHitbox) {
 				HeadProjectile head = other.GetComponentInParent<HeadProjectile>();
 				PlayerController player = other.GetComponentInParent<PlayerController>();
 				ExplosiveTrap explosiveTrap = other.GetComponentInParent<ExplosiveTrap>();
 
 				if (player != null) {
-					KnockbackInfo newKnockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
 					gameMan.SpawnParticle(0, other.transform.position, 1f);
+					
+					newKnockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
+					stunTime = AttackStunTimeTable[(int)player.currentAttack];
+					damage = PlayerController.AttackDamageTable[(int)player.currentAttack];
+					meterGain = AttackMeterGainOnHitTable[(int)player.currentAttack];
+
+					// Attack specific code
 					switch (gameMan.playerController.currentAttack) {
-						case PlayerController.Attacks.LAttack:
-							health -= 1;
-							ChangeDirective_Stunned(StunTime.ShortStun, newKnockbackInfo);
-							gameMan.playerController.meter += partialMeter;
-							break;
-
-						case PlayerController.Attacks.LAttack2:
-							health -= 1;
-							ChangeDirective_Stunned(StunTime.ShortStun, newKnockbackInfo);
-							gameMan.playerController.meter += partialMeter;
-							break;
-
-						case PlayerController.Attacks.LAttack3:
-							health -= 2;
-							ChangeDirective_Stunned(StunTime.LongStun, newKnockbackInfo);
-							gameMan.playerController.meter += partialMeter * 2f;
-							break;
-
-						case PlayerController.Attacks.Spin:
-							health -= 2;
-							ChangeDirective_Stunned(StunTime.ShortStun, newKnockbackInfo);
-							break;
-
-						case PlayerController.Attacks.LethalDash:
-							health -= 2;
-							ChangeDirective_Stunned(StunTime.ShortStun, newKnockbackInfo);
-							break;
-
 						case PlayerController.Attacks.Slam:
 							float posDifference = Mathf.Abs((player.transform.position - transform.position).sqrMagnitude);
 							Debug.Log(gameObject.name + "'s posDifference after slam: " + posDifference);
 							if (posDifference < 40f) {
-								shouldDie = true;
-								ChangeDirective_Stunned(StunTime.LongStun, newKnockbackInfo);
+								damage = 8f;
 							} 
 							else if (posDifference < 80f) {
-								health -= 4;
-								ChangeDirective_Stunned(StunTime.LongStun, newKnockbackInfo);
+								damage = 4f;
 							} 
-							else {
-								ChangeDirective_Stunned(StunTime.LongStun, newKnockbackInfo);
-							}
 							break;
 
 						case PlayerController.Attacks.Chop:
-							shouldDie = true;
+							// @TODO(Roskuski): Different System to prevent headpickup spawns from chop
 							wasHitByChop = true;
-							player.ChangeMeter(1);
 							sounds.Sound_EnemyLob();
 							gameMan.ShakeCamera(5f, 0.1f);
 							if (GameObject.Find("HapticManager") != null) HapticManager.PlayEffect(player.hapticEffects[2], this.transform.position);
-							ChangeDirective_Stunned(StunTime.LongStun, newKnockbackInfo);
 							break;
 
 						default:
 							Debug.Log("I, " + this.name + " was hit by an unhandled attack (" + gameMan.playerController.currentAttack + ")");
 							break;
 					}
+
 				}
 				else if (head != null) {
 					// NOTE(Roskuski): Head projectial direct hit
 					gameMan.SpawnParticle(0, other.transform.position, 2f);
-					shouldDie = true;
+					damage = 8f;
 				}
 				else if (explosiveTrap != null) {
 					// NOTE(Roskuski): Knockback trap
-					KnockbackInfo newKnockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
-					ChangeDirective_Stunned(StunTime.LongStun, newKnockbackInfo);
+					newKnockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
+					stunTime = StunTime.Long;
 				}
 			}
 			else if (other.gameObject.layer == (int)Layers.AgnosticHitbox) {
 				if (other.GetComponentInParent<Exploding>() != null) {
 					// NOTE(Roskuski): Explosive enemy
-					KnockbackInfo newKnockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
-					ChangeDirective_Stunned(StunTime.LongStun, newKnockbackInfo);
-					newKnockbackInfo.force *= 2f;
-					health -= health;
+					newKnockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
+					stunTime = StunTime.Long;
+					newKnockbackInfo.force *= 2f; // @TODO(Roskuski): Because newKnockbackInfo is a reference, I believe this is actually modifying the the data that is stored on the hitbox triggering this. Not that it really matters, because presently this interaction always kills Basics (2023-5-9)
+					damage = 8f;
 				}
 			}
+
+			health -= damage;
+			gameMan.playerController.ChangeMeter(meterGain);
+			ChangeDirective_Stunned(stunTime, newKnockbackInfo);
 
 		}
 	}

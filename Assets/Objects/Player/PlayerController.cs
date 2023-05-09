@@ -146,7 +146,7 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-	readonly KnockbackInfo[] AttackKnockbackTable = new KnockbackInfo[] {
+	static readonly KnockbackInfo[] AttackKnockbackTable = new KnockbackInfo[] {
 		//                Set Direction,      force , time 
 		new KnockbackInfo(Quaternion.identity,  0.0f, 0.0f), // None
 		new KnockbackInfo(Quaternion.identity, 30.0f, 0.25f), // LAttack
@@ -159,6 +159,20 @@ public class PlayerController : MonoBehaviour {
 		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // Dashing
 		new KnockbackInfo(Quaternion.identity, 10.0f, 0.25f), // LethalDashing
 		new KnockbackInfo(Quaternion.identity,  0.0f, 0.25f), // ShotgunThrow
+	};
+	
+	public static readonly float[] AttackDamageTable = {
+		0f, // None
+		1f, // LAttack
+		1f, // LAttack2
+		2f, // LAttack3
+		8f, // Chop (Should be enough to kill a basic in one hit)
+		0f, // Slam (Special case, Slam does different damages at different radii)
+		2f, // Spin
+		0f, // HeadThrow (Hit + Damage is handled by the projectile, we shouldn't even get a hit while in this attack)
+		0f, // Dashing
+		2f, // LethalDash
+		0f, // ShotgunThrow (Hit + Damage is handled by the projectile, we shouldn't even get a hit while in this attack)
 	};
 
 	readonly public static float[] AttackMeterCost = {
@@ -785,7 +799,7 @@ public class PlayerController : MonoBehaviour {
 			homingTargetDelta = Quaternion.LookRotation(Location - transform.position, Vector3.up) * Vector3.forward * 2;
 		}
 
-        transform.LookAt(homingTargetDelta + transform.position);
+		transform.LookAt(homingTargetDelta + transform.position);
 	}
 
 	Vector3 GetTargetSphereLocation() {
