@@ -338,7 +338,7 @@ public class PlayerController : MonoBehaviour {
 		headProj = gameMan.SkullPrefab;
 		slamPoint = transform.Find("SlamPoint");
 		shotgunPoint = transform.Find("ShotgunPoint");
-		crystalPatch = transform.Find("MAIN_JOINT/MidTorso_Joint/Chest_Joint/CrystalHipJoint/CrystalPatch").GetComponentsInChildren<MeshRenderer>();
+		crystalPatch = transform.Find("MAIN_JOINT/MidTorso_Joint/Chest_Joint/CrystalHipSpawn/CrystalPatch").GetComponentsInChildren<MeshRenderer>();
 		foreach (MeshRenderer crystalMesh in crystalPatch) {
 			crystalMesh.enabled = false;
 		}
