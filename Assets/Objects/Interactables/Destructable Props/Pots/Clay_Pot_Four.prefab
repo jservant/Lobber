@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 133530021160487203}
   - component: {fileID: 2784764825982792984}
   - component: {fileID: 8896043120629028668}
+  - component: {fileID: 5284606556140959495}
   m_Layer: 14
   m_Name: Clay_Pot_Four
   m_TagString: Untagged
@@ -109,7 +110,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cdf65c6538e4be459e614dcd22a4925, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  headPop: {fileID: 0}
   canDropHeads: 0
   hitflashMat: {fileID: 2100000, guid: 27625c58fe45e654f9e128ba019e7db7, type: 2}
   particleSpawnPoint: {fileID: 879715963855776907}
@@ -123,6 +123,22 @@ MonoBehaviour:
   headTotal: 0
   headOffset: 0
   isUnlimited: 0
+--- !u!208 &5284606556140959495
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1935026841269086454}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 50.201004, y: 56.913002, z: 58.782}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &7478997171180719011
 GameObject:
   m_ObjectHideFlags: 0

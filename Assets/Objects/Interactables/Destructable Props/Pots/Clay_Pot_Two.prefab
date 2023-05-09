@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6920094565244705710}
   - component: {fileID: 8470768445873251829}
   - component: {fileID: 8825680112562570549}
+  - component: {fileID: 7781427584332352716}
   m_Layer: 14
   m_Name: Clay_Pot_Two
   m_TagString: Untagged
@@ -109,7 +110,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cdf65c6538e4be459e614dcd22a4925, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  headPop: {fileID: 0}
   canDropHeads: 0
   hitflashMat: {fileID: 2100000, guid: 27625c58fe45e654f9e128ba019e7db7, type: 2}
   particleSpawnPoint: {fileID: 8761462721053682046}
@@ -123,6 +123,22 @@ MonoBehaviour:
   headTotal: 0
   headOffset: 0
   isUnlimited: 0
+--- !u!208 &7781427584332352716
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8865864903155137147}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 140.513, y: 115.01, z: 133.636}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 115.01, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &9095130398219897452
 GameObject:
   m_ObjectHideFlags: 0
