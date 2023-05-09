@@ -169,11 +169,6 @@ public class Basic : MonoBehaviour {
 		return navAgent.remainingDistance - approchDistance;
 	}
 
-	public enum StunTime {
-		None,
-		Short,
-		Long,
-	}
 
 	public void ChangeDirective_Stunned(StunTime stunTime, KnockbackInfo newKnockbackInfo) {
 		if (directive != Directive.Spawn && stunTime != StunTime.None) {
@@ -328,7 +323,7 @@ public class Basic : MonoBehaviour {
 							break;
 
 						case PlayerController.Attacks.Chop:
-							// @TODO(Roskuski): Different System to prevent headpickup spawns from chop
+							// @TODO(Roskuski): Different System to prevent headpickup spawns from chop. this current system will not work well if we implment enemies with healthpools that can surrive a chop
 							wasHitByChop = true;
 							sounds.Sound_EnemyLob();
 							gameMan.ShakeCamera(5f, 0.1f);
@@ -357,7 +352,7 @@ public class Basic : MonoBehaviour {
 					// NOTE(Roskuski): Explosive enemy
 					newKnockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
 					stunTime = StunTime.Long;
-					newKnockbackInfo.force *= 2f; // @TODO(Roskuski): Because newKnockbackInfo is a reference, I believe this is actually modifying the the data that is stored on the hitbox triggering this. Not that it really matters, because presently this interaction always kills Basics (2023-5-9)
+					newKnockbackInfo.force *= 2f;
 					damage = 8f;
 				}
 			}

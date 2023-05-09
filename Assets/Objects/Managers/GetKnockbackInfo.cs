@@ -20,6 +20,12 @@ public class KnockbackInfo {
 	}
 }
 
+public enum StunTime {
+	None,
+	Short,
+	Long,
+}
+
 public class GetKnockbackInfo : MonoBehaviour {
 	public enum InfoSource {
 		Constant,
