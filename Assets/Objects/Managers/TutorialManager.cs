@@ -11,6 +11,7 @@ public class TutorialManager : MonoBehaviour
     public List<GameObject> currentTargets = new List<GameObject>();
     public int areasCompleted = 0;
     public bool targetsExist;
+    public bool skipTutorial;
 
     private void Awake() {
         gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
@@ -20,7 +21,7 @@ public class TutorialManager : MonoBehaviour
 
     void Start()
     {
-       if (Initializer.save.versionLatest.tutorialComplete == true) {
+       if (skipTutorial) { //replace with Initializer.save.versionLatest.tutorialComplete == true
             gameMan.playerController.transform.position = playerRespawnPoints[playerRespawnPoints.Length-1].position;
 		}
     }

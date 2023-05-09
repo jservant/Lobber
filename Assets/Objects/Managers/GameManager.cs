@@ -86,6 +86,9 @@ public class GameManager : MonoBehaviour {
 	public GameObject FlashPrefab;
 	public GameObject OrbSpawnPrefab;
 	public GameObject[] Pickups;
+	public int maxPickupsInAir;
+	private float pickupTime;
+	public List<GameObject> pickupsInAir = new List<GameObject>();
 	public GameObject crystalDropoffPrefab;
 	public GameObject shrinePrefab;
 
@@ -157,6 +160,7 @@ public class GameManager : MonoBehaviour {
 		Time.timeScale = 1;
 		spawnTokens = 100;
 		objectiveFadeTimer = 5f;
+		pickupTime = 0;
 
 		int resolutionIndex = 0;
 		resolutions = Screen.resolutions;
@@ -286,13 +290,18 @@ public class GameManager : MonoBehaviour {
 		bool isMenuOpen = pauseUI.enabled;
 
 		//pickup drop chance adjustment
-		if (playerController.meter < playerController.meterMax / 2) {
+		if (playerController.meter < playerController.meterMax / 7) {
 			pickupDropChance = 90;
-		} else if (playerController.meter < playerController.meterMax / 7) {
+		} else if (playerController.meter < playerController.meterMax / 2) {
 			pickupDropChance = 65;
 		} else {
 			pickupDropChance = 25;
 		}
+
+		if (pickupTime > 0) {
+			pickupTime -= Time.deltaTime;
+		}
+		else if (pickupsInAir.Count > 0) pickupsInAir.Clear();
 
 		//Objective text setter
 		switch (currentObjective) {
@@ -778,7 +787,7 @@ public class GameManager : MonoBehaviour {
 		}
 
 		float skullChance = (60 / playerController.meterMax) * (playerController.meterMax - meterBeforeUse);
-		int healthChance = (60 / playerController.healthMax) * (playerController.healthMax - playerController.health);
+		int healthChance = (35 / playerController.healthMax) * (playerController.healthMax - playerController.health);
 
 		if (isCrystallized == true && playerController.hasCrystal == false) {
 			skullChance = 0;
@@ -788,7 +797,7 @@ public class GameManager : MonoBehaviour {
 
 		//Skull Pickup
 		float pickupDecider = Random.Range(1, 100);
-		if (pickupDecider <= skullChance) { //check for skulldrop
+		if ((pickupDecider <= skullChance) && pickupsInAir.Count < maxPickupsInAir) { //check for skulldrop
 			if (pickupDecider <= goldenSkullDropChance && goldSkullBuffer <= 0) {
 				SpawnPickup((int)Pickup.Type.GoldenSkull, position); //check for goldenskull
 				goldSkullBuffer = 50;
@@ -801,11 +810,13 @@ public class GameManager : MonoBehaviour {
 
 		//Health Pickup
 		pickupDecider = Random.Range(1, 100);
-		if (pickupDecider <= healthChance) SpawnPickup((int)Pickup.Type.Health, position); //check for healthdrop
+		if ((pickupDecider <= healthChance) && pickupsInAir.Count < maxPickupsInAir) SpawnPickup((int)Pickup.Type.Health, position); //check for healthdrop
 	}
 
 	public void SpawnPickup(int pickupID, Vector3 position) {
-		Instantiate(Pickups[pickupID], position, Quaternion.identity);
+		var pickup = Instantiate(Pickups[pickupID], position, Quaternion.identity);
+		pickupsInAir.Add(pickup.gameObject);
+		pickupTime = 1f;
 	}
 
 	public void UpdateHealthBar() {
