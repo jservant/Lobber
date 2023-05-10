@@ -32,7 +32,7 @@ public class HapticEffect : ScriptableObject
     }
 
     public bool Tick(Vector3 receiverPosition, out float lowSpeed, out float highSpeed) {
-        progress += Time.deltaTime / duration;
+        progress += Time.unscaledDeltaTime / duration;
 
         //calculate distance factor
         float distanceFactor = 1f;
