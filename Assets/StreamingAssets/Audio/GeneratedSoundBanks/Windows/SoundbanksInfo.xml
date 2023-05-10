@@ -179,7 +179,7 @@
 				</AcousticTexture>
 			</AcousticTextures>
 		</SoundBank>
-		<SoundBank Id="1496463651" Type="User" Language="SFX" Hash="{BA563B32-B7B2-6BF8-FF0B-3E6D77098408}">
+		<SoundBank Id="1496463651" Type="User" Language="SFX" Hash="{478C22EF-77C1-C793-B94A-D88D0682ED05}">
 			<ShortName>Bank_01</ShortName>
 			<Path>Bank_01.bnk</Path>
 			<Media>
@@ -309,7 +309,7 @@
 				</File>
 				<File Id="195194557" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>player_shotgun_atk.wav</ShortName>
-					<CachePath>SFX/player_shotgun_atk_781DCB97.wem</CachePath>
+					<CachePath>SFX/player_shotgun_atk_AF880D80.wem</CachePath>
 				</File>
 				<File Id="196376984" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fs_player_dirt_08.wav</ShortName>
@@ -757,7 +757,7 @@
 					</MediaRefs>
 				</Event>
 				<Event Id="2212572404" Name="amb_crowd_stop" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
-				<Event Id="3207324726" Name="amb_fire" MaxAttenuation="100" DurationType="Infinite">
+				<Event Id="3207324726" Name="amb_fire" MaxAttenuation="20" DurationType="Infinite">
 					<MediaRefs>
 						<MediaRef Id="150208270"/>
 					</MediaRefs>
@@ -793,7 +793,7 @@
 						<MediaRef Id="1070028639"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3507359558" Name="head_golden_idle" MaxAttenuation="100" DurationType="Infinite">
+				<Event Id="3507359558" Name="head_golden_idle" MaxAttenuation="20" DurationType="Infinite">
 					<MediaRefs>
 						<MediaRef Id="859643133"/>
 					</MediaRefs>
@@ -1171,5 +1171,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{291E7617-107F-947A-3CF9-C5DB6BB5C97C}</FileHash>
+	<FileHash>{B974782F-A35D-7F48-5E66-0CDE664FB33C}</FileHash>
 </SoundBanksInfo>
