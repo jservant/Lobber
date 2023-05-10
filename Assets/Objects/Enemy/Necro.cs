@@ -245,26 +245,28 @@ public class Necro : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
-		Vector3 deltaToPlayer = gameMan.player.position - this.transform.position;
-		// NOTE(Roskuski): how close the current movement is to going straight towards the player.
-		float directScore = Vector3.Dot(movementDelta.normalized, deltaToPlayer.normalized) + 1f;
-		float speedModifer = 1f;
-		if (directScore > 1.6f) {
-			speedModifer = Mathf.Lerp(1.00f, 0.75f, (directScore - 1.6f) / (2.0f - 1.6f));
-		}
+		if (directive != Directive.Spawn && directive != Directive.Death && directive != Directive.Stunned) {
+			Vector3 deltaToPlayer = gameMan.player.position - this.transform.position;
+			// NOTE(Roskuski): how close the current movement is to going straight towards the player.
+			float directScore = Vector3.Dot(movementDelta.normalized, deltaToPlayer.normalized) + 1f;
+			float speedModifer = 1f;
+			if (directScore > 1.6f) {
+				speedModifer = Mathf.Lerp(1.00f, 0.75f, (directScore - 1.6f) / (2.0f - 1.6f));
+			}
 
-		// NOTE(Roskuski): Copying the values from PlayerController, for now.
-		Util.PerformCheckedLateralMovement(this.gameObject, 1.0f, 0.5f, movementDelta * speedModifer * Time.fixedDeltaTime, ~Mask.Get(new Layers[] {Layers.StickyLedge, Layers.Corpses}));
-		this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, Quaternion.LookRotation(gameMan.player.position - this.transform.position, Vector3.up), TurnSpeed * Time.fixedDeltaTime);
+			// NOTE(Roskuski): Copying the values from PlayerController, for now.
+			Util.PerformCheckedLateralMovement(this.gameObject, 1.0f, 0.5f, movementDelta * speedModifer * Time.fixedDeltaTime, ~Mask.Get(new Layers[] {Layers.StickyLedge, Layers.Corpses}));
+			this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, Quaternion.LookRotation(gameMan.player.position - this.transform.position, Vector3.up), TurnSpeed * Time.fixedDeltaTime);
 
-		// NOTE(Roskuski): float to the same height as the player
-		float verticalDeltaToPlayer = gameMan.player.position.y - this.transform.position.y;
-		if (Mathf.Abs(verticalDeltaToPlayer) > 0.05f) {
-			RaycastHit hitInfo;
-			this.transform.position += new Vector3(0, Mathf.Sign(verticalDeltaToPlayer) * VerticalCorrectSpeed * Time.fixedDeltaTime, 0); 
-			if (Physics.SphereCast(gameObject.transform.position + Vector3.up * 1.0f, 0.5f, Vector3.down, out hitInfo, 0.5f, Mask.Get(Layers.Ground)) && (hitInfo.collider.isTrigger == false)) {
-				float distanceToGround = hitInfo.distance - 1.0f + 0.5f;
-				gameObject.transform.position -= new Vector3(0, distanceToGround, 0);
+			// NOTE(Roskuski): float to the same height as the player
+			float verticalDeltaToPlayer = gameMan.player.position.y - this.transform.position.y;
+			if (Mathf.Abs(verticalDeltaToPlayer) > 0.05f) {
+				RaycastHit hitInfo;
+				this.transform.position += new Vector3(0, Mathf.Sign(verticalDeltaToPlayer) * VerticalCorrectSpeed * Time.fixedDeltaTime, 0); 
+				if (Physics.SphereCast(gameObject.transform.position + Vector3.up * 1.0f, 0.5f, Vector3.down, out hitInfo, 0.5f, Mask.Get(Layers.Ground)) && (hitInfo.collider.isTrigger == false)) {
+					float distanceToGround = hitInfo.distance - 1.0f + 0.5f;
+					gameObject.transform.position -= new Vector3(0, distanceToGround, 0);
+				}
 			}
 		}
 	}
