@@ -85,6 +85,7 @@ public class GameManager : MonoBehaviour {
 	public GameObject ExplodingPrefab;
 	public GameObject NecroPrefab;
 	public GameObject NecroProjectilePrefab;
+	public GameObject SandbagPrefab;
 	public GameObject FlashPrefab;
 	public GameObject OrbSpawnPrefab;
 	public GameObject[] Pickups;
@@ -212,14 +213,14 @@ public class GameManager : MonoBehaviour {
 			}
 			enemySpawnPoints = TempArray;
 			 
-            float[] objectiveChoices = new float[] { 0f, 6f, 0f, 4f };
-            objectiveChoices[(int)currentObjective] = 0;
-            currentObjective = (Objectives)Util.RollWeightedChoice(objectiveChoices);
-        }
+			float[] objectiveChoices = new float[] { 0f, 6f, 0f, 4f };
+			objectiveChoices[(int)currentObjective] = 0;
+			currentObjective = (Objectives)Util.RollWeightedChoice(objectiveChoices);
+		}
 		else {
 			currentObjective = Objectives.None;
 			playerController.health = playerController.healthMax;
-			playerController.meter = playerController.meterMax;
+			playerController.meter = 0;
 		}
 
 

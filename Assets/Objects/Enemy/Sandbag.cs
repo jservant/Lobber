@@ -10,6 +10,8 @@ public class Sandbag : MonoBehaviour {
 	KnockbackInfo knockbackInfo;
 	float remainingKnockbackTime;
 
+	public float apperanceDelay;
+
 	[SerializeField] [BitField] PlayerController.AttackBitMask VulnerabilityMask;
 	[SerializeField] bool VurnerableToHeadProjectiles;
 
@@ -17,10 +19,12 @@ public class Sandbag : MonoBehaviour {
 
 	public float maxHealth;
 	public float health;
+	bool shouldDie = false;
 
 	GameManager gameMan;
 
 	public SkinnedMeshRenderer model;
+	public CapsuleCollider collider;
 	Material[] materials;
 	public Material hitflashMat;
 	float hitflashTimer = 0;
@@ -28,7 +32,7 @@ public class Sandbag : MonoBehaviour {
 
 	public AK.Wwise.Event Get_Hit_Sound;
 
-	void Start() {
+	void Awake() {
 		health = maxHealth;
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 		materials = model.materials;
@@ -43,6 +47,17 @@ public class Sandbag : MonoBehaviour {
 	// Update is called once per frame
 	void Update() {
 		movementDelta = Vector3.zero;
+
+		if (apperanceDelay >= 0f) {
+			apperanceDelay -= Time.deltaTime;
+			model.enabled = false;
+			collider.enabled = false;
+			
+			if (apperanceDelay < 0f) {
+				model.enabled = true;
+				collider.enabled = true;
+			}
+		}
 
 		hitflashTimer -= Time.deltaTime;
 		Material[] materialList = model.materials;
@@ -59,7 +74,26 @@ public class Sandbag : MonoBehaviour {
 		movementDelta += Util.ProcessKnockback(ref remainingKnockbackTime, knockbackInfo);
 
 		if (transform.position.y < -20f) {
-			if (canRespawn) Respawn();
+			shouldDie = true;
+		}
+
+		if (shouldDie) {
+			if (canRespawn) {
+				Sandbag sandbag = gameMan.SandbagPrefab.GetComponent<Sandbag>();
+				sandbag.hasHealth = hasHealth;
+				sandbag.canBeKnockedBack = canBeKnockedBack;
+				sandbag.canRespawn = canRespawn;
+				sandbag.apperanceDelay = apperanceDelay;
+				sandbag.VulnerabilityMask = VulnerabilityMask;
+				sandbag.VurnerableToHeadProjectiles = VurnerableToHeadProjectiles;
+				sandbag.maxHealth = maxHealth;
+				sandbag.health = health;
+				sandbag.apperanceDelay = 2f;
+				sandbag.model.enabled = false;
+				sandbag.collider.enabled = false;
+
+				Instantiate(gameMan.SandbagPrefab, respawnPoint, transform.rotation);
+			}
 			Destroy(gameObject);
 		}
 	}
@@ -97,17 +131,16 @@ public class Sandbag : MonoBehaviour {
 				if (other.GetComponentInParent<PlayerController>() != null) {
 					if (gameMan.playerController.currentAttack == PlayerController.Attacks.Chop) {
 						gameMan.playerController.ChangeMeter(1f);
-						if (canRespawn) Respawn();
-						Destroy(gameObject);
-                    }
+						shouldDie = true;
+					}
 				}
 
-					if (hasHealth) health -= 1f;
+				if (hasHealth) health -= 1f;
 				hitflashTimer = 0.15f;
 				if (health <= 0) {
-					if (canRespawn) Respawn();
-					Destroy(gameObject);
+					shouldDie = true;
 				}
+
 
 				animator.SetFloat("HitX", deltaNoY.normalized.x);
 				animator.SetFloat("HitY", deltaNoY.normalized.z);
@@ -116,10 +149,6 @@ public class Sandbag : MonoBehaviour {
 			}
 		}
 	}
-
-	void Respawn() {
-		var newSandbag = Instantiate(this, respawnPoint, transform.rotation);
-    }
 
 	void Sound_Hit() {
 		Get_Hit_Sound.Post(gameObject);

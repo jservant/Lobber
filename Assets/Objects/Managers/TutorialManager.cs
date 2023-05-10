@@ -20,7 +20,7 @@ public class TutorialManager : MonoBehaviour {
 	}
 
 	void Start() {
-		if (Initializer.save.versionLatest.tutorialComplete == true) { 
+		if (Initializer.save.versionLatest.tutorialComplete) { 
 			gameMan.playerController.transform.position = playerRespawnPoints[playerRespawnPoints.Length-1].position;
 		}
 	}
