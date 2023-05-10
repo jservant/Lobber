@@ -584,6 +584,7 @@ public class PlayerController : MonoBehaviour {
 						case Attacks.Spin:
 							speedTime = 0.4f;
 							setupHoming = false;
+							this.transform.rotation = Quaternion.LookRotation(movement, Vector3.up);
 							break;
 
 						case Attacks.LethalDash:
@@ -591,7 +592,6 @@ public class PlayerController : MonoBehaviour {
 							break;
 
 						case Attacks.Slam:
-							setupHoming = false;
 							break; 
 
 						case Attacks.Dashing:
@@ -787,6 +787,10 @@ public class PlayerController : MonoBehaviour {
 
 				case Attacks.ShotgunThrow:
 					homingTargetDelta *= 0f;
+					break;
+
+				case Attacks.Slam:
+					homingTargetDelta *= 0.2f;
 					break;
 			}
 		}
