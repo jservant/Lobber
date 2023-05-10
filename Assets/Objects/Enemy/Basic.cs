@@ -1000,8 +1000,14 @@ public class Basic : MonoBehaviour {
 
 			float corpseForce = 0;
 			if (remainingKnockbackTime > 0) corpseForce = knockbackInfo.force / 10f;
-			if (!wasHitByChop) gameMan.SpawnCorpse(0, transform.position, transform.rotation, corpseForce, true);
-			else gameMan.SpawnCorpse(0, transform.position, transform.rotation, corpseForce, false);
+			if (!wasHitByChop) {
+				if (isCrystallized) { gameMan.SpawnParticle(11, transform.position, 0.8f); }
+				else gameMan.SpawnCorpse(0, transform.position, transform.rotation, corpseForce, true);
+			}
+			else {
+				if (isCrystallized) { gameMan.SpawnParticle(11, transform.position, 0.8f); }
+				else gameMan.SpawnCorpse(0, transform.position, transform.rotation, corpseForce, false);
+			}
 			Destroy(this.gameObject); 
 		}
 	}

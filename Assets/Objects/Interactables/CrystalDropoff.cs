@@ -15,7 +15,8 @@ public class CrystalDropoff : MonoBehaviour
 
 	private void OnTriggerEnter(Collider other) {
 		if (other.gameObject.layer == (int)Layers.PlayerHurtbox && playerController.hasCrystal) {
-            gameManager.SpawnParticle(10, transform.position, 0.5f);
+            gameManager.SpawnParticle(10, transform.position, 0.8f);
+            gameManager.SpawnParticle(11, transform.position, 1f);
             gameManager.crystalCount++;
             playerController.hasCrystal = false;
             for (var i = playerController.crystalHolster.childCount - 1; i >= 0; i--) {
