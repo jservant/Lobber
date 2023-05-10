@@ -45,6 +45,8 @@ public class GameManager : MonoBehaviour {
 	public Image crystalPickupImage;
 	public Canvas pauseBG;
 	public Button resumeButton;
+	public Button tutorialSkipButton;
+	public Canvas tutorialSkipUI;
 	public Canvas pauseUI;
 	public Canvas optionsUI;
 	public TMP_Dropdown resolutionDropdown;
@@ -145,6 +147,8 @@ public class GameManager : MonoBehaviour {
 		crystalPickupImage = transform.Find("MainUI/HasCrystalImage").GetComponent<Image>();
 		pauseBG = transform.Find("PauseBG").GetComponent<Canvas>();
 		resumeButton = transform.Find("PauseUI/ResumeButton").GetComponent<Button>();
+		tutorialSkipUI = transform.Find("TutorialSkipUI").GetComponent<Canvas>();
+		tutorialSkipButton = transform.Find("TutorialSkipUI/YesButton").GetComponent<Button>();
 		pauseUI = transform.Find("PauseUI").GetComponent<Canvas>();
 		optionsUI = transform.Find("OptionsUI").GetComponent<Canvas>();
 		resolutionDropdown = transform.Find("OptionsUI/VisualSettings/Resolution/ResolutionDropdown").GetComponent<TMP_Dropdown>();
@@ -665,24 +669,42 @@ public class GameManager : MonoBehaviour {
 		}
 
 		if (playerController.pActions.Player.Pause.WasPerformedThisFrame()) {
-			if (optionsUI.enabled == true) {
-				resumeButton.Select();
-				pauseUI.enabled = true;
-				optionsUI.enabled = false;
-			}
-			else if (pauseUI.enabled == false) {
-				resumeButton.Select();
-				updateTimeScale = false;
-				Time.timeScale = 0;
-				pauseBG.enabled = true;
-				pauseUI.enabled = true;
+			if (SceneManager.GetActiveScene().buildIndex == (int)Scenes.Tutorial && Initializer.save.versionLatest.tutorialComplete == false) {
+				if (tutorialSkipUI.enabled) {
+					eSystem.SetSelectedGameObject(null);
+					updateTimeScale = true;
+					Time.timeScale = 1;
+					pauseBG.enabled = false;
+					tutorialSkipUI.enabled = false;
+				}
+				else {
+					tutorialSkipButton.Select();
+					updateTimeScale = false;
+					Time.timeScale = 0;
+					pauseBG.enabled = true;
+					tutorialSkipUI.enabled = true;
+				}
 			}
 			else {
-				eSystem.SetSelectedGameObject(null);
-				updateTimeScale = true;
-				Time.timeScale = 1;
-				pauseUI.enabled = false;
-				pauseBG.enabled = false;
+				if (optionsUI.enabled == true) {
+					resumeButton.Select();
+					pauseUI.enabled = true;
+					optionsUI.enabled = false;
+				}
+				else if (pauseUI.enabled == false) {
+					resumeButton.Select();
+					updateTimeScale = false;
+					Time.timeScale = 0;
+					pauseBG.enabled = true;
+					pauseUI.enabled = true;
+				}
+				else {
+					eSystem.SetSelectedGameObject(null);
+					updateTimeScale = true;
+					Time.timeScale = 1;
+					pauseUI.enabled = false;
+					pauseBG.enabled = false;
+				}
 			}
 		}
 
@@ -930,7 +952,13 @@ public class GameManager : MonoBehaviour {
 		updateTimeScale = true;
 		Time.timeScale = 1;
 		pauseUI.enabled = false;
+		if (SceneManager.GetActiveScene().buildIndex == (int)Scenes.Tutorial) tutorialSkipUI.enabled = false;
 		pauseBG.enabled = false;
+	}
+
+	public static void OnTutorialSkip() {
+		Initializer.save.versionLatest.tutorialComplete = true;
+		SceneManager.LoadScene((int)Scenes.Tutorial);
 	}
 
 	public static void OnRestart() {

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -21,7 +22,7 @@ public class TutorialManager : MonoBehaviour
 
     void Start()
     {
-       if (skipTutorial) { //replace with Initializer.save.versionLatest.tutorialComplete == true
+       if (Initializer.save.versionLatest.tutorialComplete == true) { 
             gameMan.playerController.transform.position = playerRespawnPoints[playerRespawnPoints.Length-1].position;
 		}
     }
@@ -72,4 +73,5 @@ public class TutorialManager : MonoBehaviour
         }
         return false;
     }
+
 }
