@@ -91,6 +91,7 @@ public class GameManager : MonoBehaviour {
 	public List<GameObject> pickupsInAir = new List<GameObject>();
 	public GameObject crystalDropoffPrefab;
 	public GameObject shrinePrefab;
+	public GameObject crystalPatch;
 
 	[Header("Spawning:")]
 	public Transform[] enemySpawnPoints;
@@ -324,7 +325,7 @@ public class GameManager : MonoBehaviour {
 
 			case Objectives.HarvestTheCrystals:
 				if (trackCrystalsOrPos) objectiveText.text = "Crystals harvested: " + crystalCount + "/" + crystalHarvestingGoal;
-				//else { objectiveText.text = "Crystal position: " + playerController.crystalPatch.transform.position; }
+				else { objectiveText.text = "Crystal position: " + playerController.crystalHolster.position; }
 				if (crystalCount >= crystalHarvestingGoal && transitioningLevel == false) {
 					StartCoroutine(Win());
 				}

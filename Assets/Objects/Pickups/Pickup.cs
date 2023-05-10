@@ -195,9 +195,8 @@ public class Pickup : MonoBehaviour {
 					break;
 				case Type.Crystal:
 					playerController.hasCrystal = true;
-					foreach (MeshRenderer crystalMesh in playerController.crystalPatch) {
-						crystalMesh.enabled = true;
-					}
+					GameObject crystalPatchInstance = Instantiate(gameMan.crystalPatch, playerController.crystalHolster.position, playerController.crystalHolster.rotation); //Quaternion.Euler(36.385f, -172.617f, -42.411f)
+					crystalPatchInstance.transform.parent = playerController.crystalHolster;
 					gameMan.crystalPickupImage.enabled = true;
 					gameMan.waypointMarker.enabled = true;
 					gameMan.waypointTracking = true;

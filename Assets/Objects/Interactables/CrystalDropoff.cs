@@ -18,8 +18,8 @@ public class CrystalDropoff : MonoBehaviour
             gameManager.SpawnParticle(10, transform.position, 0.5f);
             gameManager.crystalCount++;
             playerController.hasCrystal = false;
-            foreach (MeshRenderer crystalMesh in playerController.crystalPatch) {
-                crystalMesh.enabled = false;
+            for (var i = playerController.crystalHolster.childCount - 1; i >= 0; i--) {
+                Destroy(playerController.crystalHolster.GetChild(i).gameObject);
             }
             gameManager.crystalPickupImage.enabled = false;
             gameManager.waypointMarker.enabled = false;
