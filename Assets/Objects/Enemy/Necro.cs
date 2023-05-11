@@ -119,6 +119,11 @@ public class Necro : MonoBehaviour {
 			knockbackInfo = newKnockbackInfo;
 			remainingKnockbackTime = knockbackInfo.time;
 			this.transform.rotation = Quaternion.AngleAxis(180, Vector3.up) * knockbackInfo.direction;
+
+			if (Projectile != null) {
+				Destroy(Projectile);
+				Projectile = null;
+			}
 		}
 	}
 	
@@ -126,6 +131,11 @@ public class Necro : MonoBehaviour {
 		if (directive != Directive.Death) {
 			directive = Directive.Death;
 			currentAttack = Attack.None;
+
+			if (Projectile != null) {
+				Destroy(Projectile);
+				Projectile = null;
+			}
 		}
 	}
 
@@ -460,8 +470,10 @@ public class Necro : MonoBehaviour {
 	}
 
 	void AnimationClip_LaunchProjectile() {
-		Debug.Assert(Projectile != null);
-		Projectile.transform.parent = null;
-		Projectile = null;
+		Debug.Assert(ProjectileSpawnPoint != null);
+		if (Projectile != null) {
+			Projectile.transform.parent = null;
+			Projectile = null;
+		}
 	}
 }
