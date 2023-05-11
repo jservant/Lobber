@@ -41,7 +41,7 @@ public class Sandbag : MonoBehaviour {
 
 	void FixedUpdate() {
 		Util.PerformCheckedLateralMovement(this.gameObject, 0.75f, 0.6f, movementDelta * Time.fixedDeltaTime, ~Mask.Get(Layers.StickyLedge));
-		Util.PerformCheckedVerticalMovement(this.gameObject, 0.75f, 0.2f, 0.5f, 30.0f);
+		Util.PerformCheckedVerticalMovement(this.gameObject, 2f, 0.2f, 0.5f, 30.0f);
 	}
 
 	// Update is called once per frame
@@ -73,7 +73,7 @@ public class Sandbag : MonoBehaviour {
 
 		movementDelta += Util.ProcessKnockback(ref remainingKnockbackTime, knockbackInfo);
 
-		if (transform.position.y < -20f) {
+		if (transform.position.y < -45f) {
 			shouldDie = true;
 		}
 
