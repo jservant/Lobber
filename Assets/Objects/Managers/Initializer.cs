@@ -58,6 +58,24 @@ public class Initializer : MonoBehaviour {
 	}
 
 	[StructLayout(LayoutKind.Explicit, Pack=8)]
+	public struct SaveFile_VersionMoreSettings {
+		[FieldOffset(0)]  public int basicEnemyKills;
+		[FieldOffset(4)]  public int explosiveEnemyKills;
+		[FieldOffset(8)]  public int necroEnemyKills;
+		[FieldOffset(12)] public int bruteEnemyKills;
+		[FieldOffset(16)] public int runsStarted;
+		[FieldOffset(20)] public int longestRun;
+		[FieldOffset(24)] public int timesWon;
+		[FieldOffset(28)] public bool tutorialComplete;
+		[FieldOffset(32)] public float corpseLimit;
+		[FieldOffset(36)] public float screenshakePercentage;
+		[FieldOffset(40)] public bool rumble;
+		[FieldOffset(44)] public float masterVolume;
+		[FieldOffset(48)] public float musicVolume;
+		[FieldOffset(52)] public float sfxVolume;
+	}
+
+	[StructLayout(LayoutKind.Explicit, Pack=8)]
 	public struct SaveFile {
 		[FieldOffset(0)] public int version;
 		// NOTE(Roskuski): versionNum is our "Tag" for this "Tagged Union"
@@ -67,16 +85,17 @@ public class Initializer : MonoBehaviour {
 		[FieldOffset(4)] public SaveFile_VersionDiffKillCount versionDiffKillCount;
 		[FieldOffset(4)] public SaveFile_VersionLongestRun versionLongestRun;
 		[FieldOffset(4)] public SaveFile_VersionTutorial versionTutorial;
+		[FieldOffset(4)] public SaveFile_VersionMoreSettings versionMoreSettings;
 		// NOTE(Roskuski): Add additional versions here. at the same FieldOffset.
 
 		// NOTE(Roskuski): Make sure this type stays in sync with the _actual_ latest version! Modify savedata though this variable
-		[FieldOffset(4)] public SaveFile_VersionTutorial versionLatest;
+		[FieldOffset(4)] public SaveFile_VersionMoreSettings versionLatest;
 	}
 
 	public static SaveFile save;
 	readonly static SaveFile DefaultSave;
 
-	enum SaveVersion { Init, Win, DiffKillCount, LongestRun, Tutorial, LATEST_PLUS_1 };
+	enum SaveVersion { Init, Win, DiffKillCount, LongestRun, Tutorial, MoreOptions, LATEST_PLUS_1 };
 
 	static Initializer() {
 		DefaultSave.version = (int)SaveVersion.LATEST_PLUS_1 - 1;
@@ -88,6 +107,12 @@ public class Initializer : MonoBehaviour {
 		DefaultSave.versionLatest.longestRun = 0;
 		DefaultSave.versionLatest.timesWon = 0;
 		DefaultSave.versionLatest.tutorialComplete = false;
+		DefaultSave.versionLatest.corpseLimit = 50;
+		DefaultSave.versionLatest.screenshakePercentage = 100;
+		DefaultSave.versionLatest.rumble = true;
+		DefaultSave.versionLatest.masterVolume = 100;
+		DefaultSave.versionLatest.masterVolume = 100;
+		DefaultSave.versionLatest.masterVolume = 100;
 
 		fileName = Application.persistentDataPath + @"/options.dat";
 
@@ -158,6 +183,27 @@ public class Initializer : MonoBehaviour {
 				save.versionDiffKillCount.timesWon = loadedSave.versionLongestRun.timesWon;
 				loadedSave = save;
 				goto case (int)SaveVersion.Tutorial;
+
+			case (int)SaveVersion.Tutorial:
+				save.versionLongestRun.basicEnemyKills = loadedSave.versionTutorial.basicEnemyKills;
+				save.versionLongestRun.explosiveEnemyKills = loadedSave.versionTutorial.explosiveEnemyKills;
+				save.versionLongestRun.necroEnemyKills = loadedSave.versionTutorial.necroEnemyKills;
+				save.versionLongestRun.bruteEnemyKills = loadedSave.versionTutorial.bruteEnemyKills;
+				save.versionLongestRun.runsStarted = loadedSave.versionTutorial.runsStarted;
+				save.versionLongestRun.timesWon = loadedSave.versionTutorial.timesWon;
+				loadedSave = save;
+				goto case (int)SaveVersion.MoreOptions;
+
+/*			case (int)SaveVersion.MoreOptions:
+				save.versionTutorial.basicEnemyKills = loadedSave.versionMoreSettings.basicEnemyKills;
+				save.versionTutorial.explosiveEnemyKills = loadedSave.versionMoreSettings.explosiveEnemyKills;
+				save.versionTutorial.necroEnemyKills = loadedSave.versionMoreSettings.necroEnemyKills;
+				save.versionTutorial.bruteEnemyKills = loadedSave.versionMoreSettings.bruteEnemyKills;
+				save.versionTutorial.runsStarted = loadedSave.versionMoreSettings.runsStarted;
+				save.versionTutorial.timesWon = loadedSave.versionMoreSettings.timesWon;
+				loadedSave = save;
+				break;
+				//goto case (int)SaveVersion.MoreOptions;*/
 
 			case (int)SaveVersion.LATEST_PLUS_1 - 1: // NOTE(Roskuski): Latest version never needs to be converted.
 				save = loadedSave;

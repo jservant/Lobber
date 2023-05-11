@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour {
 	public CanvasGroup audioGroup;
 	public TMP_Dropdown resolutionDropdown;
 	public TMP_Dropdown graphicsDropdown;
-	public Button statsButton;
+	public Button optionsBackButton;
 	public Canvas statsUI;
 	public CanvasGroup statsGroup;
 	public Button statsBackButton;
@@ -1008,8 +1008,8 @@ public class GameManager : MonoBehaviour {
 		pauseGroup.interactable = false;
 		optionsUI.enabled = true;
 		optionsGroup.interactable = true;
-		statsButton = transform.Find("OptionsUI/StatsButton").GetComponent<Button>();
-		statsButton.Select();
+		optionsBackButton = transform.Find("OptionsUI/StatsButton").GetComponent<Button>();
+		optionsBackButton.Select();
 	}
 
 	public void OnAudio() {
@@ -1017,8 +1017,8 @@ public class GameManager : MonoBehaviour {
 		optionsGroup.interactable = false;
 		audioUI.enabled = true;
 		audioGroup.interactable = true;
-		statsButton = transform.Find("AudioUI/StatsButton").GetComponent<Button>();
-		statsButton.Select();
+		optionsBackButton = transform.Find("AudioUI/StatsButton").GetComponent<Button>();
+		optionsBackButton.Select();
 	}
 
 	public void OnGraphics() {
@@ -1026,8 +1026,8 @@ public class GameManager : MonoBehaviour {
 		audioGroup.interactable = false;
 		optionsUI.enabled = true;
 		optionsGroup.interactable = true;
-		statsButton = transform.Find("OptionsUI/StatsButton").GetComponent<Button>();
-		statsButton.Select();
+		optionsBackButton = transform.Find("OptionsUI/StatsButton").GetComponent<Button>();
+		optionsBackButton.Select();
 	}
 
 	public void SetQuality(int qualityIndex) {
@@ -1043,6 +1043,8 @@ public class GameManager : MonoBehaviour {
 	public void SetFullScreen(bool isFullscreen) {
 		Screen.fullScreenMode = isFullscreen ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed;
 	}
+
+	//(TODO(@Jaden)): Make screenshake, rumble, corpse limit functions
 
 	public void OnStats() {
 		optionsUI.enabled = false;
@@ -1076,7 +1078,7 @@ public class GameManager : MonoBehaviour {
 		statsGroup.interactable = false;
 		optionsUI.enabled = true;
 		optionsGroup.interactable = true;
-		statsButton.Select();
+		optionsBackButton.Select();
 	}
 
 	public void OnOptionsBack() {
