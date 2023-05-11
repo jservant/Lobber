@@ -545,7 +545,7 @@
     "Id": "1496463651",
     "Type": "User",
     "Language": "SFX",
-    "Hash": "{478C22EF-77C1-C793-B94A-D88D0682ED05}",
+    "Hash": "{7EC5C31B-2F76-7F0B-958D-15BD279C2C5A}",
     "ShortName": "Bank_01",
     "Path": "Bank_01.bnk",
     "Media": [
@@ -644,6 +644,14 @@
       "Location": "Memory",
       "ShortName": "skel_slash_01.wav",
       "CachePath": "SFX/skel_slash_01_10C4C929.wem"
+     },
+     {
+      "Id": "71586874",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "lobber_mx_transition_loop.wav",
+      "CachePath": "SFX/lobber_mx_transition_loop_D79FB2B7.wem"
      },
      {
       "Id": "72982658",
@@ -1711,7 +1719,7 @@
      {
       "Id": "3207324726",
       "Name": "amb_fire",
-      "MaxAttenuation": "20",
+      "MaxAttenuation": "50",
       "DurationType": "Infinite",
       "MediaRefs": [
        {
@@ -2676,7 +2684,12 @@
      {
       "Id": "3587827325",
       "Name": "Transition_Start",
-      "DurationType": "Infinite"
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "71586874"
+       }
+      ]
      },
      {
       "Id": "1619304959",
@@ -2759,6 +2772,6 @@
     ]
    }
   ],
-  "FileHash": "{E577C2A6-5C54-D91D-92B8-8EC50790A60F}"
+  "FileHash": "{F11E702E-D12D-4261-3F33-1FBEC1942B1D}"
  }
 }

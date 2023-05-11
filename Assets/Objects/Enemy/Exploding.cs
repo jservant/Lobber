@@ -129,7 +129,7 @@ public class Exploding : MonoBehaviour {
 			PlayerController playerController = other.gameObject.GetComponentInParent<PlayerController>();
 			if (playerController) {
 				ChangeDirective_Death();
-
+				sounds.PestBombHit();
 				if (playerController.currentAttack == PlayerController.Attacks.Chop) {
 					ChangeDirective_Explosion();
 				}

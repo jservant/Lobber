@@ -31,4 +31,10 @@ public class MotionAudio_Pest : MonoBehaviour
     {
         Pest_Bomb_Jump.Post(gameObject);
     }
+
+    public AK.Wwise.Event Pest_Bomb_Hit;
+
+    public void PestBombHit() {
+        Pest_Bomb_Hit.Post(gameObject);
+    }
 }
