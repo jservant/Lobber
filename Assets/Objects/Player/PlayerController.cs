@@ -209,7 +209,7 @@ public class PlayerController : MonoBehaviour {
 
 	#region State machines
 
-	public enum States { Idle = 0, Walking, Attacking, Death };
+	public enum States { Idle = 0, Walking, Attacking, Death, Win };
 	public States currentState = 0;
 
 	public enum Attacks {
@@ -638,7 +638,7 @@ public class PlayerController : MonoBehaviour {
 
 	//@TODO(Jaden): Add i-frames and trigger hitstun state when hit
 	private void OnTriggerEnter(Collider other) {
-		if (immunityTime <= 0 && currentAttack != Attacks.Slam && currentAttack != Attacks.Spin && currentAttack != Attacks.LethalDash && currentAttack != Attacks.ShotgunThrow && !godMode) {
+		if (immunityTime <= 0 && currentAttack != Attacks.Slam && currentAttack != Attacks.Spin && currentAttack != Attacks.LethalDash&& currentAttack != Attacks.ShotgunThrow && !godMode && currentState != States.Win) {
 			if (other.gameObject.layer == (int)Layers.EnemyHitbox && remainingKnockbackTime <= 0) { // player is getting hit
 				Basic otherBasic = other.GetComponentInParent<Basic>();
 				NecroProjectile otherNecroProjectile = other.GetComponent<NecroProjectile>();
@@ -700,6 +700,8 @@ public class PlayerController : MonoBehaviour {
 			if (other != null) {
 				knockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
 				remainingKnockbackTime = knockbackInfo.time;
+				Vector3 directionDelta = transform.position - other.transform.position;
+				movement = new Vector3(directionDelta.x, 0, directionDelta.z);
 				Debug.Log("OWIE " + other.name + " JUST HIT ME! I have " + health + " health");
 			}
 		}
@@ -755,12 +757,14 @@ public class PlayerController : MonoBehaviour {
 		Debug.Log("maxHomingDistance: " + maxHomingDistance);
 		RaycastHit[] eColliders = Util.ConeCastAll(transform.position, tsr, transform.rotation * Vector3.forward, maxHomingDistance, 30f);
 
+
 		homingTargetDelta = Vector3.forward * 10;
 		for (int index = 0; index < eColliders.Length; index += 1) {
 			Debug.Log("Collider #" + index + "/" + eColliders.Length + ": " + eColliders[index].transform.gameObject.name);
-			Vector3 newDelta = eColliders[index].transform.position - transform.position;
-			if (newDelta.magnitude < homingTargetDelta.magnitude) {
-				homingTargetDelta = newDelta;
+			Vector3 distanceDelta = eColliders[index].transform.position - transform.position;
+			//float angle = Vector3.Angle()
+			if (distanceDelta.magnitude < homingTargetDelta.magnitude) {
+				homingTargetDelta = distanceDelta;
 			}
 		}
 
