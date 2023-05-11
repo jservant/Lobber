@@ -64,6 +64,7 @@ public class GameManager : MonoBehaviour {
 	public TMP_Text statsText2;
 	public TMP_Text statusTextboxText;
 	public TMP_Text objectiveText;
+	public TMP_Text debugText;
 	public Image waypointMarker;
 
 	public Transform healthBar;
@@ -114,13 +115,13 @@ public class GameManager : MonoBehaviour {
 	[SerializeField] float spawnTokens;
 
 	[Header("Spawn tokens:")]
-	public const float TokenCost_SmallSpawn = 30;
-	public const float TokenCost_MediumSpawn = 60;
-	public const float TokenCost_BigSpawn = 80;
-	public const float TokensPerSecond = 5.0f;
-	public const int HighEnemies = 24;
-	public const int TargetEnemies = 14;
-	public const int LowEnemies = 6;
+	public const float TokenCost_SmallSpawn = 20;
+	public const float TokenCost_MediumSpawn = 30;
+	public const float TokenCost_BigSpawn = 40;
+	public const float TokensPerSecond = 3.0f;
+	public const int HighEnemies = 6;
+	public const int TargetEnemies = 4;
+	public const int LowEnemies = 2;
 
 	[Header("Bools:")]
 	public bool updateTimeScale = true;
@@ -357,10 +358,11 @@ public class GameManager : MonoBehaviour {
 		UpdateHealthBar();
 		UpdateMeter();
 		UpdateIcons(); //if (inputDisplayUI.activeSelf == true) {  }
+		//debugText.text = "" + spawnTokens;
 
 		// Manage Spawns
 		if (canSpawn && !transitioningLevel) {
-			spawnTokens += (TokensPerSecond + levelCount * 2) * Time.deltaTime;
+			spawnTokens += TokensPerSecond * Time.deltaTime;
 			if (enemiesAlive < HighEnemies) {
 				// Determine enemy amount
 				int amountEnemy = 0;
@@ -398,21 +400,21 @@ public class GameManager : MonoBehaviour {
 
 					case 1:
 						if (spawnTokens > TokenCost_SmallSpawn) {
-							amountEnemy = Random.Range(4, 8);
+							amountEnemy = Random.Range(3, 4);
 							spawnTokens -= TokenCost_SmallSpawn;
 						}
 						break;
 
 					case 2:
 						if (spawnTokens > TokenCost_MediumSpawn) {
-							amountEnemy = Random.Range(8, 12);
+							amountEnemy = Random.Range(4, 5);
 							spawnTokens -= TokenCost_MediumSpawn;
 						}
 						break;
 
 					case 3:
 						if (spawnTokens > TokenCost_BigSpawn) {
-							amountEnemy = Random.Range(12, 16);
+							amountEnemy = Random.Range(5, 6);
 							spawnTokens -= TokenCost_BigSpawn;
 						}
 						break;
@@ -438,7 +440,7 @@ public class GameManager : MonoBehaviour {
 					int amountExploding = 0;
 					int amountNecro = 0;
 					for (int count = 0; count < amountEnemy; count += 1) {
-						int choiceEnemyKind = Util.RollWeightedChoice(new float[] {9f, 1f, 0.5f});
+						int choiceEnemyKind = Util.RollWeightedChoice(new float[] {9f, 0f, 0f});
 						switch (choiceEnemyKind) {
 							case 0:
 								amountBasic += 1;
