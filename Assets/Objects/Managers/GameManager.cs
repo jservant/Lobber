@@ -47,12 +47,16 @@ public class GameManager : MonoBehaviour {
 	public Button resumeButton;
 	public Button tutorialSkipButton;
 	public Canvas tutorialSkipUI;
+	public CanvasGroup tutorialSkipGroup;
 	public Canvas pauseUI;
+	public CanvasGroup pauseGroup;
 	public Canvas optionsUI;
+	public CanvasGroup optionsGroup;
 	public TMP_Dropdown resolutionDropdown;
 	public TMP_Dropdown graphicsDropdown;
 	public Button statsButton;
 	public Canvas statsUI;
+	public CanvasGroup statsGroup;
 	public Button statsBackButton;
 	public TMP_Text statsText;
 	public TMP_Text statsText2;
@@ -104,7 +108,7 @@ public class GameManager : MonoBehaviour {
 	public int enemiesAlive = 0;
 	public int goldenSkullDropChance = 2; //out of 100
 	public int goldSkullBuffer = 10;
-	
+
 	[SerializeField] float spawnTokens;
 
 	[Header("Spawn tokens:")]
@@ -149,12 +153,16 @@ public class GameManager : MonoBehaviour {
 		pauseBG = transform.Find("PauseBG").GetComponent<Canvas>();
 		resumeButton = transform.Find("PauseUI/ResumeButton").GetComponent<Button>();
 		tutorialSkipUI = transform.Find("TutorialSkipUI").GetComponent<Canvas>();
+		tutorialSkipGroup = transform.Find("TutorialSkipUI").GetComponent<CanvasGroup>();
 		tutorialSkipButton = transform.Find("TutorialSkipUI/YesButton").GetComponent<Button>();
 		pauseUI = transform.Find("PauseUI").GetComponent<Canvas>();
+		pauseGroup = transform.Find("PauseUI").GetComponent<CanvasGroup>();
 		optionsUI = transform.Find("OptionsUI").GetComponent<Canvas>();
+		optionsGroup = transform.Find("OptionsUI").GetComponent<CanvasGroup>();
 		resolutionDropdown = transform.Find("OptionsUI/VisualSettings/Resolution/ResolutionDropdown").GetComponent<TMP_Dropdown>();
 		graphicsDropdown = transform.Find("OptionsUI/VisualSettings/Graphics/GraphicsDropdown").GetComponent<TMP_Dropdown>();
 		statsUI = transform.Find("StatsUI").GetComponent<Canvas>();
+		statsGroup = transform.Find("StatsUI").GetComponent<CanvasGroup>();
 		statusTextboxText = transform.Find("StatusTextbox/StatusTextboxText").GetComponent<TMP_Text>();
 		statusTextboxText.text = "";
 		objectiveText = transform.Find("StatusTextbox/ObjectiveText").GetComponent<TMP_Text>();
@@ -201,7 +209,7 @@ public class GameManager : MonoBehaviour {
 		graphicsDropdown.RefreshShownValue();
 
 		UpdatePlayerSpawns();
-		
+
 		if (canSpawn) {
 			GameObject enemySpawnParent = GameObject.Find("EnemySpawns");
 			enemySpawnPoints = enemySpawnParent.GetComponentsInChildren<Transform>();
@@ -212,7 +220,7 @@ public class GameManager : MonoBehaviour {
 				}
 			}
 			enemySpawnPoints = TempArray;
-			 
+
 			float[] objectiveChoices = new float[] { 0f, 6f, 0f, 4f };
 			objectiveChoices[(int)currentObjective] = 0;
 			currentObjective = (Objectives)Util.RollWeightedChoice(objectiveChoices);
@@ -684,6 +692,7 @@ public class GameManager : MonoBehaviour {
 					Time.timeScale = 1;
 					pauseBG.enabled = false;
 					tutorialSkipUI.enabled = false;
+					tutorialSkipGroup.interactable = false;
 				}
 				else {
 					tutorialSkipButton.Select();
@@ -691,26 +700,31 @@ public class GameManager : MonoBehaviour {
 					Time.timeScale = 0;
 					pauseBG.enabled = true;
 					tutorialSkipUI.enabled = true;
+					tutorialSkipGroup.interactable = true;
 				}
 			}
 			else {
 				if (optionsUI.enabled == true) {
-					resumeButton.Select();
+					pauseGroup.interactable = true;
 					pauseUI.enabled = true;
 					optionsUI.enabled = false;
+					optionsGroup.interactable = false;
+					resumeButton.Select();
 				}
 				else if (pauseUI.enabled == false) {
-					resumeButton.Select();
 					updateTimeScale = false;
 					Time.timeScale = 0;
 					pauseBG.enabled = true;
 					pauseUI.enabled = true;
+					pauseGroup.interactable = true;
+					resumeButton.Select();
 				}
 				else {
 					eSystem.SetSelectedGameObject(null);
 					updateTimeScale = true;
 					Time.timeScale = 1;
 					pauseUI.enabled = false;
+					pauseGroup.interactable = false;
 					pauseBG.enabled = false;
 				}
 			}
@@ -961,7 +975,11 @@ public class GameManager : MonoBehaviour {
 		updateTimeScale = true;
 		Time.timeScale = 1;
 		pauseUI.enabled = false;
-		if (SceneManager.GetActiveScene().buildIndex == (int)Scenes.Tutorial) tutorialSkipUI.enabled = false;
+		pauseGroup.interactable = false;
+		if (SceneManager.GetActiveScene().buildIndex == (int)Scenes.Tutorial) {
+			tutorialSkipUI.enabled = false;
+			tutorialSkipGroup.interactable = false;
+		}
 		pauseBG.enabled = false;
 	}
 
@@ -983,7 +1001,9 @@ public class GameManager : MonoBehaviour {
 
 	public void OnOptions() {
 		pauseUI.enabled = false;
+		pauseGroup.interactable = false;
 		optionsUI.enabled = true;
+		optionsGroup.interactable = true;
 		statsButton = transform.Find("OptionsUI/StatsButton").GetComponent<Button>();
 		statsButton.Select();
 	}
@@ -1004,7 +1024,9 @@ public class GameManager : MonoBehaviour {
 
 	public void OnStats() {
 		optionsUI.enabled = false;
+		optionsGroup.interactable = false;
 		statsUI.enabled = true;
+		statsGroup.interactable = true;
 		statsText = transform.Find("StatsUI/StatsText").GetComponent<TMP_Text>();
 		statsText2 = transform.Find("StatsUI/StatsText2").GetComponent<TMP_Text>();
 		statsBackButton = transform.Find("StatsUI/StatsBackButton").GetComponent<Button>();
@@ -1027,13 +1049,17 @@ public class GameManager : MonoBehaviour {
 		statsText.text = "";
 		statsText2.text = "";
 		statsUI.enabled = false;
+		statsGroup.interactable = false;
 		optionsUI.enabled = true;
+		optionsGroup.interactable = true;
 		statsButton.Select();
 	}
 
 	public void OnOptionsBack() {
 		pauseUI.enabled = true;
+		pauseGroup.interactable = true;
 		optionsUI.enabled = false;
+		optionsGroup.interactable = false;
 		resumeButton.Select();
 	}
 

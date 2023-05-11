@@ -757,7 +757,6 @@ public class PlayerController : MonoBehaviour {
 		Debug.Log("maxHomingDistance: " + maxHomingDistance);
 		RaycastHit[] eColliders = Util.ConeCastAll(transform.position, tsr, transform.rotation * Vector3.forward, maxHomingDistance, 30f);
 
-
 		homingTargetDelta = Vector3.forward * 10;
 		for (int index = 0; index < eColliders.Length; index += 1) {
 			Debug.Log("Collider #" + index + "/" + eColliders.Length + ": " + eColliders[index].transform.gameObject.name);
