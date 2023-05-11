@@ -478,7 +478,7 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		//Input
-		if (currentState != States.Death) {
+		if (currentState != States.Death || currentState != States.Win) {
 			if (currentState != States.Attacking) {
 				mInput = pActions.Player.Move.ReadValue<Vector2>();
 				if (pActions.Player.Move.WasReleasedThisFrame()) {
