@@ -303,7 +303,8 @@ public class Basic : MonoBehaviour {
 
 				if (player != null) {
 					gameMan.SpawnParticle(0, other.transform.position, 1f);
-					
+					gameMan.SpawnParticle(12, other.transform.position, 1f);
+
 					newKnockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
 					stunTime = AttackStunTimeTable[(int)player.currentAttack];
 					damage = PlayerController.AttackDamageTable[(int)player.currentAttack];
@@ -325,6 +326,7 @@ public class Basic : MonoBehaviour {
 						case PlayerController.Attacks.Chop:
 							// @TODO(Roskuski): Different System to prevent headpickup spawns from chop. this current system will not work well if we implment enemies with healthpools that can surrive a chop
 							wasHitByChop = true;
+							gameMan.SpawnParticle(12, other.transform.position, 1.5f);
 							sounds.Sound_EnemyLob();
 							gameMan.ShakeCamera(5f, 0.1f);
 							if (GameObject.Find("HapticManager") != null) HapticManager.PlayEffect(player.hapticEffects[2], this.transform.position);
