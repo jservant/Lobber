@@ -1008,6 +1008,10 @@ public class Basic : MonoBehaviour {
 				if (isCrystallized) { gameMan.SpawnParticle(11, transform.position, 0.8f); }
 				else gameMan.SpawnCorpse(0, transform.position, transform.rotation, corpseForce, false);
 			}
+
+			float voiceChance = Random.Range(1, 10);
+			if (voiceChance <= 4f) sounds.Sound_EnemyVO();
+
 			Destroy(this.gameObject); 
 		}
 	}

@@ -62,7 +62,7 @@ public class MotionAudio_Skel : MonoBehaviour
 
     public AK.Wwise.Event Enemy_VO;
 
-    void Sound_EnemyVO()
+    public void Sound_EnemyVO()
     {
         Enemy_VO.Post(gameObject);
     }
