@@ -55,6 +55,7 @@ public class OrbSpawn : MonoBehaviour {
 
 					if (!Physics.Raycast(this.transform.position + testDirection * testLateralDistance, Vector3.down, 50f)) {
 						spawnPosition = this.transform.position + testDirection * testLateralDistance;
+						spawnPosition.y = this.transform.position.y;
 						break;
 					}
 				}
