@@ -2980,7 +2980,13 @@
 					</ChildrenList>
 				</ActorMixer>
 				<ActorMixer Name="SFX" ID="{FDAD68AF-5B82-4058-B20A-9511B65B21DC}" ShortID="100347218">
+					<PropertyList>
+						<Property Name="3DSpatialization" Type="int16" Value="2"/>
+					</PropertyList>
 					<ReferenceList>
+						<Reference Name="Attenuation">
+							<ObjectRef Name="Skeletons" ID="{81AC410A-2577-4510-BD6D-B74F3C77652C}" WorkUnitID="{30AA0E61-053C-47AE-8A92-C475047387BF}"/>
+						</Reference>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
 						</Reference>
@@ -3590,7 +3596,13 @@
 					</ChildrenList>
 				</ActorMixer>
 				<ActorMixer Name="Props" ID="{A1159023-B958-4702-9256-32C621494448}" ShortID="910913932">
+					<PropertyList>
+						<Property Name="3DSpatialization" Type="int16" Value="2"/>
+					</PropertyList>
 					<ReferenceList>
+						<Reference Name="Attenuation">
+							<ObjectRef Name="Skeletons" ID="{81AC410A-2577-4510-BD6D-B74F3C77652C}" WorkUnitID="{30AA0E61-053C-47AE-8A92-C475047387BF}"/>
+						</Reference>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
 						</Reference>

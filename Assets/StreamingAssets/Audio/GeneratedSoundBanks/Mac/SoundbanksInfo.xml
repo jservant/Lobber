@@ -181,7 +181,7 @@
 				</AcousticTexture>
 			</AcousticTextures>
 		</SoundBank>
-		<SoundBank Id="1496463651" Type="User" Language="SFX" Hash="{9A547C3C-4403-550A-360E-32CAA580C8A9}">
+		<SoundBank Id="1496463651" Type="User" Language="SFX" Hash="{1FEDF690-325F-0748-DC05-9E3D47BD742C}">
 			<ShortName>Bank_01</ShortName>
 			<Path>Bank_01.bnk</Path>
 			<Media>
@@ -1012,46 +1012,46 @@
 						<MediaRef Id="933496307"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="2062853598" Name="portal_close" DurationType="OneShot" DurationMin="1.2006766" DurationMax="1.2006766">
+				<Event Id="2062853598" Name="portal_close" MaxAttenuation="50" DurationType="OneShot" DurationMin="1.2006766" DurationMax="1.2006766">
 					<MediaRefs>
 						<MediaRef Id="495527006"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3086941384" Name="portal_idle" DurationType="Infinite">
+				<Event Id="3086941384" Name="portal_idle" MaxAttenuation="50" DurationType="Infinite">
 					<MediaRefs>
 						<MediaRef Id="712810717"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="762878330" Name="portal_open" DurationType="OneShot" DurationMin="1.125" DurationMax="1.125">
+				<Event Id="762878330" Name="portal_open" MaxAttenuation="50" DurationType="OneShot" DurationMin="1.125" DurationMax="1.125">
 					<MediaRefs>
 						<MediaRef Id="271929651"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="4272749033" Name="props_cactus" DurationType="OneShot" DurationMin="0.8746667" DurationMax="0.96002084">
+				<Event Id="4272749033" Name="props_cactus" MaxAttenuation="50" DurationType="OneShot" DurationMin="0.8746667" DurationMax="0.96002084">
 					<MediaRefs>
 						<MediaRef Id="241135747"/>
 						<MediaRef Id="734646743"/>
 						<MediaRef Id="975226023"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="92521196" Name="props_pillar_rumble" DurationType="OneShot" DurationMin="19.884895" DurationMax="19.884895">
+				<Event Id="92521196" Name="props_pillar_rumble" MaxAttenuation="50" DurationType="OneShot" DurationMin="19.884895" DurationMax="19.884895">
 					<MediaRefs>
 						<MediaRef Id="141369313"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="2754391325" Name="props_pot" DurationType="OneShot" DurationMin="0.929" DurationMax="0.929">
+				<Event Id="2754391325" Name="props_pot" MaxAttenuation="50" DurationType="OneShot" DurationMin="0.929" DurationMax="0.929">
 					<MediaRefs>
 						<MediaRef Id="433454501"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="1871795543" Name="props_rock" DurationType="OneShot" DurationMin="2.4106874" DurationMax="2.7464793">
+				<Event Id="1871795543" Name="props_rock" MaxAttenuation="50" DurationType="OneShot" DurationMin="2.4106874" DurationMax="2.7464793">
 					<MediaRefs>
 						<MediaRef Id="211891834"/>
 						<MediaRef Id="220527450"/>
 						<MediaRef Id="1063658389"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="729588163" Name="props_wood" DurationType="OneShot" DurationMin="1.1997917" DurationMax="1.4375">
+				<Event Id="729588163" Name="props_wood" MaxAttenuation="50" DurationType="OneShot" DurationMin="1.1997917" DurationMax="1.4375">
 					<MediaRefs>
 						<MediaRef Id="224090648"/>
 						<MediaRef Id="329592252"/>
@@ -1181,5 +1181,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{C596DAB4-15B4-28E7-792C-759F5ECA9B98}</FileHash>
+	<FileHash>{4E238243-A35A-36D1-AADF-A23108740703}</FileHash>
 </SoundBanksInfo>
