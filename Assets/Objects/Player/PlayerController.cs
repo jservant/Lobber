@@ -175,7 +175,7 @@ public class PlayerController : MonoBehaviour {
 		0f, // ShotgunThrow (Hit + Damage is handled by the projectile, we shouldn't even get a hit while in this attack)
 	};
 
-	readonly public static float[] AttackMeterCost = {
+	public static readonly float[] AttackMeterCost = {
 		100.0f, // None
 		0.0f, // LAttack
 		0.0f, // LAttack2
@@ -296,7 +296,7 @@ public class PlayerController : MonoBehaviour {
 	public float dashCooldown = 1f;
 	public bool isWalking;
 	[Header("Health/Damage:")]
-	public bool vulnerable = true;
+	float immunityTime;
 	public bool godMode = false;
 	public int healthMax = 20;
 	public int health = 0;
@@ -471,6 +471,8 @@ public class PlayerController : MonoBehaviour {
 		}
 		model.materials = materialList;
 
+		immunityTime -= Time.deltaTime;
+
 		if (frenzyTimer > 0f) {
 			frenzyTimer -= Time.deltaTime;
 		}
@@ -581,6 +583,7 @@ public class PlayerController : MonoBehaviour {
 							speedTime = 0;
 							break;
 
+
 						case Attacks.Spin:
 							speedTime = 0.4f;
 							setupHoming = false;
@@ -596,6 +599,7 @@ public class PlayerController : MonoBehaviour {
 
 						case Attacks.Dashing:
 							setupHoming = false;
+							immunityTime = 0.4f;
 							break;
 					}
 
@@ -634,7 +638,7 @@ public class PlayerController : MonoBehaviour {
 
 	//@TODO(Jaden): Add i-frames and trigger hitstun state when hit
 	private void OnTriggerEnter(Collider other) {
-		if (vulnerable && !godMode) {
+		if (immunityTime <= 0 && currentAttack != Attacks.Slam && currentAttack != Attacks.Spin && currentAttack != Attacks.LethalDash && currentAttack != Attacks.ShotgunThrow && !godMode) {
 			if (other.gameObject.layer == (int)Layers.EnemyHitbox && remainingKnockbackTime <= 0) { // player is getting hit
 				Basic otherBasic = other.GetComponentInParent<Basic>();
 				NecroProjectile otherNecroProjectile = other.GetComponent<NecroProjectile>();
@@ -703,6 +707,8 @@ public class PlayerController : MonoBehaviour {
 		//trigger haptics here
 		if (GameObject.Find("HapticManager") != null) HapticManager.PlayEffect(hapticEffects[0], this.transform.position);
 		gameMan.ShakeCamera(5f, 0.1f);
+
+		immunityTime = 0.25f;
 	}
 
 	IEnumerator Death() {
@@ -899,3 +905,5 @@ public class PlayerController : MonoBehaviour {
 	}
 	#endregion
 }
+
+
