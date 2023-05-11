@@ -119,6 +119,7 @@ public class Sandbag : MonoBehaviour {
 				Vector3 deltaNoY = sourcePosition - this.transform.position;
 				deltaNoY.y = 0f;
 				//this.transform.rotation = Quaternion.LookRotation(deltaNoY, Vector3.up);
+				gameMan.SpawnParticle(12, other.transform.position, 1.2f);
 
 				if (canBeKnockedBack) {
 					GetKnockbackInfo getKnockbackInfo = other.gameObject.GetComponent<GetKnockbackInfo>();
@@ -131,6 +132,7 @@ public class Sandbag : MonoBehaviour {
 				if (other.GetComponentInParent<PlayerController>() != null) {
 					if (gameMan.playerController.currentAttack == PlayerController.Attacks.Chop) {
 						gameMan.playerController.ChangeMeter(1f);
+						gameMan.SpawnParticle(12, other.transform.position, 1.6f);
 						shouldDie = true;
 					}
 				}

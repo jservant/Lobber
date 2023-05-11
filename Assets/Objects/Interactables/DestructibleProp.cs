@@ -66,6 +66,7 @@ public class DestructibleProp : MonoBehaviour {
 						if (player.currentAttack == PlayerController.Attacks.Chop) {
 							hitflashTimer = 0.25f;
 							player.ChangeMeter(1);
+							gameMan.SpawnParticle(12, other.transform.position, 1.6f);
 							SpawnHeads(2);
 						}
 						else if (player.currentAttack == PlayerController.Attacks.Slam) {
@@ -74,6 +75,7 @@ public class DestructibleProp : MonoBehaviour {
 						}
 						else {
 							hitflashTimer = 0.15f;
+							gameMan.SpawnParticle(12, other.transform.position, 1.2f);
 							SpawnHeads(1);
 						}
 					}
