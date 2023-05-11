@@ -52,6 +52,8 @@ public class GameManager : MonoBehaviour {
 	public CanvasGroup pauseGroup;
 	public Canvas optionsUI;
 	public CanvasGroup optionsGroup;
+	public Canvas audioUI;
+	public CanvasGroup audioGroup;
 	public TMP_Dropdown resolutionDropdown;
 	public TMP_Dropdown graphicsDropdown;
 	public Button statsButton;
@@ -159,6 +161,8 @@ public class GameManager : MonoBehaviour {
 		pauseGroup = transform.Find("PauseUI").GetComponent<CanvasGroup>();
 		optionsUI = transform.Find("OptionsUI").GetComponent<Canvas>();
 		optionsGroup = transform.Find("OptionsUI").GetComponent<CanvasGroup>();
+		audioUI = transform.Find("AudioUI").GetComponent<Canvas>();
+		audioGroup = transform.Find("AudioUI").GetComponent<CanvasGroup>();
 		resolutionDropdown = transform.Find("OptionsUI/VisualSettings/Resolution/ResolutionDropdown").GetComponent<TMP_Dropdown>();
 		graphicsDropdown = transform.Find("OptionsUI/VisualSettings/Graphics/GraphicsDropdown").GetComponent<TMP_Dropdown>();
 		statsUI = transform.Find("StatsUI").GetComponent<Canvas>();
@@ -1008,6 +1012,24 @@ public class GameManager : MonoBehaviour {
 		statsButton.Select();
 	}
 
+	public void OnAudio() {
+		optionsUI.enabled = false;
+		optionsGroup.interactable = false;
+		audioUI.enabled = true;
+		audioGroup.interactable = true;
+		statsButton = transform.Find("AudioUI/StatsButton").GetComponent<Button>();
+		statsButton.Select();
+	}
+
+	public void OnGraphics() {
+		audioUI.enabled = false;
+		audioGroup.interactable = false;
+		optionsUI.enabled = true;
+		optionsGroup.interactable = true;
+		statsButton = transform.Find("OptionsUI/StatsButton").GetComponent<Button>();
+		statsButton.Select();
+	}
+
 	public void SetQuality(int qualityIndex) {
 		QualitySettings.SetQualityLevel(qualityIndex);
 		QualitySettings.renderPipeline = qualityLevels[qualityIndex];
@@ -1025,6 +1047,8 @@ public class GameManager : MonoBehaviour {
 	public void OnStats() {
 		optionsUI.enabled = false;
 		optionsGroup.interactable = false;
+		audioUI.enabled = false;
+		audioGroup.interactable = false;
 		statsUI.enabled = true;
 		statsGroup.interactable = true;
 		statsText = transform.Find("StatsUI/StatsText").GetComponent<TMP_Text>();
@@ -1060,6 +1084,8 @@ public class GameManager : MonoBehaviour {
 		pauseGroup.interactable = true;
 		optionsUI.enabled = false;
 		optionsGroup.interactable = false;
+		audioUI.enabled = false;
+		audioGroup.interactable = false;
 		resumeButton.Select();
 	}
 
