@@ -424,8 +424,9 @@ public class GameManager : MonoBehaviour {
 					// detremine enemy contents
 					int amountBasic = 0;
 					int amountExploding = 0;
+					int amountNecro = 0;
 					for (int count = 0; count < amountEnemy; count += 1) {
-						int choiceEnemyKind = Util.RollWeightedChoice(new float[] {9f, 1f});
+						int choiceEnemyKind = Util.RollWeightedChoice(new float[] {9f, 1f, 0.5f});
 						switch (choiceEnemyKind) {
 							case 0:
 								amountBasic += 1;
@@ -433,6 +434,11 @@ public class GameManager : MonoBehaviour {
 
 							case 1:
 								amountExploding += 1;
+								// @TODO(Roskuski): We should probably cap Exploding spawn count so you can't roll a lot of them.
+								break;
+								
+							case 2:
+								amountNecro += 1;
 								// @TODO(Roskuski): We should probably cap Exploding spawn count so you can't roll a lot of them.
 								break;
 
@@ -444,6 +450,7 @@ public class GameManager : MonoBehaviour {
 
 					OrbSpawnPrefab.GetComponent<OrbSpawn>().basicAmount = amountBasic;
 					OrbSpawnPrefab.GetComponent<OrbSpawn>().explodingAmount = amountExploding;
+					OrbSpawnPrefab.GetComponent<OrbSpawn>().necroAmount = amountNecro;
 
 					// choose a spawn point
 					switch (currentObjective) {

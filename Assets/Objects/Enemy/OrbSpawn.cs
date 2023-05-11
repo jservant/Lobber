@@ -6,6 +6,7 @@ public class OrbSpawn : MonoBehaviour {
 
 	public int basicAmount;
 	public int explodingAmount;
+	public int necroAmount;
 
 	float despawnTime = 3;
 	bool[] spawnedEnemies;
@@ -26,7 +27,7 @@ public class OrbSpawn : MonoBehaviour {
 		gameMan.enemiesAlive += spawnAmount;
 
 		anim.SetBool("DeSpawn", false);
-		spawnedEnemies = new bool[basicAmount + explodingAmount];
+		spawnedEnemies = new bool[basicAmount + explodingAmount + necroAmount];
 		angleOffset = Random.Range(0.0f, 90.0f);
 		yield return new WaitForSeconds(despawnTime / 2);
 
@@ -40,7 +41,27 @@ public class OrbSpawn : MonoBehaviour {
 			spawnedEnemies[randomIndex] = true;
 
 			float angle = (float)randomIndex * 360.0f / (float)spawnAmount;
-			if (randomIndex >= basicAmount) { 
+			if (randomIndex >= basicAmount + explodingAmount) {
+				Vector3 spawnPosition = Vector3.zero;
+				// @TODO(Roskuski): We wouldn't want this to fail too many times in a row...
+				for (int count = 0; count < 30; count += 1) {
+					Vector3 testDirection = Quaternion.AngleAxis(Random.Range(0f, 360f), Vector3.up) * Vector3.forward;
+					float testLateralDistance = Random.Range(0, 270f); // NOTE(Roskuski): the arena is roughly 250 units on the long side.
+					RaycastHit lateralInfo;
+					// @TODO(Roskuski): Make sure that the origin will be above any terrain/props.
+					if (Physics.Raycast(this.transform.position + Vector3.up * 10f, testDirection, out lateralInfo, testLateralDistance)) {
+						testLateralDistance = lateralInfo.distance;
+					}
+
+					if (!Physics.Raycast(this.transform.position + testDirection * testLateralDistance, Vector3.down, 50f)) {
+						spawnPosition = this.transform.position + testDirection * testLateralDistance;
+						break;
+					}
+				}
+
+				Instantiate(gameMan.NecroPrefab, spawnPosition, Quaternion.LookRotation(this.transform.position - spawnPosition, Vector3.up));
+			}
+			else if (randomIndex >= basicAmount) { 
 				Instantiate(gameMan.ExplodingPrefab, this.transform.position + Vector3.down * 1.5f, Quaternion.AngleAxis(angle, Vector3.up));
 			}
 			else {
