@@ -6634,6 +6634,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4024547386246193752}
   - component: {fileID: 264057757553030110}
+  - component: {fileID: 4838268229391413538}
   m_Layer: 5
   m_Name: SFXSlider
   m_TagString: Untagged
@@ -6708,12 +6709,40 @@ MonoBehaviour:
   m_HandleRect: {fileID: 6623787118056380759}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
+  m_MaxValue: 100
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 50
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4838268229391413538}
+        m_TargetAssemblyTypeName: ChangeVolume, Assembly-CSharp
+        m_MethodName: SetVolume
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Sound
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &4838268229391413538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4972980932235362394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c8ab377056afa849a4e1a7508bb079c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider: {fileID: 264057757553030110}
+  masterVolume: 0
+  musicVolume: 0
+  soundVolume: 0
 --- !u!1 &4991742885467589001
 GameObject:
   m_ObjectHideFlags: 0
@@ -7459,6 +7488,7 @@ GameObject:
   m_Component:
   - component: {fileID: 210063529916364853}
   - component: {fileID: 7714174158456453529}
+  - component: {fileID: 8533715188227891323}
   m_Layer: 5
   m_Name: MasterSlider
   m_TagString: Untagged
@@ -7533,12 +7563,40 @@ MonoBehaviour:
   m_HandleRect: {fileID: 5514810684998718986}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
+  m_MaxValue: 100
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 50
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8533715188227891323}
+        m_TargetAssemblyTypeName: ChangeVolume, Assembly-CSharp
+        m_MethodName: SetVolume
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Master
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &8533715188227891323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6164262828996507894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c8ab377056afa849a4e1a7508bb079c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider: {fileID: 7714174158456453529}
+  masterVolume: 0
+  musicVolume: 0
+  soundVolume: 0
 --- !u!1 &6261773705210361929
 GameObject:
   m_ObjectHideFlags: 0
@@ -10185,6 +10243,7 @@ GameObject:
   m_Component:
   - component: {fileID: 228784477360781354}
   - component: {fileID: 623507065677392864}
+  - component: {fileID: 8129155526782906425}
   m_Layer: 5
   m_Name: MusicSlider
   m_TagString: Untagged
@@ -10259,12 +10318,40 @@ MonoBehaviour:
   m_HandleRect: {fileID: 2750983548471482973}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
+  m_MaxValue: 100
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 50
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8129155526782906425}
+        m_TargetAssemblyTypeName: ChangeVolume, Assembly-CSharp
+        m_MethodName: SetVolume
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Music
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &8129155526782906425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8344195161670348867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c8ab377056afa849a4e1a7508bb079c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider: {fileID: 623507065677392864}
+  masterVolume: 0
+  musicVolume: 0
+  soundVolume: 0
 --- !u!1 &8464734705762988931
 GameObject:
   m_ObjectHideFlags: 0
