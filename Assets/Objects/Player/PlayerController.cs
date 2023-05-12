@@ -209,7 +209,7 @@ public class PlayerController : MonoBehaviour {
 
 	#region State machines
 
-	public enum States { Idle = 0, Walking, Attacking, Death, Win };
+	public enum States { Idle = 0, Walking, Attacking, Death };
 	public States currentState = 0;
 
 	public enum Attacks {
@@ -478,7 +478,7 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		//Input
-		if (currentState != States.Death || currentState != States.Win) {
+		if (currentState != States.Death) {
 			if (currentState != States.Attacking) {
 				mInput = pActions.Player.Move.ReadValue<Vector2>();
 				if (pActions.Player.Move.WasReleasedThisFrame()) {
@@ -638,7 +638,7 @@ public class PlayerController : MonoBehaviour {
 
 	//@TODO(Jaden): Add i-frames and trigger hitstun state when hit
 	private void OnTriggerEnter(Collider other) {
-		if (immunityTime <= 0 && currentAttack != Attacks.Slam && currentAttack != Attacks.Spin && currentAttack != Attacks.LethalDash&& currentAttack != Attacks.ShotgunThrow && !godMode && currentState != States.Win) {
+		if (immunityTime <= 0 && currentAttack != Attacks.Slam && currentAttack != Attacks.Spin && currentAttack != Attacks.LethalDash&& currentAttack != Attacks.ShotgunThrow && !godMode) {
 			if (other.gameObject.layer == (int)Layers.EnemyHitbox && remainingKnockbackTime <= 0) { // player is getting hit
 				Basic otherBasic = other.GetComponentInParent<Basic>();
 				NecroProjectile otherNecroProjectile = other.GetComponent<NecroProjectile>();
