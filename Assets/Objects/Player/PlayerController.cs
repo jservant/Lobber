@@ -558,6 +558,7 @@ public class PlayerController : MonoBehaviour {
 			{
 				if (queuedAttackInfo.nextAttack != Attacks.None && queuedAttackInfo.transitionStartPercent < Current.normalizedTime) {
 					bool setupHoming = true;
+					float coneRadius = 10f;
 					tsr = targetSphereRadius;
 					currentState = States.Attacking;
 
@@ -576,7 +577,7 @@ public class PlayerController : MonoBehaviour {
 						case Attacks.ShotgunThrow:
 							tsr = targetSphereRadius * 2.5f;
 							speedTime = 0;
-							setupHoming = false;
+							coneRadius = 30f;
 							break;
 
 						case Attacks.Chop:
@@ -613,7 +614,7 @@ public class PlayerController : MonoBehaviour {
 					}
 
 					if (setupHoming) {
-						SetupHoming();
+						SetupHoming(coneRadius);
 					}
 					else {
 						speedTime = 0; // stops player movement when throwing. change later if other attacks don't snap
@@ -747,7 +748,7 @@ public class PlayerController : MonoBehaviour {
 
 	float maxHomingDistance;
 
-	void SetupHoming() { // attack homing function
+	void SetupHoming(float coneRadius) { // attack homing function
 		// NOTE(Roskuski): If homing is currently taking place, cancel it.
 		doHoming = false;
 
@@ -755,7 +756,7 @@ public class PlayerController : MonoBehaviour {
 		//maxHomingDistance = (transform.position - new Vector3(targetSphere.x, targetSphere.y, targetSphere.z + tsr)).sqrMagnitude;
 		maxHomingDistance = currentAttack == Attacks.HeadThrow || currentAttack == Attacks.ShotgunThrow ? 8f : 4f;
 		Debug.Log("maxHomingDistance: " + maxHomingDistance);
-		RaycastHit[] eColliders = Util.ConeCastAll(transform.position, tsr, transform.rotation * Vector3.forward, maxHomingDistance, 30f);
+		RaycastHit[] eColliders = Util.ConeCastAll(transform.position, tsr, transform.rotation * Vector3.forward, maxHomingDistance, coneRadius);
 
 		homingTargetDelta = Vector3.forward * 10;
 		for (int index = 0; index < eColliders.Length; index += 1) {
@@ -828,14 +829,14 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public void LobThrow() { // triggered in animator
-		SetupHoming();
+		SetupHoming(30f);
 		headProj.speed = 50f;
 		headProj.canStun = true;
 		Instantiate(headProj, projSpawn.position, transform.rotation);
 	}
 
 	public void ShotgunThrow() { // triggered in animator
-		SetupHoming();
+		SetupHoming(30f);
 		headProj.speed = 50f;
 		headProj.canStun = true;
 		//headProj.canPierce = true; disabled for now
