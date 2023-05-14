@@ -764,7 +764,6 @@ public class GameManager : MonoBehaviour {
 		float[] sceneChances = new float[] { 0, 1f, 1f, 1f, 1f, 1f, 1f };
 		sceneChances[SceneManager.GetActiveScene().buildIndex] = 0;
 		KillAll();
-		playerController.currentState = PlayerController.States.Win;
 		yield return new WaitForSeconds(5);
 		if (playerController.currentState == PlayerController.States.Death) {
 			SceneManager.LoadScene((int)Scenes.Tutorial);
