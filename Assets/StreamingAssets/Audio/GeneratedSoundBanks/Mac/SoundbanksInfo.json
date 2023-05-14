@@ -551,7 +551,7 @@
     "Id": "1496463651",
     "Type": "User",
     "Language": "SFX",
-    "Hash": "{2FE113AA-3170-1931-BC40-2EFCE76FCD18}",
+    "Hash": "{11C17838-E220-A752-D90B-0DFCFD9C01B0}",
     "ShortName": "Bank_01",
     "Path": "Bank_01.bnk",
     "Media": [
@@ -610,6 +610,14 @@
       "Location": "Memory",
       "ShortName": "fs_player_grass_01.wav",
       "CachePath": "SFX/fs_player_grass_01_10C4C929.wem"
+     },
+     {
+      "Id": "46449891",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "lilnecro_fireball_init.wav",
+      "CachePath": "SFX/lilnecro_fireball_init_10C4C929.wem"
      },
      {
       "Id": "49626874",
@@ -1850,11 +1858,20 @@
       ]
      },
      {
-      "Id": "3913127709",
-      "Name": "lilnecro_fireball",
+      "Id": "2924923878",
+      "Name": "lilnecro_fireball_atk",
       "MediaRefs": [
        {
         "Id": "1067808686"
+       }
+      ]
+     },
+     {
+      "Id": "4092755742",
+      "Name": "lilnecro_fireball_init",
+      "MediaRefs": [
+       {
+        "Id": "46449891"
        }
       ]
      },
@@ -1901,14 +1918,6 @@
         "Id": "1023183490"
        }
       ]
-     },
-     {
-      "Id": "3725903807",
-      "Name": "Music_Start"
-     },
-     {
-      "Id": "3227181061",
-      "Name": "Music_Stop"
      },
      {
       "Id": "4234617796",
@@ -2599,6 +2608,6 @@
     ]
    }
   ],
-  "FileHash": "{FCE124AE-0B59-C1D8-FFBF-28C1692D0129}"
+  "FileHash": "{86A6BF29-9B04-2356-B8CA-700D8A01D981}"
  }
 }

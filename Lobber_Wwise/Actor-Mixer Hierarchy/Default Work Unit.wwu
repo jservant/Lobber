@@ -4169,7 +4169,7 @@
 								<ActiveSource Name="lilnecro_spwan_atk" ID="{BE8F5F8B-D4B0-4FE4-8BDC-F7E3577076BB}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
-						<Sound Name="lilnecro_fireball" ID="{71339379-E13C-47E4-AE4D-2DBBB82B9075}" ShortID="871764573">
+						<Sound Name="lilnecro_fireball_init" ID="{71339379-E13C-47E4-AE4D-2DBBB82B9075}" ShortID="871764573">
 							<ReferenceList>
 								<Reference Name="Attenuation">
 									<ObjectRef Name="HeadImpact" ID="{A1D950E6-8986-4A7D-B20F-A88932D7AB76}" WorkUnitID="{30AA0E61-053C-47AE-8A92-C475047387BF}"/>
@@ -4189,9 +4189,38 @@
 										<MediaID ID="1067808686"/>
 									</MediaIDList>
 								</AudioFileSource>
+								<AudioFileSource Name="lilnecro_fireball_init" ID="{100AEC08-C8AC-4CBB-89AB-87CC9B830DB1}">
+									<Language>SFX</Language>
+									<AudioFile>lilnecro_fireball_init.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="46449891"/>
+									</MediaIDList>
+								</AudioFileSource>
 							</ChildrenList>
 							<ActiveSourceList>
-								<ActiveSource Name="lilnecro_fireball" ID="{46CD9C76-233B-41F9-A63C-0074EDFB71F3}" Platform="Linked"/>
+								<ActiveSource Name="lilnecro_fireball_init" ID="{100AEC08-C8AC-4CBB-89AB-87CC9B830DB1}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="lilnecro_fireball_atk" ID="{BC484D54-CDE4-4734-8B37-B4C7071EEDFC}" ShortID="510501612">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="lilnecro_fireball_atk" ID="{811D63CB-5736-4E60-AA42-651633B21E56}">
+									<Language>SFX</Language>
+									<AudioFile>lilnecro_fireball.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1067808686"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="lilnecro_fireball_atk" ID="{811D63CB-5736-4E60-AA42-651633B21E56}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
 					</ChildrenList>

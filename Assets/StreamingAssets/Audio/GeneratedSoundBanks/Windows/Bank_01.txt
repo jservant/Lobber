@@ -43,12 +43,12 @@ Event	ID	Name			Wwise Object Path	Notes
 	2754391325	props_pot			\Default Work Unit\Props\props_pot	
 	2774129122	ui_select			\Default Work Unit\UI\ui_select	
 	2909104693	player_slam_atk			\Default Work Unit\Player\player_slam_atk	
+	2924923878	lilnecro_fireball_atk			\Default Work Unit\Lil Necro\lilnecro_fireball_atk	
 	3004847309	amb_main			\Default Work Unit\AMB\amb_main	
 	3086941384	portal_idle			\Default Work Unit\SFX\portal_idle	
 	3131540599	player_slam_init			\Default Work Unit\Player\player_slam_init	
 	3157003241	TEST			\Default Work Unit\TEST	
 	3207324726	amb_fire			\Default Work Unit\AMB\amb_fire	
-	3227181061	Music_Stop			\Default Work Unit\Music\Music_Stop	
 	3262445596	lilnecro_atk			\Default Work Unit\Lil Necro\lilnecro_atk	
 	3336220324	skel_gethit			\Default Work Unit\Skeletons\skel_gethit	
 	3424642831	lilnecro_spwan			\Default Work Unit\Lil Necro\lilnecro_spwan	
@@ -57,11 +57,10 @@ Event	ID	Name			Wwise Object Path	Notes
 	3554795103	Combat1_Start			\Default Work Unit\Music\Combat1_Start	
 	3587827325	Transition_Start			\Default Work Unit\Music\Transition_Start	
 	3644427658	skel_slash			\Default Work Unit\Skeletons\skel_slash	
-	3725903807	Music_Start			\Default Work Unit\Music\Music_Start	
 	3825749273	sfx_crystal			\Default Work Unit\SFX\sfx_crystal	
-	3913127709	lilnecro_fireball			\Default Work Unit\Lil Necro\lilnecro_fireball	
 	3945457670	player_gethit			\Default Work Unit\Player\player_gethit	
 	4015037628	head_impact			\Default Work Unit\Head\head_impact	
+	4092755742	lilnecro_fireball_init			\Default Work Unit\Lil Necro\lilnecro_fireball_init	
 	4234617796	pest_bomb_expload			\Default Work Unit\Pest Bomb\pest_bomb_expload	
 	4272749033	props_cactus			\Default Work Unit\Props\props_cactus	
 	4275904075	player_bush_ext			\Default Work Unit\Player\player_bush_ext	
@@ -89,6 +88,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	33849619	player_gethit_01	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\player_gethit_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_gethit\player_gethit_01		121292
 	35430952	fs_player_dirt_05	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_player_dirt_05_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_fs\player_fs_dirt\fs_player_dirt_05		27274
 	42617762	fs_player_grass_01	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_player_grass_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_fs\player_fs_grass\fs_player_grass_01		26856
+	46449891	lilnecro_fireball_init	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\lilnecro_fireball_init_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Lil Necro\lilnecro_fireball_init		624096
 	49626874	fs_skel_gravel_08	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_skel_gravel_08_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Skeletons\skel_fs\skel_fs_gravel\fs_skel_gravel_08		46076
 	50507017	fs_player_gravel_08	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_player_gravel_08_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_fs\player_fs_gravel\fs_player_gravel_08		40176
 	51859721	bush_ent_02	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\bush_ent_02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_bush_ent\bush_ent_02		102096
@@ -218,7 +218,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	1023183490	lilnecro_spwan_atk	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\lilnecro_spwan_atk_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Lil Necro\lilnecro_spwan_atk		688224
 	1041017189	fs_player_grass_02	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\fs_player_grass_02_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\player_fs\player_fs_grass\fs_player_grass_02		29700
 	1063658389	props_rock_01	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\props_rock_01_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Props\props_rock\props_rock_01		527420
-	1067808686	lilnecro_fireball	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\lilnecro_fireball_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Lil Necro\lilnecro_fireball		815200
+	1067808686	lilnecro_fireball_atk	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\lilnecro_fireball_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\Lil Necro\lilnecro_fireball_atk		815200
 	1070028639	head_flying	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\head_flying_C019141F.wem		\Actor-Mixer Hierarchy\Default Work Unit\Head\head_flying		145028
 	1070834637	ui_error	Y:\Documents\GitHub\Lobber\Lobber_Wwise\.cache\Windows\SFX\ui_error_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\UI\ui_error		24748
 

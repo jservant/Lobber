@@ -182,7 +182,7 @@
 				</AcousticTexture>
 			</AcousticTextures>
 		</SoundBank>
-		<SoundBank Id="1496463651" Type="User" Language="SFX" Hash="{2FE113AA-3170-1931-BC40-2EFCE76FCD18}">
+		<SoundBank Id="1496463651" Type="User" Language="SFX" Hash="{11C17838-E220-A752-D90B-0DFCFD9C01B0}">
 			<ShortName>Bank_01</ShortName>
 			<Path>Bank_01.bnk</Path>
 			<Media>
@@ -213,6 +213,10 @@
 				<File Id="42617762" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fs_player_grass_01.wav</ShortName>
 					<CachePath>SFX/fs_player_grass_01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="46449891" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>lilnecro_fireball_init.wav</ShortName>
+					<CachePath>SFX/lilnecro_fireball_init_10C4C929.wem</CachePath>
 				</File>
 				<File Id="49626874" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fs_skel_gravel_08.wav</ShortName>
@@ -833,9 +837,14 @@
 						<MediaRef Id="254165928"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3913127709" Name="lilnecro_fireball">
+				<Event Id="2924923878" Name="lilnecro_fireball_atk">
 					<MediaRefs>
 						<MediaRef Id="1067808686"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="4092755742" Name="lilnecro_fireball_init">
+					<MediaRefs>
+						<MediaRef Id="46449891"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="2187088412" Name="lilnecro_idle">
@@ -860,8 +869,6 @@
 						<MediaRef Id="1023183490"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3725903807" Name="Music_Start"/>
-				<Event Id="3227181061" Name="Music_Stop"/>
 				<Event Id="4234617796" Name="pest_bomb_expload">
 					<MediaRefs>
 						<MediaRef Id="395551192"/>
@@ -1193,5 +1200,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{B27A0548-5556-4D63-7ED6-39A7E1D62252}</FileHash>
+	<FileHash>{C932BA42-32BB-CF30-94A4-CF75D71D9910}</FileHash>
 </SoundBanksInfo>
