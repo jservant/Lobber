@@ -3,7 +3,7 @@
 	<InteractiveMusic>
 		<WorkUnit Name="Default Work Unit" ID="{F43B963E-1E30-4B47-8131-8F9BC057EE78}" PersistMode="Standalone">
 			<ChildrenList>
-				<MusicSwitchContainer Name="Combat1" ID="{42443A06-C952-4B80-9911-63104AE2EF62}" ShortID="813870094">
+				<MusicSwitchContainer Name="Music" ID="{42443A06-C952-4B80-9911-63104AE2EF62}" ShortID="813870094">
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
@@ -371,41 +371,16 @@
 								</MusicPlaylistItem>
 							</Playlist>
 						</MusicPlaylistContainer>
-					</ChildrenList>
-					<TransitionList>
-						<MusicTransition Name="Root" ID="{16FB1DF5-4AB7-4F9C-B73C-672BFFCB0F7F}">
-							<PropertyList>
-								<Property Name="IsFolder" Type="bool" Value="True"/>
-							</PropertyList>
-							<ChildrenList>
-								<MusicTransition Name="Transition" ID="{047EAB76-8173-4EFE-89FD-C93D049D547D}">
-									<TransitionInfo/>
-								</MusicTransition>
-							</ChildrenList>
-							<TransitionInfo/>
-						</MusicTransition>
-					</TransitionList>
-				</MusicSwitchContainer>
-				<MusicSwitchContainer Name="Transition" ID="{21206243-3747-4BE3-BDA7-DF0C1E3540BA}" ShortID="358567385">
-					<PropertyList>
-						<Property Name="Tempo" Type="Real64" Value="200"/>
-					</PropertyList>
-					<ReferenceList>
-						<Reference Name="Conversion">
-							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
-						</Reference>
-						<Reference Name="OutputBus">
-							<ObjectRef Name="MSC" ID="{A7ED5BA2-7FEC-4670-86F5-EE7841828E5F}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
-						</Reference>
-					</ReferenceList>
-					<ChildrenList>
 						<MusicPlaylistContainer Name="Transition Music" ID="{21AC135E-EACE-49DE-82C8-CEAC18776EFC}" ShortID="292171177">
+							<PropertyList>
+								<Property Name="Tempo" Type="Real64" Value="200"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+									<ObjectRef Name="MSC" ID="{A7ED5BA2-7FEC-4670-86F5-EE7841828E5F}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
@@ -583,12 +558,19 @@
 						</MusicPlaylistContainer>
 					</ChildrenList>
 					<TransitionList>
-						<MusicTransition Name="Root" ID="{AA9ED2A5-AA7A-4DE5-9DBE-4DC9AAC8D07F}">
+						<MusicTransition Name="Root" ID="{16FB1DF5-4AB7-4F9C-B73C-672BFFCB0F7F}">
 							<PropertyList>
 								<Property Name="IsFolder" Type="bool" Value="True"/>
 							</PropertyList>
 							<ChildrenList>
-								<MusicTransition Name="Transition" ID="{78F3EEF9-C03E-4E1A-96D0-406B9C5CDACA}">
+								<MusicTransition Name="Transition" ID="{047EAB76-8173-4EFE-89FD-C93D049D547D}">
+									<PropertyList>
+										<Property Name="DestinationPlaylistJumpTo" Type="int16" Value="2"/>
+										<Property Name="EnableDestinationFadeIn" Type="bool" Value="True"/>
+										<Property Name="EnableSourceFadeOut" Type="bool" Value="True"/>
+										<Property Name="ExitSourceAt" Type="int16" Value="2"/>
+										<Property Name="PlayDestinationPreEntry" Type="bool" Value="False"/>
+									</PropertyList>
 									<TransitionInfo/>
 								</MusicTransition>
 							</ChildrenList>

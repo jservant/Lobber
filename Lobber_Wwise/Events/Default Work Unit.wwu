@@ -331,6 +331,8 @@
 								</Action>
 							</ChildrenList>
 						</Event>
+						<Event Name="Music_Start" ID="{77F0DBB5-277D-4EA7-8571-9EB66882CF12}"/>
+						<Event Name="Music_Stop" ID="{5DFD9FED-396D-47B9-8992-B96AC9A3F281}"/>
 					</ChildrenList>
 				</Folder>
 				<Folder Name="AMB" ID="{B28EA6F1-CF54-4CF7-B2EB-6DDC72C379E5}" ShortID="795440211">
@@ -476,6 +478,17 @@
 									<ReferenceList>
 										<Reference Name="Target">
 											<ObjectRef Name="portal_close" ID="{17DF6B1A-EA43-470C-B26E-CC995233E826}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="sfx_crystal" ID="{C53BD302-5606-435C-816A-061382118960}">
+							<ChildrenList>
+								<Action Name="" ID="{F8B71D52-FD01-4D54-9B7E-2DA96030079E}" ShortID="1015032462">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="sfx_crystal" ID="{C70DBEBC-68EE-469D-9ADE-140E4457D40E}" WorkUnitID="{D7D96722-B1DD-4907-8B59-D0C55E38D9CD}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>

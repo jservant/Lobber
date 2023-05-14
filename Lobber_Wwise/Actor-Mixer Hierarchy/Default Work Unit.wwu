@@ -3087,6 +3087,28 @@
 								<ActiveSource Name="portal_idle_close" ID="{F8FE44B7-6752-4A90-A5E5-8421AE315341}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
+						<Sound Name="sfx_crystal" ID="{C70DBEBC-68EE-469D-9ADE-140E4457D40E}" ShortID="152824030">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{35332AE4-60A5-470B-B964-897E42353099}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="sfx_crystal" ID="{B8DDA73F-D5EB-4552-9266-4A993B5A51CF}">
+									<Language>SFX</Language>
+									<AudioFile>sfx_crystal.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="730910615"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="sfx_crystal" ID="{B8DDA73F-D5EB-4552-9266-4A993B5A51CF}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
 					</ChildrenList>
 				</ActorMixer>
 				<ActorMixer Name="PestBomb" ID="{06BB7408-2D76-4694-9C6E-FD8D4BC670B4}" ShortID="434270064">

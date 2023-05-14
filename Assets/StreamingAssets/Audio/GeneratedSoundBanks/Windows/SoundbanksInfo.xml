@@ -182,7 +182,7 @@
 				</AcousticTexture>
 			</AcousticTextures>
 		</SoundBank>
-		<SoundBank Id="1496463651" Type="User" Language="SFX" Hash="{7ACF4896-DC15-7250-A1C4-CADC7374F22F}">
+		<SoundBank Id="1496463651" Type="User" Language="SFX" Hash="{2FE113AA-3170-1931-BC40-2EFCE76FCD18}">
 			<ShortName>Bank_01</ShortName>
 			<Path>Bank_01.bnk</Path>
 			<Media>
@@ -528,7 +528,7 @@
 				</File>
 				<File Id="643838728" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>ui_select.wav</ShortName>
-					<CachePath>SFX/ui_select_5B7BE57B.wem</CachePath>
+					<CachePath>SFX/ui_select_10C4C929.wem</CachePath>
 				</File>
 				<File Id="650088066" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>player_attack1_02.wav</ShortName>
@@ -561,6 +561,10 @@
 				<File Id="712810717" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>portal_idle_close.wav</ShortName>
 					<CachePath>SFX/portal_idle_close_BBE62D10.wem</CachePath>
+				</File>
+				<File Id="730910615" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sfx_crystal.wav</ShortName>
+					<CachePath>SFX/sfx_crystal_10C4C929.wem</CachePath>
 				</File>
 				<File Id="734646743" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>props_cactus_01.wav</ShortName>
@@ -628,7 +632,7 @@
 				</File>
 				<File Id="855748710" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>ui_hover.wav</ShortName>
-					<CachePath>SFX/ui_hover_35531379.wem</CachePath>
+					<CachePath>SFX/ui_hover_10C4C929.wem</CachePath>
 				</File>
 				<File Id="858779314" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>skel_death_01.wav</ShortName>
@@ -702,10 +706,6 @@
 					<ShortName>amb_crowd_applause_02.wav</ShortName>
 					<CachePath>SFX/amb_crowd_applause_02_10C4C929.wem</CachePath>
 				</File>
-				<File Id="999984685" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>lilnecro_fireball_init.wav</ShortName>
-					<CachePath>SFX/lilnecro_fireball_init_7113F2BA.wem</CachePath>
-				</File>
 				<File Id="1005504680" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>skel_dash_03.wav</ShortName>
 					<CachePath>SFX/skel_dash_03_10C4C929.wem</CachePath>
@@ -732,7 +732,7 @@
 				</File>
 				<File Id="1067808686" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>lilnecro_fireball.wav</ShortName>
-					<CachePath>SFX/lilnecro_fireball_9D155D28.wem</CachePath>
+					<CachePath>SFX/lilnecro_fireball_10C4C929.wem</CachePath>
 				</File>
 				<File Id="1070028639" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>head_flying.wav</ShortName>
@@ -740,7 +740,7 @@
 				</File>
 				<File Id="1070834637" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>ui_error.wav</ShortName>
-					<CachePath>SFX/ui_error_A2207FB2.wem</CachePath>
+					<CachePath>SFX/ui_error_10C4C929.wem</CachePath>
 				</File>
 			</Media>
 			<Plugins>
@@ -767,7 +767,6 @@
 						<MediaRef Id="793568326"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="4121068454" Name="amb_crowd_cheer_stop"/>
 				<Event Id="2212572404" Name="amb_crowd_stop"/>
 				<Event Id="3207324726" Name="amb_fire">
 					<MediaRefs>
@@ -810,7 +809,6 @@
 						<MediaRef Id="859643133"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="174203925" Name="head_golden_idle_stop"/>
 				<Event Id="4015037628" Name="head_impact">
 					<MediaRefs>
 						<MediaRef Id="96698159"/>
@@ -835,14 +833,9 @@
 						<MediaRef Id="254165928"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="2924923878" Name="lilnecro_fireball_atk">
+				<Event Id="3913127709" Name="lilnecro_fireball">
 					<MediaRefs>
 						<MediaRef Id="1067808686"/>
-					</MediaRefs>
-				</Event>
-				<Event Id="4092755742" Name="lilnecro_fireball_init">
-					<MediaRefs>
-						<MediaRef Id="999984685"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="2187088412" Name="lilnecro_idle">
@@ -867,6 +860,8 @@
 						<MediaRef Id="1023183490"/>
 					</MediaRefs>
 				</Event>
+				<Event Id="3725903807" Name="Music_Start"/>
+				<Event Id="3227181061" Name="Music_Stop"/>
 				<Event Id="4234617796" Name="pest_bomb_expload">
 					<MediaRefs>
 						<MediaRef Id="395551192"/>
@@ -1034,7 +1029,6 @@
 						<MediaRef Id="712810717"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="2122719207" Name="portal_idle_stop"/>
 				<Event Id="762878330" Name="portal_open">
 					<MediaRefs>
 						<MediaRef Id="271929651"/>
@@ -1069,6 +1063,11 @@
 						<MediaRef Id="224090648"/>
 						<MediaRef Id="329592252"/>
 						<MediaRef Id="578345464"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3825749273" Name="sfx_crystal">
+					<MediaRefs>
+						<MediaRef Id="730910615"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="2376412427" Name="skel_dash">
@@ -1194,5 +1193,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{AE3B15E3-3253-C37E-5E09-E33AA9043739}</FileHash>
+	<FileHash>{B27A0548-5556-4D63-7ED6-39A7E1D62252}</FileHash>
 </SoundBanksInfo>
