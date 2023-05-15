@@ -118,7 +118,7 @@ public class GameManager : MonoBehaviour {
 	public static float TokenCost_SmallSpawn = 20;
 	public static float TokenCost_MediumSpawn = 40;
 	public static float TokenCost_BigSpawn = 80;
-	public static float TokensPerSecond = 3.0f;
+	public static float TokensPerSecond = 3.5f;
 	public static int HighEnemies = 6;
 	public static int TargetEnemies = 4;
 	public static int LowEnemies = 2;
@@ -186,7 +186,7 @@ public class GameManager : MonoBehaviour {
 		meterImage = transform.Find("MainUI/MeterBar").GetComponent<Image>();
 		//inputDisplayUI = transform.Find("MainUI/InputDisplay").gameObject;
 		Time.timeScale = 1;
-		spawnTokens = 100;
+		spawnTokens = TokenCost_BigSpawn;
 		objectiveFadeTimer = 5f;
 		pickupTime = 0;
 
@@ -387,7 +387,9 @@ public class GameManager : MonoBehaviour {
 
 		// Manage Spawns
 		if (canSpawn && !transitioningLevel) {
-			spawnTokens += TokensPerSecond * Time.deltaTime;
+			float tps = TokensPerSecond;
+			if (enemiesAlive < 1) tps = TokensPerSecond * 3f;
+			spawnTokens += tps * Time.deltaTime;
 			if (enemiesAlive < HighEnemies) {
 				// Determine enemy amount
 				int amountEnemy = 0;
@@ -425,21 +427,21 @@ public class GameManager : MonoBehaviour {
 
 					case 1:
 						if (spawnTokens > TokenCost_SmallSpawn) {
-							amountEnemy = Random.Range(3, 4);
+							amountEnemy = Random.Range(SmallSpawn_Low, SmallSpawn_High);
 							spawnTokens -= TokenCost_SmallSpawn;
 						}
 						break;
 
 					case 2:
 						if (spawnTokens > TokenCost_MediumSpawn) {
-							amountEnemy = Random.Range(4, 5);
+							amountEnemy = Random.Range(MediumSpawn_Low, MediumSpawn_High);
 							spawnTokens -= TokenCost_MediumSpawn;
 						}
 						break;
 
 					case 3:
 						if (spawnTokens > TokenCost_BigSpawn) {
-							amountEnemy = Random.Range(5, 6);
+							amountEnemy = Random.Range(BigSpawn_Low, BigSpawn_High);
 							spawnTokens -= TokenCost_BigSpawn;
 						}
 						break;
@@ -831,10 +833,10 @@ public class GameManager : MonoBehaviour {
 
 	// NOTE(Ryan): Causes enemy spawns to scale with levelCount. Currently there is no cap...
 	public void UpdateSpawnerValues() {
-		TokensPerSecond += 0.5f;
-		TokenCost_SmallSpawn = 20f;
-		TokenCost_MediumSpawn = 40f;
-		TokenCost_BigSpawn = 80f;
+		TokensPerSecond = 3 + (levelCount * 0.5f);
+		TokenCost_SmallSpawn = levelCount * 2 + 20f;
+		TokenCost_MediumSpawn = levelCount * 4 + 40f;
+		TokenCost_BigSpawn = levelCount * 6 + 70f;
 		LowEnemies = Mathf.RoundToInt(levelCount * 0.5f) + 1;
 		TargetEnemies = levelCount + 3;
 		HighEnemies = (levelCount * 2) + 4;
@@ -849,6 +851,26 @@ public class GameManager : MonoBehaviour {
 		if (levelCount >= 2) ExplodingWeight = 1f;
 		if (levelCount >= 3) NecroWeight = 0.5f;
     }
+
+	public void ResetSpawnerValues() {
+		TokensPerSecond = 3.5f;
+		TokenCost_SmallSpawn = 20f;
+		TokenCost_MediumSpawn = 40f;
+		TokenCost_BigSpawn = 80f;
+		LowEnemies = 2;
+		TargetEnemies = 4;
+		HighEnemies = 6;
+		SmallSpawn_Low = 3;
+		SmallSpawn_High = 4;
+		MediumSpawn_Low = 4;
+		MediumSpawn_High = 5;
+		BigSpawn_Low = 5;
+		BigSpawn_High = 7;
+
+		//Enemy Weights
+		ExplodingWeight = 0f;
+		NecroWeight = 0f;
+	}
 
 	// NOTE(Ryan): Can be called to freeze the game for the time specified.
 	// Frames60 is the amount of time, based on a 16.66ms long frame
@@ -1047,6 +1069,7 @@ public class GameManager : MonoBehaviour {
 		enemyKillingGoal = 15;
 		crystalHarvestingGoal = 2;
 		enemiesKilledInRun = 0;
+		//ResetSpawnerValues(); this isn't working for some reason
 		Initializer.save.versionLatest.runsStarted++;
 		SceneManager.LoadScene((int)Scenes.GrassBridge);
 	}
