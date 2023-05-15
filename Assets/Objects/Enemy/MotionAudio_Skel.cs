@@ -66,4 +66,10 @@ public class MotionAudio_Skel : MonoBehaviour
     {
         Enemy_VO.Post(gameObject);
     }
+
+    public AK.Wwise.Event Enemy_CrystalShatter;
+
+    public void Sound_EnemyCrystalShatter() {
+        Enemy_CrystalShatter.Post(gameObject);
+    }
 }

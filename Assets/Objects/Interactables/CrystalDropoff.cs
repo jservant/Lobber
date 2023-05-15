@@ -7,6 +7,9 @@ public class CrystalDropoff : MonoBehaviour
     GameManager gameManager;
     PlayerController playerController;
 
+    public AK.Wwise.Event crystalDepo1;
+    public AK.Wwise.Event crystalDepo2;
+
     void Start()
     {
         gameManager = transform.Find("/GameManager").GetComponent<GameManager>();
@@ -17,6 +20,8 @@ public class CrystalDropoff : MonoBehaviour
 		if (other.gameObject.layer == (int)Layers.PlayerHurtbox && playerController.hasCrystal) {
             gameManager.SpawnParticle(10, transform.position, 0.8f);
             gameManager.SpawnParticle(11, transform.position, 1f);
+            crystalDepo1.Post(gameObject);
+            crystalDepo2.Post(gameObject);
             gameManager.crystalCount++;
             playerController.hasCrystal = false;
             for (var i = playerController.crystalHolster.childCount - 1; i >= 0; i--) {

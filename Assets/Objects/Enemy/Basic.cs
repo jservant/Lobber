@@ -1022,7 +1022,10 @@ public class Basic : MonoBehaviour {
 		gameMan.enemiesAlive -= 1;
 		gameMan.enemiesKilledInLevel += 1;
 		GameManager.enemiesKilledInRun += 1;
-		if (isCrystallized) { gameMan.isCrystalEnemyAlive = false; }
+		if (isCrystallized) { 
+			gameMan.isCrystalEnemyAlive = false;
+			sounds.Sound_EnemyCrystalShatter();
+		}
 		Initializer.save.versionLatest.basicEnemyKills++;
 	}
 
