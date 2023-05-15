@@ -141,7 +141,6 @@ public class GameManager : MonoBehaviour {
 	DebugActions dActions;
 	float frozenTime = 0;
 	bool transitioningLevel = false;
-	bool trackCrystalsOrPos = true;
 
 	[Header("Particle System:")]
 	public ParticleSystem[] particles;
@@ -352,8 +351,7 @@ public class GameManager : MonoBehaviour {
 				break;
 
 			case Objectives.HarvestTheCrystals:
-				if (trackCrystalsOrPos) objectiveText.text = "Crystals harvested: " + crystalCount + "/" + crystalHarvestingGoal;
-				else { objectiveText.text = "Crystal position: " + playerController.crystalHolster.position; }
+				objectiveText.text = "Crystals harvested: " + crystalCount + "/" + crystalHarvestingGoal;
 				if (crystalCount >= crystalHarvestingGoal && transitioningLevel == false) {
 					StartCoroutine(Win());
 				}
@@ -684,10 +682,6 @@ public class GameManager : MonoBehaviour {
 				}
 			}
 
-			if (playerController.pActions.Player.DEBUGHeal.WasPerformedThisFrame() && currentObjective == Objectives.HarvestTheCrystals) {
-				if (trackCrystalsOrPos == true) trackCrystalsOrPos = false;
-				else trackCrystalsOrPos = true;
-			}
 			if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed && playerController.pActions.Player.DEBUGRestart.WasPerformedThisFrame()) {
 				Debug.Log("Restart called");
 				ResetSpawnerValues();
@@ -751,6 +745,10 @@ public class GameManager : MonoBehaviour {
 					Time.timeScale = 0;
 					pauseBG.enabled = true;
 					pauseUI.enabled = true;
+					if (SceneManager.GetActiveScene().buildIndex == (int)Scenes.Tutorial) {
+						TMP_Text replayTutorialText = transform.Find("PauseUI/QuitToMenuButton/QuitToMenuButtonText").GetComponent<TMP_Text>();
+						replayTutorialText.text = "Replay Tutorial";
+					}
 					pauseGroup.interactable = true;
 					resumeButton.Select();
 				}
@@ -1061,6 +1059,7 @@ public class GameManager : MonoBehaviour {
 
 	public static void OnTutorialSkip() {
 		Initializer.save.versionLatest.tutorialComplete = true;
+		Initializer.Save();
 		SceneManager.LoadScene((int)Scenes.Tutorial);
 	}
 
@@ -1164,10 +1163,13 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void OnQuit() {
-		SceneManager.LoadScene((int)Scenes.Tutorial);
+		if (SceneManager.GetActiveScene().buildIndex == (int)Scenes.Tutorial) {
+			Initializer.save.versionLatest.tutorialComplete = false;
+		}
 		enemiesKilledInRun = 0;
 		Time.timeScale = 1;
 		Initializer.Save();
+		SceneManager.LoadScene((int)Scenes.Tutorial);
 	}
 
 	public void OnQuitToDesktop() {

@@ -20,8 +20,11 @@ public class TutorialManager : MonoBehaviour {
 	}
 
 	void Start() {
-		if (Initializer.save.versionLatest.tutorialComplete) { 
-			gameMan.playerController.transform.position = playerRespawnPoints[playerRespawnPoints.Length-1].position;
+		Initializer.Load();
+		gameMan.playerController.health = gameMan.playerController.healthMax;
+		if (skipTutorial) { Initializer.save.versionLatest.tutorialComplete = true; }
+		if (Initializer.save.versionLatest.tutorialComplete || skipTutorial) { 
+			gameMan.playerController.transform.position = playerRespawnPoints[playerRespawnPoints.Length-1].position; // spawn in main hub at the end
 		}
 	}
 
