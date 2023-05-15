@@ -724,6 +724,7 @@ public class PlayerController : MonoBehaviour {
 		mInput = Vector2.zero; movement = Vector3.zero;
 		currentState = States.Death;
 		gameMan.mainUI.enabled = false;
+		GameManager.ResetSpawnerValues();
 		capCol.enabled = false;
 		rb.useGravity = false;
 		spotLight.intensity = 0;

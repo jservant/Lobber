@@ -852,7 +852,7 @@ public class GameManager : MonoBehaviour {
 		if (levelCount >= 3) NecroWeight = 0.5f;
     }
 
-	public void ResetSpawnerValues() {
+	public static void ResetSpawnerValues() {
 		TokensPerSecond = 3.5f;
 		TokenCost_SmallSpawn = 20f;
 		TokenCost_MediumSpawn = 40f;
@@ -1070,6 +1070,7 @@ public class GameManager : MonoBehaviour {
 		enemyKillingGoal = 15;
 		crystalHarvestingGoal = 2;
 		enemiesKilledInRun = 0;
+		ResetSpawnerValues();
 		Initializer.save.versionLatest.runsStarted++;
 		SceneManager.LoadScene((int)Scenes.GrassBridge);
 	}

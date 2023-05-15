@@ -63,6 +63,7 @@ public class Necro : MonoBehaviour {
 
 	// NOTE(Roskuski): External references
 	GameManager gameMan;
+	private MotionAudio_Necro sounds;
 
 	void ChangeDirective_Spawn() {
 		// Why would we ever need to go back to spawn.
@@ -181,6 +182,7 @@ public class Necro : MonoBehaviour {
 
 				if (player != null) {
 					gameMan.SpawnParticle(0, other.transform.position, 1f);
+					sounds.Necro_GetHit();
 					
 					newKnockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
 					stunTime = AttackStunTimeTable[(int)player.currentAttack];
@@ -245,6 +247,7 @@ public class Necro : MonoBehaviour {
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 		ProjectileSpawnPoint = transform.Find("MAIN_JOINT/MidTorso_Joint/Chest_Joint/Neck_Joint/Head_Joint/Projectile Spawnpoint");
 		animator = this.GetComponent<Animator>();
+		sounds = GetComponent<MotionAudio_Necro>();
 		model = transform.Find("Lil_Necromancer").GetComponent<SkinnedMeshRenderer>();
 		materials = model.materials;
 
