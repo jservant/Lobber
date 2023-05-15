@@ -25,8 +25,8 @@ public class GameManager : MonoBehaviour {
 	public static int storedPlayerHealth = 0;
 	public static float storedPlayerMeter = 0;
 	public static int enemiesKilledInRun = 0;
-	public static int enemyKillingGoal = 20;
-	public static int crystalHarvestingGoal = 3;
+	public static int enemyKillingGoal = 15;
+	public static int crystalHarvestingGoal = 2;
 	public static int shrineDestroyingGoal = 3;
 	public static int shrineMaxHealth = 15;
 	public static int pickupDropChance = 0;
@@ -114,14 +114,20 @@ public class GameManager : MonoBehaviour {
 
 	[SerializeField] float spawnTokens;
 
-	[Header("Spawn tokens:")]
-	public const float TokenCost_SmallSpawn = 20;
-	public const float TokenCost_MediumSpawn = 30;
-	public const float TokenCost_BigSpawn = 40;
-	public const float TokensPerSecond = 3.0f;
-	public const int HighEnemies = 6;
-	public const int TargetEnemies = 4;
-	public const int LowEnemies = 2;
+	[Header("Spawner Variables:")]
+	public static float TokenCost_SmallSpawn = 20;
+	public static float TokenCost_MediumSpawn = 40;
+	public static float TokenCost_BigSpawn = 80;
+	public static float TokensPerSecond = 3.0f;
+	public static int HighEnemies = 6;
+	public static int TargetEnemies = 4;
+	public static int LowEnemies = 2;
+	public static int SmallSpawn_Low = 3;
+	public static int SmallSpawn_High = 4;
+	public static int MediumSpawn_Low = 4;
+	public static int MediumSpawn_High = 5;
+	public static int BigSpawn_Low = 5;
+	public static int BigSpawn_High = 7;
 
 	[Header("Bools:")]
 	public bool updateTimeScale = true;
@@ -358,7 +364,23 @@ public class GameManager : MonoBehaviour {
 		UpdateHealthBar();
 		UpdateMeter();
 		UpdateIcons(); //if (inputDisplayUI.activeSelf == true) {  }
-		//debugText.text = "" + spawnTokens;
+		debugText.text = "LevelCount: " + levelCount +
+			"\n" + "Tokens per Second: " + TokensPerSecond +
+			"\n" + "Current Tokens:  " + Mathf.RoundToInt(spawnTokens) +
+			"\n" + "Spawn Rates- " +
+			"\n" + "Small: " + TokenCost_SmallSpawn +
+			"\n" + "Med:   " + TokenCost_MediumSpawn +
+			"\n" + "Large: " + TokenCost_BigSpawn +
+			"\n" + "Enemy Numbers- " +
+			"\n" + "Low:    " + LowEnemies +
+			"\n" + "Target: " + TargetEnemies +
+			"\n" + "High:   " + HighEnemies +
+			"\n" + "Enemy Spawns- " +
+			"\n" + "Small: " + SmallSpawn_Low + ", " + SmallSpawn_High +
+			"\n" + "Med:   " + MediumSpawn_Low + ", " + MediumSpawn_High +
+			"\n" + "Large: " + BigSpawn_Low + ", " + BigSpawn_High +
+			"\n" + "Enemies Alive: " + enemiesAlive;
+
 
 		// Manage Spawns
 		if (canSpawn && !transitioningLevel) {
@@ -771,9 +793,10 @@ public class GameManager : MonoBehaviour {
 			storedPlayerHealth = playerController.health;
 			storedPlayerMeter = playerController.meter;
 			levelCount++;
+			UpdateSpawnerValues();
 			switch (currentObjective) {
 				case Objectives.KillTheEnemies:
-					enemyKillingGoal += 10;
+					enemyKillingGoal += 15;
 					break;
 
 				case Objectives.DestroyTheShrines:
@@ -802,6 +825,23 @@ public class GameManager : MonoBehaviour {
 			SceneManager.LoadScene(Util.RollWeightedChoice(sceneChances));
 		}
 	}
+
+	// NOTE(Ryan): Causes enemy spawns to scale with levelCount. Currently there is no cap...
+	public void UpdateSpawnerValues() {
+		TokensPerSecond += 0.5f;
+		TokenCost_SmallSpawn = 20f;
+		TokenCost_MediumSpawn = 40f;
+		TokenCost_BigSpawn = 80f;
+		LowEnemies = Mathf.RoundToInt(levelCount * 0.5f) + 1;
+		TargetEnemies = levelCount + 3;
+		HighEnemies = (levelCount * 2) + 4;
+		SmallSpawn_Low = Mathf.RoundToInt(levelCount * 0.25f) + 4;
+		SmallSpawn_High = SmallSpawn_Low + 2;
+		MediumSpawn_Low = Mathf.RoundToInt(levelCount * 0.5f) + 6;
+		MediumSpawn_High = MediumSpawn_Low + 2;
+		BigSpawn_Low = Mathf.RoundToInt(levelCount * 0.75f) + 7;
+		BigSpawn_High = BigSpawn_Low + 2;
+    }
 
 	// NOTE(Ryan): Can be called to freeze the game for the time specified.
 	// Frames60 is the amount of time, based on a 16.66ms long frame
@@ -997,8 +1037,8 @@ public class GameManager : MonoBehaviour {
 		storedPlayerHealth = 10;
 		storedPlayerMeter = 3;
 		levelCount = 1;
-		enemyKillingGoal = 20;
-		crystalHarvestingGoal = 3;
+		enemyKillingGoal = 15;
+		crystalHarvestingGoal = 2;
 		enemiesKilledInRun = 0;
 		Initializer.save.versionLatest.runsStarted++;
 		SceneManager.LoadScene((int)Scenes.GrassBridge);
