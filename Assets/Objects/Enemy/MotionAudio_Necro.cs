@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class MotionAudio_Necro : MonoBehaviour
 {
+    public AK.Wwise.Event NecroGetHit;
+
+    public void Necro_GetHit() {
+        NecroGetHit.Post(gameObject);
+    }
+
     public AK.Wwise.Event NecroSpawn;
 
     public void Necro_Spawn() {
@@ -20,5 +26,11 @@ public class MotionAudio_Necro : MonoBehaviour
 
     public void Necro_Fireball() {
         NecroFireball.Post(gameObject);
+    }
+
+    public AK.Wwise.Event NecroDeath;
+
+    public void Necro_Death() {
+        NecroDeath.Post(gameObject);
     }
 }

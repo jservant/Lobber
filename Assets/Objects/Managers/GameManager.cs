@@ -66,6 +66,7 @@ public class GameManager : MonoBehaviour {
 	public TMP_Text objectiveText;
 	public TMP_Text debugText;
 	public Image waypointMarker;
+	public bool debugTextActive;
 
 	public Transform healthBar;
 	public Transform meterBar;
@@ -367,7 +368,7 @@ public class GameManager : MonoBehaviour {
 		UpdateHealthBar();
 		UpdateMeter();
 		UpdateIcons(); //if (inputDisplayUI.activeSelf == true) {  }
-		debugText.text = "LevelCount: " + levelCount +
+		if (debugTextActive) debugText.text = "LevelCount: " + levelCount +
 			"\n" + "Tokens per Second: " + TokensPerSecond +
 			"\n" + "Current Tokens:  " + Mathf.RoundToInt(spawnTokens) +
 			"\n" + "Spawn Rates- " +
@@ -689,6 +690,7 @@ public class GameManager : MonoBehaviour {
 			}
 			if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed && playerController.pActions.Player.DEBUGRestart.WasPerformedThisFrame()) {
 				Debug.Log("Restart called");
+				ResetSpawnerValues();
 				SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 			}
 			if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed && playerController.pActions.Player.DEBUGHeal.WasPerformedThisFrame()) {
@@ -1069,7 +1071,6 @@ public class GameManager : MonoBehaviour {
 		enemyKillingGoal = 15;
 		crystalHarvestingGoal = 2;
 		enemiesKilledInRun = 0;
-		//ResetSpawnerValues(); this isn't working for some reason
 		Initializer.save.versionLatest.runsStarted++;
 		SceneManager.LoadScene((int)Scenes.GrassBridge);
 	}

@@ -11,6 +11,8 @@ public class NecroProjectile : MonoBehaviour {
 	// NOTE(Roskuski): External references
 	GameManager gameMan;
 
+	public AK.Wwise.Event Fireball;
+
 	void Start() {
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 
@@ -61,6 +63,7 @@ public class NecroProjectile : MonoBehaviour {
 	}
 
     private void OnDestroy() {
+		Fireball.Post(gameObject);
 		gameMan.SpawnParticle(9, transform.position, 1f);
     }
 }

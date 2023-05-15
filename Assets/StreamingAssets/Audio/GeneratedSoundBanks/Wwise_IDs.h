@@ -29,7 +29,8 @@ namespace AK
         static const AkUniqueID HEAD_PICKUP = 2586367166U;
         static const AkUniqueID LILNECRO_ATK = 3262445596U;
         static const AkUniqueID LILNECRO_DEATH = 3515863408U;
-        static const AkUniqueID LILNECRO_FIREBALL = 3913127709U;
+        static const AkUniqueID LILNECRO_FIREBALL_ATK = 2924923878U;
+        static const AkUniqueID LILNECRO_FIREBALL_INIT = 4092755742U;
         static const AkUniqueID LILNECRO_IDLE = 2187088412U;
         static const AkUniqueID LILNECRO_IDLE_STOP = 1789607403U;
         static const AkUniqueID LILNECRO_ORB_IDLE = 2603926142U;
@@ -63,6 +64,7 @@ namespace AK
         static const AkUniqueID PROPS_POT = 2754391325U;
         static const AkUniqueID PROPS_ROCK = 1871795543U;
         static const AkUniqueID PROPS_WOOD = 729588163U;
+        static const AkUniqueID SFX_CRYSTAL = 3825749273U;
         static const AkUniqueID SKEL_DASH = 2376412427U;
         static const AkUniqueID SKEL_DEATH = 1504289659U;
         static const AkUniqueID SKEL_FS = 855030670U;

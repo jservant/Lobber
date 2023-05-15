@@ -4126,6 +4126,18 @@
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="lilnecro_spwan" ID="{545069D2-2803-4685-A147-2D716A884BC2}" ShortID="380444406">
+							<PropertyList>
+								<Property Name="MakeUpGain" Type="Real64">
+									<ValueList>
+										<Value>7</Value>
+									</ValueList>
+								</Property>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>5</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
@@ -4136,6 +4148,11 @@
 							</ReferenceList>
 							<ChildrenList>
 								<AudioFileSource Name="lilnecro_spwan" ID="{BBA4B107-6B96-4F5F-9034-F144C81C5626}">
+									<PropertyList>
+										<Property Name="FadeOutDuration" Type="Real64" Value="0.665954415954416"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimEnd" Type="Real64" Value="1.57407407407407"/>
+									</PropertyList>
 									<Language>SFX</Language>
 									<AudioFile>lilnecro_spwan.wav</AudioFile>
 									<MediaIDList>
@@ -4202,6 +4219,13 @@
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="lilnecro_fireball_atk" ID="{BC484D54-CDE4-4734-8B37-B4C7071EEDFC}" ShortID="510501612">
+							<PropertyList>
+								<Property Name="MakeUpGain" Type="Real64">
+									<ValueList>
+										<Value>6</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{92B0D329-6921-43BD-A229-F81E7E599636}"/>
@@ -4212,10 +4236,16 @@
 							</ReferenceList>
 							<ChildrenList>
 								<AudioFileSource Name="lilnecro_fireball_atk" ID="{811D63CB-5736-4E60-AA42-651633B21E56}">
+									<PropertyList>
+										<Property Name="FadeOutDuration" Type="Real64" Value="0.411228869895536"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimBegin" Type="Real64" Value="0.949454890788224"/>
+										<Property Name="TrimEnd" Type="Real64" Value="2.22547388414055"/>
+									</PropertyList>
 									<Language>SFX</Language>
 									<AudioFile>lilnecro_fireball.wav</AudioFile>
 									<MediaIDList>
-										<MediaID ID="1067808686"/>
+										<MediaID ID="516943423"/>
 									</MediaIDList>
 								</AudioFileSource>
 							</ChildrenList>
