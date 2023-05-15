@@ -257,8 +257,7 @@ public class PlayerController : MonoBehaviour {
 	CapsuleCollider capCol;
 	Rigidbody rb;
 	public Animator animr;
-	MeshRenderer headMesh;
-	TrailRenderer headMeshTrail;
+	public MeshRenderer[] headMesh;
 	HeadProjectile headProj;
 	Transform projSpawn;
 	Transform[] shotgunProjSpawns;
@@ -328,8 +327,6 @@ public class PlayerController : MonoBehaviour {
 		model = transform.Find("Lobber").GetComponent<SkinnedMeshRenderer>();
 		materials = model.materials;
 
-		headMesh = transform.Find("Weapon_Controller/Hitbox/StoredHead").GetComponent<MeshRenderer>();
-		headMeshTrail = transform.Find("Weapon_Controller/Hitbox/StoredHead").GetComponent<TrailRenderer>();
 		axeGetKnockbackInfo = transform.Find("Weapon_Controller/Hitbox").GetComponent<GetKnockbackInfo>();
 		projSpawn = transform.Find("MainProjSpawn");
 		shotgunProjSpawns = transform.Find("ShotgunSpawns").GetComponentsInChildren<Transform>();
@@ -458,6 +455,7 @@ public class PlayerController : MonoBehaviour {
 
 		if (health > healthMax) { health = healthMax; }
 		if (meter > meterMax) { meter = meterMax; }
+		UpdateAxeMesh();
 
 		hitflashTimer -= Time.deltaTime;
 		Material[] materialList = model.materials;
@@ -637,6 +635,13 @@ public class PlayerController : MonoBehaviour {
 
 	}
 
+	public void UpdateAxeMesh() {
+		for (int i = 0; i < headMesh.Length; i++) {
+			if (meter >= i + 1) headMesh[i].enabled = true;
+			else headMesh[i].enabled = false;
+        }
+    }
+
 	//@TODO(Jaden): Add i-frames and trigger hitstun state when hit
 	private void OnTriggerEnter(Collider other) {
 		if (immunityTime <= 0 && currentAttack != Attacks.Slam && currentAttack != Attacks.Spin && currentAttack != Attacks.LethalDash&& currentAttack != Attacks.ShotgunThrow && !godMode) {
@@ -736,12 +741,10 @@ public class PlayerController : MonoBehaviour {
 		if (frenzyTimer > 0) return;
 		meter += Amount;
 		if (meter >= 1) {
-			headMesh.enabled = true;
-			headMeshTrail.enabled = true;
+			
 		}
 		else {
-			headMesh.enabled = false;
-			headMeshTrail.enabled = false;
+			
 		}
 		if (meter < 0) { meter = 0; }
 	}
