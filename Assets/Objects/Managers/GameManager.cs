@@ -146,8 +146,8 @@ public class GameManager : MonoBehaviour {
 	public ParticleSystem[] particles;
 	public GameObject[] corpses;
 
-	public RenderPipelineAsset[] qualityLevels;
-	Resolution[] resolutions;
+	public static RenderPipelineAsset[] qualityLevels;
+	public static Resolution[] resolutions;
 
 	void Awake() {
 		player = transform.Find("/Player");
