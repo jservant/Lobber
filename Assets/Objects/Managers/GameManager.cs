@@ -128,6 +128,9 @@ public class GameManager : MonoBehaviour {
 	public static int MediumSpawn_High = 5;
 	public static int BigSpawn_Low = 5;
 	public static int BigSpawn_High = 7;
+	public static float BasicWeight = 9f;
+	public static float ExplodingWeight = 0f;
+	public static float NecroWeight = 0f;
 
 	[Header("Bools:")]
 	public bool updateTimeScale = true;
@@ -462,7 +465,7 @@ public class GameManager : MonoBehaviour {
 					int amountExploding = 0;
 					int amountNecro = 0;
 					for (int count = 0; count < amountEnemy; count += 1) {
-						int choiceEnemyKind = Util.RollWeightedChoice(new float[] {9f, 0f, 0f});
+						int choiceEnemyKind = Util.RollWeightedChoice(new float[] {BasicWeight, ExplodingWeight, NecroWeight}); //9f, 1f, 0.5f
 						switch (choiceEnemyKind) {
 							case 0:
 								amountBasic += 1;
@@ -841,6 +844,10 @@ public class GameManager : MonoBehaviour {
 		MediumSpawn_High = MediumSpawn_Low + 2;
 		BigSpawn_Low = Mathf.RoundToInt(levelCount * 0.75f) + 7;
 		BigSpawn_High = BigSpawn_Low + 2;
+
+		//Enemy Weights
+		if (levelCount >= 2) ExplodingWeight = 1f;
+		if (levelCount >= 3) NecroWeight = 0.5f;
     }
 
 	// NOTE(Ryan): Can be called to freeze the game for the time specified.

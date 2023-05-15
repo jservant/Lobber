@@ -476,4 +476,11 @@ public class Necro : MonoBehaviour {
 			Projectile = null;
 		}
 	}
+
+    private void OnDestroy() {
+		gameMan.enemiesAlive -= 1;
+		gameMan.enemiesKilledInLevel += 1;
+		GameManager.enemiesKilledInRun += 1;
+		Initializer.save.versionLatest.necroEnemyKills++;
+	}
 }
