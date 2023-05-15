@@ -146,7 +146,7 @@ public class GameManager : MonoBehaviour {
 	public ParticleSystem[] particles;
 	public GameObject[] corpses;
 
-	public static RenderPipelineAsset[] qualityLevels;
+	public RenderPipelineAsset[] qualityLevels;
 	public static Resolution[] resolutions;
 
 	void Awake() {
@@ -644,7 +644,7 @@ public class GameManager : MonoBehaviour {
 		}
 
 		if (debugTools) {
-			if (!isMenuOpen) {
+			if (Time.timeScale > 0.9) { // if game is not paused
 				{ // Spawn at point
 					GameObject toSpawn = null;
 					Vector3 offset = Vector3.zero;
