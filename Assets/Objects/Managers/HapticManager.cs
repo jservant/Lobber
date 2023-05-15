@@ -47,10 +47,10 @@ public class HapticManager : MonoBehaviour
             highSpeedMotor = Mathf.Clamp01(highSpeedComponent + highSpeedMotor);
         }
 
-        Gamepad.current.SetMotorSpeeds(lowSpeedMotor, highSpeedMotor);
+        if (Gamepad.current != null) Gamepad.current.SetMotorSpeeds(lowSpeedMotor, highSpeedMotor);
     }
 
     private void OnDestroy() {
-        Gamepad.current.SetMotorSpeeds(0, 0);
+        if (Gamepad.current != null) Gamepad.current.SetMotorSpeeds(0, 0);
     }
 }
