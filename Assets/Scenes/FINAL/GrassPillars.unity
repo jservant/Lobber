@@ -1066,6 +1066,18 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 5538400430953488799, guid: 503c7388493b55f498bd320b41d1ce62, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5538400430953488799, guid: 503c7388493b55f498bd320b41d1ce62, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5538400430953488799, guid: 503c7388493b55f498bd320b41d1ce62, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 503c7388493b55f498bd320b41d1ce62, type: 3}
 --- !u!4 &141058618 stripped
@@ -6124,7 +6136,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8169673146224190137, guid: 0d6e2d7e34e7fc94992ef7a7cf74aa0b, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 9123252153752328333, guid: 0d6e2d7e34e7fc94992ef7a7cf74aa0b, type: 3}
       propertyPath: m_RootOrder
@@ -6842,6 +6854,31 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 394ee7d3a9c29d14eabe9e5e0c8faa84, type: 3}
   m_PrefabInstance: {fileID: 193817397}
   m_PrefabAsset: {fileID: 0}
+--- !u!21 &194433919
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Custom_GrassComputeHLSL(Clone)
+  m_Shader: {fileID: 4800000, guid: 723972bb23543f14e8d7f08492cc3de2, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Floats:
+    - _AmbientAdjustment: 0
+    - _BlendFloor: 0
+    - _Fade: 0.25
+    m_Colors: []
+  m_BuildTextureStacks: []
 --- !u!4 &202030968 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6302859208067862655, guid: 8b4cd23f1b5ea634984ccd3f9dfb72bf, type: 3}
@@ -7205,7 +7242,7 @@ MonoBehaviour:
   castShadow: 0
   interactors:
   - {fileID: 170243034}
-  m_InstantiatedMaterial: {fileID: 931203342}
+  m_InstantiatedMaterial: {fileID: 194433919}
 --- !u!114 &228609535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41374,31 +41411,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!21 &931203342
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Custom_GrassComputeHLSL(Clone)
-  m_Shader: {fileID: 4800000, guid: 723972bb23543f14e8d7f08492cc3de2, type: 3}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Floats:
-    - _AmbientAdjustment: 0
-    - _BlendFloor: 0
-    - _Fade: 0.25
-    m_Colors: []
-  m_BuildTextureStacks: []
 --- !u!1001 &942663809
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -71393,6 +71405,18 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 5538400430953488799, guid: 503c7388493b55f498bd320b41d1ce62, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5538400430953488799, guid: 503c7388493b55f498bd320b41d1ce62, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5538400430953488799, guid: 503c7388493b55f498bd320b41d1ce62, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 503c7388493b55f498bd320b41d1ce62, type: 3}
 --- !u!1 &1195303482
@@ -98275,7 +98299,7 @@ PrefabInstance:
     - target: {fileID: 5279011673171124770, guid: 8f00f5a075f8700409b13346c7eb48fd, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: ccfadd129077d9c48a88a1a503feaf35, type: 2}
+      objectReference: {fileID: 2100000, guid: 245644bfcbc534e45aae1985df878991, type: 2}
     - target: {fileID: 6810362395436627914, guid: 8f00f5a075f8700409b13346c7eb48fd, type: 3}
       propertyPath: m_Materials.Array.data[5]
       value: 
