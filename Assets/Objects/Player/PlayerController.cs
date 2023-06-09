@@ -303,7 +303,7 @@ public class PlayerController : MonoBehaviour {
 	public float meterMax = 5;
 	public float hitflashTimer = 0;
 	public float frenzyTimer = 0f;
-	public bool hasCrystal = false;
+	public int crystalCount = 0;
 
 	KnockbackInfo knockbackInfo = new KnockbackInfo(Quaternion.identity, 0, 0);
 	public float remainingKnockbackTime;
@@ -642,7 +642,6 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-	//@TODO(Jaden): Add i-frames and trigger hitstun state when hit
 	private void OnTriggerEnter(Collider other) {
 		if (immunityTime <= 0 && currentAttack != Attacks.Slam && currentAttack != Attacks.Spin && currentAttack != Attacks.LethalDash&& currentAttack != Attacks.ShotgunThrow && !godMode) {
 			if (other.gameObject.layer == (int)Layers.EnemyHitbox && remainingKnockbackTime <= 0) { // player is getting hit
@@ -653,11 +652,13 @@ public class PlayerController : MonoBehaviour {
 					switch (otherBasic.currentAttack) {
 						case Basic.Attack.Slash:
 							damage = 1;
+							DropCrystals();
 							break;
 
 						case Basic.Attack.Lunge:
 							damage = 2;
-							break;
+                            DropCrystals();
+                            break;
 
 						default:
 							Debug.Assert(false);
@@ -667,14 +668,16 @@ public class PlayerController : MonoBehaviour {
 				}
 				else if (otherNecroProjectile != null) {
 					Hit(3, other);
-				}
-			}
+                    DropCrystals();
+                }
+            }
 			else if (other.gameObject.layer == (int)Layers.AgnosticHitbox) {
 				if (other.GetComponentInParent<Exploding>() != null) {
 					// NOTE(Roskuski): Explosive enemy
 					Hit(3, other);
-				}
-			}
+                    DropCrystals();
+                }
+            }
 		}
 
 		if (other.gameObject.layer == (int)Layers.Pickup) {
@@ -683,10 +686,22 @@ public class PlayerController : MonoBehaviour {
 				headPickup.collected = true;
 				if (headPickup.pickupType == Pickup.Type.Skull) sounds.Sound_HeadPickup();
 				if (headPickup.pickupType == Pickup.Type.Health) sounds.Sound_HealthPickup();
-				if (headPickup.pickupType != Pickup.Type.Crystal && !hasCrystal) GameObject.Destroy(other.transform.gameObject);
+				//TODO(@Jaden): Add a crystal pickup sound if we have it
 			}
 		}
 	}
+
+	void DropCrystals() {
+        for (int i = 0; i < crystalCount; i++) {
+            gameMan.DeterminePickups(transform.position, true);
+        }
+        crystalCount = 0;
+		gameMan.crystalCountText.text = "";
+		gameMan.crystalPickupImage.enabled = false;
+        for (var i = crystalHolster.childCount - 1; i >= 0; i--) {
+            Destroy(crystalHolster.GetChild(i).gameObject);
+        }
+    }
 
 	#region Combat functions
 	public void Hit(int damageTaken, Collider other) {

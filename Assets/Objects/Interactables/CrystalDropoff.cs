@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CrystalDropoff : MonoBehaviour
 {
@@ -17,13 +18,14 @@ public class CrystalDropoff : MonoBehaviour
     }
 
 	private void OnTriggerEnter(Collider other) {
-		if (other.gameObject.layer == (int)Layers.PlayerHurtbox && playerController.hasCrystal) {
+		if (other.gameObject.layer == (int)Layers.PlayerHurtbox && playerController.crystalCount > 0) {
             gameManager.SpawnParticle(10, transform.position, 0.8f);
             gameManager.SpawnParticle(11, transform.position, 1f);
             crystalDepo1.Post(gameObject);
             crystalDepo2.Post(gameObject);
-            gameManager.crystalCount++;
-            playerController.hasCrystal = false;
+            gameManager.crystalCount += playerController.crystalCount;
+            playerController.crystalCount = 0;
+            gameManager.crystalCountText.text = "";
             for (var i = playerController.crystalHolster.childCount - 1; i >= 0; i--) {
                 Destroy(playerController.crystalHolster.GetChild(i).gameObject);
             }

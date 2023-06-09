@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour {
 	[Header("UI")]
 	public Canvas mainUI;
 	public Image crystalPickupImage;
+	public TMP_Text crystalCountText;
 	public Canvas pauseBG;
 	public Button resumeButton;
 	public Button tutorialSkipButton;
@@ -162,6 +163,8 @@ public class GameManager : MonoBehaviour {
 		eSystem = GetComponent<EventSystem>();
 		mainUI = transform.Find("MainUI").GetComponent<Canvas>();
 		crystalPickupImage = transform.Find("MainUI/HasCrystalImage").GetComponent<Image>();
+		crystalCountText = transform.Find("MainUI/CrystalCountText").GetComponent<TMP_Text>();
+		crystalCountText.text = "";
 		pauseBG = transform.Find("PauseBG").GetComponent<Canvas>();
 		resumeButton = transform.Find("PauseUI/ResumeButton").GetComponent<Button>();
 		tutorialSkipUI = transform.Find("TutorialSkipUI").GetComponent<Canvas>();
@@ -912,6 +915,7 @@ public class GameManager : MonoBehaviour {
 		forceScript.hasHead = hasHead;
     }
 
+	// NOTE(@Jaden): Pickup determining function that's called on enemy death
 	public void DeterminePickups(Vector3 position, bool isCrystallized) {
 		float meterBeforeUse = playerController.meter + PlayerController.AttackMeterCost[(int)playerController.currentAttack];
 		if (playerController.currentAttack == PlayerController.Attacks.None) {
@@ -921,7 +925,7 @@ public class GameManager : MonoBehaviour {
 		float skullChance = (60 / playerController.meterMax) * (playerController.meterMax - meterBeforeUse);
 		int healthChance = (35 / playerController.healthMax) * (playerController.healthMax - playerController.health);
 
-		if (isCrystallized == true && playerController.hasCrystal == false) {
+		if (isCrystallized == true) {
 			skullChance = 0;
 			healthChance = 0;
 			SpawnPickup((int)Pickup.Type.Crystal, position);

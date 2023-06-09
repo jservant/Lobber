@@ -67,7 +67,7 @@ public class OrbSpawn : MonoBehaviour {
 			}
 			else {
 				GameObject basicInstance = Instantiate(gameMan.BasicPrefab, this.transform.position + Vector3.down * 1.5f, Quaternion.AngleAxis(angle, Vector3.up));
-				if (GameManager.currentObjective == GameManager.Objectives.HarvestTheCrystals && !gameMan.isCrystalEnemyAlive && !gameMan.playerController.hasCrystal) {
+				if (GameManager.currentObjective == GameManager.Objectives.HarvestTheCrystals && !gameMan.isCrystalEnemyAlive && gameMan.playerController.crystalCount == 0) {
 					gameMan.isCrystalEnemyAlive = true;
 					basicInstance.GetComponent<Basic>().isCrystallized = true;
 					SkinnedMeshRenderer basicModel = basicInstance.transform.Find("Skeleton_Base_Model").GetComponent<SkinnedMeshRenderer>();

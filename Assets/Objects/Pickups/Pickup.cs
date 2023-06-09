@@ -194,10 +194,14 @@ public class Pickup : MonoBehaviour {
 					playerController.health += healthValue;
 					break;
 				case Type.Crystal:
-					playerController.hasCrystal = true;
-					GameObject crystalPatchInstance = Instantiate(gameMan.crystalPatch, playerController.crystalHolster.position, playerController.crystalHolster.rotation); //Quaternion.Euler(36.385f, -172.617f, -42.411f)
+					playerController.crystalCount++;
+					GameObject crystalPatchInstance = Instantiate(gameMan.crystalPatch, playerController.crystalHolster.position, playerController.crystalHolster.rotation);
 					crystalPatchInstance.transform.parent = playerController.crystalHolster;
+					//TODO(@Jaden): Add a way to spawn a new UI image for each crystal held going right by a degree of units
 					gameMan.crystalPickupImage.enabled = true;
+					if (playerController.crystalCount > 1) {
+						gameMan.crystalCountText.text = "x" + playerController.crystalCount;
+					}
 					gameMan.waypointMarker.enabled = true;
 					gameMan.waypointTracking = true;
 					break;
