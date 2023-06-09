@@ -23,6 +23,12 @@ namespace AK
         static const AkUniqueID AXE_HIT_WOOD = 979945107U;
         static const AkUniqueID COMBAT1_START = 3554795103U;
         static const AkUniqueID COMBAT1_STOP = 2415455525U;
+        static const AkUniqueID COMBAT2_START = 2537374756U;
+        static const AkUniqueID COMBAT2_STOP = 184393560U;
+        static const AkUniqueID COMBAT3_START = 3796035609U;
+        static const AkUniqueID COMBAT3_STOP = 3920336883U;
+        static const AkUniqueID COMBAT4_START = 1549724702U;
+        static const AkUniqueID COMBAT4_STOP = 752702910U;
         static const AkUniqueID HEAD_FLYING = 375965827U;
         static const AkUniqueID HEAD_GOLDEN_IDLE = 3507359558U;
         static const AkUniqueID HEAD_IMPACT = 4015037628U;

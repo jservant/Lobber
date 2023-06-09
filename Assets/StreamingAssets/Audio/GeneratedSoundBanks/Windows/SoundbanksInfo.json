@@ -557,7 +557,7 @@
     "Id": "1496463651",
     "Type": "User",
     "Language": "SFX",
-    "Hash": "{E0880C44-B4B3-B626-C7BD-C8E7C7081971}",
+    "Hash": "{F5F51647-2A5C-DA8B-29D2-4037B22F585B}",
     "ShortName": "Bank_01",
     "Path": "Bank_01.bnk",
     "Media": [
@@ -994,6 +994,14 @@
       "CachePath": "SFX/skel_gethit_04_10C4C929.wem"
      },
      {
+      "Id": "320448142",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "lobber_mx_combat2-desert_loop.wav",
+      "CachePath": "SFX/lobber_mx_combat2-desert_loop_D79FB2B7.wem"
+     },
+     {
       "Id": "329592252",
       "Language": "SFX",
       "Streaming": "false",
@@ -1090,6 +1098,14 @@
       "CachePath": "SFX/props_pot_10C4C929.wem"
      },
      {
+      "Id": "436858640",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "lobber_mx_combat1_loop.wav",
+      "CachePath": "SFX/lobber_mx_combat1_loop_D79FB2B7.wem"
+     },
+     {
       "Id": "443484975",
       "Language": "SFX",
       "Streaming": "false",
@@ -1183,7 +1199,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "lilnecro_fireball.wav",
-      "CachePath": "SFX/lilnecro_fireball_A3D2AC10.wem"
+      "CachePath": "SFX/lilnecro_fireball_A9FE8723.wem"
      },
      {
       "Id": "530298481",
@@ -1383,7 +1399,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "lilnecro_spwan.wav",
-      "CachePath": "SFX/lilnecro_spwan_D6BD92DF.wem"
+      "CachePath": "SFX/lilnecro_spwan_3D61283B.wem"
      },
      {
       "Id": "780375067",
@@ -1504,6 +1520,14 @@
       "Location": "Memory",
       "ShortName": "axe_hit_wood_01.wav",
       "CachePath": "SFX/axe_hit_wood_01_10C4C929.wem"
+     },
+     {
+      "Id": "866221458",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "lobber_mx_combat3-crystal_loop.wav",
+      "CachePath": "SFX/lobber_mx_combat3-crystal_loop_D79FB2B7.wem"
      },
      {
       "Id": "872431774",
@@ -1817,6 +1841,60 @@
      {
       "Id": "2415455525",
       "Name": "Combat1_Stop",
+      "MaxAttenuation": "0",
+      "DurationType": "OneShot",
+      "DurationMin": "0",
+      "DurationMax": "0"
+     },
+     {
+      "Id": "2537374756",
+      "Name": "Combat2_Start",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "436858640"
+       }
+      ]
+     },
+     {
+      "Id": "184393560",
+      "Name": "Combat2_Stop",
+      "MaxAttenuation": "0",
+      "DurationType": "OneShot",
+      "DurationMin": "0",
+      "DurationMax": "0"
+     },
+     {
+      "Id": "3796035609",
+      "Name": "Combat3_Start",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "320448142"
+       }
+      ]
+     },
+     {
+      "Id": "3920336883",
+      "Name": "Combat3_Stop",
+      "MaxAttenuation": "0",
+      "DurationType": "OneShot",
+      "DurationMin": "0",
+      "DurationMax": "0"
+     },
+     {
+      "Id": "1549724702",
+      "Name": "Combat4_Start",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "866221458"
+       }
+      ]
+     },
+     {
+      "Id": "752702910",
+      "Name": "Combat4_Stop",
       "MaxAttenuation": "0",
       "DurationType": "OneShot",
       "DurationMin": "0",
@@ -2834,6 +2912,6 @@
     ]
    }
   ],
-  "FileHash": "{6EC6EFB1-83BA-F1BF-4D45-0E56A0C694AB}"
+  "FileHash": "{2A9C8E1C-A721-8DF5-03DA-737CF1B6C599}"
  }
 }

@@ -182,7 +182,7 @@
 				</AcousticTexture>
 			</AcousticTextures>
 		</SoundBank>
-		<SoundBank Id="1496463651" Type="User" Language="SFX" Hash="{E0880C44-B4B3-B626-C7BD-C8E7C7081971}">
+		<SoundBank Id="1496463651" Type="User" Language="SFX" Hash="{F5F51647-2A5C-DA8B-29D2-4037B22F585B}">
 			<ShortName>Bank_01</ShortName>
 			<Path>Bank_01.bnk</Path>
 			<Media>
@@ -402,6 +402,10 @@
 					<ShortName>skel_gethit_04.wav</ShortName>
 					<CachePath>SFX/skel_gethit_04_10C4C929.wem</CachePath>
 				</File>
+				<File Id="320448142" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>lobber_mx_combat2-desert_loop.wav</ShortName>
+					<CachePath>SFX/lobber_mx_combat2-desert_loop_D79FB2B7.wem</CachePath>
+				</File>
 				<File Id="329592252" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>props_wood_02.wav</ShortName>
 					<CachePath>SFX/props_wood_02_10C4C929.wem</CachePath>
@@ -450,6 +454,10 @@
 					<ShortName>props_pot.wav</ShortName>
 					<CachePath>SFX/props_pot_10C4C929.wem</CachePath>
 				</File>
+				<File Id="436858640" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>lobber_mx_combat1_loop.wav</ShortName>
+					<CachePath>SFX/lobber_mx_combat1_loop_D79FB2B7.wem</CachePath>
+				</File>
 				<File Id="443484975" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>skel_spawn_jump.wav</ShortName>
 					<CachePath>SFX/skel_spawn_jump_10C4C929.wem</CachePath>
@@ -496,7 +504,7 @@
 				</File>
 				<File Id="516943423" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>lilnecro_fireball.wav</ShortName>
-					<CachePath>SFX/lilnecro_fireball_A3D2AC10.wem</CachePath>
+					<CachePath>SFX/lilnecro_fireball_A9FE8723.wem</CachePath>
 				</File>
 				<File Id="530298481" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fs_skel_gravel_02.wav</ShortName>
@@ -596,7 +604,7 @@
 				</File>
 				<File Id="778018502" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>lilnecro_spwan.wav</ShortName>
-					<CachePath>SFX/lilnecro_spwan_D6BD92DF.wem</CachePath>
+					<CachePath>SFX/lilnecro_spwan_3D61283B.wem</CachePath>
 				</File>
 				<File Id="780375067" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fs_player_grass_06.wav</ShortName>
@@ -657,6 +665,10 @@
 				<File Id="865623118" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>axe_hit_wood_01.wav</ShortName>
 					<CachePath>SFX/axe_hit_wood_01_10C4C929.wem</CachePath>
+				</File>
+				<File Id="866221458" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>lobber_mx_combat3-crystal_loop.wav</ShortName>
+					<CachePath>SFX/lobber_mx_combat3-crystal_loop_D79FB2B7.wem</CachePath>
 				</File>
 				<File Id="872431774" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>player_attack1_01.wav</ShortName>
@@ -803,6 +815,24 @@
 					</MediaRefs>
 				</Event>
 				<Event Id="2415455525" Name="Combat1_Stop" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="2537374756" Name="Combat2_Start" DurationType="Infinite">
+					<MediaRefs>
+						<MediaRef Id="436858640"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="184393560" Name="Combat2_Stop" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="3796035609" Name="Combat3_Start" DurationType="Infinite">
+					<MediaRefs>
+						<MediaRef Id="320448142"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3920336883" Name="Combat3_Stop" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="1549724702" Name="Combat4_Start" DurationType="Infinite">
+					<MediaRefs>
+						<MediaRef Id="866221458"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="752702910" Name="Combat4_Stop" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="375965827" Name="head_flying" DurationType="OneShot" DurationMin="0.7548448" DurationMax="0.7548448">
 					<MediaRefs>
 						<MediaRef Id="1070028639"/>
@@ -1200,5 +1230,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{E870EC48-C35C-4222-27E8-8332234F3E6E}</FileHash>
+	<FileHash>{82CC95C9-6A09-0897-0BBF-E67A94E7B04D}</FileHash>
 </SoundBanksInfo>

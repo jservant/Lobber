@@ -322,10 +322,89 @@
 								<Action Name="" ID="{6EF30621-5BA4-424A-BE1A-08EA74644599}" ShortID="368783457">
 									<PropertyList>
 										<Property Name="ActionType" Type="int16" Value="2"/>
+										<Property Name="FadeTime" Type="Real64" Value="0.5"/>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Target">
 											<ObjectRef Name="Transition Music" ID="{21AC135E-EACE-49DE-82C8-CEAC18776EFC}" WorkUnitID="{F43B963E-1E30-4B47-8131-8F9BC057EE78}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Combat2_Start" ID="{AC91439B-221A-479E-9408-925E92802CC9}">
+							<ChildrenList>
+								<Action Name="" ID="{B42D0454-E0BD-409D-8D82-E297E7726214}" ShortID="857731569">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Combat2" ID="{C8B5C33B-046C-47BF-BADC-AA14A64D6155}" WorkUnitID="{F43B963E-1E30-4B47-8131-8F9BC057EE78}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Combat2_Stop" ID="{1D267330-E14E-40A4-90D5-D1ABA674772A}">
+							<ChildrenList>
+								<Action Name="" ID="{96B761DE-808E-41C9-87EE-276823C705A1}" ShortID="177209474">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="2"/>
+										<Property Name="FadeTime" Type="Real64" Value="0.5"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Combat2" ID="{C8B5C33B-046C-47BF-BADC-AA14A64D6155}" WorkUnitID="{F43B963E-1E30-4B47-8131-8F9BC057EE78}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Combat3_Start" ID="{F20ED667-6337-49BE-B5D6-AEBE222DE677}">
+							<ChildrenList>
+								<Action Name="" ID="{0476B952-1FC4-444F-870A-F5D17147D525}" ShortID="910663777">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Combat3" ID="{5B4E8623-38F5-4B29-9CAC-3FB96CB4EDDD}" WorkUnitID="{F43B963E-1E30-4B47-8131-8F9BC057EE78}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Combat3_Stop" ID="{3568F429-356D-4DA7-95EE-557628044B85}">
+							<ChildrenList>
+								<Action Name="" ID="{D1F01720-01AB-4D88-9804-0B75598DC3BC}" ShortID="502128632">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="2"/>
+										<Property Name="FadeTime" Type="Real64" Value="0.5"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Combat3" ID="{5B4E8623-38F5-4B29-9CAC-3FB96CB4EDDD}" WorkUnitID="{F43B963E-1E30-4B47-8131-8F9BC057EE78}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Combat4_Start" ID="{45ECEA36-C7BA-448D-BB30-F086E0AA8906}">
+							<ChildrenList>
+								<Action Name="" ID="{B823892C-BF13-459E-990A-5046ADBC4382}" ShortID="293335611">
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Combat4" ID="{F1A85F1E-DA42-4E06-8F1C-647A25CBE4ED}" WorkUnitID="{F43B963E-1E30-4B47-8131-8F9BC057EE78}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="Combat4_Stop" ID="{571E0033-4554-4B73-9603-7EDE3B34C3A6}">
+							<ChildrenList>
+								<Action Name="" ID="{F85BEA6E-FFB1-4B52-8A35-85F3C5D6AFF7}" ShortID="855367758">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="2"/>
+										<Property Name="FadeTime" Type="Real64" Value="0.5"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Combat4" ID="{F1A85F1E-DA42-4E06-8F1C-647A25CBE4ED}" WorkUnitID="{F43B963E-1E30-4B47-8131-8F9BC057EE78}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>

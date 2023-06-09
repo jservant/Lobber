@@ -66,7 +66,6 @@ public class GameManager : MonoBehaviour {
 	public TMP_Text objectiveText;
 	public TMP_Text debugText;
 	public Image waypointMarker;
-	public bool debugTextActive;
 
 	public Transform healthBar;
 	public Transform meterBar;
@@ -137,6 +136,7 @@ public class GameManager : MonoBehaviour {
 	public bool updateTimeScale = true;
 	public bool canSpawn = true;
 	public bool debugTools = true;
+	public bool debugTextActive;
 	public bool waypointTracking = true;
 	DebugActions dActions;
 	float frozenTime = 0;
@@ -381,7 +381,10 @@ public class GameManager : MonoBehaviour {
 			"\n" + "Small: " + SmallSpawn_Low + ", " + SmallSpawn_High +
 			"\n" + "Med:   " + MediumSpawn_Low + ", " + MediumSpawn_High +
 			"\n" + "Large: " + BigSpawn_Low + ", " + BigSpawn_High +
-			"\n" + "Enemies Alive: " + enemiesAlive;
+			"\n" + "Enemies Alive: " + enemiesAlive +
+			"\n" + "Basic Weight: " + BasicWeight +
+			"\n" + "Explo Weight: " + ExplodingWeight +
+			"\n" + "Necro Weight: " + NecroWeight;
 
 
 		// Manage Spawns
@@ -848,8 +851,17 @@ public class GameManager : MonoBehaviour {
 		BigSpawn_High = BigSpawn_Low + 2;
 
 		//Enemy Weights
-		if (levelCount >= 2) ExplodingWeight = 1f;
-		if (levelCount >= 3) NecroWeight = 0.5f;
+		if (levelCount >= 2) {
+			float randomWeight = Random.Range(1f, 4f);
+
+			ExplodingWeight = randomWeight;
+		}
+
+		if (levelCount >= 3) {
+			float randomWeight = Random.Range(0.5f, 2f);
+
+			NecroWeight = randomWeight;
+		}
     }
 
 	public static void ResetSpawnerValues() {
