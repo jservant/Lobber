@@ -7,6 +7,7 @@ public class CrystalDropoff : MonoBehaviour
 {
     GameManager gameManager;
     PlayerController playerController;
+    public static SpriteRenderer indicator;
 
     public AK.Wwise.Event crystalDepo1;
     public AK.Wwise.Event crystalDepo2;
@@ -14,6 +15,8 @@ public class CrystalDropoff : MonoBehaviour
     void Start()
     {
         gameManager = transform.Find("/GameManager").GetComponent<GameManager>();
+        indicator = transform.Find("CrystalDropoffIndicator/Sprite").GetComponent<SpriteRenderer>();
+        indicator.enabled = false;
         playerController = gameManager.playerController;
     }
 
@@ -32,6 +35,7 @@ public class CrystalDropoff : MonoBehaviour
             gameManager.crystalPickupImage.enabled = false;
             gameManager.waypointMarker.enabled = false;
             gameManager.waypointTracking = false;
-		}
-	}
+            indicator.enabled = false;
+        }
+    }
 }

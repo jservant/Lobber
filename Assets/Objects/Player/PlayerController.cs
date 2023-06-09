@@ -701,6 +701,7 @@ public class PlayerController : MonoBehaviour {
         for (var i = crystalHolster.childCount - 1; i >= 0; i--) {
             Destroy(crystalHolster.GetChild(i).gameObject);
         }
+		CrystalDropoff.indicator.enabled = false;
     }
 
 	#region Combat functions
