@@ -341,7 +341,7 @@ public class GameManager : MonoBehaviour {
 
 			case Objectives.KillTheEnemies:
 				objectiveText.text = "Enemies killed: " + enemiesKilledInLevel + "/" + enemyKillingGoal;
-				if (enemiesKilledInLevel >= enemyKillingGoal && enemiesAlive <= 0 && transitioningLevel == false) {
+				if (enemiesKilledInLevel >= enemyKillingGoal && transitioningLevel == false) {
 					StartCoroutine(Win());
 				}
 				break;
@@ -826,7 +826,7 @@ public class GameManager : MonoBehaviour {
 					break;
 
 				case Objectives.HarvestTheCrystals:
-					crystalHarvestingGoal += 1;
+					crystalHarvestingGoal += 2;
 					break;
 
 				default:
