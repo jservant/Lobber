@@ -132,6 +132,7 @@ public class Necro : MonoBehaviour {
 		if (directive != Directive.Death) {
 			directive = Directive.Death;
 			currentAttack = Attack.None;
+			gameObject.layer = (int)Layers.Corpses;
 
 			if (Projectile != null) {
 				Destroy(Projectile);
@@ -169,7 +170,7 @@ public class Necro : MonoBehaviour {
 	};
 
 	void OnTriggerEnter(Collider other) {
-		if (!isImmune) {
+		if (!isImmune && directive != Directive.Death) {
 			KnockbackInfo newKnockbackInfo = new KnockbackInfo(Quaternion.identity, 0, 0);
 			StunTime stunTime = StunTime.None;
 			float damage = 0f;
