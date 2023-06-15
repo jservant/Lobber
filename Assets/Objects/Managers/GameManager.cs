@@ -718,6 +718,11 @@ public class GameManager : MonoBehaviour {
 				if (inputDisplayUI.activeSelf == true) { inputDisplayUI.SetActive(false); }
 				else { inputDisplayUI.SetActive(true); }
 			}*/
+			if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed && playerController.pActions.Player.DEBUGSlowTime.WasPerformedThisFrame()) {
+				if (Time.timeScale > 0) {
+					Time.timeScale -= 0.1f;
+                }
+			}
 		}
 
 		if (playerController.pActions.Player.Pause.WasPerformedThisFrame()) {

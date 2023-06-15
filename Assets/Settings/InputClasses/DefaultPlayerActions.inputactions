@@ -139,6 +139,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "DEBUGSlowTime",
+                    "type": "Button",
+                    "id": "e23c149d-bc17-4af0-a2f9-50241e5c90fa",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -508,7 +517,7 @@
                 {
                     "name": "",
                     "id": "699e3330-07a9-4a9b-8ca5-aa1482fd8fc5",
-                    "path": "<Gamepad>/dpad/down",
+                    "path": "<Gamepad>/dpad/right",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -590,6 +599,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Zoom",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e43028d3-fe78-4518-bcd6-c04549ac0e1f",
+                    "path": "<Gamepad>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "DEBUGSlowTime",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
