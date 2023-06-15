@@ -692,16 +692,19 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void DropCrystals() {
-        for (int i = 0; i < crystalCount; i++) {
-            gameMan.DeterminePickups(transform.position, true);
-        }
-        crystalCount = 0;
-		gameMan.crystalCountText.text = "";
-		gameMan.crystalPickupImage.enabled = false;
-        for (var i = crystalHolster.childCount - 1; i >= 0; i--) {
-            Destroy(crystalHolster.GetChild(i).gameObject);
-        }
-		CrystalDropoff.indicator.enabled = false;
+		if (crystalCount > 0) {
+			for (int i = 0; i < crystalCount; i++) {
+				Vector3 pos = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
+				gameMan.DeterminePickups(pos, true);
+			}
+			crystalCount = 0;
+			gameMan.crystalCountText.text = "";
+			gameMan.crystalPickupImage.enabled = false;
+			for (var i = crystalHolster.childCount - 1; i >= 0; i--) {
+				Destroy(crystalHolster.GetChild(i).gameObject);
+			}
+			CrystalDropoff.indicator.enabled = false;
+		}
     }
 
 	#region Combat functions
@@ -731,7 +734,7 @@ public class PlayerController : MonoBehaviour {
 		//trigger haptics here
 		if (GameObject.Find("HapticManager") != null) HapticManager.PlayEffect(hapticEffects[0], this.transform.position);
 		gameMan.ShakeCamera(5f, 0.1f);
-
+		sounds.CharacterGetHit();
 		immunityTime = 0.25f;
 	}
 

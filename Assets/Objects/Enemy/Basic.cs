@@ -295,6 +295,7 @@ public class Basic : MonoBehaviour {
 			StunTime stunTime = StunTime.None;
 			float damage = 0f;
 			float meterGain = 0f;
+			bool playHitSound = false;
 
 			if (other.gameObject.layer == (int)Layers.PlayerHitbox) {
 				HeadProjectile head = other.GetComponentInParent<HeadProjectile>();
@@ -309,6 +310,7 @@ public class Basic : MonoBehaviour {
 					stunTime = AttackStunTimeTable[(int)player.currentAttack];
 					damage = PlayerController.AttackDamageTable[(int)player.currentAttack];
 					meterGain = AttackMeterGainOnHitTable[(int)player.currentAttack];
+					playHitSound = true;
 
 					// Attack specific code
 					switch (gameMan.playerController.currentAttack) {
@@ -328,6 +330,7 @@ public class Basic : MonoBehaviour {
 							wasHitByChop = true;
 							gameMan.SpawnParticle(12, other.transform.position, 1.5f);
 							sounds.Sound_EnemyLob();
+							playHitSound = false;
 							gameMan.ShakeCamera(5f, 0.1f);
 							if (GameObject.Find("HapticManager") != null) HapticManager.PlayEffect(player.hapticEffects[2], this.transform.position);
 							break;
@@ -342,11 +345,13 @@ public class Basic : MonoBehaviour {
 					// NOTE(Roskuski): Head projectial direct hit
 					gameMan.SpawnParticle(0, other.transform.position, 2f);
 					damage = 8f;
+					playHitSound = true;
 				}
 				else if (explosiveTrap != null) {
 					// NOTE(Roskuski): Knockback trap
 					newKnockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
 					stunTime = StunTime.Long;
+					playHitSound = true;
 				}
 			}
 			else if (other.gameObject.layer == (int)Layers.AgnosticHitbox) {
@@ -356,9 +361,11 @@ public class Basic : MonoBehaviour {
 					stunTime = StunTime.Long;
 					newKnockbackInfo.force *= 2f;
 					damage = 8f;
+					playHitSound = true;
 				}
 			}
 
+			if (playHitSound) sounds.CharacterGetHit();
 			health -= damage;
 			gameMan.playerController.ChangeMeter(meterGain);
 			ChangeDirective_Stunned(stunTime, newKnockbackInfo);

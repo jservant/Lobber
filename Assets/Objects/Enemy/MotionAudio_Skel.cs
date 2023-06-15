@@ -6,7 +6,7 @@ public class MotionAudio_Skel : MonoBehaviour
 {
     public AK.Wwise.Event Enemy_GetHit;
     
-    void CharacterGetHit()
+    public void CharacterGetHit()
     {
         Enemy_GetHit.Post(gameObject);
     }
