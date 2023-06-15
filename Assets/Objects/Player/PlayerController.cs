@@ -686,7 +686,10 @@ public class PlayerController : MonoBehaviour {
 				headPickup.collected = true;
 				if (headPickup.pickupType == Pickup.Type.Skull) sounds.Sound_HeadPickup();
 				if (headPickup.pickupType == Pickup.Type.Health) sounds.Sound_HealthPickup();
-				//TODO(@Jaden): Add a crystal pickup sound if we have it
+				if (headPickup.pickupType == Pickup.Type.Crystal) {
+					sounds.Sound_HeadPickup();
+					sounds.Sound_CrystalPickup();
+				}
 			}
 		}
 	}
@@ -704,6 +707,9 @@ public class PlayerController : MonoBehaviour {
 				Destroy(crystalHolster.GetChild(i).gameObject);
 			}
 			CrystalDropoff.indicator.enabled = false;
+
+			sounds.Sound_CrystalDrop();
+			sounds.Sound_CrystalPickup();
 		}
     }
 

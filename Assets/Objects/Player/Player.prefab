@@ -1594,7 +1594,7 @@ MonoBehaviour:
   meterMax: 8
   hitflashTimer: 0
   frenzyTimer: 0
-  hasCrystal: 0
+  crystalCount: 0
   remainingKnockbackTime: 0
   targetSphereRadius: 2
 --- !u!114 &3072909949348366208
@@ -1697,7 +1697,7 @@ MonoBehaviour:
   m_Camera: {fileID: 0}
 --- !u!95 &7073111912668329517
 Animator:
-  serializedVersion: 3
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1710,10 +1710,12 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!54 &4132700523214471530
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1845,6 +1847,14 @@ MonoBehaviour:
     idInternal: 0
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: fffdd6b20c82b044dbaaaffc66fb1b45, type: 2}
+  CrystalPickup:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 8279cf07ea1d51547bd9f400e9a77f00, type: 2}
+  CrystalDrop:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 3ba5e84eb0579b746827b47dbc1f14ea, type: 2}
 --- !u!114 &6734317139091190991
 MonoBehaviour:
   m_ObjectHideFlags: 0

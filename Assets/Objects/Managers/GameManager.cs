@@ -340,6 +340,7 @@ public class GameManager : MonoBehaviour {
 				break;
 
 			case Objectives.KillTheEnemies:
+				if (enemiesKilledInLevel > enemyKillingGoal) enemiesKilledInLevel = enemyKillingGoal;
 				objectiveText.text = "Enemies killed: " + enemiesKilledInLevel + "/" + enemyKillingGoal;
 				if (enemiesKilledInLevel >= enemyKillingGoal && transitioningLevel == false) {
 					StartCoroutine(Win());

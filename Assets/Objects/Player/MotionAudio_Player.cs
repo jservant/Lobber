@@ -135,4 +135,16 @@ public class MotionAudio_Player : MonoBehaviour
     public void Sound_HealthPickup() {
         HealthPickup.Post(gameObject);
     }
+
+    public AK.Wwise.Event CrystalPickup;
+
+    public void Sound_CrystalPickup() {
+        CrystalPickup.Post(gameObject);
+    }
+
+    public AK.Wwise.Event CrystalDrop;
+
+    public void Sound_CrystalDrop() {
+        CrystalDrop.Post(gameObject);
+    }
 }
