@@ -860,18 +860,44 @@ public class GameManager : MonoBehaviour {
 		BigSpawn_High = BigSpawn_Low + 2;
 
 		//Enemy Weights
+		float randomWeight;
+
 		if (levelCount >= 2) {
-			float randomWeight = Random.Range(1f, 4f);
+			randomWeight = Random.Range(0.5f, 1f);
 
 			ExplodingWeight = randomWeight;
 		}
 
 		if (levelCount >= 3) {
-			float randomWeight = Random.Range(0.5f, 2f);
+			randomWeight = 0.5f;
 
 			NecroWeight = randomWeight;
 		}
-    }
+
+		if (levelCount >= 4) {
+			randomWeight = Random.Range(0.5f, 2f);
+			ExplodingWeight = randomWeight;
+
+			randomWeight = 0.5f;
+			NecroWeight = randomWeight;
+		}
+
+		if (levelCount >= 8) {
+			randomWeight = Random.Range(0.5f, 3f);
+			ExplodingWeight = randomWeight;
+
+			randomWeight = Random.Range(0.5f, 1f);
+			NecroWeight = randomWeight;
+		}
+
+		if (levelCount >= 12) {
+			randomWeight = Random.Range(0.5f, 4f);
+			ExplodingWeight = randomWeight;
+
+			randomWeight = Random.Range(0.5f, 1.5f);
+			NecroWeight = randomWeight;
+		}
+	}
 
 	public static void ResetSpawnerValues() {
 		TokensPerSecond = 3.5f;
