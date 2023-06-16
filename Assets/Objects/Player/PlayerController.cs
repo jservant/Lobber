@@ -165,8 +165,8 @@ public class PlayerController : MonoBehaviour {
 		0f, // None
 		1f, // LAttack
 		1f, // LAttack2
-		2f, // LAttack3
-		8f, // Chop (Should be enough to kill a basic in one hit)
+		3f, // LAttack3
+		5f, // Chop (Should be enough to kill a basic in one hit)
 		0f, // Slam (Special case, Slam does different damages at different radii)
 		2f, // Spin
 		0f, // HeadThrow (Hit + Damage is handled by the projectile, we shouldn't even get a hit while in this attack)

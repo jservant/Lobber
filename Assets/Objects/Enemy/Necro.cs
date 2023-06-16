@@ -196,10 +196,10 @@ public class Necro : MonoBehaviour {
 							float posDifference = Mathf.Abs((player.transform.position - transform.position).sqrMagnitude);
 							Debug.Log(gameObject.name + "'s posDifference after slam: " + posDifference);
 							if (posDifference < 40f) {
-								damage = 8f;
+								damage = 5f;
 							} 
 							else if (posDifference < 80f) {
-								damage = 4f;
+								damage = 3f;
 							} 
 							break;
 
@@ -219,7 +219,7 @@ public class Necro : MonoBehaviour {
 				else if (head != null) {
 					// NOTE(Roskuski): Head projectial direct hit
 					gameMan.SpawnParticle(0, other.transform.position, 2f);
-					damage = 8f;
+					damage = 5f;
 				}
 				else if (explosiveTrap != null) {
 					// NOTE(Roskuski): Knockback trap
@@ -233,7 +233,7 @@ public class Necro : MonoBehaviour {
 					newKnockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
 					stunTime = StunTime.Long;
 					newKnockbackInfo.force *= 2f;
-					damage = 8f;
+					damage = 5f;
 				}
 			}
 

@@ -2449,7 +2449,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   directive: 0
   hitflashMat: {fileID: 2100000, guid: 27625c58fe45e654f9e128ba019e7db7, type: 2}
-  health: 4
+  health: 3
 --- !u!54 &1119766912951405162
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2468,7 +2468,7 @@ Rigidbody:
   m_CollisionDetection: 0
 --- !u!95 &2122840787548723549
 Animator:
-  serializedVersion: 3
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -2481,10 +2481,12 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &2938298979415412994
 MonoBehaviour:
   m_ObjectHideFlags: 0
