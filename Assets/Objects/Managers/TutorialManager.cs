@@ -12,8 +12,9 @@ public class TutorialManager : MonoBehaviour {
 	public int areasCompleted = 0;
 	public bool targetsExist;
 	public bool skipTutorial;
+    public static bool firstTimeSinceBoot = true;
 
-	private void Awake() {
+    private void Awake() {
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 		player = transform.Find("/Player");
 		UpdateAreas();
@@ -22,10 +23,21 @@ public class TutorialManager : MonoBehaviour {
 	void Start() {
 		Initializer.Load();
 		gameMan.playerController.health = gameMan.playerController.healthMax;
+		int spawnChooser = 0;
 		if (skipTutorial) { Initializer.save.versionLatest.tutorialComplete = true; }
-		if (Initializer.save.versionLatest.tutorialComplete || skipTutorial) { 
-			gameMan.playerController.transform.position = playerRespawnPoints[playerRespawnPoints.Length-1].position; // spawn in main hub at the end
+		if (Initializer.save.versionLatest.tutorialComplete || skipTutorial) {
+			if (firstTimeSinceBoot == false) {
+				spawnChooser = playerRespawnPoints.Length - 2;
+				gameMan.playerController.transform.position = playerRespawnPoints[spawnChooser].position;
+			} // spawn in main hub at the end
+			else {
+				spawnChooser = playerRespawnPoints.Length - 1;
+                gameMan.playerController.transform.position = playerRespawnPoints[playerRespawnPoints.Length - 1].position; // spawn in hub close to portal
+			}
+            firstTimeSinceBoot = false;
 		}
+		Debug.Log("Is the tutorial completed: " + Initializer.save.versionLatest.tutorialComplete);
+		Debug.Log("Player is spawning at " + playerRespawnPoints[spawnChooser].gameObject.name);
 	}
 
 	// Update is called once per frame
