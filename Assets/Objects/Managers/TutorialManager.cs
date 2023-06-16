@@ -48,9 +48,10 @@ public class TutorialManager : MonoBehaviour {
 			UpdateAreas();
 		}
 
-		if (player.position.z > 65f) {
+		if (areasCompleted > 4) {
 			areasCompleted = 6;
 			Initializer.save.versionLatest.tutorialComplete = true;
+			Initializer.Save();
 			UpdateSpawns();
 		}
 	}
