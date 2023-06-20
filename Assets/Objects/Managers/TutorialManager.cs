@@ -21,7 +21,6 @@ public class TutorialManager : MonoBehaviour {
 	}
 
 	void Start() {
-		Initializer.Load();
 		gameMan.playerController.health = gameMan.playerController.healthMax;
 		int spawnChooser = 0;
 		if (skipTutorial) { Initializer.save.versionLatest.tutorialComplete = true; }

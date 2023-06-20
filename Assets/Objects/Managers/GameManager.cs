@@ -51,6 +51,8 @@ public class GameManager : MonoBehaviour {
 	public CanvasGroup tutorialSkipGroup;
 	public Canvas pauseUI;
 	public CanvasGroup pauseGroup;
+	public Canvas cancelConfirmUI;
+	public CanvasGroup cancelConfirmGroup;
 	public Canvas optionsUI;
 	public CanvasGroup optionsGroup;
 	public Canvas audioUI;
@@ -151,6 +153,7 @@ public class GameManager : MonoBehaviour {
 	public static Resolution[] resolutions;
 
 	void Awake() {
+		Initializer.Load();
 		player = transform.Find("/Player");
 		playerController = player.GetComponent<PlayerController>();
 		if (player != null) {
@@ -172,6 +175,8 @@ public class GameManager : MonoBehaviour {
 		tutorialSkipButton = transform.Find("TutorialSkipUI/YesButton").GetComponent<Button>();
 		pauseUI = transform.Find("PauseUI").GetComponent<Canvas>();
 		pauseGroup = transform.Find("PauseUI").GetComponent<CanvasGroup>();
+		cancelConfirmUI = transform.Find("CancelConfirmUI").GetComponent<Canvas>();
+		cancelConfirmGroup = transform.Find("CancelConfirmUI").GetComponent<CanvasGroup>();
 		optionsUI = transform.Find("OptionsUI").GetComponent<Canvas>();
 		optionsGroup = transform.Find("OptionsUI").GetComponent<CanvasGroup>();
 		audioUI = transform.Find("AudioUI").GetComponent<Canvas>();
@@ -758,8 +763,9 @@ public class GameManager : MonoBehaviour {
 					pauseBG.enabled = true;
 					pauseUI.enabled = true;
 					if (SceneManager.GetActiveScene().buildIndex == (int)Scenes.Tutorial) {
-						TMP_Text replayTutorialText = transform.Find("PauseUI/QuitToMenuButton/QuitToMenuButtonText").GetComponent<TMP_Text>();
+						TMP_Text replayTutorialText = transform.Find("PauseUI/QuitButton/QuitText").GetComponent<TMP_Text>();
 						replayTutorialText.text = "Replay Tutorial";
+						replayTutorialText.fontSize = 55;
 					}
 					pauseGroup.interactable = true;
 					resumeButton.Select();
@@ -1111,7 +1117,20 @@ public class GameManager : MonoBehaviour {
 		SceneManager.LoadScene((int)Scenes.Tutorial);
 	}
 
-	public static void OnRestart() {
+	public void OnRestart() {
+        pauseUI.enabled = false;
+        pauseGroup.interactable = false;
+        cancelConfirmUI.enabled = true;
+        cancelConfirmGroup.interactable = true;
+        TMP_Text cancelConfirmText = cancelConfirmUI.transform.Find("CancelText").GetComponent<TMP_Text>();
+        Button quitConfirmButton = cancelConfirmUI.transform.Find("YesButton").GetComponent<Button>();
+        Button quitToDesktopButton = cancelConfirmUI.transform.Find("QuitToDesktopButton").GetComponent<Button>();
+        cancelConfirmText.text = "Restart?"; 
+        quitConfirmButton.Select();
+		quitToDesktopButton.enabled = false;
+    }
+
+	public static void OnRestartConfirm() {
 		storedPlayerHealth = 10;
 		storedPlayerMeter = 3;
 		levelCount = 1;
@@ -1212,6 +1231,27 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void OnQuit() {
+		pauseUI.enabled = false;
+		pauseGroup.interactable = false;
+		cancelConfirmUI.enabled = true;
+		cancelConfirmGroup.interactable = true;
+		TMP_Text cancelConfirmText = cancelConfirmUI.transform.Find("CancelText").GetComponent<TMP_Text>();
+		Button quitConfirmButton = cancelConfirmUI.transform.Find("YesButton").GetComponent<Button>();
+		if (SceneManager.GetActiveScene().buildIndex == (int)Scenes.Tutorial) {
+            cancelConfirmText.text = "Replay Tutorial?";
+        } else { cancelConfirmText.text = "Quit?"; }
+		quitConfirmButton.Select();
+	}
+	
+	public void OnCancelConfirmBack() {
+		cancelConfirmUI.enabled = false;
+		cancelConfirmGroup.interactable = false;
+        pauseUI.enabled = true;
+        pauseGroup.interactable = true;
+        resumeButton.Select();
+	}
+
+	public void OnQuitConfirm() {
 		if (SceneManager.GetActiveScene().buildIndex == (int)Scenes.Tutorial) {
 			Initializer.save.versionLatest.tutorialComplete = false;
 		}

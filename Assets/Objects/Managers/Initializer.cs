@@ -111,8 +111,8 @@ public class Initializer : MonoBehaviour {
 		DefaultSave.versionLatest.screenshakePercentage = 100;
 		DefaultSave.versionLatest.rumble = true;
 		DefaultSave.versionLatest.masterVolume = 100;
-		DefaultSave.versionLatest.masterVolume = 100;
-		DefaultSave.versionLatest.masterVolume = 100;
+		DefaultSave.versionLatest.musicVolume = 100;
+		DefaultSave.versionLatest.sfxVolume = 100;
 
 		fileName = Application.persistentDataPath + @"/options.dat";
 
