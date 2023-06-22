@@ -110,7 +110,7 @@ public class GameManager : MonoBehaviour {
 	public Transform[] enemySpawnPoints;
 	public GameObject[] shrineObjects;
 	public Transform[] playerRespawnPoints;
-	public Transform crystalDropoffSpawn;
+	public Transform[] crystalDropoffSpawns;
 	public int enemiesAlive = 0;
 	public int goldenSkullDropChance = 2; //out of 100
 	public int goldSkullBuffer = 10;
@@ -189,7 +189,6 @@ public class GameManager : MonoBehaviour {
 		statusTextboxText.text = "";
 		objectiveText = transform.Find("StatusTextbox/ObjectiveText").GetComponent<TMP_Text>();
 		objectiveText.text = "";
-		crystalDropoffSpawn = transform.Find("/CrystalDropoffSpawn");
 		waypointMarker = transform.Find("/GameManager/MainUI/WaypointMarker").GetComponent<Image>();
 		meterImage = transform.Find("MainUI/MeterBar").GetComponent<Image>();
 		//inputDisplayUI = transform.Find("MainUI/InputDisplay").gameObject;
@@ -285,11 +284,13 @@ public class GameManager : MonoBehaviour {
 				break;
 
 			case Objectives.HarvestTheCrystals:
-				Instantiate(crystalDropoffPrefab, crystalDropoffSpawn.position, crystalDropoffSpawn.rotation);
-				Debug.Log("Crystal dropoff should have spawned at " + crystalDropoffSpawn.position);
+				Transform dropoff;
+				dropoff = crystalDropoffSpawns[Random.Range(0, crystalDropoffSpawns.Length)];
+				Instantiate(crystalDropoffPrefab, dropoff.position, dropoff.rotation);
+				Debug.Log("Crystal dropoff should have spawned at " + dropoff.position);
 				statusTextboxText.text = "Level " + levelCount +
 				"\nHarvest the Crystals!";
-				waypointTarget = crystalDropoffSpawn;
+				waypointTarget = dropoff;
 				break;
 
 			default:
