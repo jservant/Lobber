@@ -7523,7 +7523,7 @@ MonoBehaviour:
   castShadow: 0
   interactors:
   - {fileID: 170243034}
-  m_InstantiatedMaterial: {fileID: 1911269606}
+  m_InstantiatedMaterial: {fileID: 1905534330}
 --- !u!114 &228609535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41644,6 +41644,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 890964765}
+  - component: {fileID: 890964766}
   m_Layer: 0
   m_Name: LevelNodes
   m_TagString: Untagged
@@ -41672,6 +41673,22 @@ Transform:
   m_Father: {fileID: 1550556040}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &890964766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 890964764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2f493c4f43aec241ae70bb174c01b7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxBonePiles: 2
+  maxExplosiveTraps: 2
+  currentBonePiles: 0
+  currentExplosiveTraps: 0
 --- !u!4 &904433153 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5158884772349999004, guid: 9152bfe9484c48643a24135a71e0c78f, type: 3}
@@ -100084,7 +100101,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 394ee7d3a9c29d14eabe9e5e0c8faa84, type: 3}
   m_PrefabInstance: {fileID: 1904335472}
   m_PrefabAsset: {fileID: 0}
---- !u!21 &1911269606
+--- !u!21 &1905534330
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0

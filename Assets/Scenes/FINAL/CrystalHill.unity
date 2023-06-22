@@ -75172,7 +75172,7 @@ Transform:
   - {fileID: 1080500403}
   - {fileID: 483075277}
   m_Father: {fileID: 1550556040}
-  m_RootOrder: 26
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1435961771
 GameObject:
@@ -76258,11 +76258,11 @@ Transform:
   - {fileID: 228609537}
   - {fileID: 1970490318}
   - {fileID: 1659377485}
+  - {fileID: 1425850408}
   - {fileID: 2118722955}
   - {fileID: 1085896596}
   - {fileID: 1907127884}
   - {fileID: 2001588840}
-  - {fileID: 1425850408}
   - {fileID: 1110862622}
   - {fileID: 798142600}
   - {fileID: 190385061}
@@ -93555,6 +93555,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2047020916}
+  - component: {fileID: 2047020917}
   m_Layer: 0
   m_Name: LevelNodes
   m_TagString: Untagged
@@ -93583,6 +93584,22 @@ Transform:
   m_Father: {fileID: 1550556040}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2047020917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2047020915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2f493c4f43aec241ae70bb174c01b7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxBonePiles: 3
+  maxExplosiveTraps: 3
+  currentBonePiles: 0
+  currentExplosiveTraps: 0
 --- !u!1 &2050237765
 GameObject:
   m_ObjectHideFlags: 0

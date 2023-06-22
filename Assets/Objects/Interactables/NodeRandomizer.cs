@@ -6,9 +6,11 @@ public class NodeRandomizer : MonoBehaviour
 {
     public GameObject[] prop;
     public bool spawnProp;
+    NodeManager nodeMan;
 
     void Start()
     {
+        nodeMan = GetComponentInParent<NodeManager>();
         DisableAll();
         if (spawnProp) PickObject();
     }
@@ -21,6 +23,28 @@ public class NodeRandomizer : MonoBehaviour
     public void PickObject() {
         int random = 0;
         random = Random.Range(0, prop.Length);
-        if (prop[random] != null) prop[random].SetActive(true);
+        if (prop[random] != null) {
+            if (CheckType(prop[random])) prop[random].SetActive(true);
+        }
+    }
+
+    bool CheckType(GameObject thing) {
+        var pile = thing.GetComponent<DestructibleProp>();
+        var trap = thing.GetComponent<ExplosiveTrap>();
+
+        if (pile != null && pile.canDropHeads) {
+            nodeMan.currentBonePiles += 1;
+            if (nodeMan.currentBonePiles <= nodeMan.maxBonePiles) return true;
+            else return false;
+        }
+        
+        if (trap != null) {
+            nodeMan.currentExplosiveTraps += 1;
+            if (nodeMan.currentExplosiveTraps <= nodeMan.maxExplosiveTraps) return true;
+            else return false;
+        }
+
+        if (pile == null && trap == null) return true;
+        else return false;
     }
 }
