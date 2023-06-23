@@ -40,7 +40,7 @@ public class HeadProjectile : MonoBehaviour {
 					Basic basicEnemy = eColliders[index].gameObject.GetComponent<Basic>();
 					if (basicEnemy != null) {
 						KnockbackInfo knockbackInfo = getKnockbackInfo.GetInfo(basicEnemy.gameObject);
-						basicEnemy.ChangeDirective_Stunned(StunTime.Long, knockbackInfo);
+						if (basicEnemy.isArmored == false) basicEnemy.ChangeDirective_Stunned(StunTime.Long, knockbackInfo);
 					}
 				}
 			}

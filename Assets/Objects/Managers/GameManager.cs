@@ -134,6 +134,7 @@ public class GameManager : MonoBehaviour {
 	public static float BasicWeight = 9f;
 	public static float ExplodingWeight = 0f;
 	public static float NecroWeight = 0f;
+	public static float armoredEnemyChance = 0f;
 
 	[Header("Bools:")]
 	public bool updateTimeScale = true;
@@ -141,6 +142,7 @@ public class GameManager : MonoBehaviour {
 	public bool debugTools = true;
 	public bool debugTextActive;
 	public bool waypointTracking = true;
+	public bool enemiesCanHaveArmor;
 	DebugActions dActions;
 	float frozenTime = 0;
 	bool transitioningLevel = false;
@@ -394,7 +396,8 @@ public class GameManager : MonoBehaviour {
 			"\n" + "Enemies Alive: " + enemiesAlive +
 			"\n" + "Basic Weight: " + BasicWeight +
 			"\n" + "Explo Weight: " + ExplodingWeight +
-			"\n" + "Necro Weight: " + NecroWeight;
+			"\n" + "Necro Weight: " + NecroWeight +
+			"\n" + "Armor Chance: " + armoredEnemyChance;
 
 
 		// Manage Spawns
@@ -865,6 +868,8 @@ public class GameManager : MonoBehaviour {
 		MediumSpawn_High = MediumSpawn_Low + 2;
 		BigSpawn_Low = Mathf.RoundToInt(levelCount * 0.75f) + 7;
 		BigSpawn_High = BigSpawn_Low + 2;
+		armoredEnemyChance = levelCount * 5f;
+		if (armoredEnemyChance > 75f) armoredEnemyChance = 75f;
 
 		//Enemy Weights
 		float randomWeight;

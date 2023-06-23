@@ -11,6 +11,18 @@ public class MotionAudio_Skel : MonoBehaviour
         Enemy_GetHit.Post(gameObject);
     }
 
+    public AK.Wwise.Event Enemy_ArmorHit;
+
+    public void Sound_ArmorHit() {
+        Enemy_ArmorHit.Post(gameObject);
+    }
+
+    public AK.Wwise.Event Enemy_ArmorBreak;
+
+    public void Sound_ArmorBreak() {
+        Enemy_ArmorBreak.Post(gameObject);
+    }
+
     public AK.Wwise.Event Enemy_Attack_Dash;
 
     void Sound_EnemyDash()

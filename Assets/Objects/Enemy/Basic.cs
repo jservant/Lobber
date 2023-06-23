@@ -126,6 +126,9 @@ public class Basic : MonoBehaviour {
 	SkinnedMeshRenderer model;
 	Material[] materials;
 	public Material hitflashMat;
+	public MeshRenderer armorMesh;
+	public bool isArmored;
+	float immunityTime = 0f;
 
 	// NOTE(Roskuski): External references
 	GameManager gameMan;
@@ -160,6 +163,12 @@ public class Basic : MonoBehaviour {
 
 		return result;
 	}
+
+	public void RollArmorChance() {
+		float armorChance = GameManager.armoredEnemyChance;
+		float randomChance = Random.Range(0, 99);
+		if (randomChance < armorChance) isArmored = true;
+    }
 
 	bool CanAttemptNavigation() {
 		return (navAgent.pathStatus == NavMeshPathStatus.PathComplete || navAgent.pathStatus == NavMeshPathStatus.PathPartial) && navAgent.path.corners.Length >= 2;
@@ -290,7 +299,7 @@ public class Basic : MonoBehaviour {
 	};
 
 	void OnTriggerEnter(Collider other) {
-		if (!isImmune) {
+		if (!isImmune && immunityTime <= 0) {
 			KnockbackInfo newKnockbackInfo = new KnockbackInfo(Quaternion.identity, 0, 0);
 			StunTime stunTime = StunTime.None;
 			float damage = 0f;
@@ -327,9 +336,11 @@ public class Basic : MonoBehaviour {
 
 						case PlayerController.Attacks.Chop:
 							// @TODO(Roskuski): Different System to prevent headpickup spawns from chop. this current system will not work well if we implment enemies with healthpools that can surrive a chop
-							wasHitByChop = true;
-							gameMan.SpawnParticle(12, other.transform.position, 1.5f);
-							sounds.Sound_EnemyLob();
+							if (!isArmored) {
+								wasHitByChop = true;
+								gameMan.SpawnParticle(12, other.transform.position, 1.5f);
+								sounds.Sound_EnemyLob();
+							}
 							playHitSound = false;
 							gameMan.ShakeCamera(5f, 0.1f);
 							if (GameObject.Find("HapticManager") != null) HapticManager.PlayEffect(player.hapticEffects[2], this.transform.position);
@@ -345,6 +356,7 @@ public class Basic : MonoBehaviour {
 					// NOTE(Roskuski): Head projectial direct hit
 					gameMan.SpawnParticle(0, other.transform.position, 2f);
 					damage = 5f;
+					stunTime = StunTime.Long;
 					playHitSound = true;
 				}
 				else if (explosiveTrap != null) {
@@ -365,12 +377,29 @@ public class Basic : MonoBehaviour {
 				}
 			}
 
-			if (playHitSound) sounds.CharacterGetHit();
-			health -= damage;
-			gameMan.playerController.ChangeMeter(meterGain);
-			ChangeDirective_Stunned(stunTime, newKnockbackInfo);
-
+			if (!isArmored) {
+				if (playHitSound) sounds.CharacterGetHit();
+				health -= damage;
+				gameMan.playerController.ChangeMeter(meterGain);
+				ChangeDirective_Stunned(stunTime, newKnockbackInfo);
+			}
+            else {
+				if (playHitSound) sounds.Sound_ArmorHit();
+				if (damage > 0) damage -= 1;
+				health -= damage;
+				if (health <= 4) ArmorBreak(stunTime, newKnockbackInfo);
+			}
 		}
+	}
+
+	public void ArmorBreak(StunTime _stunTime, KnockbackInfo _newKnockbackInfo) {
+		ChangeDirective_Stunned(_stunTime, _newKnockbackInfo);
+		sounds.Sound_ArmorBreak();
+		sounds.Sound_EnemyCrystalShatter();
+		health = 4;
+		immunityTime = 0.3f;
+		armorMesh.enabled = false;
+		isArmored = false;
 	}
 
 	void Start() {
@@ -422,6 +451,11 @@ public class Basic : MonoBehaviour {
 
 		model = transform.Find("Skeleton_Base_Model").GetComponent<SkinnedMeshRenderer>();
 		materials = model.materials;
+		if (gameMan.enemiesCanHaveArmor) RollArmorChance();
+		if (isArmored) {
+			health += 3;
+			armorMesh.enabled = true;
+		}
 	}
 
 	void FixedUpdate() {
@@ -988,6 +1022,9 @@ public class Basic : MonoBehaviour {
 
 		animator.SetInteger("Ai Directive", (int)directive);
 		animationTimer -= Time.deltaTime * animator.GetCurrentAnimatorStateInfo(0).speed;
+		if (immunityTime > 0) {
+			immunityTime -= Time.deltaTime;
+		}
 
 		if (health <= 0) {
 			shouldDie = true;
