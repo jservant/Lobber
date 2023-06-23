@@ -925,6 +925,7 @@ public class GameManager : MonoBehaviour {
 		MediumSpawn_High = 5;
 		BigSpawn_Low = 5;
 		BigSpawn_High = 7;
+		armoredEnemyChance = 0f;
 
 		//Enemy Weights
 		ExplodingWeight = 0f;

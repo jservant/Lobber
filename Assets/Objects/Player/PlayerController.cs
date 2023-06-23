@@ -667,7 +667,7 @@ public class PlayerController : MonoBehaviour {
 					Hit(damage, other);
 				}
 				else if (otherNecroProjectile != null) {
-					Hit(3, other);
+					Hit(2, other);
                     DropCrystals();
                 }
             }
