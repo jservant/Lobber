@@ -734,7 +734,7 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 
-		if (playerController.pActions.Player.Pause.WasPerformedThisFrame()) {
+		if (playerController.pActions.Player.Pause.WasPerformedThisFrame() && playerController.animr.GetBool("isDead") == false) {
 			if (SceneManager.GetActiveScene().buildIndex == (int)Scenes.Tutorial && Initializer.save.versionLatest.tutorialComplete == false) {
 				if (tutorialSkipUI.enabled) {
 					eSystem.SetSelectedGameObject(null);
