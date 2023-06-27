@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5223264661277436863}
   - component: {fileID: 5867522115970625904}
   - component: {fileID: 133428503619188072}
+  - component: {fileID: 3336973750327341997}
   m_Layer: 3
   m_Name: TrunkBottom
   m_TagString: Untagged
@@ -96,6 +97,22 @@ CapsuleCollider:
   m_Height: 3.4611611
   m_Direction: 1
   m_Center: {x: -0.2850914, y: -2.4589713, z: 0.057380676}
+--- !u!208 &3336973750327341997
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 970249154298011901}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.2670001, y: 1.0860001, z: 1.7310001}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.123, y: -2.459, z: -0.46500003}
+  m_TimeToStationary: 0.5
 --- !u!1 &2709704818794820867
 GameObject:
   m_ObjectHideFlags: 0
