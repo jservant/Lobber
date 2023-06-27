@@ -451,7 +451,7 @@ public class Basic : MonoBehaviour {
 
 		model = transform.Find("Skeleton_Base_Model").GetComponent<SkinnedMeshRenderer>();
 		materials = model.materials;
-		if (gameMan.enemiesCanHaveArmor) RollArmorChance();
+		if (gameMan.armorEnabled) RollArmorChance();
 		if (isArmored) {
 			health += 3;
 			armorMesh.enabled = true;

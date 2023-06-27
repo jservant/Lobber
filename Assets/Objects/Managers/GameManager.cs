@@ -135,6 +135,8 @@ public class GameManager : MonoBehaviour {
 	public static float ExplodingWeight = 0f;
 	public static float NecroWeight = 0f;
 	public static float armoredEnemyChance = 0f;
+	public static float armorChanceLow = 0f;
+	public static float armorChanceHigh = 0f;
 
 	[Header("Bools:")]
 	public bool updateTimeScale = true;
@@ -142,7 +144,7 @@ public class GameManager : MonoBehaviour {
 	public bool debugTools = true;
 	public bool debugTextActive;
 	public bool waypointTracking = true;
-	public bool enemiesCanHaveArmor;
+	public bool armorEnabled;
 	DebugActions dActions;
 	float frozenTime = 0;
 	bool transitioningLevel = false;
@@ -859,20 +861,29 @@ public class GameManager : MonoBehaviour {
 		TokenCost_SmallSpawn = levelCount * 2 + 20f;
 		TokenCost_MediumSpawn = levelCount * 4 + 40f;
 		TokenCost_BigSpawn = levelCount * 6 + 70f;
-		LowEnemies = Mathf.RoundToInt(levelCount * 0.5f) + 1;
-		TargetEnemies = levelCount + 3;
-		HighEnemies = (levelCount * 2) + 4;
-		SmallSpawn_Low = Mathf.RoundToInt(levelCount * 0.25f) + 4;
-		SmallSpawn_High = SmallSpawn_Low + 2;
-		MediumSpawn_Low = Mathf.RoundToInt(levelCount * 0.5f) + 6;
-		MediumSpawn_High = MediumSpawn_Low + 2;
-		BigSpawn_Low = Mathf.RoundToInt(levelCount * 0.75f) + 7;
-		BigSpawn_High = BigSpawn_Low + 2;
-		armoredEnemyChance = levelCount * 5f;
-		if (armoredEnemyChance > 75f) armoredEnemyChance = 75f;
 
-		//Enemy Weights
+		LowEnemies = Mathf.RoundToInt(levelCount * 0.5f) + 1;
+		if (LowEnemies > 10) LowEnemies = 10;
+		TargetEnemies = levelCount + 3;
+		if (TargetEnemies > 21) TargetEnemies = 21;
+		HighEnemies = (levelCount * 2) + 4;
+		if (HighEnemies > 40) HighEnemies = 40;
+
+		SmallSpawn_Low = Mathf.RoundToInt(levelCount * 0.25f) + 4;
+		if (SmallSpawn_Low > 9) SmallSpawn_Low = 9; //cap
+		SmallSpawn_High = SmallSpawn_Low + 2;
+
+		MediumSpawn_Low = Mathf.RoundToInt(levelCount * 0.5f) + 6;
+		if (MediumSpawn_Low > 15) MediumSpawn_Low = 15; //cap
+		MediumSpawn_High = MediumSpawn_Low + 2;
+
+		BigSpawn_Low = Mathf.RoundToInt(levelCount * 0.75f) + 7;
+		if (BigSpawn_Low > 21) BigSpawn_Low = 21; //cap
+		BigSpawn_High = BigSpawn_Low + 2;
+
+		//Enemy Weights & Armor Chance
 		float randomWeight;
+		float armorRandomChance;
 
 		if (levelCount >= 2) {
 			randomWeight = Random.Range(0.5f, 1f);
@@ -892,6 +903,13 @@ public class GameManager : MonoBehaviour {
 
 			randomWeight = 0.5f;
 			NecroWeight = randomWeight;
+
+			armorChanceLow = (levelCount - 3) * 3f;
+			armorChanceHigh = (levelCount - 3) * 5f;
+			if (armorChanceLow > 45) armorChanceLow = 45f;
+			if (armorChanceHigh > 75) armorChanceHigh = 75f;
+			armorRandomChance = Random.Range(armorChanceLow, armorChanceHigh);
+			armoredEnemyChance = armorRandomChance;
 		}
 
 		if (levelCount >= 8) {
@@ -925,11 +943,13 @@ public class GameManager : MonoBehaviour {
 		MediumSpawn_High = 5;
 		BigSpawn_Low = 5;
 		BigSpawn_High = 7;
-		armoredEnemyChance = 0f;
 
-		//Enemy Weights
+		//Enemy Weights & ArmorChance
 		ExplodingWeight = 0f;
 		NecroWeight = 0f;
+		armoredEnemyChance = 0f;
+		armorChanceLow = 0f;
+		armorChanceHigh = 0f;
 	}
 
 	// NOTE(Ryan): Can be called to freeze the game for the time specified.
