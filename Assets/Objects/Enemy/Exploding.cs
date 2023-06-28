@@ -97,7 +97,7 @@ public class Exploding : MonoBehaviour {
 			launchTarget = target;
 			launchInitalPosition = this.transform.position;
 			animator.SetTrigger("StartAttack");
-			Util.ShowAttackWarning(gameMan, attackWarningTransform.position);
+			Util.SpawnFlash(gameMan, 0, attackWarningTransform.position, true);
 			groundIndicatorInstance = Instantiate(groundIndicator, target, groundIndicator.transform.rotation);
 		}
 	}

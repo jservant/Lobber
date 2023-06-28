@@ -50,8 +50,9 @@ public class Util {
 		return System.Enum.GetNames(EnumType).Length;
 	}
 
-	public static void ShowAttackWarning(GameManager gameMan, Vector3 position) {
-		GameObject.Instantiate(gameMan.FlashPrefab, position, Quaternion.LookRotation(UnityEngine.Camera.main.transform.position - position, Vector3.up));
+	public static void SpawnFlash(GameManager gameMan, int flashID, Vector3 position, bool faceCamera) {
+		if (faceCamera) GameObject.Instantiate(gameMan.flashes[flashID], position, Quaternion.LookRotation(position - UnityEngine.Camera.main.transform.position, Vector3.forward));
+		else GameObject.Instantiate(gameMan.flashes[flashID], position, Quaternion.identity);
 	}
 
 	public static int RollWeightedChoice(float[] weight) {

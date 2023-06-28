@@ -96,7 +96,6 @@ public class GameManager : MonoBehaviour {
 	public GameObject NecroPrefab;
 	public GameObject NecroProjectilePrefab;
 	public GameObject SandbagPrefab;
-	public GameObject FlashPrefab;
 	public GameObject OrbSpawnPrefab;
 	public GameObject[] Pickups;
 	public int maxPickupsInAir;
@@ -151,6 +150,7 @@ public class GameManager : MonoBehaviour {
 
 	[Header("Particle System:")]
 	public ParticleSystem[] particles;
+	public GameObject[] flashes;
 	public GameObject[] corpses;
 
 	public RenderPipelineAsset[] qualityLevels;

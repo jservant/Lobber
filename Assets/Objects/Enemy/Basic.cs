@@ -250,12 +250,12 @@ public class Basic : MonoBehaviour {
 				break;
 
 			case Attack.Slash:
-				Util.ShowAttackWarning(gameMan, flashSpot.position);
+				Util.SpawnFlash(gameMan, 0, flashSpot.position, true);
 				animationTimer = animationTimes["Enemy_Attack_Slash"];
 				break;
 
 			case Attack.Lunge:
-				Util.ShowAttackWarning(gameMan, flashSpot.position);
+				Util.SpawnFlash(gameMan, 0, flashSpot.position, true);
 				animationTimer = animationTimes["Enemy_Attack_Dash"];
 				break;
 		}
