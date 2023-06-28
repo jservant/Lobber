@@ -736,7 +736,7 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 
-		if (playerController.pActions.Player.Pause.WasPerformedThisFrame() && playerController.animr.GetBool("isDead") == false) {
+		if (playerController.pActions.Player.Pause.WasPerformedThisFrame() && playerController.animr.GetBool("isDead") == false && pauseBG.enabled == false) {
 			if (SceneManager.GetActiveScene().buildIndex == (int)Scenes.Tutorial && Initializer.save.versionLatest.tutorialComplete == false) {
 				if (tutorialSkipUI.enabled) {
 					eSystem.SetSelectedGameObject(null);
@@ -1150,11 +1150,15 @@ public class GameManager : MonoBehaviour {
         cancelConfirmUI.enabled = true;
         cancelConfirmGroup.interactable = true;
         TMP_Text cancelConfirmText = cancelConfirmUI.transform.Find("CancelText").GetComponent<TMP_Text>();
-        Button quitConfirmButton = cancelConfirmUI.transform.Find("YesButton").GetComponent<Button>();
+        Button restartConfirmButton = cancelConfirmUI.transform.Find("RestartYesButton").GetComponent<Button>();
+        Button quitConfirmButton = cancelConfirmUI.transform.Find("QuitYesButton").GetComponent<Button>();
+        Button deleteSaveConfirmButton = cancelConfirmUI.transform.Find("DeleteSaveYesButton").GetComponent<Button>();
         Button quitToDesktopButton = cancelConfirmUI.transform.Find("QuitToDesktopButton").GetComponent<Button>();
         cancelConfirmText.text = "Restart?"; 
-        quitConfirmButton.Select();
-		quitToDesktopButton.enabled = false;
+		quitConfirmButton.gameObject.SetActive(false);
+		deleteSaveConfirmButton.gameObject.SetActive(false); ;
+		quitToDesktopButton.gameObject.SetActive(false);
+        restartConfirmButton.Select();
     }
 
 	public static void OnRestartConfirm() {
@@ -1263,15 +1267,27 @@ public class GameManager : MonoBehaviour {
 		cancelConfirmUI.enabled = true;
 		cancelConfirmGroup.interactable = true;
 		TMP_Text cancelConfirmText = cancelConfirmUI.transform.Find("CancelText").GetComponent<TMP_Text>();
-		Button quitConfirmButton = cancelConfirmUI.transform.Find("YesButton").GetComponent<Button>();
-		if (SceneManager.GetActiveScene().buildIndex == (int)Scenes.Tutorial) {
+		Button quitConfirmButton = cancelConfirmUI.transform.Find("QuitYesButton").GetComponent<Button>();
+        Button restartConfirmButton = cancelConfirmUI.transform.Find("RestartYesButton").GetComponent<Button>();
+        Button deleteSaveConfirmButton = cancelConfirmUI.transform.Find("DeleteSaveYesButton").GetComponent<Button>();
+        if (SceneManager.GetActiveScene().buildIndex == (int)Scenes.Tutorial) {
             cancelConfirmText.text = "Replay Tutorial?";
         } else { cancelConfirmText.text = "Quit?"; }
-		quitConfirmButton.Select();
-	}
-	
-	public void OnCancelConfirmBack() {
-		cancelConfirmUI.enabled = false;
+		restartConfirmButton.gameObject.SetActive(false);
+        deleteSaveConfirmButton.gameObject.SetActive(false);
+        quitConfirmButton.Select();
+    }
+
+    public void OnCancelConfirmBack() {
+        Button restartConfirmButton = cancelConfirmUI.transform.Find("RestartYesButton").GetComponent<Button>();
+        Button quitConfirmButton = cancelConfirmUI.transform.Find("QuitYesButton").GetComponent<Button>();
+        Button deleteSaveConfirmButton = cancelConfirmUI.transform.Find("DeleteSaveYesButton").GetComponent<Button>();
+        Button quitToDesktopButton = cancelConfirmUI.transform.Find("QuitToDesktopButton").GetComponent<Button>();
+        restartConfirmButton.gameObject.SetActive(true);
+        deleteSaveConfirmButton.gameObject.SetActive(true);
+        quitToDesktopButton.gameObject.SetActive(true);
+        quitConfirmButton.gameObject.SetActive(true);
+        cancelConfirmUI.enabled = false;
 		cancelConfirmGroup.interactable = false;
         pauseUI.enabled = true;
         pauseGroup.interactable = true;
@@ -1293,9 +1309,30 @@ public class GameManager : MonoBehaviour {
 		Initializer.Save();
 		Application.Quit();
 	}
-	#endregion
 
-	void OnEnable() { dActions.Enable(); }
+    public void OnDeleteSave() {
+        pauseUI.enabled = false;
+        pauseGroup.interactable = false;
+        cancelConfirmUI.enabled = true;
+        cancelConfirmGroup.interactable = true;
+        TMP_Text cancelConfirmText = cancelConfirmUI.transform.Find("CancelText").GetComponent<TMP_Text>();
+        Button restartConfirmButton = cancelConfirmUI.transform.Find("RestartYesButton").GetComponent<Button>();
+        Button quitConfirmButton = cancelConfirmUI.transform.Find("QuitYesButton").GetComponent<Button>();
+        Button deleteSaveConfirmButton = cancelConfirmUI.transform.Find("DeleteSaveYesButton").GetComponent<Button>();
+        Button quitToDesktopButton = cancelConfirmUI.transform.Find("QuitToDesktopButton").GetComponent<Button>();
+        cancelConfirmText.text = "Really Delete Save?";
+        restartConfirmButton.gameObject.SetActive(false); ;
+        deleteSaveConfirmButton.gameObject.SetActive(false);
+        quitToDesktopButton.gameObject.SetActive(false);
+        quitConfirmButton.Select();
+    }
+
+	public void OnDeleteSaveConfirm() {
+		//do something
+	}
+    #endregion
+
+    void OnEnable() { dActions.Enable(); }
 	void OnDisable() { dActions.Disable(); }
 
 	private void OnApplicationQuit() { Initializer.Save(); }
