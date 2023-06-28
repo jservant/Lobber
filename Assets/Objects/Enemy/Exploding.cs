@@ -146,7 +146,7 @@ public class Exploding : MonoBehaviour {
 			fuseDuration = 0;
 			hitflashTimer = 0.25f;
 			Vector3 spawnPoint = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
-			gameMan.SpawnParticle(0, spawnPoint, 1f);
+			gameMan.SpawnParticle(13, spawnPoint, 1f);
 		}
 		else if (other.gameObject.layer == (int)Layers.AgnosticHitbox) {
 			fuseDuration = 0f;

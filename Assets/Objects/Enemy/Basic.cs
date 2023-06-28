@@ -312,7 +312,8 @@ public class Basic : MonoBehaviour {
 				ExplosiveTrap explosiveTrap = other.GetComponentInParent<ExplosiveTrap>();
 
 				if (player != null) {
-					gameMan.SpawnParticle(0, other.transform.position, 1f);
+					if (!isArmored) gameMan.SpawnParticle(0, other.transform.position, 1f);
+					else gameMan.SpawnParticle(13, armorMesh.transform.position, 0.75f);
 					gameMan.SpawnParticle(12, other.transform.position, 1f);
 
 					newKnockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
@@ -396,6 +397,8 @@ public class Basic : MonoBehaviour {
 		ChangeDirective_Stunned(_stunTime, _newKnockbackInfo);
 		sounds.Sound_ArmorBreak();
 		sounds.Sound_EnemyCrystalShatter();
+		gameMan.SpawnParticle(13, armorMesh.transform.position, 1f);
+		Util.SpawnFlash(gameMan, 1, armorMesh.transform.position, true);
 		health = 4;
 		immunityTime = 0.3f;
 		armorMesh.enabled = false;
