@@ -147,6 +147,7 @@ public class GameManager : MonoBehaviour {
 	DebugActions dActions;
 	float frozenTime = 0;
 	bool transitioningLevel = false;
+	public static bool shouldWipeSave = false;
 
 	[Header("Particle System:")]
 	public ParticleSystem[] particles;
@@ -157,7 +158,7 @@ public class GameManager : MonoBehaviour {
 	public static Resolution[] resolutions;
 
 	void Awake() {
-		Initializer.Load();
+		//Initializer.Load();
 		player = transform.Find("/Player");
 		playerController = player.GetComponent<PlayerController>();
 		if (player != null) {
@@ -1237,8 +1238,10 @@ public class GameManager : MonoBehaviour {
 			"<b>RUNS:</b>"
 			+ "\nRuns started: " + Initializer.save.versionLatest.runsStarted
 			+ (Initializer.save.versionLatest.longestRun > 0 ? "\nLongest run: " + Initializer.save.versionLatest.longestRun + " Levels" : "\n??? : ???");
-			//+ (Initializer.save.versionLatest.timesWon > 0 ? "\nWins: " + Initializer.save.versionLatest.timesWon : "\n??? : ???");
-		statsBackButton.Select();
+		//+ (Initializer.save.versionLatest.timesWon > 0 ? "\nWins: " + Initializer.save.versionLatest.timesWon : "\n??? : ???");
+		Button deleteSaveButton = statsUI.transform.Find("DeleteSaveButton").GetComponent<Button>();
+		if (SceneManager.GetActiveScene().buildIndex != (int)Scenes.Tutorial) deleteSaveButton.gameObject.SetActive(false);
+        statsBackButton.Select();
 	}
 
 	public void OnStatsBack() {
@@ -1311,8 +1314,8 @@ public class GameManager : MonoBehaviour {
 	}
 
     public void OnDeleteSave() {
-        pauseUI.enabled = false;
-        pauseGroup.interactable = false;
+        statsUI.enabled = false;
+        statsGroup.interactable = false;
         cancelConfirmUI.enabled = true;
         cancelConfirmGroup.interactable = true;
         TMP_Text cancelConfirmText = cancelConfirmUI.transform.Find("CancelText").GetComponent<TMP_Text>();
@@ -1322,14 +1325,17 @@ public class GameManager : MonoBehaviour {
         Button quitToDesktopButton = cancelConfirmUI.transform.Find("QuitToDesktopButton").GetComponent<Button>();
         cancelConfirmText.text = "Really Delete Save?";
         restartConfirmButton.gameObject.SetActive(false); ;
-        deleteSaveConfirmButton.gameObject.SetActive(false);
+        quitConfirmButton.gameObject.SetActive(false);
         quitToDesktopButton.gameObject.SetActive(false);
-        quitConfirmButton.Select();
+        deleteSaveConfirmButton.Select();
     }
 
 	public void OnDeleteSaveConfirm() {
-		//do something
-	}
+		Initializer.AssignDefaultValues();
+		Initializer.Save();
+        Time.timeScale = 1;
+        SceneManager.LoadScene((int)Scenes.Tutorial);
+    }
     #endregion
 
     void OnEnable() { dActions.Enable(); }

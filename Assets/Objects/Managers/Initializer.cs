@@ -98,23 +98,23 @@ public class Initializer : MonoBehaviour {
 	enum SaveVersion { Init, Win, DiffKillCount, LongestRun, Tutorial, MoreOptions, LATEST_PLUS_1 };
 
 	static Initializer() {
-		DefaultSave.version = (int)SaveVersion.LATEST_PLUS_1 - 1;
-		DefaultSave.versionLatest.basicEnemyKills = 0;
-		DefaultSave.versionLatest.explosiveEnemyKills = 0;
-		DefaultSave.versionLatest.necroEnemyKills = 0;
-		DefaultSave.versionLatest.bruteEnemyKills = 0;
-		DefaultSave.versionLatest.runsStarted = 0;
-		DefaultSave.versionLatest.longestRun = 0;
-		DefaultSave.versionLatest.timesWon = 0;
-		DefaultSave.versionLatest.tutorialComplete = false;
-		DefaultSave.versionLatest.corpseLimit = 50;
-		DefaultSave.versionLatest.screenshakePercentage = 100;
-		DefaultSave.versionLatest.rumble = true;
-		DefaultSave.versionLatest.masterVolume = 100;
-		DefaultSave.versionLatest.musicVolume = 100;
-		DefaultSave.versionLatest.sfxVolume = 100;
+        DefaultSave.version = (int)SaveVersion.LATEST_PLUS_1 - 1;
+        DefaultSave.versionLatest.basicEnemyKills = 0;
+        DefaultSave.versionLatest.explosiveEnemyKills = 0;
+        DefaultSave.versionLatest.necroEnemyKills = 0;
+        DefaultSave.versionLatest.bruteEnemyKills = 0;
+        DefaultSave.versionLatest.runsStarted = 0;
+        DefaultSave.versionLatest.longestRun = 0;
+        DefaultSave.versionLatest.timesWon = 0;
+        DefaultSave.versionLatest.tutorialComplete = false;
+        DefaultSave.versionLatest.corpseLimit = 50;
+        DefaultSave.versionLatest.screenshakePercentage = 100;
+        DefaultSave.versionLatest.rumble = true;
+        DefaultSave.versionLatest.masterVolume = 100;
+        DefaultSave.versionLatest.musicVolume = 100;
+        DefaultSave.versionLatest.sfxVolume = 100;
 
-		fileName = Application.persistentDataPath + @"/options.dat";
+        fileName = Application.persistentDataPath + @"/options.dat";
 
 		save = DefaultSave;
 
@@ -125,6 +125,23 @@ public class Initializer : MonoBehaviour {
 			Load();
 		}
 	}
+
+	public static void AssignDefaultValues() {
+        save.versionLatest.basicEnemyKills = 0;
+        save.versionLatest.explosiveEnemyKills = 0;
+        save.versionLatest.necroEnemyKills = 0;
+        save.versionLatest.bruteEnemyKills = 0;
+        save.versionLatest.runsStarted = 0;
+        save.versionLatest.longestRun = 0;
+        save.versionLatest.timesWon = 0;
+        save.versionLatest.tutorialComplete = false;
+        save.versionLatest.corpseLimit = 50;
+        save.versionLatest.screenshakePercentage = 100;
+        save.versionLatest.rumble = true;
+        save.versionLatest.masterVolume = 100;
+        save.versionLatest.musicVolume = 100;
+        save.versionLatest.sfxVolume = 100;
+    }
 
 	public static void Load() {
 		SaveFile loadedSave = DefaultSave;
