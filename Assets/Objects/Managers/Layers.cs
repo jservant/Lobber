@@ -52,7 +52,7 @@ public class Util {
 
 	public static void SpawnFlash(GameManager gameMan, int flashID, Vector3 position, bool faceCamera) {
 		if (faceCamera) GameObject.Instantiate(gameMan.flashes[flashID], position, Quaternion.LookRotation(position - UnityEngine.Camera.main.transform.position, Vector3.forward));
-		else GameObject.Instantiate(gameMan.flashes[flashID], position, Quaternion.identity);
+		else GameObject.Instantiate(gameMan.flashes[flashID], position, gameMan.flashes[flashID].transform.rotation);
 	}
 
 	public static int RollWeightedChoice(float[] weight) {

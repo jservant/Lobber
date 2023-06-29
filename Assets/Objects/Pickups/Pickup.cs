@@ -16,6 +16,7 @@ public class Pickup : MonoBehaviour {
 	public MeshRenderer headModel;
 	TrailRenderer headTrail;
 	public AK.Wwise.Event goldenSkullDrop;
+	public Transform flash;
 
 	[Header("Movement:")]
 	public float flightAngle; //degree to which head flies upwards
@@ -145,6 +146,7 @@ public class Pickup : MonoBehaviour {
 		}
 
 		if (collected) Destroy(this);
+		if (pickupType == Type.GoldenSkull) flash.position = transform.position;
 	}
 
 	void UpdateIndicator() {
@@ -185,6 +187,7 @@ public class Pickup : MonoBehaviour {
 			switch(pickupType) {
 				case Type.Skull:
 					playerController.meter += meterValue;
+					Util.SpawnFlash(gameMan, 2, transform.position, true);
 					break;
 				case Type.GoldenSkull:
 					playerController.meter = gameMan.playerController.meterMax;

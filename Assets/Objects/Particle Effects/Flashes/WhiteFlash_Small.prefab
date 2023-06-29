@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7753851169555539471}
   - component: {fileID: 2227946692416352899}
   m_Layer: 0
-  m_Name: WhiteFlash
+  m_Name: WhiteFlash_Small
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3993804534691711803}
-  m_LocalRotation: {x: 0.30070576, y: 0, z: 0, w: 0.953717}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 35, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!120 &7753851169555539471
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -143,7 +143,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointsCount: 50
-  maxRadius: 2
-  speed: 6
-  startWidth: 1
+  maxRadius: 1.25
+  speed: 8
+  startWidth: 0.75
   simulate: 0
+  destroyWhenFinished: 1

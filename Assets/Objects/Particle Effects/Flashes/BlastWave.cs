@@ -10,6 +10,7 @@ public class BlastWave : MonoBehaviour
     public float startWidth;
 
     public bool simulate;
+    public bool looping;
     public bool destroyWhenFinished;
     private float simCount = 0f;
 
@@ -35,6 +36,7 @@ public class BlastWave : MonoBehaviour
         }
         
         if (destroyWhenFinished) Destroy(gameObject);
+        if (looping) { simulate = true; simCount = 0; }
     }
 
     private void Draw(float currentRadius) {
