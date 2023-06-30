@@ -28,11 +28,13 @@ public class NecroProjectile : MonoBehaviour {
 				case Layers.PlayerHurtbox: 
 					if (other.GetComponent<PlayerController>() != null && gameMan.playerController.currentAttack != PlayerController.Attacks.Dashing && gameMan.playerController.currentAttack != PlayerController.Attacks.LethalDash) {
 					GameObject.Destroy(this.gameObject);
+					Fireball.Post(gameObject);
 					}
 					break;
 					
 				default:
 					GameObject.Destroy(this.gameObject);
+					Fireball.Post(gameObject);
 					break;
 			}
 		}
@@ -63,7 +65,7 @@ public class NecroProjectile : MonoBehaviour {
 	}
 
     private void OnDestroy() {
-		Fireball.Post(gameObject);
 		gameMan.SpawnParticle(9, transform.position, 1f);
-    }
+		Util.SpawnFlash(gameMan, 7, transform.position, true);
+	}
 }

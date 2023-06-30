@@ -66,6 +66,8 @@ public class ExplosiveTrap : MonoBehaviour {
 		currentTriggerTime = triggerTime;
 		hitbox.SetActive(true);
 		gameMan.SpawnParticle(2, explosionPoint.position, 1f);
+		Vector3 newPoint = new Vector3(explosionPoint.position.x, explosionPoint.position.y + 0.5f, explosionPoint.position.z);
+		Util.SpawnFlash(gameMan, 4, newPoint, false);
 		Explosion_Sound();
 		gameMan.ShakeCamera(5f, 0.25f);
 	}

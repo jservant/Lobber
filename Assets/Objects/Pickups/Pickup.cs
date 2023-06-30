@@ -191,12 +191,14 @@ public class Pickup : MonoBehaviour {
 					break;
 				case Type.GoldenSkull:
 					playerController.meter = gameMan.playerController.meterMax;
-					playerController.frenzyTimer = 5f;
+					playerController.frenzyTimer = 8f;
+					Util.SpawnFlash(gameMan, 1, transform.position, true);
 					break;
 				case Type.Health:
 					playerController.health += healthValue;
 					break;
 				case Type.Crystal:
+					Util.SpawnFlash(gameMan, 6, transform.position, true);
 					if (playerController.crystalCount == 0) {
                         GameObject crystalPatchInstance = Instantiate(gameMan.crystalPatch, playerController.crystalHolster.position, playerController.crystalHolster.rotation);
                         crystalPatchInstance.transform.parent = playerController.crystalHolster;

@@ -710,6 +710,8 @@ public class PlayerController : MonoBehaviour {
 
 			sounds.Sound_CrystalDrop();
 			sounds.Sound_CrystalPickup();
+			Vector3 newPos = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
+			Util.SpawnFlash(gameMan, 5, newPos, true);
 		}
     }
 

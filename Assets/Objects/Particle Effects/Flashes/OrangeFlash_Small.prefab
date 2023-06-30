@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7137087637970351846
+--- !u!1 &3007573732203880983
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,38 +8,38 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1089029970041234645}
-  - component: {fileID: 4610535905545149394}
-  - component: {fileID: 5371561538967736158}
-  - component: {fileID: 3545665845964526055}
+  - component: {fileID: 5020398437427638308}
+  - component: {fileID: 8451816969504608035}
+  - component: {fileID: 16490449566014383}
+  - component: {fileID: 8900721957867111702}
   m_Layer: 0
-  m_Name: OrangeFlash
+  m_Name: OrangeFlash_Small
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1089029970041234645
+--- !u!4 &5020398437427638308
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7137087637970351846}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_GameObject: {fileID: 3007573732203880983}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!120 &4610535905545149394
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!120 &8451816969504608035
 LineRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7137087637970351846}
+  m_GameObject: {fileID: 3007573732203880983}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -131,36 +131,36 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 0
   m_Loop: 0
---- !u!114 &5371561538967736158
+--- !u!114 &16490449566014383
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7137087637970351846}
+  m_GameObject: {fileID: 3007573732203880983}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0439f7e855bc4014c9db1fc00c8908bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   pointsCount: 50
-  maxRadius: 5
+  maxRadius: 3
   speed: 16
-  startWidth: 3
+  startWidth: 1.5
   simulate: 0
   looping: 0
   destroyWhenFinished: 1
---- !u!114 &3545665845964526055
+--- !u!114 &8900721957867111702
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7137087637970351846}
+  m_GameObject: {fileID: 3007573732203880983}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 03a614a4e1771c440b08dbcc827a349e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   sphereColor: {r: 1, g: 0.42438895, b: 0, a: 1}
-  sphereRadius: 5
+  sphereRadius: 3
