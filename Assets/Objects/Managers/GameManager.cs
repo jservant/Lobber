@@ -70,9 +70,12 @@ public class GameManager : MonoBehaviour {
 	public TMP_Text debugText;
 	public Image waypointMarker;
 
-	public Transform healthBar;
+	public Material healthBar;
+	public Material meterBar;
+
+	/*public Transform healthBar;
 	public Transform meterBar;
-	public Image meterImage;
+	public Image meterImage;*/ //Old healthbar transforms
 
 	// NOTE(Roskuski): These are in the same order PlayerController.AttackButton (Bottom, Right, Left, Top)
 	public Sprite[] attackIconSprites;
@@ -195,7 +198,7 @@ public class GameManager : MonoBehaviour {
 		objectiveText = transform.Find("StatusTextbox/ObjectiveText").GetComponent<TMP_Text>();
 		objectiveText.text = "";
 		waypointMarker = transform.Find("/GameManager/MainUI/WaypointMarker").GetComponent<Image>();
-		meterImage = transform.Find("MainUI/MeterBar").GetComponent<Image>();
+		//meterImage = transform.Find("MainUI/MeterBar").GetComponent<Image>();
 		//inputDisplayUI = transform.Find("MainUI/InputDisplay").gameObject;
 		Time.timeScale = 1;
 		spawnTokens = TokenCost_BigSpawn;
@@ -1024,13 +1027,27 @@ public class GameManager : MonoBehaviour {
 	public void UpdateHealthBar() {
 		float healthMax = playerController.healthMax;
 		float health = playerController.health;
-		healthBar.localScale = new Vector3((health / healthMax), 1f, 1f);
+		float segmentValue = (health / healthMax) * 10;
+		float removedSegments = (healthBar.GetFloat("_TotalSegments") - segmentValue);
+		healthBar.SetFloat("_RemovedSegments", removedSegments);
+
+		/*float healthMax = playerController.healthMax;
+		float health = playerController.health;
+		healthBar.localScale = new Vector3((health / healthMax), 1f, 1f);*/ //Old Healthbar Logic
 	}
 
 	public void UpdateMeter() {
-		meterBar.localScale = new Vector3((playerController.meter / playerController.meterMax), 1f, 1f);
+		float meterMax = playerController.meterMax;
+		float meter = playerController.meter;
+		float segmentValue = (meter / meterMax) * 8;
+		float removedSegments = (meterBar.GetFloat("_TotalSegments") - segmentValue);
+		meterBar.SetFloat("_RemovedSegments", removedSegments);
+		if (playerController.frenzyTimer > 0) { meterBar.SetColor("_BarColor", Color.yellow); }
+		else { meterBar.SetColor("_BarColor", Color.white); }
+
+		/*meterBar.localScale = new Vector3((playerController.meter / playerController.meterMax), 1f, 1f);
 		if (playerController.frenzyTimer > 0) { meterImage.color = Color.yellow; }
-		else { meterImage.color = Color.white; }
+		else { meterImage.color = Color.white; }*/ //Old MeterBar Logic
 	}
 
 	readonly string[] PlayerAttackToName = {
