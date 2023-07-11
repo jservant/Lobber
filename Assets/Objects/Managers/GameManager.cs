@@ -329,8 +329,6 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 
-		bool isMenuOpen = pauseUI.enabled;
-
 		//pickup drop chance adjustment
 		if (playerController.meter < playerController.meterMax / 7) {
 			pickupDropChance = 90;
