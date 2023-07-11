@@ -210,8 +210,10 @@ public class GameManager : MonoBehaviour {
 			string resolutionOption = resolutions[i].width + " x " + resolutions[i].height + " @ " + resolutions[i].refreshRate + "hz";
 			resolutionOptions.Add(resolutionOption);
 
-			if (resolutions[i].width == Screen.currentResolution.width && resolutions[i].height == Screen.currentResolution.height) {
+			if (Initializer.save.versionLatest.resolutionOption != 0) { resolutionIndex = Initializer.save.versionLatest.resolutionOption; }
+			else if (resolutions[i].width == Screen.currentResolution.width && resolutions[i].height == Screen.currentResolution.height) {
 				resolutionIndex = i;
+				Initializer.save.versionLatest.resolutionOption = resolutionIndex;
 			}
 		}
 
@@ -1206,6 +1208,7 @@ public class GameManager : MonoBehaviour {
 
 	public void SetResolution(int resolutionIndex) {
 		Resolution resolution = resolutions[resolutionIndex];
+		Initializer.save.versionLatest.resolutionOption = resolutionIndex;
 		Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
 	}
 
