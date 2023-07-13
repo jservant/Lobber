@@ -33,8 +33,16 @@ public class NodeRandomizer : MonoBehaviour
         var trap = thing.GetComponent<ExplosiveTrap>();
 
         if (pile != null && pile.canDropHeads) {
-            nodeMan.currentBonePiles += 1;
-            if (nodeMan.currentBonePiles <= nodeMan.maxBonePiles) return true;
+            if (pile.isHealthMachine == false) { //if it's a bone pile
+                nodeMan.currentBonePiles += 1;
+                if (nodeMan.currentBonePiles <= nodeMan.maxBonePiles) return true;
+            }
+
+            if (pile.isHealthMachine == true) { //if it's a slush Machine
+                nodeMan.currentSlushMachines += 1;
+                if (nodeMan.currentSlushMachines <= nodeMan.maxSlushMachines) return true;
+            }
+
             else return false;
         }
         

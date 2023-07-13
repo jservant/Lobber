@@ -848,7 +848,7 @@ public class GameManager : MonoBehaviour {
 					break;
 
 				case Objectives.HarvestTheCrystals:
-					if (crystalHarvestingGoal < 10) { crystalHarvestingGoal += 2; }
+					if (crystalHarvestingGoal < 8) { crystalHarvestingGoal += 1; }
 					break;
 
 				default:

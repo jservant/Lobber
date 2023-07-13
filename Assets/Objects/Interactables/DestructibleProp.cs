@@ -8,6 +8,7 @@ public class DestructibleProp : MonoBehaviour {
 
 	[Header("Integrity:")]
 	public bool canDropHeads = false;
+	public bool isHealthMachine;
 	float hitflashTimer = 0f;
 	MeshRenderer model;
 	Material[] materials;
@@ -102,7 +103,11 @@ public class DestructibleProp : MonoBehaviour {
 	public void SpawnHeads(int number) {
 		if (!isUnlimited) heads -= number;
 		for (int i = 0; i < number; i++) {
-			GameObject headInstance = Instantiate(gameMan.Pickups[0], transform.position, transform.rotation);
+
+			int pickupID;
+			if (isHealthMachine) pickupID = 2;
+			else pickupID = 0;
+			GameObject headInstance = Instantiate(gameMan.Pickups[pickupID], transform.position, transform.rotation);
 			Pickup hpop = headInstance.transform.Find("Head").GetComponent<Pickup>();
 			hpop.randomForce = randomForce;
 			hpop.flightAngle = 70f;
