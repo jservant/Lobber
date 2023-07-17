@@ -16,16 +16,19 @@ public class ChangeVolume : MonoBehaviour
         if (volumeType == "Master") {
             masterVolume = sliderValue;
             AkSoundEngine.SetRTPCValue("MasterVolume", masterVolume);
+            Initializer.save.versionLatest.masterVolume = masterVolume;
         }
 
         if (volumeType == "Music") {
             musicVolume = sliderValue;
             AkSoundEngine.SetRTPCValue("MusicVolume", musicVolume);
+            Initializer.save.versionLatest.musicVolume = musicVolume;
         }
 
         if (volumeType == "Sound") {
             soundVolume = sliderValue;
             AkSoundEngine.SetRTPCValue("SFXVolume", soundVolume);
+            Initializer.save.versionLatest.sfxVolume = soundVolume;
         }
     }
 }

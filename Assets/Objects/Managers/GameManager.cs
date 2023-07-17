@@ -1209,6 +1209,7 @@ public class GameManager : MonoBehaviour {
 		audioGroup.interactable = true;
 		optionsBackButton = transform.Find("AudioUI/OptionsBackButton").GetComponent<Button>();
 		optionsBackButton.Select();
+		//assign sliders the value in the save
 	}
 
 	public void OnGraphics() {
