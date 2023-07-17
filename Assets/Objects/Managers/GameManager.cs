@@ -1196,7 +1196,7 @@ public class GameManager : MonoBehaviour {
 		pauseGroup.interactable = false;
 		optionsUI.enabled = true;
 		optionsGroup.interactable = true;
-		optionsBackButton = transform.Find("OptionsUI/StatsButton").GetComponent<Button>();
+		optionsBackButton = transform.Find("OptionsUI/OptionsBackButton").GetComponent<Button>();
 		optionsBackButton.Select();
 	}
 
@@ -1205,7 +1205,7 @@ public class GameManager : MonoBehaviour {
 		optionsGroup.interactable = false;
 		audioUI.enabled = true;
 		audioGroup.interactable = true;
-		optionsBackButton = transform.Find("AudioUI/StatsButton").GetComponent<Button>();
+		optionsBackButton = transform.Find("AudioUI/OptionsBackButton").GetComponent<Button>();
 		optionsBackButton.Select();
 	}
 
@@ -1214,7 +1214,9 @@ public class GameManager : MonoBehaviour {
 		audioGroup.interactable = false;
 		optionsUI.enabled = true;
 		optionsGroup.interactable = true;
-		optionsBackButton = transform.Find("OptionsUI/StatsButton").GetComponent<Button>();
+		Toggle fsToggle = transform.Find("OptionsUI/VisualSettings/Fullscreen/FullscreenToggle").GetComponent<Toggle>();
+		fsToggle.isOn = Screen.fullScreenMode == FullScreenMode.ExclusiveFullScreen;
+		optionsBackButton = transform.Find("OptionsUI/OptionsBackButton").GetComponent<Button>();
 		optionsBackButton.Select();
 	}
 
