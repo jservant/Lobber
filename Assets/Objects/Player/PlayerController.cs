@@ -740,7 +740,9 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		//trigger haptics here
-		if (GameObject.Find("HapticManager") != null) HapticManager.PlayEffect(hapticEffects[0], this.transform.position);
+		if (GameObject.Find("HapticManager") != null && Initializer.save.versionLatest.rumble) {
+			HapticManager.PlayEffect(hapticEffects[0], this.transform.position);
+		}
 		gameMan.ShakeCamera(5f, 0.1f);
 		sounds.CharacterGetHit();
 		immunityTime = 0.25f;

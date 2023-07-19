@@ -1198,6 +1198,8 @@ public class GameManager : MonoBehaviour {
 		optionsGroup.interactable = true;
         Toggle fsToggle = transform.Find("OptionsUI/VisualSettings/Fullscreen/FullscreenToggle").GetComponent<Toggle>();
         fsToggle.isOn = Screen.fullScreenMode == FullScreenMode.ExclusiveFullScreen;
+        Toggle rumbleToggle = transform.Find("OptionsUI/VisualSettings/Rumble/RumbleToggle").GetComponent<Toggle>();
+        rumbleToggle.isOn = Initializer.save.versionLatest.rumble;
         optionsBackButton = transform.Find("OptionsUI/OptionsBackButton").GetComponent<Button>();
 		optionsBackButton.Select();
 	}
@@ -1241,6 +1243,10 @@ public class GameManager : MonoBehaviour {
 
 	public void SetFullScreen(bool isFullscreen) {
 		Screen.fullScreenMode = isFullscreen ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed;
+	}
+
+	public void SetRumble(bool rumble) {
+		Initializer.save.versionLatest.rumble = rumble;
 	}
 
 	//(TODO(@Jaden)): Make screenshake, rumble, corpse limit functions
@@ -1291,6 +1297,7 @@ public class GameManager : MonoBehaviour {
 		audioUI.enabled = false;
 		audioGroup.interactable = false;
 		resumeButton.Select();
+		Initializer.Save();
 	}
 
 	public void OnQuit() {
