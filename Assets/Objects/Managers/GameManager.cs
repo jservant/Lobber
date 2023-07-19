@@ -963,7 +963,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void ShakeCamera(float intensity, float duration) {
-		cameraShake._ShakeCamera(intensity, duration);
+		cameraShake._ShakeCamera(intensity * (Initializer.save.versionLatest.screenshakePercentage / 100), duration);
 	}
 
 	// @TODO(Roskuski): Particles' parent objects do not destory themselves after their particles have. this will leave empty gameobjects lying around the scene as the game progresses, but since we don't have respawning destructible props we should have to worry about this leak.
@@ -1226,7 +1226,9 @@ public class GameManager : MonoBehaviour {
 		optionsGroup.interactable = true;
 		Toggle fsToggle = transform.Find("OptionsUI/VisualSettings/Fullscreen/FullscreenToggle").GetComponent<Toggle>();
 		fsToggle.isOn = Screen.fullScreenMode == FullScreenMode.ExclusiveFullScreen;
-		optionsBackButton = transform.Find("OptionsUI/OptionsBackButton").GetComponent<Button>();
+        Slider screenshakeSlider = transform.Find("OptionsUI/Screenshake/ScreenshakeSlider").GetComponent<Slider>();
+		screenshakeSlider.value = Initializer.save.versionLatest.screenshakePercentage;
+        optionsBackButton = transform.Find("OptionsUI/OptionsBackButton").GetComponent<Button>();
 		optionsBackButton.Select();
 	}
 
