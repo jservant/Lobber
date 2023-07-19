@@ -10,9 +10,14 @@ public class ChangeVolume : MonoBehaviour
     public float musicVolume;
     public float soundVolume;
 
+    private void Start() {
+        slider = GetComponent<Slider>();
+    }
+
     public void SetVolume(string volumeType) {
         float sliderValue = slider.value;
 
+        //if (volumeType == "Master") {
         if (volumeType == "Master") {
             masterVolume = sliderValue;
             AkSoundEngine.SetRTPCValue("MasterVolume", masterVolume);

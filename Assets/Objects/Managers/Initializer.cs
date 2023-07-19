@@ -144,7 +144,10 @@ public class Initializer : MonoBehaviour {
 		}
 		else {
 			Load();
-		}
+            AkSoundEngine.SetRTPCValue("MasterVolume", save.versionLatest.masterVolume);
+            AkSoundEngine.SetRTPCValue("MusicVolume", save.versionLatest.musicVolume);
+            AkSoundEngine.SetRTPCValue("SFXVolume", save.versionLatest.sfxVolume);
+        }
 	}
 
 	public static void AssignDefaultValues() {

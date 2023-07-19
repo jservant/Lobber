@@ -1209,7 +1209,12 @@ public class GameManager : MonoBehaviour {
 		audioGroup.interactable = true;
 		optionsBackButton = transform.Find("AudioUI/OptionsBackButton").GetComponent<Button>();
 		optionsBackButton.Select();
-		//assign sliders the value in the save
+		Slider masterSlider = transform.Find("AudioUI/Master/MasterSlider").GetComponent<Slider>();
+		Slider musicSlider = transform.Find("AudioUI/Master/MusicSlider").GetComponent<Slider>();
+		Slider sfxSlider = transform.Find("AudioUI/Master/SFXSlider").GetComponent<Slider>();
+		masterSlider.value = Initializer.save.versionLatest.masterVolume;
+		musicSlider.value = Initializer.save.versionLatest.musicVolume;
+		sfxSlider.value = Initializer.save.versionLatest.sfxVolume;
 	}
 
 	public void OnGraphics() {
