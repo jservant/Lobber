@@ -171,7 +171,7 @@ public class PlayerController : MonoBehaviour {
 		2f, // Spin
 		0f, // HeadThrow (Hit + Damage is handled by the projectile, we shouldn't even get a hit while in this attack)
 		0f, // Dashing
-		2f, // LethalDash
+		4f, // LethalDash
 		0f, // ShotgunThrow (Hit + Damage is handled by the projectile, we shouldn't even get a hit while in this attack)
 	};
 

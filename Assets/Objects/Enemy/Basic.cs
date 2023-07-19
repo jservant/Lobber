@@ -126,7 +126,8 @@ public class Basic : MonoBehaviour {
 	SkinnedMeshRenderer model;
 	Material[] materials;
 	public Material hitflashMat;
-	public MeshRenderer armorMesh;
+	public MeshRenderer[] armorMesh;
+	public Transform armorPoint;
 	public bool isArmored;
 	float immunityTime = 0f;
 
@@ -179,7 +180,7 @@ public class Basic : MonoBehaviour {
 	}
 
 
-	public void ChangeDirective_Stunned(StunTime stunTime, KnockbackInfo newKnockbackInfo) {
+	public void ChangeDirective_Stunned(StunTime stunTime, KnockbackInfo newKnockbackInfo, bool extraStun) {
 		if (directive != Directive.Spawn && stunTime != StunTime.None) {
 			directive = Directive.Stunned;
 			hasStartedStunRecovery = false;
@@ -193,7 +194,8 @@ public class Basic : MonoBehaviour {
 					break;
 
 				case StunTime.Long:
-					stunValue = Random.Range(2f, 2.2f);
+					stunValue = Random.Range(2f, 2.4f);
+					if (extraStun) stunValue += 2f;
 					animator.SetTrigger("wasHeavyHurt");
 					isInHeavyStun = true;
 					break;
@@ -305,6 +307,7 @@ public class Basic : MonoBehaviour {
 			float damage = 0f;
 			float meterGain = 0f;
 			bool playHitSound = false;
+			bool _extraStun = false;
 
 			if (other.gameObject.layer == (int)Layers.PlayerHitbox) {
 				HeadProjectile head = other.GetComponentInParent<HeadProjectile>();
@@ -313,7 +316,7 @@ public class Basic : MonoBehaviour {
 
 				if (player != null) {
 					if (!isArmored) gameMan.SpawnParticle(0, other.transform.position, 1f);
-					else gameMan.SpawnParticle(13, armorMesh.transform.position, 0.75f);
+					else gameMan.SpawnParticle(13, armorPoint.position, 0.75f);
 					gameMan.SpawnParticle(12, other.transform.position, 1f);
 
 					newKnockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
@@ -358,13 +361,16 @@ public class Basic : MonoBehaviour {
 					gameMan.SpawnParticle(0, other.transform.position, 2f);
 					damage = 5f;
 					stunTime = StunTime.Long;
+					_extraStun = true;
 					playHitSound = true;
 				}
 				else if (explosiveTrap != null) {
 					// NOTE(Roskuski): Knockback trap
 					newKnockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
 					stunTime = StunTime.Long;
+					_extraStun = true;
 					playHitSound = true;
+					if (isArmored) damage = 5f;
 				}
 			}
 			else if (other.gameObject.layer == (int)Layers.AgnosticHitbox) {
@@ -372,6 +378,7 @@ public class Basic : MonoBehaviour {
 					// NOTE(Roskuski): Explosive enemy
 					newKnockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
 					stunTime = StunTime.Long;
+					_extraStun = true;
 					newKnockbackInfo.force *= 2f;
 					damage = 5f;
 					playHitSound = true;
@@ -382,26 +389,26 @@ public class Basic : MonoBehaviour {
 				if (playHitSound) sounds.CharacterGetHit();
 				health -= damage;
 				gameMan.playerController.ChangeMeter(meterGain);
-				ChangeDirective_Stunned(stunTime, newKnockbackInfo);
+				ChangeDirective_Stunned(stunTime, newKnockbackInfo, _extraStun);
 			}
             else {
 				if (playHitSound) sounds.Sound_ArmorHit();
 				if (damage > 0) damage -= 1;
 				health -= damage;
-				if (health <= 4) ArmorBreak(stunTime, newKnockbackInfo);
+				if (health <= 4) ArmorBreak(stunTime, newKnockbackInfo, _extraStun);
 			}
 		}
 	}
 
-	public void ArmorBreak(StunTime _stunTime, KnockbackInfo _newKnockbackInfo) {
-		ChangeDirective_Stunned(_stunTime, _newKnockbackInfo);
+	public void ArmorBreak(StunTime _stunTime, KnockbackInfo _newKnockbackInfo, bool extraStun) {
+		ChangeDirective_Stunned(_stunTime, _newKnockbackInfo, extraStun);
 		sounds.Sound_ArmorBreak();
 		sounds.Sound_EnemyCrystalShatter();
-		gameMan.SpawnParticle(13, armorMesh.transform.position, 1f);
-		Util.SpawnFlash(gameMan, 1, armorMesh.transform.position, true);
+		gameMan.SpawnParticle(13, armorPoint.position, 1f);
+		Util.SpawnFlash(gameMan, 1, armorPoint.position, true);
 		health = 4;
 		immunityTime = 0.3f;
-		armorMesh.enabled = false;
+		for (int i = 0; i < armorMesh.Length; i++) armorMesh[i].enabled = false;
 		isArmored = false;
 	}
 
@@ -457,7 +464,7 @@ public class Basic : MonoBehaviour {
 		if (gameMan.armorEnabled) RollArmorChance();
 		if (isArmored) {
 			health += 3;
-			armorMesh.enabled = true;
+			for (int i = 0; i < armorMesh.Length; i++) armorMesh[i].enabled = true;
 		}
 	}
 
@@ -1052,14 +1059,14 @@ public class Basic : MonoBehaviour {
 			if (!wasHitByChop) {
 				if (isCrystallized) { 
 					gameMan.SpawnParticle(11, transform.position, 0.8f);
-					Util.SpawnFlash(gameMan, 5, armorMesh.transform.position, true);
+					Util.SpawnFlash(gameMan, 5, armorPoint.position, true);
 				}
 				else gameMan.SpawnCorpse(0, transform.position, transform.rotation, corpseForce, true);
 			}
 			else {
 				if (isCrystallized) { 
 					gameMan.SpawnParticle(11, transform.position, 0.8f);
-					Util.SpawnFlash(gameMan, 5, armorMesh.transform.position, true);
+					Util.SpawnFlash(gameMan, 5, armorPoint.position, true);
 				}
 				else gameMan.SpawnCorpse(0, transform.position, transform.rotation, corpseForce, false);
 			}
