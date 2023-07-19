@@ -5730,6 +5730,7 @@ GameObject:
   - component: {fileID: 7771149786344139420}
   - component: {fileID: 1159883847919518216}
   - component: {fileID: 8169114810746233822}
+  - component: {fileID: 1401391747318682614}
   m_Layer: 5
   m_Name: Template
   m_TagString: Untagged
@@ -5826,6 +5827,19 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1401391747318682614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3088770006877537548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ce05fee8cbff1c4aa6912b0767e5d15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scrollSpeed: 10
 --- !u!1 &3162089065891343855
 GameObject:
   m_ObjectHideFlags: 0
@@ -11135,6 +11149,7 @@ GameObject:
   - component: {fileID: 7025020665970855095}
   - component: {fileID: 2029851437383828303}
   - component: {fileID: 4503400775425258857}
+  - component: {fileID: 4351601158059082048}
   m_Layer: 5
   m_Name: Template
   m_TagString: Untagged
@@ -11231,6 +11246,19 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4351601158059082048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6301366870435697098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ce05fee8cbff1c4aa6912b0767e5d15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scrollSpeed: 10
 --- !u!1 &6497921119111753170
 GameObject:
   m_ObjectHideFlags: 0
@@ -15609,7 +15637,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Fullscreen
+  m_text: 'Fullscreen:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 816009487d95cc6438d450853d0962bb, type: 2}
   m_sharedMaterial: {fileID: 91290712766828839, guid: 816009487d95cc6438d450853d0962bb, type: 2}
