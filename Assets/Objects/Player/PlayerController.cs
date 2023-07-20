@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour {
 		new QueueInfo[]{   new QueueInfo(0.0f, 1.0f, 0.950f, 0.200f, 0.000f, Attacks.None),
 						   new QueueInfo(0.3f, 1.0f, 0.750f, 0.100f, 0.000f, Attacks.LAttack), // Light Attack
 			               new QueueInfo(0.3f, 1.0f, 0.750f, 0.100f, 0.000f, Attacks.Chop), // Heavy Attack
-			               new QueueInfo(0.3f, 1.0f, 0.650f, 0.174f, 0.150f, Attacks.HeadThrow), // Throw
+			               new QueueInfo(0.5f, 1.0f, 0.750f, 0.150f, 0.150f, Attacks.HeadThrow), // Throw
 			               new QueueInfo(0.3f, 1.0f, 0.650f, 0.250f, 0.000f, Attacks.Dashing), // Dash
 			               new QueueInfo(0.3f, 1.0f, 0.650f, 0.000f, 0.000f, Attacks.Spin), // Mod Light Attack
 			               new QueueInfo(0.3f, 1.0f, 0.750f, 0.100f, 0.300f, Attacks.Slam), // Mod Heavy Attack
@@ -579,7 +579,7 @@ public class PlayerController : MonoBehaviour {
 							break;
 
 						case Attacks.Chop:
-							speedTime = 0;
+							speedTime = 0f;
 							break;
 
 
@@ -769,6 +769,7 @@ public class PlayerController : MonoBehaviour {
 
 	public void ChangeMeter(float Amount) {
 		if (frenzyTimer > 0) return;
+		if (currentAttack == Attacks.HeadThrow) return;
 		meter += Amount;
 		if (meter >= 1) {
 			
@@ -777,6 +778,12 @@ public class PlayerController : MonoBehaviour {
 			
 		}
 		if (meter < 0) { meter = 0; }
+	}
+
+	public void ChangeMeterThrow() {
+		if (frenzyTimer > 0) return;
+		meter -= 1.0f;
+		if (meter < 0) meter = 0;
 	}
 
 	float maxHomingDistance;
@@ -809,11 +816,11 @@ public class PlayerController : MonoBehaviour {
 					break;
 
 				case Attacks.LAttack:
-					homingTargetDelta *= 0.80f;
+					homingTargetDelta *= 1f;
 					break;
 
 				case Attacks.LAttack2:
-					homingTargetDelta *= 1f;
+					homingTargetDelta *= 1.2f;
 					break;
 
 				case Attacks.LAttack3:
