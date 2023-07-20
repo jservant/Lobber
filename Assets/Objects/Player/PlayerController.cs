@@ -744,6 +744,7 @@ public class PlayerController : MonoBehaviour {
 			HapticManager.PlayEffect(hapticEffects[0], this.transform.position);
 		}
 		gameMan.ShakeCamera(5f, 0.1f);
+		gameMan.HurtVignette(0.5f, damageTaken);
 		sounds.CharacterGetHit();
 		immunityTime = 0.25f;
 	}

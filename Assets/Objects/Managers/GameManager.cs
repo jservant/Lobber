@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 using TMPro;
 
 public class GameManager : MonoBehaviour {
@@ -22,6 +23,7 @@ public class GameManager : MonoBehaviour {
 	public Transform player;
 	public PlayerController playerController;
 	public CameraShake cameraShake;
+	public VignetteEffect vignette;
 	public static int storedPlayerHealth = 0;
 	public static float storedPlayerMeter = 0;
 	public static int enemiesKilledInRun = 0;
@@ -172,6 +174,7 @@ public class GameManager : MonoBehaviour {
 		else Debug.LogWarning("Object Named Player Not found");
 
 		cameraShake = transform.Find("/CameraPoint").GetComponentInChildren<CameraShake>();
+		vignette = transform.Find("/CameraPoint").GetComponentInChildren<VignetteEffect>();
 		dActions = new DebugActions();
 		eSystem = GetComponent<EventSystem>();
 		mainUI = transform.Find("MainUI").GetComponent<Canvas>();
@@ -969,6 +972,10 @@ public class GameManager : MonoBehaviour {
 	public void ShakeCamera(float intensity, float duration) {
 		cameraShake._ShakeCamera(intensity * (Initializer.save.versionLatest.screenshakePercentage / 100), duration);
 	}
+
+	public void HurtVignette(float intensity, float duration) {
+		vignette.TriggerVignette(intensity, duration);
+    }
 
 	// @TODO(Roskuski): Particles' parent objects do not destory themselves after their particles have. this will leave empty gameobjects lying around the scene as the game progresses, but since we don't have respawning destructible props we should have to worry about this leak.
 	public void SpawnParticle(int particleID, Vector3 position, float scale) {
