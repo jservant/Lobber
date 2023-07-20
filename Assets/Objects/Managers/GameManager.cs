@@ -63,7 +63,9 @@ public class GameManager : MonoBehaviour {
 	public Canvas statsUI;
 	public CanvasGroup statsGroup;
 	public Button statsBackButton;
-	public TMP_Text statsText;
+    public Canvas creditsUI;
+    public CanvasGroup creditsGroup;
+    public TMP_Text statsText;
 	public TMP_Text statsText2;
 	public TMP_Text statusTextboxText;
 	public TMP_Text objectiveText;
@@ -193,6 +195,8 @@ public class GameManager : MonoBehaviour {
 		graphicsDropdown = transform.Find("OptionsUI/VisualSettings/Graphics/GraphicsDropdown").GetComponent<TMP_Dropdown>();
 		statsUI = transform.Find("StatsUI").GetComponent<Canvas>();
 		statsGroup = transform.Find("StatsUI").GetComponent<CanvasGroup>();
+		creditsUI = transform.Find("CreditsUI").GetComponent<Canvas>();
+		creditsGroup = transform.Find("CreditsUI").GetComponent<CanvasGroup>();
 		statusTextboxText = transform.Find("StatusTextbox/StatusTextboxText").GetComponent<TMP_Text>();
 		statusTextboxText.text = "";
 		objectiveText = transform.Find("StatusTextbox/ObjectiveText").GetComponent<TMP_Text>();
@@ -1212,14 +1216,25 @@ public class GameManager : MonoBehaviour {
 		optionsBackButton = transform.Find("AudioUI/OptionsBackButton").GetComponent<Button>();
 		optionsBackButton.Select();
 		Slider masterSlider = transform.Find("AudioUI/Master/MasterSlider").GetComponent<Slider>();
-		Slider musicSlider = transform.Find("AudioUI/Master/MusicSlider").GetComponent<Slider>();
-		Slider sfxSlider = transform.Find("AudioUI/Master/SFXSlider").GetComponent<Slider>();
+		Slider musicSlider = transform.Find("AudioUI/Music/MusicSlider").GetComponent<Slider>();
+		Slider sfxSlider = transform.Find("AudioUI/SFX/SFXSlider").GetComponent<Slider>();
 		masterSlider.value = Initializer.save.versionLatest.masterVolume;
 		musicSlider.value = Initializer.save.versionLatest.musicVolume;
 		sfxSlider.value = Initializer.save.versionLatest.sfxVolume;
 	}
 
-	public void OnGraphics() {
+	public void OnCredits() {
+        optionsUI.enabled = false;
+        optionsGroup.interactable = false;
+		creditsUI.enabled = true;
+		creditsGroup.interactable = true;
+		Animator creditsAnimator = transform.Find("CreditsUI/CreditsContainer").GetComponent<Animator>();
+		creditsAnimator.Play("CreditsMovement");
+        optionsBackButton = transform.Find("CreditsUI/OptionsBackButton").GetComponent<Button>();
+        optionsBackButton.Select();
+    }
+
+    public void OnGraphics() {
 		audioUI.enabled = false;
 		audioGroup.interactable = false;
 		optionsUI.enabled = true;
@@ -1298,7 +1313,11 @@ public class GameManager : MonoBehaviour {
 		optionsGroup.interactable = false;
 		audioUI.enabled = false;
 		audioGroup.interactable = false;
-		resumeButton.Select();
+		creditsUI.enabled = false;
+		creditsGroup.interactable = false;
+       /* Animator creditsAnimator = transform.Find("CreditsUI/CreditsContainer").GetComponent<Animator>();
+        creditsAnimator.enabled = false;*/
+        resumeButton.Select();
 		Initializer.Save();
 	}
 
