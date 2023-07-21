@@ -130,6 +130,7 @@ public class Basic : MonoBehaviour {
 	public Transform armorPoint;
 	public bool isArmored;
 	float immunityTime = 0f;
+	public GameObject stunSphere;
 
 	// NOTE(Roskuski): External references
 	GameManager gameMan;
@@ -308,11 +309,13 @@ public class Basic : MonoBehaviour {
 			float meterGain = 0f;
 			bool playHitSound = false;
 			bool _extraStun = false;
+			bool triggerStunSphere = true;
 
 			if (other.gameObject.layer == (int)Layers.PlayerHitbox) {
 				HeadProjectile head = other.GetComponentInParent<HeadProjectile>();
 				PlayerController player = other.GetComponentInParent<PlayerController>();
 				ExplosiveTrap explosiveTrap = other.GetComponentInParent<ExplosiveTrap>();
+				StunSphere stunSphere = other.GetComponent<StunSphere>();
 
 				if (player != null) {
 					if (!isArmored) gameMan.SpawnParticle(0, other.transform.position, 1f);
@@ -369,8 +372,15 @@ public class Basic : MonoBehaviour {
 					newKnockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
 					stunTime = StunTime.Long;
 					_extraStun = true;
+					triggerStunSphere = false;
 					playHitSound = true;
 					if (isArmored) damage = 5f;
+				}
+				else if (stunSphere != null && isArmored == false) {
+					newKnockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
+					stunTime = StunTime.Long;
+					triggerStunSphere = false;
+					playHitSound = true;
 				}
 			}
 			else if (other.gameObject.layer == (int)Layers.AgnosticHitbox) {
@@ -382,6 +392,7 @@ public class Basic : MonoBehaviour {
 					newKnockbackInfo.force *= 2f;
 					damage = 5f;
 					playHitSound = true;
+					triggerStunSphere = false;
 				}
 			}
 
@@ -395,16 +406,17 @@ public class Basic : MonoBehaviour {
 				if (playHitSound) sounds.Sound_ArmorHit();
 				if (damage > 0) damage -= 1;
 				health -= damage;
-				if (health <= 4) ArmorBreak(stunTime, newKnockbackInfo, _extraStun);
+				if (health <= 4) ArmorBreak(stunTime, newKnockbackInfo, _extraStun, triggerStunSphere);
 			}
 		}
 	}
 
-	public void ArmorBreak(StunTime _stunTime, KnockbackInfo _newKnockbackInfo, bool extraStun) {
+	public void ArmorBreak(StunTime _stunTime, KnockbackInfo _newKnockbackInfo, bool extraStun, bool _stunSphere) {
 		ChangeDirective_Stunned(_stunTime, _newKnockbackInfo, extraStun);
 		sounds.Sound_ArmorBreak();
 		sounds.Sound_EnemyCrystalShatter();
 		gameMan.SpawnParticle(13, armorPoint.position, 1f);
+		if (_stunSphere) Instantiate(stunSphere, armorPoint.position, Quaternion.identity);
 		Util.SpawnFlash(gameMan, 1, armorPoint.position, true);
 		health = 4;
 		immunityTime = 0.3f;
