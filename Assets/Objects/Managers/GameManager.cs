@@ -991,6 +991,7 @@ public class GameManager : MonoBehaviour {
 	public void SpawnCorpse(int corpseID, Vector3 position, Quaternion rotation, float forceMultiplier, bool hasHead) {
 		var corpse = Instantiate(corpses[corpseID], position, rotation);
 		var forceScript = corpse.GetComponent<RandomForce>();
+		if (forceMultiplier < 1f) forceMultiplier = 5f;
 		forceScript.force *= forceMultiplier;
 		forceScript.hasHead = hasHead;
     }
