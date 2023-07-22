@@ -76,6 +76,9 @@ public class GameManager : MonoBehaviour {
 
 	public Material healthBar;
 	public Material meterBar;
+	public Material healthBarDrain;
+	public float barDrainTime = 0f;
+	public float previousHealth = 10f;
 
 	/*public Transform healthBar;
 	public Transform meterBar;
@@ -1042,6 +1045,14 @@ public class GameManager : MonoBehaviour {
 		float segmentValue = (health / healthMax) * 10;
 		float removedSegments = (healthBar.GetFloat("_TotalSegments") - segmentValue);
 		healthBar.SetFloat("_RemovedSegments", removedSegments);
+
+		float previousSegmentValue = 20f - ((previousHealth / healthMax) * 10);
+		
+		if (barDrainTime > 0) {
+			barDrainTime -= Time.deltaTime;
+			float drainValue = Mathf.Lerp(removedSegments, previousSegmentValue, barDrainTime / 0.5f);
+			healthBarDrain.SetFloat("_RemovedSegments", drainValue);
+		}
 
 		/*float healthMax = playerController.healthMax;
 		float health = playerController.health;

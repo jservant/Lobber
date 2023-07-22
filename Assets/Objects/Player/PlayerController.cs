@@ -719,6 +719,7 @@ public class PlayerController : MonoBehaviour {
 	public void Hit(int damageTaken, Collider other) {
 		currentAttack = Attacks.None;
 		animr.SetBool("isWalking", false);
+		if (gameMan.barDrainTime <= 0) gameMan.previousHealth = health;
 		health -= damageTaken;
 		if (health <= 0) {
 			health = 0;
@@ -745,6 +746,8 @@ public class PlayerController : MonoBehaviour {
 		}
 		gameMan.ShakeCamera(5f, 0.1f);
 		gameMan.HurtVignette(0.8f, damageTaken);
+		gameMan.barDrainTime += damageTaken;
+		if (gameMan.barDrainTime > 3f) gameMan.barDrainTime = 3f;
 		sounds.CharacterGetHit();
 		immunityTime = 0.25f;
 	}
