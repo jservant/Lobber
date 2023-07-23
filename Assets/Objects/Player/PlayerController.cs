@@ -500,6 +500,7 @@ public class PlayerController : MonoBehaviour {
 			if (pActions.Player.LightAttack.WasPerformedThisFrame()) {
 				if (pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
 					attackButtonPrep = AttackButton.ModLight;
+					if (meter < 0.2f) gameMan.MeterSpendFail(0);
 				}
 				else { 
 					attackButtonPrep = AttackButton.LightAttack;
@@ -509,6 +510,7 @@ public class PlayerController : MonoBehaviour {
 			if (pActions.Player.HeavyAttack.WasPerformedThisFrame()) {
 				if (pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
 					attackButtonPrep = AttackButton.ModHeavy;
+					if (meter < 3.7f) gameMan.MeterSpendFail(3);
 				}
 				else {
 					attackButtonPrep = AttackButton.HeavyAttack;
@@ -518,9 +520,11 @@ public class PlayerController : MonoBehaviour {
 			if (pActions.Player.Throw.WasPerformedThisFrame()) {
 				if (pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
 					attackButtonPrep = AttackButton.ModThrow;
+					if (meter < 2.7f) gameMan.MeterSpendFail(2);
 				}
 				else {
 					attackButtonPrep = AttackButton.Throw;
+					if (meter < 0.7f) gameMan.MeterSpendFail(1);
 				}
 			}
 
@@ -531,6 +535,7 @@ public class PlayerController : MonoBehaviour {
 
 				if (pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
 					attackButtonPrep = AttackButton.ModDash;
+					if (meter < 0.7f) gameMan.MeterSpendFail(1);
 				}
 				else {
 					attackButtonPrep = AttackButton.Dash;

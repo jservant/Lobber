@@ -79,6 +79,8 @@ public class GameManager : MonoBehaviour {
 	public Material healthBarDrain;
 	public float barDrainTime = 0f;
 	public float previousHealth = 10f;
+	public float meterCostFlashTime = 0f;
+	public Image[] meterCostSegments;
 
 	/*public Transform healthBar;
 	public Transform meterBar;
@@ -1071,7 +1073,36 @@ public class GameManager : MonoBehaviour {
 		/*meterBar.localScale = new Vector3((playerController.meter / playerController.meterMax), 1f, 1f);
 		if (playerController.frenzyTimer > 0) { meterImage.color = Color.yellow; }
 		else { meterImage.color = Color.white; }*/ //Old MeterBar Logic
+
+		//Tick down flashing elements
+		if (meterCostFlashTime > 0) {
+			meterCostFlashTime -= Time.deltaTime;
+			for (int i = 0; i < meterCostSegments.Length; i++) {
+				if (meterCostSegments[i].color.a > 0f) {
+					Color temp = meterCostSegments[i].color;
+					temp.a = Mathf.Lerp(0f, 1f, meterCostFlashTime / 0.5f);
+					meterCostSegments[i].color = temp;
+				}
+            }
+
+		}
 	}
+
+	public void MeterSpendFail(int index) {
+		for (int i = 0; i < meterCostSegments.Length; i++) {
+			if (i == index) {
+				Color temp = meterCostSegments[i].color;
+				temp.a = 1f;
+				meterCostSegments[i].color = temp;
+			}
+			else {
+				Color temp = meterCostSegments[i].color;
+				temp.a = 0f;
+				meterCostSegments[i].color = temp;
+			}
+        }
+		meterCostFlashTime = 0.5f;
+    }
 
 	readonly string[] PlayerAttackToName = {
 		"",
