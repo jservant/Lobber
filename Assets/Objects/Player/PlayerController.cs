@@ -565,9 +565,9 @@ public class PlayerController : MonoBehaviour {
 					tsr = targetSphereRadius;
 					currentState = States.Attacking;
 
-					if (doHoming) {
-						doHoming = false;
-					}
+					// NOTE(Roskuski): Stop homing from the previous attack
+					doHoming = false;
+					
 
 					animr.CrossFade(AttackToStateName[(int)queuedAttackInfo.nextAttack], queuedAttackInfo.transitionDurationPercent, -1, queuedAttackInfo.nextOffset);
 
