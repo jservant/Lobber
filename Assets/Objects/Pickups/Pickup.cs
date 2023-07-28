@@ -64,12 +64,18 @@ public class Pickup : MonoBehaviour {
 	void SetRandomFlightPath() {
 		// NOTE(Roskuski): Loop terminates with a break.
 		while (true) {
-			// TODO(@Ryan): Cap ranforce at 3 and -3 if below or above
-			float ranForceX = Random.Range(-randomForce, randomForce);
-			float ranForceZ = Random.Range(-randomForce, randomForce);
-			if (ranForceX < 3 && ranForceX >= 0) ranForceX = 3;
-			if (ranForceZ > -3 && ranForceZ <= 0) ranForceX = -3;
-			Vector3 point = new Vector3(transform.position.x + ranForceX, 5f, transform.position.z + ranForceZ); //calculates randomized point on XZ axis
+			// TODO(@Ryan): Cap ranforce at 7 and -7 if below or above
+
+			float ranForceX = 0f;
+			float ranForceZ = 0f;
+			float offset = 3f;
+
+			while ((Mathf.Abs(ranForceX) < offset) && (Mathf.Abs(ranForceZ) < offset)) {
+				ranForceX = Random.Range(-randomForce, randomForce);
+				ranForceZ = Random.Range(-randomForce, randomForce);
+			}
+
+			Vector3 point = new Vector3(transform.position.x + ranForceX, transform.position.y + 5f, transform.position.z + ranForceZ); //calculates randomized point on XZ axis
 			RaycastHit rayHit;
 			if (Physics.Raycast(point, Vector3.down, out rayHit, 100f)) {
 				NavMeshHit navHit;
@@ -134,6 +140,12 @@ public class Pickup : MonoBehaviour {
 			}
 
 			headTrail.enabled = false;
+			if (gameMan.transitioningLevel) {
+				if (pickupType != Type.Crystal) {
+					gatherRadius = 300f;
+					followSpeed = 40f;
+				}
+			}
 			if (indicator != null) Destroy(indicator);
 		}
 		else UpdateIndicator();

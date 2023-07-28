@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour {
 	public static int shrineMaxHealth = 15;
 	public static int pickupDropChance = 0;
 	public static int levelCount = 0;
+	public int levelIncrement;
 
 	[Header("Non-static objective variables:")]
 	public int enemiesKilledInLevel = 0;
@@ -158,7 +159,7 @@ public class GameManager : MonoBehaviour {
 	public bool armorEnabled;
 	DebugActions dActions;
 	float frozenTime = 0;
-	bool transitioningLevel = false;
+	public bool transitioningLevel = false;
 	public static bool shouldWipeSave = false;
 
 	[Header("Particle System:")]
@@ -737,7 +738,7 @@ public class GameManager : MonoBehaviour {
 			if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed && playerController.pActions.Player.DEBUGKillAll.WasPerformedThisFrame()) {
 				if (canSpawn) {
 					KillAll();
-					canSpawn = false;
+					//canSpawn = false;
 				}
 				else canSpawn = true;
 			}
@@ -831,13 +832,13 @@ public class GameManager : MonoBehaviour {
 		float[] sceneChances = new float[] { 0, 1f, 1f, 1f, 1f, 1f, 1f };
 		sceneChances[SceneManager.GetActiveScene().buildIndex] = 0;
 		KillAll();
-		yield return new WaitForSeconds(5);
+		yield return new WaitForSeconds(6);
 		if (playerController.currentState == PlayerController.States.Death) {
 			SceneManager.LoadScene((int)Scenes.Tutorial);
 		} else {
 			storedPlayerHealth = playerController.health;
 			storedPlayerMeter = playerController.meter;
-			levelCount++;
+			levelCount += levelIncrement;
 			UpdateSpawnerValues();
 			switch (currentObjective) {
 				case Objectives.KillTheEnemies:
@@ -1184,14 +1185,18 @@ public class GameManager : MonoBehaviour {
 		}
 		Basic[] allBasic = FindObjectsOfType<Basic>();
 		foreach (Basic basicEnemy in allBasic) {
-			Destroy(basicEnemy.gameObject);
+			basicEnemy.shouldDie = true;
+			basicEnemy.shouldAddToKillTotal = false;
 		}
 		Exploding[] allExplosive = FindObjectsOfType<Exploding>();
 		foreach (Exploding explodingEnemy in allExplosive) {
-			Destroy(explodingEnemy.gameObject);
+			explodingEnemy.ChangeDirective_Explosion();
+			explodingEnemy.shouldAddToKillTotal = false;
+			explodingEnemy.shouldDealDamage = false;
 		}
 		Necro[] allNecro = FindObjectsOfType<Necro>();
 		foreach (Necro necroEnemy in allNecro) {
+			necroEnemy.shouldAddToKillTotal = false;
 			Destroy(necroEnemy.gameObject);
 		}
 	}

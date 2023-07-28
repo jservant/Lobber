@@ -52,6 +52,8 @@ public class Necro : MonoBehaviour {
 	bool isImmune = false;
 	bool wasHitByChop = false;
 
+	public bool shouldAddToKillTotal;
+
 	float stunDuration = 0f;
 	KnockbackInfo knockbackInfo;
 	float remainingKnockbackTime;
@@ -128,7 +130,7 @@ public class Necro : MonoBehaviour {
 		}
 	}
 	
-	void ChangeDirective_Death() {
+	public void ChangeDirective_Death() {
 		if (directive != Directive.Death) {
 			directive = Directive.Death;
 			currentAttack = Attack.None;
@@ -482,9 +484,11 @@ public class Necro : MonoBehaviour {
 	}
 
     private void OnDestroy() {
-		gameMan.enemiesAlive -= 1;
-		gameMan.enemiesKilledInLevel += 1;
-		GameManager.enemiesKilledInRun += 1;
-		Initializer.save.versionLatest.necroEnemyKills++;
+		if (shouldAddToKillTotal) {
+			gameMan.enemiesAlive -= 1;
+			gameMan.enemiesKilledInLevel += 1;
+			GameManager.enemiesKilledInRun += 1;
+			Initializer.save.versionLatest.necroEnemyKills++;
+		}
 	}
 }

@@ -722,8 +722,9 @@ public class PlayerController : MonoBehaviour {
 
 	#region Combat functions
 	public void Hit(int damageTaken, Collider other) {
-		currentAttack = Attacks.None;
-		animr.SetBool("isWalking", false);
+		doHoming = false;
+		//currentAttack = Attacks.None;
+		//animr.SetBool("isWalking", false);
 		if (gameMan.barDrainTime <= 0) gameMan.previousHealth = health;
 		health -= damageTaken;
 		if (health <= 0) {
@@ -731,8 +732,8 @@ public class PlayerController : MonoBehaviour {
 			StartCoroutine(Death());
 		}
 		else {
-			animr.SetTrigger("wasHurt");
-			currentState = States.Idle;
+			//animr.SetTrigger("wasHurt");
+			//currentState = States.Idle;
 			float healthPercentage = (float)health / (float)healthMax;
 			spotLight.intensity = 50f * (healthPercentage);
 			hitflashTimer = 0.15f;
@@ -751,8 +752,8 @@ public class PlayerController : MonoBehaviour {
 		}
 		gameMan.ShakeCamera(5f, 0.1f);
 		gameMan.HurtVignette(0.8f, damageTaken);
-		gameMan.barDrainTime += damageTaken;
-		if (gameMan.barDrainTime > 3f) gameMan.barDrainTime = 3f;
+		gameMan.barDrainTime += damageTaken / 2f;
+		if (gameMan.barDrainTime > 1.5f) gameMan.barDrainTime = 1.5f;
 		sounds.CharacterGetHit();
 		immunityTime = 0.25f;
 	}

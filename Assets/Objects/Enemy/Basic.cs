@@ -94,8 +94,9 @@ public class Basic : MonoBehaviour {
 
 	public float health;
 	bool wasHitByChop = false;
-	bool shouldDie = false;
+	public bool shouldDie = false;
 	public float dropChance; //chance to drop a head (0-100)
+	public bool shouldAddToKillTotal = true;
 
 	KnockbackInfo knockbackInfo;
 	float remainingKnockbackTime = 0f;
@@ -533,7 +534,7 @@ public class Basic : MonoBehaviour {
 		switch (directive) {
 			case Directive.Inactive: // using this as a generic start point for enemy AI
 				inactiveWait -= Time.deltaTime;
-				if (inactiveWait < 0) {
+				if (inactiveWait <= 0) {
 					if (isSandbag) { directive = Directive.Sandbag; }
 					else {
 						preferRightStrafe = Random.Range(0, 2) == 1 ? true : false;
@@ -1032,7 +1033,7 @@ public class Basic : MonoBehaviour {
 
 							if (animationTimer < 0.0f) {
 								// If we found ourselves off geometry, wait util we finish falling.
-								ChangeDirective_Inactive(1.0f);
+								ChangeDirective_Inactive(0);
 								navAgent.enabled = true;
 							}
 							break;
@@ -1090,15 +1091,17 @@ public class Basic : MonoBehaviour {
 		}
 	}
 
-	private void OnDestroy() { 
-		gameMan.enemiesAlive -= 1;
-		gameMan.enemiesKilledInLevel += 1;
-		GameManager.enemiesKilledInRun += 1;
-		if (isCrystallized) { 
-			gameMan.isCrystalEnemyAlive = false;
-			sounds.Sound_EnemyCrystalShatter();
+	private void OnDestroy() {
+		if (shouldAddToKillTotal) {
+			gameMan.enemiesAlive -= 1;
+			gameMan.enemiesKilledInLevel += 1;
+			GameManager.enemiesKilledInRun += 1;
+			if (isCrystallized) {
+				gameMan.isCrystalEnemyAlive = false;
+				sounds.Sound_EnemyCrystalShatter();
+			}
+			Initializer.save.versionLatest.basicEnemyKills++;
 		}
-		Initializer.save.versionLatest.basicEnemyKills++;
 	}
 
 	void OnDrawGizmos() {

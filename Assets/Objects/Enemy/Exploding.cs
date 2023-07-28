@@ -59,6 +59,9 @@ public class Exploding : MonoBehaviour {
 	public float WaitLength;
 	public float waitMultiplier; //how much faster it shortens its wait time as the player gets closer (2f = twice as fast)
 
+	public bool shouldAddToKillTotal = true;
+	public bool shouldDealDamage = true;
+
 	readonly float LaunchHeight = 6.0f;
 	readonly float LaunchLength = 1.0f;
 
@@ -111,7 +114,7 @@ public class Exploding : MonoBehaviour {
 		}
 	}
 
-	void ChangeDirective_Explosion(float delay = 0) {
+	public void ChangeDirective_Explosion(float delay = 0) {
 		if (directive != Directive.Explosion) {
 			directive = Directive.Explosion;
 			selfHurtbox.isTrigger = true;
@@ -141,18 +144,20 @@ public class Exploding : MonoBehaviour {
 				}
 			}
 			else {
-				ChangeDirective_Explosion();
+				if (other.CompareTag("Stun") == false) ChangeDirective_Explosion();
 			}
-			fuseDuration = 0;
-			hitflashTimer = 0.25f;
-			Vector3 spawnPoint = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
-			gameMan.SpawnParticle(13, spawnPoint, 1f);
+			if (other.CompareTag("Stun") == false) {
+				fuseDuration = 0;
+				hitflashTimer = 0.25f;
+				Vector3 spawnPoint = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
+				gameMan.SpawnParticle(13, spawnPoint, 1f);
+			}
 		}
 		else if (other.gameObject.layer == (int)Layers.AgnosticHitbox) {
-			fuseDuration = 0f;
-			hitflashTimer = 0.25f;
-			float randomDelay = Random.Range(0.1f, 0.3f);
-			ChangeDirective_Explosion(randomDelay);
+				fuseDuration = 0f;
+				hitflashTimer = 0.25f;
+				float randomDelay = Random.Range(0.1f, 0.3f);
+				ChangeDirective_Explosion(randomDelay);
 		}
 	}
 
@@ -442,7 +447,7 @@ public class Exploding : MonoBehaviour {
 					explosionDelay -= Time.deltaTime;
 				}
 				else {
-					explosionHitbox.gameObject.SetActive(true);
+					if (shouldDealDamage) explosionHitbox.gameObject.SetActive(true);
 					if (explosionTimer >= 0) {
 						explosionTimer -= Time.deltaTime;
 					}
@@ -469,12 +474,14 @@ public class Exploding : MonoBehaviour {
 	}
 
 	private void OnDestroy() {
-		gameMan.enemiesAlive -= 1;
-		gameMan.enemiesKilledInLevel += 1;
-		GameManager.enemiesKilledInRun += 1;
-		Initializer.save.versionLatest.explosiveEnemyKills++;
-		if (groundIndicatorInstance != null) Destroy(groundIndicatorInstance);
-		sounds.PestBombExplode();
+		if (shouldAddToKillTotal) {
+			gameMan.enemiesAlive -= 1;
+			gameMan.enemiesKilledInLevel += 1;
+			GameManager.enemiesKilledInRun += 1;
+			Initializer.save.versionLatest.explosiveEnemyKills++;
+			if (groundIndicatorInstance != null) Destroy(groundIndicatorInstance);
+			sounds.PestBombExplode();
+		}
 	}
 
 	private void OnDrawGizmos() {
