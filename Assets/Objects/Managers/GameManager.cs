@@ -68,6 +68,7 @@ public class GameManager : MonoBehaviour {
 	public Button statsBackButton;
     public Canvas creditsUI;
     public CanvasGroup creditsGroup;
+	public Animator creditsAnimator;
     public TMP_Text statsText;
 	public TMP_Text statsText2;
 	public TMP_Text statusTextboxText;
@@ -206,6 +207,8 @@ public class GameManager : MonoBehaviour {
 		statsGroup = transform.Find("StatsUI").GetComponent<CanvasGroup>();
 		creditsUI = transform.Find("CreditsUI").GetComponent<Canvas>();
 		creditsGroup = transform.Find("CreditsUI").GetComponent<CanvasGroup>();
+		creditsAnimator = transform.Find("CreditsUI/CreditsContainer").GetComponent<Animator>();
+		creditsAnimator.enabled = false;
 		statusTextboxText = transform.Find("StatusTextbox/StatusTextboxText").GetComponent<TMP_Text>();
 		statusTextboxText.text = "";
 		objectiveText = transform.Find("StatusTextbox/ObjectiveText").GetComponent<TMP_Text>();
@@ -1281,10 +1284,12 @@ public class GameManager : MonoBehaviour {
 	public void OnCredits() {
         optionsUI.enabled = false;
         optionsGroup.interactable = false;
-		creditsUI.enabled = true;
+        audioUI.enabled = false;
+        audioGroup.interactable = false;
+        creditsUI.enabled = true;
 		creditsGroup.interactable = true;
-		Animator creditsAnimator = transform.Find("CreditsUI/CreditsContainer").GetComponent<Animator>();
-		creditsAnimator.Play("CreditsMovement");
+		creditsAnimator.enabled = true;
+		creditsAnimator.Play("CreditsMovement", -1, 0f);
         optionsBackButton = transform.Find("CreditsUI/OptionsBackButton").GetComponent<Button>();
         optionsBackButton.Select();
     }
@@ -1370,8 +1375,8 @@ public class GameManager : MonoBehaviour {
 		audioGroup.interactable = false;
 		creditsUI.enabled = false;
 		creditsGroup.interactable = false;
-       /* Animator creditsAnimator = transform.Find("CreditsUI/CreditsContainer").GetComponent<Animator>();
-        creditsAnimator.enabled = false;*/
+		if (creditsAnimator.enabled) creditsAnimator.StopPlayback();
+        creditsAnimator.enabled = false;
         resumeButton.Select();
 		Initializer.Save();
 	}
