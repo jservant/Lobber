@@ -147,7 +147,13 @@ public class Initializer : MonoBehaviour {
             AkSoundEngine.SetRTPCValue("MasterVolume", save.versionLatest.masterVolume);
             AkSoundEngine.SetRTPCValue("MusicVolume", save.versionLatest.musicVolume);
             AkSoundEngine.SetRTPCValue("SFXVolume", save.versionLatest.sfxVolume);
-        }
+			Debug.Log("Master Volume (save): " + save.versionLatest.masterVolume);
+			Debug.Log("Music Volume (save): " + save.versionLatest.musicVolume);
+			Debug.Log("SFX Volume (save): " + save.versionLatest.sfxVolume);
+			/*Debug.Log("Master Volume (actual): " + AkSoundEngine.GetRTPCValue("MasterVolume"));
+			Debug.Log("Music Volume (actual): " + save.versionLatest.musicVolume);
+			Debug.Log("SFX Volume (actual): " + save.versionLatest.sfxVolume);
+        */}
 	}
 
 	public static void AssignDefaultValues() {

@@ -3623,8 +3623,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 9171000877962933540}
-        m_TargetAssemblyTypeName: ChangeVolume, Assembly-CSharp
-        m_MethodName: SetVolume
+        m_TargetAssemblyTypeName: Sliders, Assembly-CSharp
+        m_MethodName: SetSlider
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3633,7 +3633,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: Master
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
 --- !u!114 &9171000877962933540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3647,7 +3647,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 6686392759557378509}
-  masterVolume: 0
+  masterVolume: 100
   musicVolume: 0
   soundVolume: 0
   screenshakeAmount: 0
@@ -5038,8 +5038,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 7347391027298528863}
   - {fileID: 2144777946611561603}
+  - {fileID: 7347391027298528863}
   m_Father: {fileID: 14727927044354059}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5895,7 +5895,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 572245768882854785}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -6559,8 +6559,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 321499138921183147}
-        m_TargetAssemblyTypeName: ChangeVolume, Assembly-CSharp
-        m_MethodName: SetVolume
+        m_TargetAssemblyTypeName: Sliders, Assembly-CSharp
+        m_MethodName: SetSlider
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6569,7 +6569,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: Music
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
 --- !u!114 &321499138921183147
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6584,7 +6584,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slider: {fileID: 4546576067338407183}
   masterVolume: 0
-  musicVolume: 0
+  musicVolume: 100
   soundVolume: 0
   screenshakeAmount: 0
 --- !u!1 &3268092550874889019
@@ -10494,7 +10494,7 @@ RectTransform:
   - {fileID: 2458231967762217470}
   - {fileID: 7781144005270874291}
   m_Father: {fileID: 572245768882854785}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -10563,7 +10563,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: Screenshake
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
 --- !u!114 &4511060829686019592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13028,6 +13028,7 @@ MonoBehaviour:
   debugTextActive: 0
   waypointTracking: 1
   armorEnabled: 1
+  transitioningLevel: 0
   particles:
   - {fileID: 7120889674988704938, guid: c5e23597282f08847a28e5f8f5861874, type: 3}
   - {fileID: 293438076147819505, guid: dd814795e1144d147b64068e62c754ac, type: 3}
@@ -13553,8 +13554,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8223614941608726766}
-        m_TargetAssemblyTypeName: ChangeVolume, Assembly-CSharp
-        m_MethodName: SetVolume
+        m_TargetAssemblyTypeName: Sliders, Assembly-CSharp
+        m_MethodName: SetSlider
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -13563,7 +13564,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: Sound
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 1
 --- !u!114 &8223614941608726766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13579,7 +13580,7 @@ MonoBehaviour:
   slider: {fileID: 1214533156479849323}
   masterVolume: 0
   musicVolume: 0
-  soundVolume: 0
+  soundVolume: 100
   screenshakeAmount: 0
 --- !u!1 &6781557495729168211
 GameObject:
