@@ -131,7 +131,7 @@ public class Pickup : MonoBehaviour {
 		if (isOnGround && !collected) {
 			transform.rotation *= Quaternion.AngleAxis(rotationSpeed * Time.deltaTime, Vector3.up);
 
-			if (!Physics.Raycast(transform.position, Vector3.down, 1.0f)) {
+			if (!Physics.Raycast(transform.position, Vector3.down, 1.0f) && !gameMan.transitioningLevel) {
 				transform.position += Vector3.down * gravity * Time.deltaTime;
 			}
 
@@ -208,6 +208,8 @@ public class Pickup : MonoBehaviour {
 					break;
 				case Type.Health:
 					playerController.health += healthValue;
+					Util.SpawnFlash(gameMan, 8, transform.position, true);
+					gameMan.SpawnParticle(16, transform.position, 0.4f);
 					break;
 				case Type.Crystal:
 					Util.SpawnFlash(gameMan, 6, transform.position, true);

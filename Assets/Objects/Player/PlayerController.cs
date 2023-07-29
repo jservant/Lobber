@@ -743,6 +743,7 @@ public class PlayerController : MonoBehaviour {
 				Vector3 directionDelta = transform.position - other.transform.position;
 				movement = new Vector3(directionDelta.x, 0, directionDelta.z);
 				Debug.Log("OWIE " + other.name + " JUST HIT ME! I have " + health + " health");
+				gameMan.SpawnParticle(15, transform.position, 1f);
 			}
 		}
 

@@ -417,6 +417,7 @@ public class Basic : MonoBehaviour {
 		sounds.Sound_ArmorBreak();
 		sounds.Sound_EnemyCrystalShatter();
 		gameMan.SpawnParticle(13, armorPoint.position, 1f);
+		gameMan.SpawnParticle(14, armorPoint.position, 0.5f);
 		if (_stunSphere) Instantiate(stunSphere, armorPoint.position, Quaternion.identity);
 		Util.SpawnFlash(gameMan, 1, armorPoint.position, true);
 		health = 4;
