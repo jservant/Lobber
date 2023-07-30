@@ -73,7 +73,6 @@ public class Initializer : MonoBehaviour {
 		[FieldOffset(44)] public float masterVolume;
 		[FieldOffset(48)] public float musicVolume;
 		[FieldOffset(52)] public float sfxVolume;
-		[FieldOffset()]
 	}
 
 	[StructLayout(LayoutKind.Explicit, Pack=8)]
@@ -135,7 +134,6 @@ public class Initializer : MonoBehaviour {
         DefaultSave.versionLatest.musicVolume = 100;
         DefaultSave.versionLatest.sfxVolume = 100;
         DefaultSave.versionLatest.resolutionOption = 0;
-		DefaultSave.versionLatest.cameraFOV = 60;
 
         fileName = Application.persistentDataPath + @"/options.dat";
 

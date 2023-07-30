@@ -73,6 +73,7 @@ public class GameManager : MonoBehaviour {
 	public TMP_Text statsText2;
 	public TMP_Text statusTextboxText;
 	public TMP_Text objectiveText;
+	public TMP_Text helperText;
 	public TMP_Text debugText;
 	public Image waypointMarker;
 
@@ -213,6 +214,7 @@ public class GameManager : MonoBehaviour {
 		statusTextboxText.text = "";
 		objectiveText = transform.Find("StatusTextbox/ObjectiveText").GetComponent<TMP_Text>();
 		objectiveText.text = "";
+		helperText.text = "";
 		waypointMarker = transform.Find("/GameManager/MainUI/WaypointMarker").GetComponent<Image>();
 		//meterImage = transform.Find("MainUI/MeterBar").GetComponent<Image>();
 		//inputDisplayUI = transform.Find("MainUI/InputDisplay").gameObject;
@@ -386,6 +388,7 @@ public class GameManager : MonoBehaviour {
 
 			case Objectives.HarvestTheCrystals:
 				objectiveText.text = "Crystals harvested: " + crystalCount + "/" + crystalHarvestingGoal;
+				helperText.text = "- Kill Crystal Enemies" + "\n- Grab the Crystals" + "\n- Bring them to the Cart";
 				if (crystalCount >= crystalHarvestingGoal && transitioningLevel == false) {
 					StartCoroutine(Win());
 				}
@@ -807,8 +810,8 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 
-		if (playerController.pActions.Player.Zoom.WasPerformedThisFrame()) {
-			cameraShake._CameraZoom();
+		if (playerController.pActions.Player.Zoom.WasPerformedThisFrame()) { 
+			cameraShake._CameraZoom(playerController.pActions.Player.Zoom.ReadValue<float>());
 		}
 	}
 
