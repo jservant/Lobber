@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6096905440448814386}
   m_Layer: 6
   m_Name: NecroProjectile
-  m_TagString: Untagged
+  m_TagString: Fireball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -49,11 +49,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveDirection: {x: 0, y: 0, z: 0}
+  MoveSpeed: 12
+  TurnSpeed: 120
+  lifeTime: 7
   forcedFall: 0
+  stunSphere: {fileID: 6292716034307823843, guid: 6041ebd9a2fc0eb428f0c7b034fec306, type: 3}
   Fireball:
     idInternal: 0
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: 1f6410c70cc04424786e475bf54f151b, type: 2}
+  Deflect:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 8279cf07ea1d51547bd9f400e9a77f00, type: 2}
 --- !u!135 &2713233787962994459
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -203,7 +211,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4904277323252055489, guid: 2f2fa260c82043b4392074b3bdc44818, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.52
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4904277323252055489, guid: 2f2fa260c82043b4392074b3bdc44818, type: 3}
       propertyPath: m_LocalRotation.w

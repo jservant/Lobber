@@ -769,6 +769,37 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3320901369085178037, guid: 704d8254c7db7e443a2111a7cbf6b427, type: 3}
   m_PrefabInstance: {fileID: 3180303174905500130}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &8459446309741295490
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 158895718812361047}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 36.2, y: 168.9, z: 35}
+  m_Center: {x: 0, y: 72.6, z: -16}
+--- !u!114 &1688973003544760137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 158895718812361047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c078c4934c279084ca9975b62a2b4da8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  infoSource: 1
+  constantInfo:
+    direction: {x: 0, y: 0, z: 0, w: 0}
+    force: 50
+    time: 0.25
+  linkedObject: {fileID: 2369981039474322611}
 --- !u!54 &9105135245725430294
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -961,37 +992,6 @@ MonoBehaviour:
     idInternal: 0
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: 8279cf07ea1d51547bd9f400e9a77f00, type: 2}
---- !u!65 &8459446309741295490
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 158895718812361047}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 36.2, y: 168.9, z: 35}
-  m_Center: {x: 0, y: 72.6, z: -16}
---- !u!114 &1688973003544760137
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 158895718812361047}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c078c4934c279084ca9975b62a2b4da8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  infoSource: 1
-  constantInfo:
-    direction: {x: 0, y: 0, z: 0, w: 0}
-    force: 50
-    time: 0.25
-  linkedObject: {fileID: 2369981039474322611}
 --- !u!1001 &5565765759997400167
 PrefabInstance:
   m_ObjectHideFlags: 0

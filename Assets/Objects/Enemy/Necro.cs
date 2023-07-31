@@ -182,6 +182,7 @@ public class Necro : MonoBehaviour {
 				HeadProjectile head = other.GetComponentInParent<HeadProjectile>();
 				PlayerController player = other.GetComponentInParent<PlayerController>();
 				ExplosiveTrap explosiveTrap = other.GetComponentInParent<ExplosiveTrap>();
+				StunSphere stunSphere = other.GetComponent<StunSphere>();
 
 				if (player != null) {
 					gameMan.SpawnParticle(0, other.transform.position, 1f);
@@ -228,6 +229,9 @@ public class Necro : MonoBehaviour {
 					newKnockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
 					stunTime = StunTime.Long;
 				}
+				else if (stunSphere != null) {
+					damage = stunSphere.damage;
+                }
 			}
 			else if (other.gameObject.layer == (int)Layers.AgnosticHitbox) {
 				if (other.GetComponentInParent<Exploding>() != null) {

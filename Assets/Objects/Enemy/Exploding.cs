@@ -152,6 +152,9 @@ public class Exploding : MonoBehaviour {
 				Vector3 spawnPoint = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
 				gameMan.SpawnParticle(13, spawnPoint, 1f);
 			}
+			else {
+				if (other.GetComponent<StunSphere>().damage > 0f) ChangeDirective_Explosion();
+            }
 		}
 		else if (other.gameObject.layer == (int)Layers.AgnosticHitbox) {
 				fuseDuration = 0f;

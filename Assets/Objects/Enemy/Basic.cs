@@ -339,6 +339,7 @@ public class Basic : MonoBehaviour {
 							} 
 							else if (posDifference < 80f) {
 								damage = 3f;
+								if (isArmored) damage = 5f;
 							} 
 							break;
 
@@ -377,11 +378,18 @@ public class Basic : MonoBehaviour {
 					playHitSound = true;
 					if (isArmored) damage = 5f;
 				}
-				else if (stunSphere != null && isArmored == false) {
+				else if (stunSphere != null) {
 					newKnockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
-					stunTime = StunTime.Long;
-					triggerStunSphere = false;
-					playHitSound = true;
+					if (isArmored == false) {
+						stunTime = StunTime.Long;
+						triggerStunSphere = false;
+						playHitSound = true;
+					}
+					damage = stunSphere.damage;
+					if (damage > 0) {
+						playHitSound = true;
+						stunTime = StunTime.Long;
+					}
 				}
 			}
 			else if (other.gameObject.layer == (int)Layers.AgnosticHitbox) {

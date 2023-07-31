@@ -810,7 +810,7 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 
-		if (playerController.pActions.Player.Zoom.WasPerformedThisFrame()) { 
+		if (playerController.pActions.Player.Zoom.WasPerformedThisFrame() && pauseBG.enabled == false) { 
 			cameraShake._CameraZoom(playerController.pActions.Player.Zoom.ReadValue<float>());
 		}
 	}

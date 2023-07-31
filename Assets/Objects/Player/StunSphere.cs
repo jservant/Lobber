@@ -7,6 +7,7 @@ public class StunSphere : MonoBehaviour
     public float stunSphereRadius = 3f;
     GetKnockbackInfo getKnockbackInfo;
     public float framesActive;
+    public float damage = 0f;
 
     // Start is called before the first frame update
     void Start()
