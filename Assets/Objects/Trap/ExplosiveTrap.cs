@@ -60,7 +60,7 @@ public class ExplosiveTrap : MonoBehaviour {
 		}
 	}
 
-	void SpringTrap() {
+	public void SpringTrap() {
 		isArmed = false;
 		currentArmTime = armTime;
 		currentTriggerTime = triggerTime;

@@ -49,11 +49,29 @@ public class NecroProjectile : MonoBehaviour {
 						}
 					}
 					break;
-					
-				default:
+
+				case Layers.Ground:
 					if (isPlayerProjectile) Explode();
 					Fireball.Post(gameObject);
 					GameObject.Destroy(this.gameObject);
+					break;
+
+				case Layers.EnemyHurtbox:
+					if (isPlayerProjectile) Explode();
+					Fireball.Post(gameObject);
+					GameObject.Destroy(this.gameObject);
+					break;
+
+				case Layers.AgnosticHurtbox:
+					if (isPlayerProjectile) Explode();
+					if (other.GetComponent<ExplosiveTrap>() != null) {
+						other.GetComponent<ExplosiveTrap>().SpringTrap();
+                    }
+					Fireball.Post(gameObject);
+					GameObject.Destroy(this.gameObject);
+					break;
+
+				default:
 					break;
 			}
 		}
