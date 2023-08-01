@@ -843,7 +843,7 @@ public class GameManager : MonoBehaviour {
 
 	void PlayerDespawn() {
 		var player = playerController;
-		Vector3 portalSpawn = new Vector3(player.transform.position.x, player.transform.position.y + 1f, player.transform.position.z + 3f);
+		Vector3 portalSpawn = new Vector3(player.transform.position.x, player.transform.position.y + 1f, player.transform.position.z + 2f);
 		if (player.currentState != PlayerController.States.Win) Instantiate(QuickPortalPrefab, portalSpawn, Quaternion.identity);
 		player.Win();
     }
