@@ -6,9 +6,13 @@ using UnityEngine.SceneManagement;
 public class TutorialManager : MonoBehaviour {
 	GameManager gameMan;
 	private Transform player;
+	PlayerController playerController;
 	public GameObject[] areas;
 	public Transform[] playerRespawnPoints;
 	public List<GameObject> currentTargets = new List<GameObject>();
+	Animator anim;
+	Canvas titleCanvas;
+
 	public int areasCompleted = 0;
 	public bool targetsExist;
 	public bool skipTutorial;
@@ -17,6 +21,14 @@ public class TutorialManager : MonoBehaviour {
     private void Awake() {
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 		player = transform.Find("/Player");
+		playerController = player.GetComponent<PlayerController>();
+		titleCanvas = transform.Find("Intro").GetComponent<Canvas>();
+		anim = GetComponent<Animator>();
+
+		if (firstTimeSinceBoot == false) {
+			titleCanvas.enabled = false;
+			anim.enabled = false;
+		}
 		UpdateAreas();
 	}
 
@@ -35,11 +47,9 @@ public class TutorialManager : MonoBehaviour {
 			}
             firstTimeSinceBoot = false;
 		}
-		Debug.Log("Is the tutorial completed: " + Initializer.save.versionLatest.tutorialComplete);
 		Debug.Log("Player is spawning at " + playerRespawnPoints[spawnChooser].gameObject.name);
 	}
 
-	// Update is called once per frame
 	void Update() {
 		targetsExist = CheckTargets();
 		if (!targetsExist && (areasCompleted < 5)) {
@@ -53,7 +63,17 @@ public class TutorialManager : MonoBehaviour {
 			Initializer.Save();
 			UpdateSpawns();
 		}
-	}
+
+		if (titleCanvas.enabled) {
+			playerController.canMove = false;
+			if (playerController.pActions.Player.Pause.WasPerformedThisFrame()) {
+				playerController.canMove = true;
+				anim.enabled = false;
+				titleCanvas.enabled = false;
+			}
+		}
+		else playerController.canMove = true;
+    }
 
 	void UpdateAreas() {
 		for (int i = 0; i < areas.Length; i++) {

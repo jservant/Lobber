@@ -771,7 +771,7 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 
-		if (playerController.pActions.Player.Pause.WasPerformedThisFrame() && playerController.animr.GetBool("isDead") == false && pauseBG.enabled == false) {
+		if (playerController.pActions.Player.Pause.WasPerformedThisFrame() && playerController.animr.GetBool("isDead") == false && pauseBG.enabled == false && playerController.canMove == true) {
 			if (SceneManager.GetActiveScene().buildIndex == (int)Scenes.Tutorial && Initializer.save.versionLatest.tutorialComplete == false) {
 				if (tutorialSkipUI.enabled) {
 					eSystem.SetSelectedGameObject(null);

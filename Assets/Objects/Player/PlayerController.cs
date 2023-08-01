@@ -279,6 +279,7 @@ public class PlayerController : MonoBehaviour {
 	public bool freeAim = false;
 	public Vector2 rAimInput;                           // aiming vector read from right stick
 	bool isGrounded;
+	public bool canMove = true;
 	[Header("Speed:")]
 	[SerializeField] AnimationCurve movementCurve;
 	public float topSpeed = 10f;				// top player speed
@@ -478,7 +479,7 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		//Input
-		if (currentState != States.Death && currentState != States.Win && gameMan.pauseBG.enabled == false) {
+		if (currentState != States.Death && currentState != States.Win && gameMan.pauseBG.enabled == false && canMove) {
 			if (currentState != States.Attacking) {
 				mInput = pActions.Player.Move.ReadValue<Vector2>();
 				if (pActions.Player.Move.WasReleasedThisFrame()) {
