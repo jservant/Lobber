@@ -694,8 +694,9 @@ public class PlayerController : MonoBehaviour {
 				if (headPickup.pickupType == Pickup.Type.Crystal) {
 					sounds.Sound_HeadPickup();
 					sounds.Sound_CrystalPickup();
-				}
-			}
+                    if (!Initializer.save.versionLatest.hasCompletedCrystalTaskOnce) gameMan.helperText.text = "- Bring them to the Cart";
+                }
+            }
 		}
 	}
 
@@ -712,8 +713,9 @@ public class PlayerController : MonoBehaviour {
 				Destroy(crystalHolster.GetChild(i).gameObject);
 			}
 			CrystalDropoff.indicator.enabled = false;
+			if (!Initializer.save.versionLatest.hasCompletedCrystalTaskOnce) { gameMan.helperText.text = "- Grab the Crystals" + "\n- Bring them to the Cart"; }
 
-			sounds.Sound_CrystalDrop();
+            sounds.Sound_CrystalDrop();
 			sounds.Sound_CrystalPickup();
 			Vector3 newPos = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
 			Util.SpawnFlash(gameMan, 5, newPos, true);

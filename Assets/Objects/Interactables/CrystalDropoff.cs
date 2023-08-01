@@ -26,6 +26,10 @@ public class CrystalDropoff : MonoBehaviour
             gameManager.SpawnParticle(11, transform.position, 1f);
             crystalDepo1.Post(gameObject);
             crystalDepo2.Post(gameObject);
+            if (!Initializer.save.versionLatest.hasCompletedCrystalTaskOnce) {
+                gameManager.helperText.text = "";
+                Initializer.save.versionLatest.hasCompletedCrystalTaskOnce = true;
+            }
             gameManager.crystalCount += playerController.crystalCount;
             playerController.crystalCount = 0;
             gameManager.crystalCountText.text = "";

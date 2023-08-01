@@ -95,6 +95,27 @@ public class Initializer : MonoBehaviour {
 	}
 
 	[StructLayout(LayoutKind.Explicit, Pack=8)]
+	public struct SaveFile_VersionFOV {
+		[FieldOffset(0)]  public int basicEnemyKills;
+		[FieldOffset(4)]  public int explosiveEnemyKills;
+		[FieldOffset(8)]  public int necroEnemyKills;
+		[FieldOffset(12)] public int bruteEnemyKills;
+		[FieldOffset(16)] public int runsStarted;
+		[FieldOffset(20)] public int longestRun;
+		[FieldOffset(24)] public int timesWon;
+		[FieldOffset(28)] public bool tutorialComplete;
+		[FieldOffset(32)] public float corpseLimit;
+		[FieldOffset(36)] public float screenshakePercentage;
+		[FieldOffset(40)] public bool rumble;
+		[FieldOffset(44)] public float masterVolume;
+		[FieldOffset(48)] public float musicVolume;
+		[FieldOffset(52)] public float sfxVolume;
+		[FieldOffset(56)] public int resolutionOption;
+		[FieldOffset(60)] public float cameraFOV;
+		[FieldOffset(64)] public bool hasCompletedCrystalTaskOnce;
+	}
+
+	[StructLayout(LayoutKind.Explicit, Pack=8)]
 	public struct SaveFile {
 		[FieldOffset(0)] public int version;
 		// NOTE(Roskuski): versionNum is our "Tag" for this "Tagged Union"
@@ -106,16 +127,17 @@ public class Initializer : MonoBehaviour {
 		[FieldOffset(4)] public SaveFile_VersionTutorial versionTutorial;
 		[FieldOffset(4)] public SaveFile_VersionMoreSettings versionMoreSettings;
 		[FieldOffset(4)] public SaveFile_VersionResolutionSaver versionResolutionSaver;
+		[FieldOffset(4)] public SaveFile_VersionFOV versionFOV;
 		// NOTE(Roskuski): Add additional versions here. at the same FieldOffset.
 
 		// NOTE(Roskuski): Make sure this type stays in sync with the _actual_ latest version! Modify savedata though this variable
-		[FieldOffset(4)] public SaveFile_VersionResolutionSaver versionLatest;
+		[FieldOffset(4)] public SaveFile_VersionFOV versionLatest;
 	}
 
 	public static SaveFile save;
 	readonly static SaveFile DefaultSave;
 
-	enum SaveVersion { Init, Win, DiffKillCount, LongestRun, Tutorial, MoreOptions, ResolutionSaver, LATEST_PLUS_1 };
+	enum SaveVersion { Init, Win, DiffKillCount, LongestRun, Tutorial, MoreOptions, ResolutionSaver, FOV, LATEST_PLUS_1 };
 
 	static Initializer() {
         DefaultSave.version = (int)SaveVersion.LATEST_PLUS_1 - 1;
@@ -134,6 +156,8 @@ public class Initializer : MonoBehaviour {
         DefaultSave.versionLatest.musicVolume = 100;
         DefaultSave.versionLatest.sfxVolume = 100;
         DefaultSave.versionLatest.resolutionOption = 0;
+        DefaultSave.versionLatest.cameraFOV = 84;
+        DefaultSave.versionLatest.hasCompletedCrystalTaskOnce = false;
 
         fileName = Application.persistentDataPath + @"/options.dat";
 
@@ -165,6 +189,7 @@ public class Initializer : MonoBehaviour {
         save.versionLatest.masterVolume = 100;
         save.versionLatest.musicVolume = 100;
         save.versionLatest.sfxVolume = 100;
+		save.versionLatest.cameraFOV = 84;
     }
 
 	public static void Load() {
@@ -242,6 +267,29 @@ public class Initializer : MonoBehaviour {
 				save.versionTutorial.bruteEnemyKills = loadedSave.versionMoreSettings.bruteEnemyKills;
 				save.versionTutorial.runsStarted = loadedSave.versionMoreSettings.runsStarted;
 				save.versionTutorial.timesWon = loadedSave.versionMoreSettings.timesWon;
+				save.versionTutorial.longestRun = loadedSave.versionMoreSettings.longestRun;
+				save.versionTutorial.tutorialComplete = loadedSave.versionMoreSettings.tutorialComplete;
+				loadedSave = save;
+				break;
+
+			case (int)SaveVersion.ResolutionSaver:
+				save.versionFOV.basicEnemyKills = loadedSave.versionResolutionSaver.basicEnemyKills;
+				save.versionFOV.explosiveEnemyKills = loadedSave.versionResolutionSaver.explosiveEnemyKills;
+				save.versionFOV.necroEnemyKills = loadedSave.versionResolutionSaver.necroEnemyKills;
+				save.versionFOV.bruteEnemyKills = loadedSave.versionResolutionSaver.bruteEnemyKills;
+				save.versionFOV.runsStarted = loadedSave.versionResolutionSaver.runsStarted;
+				save.versionFOV.timesWon = loadedSave.versionResolutionSaver.timesWon;
+				save.versionFOV.longestRun = loadedSave.versionResolutionSaver.longestRun;
+				save.versionFOV.tutorialComplete = loadedSave.versionResolutionSaver.tutorialComplete;
+				save.versionFOV.corpseLimit = loadedSave.versionResolutionSaver.corpseLimit;
+				save.versionFOV.screenshakePercentage = loadedSave.versionResolutionSaver.screenshakePercentage;
+				save.versionFOV.rumble = loadedSave.versionResolutionSaver.rumble;
+				save.versionFOV.masterVolume = loadedSave.versionResolutionSaver.masterVolume;
+				save.versionFOV.musicVolume = loadedSave.versionResolutionSaver.musicVolume;
+				save.versionFOV.sfxVolume = loadedSave.versionResolutionSaver.sfxVolume;
+				save.versionFOV.resolutionOption = loadedSave.versionResolutionSaver.resolutionOption;
+				save.versionFOV.cameraFOV = 84;
+				save.versionFOV.hasCompletedCrystalTaskOnce = false;
 				loadedSave = save;
 				break;
 				//goto case (int)SaveVersion.MoreOptions;

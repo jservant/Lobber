@@ -319,7 +319,8 @@ public class GameManager : MonoBehaviour {
 				statusTextboxText.text = "Level " + levelCount +
 				"\nHarvest the Crystals!";
 				waypointTarget = dropoff;
-				break;
+                if (!Initializer.save.versionLatest.hasCompletedCrystalTaskOnce) helperText.text = "- Kill Crystal Enemies" + "\n- Grab the Crystals" + "\n- Bring them to the Cart";
+                break;
 
 			default:
 				statusTextboxText.text = "Level " + levelCount +
@@ -328,7 +329,9 @@ public class GameManager : MonoBehaviour {
 				break;
 		}
 
-		tempColorLit.a = 1f;
+        //cameraShake._CameraZoom(Initializer.save.versionLatest.cameraFOV);
+
+        tempColorLit.a = 1f;
 		tempColorUnlit.a = unlitTextOpacity;
 	}
 
@@ -388,7 +391,6 @@ public class GameManager : MonoBehaviour {
 
 			case Objectives.HarvestTheCrystals:
 				objectiveText.text = "Crystals harvested: " + crystalCount + "/" + crystalHarvestingGoal;
-				helperText.text = "- Kill Crystal Enemies" + "\n- Grab the Crystals" + "\n- Bring them to the Cart";
 				if (crystalCount >= crystalHarvestingGoal && transitioningLevel == false) {
 					StartCoroutine(Win());
 				}
@@ -868,6 +870,7 @@ public class GameManager : MonoBehaviour {
 
 				case Objectives.HarvestTheCrystals:
 					if (crystalHarvestingGoal < 8) { crystalHarvestingGoal += 1; }
+					if (!Initializer.save.versionLatest.hasCompletedCrystalTaskOnce) Initializer.save.versionLatest.hasCompletedCrystalTaskOnce = true;
 					break;
 
 				default:
@@ -1022,7 +1025,8 @@ public class GameManager : MonoBehaviour {
 			skullChance = 0;
 			healthChance = 0;
 			SpawnPickup((int)Pickup.Type.Crystal, position);
-		}
+            if (!Initializer.save.versionLatest.hasCompletedCrystalTaskOnce) helperText.text = "- Grab the Crystals" + "\n- Bring them to the Cart";
+        }
 
 		//Skull Pickup
 		float pickupDecider = Random.Range(1, 100);
