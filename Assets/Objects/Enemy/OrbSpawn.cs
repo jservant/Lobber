@@ -16,10 +16,13 @@ public class OrbSpawn : MonoBehaviour {
 	GameManager gameMan;
 	public Material crystalizedMat;
 
+	public bool isPlayerPortal;
+
 	void Start() {
 		anim = transform.Find("SpawnOrbV2").GetComponent<Animator>();
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
-		StartCoroutine(Spawning());
+		if (!isPlayerPortal) StartCoroutine(Spawning());
+		else StartCoroutine(QuickPortal());
 	}
 
 	public IEnumerator Spawning() {
@@ -86,8 +89,20 @@ public class OrbSpawn : MonoBehaviour {
 		GameObject.Destroy(this.gameObject);
 	}
 
+	public IEnumerator QuickPortal() {
+		anim.SetBool("DeSpawn", false);
+		yield return new WaitForSeconds(0.6f);
+		anim.SetBool("DeSpawn", true);
+		yield return new WaitForSeconds(0.4f);
+		GameObject.Destroy(this.gameObject);
+	}
+
 	void OnDrawGizmos() {
 		Gizmos.color = Color.magenta;
 		Gizmos.DrawWireSphere(transform.position, 10f);
 	}
+
+    private void OnDestroy() {
+		gameMan.SpawnParticle(12, transform.position, 1.5f);
+    }
 }

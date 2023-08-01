@@ -112,6 +112,7 @@ public class GameManager : MonoBehaviour {
 	public GameObject NecroProjectilePrefab;
 	public GameObject SandbagPrefab;
 	public GameObject OrbSpawnPrefab;
+	public GameObject QuickPortalPrefab;
 	public GameObject[] Pickups;
 	public int maxPickupsInAir;
 	private float pickupTime;
@@ -162,6 +163,7 @@ public class GameManager : MonoBehaviour {
 	DebugActions dActions;
 	float frozenTime = 0;
 	public bool transitioningLevel = false;
+	private float playerDespawnTime = 5f;
 	public static bool shouldWipeSave = false;
 
 	[Header("Particle System:")]
@@ -401,6 +403,14 @@ public class GameManager : MonoBehaviour {
 				Debug.Assert(false, "Invalid objective " + currentObjective);
 				break;
 		}
+
+		//Level Transition Trigger
+		if (transitioningLevel) {
+			if (playerDespawnTime > 0) {
+				playerDespawnTime -= Time.deltaTime;
+			}
+			else PlayerDespawn();
+        }
 
 		UpdateHealthBar();
 		UpdateMeter();
@@ -831,6 +841,13 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
+	void PlayerDespawn() {
+		var player = playerController;
+		Vector3 portalSpawn = new Vector3(player.transform.position.x, player.transform.position.y + 1f, player.transform.position.z + 3f);
+		if (player.currentState != PlayerController.States.Win) Instantiate(QuickPortalPrefab, portalSpawn, Quaternion.identity);
+		player.Win();
+    }
+
 	public IEnumerator Win() {
 		transitioningLevel = true;
 		if (levelCount > Initializer.save.versionLatest.longestRun) { Initializer.save.versionLatest.longestRun = levelCount; }
@@ -840,7 +857,7 @@ public class GameManager : MonoBehaviour {
 		float[] sceneChances = new float[] { 0, 1f, 1f, 1f, 1f, 1f, 1f };
 		sceneChances[SceneManager.GetActiveScene().buildIndex] = 0;
 		KillAll();
-		yield return new WaitForSeconds(6);
+		yield return new WaitForSeconds(7);
 		if (playerController.currentState == PlayerController.States.Death) {
 			SceneManager.LoadScene((int)Scenes.Tutorial);
 		} else {

@@ -109,6 +109,10 @@ public class NecroProjectile : MonoBehaviour {
 		else {
 			Destroy(this.gameObject);
 		}
+
+		if (gameMan.transitioningLevel && !isPlayerProjectile) {
+			SwapLayer();
+        }
 	}
 
 	void SwapLayer() {

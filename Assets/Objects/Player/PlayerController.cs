@@ -209,7 +209,7 @@ public class PlayerController : MonoBehaviour {
 
 	#region State machines
 
-	public enum States { Idle = 0, Walking, Attacking, Death };
+	public enum States { Idle = 0, Walking, Attacking, Death, Win };
 	public States currentState = 0;
 
 	public enum Attacks {
@@ -258,6 +258,7 @@ public class PlayerController : MonoBehaviour {
 	Rigidbody rb;
 	public Animator animr;
 	public MeshRenderer[] headMesh;
+	Transform mainJoint;
 	HeadProjectile headProj;
 	Transform projSpawn;
 	Transform[] shotgunProjSpawns;
@@ -336,6 +337,7 @@ public class PlayerController : MonoBehaviour {
 		slamPoint = transform.Find("SlamPoint");
 		shotgunPoint = transform.Find("ShotgunPoint");
 		crystalHolster = transform.Find("MAIN_JOINT/MidTorso_Joint/Chest_Joint/CrystalHipSpawn");
+		mainJoint = transform.Find("MAIN_JOINT");
 
 		#region debug
 		if (headMesh != null) { Debug.Log("Axe headmesh found on player."); } else { Debug.LogWarning("Axe headmesh not found on player."); }
@@ -395,7 +397,7 @@ public class PlayerController : MonoBehaviour {
 				moveDelta = dashDirection.normalized * (dashForce * Mathf.Lerp(0, 1, dashCurve.Evaluate(dashTime /
 					animationTimes[currentAttack == Attacks.LethalDash ? "Character_Lethal_Dash" : "Character_Roll"])));
 				if (currentAttack == Attacks.LethalDash) moveDelta *= meterDashMultiplier;
-				if (dashTime >= animationTimes[currentAttack == Attacks.LethalDash ? "Character_Lethal_Dash" : "Character_Roll"]) {
+				if (dashTime >= animationTimes[currentAttack == Attacks.LethalDash ? "Character_Lethal_Dash" : "Character_Roll"] && currentState != States.Win) {
 					currentState = States.Idle;
 					trueAngle = 0;
 					currentAttack = 0;
@@ -421,7 +423,7 @@ public class PlayerController : MonoBehaviour {
 		float fallingSpeed = 30.0f;
 		float stepUp = 0.75f;
 		int layerMask = ~Mask.Get(Layers.Corpses);
-		if (currentAttack == Attacks.Dashing || currentAttack == Attacks.LethalDash) {
+		if (currentAttack == Attacks.Dashing || currentAttack == Attacks.LethalDash || currentState == States.Win) {
 			fallingSpeed = 0.0f;
 			stepUp = 1.5f;
 			layerMask &= ~Mask.Get(new Layers[] {Layers.EnemyHitbox, Layers.EnemyHurtbox, Layers.StickyLedge});
@@ -476,7 +478,7 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		//Input
-		if (currentState != States.Death && gameMan.pauseBG.enabled == false) {
+		if (currentState != States.Death && currentState != States.Win && gameMan.pauseBG.enabled == false) {
 			if (currentState != States.Attacking) {
 				mInput = pActions.Player.Move.ReadValue<Vector2>();
 				if (pActions.Player.Move.WasReleasedThisFrame()) {
@@ -559,7 +561,7 @@ public class PlayerController : MonoBehaviour {
 
 			// animator controller
 			{
-				if (queuedAttackInfo.nextAttack != Attacks.None && queuedAttackInfo.transitionStartPercent < Current.normalizedTime) {
+				if (queuedAttackInfo.nextAttack != Attacks.None && queuedAttackInfo.transitionStartPercent < Current.normalizedTime && currentState != States.Win) {
 					bool setupHoming = true;
 					float coneRadius = 10f;
 					tsr = targetSphereRadius;
@@ -636,6 +638,11 @@ public class PlayerController : MonoBehaviour {
 
 		if ((currentState == States.Idle || currentState == States.Walking) && IsAttackState(Current)) {
 			animr.Play("Base.Idle");
+		}
+
+		if (currentState == States.Win) {
+			speedTime = 0f;
+			movement = new Vector3(0, 0, 0);
 		}
 
 	}
@@ -780,6 +787,15 @@ public class PlayerController : MonoBehaviour {
 		SceneManager.LoadScene((int)Scenes.Tutorial);
 	}
 
+	public void Win() {
+		animr.SetBool("isTeleporting", true);
+		currentState = States.Win;
+		mInput = Vector2.zero; movement = Vector3.zero;
+		capCol.enabled = false;
+		rb.useGravity = false;
+		rb.isKinematic = true;
+	}
+
 	public void ChangeMeter(float Amount) {
 		if (frenzyTimer > 0) return;
 		if (currentAttack == Attacks.HeadThrow) return;
@@ -917,7 +933,8 @@ public class PlayerController : MonoBehaviour {
 				stateInfo.IsName("Base.Run") ||
 				stateInfo.IsName("Base.Idle") ||
 				stateInfo.IsName("Base.Hit") ||
-				stateInfo.IsName("Base.Death")
+				stateInfo.IsName("Base.Death") ||
+				stateInfo.IsName("Base.Win")
 			);
 	}
 
