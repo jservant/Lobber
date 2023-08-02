@@ -434,8 +434,10 @@ public class PlayerController : MonoBehaviour {
 			layerMask &= ~Mask.Get(Layers.StickyLedge);
 		}
 
-		Util.PerformCheckedLateralMovement(gameObject, stepUp, 0.5f, translationDelta, layerMask);
-		isGrounded = Util.PerformCheckedVerticalMovement(gameObject, stepUp, 0.2f, 0.5f, fallingSpeed);
+		if (currentState != States.Death && currentState != States.Win) {
+			Util.PerformCheckedLateralMovement(gameObject, stepUp, 0.5f, translationDelta, layerMask);
+			isGrounded = Util.PerformCheckedVerticalMovement(gameObject, stepUp, 0.2f, 0.5f, fallingSpeed);
+		}
 
 		if (freeAim) {
 			if (rAimInput != Vector2.zero) {
