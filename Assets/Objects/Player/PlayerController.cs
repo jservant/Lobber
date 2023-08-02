@@ -702,9 +702,13 @@ public class PlayerController : MonoBehaviour {
 				if (headPickup.pickupType == Pickup.Type.Crystal) {
 					sounds.Sound_HeadPickup();
 					sounds.Sound_CrystalPickup();
-                    if (!Initializer.save.versionLatest.hasCompletedCrystalTaskOnce) gameMan.helperText.text = "- Bring them to the Cart";
-                }
-            }
+					if (!Initializer.save.versionLatest.hasCompletedCrystalTaskOnce) gameMan.helperText.text = "- Bring them to the Cart";
+				}
+				if (headPickup.pickupType == Pickup.Type.GoldenSkull) {
+					sounds.Sound_HeadPickup();
+					sounds.Sound_CrystalPickup();
+				}
+			}
 		}
 	}
 

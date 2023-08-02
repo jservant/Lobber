@@ -16,6 +16,7 @@ public class Pickup : MonoBehaviour {
 	public MeshRenderer headModel;
 	TrailRenderer headTrail;
 	public AK.Wwise.Event goldenSkullDrop;
+	public AK.Wwise.Event goldenSkullStop;
 	public Transform flash;
 
 	[Header("Movement:")]
@@ -58,7 +59,7 @@ public class Pickup : MonoBehaviour {
 			SetRandomFlightPath(); 
 		}
 
-		if (pickupType == Type.GoldenSkull) Sound_GoldenSkullDrop();
+		if (pickupType == Type.GoldenSkull) goldenSkullDrop.Post(gameObject);
 	}
 
 	void SetRandomFlightPath() {
@@ -194,7 +195,11 @@ public class Pickup : MonoBehaviour {
 
 	void OnDestroy() {
 		Destroy(this.transform.parent.gameObject);
-		if (!isOnGround) { meterValue += meterCatchBonus; healthValue += healthCatchBonus; } //get +1 value if you can catch it!
+		if (!isOnGround) { //get +1 value if you can catch it!
+			meterValue += meterCatchBonus; 
+			healthValue += healthCatchBonus;
+			gameMan.AddToKillStreak(0, 1f);
+		} 
 		if (collected) {
 			switch(pickupType) {
 				case Type.Skull:
@@ -232,5 +237,7 @@ public class Pickup : MonoBehaviour {
 					break;
 			}
 		}
+		if (pickupType == Type.GoldenSkull) goldenSkullStop.Post(gameObject);
+
 	}
 }

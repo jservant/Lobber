@@ -31,6 +31,7 @@ namespace AK
         static const AkUniqueID COMBAT4_STOP = 752702910U;
         static const AkUniqueID HEAD_FLYING = 375965827U;
         static const AkUniqueID HEAD_GOLDEN_IDLE = 3507359558U;
+        static const AkUniqueID HEAD_GOLDEN_STOP = 4059822888U;
         static const AkUniqueID HEAD_IMPACT = 4015037628U;
         static const AkUniqueID HEAD_PICKUP = 2586367166U;
         static const AkUniqueID LILNECRO_ATK = 3262445596U;

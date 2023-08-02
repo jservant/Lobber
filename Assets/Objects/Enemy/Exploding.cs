@@ -480,6 +480,7 @@ public class Exploding : MonoBehaviour {
 		if (shouldAddToKillTotal) {
 			gameMan.enemiesAlive -= 1;
 			gameMan.enemiesKilledInLevel += 1;
+			gameMan.AddToKillStreak(1, 2f);
 			GameManager.enemiesKilledInRun += 1;
 			Initializer.save.versionLatest.explosiveEnemyKills++;
 			if (groundIndicatorInstance != null) Destroy(groundIndicatorInstance);

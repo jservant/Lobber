@@ -311,7 +311,10 @@ public class Necro : MonoBehaviour {
 		model.materials = materialList;
 
 		if (health <= 0) {
-			ChangeDirective_Death();
+			if (directive != Directive.Death) {
+				gameMan.AddToKillStreak(1, 3f);
+				ChangeDirective_Death();
+			}
 		}
 
 		switch (directive) {

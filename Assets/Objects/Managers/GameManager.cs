@@ -42,6 +42,10 @@ public class GameManager : MonoBehaviour {
 	public int shrinesDestroyed = 0;
 	public Transform waypointTarget;
 	public Vector3 waypointOffset;
+	public int currentKillStreak;
+	private float killStreakTimer;
+	private float multiKillGrowTimer;
+	private float maxScaleFactor = 2f;
 
 	[Header("UI")]
 	public Canvas mainUI;
@@ -75,6 +79,8 @@ public class GameManager : MonoBehaviour {
 	public TMP_Text objectiveText;
 	public TMP_Text helperText;
 	public TMP_Text debugText;
+	public TMP_Text killCounter;
+	public TMP_Text multikillText;
 	public Image waypointMarker;
 
 	public Material healthBar;
@@ -174,6 +180,8 @@ public class GameManager : MonoBehaviour {
 	public RenderPipelineAsset[] qualityLevels;
 	public static Resolution[] resolutions;
 
+	public CrowdManager crowdMan;
+
 	void Awake() {
 		//Initializer.Load();
 		player = transform.Find("/Player");
@@ -218,6 +226,7 @@ public class GameManager : MonoBehaviour {
 		objectiveText.text = "";
 		helperText.text = "";
 		waypointMarker = transform.Find("/GameManager/MainUI/WaypointMarker").GetComponent<Image>();
+		crowdMan = transform.Find("/WwiseGlobal/CrowdManager").GetComponent<CrowdManager>();
 		//meterImage = transform.Find("MainUI/MeterBar").GetComponent<Image>();
 		//inputDisplayUI = transform.Find("MainUI/InputDisplay").gameObject;
 		Time.timeScale = 1;
@@ -415,6 +424,7 @@ public class GameManager : MonoBehaviour {
 		UpdateHealthBar();
 		UpdateMeter();
 		UpdateIcons(); //if (inputDisplayUI.activeSelf == true) {  }
+		UpdateKillCounter();
 		if (debugTextActive) debugText.text = "LevelCount: " + levelCount +
 			"\n" + "Tokens per Second: " + TokensPerSecond +
 			"\n" + "Current Tokens:  " + Mathf.RoundToInt(spawnTokens) +
@@ -850,13 +860,20 @@ public class GameManager : MonoBehaviour {
 
 	public IEnumerator Win() {
 		transitioningLevel = true;
-		if (levelCount > Initializer.save.versionLatest.longestRun) { Initializer.save.versionLatest.longestRun = levelCount; }
+		if (levelCount > Initializer.save.versionLatest.longestRun) { 
+			Initializer.save.versionLatest.longestRun = levelCount; 
+		}
 		Initializer.Save();
-		Debug.Log("YOU WIN!! Next stage starting shortly...");
+		//Debug.Log("YOU WIN!! Next stage starting shortly...");
 		statusTextboxText.text = "Stage Clear!";
 		float[] sceneChances = new float[] { 0, 1f, 1f, 1f, 1f, 1f, 1f };
 		sceneChances[SceneManager.GetActiveScene().buildIndex] = 0;
 		KillAll();
+
+		if (levelCount > 15) crowdMan.PlayCrowdSound(2);
+		if (levelCount > 10) crowdMan.PlayCrowdSound(3);
+		else crowdMan.PlayCrowdSound(2);
+
 		yield return new WaitForSeconds(7);
 		if (playerController.currentState == PlayerController.States.Death) {
 			SceneManager.LoadScene((int)Scenes.Tutorial);
@@ -1203,6 +1220,83 @@ public class GameManager : MonoBehaviour {
 				iconText[index - 1].color = Color.yellow;
 			}
 		}
+	}
+
+	public void UpdateKillCounter() {
+		if (transitioningLevel) killStreakTimer = 5f;
+
+		if (killStreakTimer > 0) {
+			killStreakTimer -= Time.deltaTime;
+		}
+		else currentKillStreak = 0;
+
+		if (currentKillStreak > 1) {
+			killCounter.text = "x " + currentKillStreak;
+		}
+		else {
+			killCounter.text = "";
+			multikillText.text = "";
+			multikillText.color = Color.white;
+			maxScaleFactor = 2f;
+			multikillText.transform.localScale = new Vector3(1f, 1f, 1f);
+		}
+
+		var counterScale = Mathf.Lerp(0.5f, 2f, killStreakTimer / 5f);
+		killCounter.transform.localScale = new Vector3(counterScale, counterScale, 1f);
+
+		if (multiKillGrowTimer > 0) {
+			multiKillGrowTimer -= Time.deltaTime;
+			var _localScale = multikillText.transform.localScale;
+			var multiScale = Mathf.Lerp(maxScaleFactor * 0.5f, maxScaleFactor, multiKillGrowTimer / 1f);
+			multikillText.transform.localScale = new Vector3(_localScale.x, multiScale, 1f);
+		}
+	}
+
+	public void AddToKillStreak(int value, float time) {
+		currentKillStreak += value;
+		killStreakTimer += time;
+		if (killStreakTimer > 5f) killStreakTimer = 5f;
+
+		float multiKill = 5f;
+		bool isMultiKill;
+		if (currentKillStreak % multiKill == 0) isMultiKill = true;
+		else isMultiKill = false;
+		if (isMultiKill && value > 0) {
+			multiKillGrowTimer = 0.5f;
+			crowdMan.PlayCrowdSound(2);
+		}
+
+		float largeMultiKill = 10f;
+		bool isLargeMultiKill;
+		if (currentKillStreak % largeMultiKill == 0) isLargeMultiKill = true;
+		else isLargeMultiKill = false;
+		if (isLargeMultiKill && value > 0) {
+			multiKillGrowTimer = 1f;
+			crowdMan.PlayCrowdSound(3);
+		}
+
+		float randomRotation = Random.Range(-15f, 15f);
+		killCounter.transform.rotation = Quaternion.Euler(0, 0, randomRotation);
+		multikillText.transform.rotation = Quaternion.Euler(0, 0, randomRotation);
+
+		if (currentKillStreak >= 5) multikillText.text = "MULTIKILL";
+		if (currentKillStreak >= 10) multikillText.text = "KILLTASTIC";
+		if (currentKillStreak >= 20) multikillText.text = "BONESPLITTING";
+		if (currentKillStreak >= 50) {
+			multikillText.text = "RAMPAGE";
+			multikillText.color = Color.red;
+		}
+		if (currentKillStreak >= 70) {
+			multikillText.text = "UNSTOPPABLE";
+			multikillText.color = new Color(1.0f, 0.64f, 0.0f);
+		}
+		if (currentKillStreak >= 100) {
+			multikillText.text = "LOBBIN'";
+			multikillText.color = Color.yellow;
+			maxScaleFactor = 4f;
+			multikillText.transform.localScale = new Vector3(2f, 2f, 1f);
+		}
+		if (currentKillStreak >= 1000) multikillText.text = "JUST WIN ALREADY";
 	}
 
 	public void KillAll() {
