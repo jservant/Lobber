@@ -121,6 +121,7 @@ public class Basic : MonoBehaviour {
 	NavMeshAgent navAgent;
 	Animator animator;
 	BoxCollider swordHitbox;
+	Transform smokePoint;
 	EnemyCommunication enemyCommunication;
 	MotionAudio_Skel sounds;
 
@@ -448,6 +449,7 @@ public class Basic : MonoBehaviour {
 		enemyCommunication = this.GetComponent<EnemyCommunication>();
 		sounds = this.GetComponent<MotionAudio_Skel>();
 		flashSpot = transform.Find("Weapon_Controller");
+		smokePoint = transform.Find("SmokePoint");
 
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 
@@ -1105,6 +1107,14 @@ public class Basic : MonoBehaviour {
 
 			Destroy(this.gameObject); 
 		}
+	}
+
+	public void SmokeParticleSmall() {
+		gameMan.SpawnParticle(17, smokePoint.position, 1f);
+    }
+
+	public void SmokeParticleMedium() {
+		gameMan.SpawnParticle(18, smokePoint.position, 1f);
 	}
 
 	private void OnDestroy() {

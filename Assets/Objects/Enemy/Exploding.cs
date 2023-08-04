@@ -76,6 +76,7 @@ public class Exploding : MonoBehaviour {
 	CapsuleCollider explosionHitbox;
 	CapsuleCollider selfHurtbox;
 	Transform attackWarningTransform;
+	Transform smokePoint;
 	MotionAudio_Pest sounds;
 	public GameObject groundIndicator;
 	private GameObject groundIndicatorInstance;
@@ -173,7 +174,7 @@ public class Exploding : MonoBehaviour {
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 		attackWarningTransform = transform.Find("Main/MrBomb");
 		sounds = GetComponent<MotionAudio_Pest>();
-
+		smokePoint = transform.Find("SmokePoint");
 
 		navAgent.updatePosition = false;
 		navAgent.updateRotation = false;
@@ -475,6 +476,10 @@ public class Exploding : MonoBehaviour {
 		}
 
 	}
+
+	public void SmokeParticleMedium() {
+		gameMan.SpawnParticle(18, smokePoint.position, 1f);
+    }
 
 	private void OnDestroy() {
 		if (shouldAddToKillTotal) {
