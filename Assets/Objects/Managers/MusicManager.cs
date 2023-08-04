@@ -48,13 +48,20 @@ public class MusicManager : MonoBehaviour
     }
 
     void CheckTracks(object in_cookie, AkCallbackType in_type, object in_info) {
-            var scene = GameObject.Find("/MusicManager").GetComponent<MusicManager>().currentScene;
+        var scene = GameObject.Find("/MusicManager").GetComponent<MusicManager>().currentScene;
         Debug.Log("Playing music for Scene: " + scene);
-            if (scene == 1) PlayMusic(3);
-            if (scene == 2) PlayMusic(3);
-            if (scene == 3) PlayMusic(5);
-            if (scene == 4) PlayMusic(5);
-            if (scene == 5) PlayMusic(4);
-            if (scene == 6) PlayMusic(4);
+        if (scene == 1 || scene == 2) { //Grass
+            PlayMusic(3);
+        }
+
+        if (scene == 3 || scene == 4) { //Crystal
+            if (currentTrack != 5) PlayMusic(5);
+            else PlayMusic(3);
+        }
+
+        if (scene == 5 || scene == 6) { //Desert
+            if (currentTrack != 4) PlayMusic(4);
+            else PlayMusic(3);
+        }
     }
 }
