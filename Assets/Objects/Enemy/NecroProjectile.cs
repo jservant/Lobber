@@ -62,6 +62,12 @@ public class NecroProjectile : MonoBehaviour {
 					GameObject.Destroy(this.gameObject);
 					break;
 
+				case Layers.NoToonShader:
+					if (isPlayerProjectile) Explode();
+					Fireball.Post(gameObject);
+					GameObject.Destroy(this.gameObject);
+					break;
+
 				case Layers.AgnosticHurtbox:
 					if (isPlayerProjectile) Explode();
 					if (other.GetComponent<ExplosiveTrap>() != null) {

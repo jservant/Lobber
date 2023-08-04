@@ -269,6 +269,8 @@ public class PlayerController : MonoBehaviour {
 	Light spotLight;
 	GameManager gameMan;
 	MotionAudio_Player sounds;
+	public float footStepCounter;
+	Transform footStepParticlePoint;
 
 	public HapticEffect[] hapticEffects;
 
@@ -339,6 +341,7 @@ public class PlayerController : MonoBehaviour {
 		slamPoint = transform.Find("SlamPoint");
 		shotgunPoint = transform.Find("ShotgunPoint");
 		dashFlashPoint = transform.Find("DashFlashPoint");
+		footStepParticlePoint = transform.Find("FootstepParticlePoint");
 		crystalHolster = transform.Find("MAIN_JOINT/MidTorso_Joint/Chest_Joint/CrystalHipSpawn");
 		mainJoint = transform.Find("MAIN_JOINT");
 
@@ -359,6 +362,7 @@ public class PlayerController : MonoBehaviour {
 		health = GameManager.storedPlayerHealth;
 		meter = GameManager.storedPlayerMeter;
 		tsr = targetSphereRadius;
+		footStepCounter = 0;
 	}
 
 	private void FixedUpdate() { // calculate movement here
@@ -762,6 +766,7 @@ public class PlayerController : MonoBehaviour {
 				movement = new Vector3(directionDelta.x, 0, directionDelta.z);
 				Debug.Log("OWIE " + other.name + " JUST HIT ME! I have " + health + " health");
 				gameMan.SpawnParticle(15, transform.position, 1f);
+				SmokeParticleSmall();
 			}
 		}
 
@@ -971,6 +976,22 @@ public class PlayerController : MonoBehaviour {
 		var flash = gameMan.flashes[9];
 		Vector3 pos = new Vector3(dashFlashPoint.position.x, dashFlashPoint.position.y + 1.5f, dashFlashPoint.position.z);
 		Instantiate(flash, pos, transform.rotation);
+    }
+
+	public void FootstepParticles() {
+		if (isGrounded) footStepCounter += 1;
+		if (footStepCounter >= 2) {
+			var puff = gameMan.particles[17];
+			Instantiate(puff, footStepParticlePoint.position, transform.rotation);
+			footStepCounter = 0;
+        }
+    }
+
+	public void SmokeParticleSmall() {
+		if (isGrounded) {
+			var puff = gameMan.particles[17];
+			Instantiate(puff, footStepParticlePoint.position, transform.rotation);
+		}
     }
 
 	#region Minor utility functions

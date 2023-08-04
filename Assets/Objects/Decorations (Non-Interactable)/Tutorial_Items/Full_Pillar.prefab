@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3084053178652336324}
   - component: {fileID: 1026089001744616096}
   - component: {fileID: 5926543247898578118}
+  - component: {fileID: 1918712289891939217}
   m_Layer: 3
   m_Name: Full_Pillar
   m_TagString: Untagged
@@ -93,11 +94,11 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 0
-  m_Extents: {x: 144.179, y: 313.79602, z: 144.179}
+  m_Extents: {x: 120, y: 397.5, z: 120}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0.086, z: 0}
+  m_Center: {x: 0, y: -108, z: 0}
   m_TimeToStationary: 0.5
 --- !u!65 &5926543247898578118
 BoxCollider:
@@ -110,5 +111,19 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 288.3589, y: 627.5917, z: 285.3528}
-  m_Center: {x: 0.000015258789, y: 0.08595276, z: 0}
+  m_Size: {x: 250, y: 54.2, z: 250}
+  m_Center: {x: 0.000015258789, y: 286.84, z: 0}
+--- !u!136 &1918712289891939217
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3588311682106196241}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 120
+  m_Height: 700
+  m_Direction: 1
+  m_Center: {x: 0.000015258789, y: -108.3, z: 0}
