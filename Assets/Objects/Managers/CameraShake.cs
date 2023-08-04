@@ -21,8 +21,8 @@ public class CameraShake : MonoBehaviour
         vcam = GetComponent<CinemachineVirtualCamera>();
         noise = vcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         shakeTime = 0;
+        vcam.m_Lens.FieldOfView = Initializer.save.versionLatest.cameraFOV;
         currentFOV = vcam.m_Lens.FieldOfView;
-        //currentFOV = Initializer.save.versionLatest.cameraFOV;
     }
     // Start is called before the first frame update
     void Start()
@@ -68,6 +68,6 @@ public class CameraShake : MonoBehaviour
             }
             zoomTime = 0.2f;
         }
-        Initializer.save.versionLatest.cameraFOV = sign;
+        Initializer.save.versionLatest.cameraFOV = targetFOV;
     }
 }

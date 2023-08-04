@@ -156,7 +156,7 @@ public class Initializer : MonoBehaviour {
         DefaultSave.versionLatest.musicVolume = 100;
         DefaultSave.versionLatest.sfxVolume = 100;
         DefaultSave.versionLatest.resolutionOption = 0;
-        DefaultSave.versionLatest.cameraFOV = 84;
+        DefaultSave.versionLatest.cameraFOV = 60;
         DefaultSave.versionLatest.hasCompletedCrystalTaskOnce = false;
 
         fileName = Application.persistentDataPath + @"/options.dat";
@@ -189,7 +189,7 @@ public class Initializer : MonoBehaviour {
         save.versionLatest.masterVolume = 100;
         save.versionLatest.musicVolume = 100;
         save.versionLatest.sfxVolume = 100;
-		save.versionLatest.cameraFOV = 84;
+		save.versionLatest.cameraFOV = 60;
     }
 
 	public static void Load() {
