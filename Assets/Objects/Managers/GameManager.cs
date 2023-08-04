@@ -1258,6 +1258,7 @@ public class GameManager : MonoBehaviour {
 		currentKillStreak += value;
 		killStreakTimer += time;
 		if (killStreakTimer > 5f) killStreakTimer = 5f;
+		if (killStreakTimer < 0f) killStreakTimer = 0f;
 
 		float multiKill = 5f;
 		bool isMultiKill;

@@ -769,6 +769,9 @@ public class PlayerController : MonoBehaviour {
 				SmokeParticleSmall();
 			}
 		}
+		//Lose some killStreak Time
+		float timeLoss = -damageTaken;
+		gameMan.AddToKillStreak(0, timeLoss);
 
 		//trigger haptics here
 		if (GameObject.Find("HapticManager") != null && Initializer.save.versionLatest.rumble) {
