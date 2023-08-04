@@ -37,9 +37,11 @@ public class Pickup : MonoBehaviour {
 	public bool isOnGround;
 	public bool collected;
 	public float randomForce;
+	public float forceOffset;
 	private float lowLifetime = 4f; //when to start blinking to indicate low lifetime
 	private float blinkDuration = 0.5f;
 	private float blinkTime = 0f;
+	private float debugAttempts = 100000f;
 
 	[Header("Bonuses:")]
 	public float meterValue;
@@ -64,17 +66,16 @@ public class Pickup : MonoBehaviour {
 
 	void SetRandomFlightPath() {
 		// NOTE(Roskuski): Loop terminates with a break.
+		float ranForceX = 0f;
+		float ranForceZ = 0f;
+
 		while (true) {
 			// TODO(@Ryan): Cap ranforce at 7 and -7 if below or above
 
-			float ranForceX = 0f;
-			float ranForceZ = 0f;
-			float offset = 3f;
-
-			while ((Mathf.Abs(ranForceX) < offset) && (Mathf.Abs(ranForceZ) < offset)) {
-				ranForceX = Random.Range(-randomForce, randomForce);
-				ranForceZ = Random.Range(-randomForce, randomForce);
-			}
+			ranForceX = Random.Range(-randomForce, randomForce);
+			if (Mathf.Abs(ranForceX) < forceOffset) ranForceX += forceOffset * Mathf.Sign(ranForceX);
+			ranForceZ = Random.Range(-randomForce, randomForce);
+			if (Mathf.Abs(ranForceZ) < forceOffset) ranForceZ += forceOffset * Mathf.Sign(ranForceZ);
 
 			Vector3 point = new Vector3(transform.position.x + ranForceX, transform.position.y + 5f, transform.position.z + ranForceZ); //calculates randomized point on XZ axis
 			RaycastHit rayHit;
@@ -104,6 +105,22 @@ public class Pickup : MonoBehaviour {
 
 					// Rotate projectile to face the target.
 					transform.rotation = Quaternion.LookRotation(targetPoint - transform.position);
+					break;
+				}
+                else {
+					debugAttempts -= 1;
+					if (debugAttempts <= 0) {
+						Destroy(gameObject);
+						Debug.Log("Couldn't find landing point with ranForce X " + ranForceX + " and ranforce Z " + ranForceZ + "(No Nav Mesh Hit)");
+						break;
+					}
+				}
+			}
+			else {
+				debugAttempts -= 1;
+				if (debugAttempts <= 0) {
+					Destroy(gameObject);
+					Debug.Log("Couldn't find landing point with ranForce X " + ranForceX + " and ranforce Z " + ranForceZ + "(No Ground Layer)");
 					break;
 				}
 			}

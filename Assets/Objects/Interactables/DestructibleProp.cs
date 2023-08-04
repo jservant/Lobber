@@ -20,6 +20,7 @@ public class DestructibleProp : MonoBehaviour {
 
 	[Header("Head pop:")]
 	public float randomForce;
+	public float forceOffset;
 	public int headTotal; //about how many heads the pile can contain
 	public int headOffset;
 	public bool isUnlimited;
@@ -111,10 +112,22 @@ public class DestructibleProp : MonoBehaviour {
 			Pickup hpop = headInstance.transform.Find("Head").GetComponent<Pickup>();
 			hpop.randomForce = randomForce;
 			hpop.flightAngle = 70f;
+			hpop.forceOffset = forceOffset;
 		}
     }
 
 	void Impact_Sound() {
 		ImpactSound.Post(gameObject);
+	}
+
+    private void OnDrawGizmos() {
+		if (canDropHeads) {
+			Gizmos.color = Color.cyan;
+			if (isHealthMachine) Gizmos.color = Color.red;
+			Vector3 cubeSize = new Vector3(forceOffset * 2f, 7f, forceOffset * 2f);
+			Gizmos.DrawWireCube(transform.position, cubeSize);
+			Vector3 _cubeSize = new Vector3(randomForce * 2f, 7f, randomForce * 2f);
+			Gizmos.DrawWireCube(transform.position, _cubeSize);
+		}
 	}
 }

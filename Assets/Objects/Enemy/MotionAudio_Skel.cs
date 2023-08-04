@@ -60,7 +60,7 @@ public class MotionAudio_Skel : MonoBehaviour
 
     public AK.Wwise.Event Enemy_Stun;
 
-    void Sound_EnemyStun()
+    public void Sound_EnemyStun()
     {
         Enemy_Stun.Post(gameObject);
     }
@@ -83,5 +83,11 @@ public class MotionAudio_Skel : MonoBehaviour
 
     public void Sound_EnemyCrystalShatter() {
         Enemy_CrystalShatter.Post(gameObject);
+    }
+
+    public AK.Wwise.Event Enemy_Sliced;
+
+    public void Sound_EnemySliced() {
+        Enemy_Sliced.Post(gameObject);
     }
 }

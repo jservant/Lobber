@@ -77,6 +77,7 @@ namespace AK
         static const AkUniqueID SKEL_FS = 855030670U;
         static const AkUniqueID SKEL_GETHIT = 3336220324U;
         static const AkUniqueID SKEL_SLASH = 3644427658U;
+        static const AkUniqueID SKEL_SLASH_02 = 2049336843U;
         static const AkUniqueID SKEL_SPWAN_JUMP = 1091450755U;
         static const AkUniqueID SKEL_SPWAN_LAND = 500517664U;
         static const AkUniqueID SKEL_VO = 1123472706U;

@@ -355,6 +355,12 @@ public class Basic : MonoBehaviour {
 							if (GameObject.Find("HapticManager") != null) HapticManager.PlayEffect(player.hapticEffects[2], this.transform.position);
 							break;
 
+						case PlayerController.Attacks.LethalDash:
+							if (!isArmored) sounds.Sound_EnemySliced();
+							gameMan.ShakeCamera(3f, 0.1f);
+							if (GameObject.Find("HapticManager") != null) HapticManager.PlayEffect(player.hapticEffects[2], this.transform.position);
+							break;
+
 						default:
 							Debug.Log("I, " + this.name + " was hit by an unhandled attack (" + gameMan.playerController.currentAttack + ")");
 							break;
@@ -409,6 +415,7 @@ public class Basic : MonoBehaviour {
 				if (playHitSound) sounds.CharacterGetHit();
 				health -= damage;
 				gameMan.playerController.ChangeMeter(meterGain);
+				if (stunTime == StunTime.Long) sounds.Sound_EnemyStun();
 				ChangeDirective_Stunned(stunTime, newKnockbackInfo, _extraStun);
 			}
             else {

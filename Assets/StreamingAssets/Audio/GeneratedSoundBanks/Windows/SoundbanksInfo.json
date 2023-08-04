@@ -557,7 +557,7 @@
     "Id": "1496463651",
     "Type": "User",
     "Language": "SFX",
-    "Hash": "{CC44F0E0-D15F-28DC-75FC-66A61789A121}",
+    "Hash": "{36ED40A2-C8B9-5CBD-A559-A871CE032877}",
     "ShortName": "Bank_01",
     "Path": "Bank_01.bnk",
     "Media": [
@@ -762,12 +762,28 @@
       "CachePath": "SFX/skel_vo_01_10C4C929.wem"
      },
      {
+      "Id": "116351822",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "skel_slash_01.wav",
+      "CachePath": "SFX/skel_slash_01_E55EE977.wem"
+     },
+     {
       "Id": "123446656",
       "Language": "SFX",
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "fs_skel_grass_04.wav",
       "CachePath": "SFX/fs_skel_grass_04_10C4C929.wem"
+     },
+     {
+      "Id": "124203271",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "skel_slash_03.wav",
+      "CachePath": "SFX/skel_slash_03_2F603296.wem"
      },
      {
       "Id": "138826314",
@@ -1111,7 +1127,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "skel_spawn_jump.wav",
-      "CachePath": "SFX/skel_spawn_jump_10C4C929.wem"
+      "CachePath": "SFX/skel_spawn_jump_33B4F52B.wem"
      },
      {
       "Id": "443532807",
@@ -2765,12 +2781,28 @@
       ]
      },
      {
+      "Id": "2049336843",
+      "Name": "skel_slash_02",
+      "MaxAttenuation": "50",
+      "DurationType": "OneShot",
+      "DurationMin": "0.31821722",
+      "DurationMax": "0.46038097",
+      "MediaRefs": [
+       {
+        "Id": "116351822"
+       },
+       {
+        "Id": "124203271"
+       }
+      ]
+     },
+     {
       "Id": "1091450755",
       "Name": "skel_spwan_jump",
       "MaxAttenuation": "50",
       "DurationType": "OneShot",
-      "DurationMin": "0.625",
-      "DurationMax": "0.625",
+      "DurationMin": "0.18243119",
+      "DurationMax": "0.18243119",
       "MediaRefs": [
        {
         "Id": "443484975"
@@ -2920,6 +2952,6 @@
     ]
    }
   ],
-  "FileHash": "{0954C084-39F0-19F8-4B66-7E6AEFC5B48D}"
+  "FileHash": "{5B6A57DD-6BC3-4991-CC4B-0F5E8E1311A0}"
  }
 }

@@ -182,7 +182,7 @@
 				</AcousticTexture>
 			</AcousticTextures>
 		</SoundBank>
-		<SoundBank Id="1496463651" Type="User" Language="SFX" Hash="{CC44F0E0-D15F-28DC-75FC-66A61789A121}">
+		<SoundBank Id="1496463651" Type="User" Language="SFX" Hash="{36ED40A2-C8B9-5CBD-A559-A871CE032877}">
 			<ShortName>Bank_01</ShortName>
 			<Path>Bank_01.bnk</Path>
 			<Media>
@@ -286,9 +286,17 @@
 					<ShortName>skel_vo_01.wav</ShortName>
 					<CachePath>SFX/skel_vo_01_10C4C929.wem</CachePath>
 				</File>
+				<File Id="116351822" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>skel_slash_01.wav</ShortName>
+					<CachePath>SFX/skel_slash_01_E55EE977.wem</CachePath>
+				</File>
 				<File Id="123446656" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fs_skel_grass_04.wav</ShortName>
 					<CachePath>SFX/fs_skel_grass_04_10C4C929.wem</CachePath>
+				</File>
+				<File Id="124203271" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>skel_slash_03.wav</ShortName>
+					<CachePath>SFX/skel_slash_03_2F603296.wem</CachePath>
 				</File>
 				<File Id="138826314" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>fs_skel_grass_07.wav</ShortName>
@@ -460,7 +468,7 @@
 				</File>
 				<File Id="443484975" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>skel_spawn_jump.wav</ShortName>
-					<CachePath>SFX/skel_spawn_jump_10C4C929.wem</CachePath>
+					<CachePath>SFX/skel_spawn_jump_33B4F52B.wem</CachePath>
 				</File>
 				<File Id="443532807" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>amb_crowd_chatter.wav</ShortName>
@@ -1166,7 +1174,13 @@
 						<MediaRef Id="429319015"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="1091450755" Name="skel_spwan_jump" MaxAttenuation="50" DurationType="OneShot" DurationMin="0.625" DurationMax="0.625">
+				<Event Id="2049336843" Name="skel_slash_02" MaxAttenuation="50" DurationType="OneShot" DurationMin="0.31821722" DurationMax="0.46038097">
+					<MediaRefs>
+						<MediaRef Id="116351822"/>
+						<MediaRef Id="124203271"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1091450755" Name="skel_spwan_jump" MaxAttenuation="50" DurationType="OneShot" DurationMin="0.18243119" DurationMax="0.18243119">
 					<MediaRefs>
 						<MediaRef Id="443484975"/>
 					</MediaRefs>
@@ -1231,5 +1245,5 @@
 			</SwitchGroups>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{7D2425EF-41F6-69CC-79C3-09888C1ED1BA}</FileHash>
+	<FileHash>{7310C9B1-4702-E6A3-1D41-8FFFD8596DD8}</FileHash>
 </SoundBanksInfo>

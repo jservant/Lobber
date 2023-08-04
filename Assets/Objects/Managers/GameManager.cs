@@ -1058,7 +1058,7 @@ public class GameManager : MonoBehaviour {
 		if (isCrystallized == true) {
 			skullChance = 0;
 			healthChance = 0;
-			SpawnPickup((int)Pickup.Type.Crystal, position);
+			SpawnPickup((int)Pickup.Type.Crystal, position, 3f);
             if (!Initializer.save.versionLatest.hasCompletedCrystalTaskOnce) helperText.text = "- Grab the Crystals" + "\n- Bring them to the Cart";
         }
 
@@ -1066,22 +1066,24 @@ public class GameManager : MonoBehaviour {
 		float pickupDecider = Random.Range(1, 100);
 		if ((pickupDecider <= skullChance) && pickupsInAir.Count < maxPickupsInAir) { //check for skulldrop
 			if (pickupDecider <= goldenSkullDropChance && goldSkullBuffer <= 0) {
-				SpawnPickup((int)Pickup.Type.GoldenSkull, position); //check for goldenskull
+				SpawnPickup((int)Pickup.Type.GoldenSkull, position, 3f); //check for goldenskull
 				goldSkullBuffer = 50;
 			}
 			else {
-				SpawnPickup((int)Pickup.Type.Skull, position);
+				SpawnPickup((int)Pickup.Type.Skull, position, 2f);
 				if (goldSkullBuffer > 0) goldSkullBuffer--;
 			}
 		}
 
 		//Health Pickup
 		pickupDecider = Random.Range(1, 100);
-		if ((pickupDecider <= healthChance) && pickupsInAir.Count < maxPickupsInAir) SpawnPickup((int)Pickup.Type.Health, position); //check for healthdrop
+		if ((pickupDecider <= healthChance) && pickupsInAir.Count < maxPickupsInAir) SpawnPickup((int)Pickup.Type.Health, position, 2f); //check for healthdrop
 	}
 
-	public void SpawnPickup(int pickupID, Vector3 position) {
+	public void SpawnPickup(int pickupID, Vector3 position, float forceOffset) {
 		var pickup = Instantiate(Pickups[pickupID], position, Quaternion.identity);
+		Pickup pickupScript = pickup.GetComponent<Pickup>();
+		if (pickupScript != null) pickupScript.forceOffset = forceOffset;
 		pickupsInAir.Add(pickup.gameObject);
 		pickupTime = 1f;
 	}

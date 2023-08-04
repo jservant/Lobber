@@ -1493,6 +1493,7 @@ Transform:
   - {fileID: 4544830319412261401}
   - {fileID: 1262605303974728722}
   - {fileID: 3667354238228154829}
+  - {fileID: 7832627080597051699}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1527,6 +1528,7 @@ MonoBehaviour:
   movement: {x: 0, y: 0, z: 0}
   freeAim: 0
   rAimInput: {x: 0, y: 0}
+  canMove: 1
   movementCurve:
     serializedVersion: 2
     m_Curve:
@@ -1690,6 +1692,14 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: e147e8f4-18dc-4b3e-beab-a8aabd2d2f23
     m_ActionName: Player/DEBUGKillAll[/Keyboard/8]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: cbde7708-33d5-4c3f-852a-7f91222640b1
+    m_ActionName: Player/Zoom[/DualSenseGamepadHID/dpad/up,/DualSenseGamepadHID/dpad/down,/Keyboard/downArrow,/Keyboard/upArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e23c149d-bc17-4af0-a2f9-50241e5c90fa
+    m_ActionName: Player/DEBUGSlowTime[/DualSenseGamepadHID/dpad/down]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
@@ -2427,7 +2437,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4544830319412261401}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: SlamPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3160,7 +3170,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1262605303974728722}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: ShotgunPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3604,6 +3614,36 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &8936748451672563591
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7832627080597051699}
+  m_Layer: 0
+  m_Name: DashFlashPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7832627080597051699
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8936748451672563591}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4559257663552963776}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8937980900600534738
 GameObject:
   m_ObjectHideFlags: 0

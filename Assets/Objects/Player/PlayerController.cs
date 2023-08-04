@@ -264,6 +264,7 @@ public class PlayerController : MonoBehaviour {
 	Transform[] shotgunProjSpawns;
 	Transform shotgunPoint;
 	Transform slamPoint;
+	Transform dashFlashPoint;
 	public Transform crystalHolster;
 	Light spotLight;
 	GameManager gameMan;
@@ -337,6 +338,7 @@ public class PlayerController : MonoBehaviour {
 		headProj = gameMan.SkullPrefab;
 		slamPoint = transform.Find("SlamPoint");
 		shotgunPoint = transform.Find("ShotgunPoint");
+		dashFlashPoint = transform.Find("DashFlashPoint");
 		crystalHolster = transform.Find("MAIN_JOINT/MidTorso_Joint/Chest_Joint/CrystalHipSpawn");
 		mainJoint = transform.Find("MAIN_JOINT");
 
@@ -964,6 +966,12 @@ public class PlayerController : MonoBehaviour {
 		gameMan.ShakeCamera(3f, 0.25f);
 	}
 	#endregion
+
+	public void DashFlash() {
+		var flash = gameMan.flashes[9];
+		Vector3 pos = new Vector3(dashFlashPoint.position.x, dashFlashPoint.position.y + 1.5f, dashFlashPoint.position.z);
+		Instantiate(flash, pos, transform.rotation);
+    }
 
 	#region Minor utility functions
 	void OnEnable() { pActions.Enable(); }
