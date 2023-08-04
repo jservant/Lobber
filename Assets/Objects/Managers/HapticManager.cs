@@ -9,7 +9,7 @@ public class HapticManager : MonoBehaviour
 
     List<HapticEffect> activeEffects = new List<HapticEffect>();
     public static void PlayEffect(HapticEffect effect, Vector3 position) {
-        Instance.PlayEffect_Internal(effect, position);
+        if (Initializer.save.versionLatest.rumble) Instance.PlayEffect_Internal(effect, position);
     }
 
     private void Awake() {

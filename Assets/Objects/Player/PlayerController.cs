@@ -960,6 +960,7 @@ public class PlayerController : MonoBehaviour {
 
 	public void Slam() {
 		gameMan.SpawnParticle(1, slamPoint.position, 1f);
+		Util.SpawnFlash(gameMan, 10, slamPoint.position, false);
 		if (GameObject.Find("HapticManager") != null) HapticManager.PlayEffect(hapticEffects[1], this.transform.position);
 		gameMan.ShakeCamera(5f, 0.75f);
 	}

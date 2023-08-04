@@ -57,7 +57,7 @@ public class Pickup : MonoBehaviour {
 		timeUntilCollect = lifetime - timeUntilCollect;
 		isOnGround = false;
 
-		if (transform.position.y > 0) {
+		if (transform.position.y > -4) {
 			SetRandomFlightPath(); 
 		}
 

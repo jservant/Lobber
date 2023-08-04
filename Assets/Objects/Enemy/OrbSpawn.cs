@@ -23,6 +23,7 @@ public class OrbSpawn : MonoBehaviour {
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 		if (!isPlayerPortal) StartCoroutine(Spawning());
 		else StartCoroutine(QuickPortal());
+		Util.SpawnFlash(gameMan, 11, transform.position, true);
 	}
 
 	public IEnumerator Spawning() {
@@ -86,6 +87,8 @@ public class OrbSpawn : MonoBehaviour {
 		anim.SetBool("DeSpawn", true);
 		yield return new WaitForSeconds(0.4f);
 
+		gameMan.SpawnParticle(12, transform.position, 1.5f);
+		Util.SpawnFlash(gameMan, 11, transform.position, false);
 		GameObject.Destroy(this.gameObject);
 	}
 
@@ -94,6 +97,9 @@ public class OrbSpawn : MonoBehaviour {
 		yield return new WaitForSeconds(0.6f);
 		anim.SetBool("DeSpawn", true);
 		yield return new WaitForSeconds(0.4f);
+
+		gameMan.SpawnParticle(12, transform.position, 1.5f);
+		Util.SpawnFlash(gameMan, 11, transform.position, false);
 		GameObject.Destroy(this.gameObject);
 	}
 
@@ -103,6 +109,6 @@ public class OrbSpawn : MonoBehaviour {
 	}
 
     private void OnDestroy() {
-		gameMan.SpawnParticle(12, transform.position, 1.5f);
+		
     }
 }
