@@ -349,10 +349,6 @@ public class GameManager : MonoBehaviour {
 
     }
 
-    private void Start() {
-        
-    }
-
     private void Update() {
 		if (updateTimeScale) {
 			if (frozenTime > 0) {
@@ -1392,6 +1388,8 @@ public class GameManager : MonoBehaviour {
         fsToggle.isOn = Screen.fullScreenMode == FullScreenMode.ExclusiveFullScreen;
         Toggle rumbleToggle = transform.Find("OptionsUI/VisualSettings/Rumble/RumbleToggle").GetComponent<Toggle>();
         rumbleToggle.isOn = Initializer.save.versionLatest.rumble;
+        Slider screenshakeSlider = transform.Find("OptionsUI/VisualSettings/Screenshake/ScreenshakeSlider").GetComponent<Slider>();
+        screenshakeSlider.value = Initializer.save.versionLatest.screenshakePercentage;
         optionsBackButton = transform.Find("OptionsUI/OptionsBackButton").GetComponent<Button>();
 		optionsBackButton.Select();
 	}
@@ -1427,17 +1425,21 @@ public class GameManager : MonoBehaviour {
     public void OnGraphics() {
 		audioUI.enabled = false;
 		audioGroup.interactable = false;
-		optionsUI.enabled = true;
-		optionsGroup.interactable = true;
-		Toggle fsToggle = transform.Find("OptionsUI/VisualSettings/Fullscreen/FullscreenToggle").GetComponent<Toggle>();
-		fsToggle.isOn = Screen.fullScreenMode == FullScreenMode.ExclusiveFullScreen;
-        Slider screenshakeSlider = transform.Find("OptionsUI/Screenshake/ScreenshakeSlider").GetComponent<Slider>();
-		screenshakeSlider.value = Initializer.save.versionLatest.screenshakePercentage;
+		optionsUI.enabled = false;
+		optionsGroup.interactable = false;
+        optionsUI.enabled = true;
+        optionsGroup.interactable = true;
+        Toggle fsToggle = transform.Find("OptionsUI/VisualSettings/Fullscreen/FullscreenToggle").GetComponent<Toggle>();
+        fsToggle.isOn = Screen.fullScreenMode == FullScreenMode.ExclusiveFullScreen;
+        Toggle rumbleToggle = transform.Find("OptionsUI/VisualSettings/Rumble/RumbleToggle").GetComponent<Toggle>();
+        rumbleToggle.isOn = Initializer.save.versionLatest.rumble;
+        Slider screenshakeSlider = transform.Find("OptionsUI/VisualSettings/Screenshake/ScreenshakeSlider").GetComponent<Slider>();
+        screenshakeSlider.value = Initializer.save.versionLatest.screenshakePercentage;
         optionsBackButton = transform.Find("OptionsUI/OptionsBackButton").GetComponent<Button>();
-		optionsBackButton.Select();
-	}
+        optionsBackButton.Select();
+    }
 
-	public void SetQuality(int qualityIndex) {
+    public void SetQuality(int qualityIndex) {
 		QualitySettings.SetQualityLevel(qualityIndex);
 		QualitySettings.renderPipeline = qualityLevels[qualityIndex];
 	}
