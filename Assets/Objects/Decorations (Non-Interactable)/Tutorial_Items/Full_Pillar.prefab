@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 1026089001744616096}
   - component: {fileID: 5926543247898578118}
   - component: {fileID: 1918712289891939217}
+  - component: {fileID: 141432987040623791}
+  - component: {fileID: 1823959513755052266}
   m_Layer: 3
   m_Name: Full_Pillar
   m_TagString: Untagged
@@ -127,3 +129,34 @@ CapsuleCollider:
   m_Height: 700
   m_Direction: 1
   m_Center: {x: 0.000015258789, y: -108.3, z: 0}
+--- !u!114 &141432987040623791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3588311682106196241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d64965a4cd657d4f81e34660c928940, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trigger: {fileID: 1823959513755052266}
+  mesh: {fileID: 3084053178652336324}
+  materials:
+  - {fileID: 2100000, guid: 2c9b0d6d115fd0d44999ac366817f3d2, type: 2}
+  - {fileID: 2100000, guid: e647386e8da6887408ff619a6774b27f, type: 2}
+  transparent: 0
+--- !u!65 &1823959513755052266
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3588311682106196241}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 234.8, y: 544.7, z: 500}
+  m_Center: {x: 0.000015258789, y: -36.8, z: 285.4}
