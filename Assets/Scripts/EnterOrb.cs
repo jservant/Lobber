@@ -4,9 +4,15 @@ using UnityEngine;
 
 public class EnterOrb : MonoBehaviour
 {
-	private void OnTriggerEnter(Collider other) {
+	GameManager gameManager;
+
+    private void Start() {
+        gameManager = transform.Find("/GameManager").GetComponent<GameManager>();
+    }
+
+    private void OnTriggerEnter(Collider other) {
 		if (other.gameObject.layer == (int)Layers.PlayerHurtbox) {
-			GameManager.OnRestartConfirm();
+			gameManager.OnRestartConfirm();
 		}
 	}
 }

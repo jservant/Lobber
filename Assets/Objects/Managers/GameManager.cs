@@ -13,9 +13,9 @@ using TMPro;
 public class GameManager : MonoBehaviour {
 	public enum Objectives : int {
 		None = 0,
-		KillTheEnemies, // basically done, needs to be better implemented into a more official obj switcher
-		DestroyTheShrines,
-		HarvestTheCrystals, // workinonit
+		KillTheEnemies,
+		DestroyTheShrines, // disabled for now
+		HarvestTheCrystals,
 	}
 	public static Objectives currentObjective = 0;
 
@@ -73,6 +73,7 @@ public class GameManager : MonoBehaviour {
     public Canvas creditsUI;
     public CanvasGroup creditsGroup;
 	public Animator creditsAnimator;
+	public Animator levelTransitionAnimator;
     public TMP_Text statsText;
 	public TMP_Text statsText2;
 	public TMP_Text statusTextboxText;
@@ -219,6 +220,7 @@ public class GameManager : MonoBehaviour {
 		creditsUI = transform.Find("CreditsUI").GetComponent<Canvas>();
 		creditsGroup = transform.Find("CreditsUI").GetComponent<CanvasGroup>();
 		creditsAnimator = transform.Find("CreditsUI/CreditsContainer").GetComponent<Animator>();
+		levelTransitionAnimator = GetComponent<Animator>();
 		creditsAnimator.enabled = false;
 		statusTextboxText = transform.Find("StatusTextbox/StatusTextboxText").GetComponent<TMP_Text>();
 		statusTextboxText.text = "";
@@ -344,9 +346,14 @@ public class GameManager : MonoBehaviour {
 
         tempColorLit.a = 1f;
 		tempColorUnlit.a = unlitTextOpacity;
-	}
 
-	private void Update() {
+    }
+
+    private void Start() {
+        
+    }
+
+    private void Update() {
 		if (updateTimeScale) {
 			if (frozenTime > 0) {
 				if (frozenTime > 4) frozenTime = 4;
@@ -781,7 +788,8 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 
-		if (playerController.pActions.Player.Pause.WasPerformedThisFrame() && playerController.animr.GetBool("isDead") == false && pauseBG.enabled == false && playerController.canMove == true) {
+		if (playerController.pActions.Player.Pause.WasPerformedThisFrame() && playerController.animr.GetBool("isDead") == false
+			&& pauseBG.enabled == false && playerController.canMove == true && transitioningLevel == false) {
 			if (SceneManager.GetActiveScene().buildIndex == (int)Scenes.Tutorial && Initializer.save.versionLatest.tutorialComplete == false) {
 				if (tutorialSkipUI.enabled) {
 					eSystem.SetSelectedGameObject(null);
@@ -869,6 +877,7 @@ public class GameManager : MonoBehaviour {
 		float[] sceneChances = new float[] { 0, 1f, 1f, 1f, 1f, 1f, 1f };
 		sceneChances[SceneManager.GetActiveScene().buildIndex] = 0;
 		KillAll();
+		levelTransitionAnimator.SetTrigger("LevelEnd");
 
 		if (levelCount > 15) crowdMan.PlayCrowdSound(2);
 		if (levelCount > 10) crowdMan.PlayCrowdSound(3);
@@ -876,7 +885,7 @@ public class GameManager : MonoBehaviour {
 
 		yield return new WaitForSeconds(7);
 		if (playerController.currentState == PlayerController.States.Death) {
-			SceneManager.LoadScene((int)Scenes.Tutorial);
+			StartCoroutine(QuitTransition(false));
 		} else {
 			storedPlayerHealth = playerController.health;
 			storedPlayerMeter = playerController.meter;
@@ -1362,7 +1371,7 @@ public class GameManager : MonoBehaviour {
         restartConfirmButton.Select();
     }
 
-	public static void OnRestartConfirm() {
+	public void OnRestartConfirm() {
 		storedPlayerHealth = 10;
 		storedPlayerMeter = 3;
 		levelCount = 1;
@@ -1371,10 +1380,10 @@ public class GameManager : MonoBehaviour {
 		enemiesKilledInRun = 0;
 		ResetSpawnerValues();
 		Initializer.save.versionLatest.runsStarted++;
-		SceneManager.LoadScene((int)Scenes.GrassBridge);
-	}
+        StartCoroutine(QuitTransition(false));
+    }
 
-	public void OnOptions() {
+    public void OnOptions() {
 		pauseUI.enabled = false;
 		pauseGroup.interactable = false;
 		optionsUI.enabled = true;
@@ -1447,7 +1456,7 @@ public class GameManager : MonoBehaviour {
 		Initializer.save.versionLatest.rumble = rumble;
 	}
 
-	//(TODO(@Jaden)): Make screenshake, rumble, corpse limit functions
+	//(TODO(@Jaden)): Make corpse limit function
 
 	public void OnStats() {
 		optionsUI.enabled = false;
@@ -1544,7 +1553,7 @@ public class GameManager : MonoBehaviour {
 		enemiesKilledInRun = 0;
 		Time.timeScale = 1;
 		Initializer.Save();
-		SceneManager.LoadScene((int)Scenes.Tutorial);
+		StartCoroutine(QuitTransition(true));
 	}
 
 	public void OnQuitToDesktop() {
@@ -1564,7 +1573,7 @@ public class GameManager : MonoBehaviour {
         Button deleteSaveConfirmButton = cancelConfirmUI.transform.Find("DeleteSaveYesButton").GetComponent<Button>();
         Button quitToDesktopButton = cancelConfirmUI.transform.Find("QuitToDesktopButton").GetComponent<Button>();
         cancelConfirmText.text = "Really Delete Save?";
-        restartConfirmButton.gameObject.SetActive(false); ;
+        restartConfirmButton.gameObject.SetActive(false);
         quitConfirmButton.gameObject.SetActive(false);
         quitToDesktopButton.gameObject.SetActive(false);
         deleteSaveConfirmButton.Select();
@@ -1574,8 +1583,17 @@ public class GameManager : MonoBehaviour {
 		Initializer.AssignDefaultValues();
 		Initializer.Save();
         Time.timeScale = 1;
-        SceneManager.LoadScene((int)Scenes.Tutorial);
+		Application.Quit();
     }
+
+	public IEnumerator QuitTransition(bool quitOrRestart) {
+		//Time.timeScale = 0;
+		levelTransitionAnimator.SetTrigger("MenuEnd");
+		playerController.pActions.Disable();
+		yield return new WaitForSeconds(0.5f); //should be length of wipe anim
+		if (quitOrRestart) SceneManager.LoadScene((int)Scenes.Tutorial);
+		else SceneManager.LoadScene((int)Scenes.GrassBridge);
+	}
     #endregion
 
     void OnEnable() { dActions.Enable(); }
