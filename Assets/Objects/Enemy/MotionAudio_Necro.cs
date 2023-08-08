@@ -33,4 +33,10 @@ public class MotionAudio_Necro : MonoBehaviour
     public void Necro_Death() {
         NecroDeath.Post(gameObject);
     }
+
+    public AK.Wwise.Event NecroSliced;
+
+    public void Necro_Sliced() {
+        NecroSliced.Post(gameObject);
+    }
 }

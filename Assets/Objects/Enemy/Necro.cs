@@ -213,6 +213,12 @@ public class Necro : MonoBehaviour {
 							if (GameObject.Find("HapticManager") != null) HapticManager.PlayEffect(player.hapticEffects[2], this.transform.position);
 							break;
 
+						case PlayerController.Attacks.LethalDash:
+							sounds.Necro_Sliced();
+							gameMan.ShakeCamera(3f, 0.1f);
+							if (GameObject.Find("HapticManager") != null) HapticManager.PlayEffect(player.hapticEffects[2], this.transform.position);
+							break;
+
 						default:
 							Debug.Log("I, " + this.name + " was hit by an unhandled attack (" + gameMan.playerController.currentAttack + ")");
 							break;

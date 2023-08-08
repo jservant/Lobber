@@ -34,8 +34,6 @@ public class NecroProjectile : MonoBehaviour {
 					if (!isPlayerProjectile && other.CompareTag("Fireball") == false) {
 						if (other.GetComponent<HeadProjectile>() != null) {
 							Destroy(other.gameObject);
-							Fireball.Post(gameObject);
-							Explode();
 						}
 						SwapLayer();
 					}
