@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using TMPro;
+using UnityEngine.ProBuilder.MeshOperations;
 
 public class GameManager : MonoBehaviour {
 	public enum Objectives : int {
@@ -784,6 +785,7 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 
+		//Pause stuff
 		if (playerController.pActions.Player.Pause.WasPerformedThisFrame() && playerController.animr.GetBool("isDead") == false
 			&& pauseBG.enabled == false && playerController.canMove == true && transitioningLevel == false) {
 			if (SceneManager.GetActiveScene().buildIndex == (int)Scenes.Tutorial && Initializer.save.versionLatest.tutorialComplete == false) {
@@ -833,6 +835,22 @@ public class GameManager : MonoBehaviour {
 					pauseGroup.interactable = false;
 					pauseBG.enabled = false;
 				}
+			}
+		}
+
+		//Allows the B button to work in the menus
+		if (playerController.pActions.Player.Dash.WasPressedThisFrame() && pauseBG.enabled) {
+			if (statsUI.enabled) { OnStatsBack(); }
+            else if (cancelConfirmUI.enabled) { OnCancelConfirmBack(); }
+            else if (creditsUI.enabled) { OnCreditsBack(); }
+			else if (optionsUI.enabled || audioUI.enabled) { OnOptionsBack(); }
+            else {
+				eSystem.SetSelectedGameObject(null);
+				updateTimeScale = true;
+				Time.timeScale = 1;
+				pauseUI.enabled = false;
+				pauseGroup.interactable = false;
+				pauseBG.enabled = false;
 			}
 		}
 
@@ -1418,7 +1436,7 @@ public class GameManager : MonoBehaviour {
 		creditsGroup.interactable = true;
 		creditsAnimator.enabled = true;
 		creditsAnimator.Play("CreditsMovement", -1, 0f);
-        optionsBackButton = transform.Find("CreditsUI/OptionsBackButton").GetComponent<Button>();
+        optionsBackButton = transform.Find("CreditsUI/CreditsBackButton").GetComponent<Button>();
         optionsBackButton.Select();
     }
 
@@ -1515,7 +1533,24 @@ public class GameManager : MonoBehaviour {
 		Initializer.Save();
 	}
 
-	public void OnQuit() {
+	public void OnCreditsBack() { // from credits -> main options/graphics options
+        creditsUI.enabled = false;
+        creditsGroup.interactable = false;
+        if (creditsAnimator.enabled) creditsAnimator.StopPlayback();
+        creditsAnimator.enabled = false;
+        optionsUI.enabled = true;
+        optionsGroup.interactable = true;
+        Toggle fsToggle = transform.Find("OptionsUI/VisualSettings/Fullscreen/FullscreenToggle").GetComponent<Toggle>();
+        fsToggle.isOn = Screen.fullScreenMode == FullScreenMode.ExclusiveFullScreen;
+        Toggle rumbleToggle = transform.Find("OptionsUI/VisualSettings/Rumble/RumbleToggle").GetComponent<Toggle>();
+        rumbleToggle.isOn = Initializer.save.versionLatest.rumble;
+        Slider screenshakeSlider = transform.Find("OptionsUI/VisualSettings/Screenshake/ScreenshakeSlider").GetComponent<Slider>();
+        screenshakeSlider.value = Initializer.save.versionLatest.screenshakePercentage;
+        optionsBackButton = transform.Find("OptionsUI/OptionsBackButton").GetComponent<Button>();
+        optionsBackButton.Select();
+    }
+
+    public void OnQuit() {
 		pauseUI.enabled = false;
 		pauseGroup.interactable = false;
 		cancelConfirmUI.enabled = true;
