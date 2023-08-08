@@ -819,11 +819,6 @@ public class GameManager : MonoBehaviour {
 					Time.timeScale = 0;
 					pauseBG.enabled = true;
 					pauseUI.enabled = true;
-					if (SceneManager.GetActiveScene().buildIndex == (int)Scenes.Tutorial) {
-						TMP_Text replayTutorialText = transform.Find("PauseUI/QuitButton/QuitText").GetComponent<TMP_Text>();
-						replayTutorialText.text = "Replay Tutorial";
-						replayTutorialText.fontSize = 55;
-					}
 					pauseGroup.interactable = true;
 					resumeButton.Select();
 				}
@@ -1362,11 +1357,18 @@ public class GameManager : MonoBehaviour {
 		pauseBG.enabled = false;
 	}
 
-	public static void OnTutorialSkip() {
+	public void OnTutorialSkip() {
 		Initializer.save.versionLatest.tutorialComplete = true;
 		Initializer.Save();
-		SceneManager.LoadScene((int)Scenes.Tutorial);
-	}
+		TutorialManager t = transform.Find("/TutorialManager").GetComponent<TutorialManager>();
+		playerController.transform.position = t.playerRespawnPoints[t.playerRespawnPoints.Length-1].position;
+        eSystem.SetSelectedGameObject(null);
+        updateTimeScale = true;
+        Time.timeScale = 1;
+        pauseBG.enabled = false;
+        tutorialSkipUI.enabled = false;
+        tutorialSkipGroup.interactable = false;
+    }
 
 	public void OnRestart() {
         pauseUI.enabled = false;
@@ -1559,9 +1561,12 @@ public class GameManager : MonoBehaviour {
 		Button quitConfirmButton = cancelConfirmUI.transform.Find("QuitYesButton").GetComponent<Button>();
         Button restartConfirmButton = cancelConfirmUI.transform.Find("RestartYesButton").GetComponent<Button>();
         Button deleteSaveConfirmButton = cancelConfirmUI.transform.Find("DeleteSaveYesButton").GetComponent<Button>();
+        Button quitToDesktopButton = cancelConfirmUI.transform.Find("QuitToDesktopButton").GetComponent<Button>();
         if (SceneManager.GetActiveScene().buildIndex == (int)Scenes.Tutorial) {
-            cancelConfirmText.text = "Replay Tutorial?";
-        } else { cancelConfirmText.text = "Quit?"; }
+			cancelConfirmText.text = "Quit to Desktop?";
+			quitToDesktopButton.gameObject.SetActive(false);
+		}
+		else { cancelConfirmText.text = "Quit?"; }
 		restartConfirmButton.gameObject.SetActive(false);
         deleteSaveConfirmButton.gameObject.SetActive(false);
         quitConfirmButton.Select();
@@ -1585,7 +1590,8 @@ public class GameManager : MonoBehaviour {
 
 	public void OnQuitConfirm() {
 		if (SceneManager.GetActiveScene().buildIndex == (int)Scenes.Tutorial) {
-			Initializer.save.versionLatest.tutorialComplete = false;
+			OnQuitToDesktop();
+			return;
 		}
 		enemiesKilledInRun = 0;
 		Time.timeScale = 1;
