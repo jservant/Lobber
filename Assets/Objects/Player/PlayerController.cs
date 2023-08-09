@@ -842,15 +842,19 @@ public class PlayerController : MonoBehaviour {
 		//maxHomingDistance = (transform.position - new Vector3(targetSphere.x, targetSphere.y, targetSphere.z + tsr)).sqrMagnitude;
 		maxHomingDistance = currentAttack == Attacks.HeadThrow || currentAttack == Attacks.ShotgunThrow ? 8f : 4f;
 		Debug.Log("maxHomingDistance: " + maxHomingDistance);
-		RaycastHit[] eColliders = Util.ConeCastAll(transform.position, tsr, transform.rotation * Vector3.forward, maxHomingDistance, coneRadius);
+		Vector3 conecastDirection = targetSphere - new Vector3(transform.position.x, transform.position.y, transform.position.z);
+		RaycastHit[] eColliders = Util.ConeCastAll(transform.position, tsr, conecastDirection, maxHomingDistance, coneRadius);
+		if (eColliders.Length > 0) sounds.Sound_CrystalPickup();
 
 		homingTargetDelta = Vector3.forward * 10;
+
 		for (int index = 0; index < eColliders.Length; index += 1) {
 			Debug.Log("Collider #" + index + "/" + eColliders.Length + ": " + eColliders[index].transform.gameObject.name);
 			Vector3 distanceDelta = eColliders[index].transform.position - transform.position;
-			//float angle = Vector3.Angle()
+			var target = eColliders[index].transform.gameObject.GetComponent<Basic>();
 			if (distanceDelta.magnitude < homingTargetDelta.magnitude) {
 				homingTargetDelta = distanceDelta;
+				if (target != null && target.debugHoming == true) target.debugTargetTimer = 0.3f;
 			}
 		}
 

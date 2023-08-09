@@ -12,17 +12,19 @@ public class OrbSpawn : MonoBehaviour {
 	bool[] spawnedEnemies;
 	float angleOffset;
 
-	Animator anim;
+	public Animator anim;
 	GameManager gameMan;
 	public Material crystalizedMat;
 
 	public bool isPlayerPortal;
+	public bool isTutorialPortal;
 
 	void Start() {
 		anim = transform.Find("SpawnOrbV2").GetComponent<Animator>();
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
-		if (!isPlayerPortal) StartCoroutine(Spawning());
-		else StartCoroutine(QuickPortal());
+		if (!isPlayerPortal && !isTutorialPortal) StartCoroutine(Spawning());
+		else if (isPlayerPortal) StartCoroutine(QuickPortal());
+		
 		Util.SpawnFlash(gameMan, 11, transform.position, true);
 	}
 

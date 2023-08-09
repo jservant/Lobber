@@ -101,6 +101,7 @@ public class Basic : MonoBehaviour {
 	KnockbackInfo knockbackInfo;
 	float remainingKnockbackTime = 0f;
 	[SerializeField] float hitflashTimer = 0f;
+	public float debugTargetTimer = 0f;
 	bool isInHeavyStun = false;
 	bool hasStartedStunRecovery = false;
 
@@ -128,9 +129,11 @@ public class Basic : MonoBehaviour {
 	SkinnedMeshRenderer model;
 	Material[] materials;
 	public Material hitflashMat;
+	public Material debugTargetMat;
 	public MeshRenderer[] armorMesh;
 	public Transform armorPoint;
 	public bool isArmored;
+	public bool debugHoming;
 	float immunityTime = 0f;
 	public GameObject stunSphere;
 
@@ -523,10 +526,18 @@ public class Basic : MonoBehaviour {
 		movementDelta = Vector3.zero; 
 
 		hitflashTimer -= Time.deltaTime;
+		debugTargetTimer -= Time.deltaTime;
 		Material[] materialList = model.materials;
 		for (int i = 0; i < materialList.Length; i++) {
 			if (hitflashTimer > 0) {
 				materialList[i] = hitflashMat;
+			}
+			else {
+				materialList[i] = materials[i];
+			}
+
+			if (debugTargetTimer > 0) {
+				materialList[i] = debugTargetMat;
 			}
 			else {
 				materialList[i] = materials[i];
@@ -1109,7 +1120,7 @@ public class Basic : MonoBehaviour {
 		}
 	}
 
-	public void SmokeParticleSmall() {
+    public void SmokeParticleSmall() {
 		gameMan.SpawnParticle(17, smokePoint.position, 1f);
     }
 

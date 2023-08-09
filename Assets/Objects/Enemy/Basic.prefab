@@ -912,8 +912,10 @@ MonoBehaviour:
   dropChance: 60
   shouldAddToKillTotal: 1
   hitflashTimer: 0
+  debugTargetTimer: 0
   isSandbag: 0
   hitflashMat: {fileID: 2100000, guid: 27625c58fe45e654f9e128ba019e7db7, type: 2}
+  debugTargetMat: {fileID: 2100000, guid: a739f8a7ce8f40f4f8fb6c450f7d1f22, type: 2}
   armorMesh:
   - {fileID: 1977580622583593465}
   - {fileID: 6556123788299192547}
@@ -921,6 +923,7 @@ MonoBehaviour:
   - {fileID: 5171957342671003557}
   armorPoint: {fileID: 3423192998541560824}
   isArmored: 0
+  isTargeted: 0
   stunSphere: {fileID: 6292716034307823843, guid: 6041ebd9a2fc0eb428f0c7b034fec306, type: 3}
   isCrystallized: 0
 --- !u!114 &2424263489559733688
