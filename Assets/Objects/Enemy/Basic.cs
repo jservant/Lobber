@@ -540,7 +540,7 @@ public class Basic : MonoBehaviour {
 				materialList[i] = debugTargetMat;
 			}
 			else {
-				materialList[i] = materials[i];
+				if (debugHoming) materialList[i] = materials[i];
 			}
 		}
 		model.materials = materialList;

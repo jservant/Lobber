@@ -99,6 +99,7 @@ public class GameManager : MonoBehaviour {
 
 	// NOTE(Roskuski): These are in the same order PlayerController.AttackButton (Bottom, Right, Left, Top)
 	public Sprite[] attackIconSprites;
+	public GameObject[] inputDisplays;
 	public Image[] attackIconObjects;
 	public TMP_Text[] iconText;
 
@@ -168,6 +169,7 @@ public class GameManager : MonoBehaviour {
 	public bool debugTextActive;
 	public bool waypointTracking = true;
 	public bool armorEnabled;
+	public bool gamePadConnected;
 	DebugActions dActions;
 	float frozenTime = 0;
 	public bool transitioningLevel = false;
@@ -188,6 +190,7 @@ public class GameManager : MonoBehaviour {
 		//Initializer.Load();
 		player = transform.Find("/Player");
 		playerController = player.GetComponent<PlayerController>();
+		if (Gamepad.current != null) gamePadConnected = true;
 		if (player != null) {
 			Debug.Log("Object Named Player found");
 		}
@@ -425,6 +428,7 @@ public class GameManager : MonoBehaviour {
 			else PlayerDespawn();
         }
 
+		CheckForGamepad();
 		UpdateHealthBar();
 		UpdateMeter();
 		UpdateIcons(); //if (inputDisplayUI.activeSelf == true) {  }
@@ -854,6 +858,11 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
+	public void CheckForGamepad() {
+		if (Gamepad.current != null) gamePadConnected = true;
+		else gamePadConnected = false;
+    }
+
 	public void UpdatePlayerSpawns() {
 		GameObject parent = GameObject.Find("PlayerRespawnPoints");
 		if (parent != null) {
@@ -1183,8 +1192,40 @@ public class GameManager : MonoBehaviour {
 		"SHOTGUN"
 	};
 
+	void ResetIconObjects(int display) {
+
+		foreach (Transform child in inputDisplays[display].transform) {
+			if (child.name == "IconBottom") {
+				attackIconObjects[0] = child.GetComponent<Image>();
+				iconText[0] = child.GetComponentInChildren<TMP_Text>();
+			}
+			if (child.name == "IconTop") {
+				attackIconObjects[1] = child.GetComponent<Image>();
+				iconText[1] = child.GetComponentInChildren<TMP_Text>();
+			}
+			if (child.name == "IconLeft") {
+				attackIconObjects[2] = child.GetComponent<Image>();
+				iconText[2] = child.GetComponentInChildren<TMP_Text>();
+			}
+			if (child.name == "IconRight") {
+				attackIconObjects[3] = child.GetComponent<Image>();
+				iconText[3] = child.GetComponentInChildren<TMP_Text>();
+			}
+		} 
+    }
+
 	public void UpdateIcons() {
 		// NOTE(Roskuski): 4 is the index of the ui meter button 
+		if (gamePadConnected) { //controller is connected
+			if (inputDisplays[0].activeInHierarchy) ResetIconObjects(1);
+			inputDisplays[1].SetActive(true);
+			inputDisplays[0].SetActive(false);
+        }
+        else { //no controller detected
+			if (inputDisplays[1].activeInHierarchy) ResetIconObjects(0);
+			inputDisplays[1].SetActive(false);
+			inputDisplays[0].SetActive(true);
+		}
 
 		if (playerController.meter >= 0.2f) { //Can I use meter?
 			attackIconObjects[4].color = tempColorLit;
