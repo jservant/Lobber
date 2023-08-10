@@ -13,10 +13,13 @@ public class TransparencyTrigger : MonoBehaviour
     public Material[] materials2;
     public bool transparent;
 
+    public bool isChopped;
+
     // Start is called before the first frame update
     void Start()
     {
         transparent = false;
+        isChopped = false;
     }
 
     // Update is called once per frame
@@ -28,7 +31,7 @@ public class TransparencyTrigger : MonoBehaviour
     private void OnTriggerEnter(Collider other) {
         
             if (other.gameObject.layer == (int)Layers.PlayerHurtbox) {
-                transparent = true;
+                if (!isChopped) transparent = true;
             }
         
     }
@@ -36,7 +39,7 @@ public class TransparencyTrigger : MonoBehaviour
     private void OnTriggerExit(Collider other) {
         
             if (other.gameObject.layer == (int)Layers.PlayerHurtbox) {
-                transparent = false;
+                if (!isChopped) transparent = false;
             }
         
     }
