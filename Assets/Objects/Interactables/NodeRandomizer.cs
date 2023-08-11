@@ -7,10 +7,12 @@ public class NodeRandomizer : MonoBehaviour
     public GameObject[] prop;
     public bool spawnProp;
     NodeManager nodeMan;
+    GameManager gameMan;
 
     void Start()
     {
         nodeMan = GetComponentInParent<NodeManager>();
+        gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
         DisableAll();
         if (spawnProp) PickObject();
     }
@@ -40,7 +42,7 @@ public class NodeRandomizer : MonoBehaviour
 
             if (pile.isHealthMachine == true) { //if it's a slush Machine
                 nodeMan.currentSlushMachines += 1;
-                if (nodeMan.currentSlushMachines <= nodeMan.maxSlushMachines) return true;
+                if (nodeMan.currentSlushMachines <= nodeMan.maxSlushMachines && gameMan.hardModeActive == false) return true;
             }
 
             else return false;

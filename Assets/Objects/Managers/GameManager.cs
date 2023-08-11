@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour {
 	public static int pickupDropChance = 0;
 	public static int levelCount = 0;
 	public int levelIncrement;
+	public bool hardModeActive;
 
 	[Header("Non-static objective variables:")]
 	public int enemiesKilledInLevel = 0;

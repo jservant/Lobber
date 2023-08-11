@@ -97,6 +97,7 @@ public class Basic : MonoBehaviour {
 	public bool shouldDie = false;
 	public float dropChance; //chance to drop a head (0-100)
 	public bool shouldAddToKillTotal = true;
+	public bool isHardMode;
 
 	KnockbackInfo knockbackInfo;
 	float remainingKnockbackTime = 0f;
@@ -108,14 +109,14 @@ public class Basic : MonoBehaviour {
 	[SerializeField] bool isSandbag = false;
 	bool isImmune = false;
 
-	public const float LungeSpeed = 15f;
+	private float LungeSpeed = 15f;
 	// NOTE(Roskuski): copied from the default settings of navMeshAgent
-	public const float MoveSpeed = 7f;
-	public const float TurnSpeed = 360.0f; // NOTE(Roskuski): in Degrees per second
+	private float MoveSpeed = 7f;
+	private float TurnSpeed = 360.0f; // NOTE(Roskuski): in Degrees per second
 
-	public const float TightApprochDistance = 4;
-	public const float CloseApprochDistance = 6;
-	public const float LooseApprochDistance = 10;
+	private float TightApprochDistance = 4;
+	private float CloseApprochDistance = 6;
+	private float LooseApprochDistance = 10;
 	public const float ApprochDeviance = 2;
 
 	// NOTE(Roskuski): Internal references
@@ -140,6 +141,18 @@ public class Basic : MonoBehaviour {
 	// NOTE(Roskuski): External references
 	GameManager gameMan;
 	public bool isCrystallized = false;
+
+
+	void CheckForHardMode() {
+		if (isHardMode) {
+			LungeSpeed = 20f;
+			MoveSpeed = 10f;
+			TightApprochDistance = 1f;
+			CloseApprochDistance = 4f;
+			LooseApprochDistance = 8f;
+			animator.SetFloat("hardSpeed", 1.4f);
+        }
+    }
 
 	// NOTE(Roskuski): abs(traitMods) array should sum to 1
 	// @TODO(Roskuski): Mathematically prove that this true with negtive numbers
@@ -331,6 +344,8 @@ public class Basic : MonoBehaviour {
 					stunTime = AttackStunTimeTable[(int)player.currentAttack];
 					damage = PlayerController.AttackDamageTable[(int)player.currentAttack];
 					meterGain = AttackMeterGainOnHitTable[(int)player.currentAttack];
+					if (isArmored) meterGain = 0f;
+					wasHitByChop = false;
 					playHitSound = true;
 
 					// Attack specific code
@@ -339,7 +354,8 @@ public class Basic : MonoBehaviour {
 							float posDifference = Mathf.Abs((player.transform.position - transform.position).sqrMagnitude);
 							Debug.Log(gameObject.name + "'s posDifference after slam: " + posDifference);
 							if (posDifference < 40f) {
-								damage = 5f;
+								damage = 6f;
+								if (isArmored) damage = 8f;
 							} 
 							else if (posDifference < 80f) {
 								damage = 3f;
@@ -349,12 +365,16 @@ public class Basic : MonoBehaviour {
 
 						case PlayerController.Attacks.Chop:
 							// @TODO(Roskuski): Different System to prevent headpickup spawns from chop. this current system will not work well if we implment enemies with healthpools that can surrive a chop
-							if (!isArmored) {
+							if (!isArmored && health <= 5) {
 								wasHitByChop = true;
 								gameMan.SpawnParticle(12, other.transform.position, 1.5f);
 								sounds.Sound_EnemyLob();
+								playHitSound = false;
 							}
-							playHitSound = false;
+							else {
+								playHitSound = true;
+								meterGain = 0f;
+							}
 							gameMan.ShakeCamera(5f, 0.1f);
 							if (GameObject.Find("HapticManager") != null) HapticManager.PlayEffect(player.hapticEffects[2], this.transform.position);
 							break;
@@ -408,7 +428,7 @@ public class Basic : MonoBehaviour {
 					newKnockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
 					stunTime = StunTime.Long;
 					_extraStun = true;
-					newKnockbackInfo.force *= 2f;
+					//newKnockbackInfo.force *= 2f;
 					damage = 5f;
 					playHitSound = true;
 					triggerStunSphere = false;
@@ -424,6 +444,7 @@ public class Basic : MonoBehaviour {
 			}
             else {
 				if (playHitSound) sounds.Sound_ArmorHit();
+				if (damage >= 3) ChangeDirective_Stunned(StunTime.Short, newKnockbackInfo, false);
 				if (damage > 0) damage -= 1;
 				health -= damage;
 				if (health <= 4) ArmorBreak(stunTime, newKnockbackInfo, _extraStun, triggerStunSphere);
@@ -458,6 +479,8 @@ public class Basic : MonoBehaviour {
 
 		navAgent.updatePosition = false;
 		navAgent.updateRotation = false;
+
+		CheckForHardMode();
 
 		if (randomizeStats) for (int index = 0; index < System.Enum.GetNames(typeof(TraitKind)).Length; index += 1) {
 			traits[index] = Random.Range(TraitMax * -1 + 1, TraitMax); // Getting -TraitMax in all traits breaks the current (2-24-2023) RollTraitChoice

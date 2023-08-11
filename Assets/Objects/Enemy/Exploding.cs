@@ -61,6 +61,7 @@ public class Exploding : MonoBehaviour {
 
 	public bool shouldAddToKillTotal = true;
 	public bool shouldDealDamage = true;
+	public bool isHardMode;
 
 	readonly float LaunchHeight = 6.0f;
 	readonly float LaunchLength = 1.0f;
@@ -457,10 +458,17 @@ public class Exploding : MonoBehaviour {
 					}
 					else {
 						sounds.PestBombExplode();
-						gameMan.SpawnParticle(3, transform.position, 1f);
+						float scale = 1f;
+						if (isHardMode) scale = 1.5f;
+						gameMan.SpawnParticle(3, transform.position, scale);
 						Vector3 flashSpot = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
-						Util.SpawnFlash(gameMan, 3, flashSpot, false);
-						gameMan.ShakeCamera(5f, 0.25f);
+						if (!isHardMode) Util.SpawnFlash(gameMan, 3, flashSpot, false);
+						else Util.SpawnFlash(gameMan, 12, flashSpot, false);
+						float _distanceToPlayer = Vector3.Distance(this.transform.position, gameMan.player.position);
+						if (_distanceToPlayer <= 10f) {
+							//triggerhaptics
+						}
+						gameMan.ShakeCamera(5f, 0.5f);
 						Destroy(this.gameObject);
 					}
 				}

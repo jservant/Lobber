@@ -748,6 +748,7 @@ public class PlayerController : MonoBehaviour {
 		//currentAttack = Attacks.None;
 		//animr.SetBool("isWalking", false);
 		if (gameMan.barDrainTime <= 0) gameMan.previousHealth = health;
+		if (gameMan.hardModeActive && damageTaken > 0) damageTaken += 1;
 		health -= damageTaken;
 		if (health <= 0) {
 			health = 0;
