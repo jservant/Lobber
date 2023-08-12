@@ -211,7 +211,7 @@ public class Pickup : MonoBehaviour {
 
 	void Spawn() {
 		var enemyPrefab = gameMan.BasicPrefab;
-		var enemyInstance = Instantiate(enemyPrefab, transform.position, Quaternion.identity);
+		var enemyInstance = Instantiate(enemyPrefab, transform.position, Quaternion.AngleAxis(180, Vector3.up));
 		goldenSkullStop.Post(gameObject);
 		Util.SpawnFlash(gameMan, 8, transform.position, false);
 		gameMan.SpawnParticle(12, transform.position, 1f);

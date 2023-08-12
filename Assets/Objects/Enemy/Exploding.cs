@@ -81,6 +81,7 @@ public class Exploding : MonoBehaviour {
 	MotionAudio_Pest sounds;
 	public GameObject groundIndicator;
 	private GameObject groundIndicatorInstance;
+	public GameObject fireZonePrefab;
 
 	// External References
 	GameManager gameMan;
@@ -459,7 +460,10 @@ public class Exploding : MonoBehaviour {
 					else {
 						sounds.PestBombExplode();
 						float scale = 1f;
-						if (isHardMode) scale = 1.5f;
+						if (isHardMode) {
+							scale = 1.5f;
+							var fireZone = Instantiate(fireZonePrefab, transform.position, Quaternion.identity);
+						}
 						gameMan.SpawnParticle(3, transform.position, scale);
 						Vector3 flashSpot = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
 						if (!isHardMode) Util.SpawnFlash(gameMan, 3, flashSpot, false);

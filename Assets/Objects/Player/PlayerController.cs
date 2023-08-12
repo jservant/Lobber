@@ -671,6 +671,13 @@ public class PlayerController : MonoBehaviour {
     }
 
 	private void OnTriggerEnter(Collider other) {
+		if (other.gameObject.layer == (int)Layers.TransparentFX) {
+			Burn burn = other.GetComponent<Burn>();
+			if (burn != null) {
+				Hit(1, other);
+			}
+		}
+
 		if (immunityTime <= 0 && currentAttack != Attacks.Slam && currentAttack != Attacks.Spin && currentAttack != Attacks.LethalDash&& currentAttack != Attacks.ShotgunThrow && !godMode) {
 			if (other.gameObject.layer == (int)Layers.EnemyHitbox && remainingKnockbackTime <= 0) { // player is getting hit
 				Basic otherBasic = other.GetComponentInParent<Basic>();
@@ -703,7 +710,8 @@ public class PlayerController : MonoBehaviour {
 				else if (mini != null) {
 					mini.Grow();
 					Hit(1, other);
-                }
+					DropCrystals();
+				}
             }
 			else if (other.gameObject.layer == (int)Layers.AgnosticHitbox) {
 				if (other.GetComponentInParent<Exploding>() != null) {

@@ -1111,34 +1111,41 @@ public class Basic : MonoBehaviour {
 
 		if (shouldDie) {
 			Vector3 spawnPos = transform.position + 3 * Vector3.up;
+			bool redSkull;
+			if (isHardMode) redSkull = true;
+			else redSkull = false;
+
 			if (transform.position.y > -49f) {
 				if (isCrystallized) {
 					gameMan.DeterminePickups(spawnPos, true, false);
 					gameMan.isCrystalEnemyAlive = false;
 				}
 				else if (!wasHitByChop) {
-					bool redSkull;
-					if (isHardMode) redSkull = true;
-					else redSkull = false;
 					gameMan.DeterminePickups(spawnPos, isCrystallized, redSkull);
 				}
 			}
 
 			float corpseForce = 0;
+			int corpse = 0;
+			if (redSkull) corpse = 1;
 			if (remainingKnockbackTime > 0) corpseForce = knockbackInfo.force / 10f;
 			if (!wasHitByChop) {
-				if (isCrystallized) { 
+				if (isCrystallized) {
 					gameMan.SpawnParticle(11, transform.position, 0.8f);
 					Util.SpawnFlash(gameMan, 5, armorPoint.position, true);
 				}
-				else gameMan.SpawnCorpse(0, transform.position, transform.rotation, corpseForce, true);
+				else {
+					gameMan.SpawnCorpse(corpse, transform.position, transform.rotation, corpseForce, true);
+				}
 			}
 			else {
-				if (isCrystallized) { 
+				if (isCrystallized) {
 					gameMan.SpawnParticle(11, transform.position, 0.8f);
 					Util.SpawnFlash(gameMan, 5, armorPoint.position, true);
 				}
-				else gameMan.SpawnCorpse(0, transform.position, transform.rotation, corpseForce, false);
+				else {
+					gameMan.SpawnCorpse(corpse, transform.position, transform.rotation, corpseForce, false);
+				}
 			}
 
 			float voiceChance = Random.Range(1, 10);
