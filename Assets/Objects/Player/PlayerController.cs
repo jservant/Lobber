@@ -309,6 +309,7 @@ public class PlayerController : MonoBehaviour {
 	public float hitflashTimer = 0;
 	public float frenzyTimer = 0f;
 	public int crystalCount = 0;
+	public bool deathResist;
 
 	KnockbackInfo knockbackInfo = new KnockbackInfo(Quaternion.identity, 0, 0);
 	public float remainingKnockbackTime;
@@ -486,6 +487,8 @@ public class PlayerController : MonoBehaviour {
 			frenzyTimer -= Time.deltaTime;
 		}
 
+		CheckDeathResist();
+
 		//Input
 		if (currentState != States.Death && currentState != States.Win && gameMan.pauseBG.enabled == false && canMove) {
 			if (currentState != States.Attacking) {
@@ -656,6 +659,10 @@ public class PlayerController : MonoBehaviour {
 
 	}
 
+	void CheckDeathResist() {
+		if (health > 3) deathResist = true;
+    }
+
 	public void UpdateAxeMesh() {
 		for (int i = 0; i < headMesh.Length; i++) {
 			if (meter >= i + 1) headMesh[i].enabled = true;
@@ -757,9 +764,16 @@ public class PlayerController : MonoBehaviour {
 		if (gameMan.barDrainTime <= 0) gameMan.previousHealth = health;
 		if (gameMan.hardModeActive && damageTaken > 0) damageTaken += 1;
 		health -= damageTaken;
+		if (health == 1) deathResist = false;
 		if (health <= 0) {
-			health = 0;
-			StartCoroutine(Death());
+			if (deathResist) {
+				health = 1;
+				deathResist = false;
+			}
+			else {
+				health = 0;
+				StartCoroutine(Death());
+			}
 		}
 		else {
 			//animr.SetTrigger("wasHurt");
