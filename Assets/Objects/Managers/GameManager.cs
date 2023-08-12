@@ -1074,7 +1074,7 @@ public class GameManager : MonoBehaviour {
     }
 
 	// NOTE(@Jaden): Pickup determining function that's called on enemy death
-	public void DeterminePickups(Vector3 position, bool isCrystallized) {
+	public void DeterminePickups(Vector3 position, bool isCrystallized, bool isRedSkull) {
 		float meterBeforeUse = playerController.meter + PlayerController.AttackMeterCost[(int)playerController.currentAttack];
 		if (playerController.currentAttack == PlayerController.Attacks.None) {
 			meterBeforeUse = playerController.meter;
@@ -1096,6 +1096,10 @@ public class GameManager : MonoBehaviour {
 			if (pickupDecider <= goldenSkullDropChance && goldSkullBuffer <= 0) {
 				SpawnPickup((int)Pickup.Type.GoldenSkull, position, 3f); //check for goldenskull
 				goldSkullBuffer = 50;
+			}
+			else if (isRedSkull) {
+				SpawnPickup((int)Pickup.Type.RedSkull, position, 2f);
+				if (goldSkullBuffer > 0) goldSkullBuffer--;
 			}
 			else {
 				SpawnPickup((int)Pickup.Type.Skull, position, 2f);

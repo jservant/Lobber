@@ -42,7 +42,7 @@ public class NodeRandomizer : MonoBehaviour
 
             if (pile.isHealthMachine == true) { //if it's a slush Machine
                 nodeMan.currentSlushMachines += 1;
-                if (nodeMan.currentSlushMachines <= nodeMan.maxSlushMachines && gameMan.hardModeActive == false) return true;
+                if (nodeMan.currentSlushMachines <= nodeMan.maxSlushMachines) return true;
             }
 
             else return false;

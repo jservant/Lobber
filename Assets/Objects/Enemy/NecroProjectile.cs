@@ -132,7 +132,7 @@ public class NecroProjectile : MonoBehaviour {
 
 	void Explode() {
 		var _stunSphere = Instantiate(stunSphere, transform.position, Quaternion.identity);
-		_stunSphere.GetComponent<StunSphere>().damage = 5f;
+		_stunSphere.GetComponent<StunSphere>().damage = 6f;
 		gameMan.SpawnParticle(9, transform.position, 2f);
 		Util.SpawnFlash(gameMan, 3, transform.position, false);
 		Destroy(this.gameObject);

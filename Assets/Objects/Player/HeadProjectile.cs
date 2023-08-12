@@ -33,6 +33,7 @@ public class HeadProjectile : MonoBehaviour {
 
 	private void OnTriggerEnter(Collider other) {
 		if (other.gameObject.layer == (int)Layers.EnemyHurtbox || other.gameObject.layer == (int)Layers.AgnosticHurtbox) {
+
 			Sound_HeadImpact();
 			if (canStun) {
 				Collider[] eColliders = Physics.OverlapSphere(transform.position, stunSphereRadius, Mask.Get(Layers.EnemyHurtbox));
@@ -52,6 +53,11 @@ public class HeadProjectile : MonoBehaviour {
 			else {
 				Destroy(gameObject); 
 			}
+		}
+		else if (other.gameObject.layer == (int)Layers.EnemyHitbox) {
+			var miniFireball = other.transform.GetComponent<MiniFireball>();
+
+			if (miniFireball != null) miniFireball.Grow();
 		}
 	}
 

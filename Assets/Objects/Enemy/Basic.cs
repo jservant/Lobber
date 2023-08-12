@@ -429,7 +429,7 @@ public class Basic : MonoBehaviour {
 					stunTime = StunTime.Long;
 					_extraStun = true;
 					//newKnockbackInfo.force *= 2f;
-					damage = 5f;
+					damage = 6f;
 					playHitSound = true;
 					triggerStunSphere = false;
 				}
@@ -1113,10 +1113,15 @@ public class Basic : MonoBehaviour {
 			Vector3 spawnPos = transform.position + 3 * Vector3.up;
 			if (transform.position.y > -49f) {
 				if (isCrystallized) {
-					gameMan.DeterminePickups(spawnPos, true);
+					gameMan.DeterminePickups(spawnPos, true, false);
 					gameMan.isCrystalEnemyAlive = false;
 				}
-				else if (!wasHitByChop) gameMan.DeterminePickups(spawnPos, isCrystallized);
+				else if (!wasHitByChop) {
+					bool redSkull;
+					if (isHardMode) redSkull = true;
+					else redSkull = false;
+					gameMan.DeterminePickups(spawnPos, isCrystallized, redSkull);
+				}
 			}
 
 			float corpseForce = 0;

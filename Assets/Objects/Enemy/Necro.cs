@@ -24,12 +24,18 @@ public class Necro : MonoBehaviour {
 	}
 	Attack currentAttack = Attack.None;
 	float attackDelay = 0;
-	const float ReferenceAttackDelay = 7f;
+	float ReferenceAttackDelay = 7f;
 
 	Vector3 attackTarget;
 
+	public bool isHardMode;
+	public float barrageChance;
+	public bool doBarrage;
+	float barrageAnimMultiplier = 1f;
+	float attackCounter = 0;
+
 	const float MoveSpeed = 7.5f;
-	const float VerticalCorrectSpeed = 1.0f;
+	const float VerticalCorrectSpeed = 2.0f;
 	const float MoveTimeMax = 3f;
 	const float TurnSpeed = 360f / 1f;
 
@@ -62,10 +68,21 @@ public class Necro : MonoBehaviour {
 	Animator animator;
 	Transform ProjectileSpawnPoint;
 	GameObject Projectile;
+	public Transform necroBody;
+	public Transform fireballRing;
+	public Transform[] miniFireballs;
 
 	// NOTE(Roskuski): External references
 	GameManager gameMan;
 	private MotionAudio_Necro sounds;
+
+	void CheckHardMode() {
+		if (isHardMode) {
+			ReferenceAttackDelay = 4f;
+			comfortableDistance = 9f;
+			barrageChance = 10f;
+        }
+    }
 
 	void ChangeDirective_Spawn() {
 		// Why would we ever need to go back to spawn.
@@ -91,6 +108,7 @@ public class Necro : MonoBehaviour {
 					break;
 
 				case Attack.Projectile:
+					animator.Play("Throw", -1, 0);
 					break;
 			}
 		}
@@ -99,7 +117,8 @@ public class Necro : MonoBehaviour {
 	public void ChangeDirective_Stunned(StunTime stunTime, KnockbackInfo newKnockbackInfo) {
 		if (directive != Directive.Death && directive != Directive.Spawn && stunTime != StunTime.None) {
 			directive = Directive.Stunned;
-			
+			animator.Play("Character_GetHit", -1, 0);
+
 			float stunValue = 0;
 			switch (stunTime) {
 				case StunTime.Short:
@@ -123,6 +142,13 @@ public class Necro : MonoBehaviour {
 			remainingKnockbackTime = knockbackInfo.time;
 			this.transform.rotation = Quaternion.AngleAxis(180, Vector3.up) * knockbackInfo.direction;
 
+			if (doBarrage) {
+				barrageChance = 0f;
+				doBarrage = false;
+				attackCounter = 0;
+				animator.SetFloat("barrageMultiplier", 1f);
+			}
+
 			if (Projectile != null) {
 				Destroy(Projectile);
 				Projectile = null;
@@ -140,6 +166,8 @@ public class Necro : MonoBehaviour {
 				Destroy(Projectile);
 				Projectile = null;
 			}
+
+			if (fireballRing != null) Destroy(fireballRing.gameObject);
 		}
 	}
 
@@ -199,7 +227,7 @@ public class Necro : MonoBehaviour {
 							float posDifference = Mathf.Abs((player.transform.position - transform.position).sqrMagnitude);
 							Debug.Log(gameObject.name + "'s posDifference after slam: " + posDifference);
 							if (posDifference < 40f) {
-								damage = 5f;
+								damage = 6f;
 							} 
 							else if (posDifference < 80f) {
 								damage = 3f;
@@ -208,12 +236,17 @@ public class Necro : MonoBehaviour {
 
 						case PlayerController.Attacks.Chop:
 							// @TODO(Roskuski): Different System to prevent headpickup spawns from chop. this current system will not work well if we implment enemies with healthpools that can surrive a chop
-							wasHitByChop = true;
+							if (health <= 5) {
+								wasHitByChop = true;
+							}
+							else meterGain = 0f;
+							stunTime = StunTime.Long;
 							gameMan.ShakeCamera(5f, 0.1f);
 							if (GameObject.Find("HapticManager") != null) HapticManager.PlayEffect(player.hapticEffects[2], this.transform.position);
 							break;
 
 						case PlayerController.Attacks.LethalDash:
+							stunTime = StunTime.Short;
 							sounds.Necro_Sliced();
 							gameMan.ShakeCamera(3f, 0.1f);
 							if (GameObject.Find("HapticManager") != null) HapticManager.PlayEffect(player.hapticEffects[2], this.transform.position);
@@ -227,6 +260,7 @@ public class Necro : MonoBehaviour {
 				}
 				else if (head != null) {
 					// NOTE(Roskuski): Head projectial direct hit
+					stunTime = StunTime.Long;
 					gameMan.SpawnParticle(0, other.transform.position, 2f);
 					damage = 5f;
 				}
@@ -237,6 +271,8 @@ public class Necro : MonoBehaviour {
 				}
 				else if (stunSphere != null) {
 					damage = stunSphere.damage;
+					newKnockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
+					stunTime = StunTime.Long;
                 }
 			}
 			else if (other.gameObject.layer == (int)Layers.AgnosticHitbox) {
@@ -244,8 +280,8 @@ public class Necro : MonoBehaviour {
 					// NOTE(Roskuski): Explosive enemy
 					newKnockbackInfo = other.GetComponent<GetKnockbackInfo>().GetInfo(this.gameObject);
 					stunTime = StunTime.Long;
-					newKnockbackInfo.force *= 2f;
-					damage = 5f;
+					//newKnockbackInfo.force *= 2f;
+					damage = 6f;
 				}
 			}
 
@@ -268,10 +304,18 @@ public class Necro : MonoBehaviour {
 		directive = Directive.Spawn;
 		gameMan.SpawnParticle(9, transform.position, 1f);
 		isImmune = true;
+
+		CheckHardMode();
+
+		if (fireballRing != null) {
+			fireballRing.parent = null;
+		}
+
+		doBarrage = false;
 	}
 
 	void FixedUpdate() {
-		if (directive != Directive.Spawn && directive != Directive.Death && directive != Directive.Stunned) {
+		if (directive != Directive.Spawn && directive != Directive.Death) {
 			Vector3 deltaToPlayer = gameMan.player.position - this.transform.position;
 			// NOTE(Roskuski): how close the current movement is to going straight towards the player.
 			float directScore = Vector3.Dot(movementDelta.normalized, deltaToPlayer.normalized) + 1f;
@@ -282,7 +326,7 @@ public class Necro : MonoBehaviour {
 
 			// NOTE(Roskuski): Copying the values from PlayerController, for now.
 			Util.PerformCheckedLateralMovement(this.gameObject, 1.0f, 0.5f, movementDelta * speedModifer * Time.fixedDeltaTime, ~Mask.Get(new Layers[] {Layers.StickyLedge, Layers.Corpses}));
-			this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, Quaternion.LookRotation(gameMan.player.position - this.transform.position, Vector3.up), TurnSpeed * Time.fixedDeltaTime);
+			if (directive != Directive.Stunned) this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, Quaternion.LookRotation(gameMan.player.position - this.transform.position, Vector3.up), TurnSpeed * Time.fixedDeltaTime);
 
 			// NOTE(Roskuski): float to the same height as the player
 			float verticalDeltaToPlayer = gameMan.player.position.y - this.transform.position.y;
@@ -316,12 +360,16 @@ public class Necro : MonoBehaviour {
 		}
 		model.materials = materialList;
 
+		movementDelta += Util.ProcessKnockback(ref remainingKnockbackTime, knockbackInfo);
+
 		if (health <= 0) {
 			if (directive != Directive.Death) {
 				gameMan.AddToKillStreak(1, 3f);
 				ChangeDirective_Death();
 			}
 		}
+
+		if (fireballRing != null) FireballRing();
 
 		switch (directive) {
 			case Directive.Spawn:
@@ -334,6 +382,7 @@ public class Necro : MonoBehaviour {
 
 			case Directive.Stunned:
 				stunDuration -= Time.deltaTime;
+
 				if (stunDuration < 0) {
 					ChangeDirective_Wander();
 					stunDuration = 0;
@@ -484,8 +533,32 @@ public class Necro : MonoBehaviour {
 		animator.SetInteger("currentAttack", (int)currentAttack);
 	}
 
+	void FireballRing() {
+		Vector3 ringPos = new Vector3(transform.position.x, transform.position.y + 1.5f, transform.position.z);
+		fireballRing.position = ringPos;
+		float rotationSpeed = 100 * Time.deltaTime;
+		fireballRing.Rotate(0, rotationSpeed, 0, Space.Self);
+    }
+
+	public void AnimationClip_CheckBarrage() {
+		if (doBarrage == false && isHardMode) {
+			float barrageRange = Random.Range(1, 100);
+			if (barrageRange <= barrageChance) {
+				Util.SpawnFlash(gameMan, 0, fireballRing.position, true);
+				doBarrage = true;
+			}
+			barrageChance += 30f;
+			if (barrageChance > 0) {
+				miniFireballs[0].gameObject.SetActive(true);
+				miniFireballs[1].gameObject.SetActive(true);
+			}
+		}
+    }
+
 	void AnimationClip_ReadyProjectile() {
 		Projectile = Object.Instantiate(gameMan.NecroProjectilePrefab, ProjectileSpawnPoint);
+		var fireball = Projectile.GetComponent<NecroProjectile>();
+		if (isHardMode) fireball.MoveSpeed = 18f;
 	}
 
 	void AnimationClip_LaunchProjectile() {
@@ -496,6 +569,22 @@ public class Necro : MonoBehaviour {
 		}
 	}
 
+	void AnimationClip_ExtraAttack() {
+		if (doBarrage && attackCounter < 2) {
+			animator.SetFloat("barrageMultiplier", 4f);
+			ChangeDirective_Attack(Attack.Projectile);
+			attackCounter += 1;
+			if (attackCounter == 1) miniFireballs[0].gameObject.SetActive(false);
+			if (attackCounter == 2) miniFireballs[1].gameObject.SetActive(false);
+		}
+		else {
+			if (doBarrage) barrageChance = 0f;
+			doBarrage = false;
+			attackCounter = 0;
+			animator.SetFloat("barrageMultiplier", 1f);
+		}
+    }
+
     private void OnDestroy() {
 		if (shouldAddToKillTotal) {
 			gameMan.enemiesAlive -= 1;
@@ -503,5 +592,7 @@ public class Necro : MonoBehaviour {
 			GameManager.enemiesKilledInRun += 1;
 			Initializer.save.versionLatest.necroEnemyKills++;
 		}
+
+		if (fireballRing != null) Destroy(fireballRing.gameObject);
 	}
 }

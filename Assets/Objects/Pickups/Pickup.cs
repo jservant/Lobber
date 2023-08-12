@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class Pickup : MonoBehaviour {
 
-	public enum Type { Skull = 0, GoldenSkull, Health, Crystal };
+	public enum Type { Skull = 0, GoldenSkull, Health, Crystal, RedSkull };
 	public Type pickupType;
 
 	[Header("References:")]
@@ -164,6 +164,10 @@ public class Pickup : MonoBehaviour {
 					followSpeed = 40f;
 				}
 			}
+            else {
+				if (pickupType == Type.RedSkull) Spawn();
+            }
+
 			if (indicator != null) Destroy(indicator);
 		}
 		else UpdateIndicator();
@@ -204,6 +208,15 @@ public class Pickup : MonoBehaviour {
 	public void Sound_GoldenSkullDrop() {
 		goldenSkullDrop.Post(gameObject);
 	}
+
+	void Spawn() {
+		var enemyPrefab = gameMan.BasicPrefab;
+		var enemyInstance = Instantiate(enemyPrefab, transform.position, Quaternion.identity);
+		goldenSkullStop.Post(gameObject);
+		Util.SpawnFlash(gameMan, 8, transform.position, false);
+		gameMan.SpawnParticle(12, transform.position, 1f);
+		Destroy(this.gameObject);
+    }
 
 	void OnDrawGizmosSelected() {
 		Gizmos.color = Color.red;
@@ -249,6 +262,11 @@ public class Pickup : MonoBehaviour {
 						gameMan.crystalCountText.text = "x" + playerController.crystalCount;
 					}
 					break;
+				case Type.RedSkull:
+					playerController.meter += meterValue;
+					Util.SpawnFlash(gameMan, 8, transform.position, true);
+					break;
+
 				default:
 					Debug.Log("Something is wrong with a pickup");
 					break;

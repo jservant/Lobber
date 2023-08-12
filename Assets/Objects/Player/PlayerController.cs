@@ -668,6 +668,8 @@ public class PlayerController : MonoBehaviour {
 			if (other.gameObject.layer == (int)Layers.EnemyHitbox && remainingKnockbackTime <= 0) { // player is getting hit
 				Basic otherBasic = other.GetComponentInParent<Basic>();
 				NecroProjectile otherNecroProjectile = other.GetComponent<NecroProjectile>();
+				MiniFireball mini = other.GetComponent<MiniFireball>();
+
 				if (otherBasic != null) {
 					int damage = 0;
 					switch (otherBasic.currentAttack) {
@@ -691,6 +693,10 @@ public class PlayerController : MonoBehaviour {
 					Hit(2, other);
                     DropCrystals();
                 }
+				else if (mini != null) {
+					mini.Grow();
+					Hit(1, other);
+                }
             }
 			else if (other.gameObject.layer == (int)Layers.AgnosticHitbox) {
 				if (other.GetComponentInParent<Exploding>() != null) {
@@ -706,6 +712,7 @@ public class PlayerController : MonoBehaviour {
 			if (headPickup.lifetime <= headPickup.timeUntilCollect) {
 				headPickup.collected = true;
 				if (headPickup.pickupType == Pickup.Type.Skull) sounds.Sound_HeadPickup();
+				if (headPickup.pickupType == Pickup.Type.RedSkull) sounds.Sound_HeadPickup();
 				if (headPickup.pickupType == Pickup.Type.Health) sounds.Sound_HealthPickup();
 				if (headPickup.pickupType == Pickup.Type.Crystal) {
 					sounds.Sound_HeadPickup();
@@ -724,7 +731,7 @@ public class PlayerController : MonoBehaviour {
 		if (crystalCount > 0) {
 			for (int i = 0; i < crystalCount; i++) {
 				Vector3 pos = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
-				gameMan.DeterminePickups(pos, true);
+				gameMan.DeterminePickups(pos, true, false);
 			}
 			crystalCount = 0;
 			gameMan.crystalCountText.text = "";
