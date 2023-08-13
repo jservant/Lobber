@@ -874,7 +874,7 @@ public class PlayerController : MonoBehaviour {
 		Debug.Log("maxHomingDistance: " + maxHomingDistance);
 		Vector3 conecastDirection = targetSphere - new Vector3(transform.position.x, transform.position.y, transform.position.z);
 		RaycastHit[] eColliders = Util.ConeCastAll(transform.position, tsr, conecastDirection, maxHomingDistance, coneRadius);
-		if (eColliders.Length > 0) sounds.Sound_CrystalPickup();
+		//if (eColliders.Length > 0) sounds.Sound_CrystalPickup();
 
 		homingTargetDelta = Vector3.forward * 10;
 

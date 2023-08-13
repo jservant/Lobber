@@ -40,6 +40,14 @@ public class OrbSpawn : MonoBehaviour {
 		for (int spawnCount = 0; spawnCount < spawnAmount; spawnCount += 1) {
 			// Make sure we spawn a enemy that "hasn't been spawned yet"
 			int randomIndex = Random.Range(0, spawnedEnemies.Length);
+			int redCheck = 0;
+			if (gameMan.hardModeActive) {
+				float _redChance = Random.Range(0, 99);
+				if (_redChance < GameManager.redChance) {
+					redCheck = 1;
+                }
+            }
+
 			while (spawnedEnemies[randomIndex]) {
 				randomIndex += 1;
 				if (randomIndex >= spawnedEnemies.Length) { randomIndex = 0; }
@@ -66,16 +74,21 @@ public class OrbSpawn : MonoBehaviour {
 					}
 				}
 
-				Instantiate(gameMan.NecroPrefab, spawnPosition, Quaternion.LookRotation(this.transform.position - spawnPosition, Vector3.up));
+				Instantiate(gameMan.NecroPrefab[redCheck], spawnPosition, Quaternion.LookRotation(this.transform.position - spawnPosition, Vector3.up));
 			}
 			else if (randomIndex >= basicAmount) { 
-				Instantiate(gameMan.ExplodingPrefab, this.transform.position + Vector3.down * 1.5f, Quaternion.AngleAxis(angle, Vector3.up));
+				Instantiate(gameMan.ExplodingPrefab[redCheck], this.transform.position + Vector3.down * 1.5f, Quaternion.AngleAxis(angle, Vector3.up));
 			}
 			else {
-				GameObject basicInstance = Instantiate(gameMan.BasicPrefab, this.transform.position + Vector3.down * 1.5f, Quaternion.AngleAxis(angle, Vector3.up));
+				GameObject basicInstance = Instantiate(gameMan.BasicPrefab[redCheck], this.transform.position + Vector3.down * 1.5f, Quaternion.AngleAxis(angle, Vector3.up));
 				if (GameManager.currentObjective == GameManager.Objectives.HarvestTheCrystals && !gameMan.isCrystalEnemyAlive) {
 					gameMan.isCrystalEnemyAlive = true;
-					basicInstance.GetComponent<Basic>().isCrystallized = true;
+					var basicScript = basicInstance.GetComponent<Basic>();
+					basicScript.isCrystallized = true;
+					if (basicScript.isHardMode) { //Make sure it's easy to kill, even in hardmode
+						basicScript.health -= 5;
+						basicScript.isHardMode = false;
+					}
 					SkinnedMeshRenderer basicModel = basicInstance.transform.Find("Skeleton_Base_Model").GetComponent<SkinnedMeshRenderer>();
 					basicModel.material = crystalizedMat;
 					Debug.Log("Crystallized Skeleton should have spawned");

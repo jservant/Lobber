@@ -19,11 +19,17 @@ public class EnterOrb : MonoBehaviour
 			if (gameObject.name == "StartOrb") {
 				playerController.Win();
 				StartCoroutine(StartDelay());
+				GameManager._hardModeActive = false;
 			}
 			else if (gameObject.name == "ReplayTutorialOrb") {
 				Initializer.save.versionLatest.tutorialComplete = false;
 				Initializer.Save();
                 playerController.transform.position = tutorialManager.playerRespawnPoints[0].position;
+			}
+			else if (gameObject.name == "HardModeOrb") {
+				playerController.Win();
+				StartCoroutine(StartDelay());
+				GameManager._hardModeActive = true;
 			}
 		}
 	}

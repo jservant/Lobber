@@ -116,9 +116,9 @@ public class GameManager : MonoBehaviour {
 	[Header("Prefabs:")]
 	public GameObject PlayerPrefab;
 	public HeadProjectile SkullPrefab;
-	public GameObject BasicPrefab;
-	public GameObject ExplodingPrefab;
-	public GameObject NecroPrefab;
+	public GameObject[] BasicPrefab;
+	public GameObject[] ExplodingPrefab;
+	public GameObject[] NecroPrefab;
 	public GameObject NecroProjectilePrefab;
 	public GameObject SandbagPrefab;
 	public GameObject OrbSpawnPrefab;
@@ -162,6 +162,8 @@ public class GameManager : MonoBehaviour {
 	public static float armoredEnemyChance = 0f;
 	public static float armorChanceLow = 0f;
 	public static float armorChanceHigh = 0f;
+	public static bool _hardModeActive;
+	public static float redChance = 50f;
 
 	[Header("Bools:")]
 	public bool updateTimeScale = true;
@@ -240,6 +242,8 @@ public class GameManager : MonoBehaviour {
 		spawnTokens = TokenCost_BigSpawn;
 		objectiveFadeTimer = 5f;
 		pickupTime = 0;
+
+		hardModeActive = _hardModeActive;
 
 		int resolutionIndex = 0;
 		resolutions = Screen.resolutions;
@@ -453,7 +457,8 @@ public class GameManager : MonoBehaviour {
 			"\n" + "Basic Weight: " + BasicWeight +
 			"\n" + "Explo Weight: " + ExplodingWeight +
 			"\n" + "Necro Weight: " + NecroWeight +
-			"\n" + "Armor Chance: " + armoredEnemyChance;
+			"\n" + "Armor Chance: " + armoredEnemyChance +
+			"\n" + "Red Enemy Chance: " + redChance;
 
 
 		// Manage Spawns
@@ -722,13 +727,13 @@ public class GameManager : MonoBehaviour {
 					Vector3 offset = Vector3.zero;
 
 					if (dActions.DebugTools.SpawnBasic.WasPerformedThisFrame()) {
-						toSpawn = BasicPrefab;
+						toSpawn = BasicPrefab[0];
 					}
 					if (dActions.DebugTools.SpawnExploding.WasPerformedThisFrame()) {
-						toSpawn = ExplodingPrefab;
+						toSpawn = ExplodingPrefab[0];
 					}
 					if (dActions.DebugTools.SpawnNecro.WasPerformedThisFrame()) {
-						toSpawn = NecroPrefab;
+						toSpawn = NecroPrefab[0];
 					}
 					if (dActions.DebugTools.SummonSpawnPortal.WasPerformedThisFrame()) {
 						OrbSpawnPrefab.GetComponent<OrbSpawn>().basicAmount = 5;
@@ -746,7 +751,7 @@ public class GameManager : MonoBehaviour {
 						if (Physics.Raycast(ray.origin, ray.direction, out hit, 1000.0f)) {
 							Instantiate(toSpawn, hit.point + offset, Quaternion.identity);
 
-							if (toSpawn == BasicPrefab || toSpawn == ExplodingPrefab || toSpawn == NecroPrefab) {
+							if (toSpawn == BasicPrefab[0] || toSpawn == ExplodingPrefab[0] || toSpawn == NecroPrefab[0]) {
 								enemiesAlive += 1;
 							}
 						}
@@ -1015,6 +1020,52 @@ public class GameManager : MonoBehaviour {
 			randomWeight = Random.Range(0.5f, 1.5f);
 			NecroWeight = randomWeight;
 		}
+
+		//HardMode
+		if (_hardModeActive) {
+			redChance = 45 + (levelCount * 5);
+			if (redChance > 100) redChance = 100;
+
+			TokensPerSecond *= 2f;
+
+			LowEnemies *= 2;
+			if (LowEnemies > 20) LowEnemies = 20;
+			TargetEnemies *= 2;
+			if (TargetEnemies > 42) TargetEnemies = 42;
+			HighEnemies *= 2;
+			if (HighEnemies > 80) HighEnemies = 80;
+
+			if (levelCount >= 4) {
+				armorChanceLow = (levelCount - 3) * 5f;
+				armorChanceHigh = (levelCount - 3) * 7f;
+				if (armorChanceLow > 75) armorChanceLow = 75f;
+				if (armorChanceHigh > 100) armorChanceHigh = 100f;
+				armorRandomChance = Random.Range(armorChanceLow, armorChanceHigh);
+				armoredEnemyChance = armorRandomChance;
+
+				randomWeight = Random.Range(0.5f, 2f);
+				ExplodingWeight = randomWeight;
+
+				randomWeight = Random.Range(0.5f, 1f);
+				NecroWeight = randomWeight;
+			}
+
+			if (levelCount >= 8) {
+				randomWeight = Random.Range(0.5f, 4f);
+				ExplodingWeight = randomWeight;
+
+				randomWeight = Random.Range(0.5f, 2f);
+				NecroWeight = randomWeight;
+			}
+
+			if (levelCount >= 12) {
+				randomWeight = Random.Range(0.5f, 6f);
+				ExplodingWeight = randomWeight;
+
+				randomWeight = Random.Range(0.5f, 4f);
+				NecroWeight = randomWeight;
+			}
+		}
 	}
 
 	public static void ResetSpawnerValues() {
@@ -1038,6 +1089,15 @@ public class GameManager : MonoBehaviour {
 		armoredEnemyChance = 0f;
 		armorChanceLow = 0f;
 		armorChanceHigh = 0f;
+
+		//HardMode
+		if (_hardModeActive) {
+			redChance = 50f;
+			TokensPerSecond = 7f;
+			LowEnemies = 4;
+			TargetEnemies = 8;
+			HighEnemies = 12;
+        }
 	}
 
 	// NOTE(Ryan): Can be called to freeze the game for the time specified.
@@ -1438,7 +1498,9 @@ public class GameManager : MonoBehaviour {
 		storedPlayerMeter = 3;
 		levelCount = 1;
 		enemyKillingGoal = 15;
+		if (hardModeActive) enemyKillingGoal = 30;
 		crystalHarvestingGoal = 2;
+		if (hardModeActive) crystalHarvestingGoal = 3;
 		enemiesKilledInRun = 0;
 		ResetSpawnerValues();
 		Initializer.save.versionLatest.runsStarted++;
