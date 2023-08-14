@@ -1057,8 +1057,8 @@ public class PlayerController : MonoBehaviour {
 		Gizmos.color = Color.blue; // max homing distance
 		Gizmos.DrawLine(transform.position, new Vector3(targetSphere.x, targetSphere.y, targetSphere.z + tsr));
 
-		Gizmos.color = Color.yellow;
-		Gizmos.DrawWireSphere(transform.position, 17);
+		/*Gizmos.color = Color.yellow;
+		Gizmos.DrawWireSphere(transform.position, 17);*/
 	}
 	#endregion
 }
