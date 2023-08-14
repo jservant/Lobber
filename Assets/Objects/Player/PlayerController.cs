@@ -580,15 +580,14 @@ public class PlayerController : MonoBehaviour {
 
 			// animator controller
 			{
-				if (queuedAttackInfo.nextAttack != Attacks.None && queuedAttackInfo.transitionStartPercent < Current.normalizedTime && currentState != States.Win) {
+				if (queuedAttackInfo.nextAttack != Attacks.None && queuedAttackInfo.transitionStartPercent < Current.normalizedTime) {
 					bool setupHoming = true;
-					float coneRadius = 10f;
+					float coneRadius = 10f; // adjusts how long/far out the cone will be?
 					tsr = targetSphereRadius;
 					currentState = States.Attacking;
 
 					// NOTE(Roskuski): Stop homing from the previous attack
 					doHoming = false;
-					
 
 					animr.CrossFade(AttackToStateName[(int)queuedAttackInfo.nextAttack], queuedAttackInfo.transitionDurationPercent, -1, queuedAttackInfo.nextOffset);
 
@@ -607,7 +606,6 @@ public class PlayerController : MonoBehaviour {
 						case Attacks.Chop:
 							speedTime = 0f;
 							break;
-
 
 						case Attacks.Spin:
 							speedTime = 0.4f;
@@ -641,7 +639,7 @@ public class PlayerController : MonoBehaviour {
 						SetupHoming(coneRadius);
 					}
 					else {
-						speedTime = 0; // stops player movement when throwing. change later if other attacks don't snap
+						speedTime = 0; // stops player movement when throwing
 					}
 				}
 				else {
@@ -665,17 +663,6 @@ public class PlayerController : MonoBehaviour {
 		}
 
 	}
-
-	void CheckDeathResist() {
-		if (health > 3) deathResist = true;
-    }
-
-	public void UpdateAxeMesh() {
-		for (int i = 0; i < headMesh.Length; i++) {
-			if (meter >= i + 1) headMesh[i].enabled = true;
-			else headMesh[i].enabled = false;
-        }
-    }
 
 	private void OnTriggerEnter(Collider other) {
 
@@ -873,34 +860,45 @@ public class PlayerController : MonoBehaviour {
 		if (meter < 0) meter = 0;
 	}
 
-	float maxHomingDistance;
+    public void StartHoming(float time) { // called in animator; starts the homing lerp in FixedUpdate()
+        if (trueInput.magnitude > 0.1f) {
+            movement = new Vector3(trueInput.x, 0, trueInput.y);
+        }
+        homingInitalPosition = this.transform.position;
+        homingTimer = time;
+        homingTimerMax = time;
+        doHoming = true;
+        homingPrevValue = Vector3.zero;
+    }
 
+    float maxHomingDistance;
 	void SetupHoming(float coneRadius) { // attack homing function
 		// NOTE(Roskuski): If homing is currently taking place, cancel it.
 		doHoming = false;
 
-		Vector3 targetSphere = GetTargetSphereLocation();
-		//maxHomingDistance = (transform.position - new Vector3(targetSphere.x, targetSphere.y, targetSphere.z + tsr)).sqrMagnitude;
-		maxHomingDistance = currentAttack == Attacks.HeadThrow || currentAttack == Attacks.ShotgunThrow ? 8f : 4f;
-		Debug.Log("maxHomingDistance: " + maxHomingDistance);
+		Vector3 targetSphere = GetTargetSphereLocation(); // find the ball with all the enemies in it
+		maxHomingDistance = (transform.position - new Vector3(targetSphere.x, targetSphere.y, targetSphere.z + tsr)).sqrMagnitude;
+		maxHomingDistance = currentAttack == Attacks.HeadThrow || currentAttack == Attacks.ShotgunThrow ? 8f : 4f; // if melee, max homing distance is 4, if ranged it's 8
 		Vector3 conecastDirection = targetSphere - new Vector3(transform.position.x, transform.position.y, transform.position.z);
-		RaycastHit[] eColliders = Util.ConeCastAll(transform.position, tsr, conecastDirection, maxHomingDistance, coneRadius);
-		//if (eColliders.Length > 0) sounds.Sound_CrystalPickup();
+		RaycastHit[] eColliders = Util.ConeCastAll(transform.position, tsr, conecastDirection, maxHomingDistance, coneRadius); // scan for enemies in a cone in front of player
+		//it's a cone so we can catch stuff between the player and the orb
+		if (eColliders.Length > 0) sounds.Sound_CrystalPickup(); // if something's found play a debug sound
 
-		homingTargetDelta = Vector3.forward * 10;
+		// homingTargetDelta is the delta (change) in location between the player and what's being homed in on.
+		// function below attempts to find the smallest delta (enemy closest to player) and home in on that
+		homingTargetDelta = Vector3.forward * 10;													//set to a really high value that anything in the sphere would beat
 
-		for (int index = 0; index < eColliders.Length; index += 1) {
-			Debug.Log("Collider #" + index + "/" + eColliders.Length + ": " + eColliders[index].transform.gameObject.name);
-			Vector3 distanceDelta = eColliders[index].transform.position - transform.position;
-			var target = eColliders[index].transform.gameObject.GetComponent<Basic>();
-			if (distanceDelta.magnitude < homingTargetDelta.magnitude) {
-				homingTargetDelta = distanceDelta;
-				if (target != null && target.debugHoming == true) target.debugTargetTimer = 0.3f;
+		for (int index = 0; index < eColliders.Length; index += 1) {								// for every collider found...
+			Vector3 distanceDelta = eColliders[index].transform.position - transform.position;		// calculate the delta between player and the enemy collider
+			var target = eColliders[index].transform.gameObject.GetComponent<Basic>();				// debug ref to collider's enemy script
+			if (distanceDelta.magnitude < homingTargetDelta.magnitude) {							// if current delta is lower than the previous one...
+				homingTargetDelta = distanceDelta;													// make it the new delta
+				if (target != null && target.debugHoming == true) target.debugTargetTimer = 0.3f;	// (debug) if target is being homed, make them flash
 			}
 		}
 
-		if (homingTargetDelta != Vector3.forward * 10) {
-			switch (currentAttack) {
+		if (homingTargetDelta != Vector3.forward * 10) {											// if homingtargetdelta is not the default value...
+			switch (currentAttack) {																// multiply the target delta/distance amount specific to the attack
 				case Attacks.None:
 				default:
 					Debug.Assert(false, "currentAttack == " + currentAttack.ToString());
@@ -935,13 +933,13 @@ public class PlayerController : MonoBehaviour {
 					break;
 			}
 		}
-		else {
+		else {																						// if nothing was detected, just go forward using position of the orb
 			Vector3 Location = GetTargetSphereLocation();
 			Location = new Vector3(Location.x, transform.position.y, Location.z);
 			homingTargetDelta = Quaternion.LookRotation(Location - transform.position, Vector3.up) * Vector3.forward * 2;
 		}
 
-		transform.LookAt(homingTargetDelta + transform.position);
+		transform.LookAt(homingTargetDelta + transform.position);									// finally, look at the enemy
 	}
 
 	Vector3 GetTargetSphereLocation() {
@@ -978,17 +976,6 @@ public class PlayerController : MonoBehaviour {
 		// BUG: Spawns an extra proj further behind?
 	}
 
-	public void StartHoming(float time) { // called in animator; starts the homing lerp in FixedUpdate()
-		if (trueInput.magnitude > 0.1f) {
-			movement = new Vector3(trueInput.x, 0, trueInput.y);
-		}
-		homingInitalPosition = this.transform.position;
-		homingTimer = time;
-		homingTimerMax = time;
-		doHoming = true;
-		homingPrevValue = Vector3.zero;
-	}
-
 	bool IsAttackState(AnimatorStateInfo stateInfo) {
 		// NOTE(Roskuski): If we're NOT any of these states
 		return !(
@@ -1019,9 +1006,20 @@ public class PlayerController : MonoBehaviour {
 		if (GameObject.Find("HapticManager") != null) HapticManager.PlayEffect(hapticEffects[2], this.transform.position);
 		gameMan.ShakeCamera(3f, 0.25f);
 	}
-	#endregion
 
-	public void DashFlash() {
+    void CheckDeathResist() {
+        if (health > 3) deathResist = true;
+    }
+
+    public void UpdateAxeMesh() {
+        for (int i = 0; i < headMesh.Length; i++) {
+            if (meter >= i + 1) headMesh[i].enabled = true;
+            else headMesh[i].enabled = false;
+        }
+    }
+    #endregion
+
+    public void DashFlash() {
 		var flash = gameMan.flashes[9];
 		Vector3 pos = new Vector3(dashFlashPoint.position.x, dashFlashPoint.position.y + 1.5f, dashFlashPoint.position.z);
 		Instantiate(flash, pos, transform.rotation);
