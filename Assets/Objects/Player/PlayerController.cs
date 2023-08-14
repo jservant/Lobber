@@ -544,8 +544,6 @@ public class PlayerController : MonoBehaviour {
 
 			if (pActions.Player.Dash.WasPerformedThisFrame() && trueInput.sqrMagnitude >= 0.1f && dashCooldown <= 0f && isGrounded) {
 				// NOTE(Roskuski): Common variables for dashing.
-				dashTime = 0;
-				dashCooldown = maxDashCooldown;
 
 				if (pActions.Player.MeterModifier.phase == InputActionPhase.Performed) {
 					attackButtonPrep = AttackButton.ModDash;
@@ -562,6 +560,15 @@ public class PlayerController : MonoBehaviour {
 				if (queueInfo.nextAttack != Attacks.None && CanAffordMove(queueInfo.nextAttack)) {
 					if (animationPercent >= queueInfo.startQueuePercent && animationPercent <= queueInfo.endQueuePercent) {
 						queuedAttackInfo = queueInfo;
+						if (queueInfo.nextAttack == Attacks.Dashing) {
+							dashTime = 0;
+							dashCooldown = maxDashCooldown;
+						}
+
+						if (queueInfo.nextAttack == Attacks.LethalDash) {
+							dashTime = 0;
+							dashCooldown = 0.4f;
+						}
 					}
 				}
 			}
@@ -617,7 +624,7 @@ public class PlayerController : MonoBehaviour {
 
 						case Attacks.Dashing:
 							setupHoming = false;
-							immunityTime = 0.4f;
+							immunityTime = 0.25f;
 							break;
 					}
 
@@ -671,12 +678,6 @@ public class PlayerController : MonoBehaviour {
     }
 
 	private void OnTriggerEnter(Collider other) {
-		if (other.gameObject.layer == (int)Layers.TransparentFX) {
-			Burn burn = other.GetComponent<Burn>();
-			if (burn != null) {
-				Hit(1, other);
-			}
-		}
 
 		if (immunityTime <= 0 && currentAttack != Attacks.Slam && currentAttack != Attacks.Spin && currentAttack != Attacks.LethalDash&& currentAttack != Attacks.ShotgunThrow && !godMode) {
 			if (other.gameObject.layer == (int)Layers.EnemyHitbox && remainingKnockbackTime <= 0) { // player is getting hit
@@ -712,7 +713,7 @@ public class PlayerController : MonoBehaviour {
 					Hit(1, other);
 					DropCrystals();
 				}
-            }
+			}
 			else if (other.gameObject.layer == (int)Layers.AgnosticHitbox) {
 				if (other.GetComponentInParent<Exploding>() != null) {
 					// NOTE(Roskuski): Explosive enemy
@@ -720,6 +721,12 @@ public class PlayerController : MonoBehaviour {
                     DropCrystals();
                 }
             }
+			else if (other.gameObject.layer == (int)Layers.TransparentFX) {
+				Burn burn = other.GetComponent<Burn>();
+				if (burn != null) {
+					Hit(1, other);
+				}
+			}
 		}
 
 		if (other.gameObject.layer == (int)Layers.Pickup) {
@@ -803,6 +810,10 @@ public class PlayerController : MonoBehaviour {
 		float timeLoss = -damageTaken;
 		gameMan.AddToKillStreak(0, timeLoss);
 
+		if (damageTaken >= 1) {
+			gameMan.HealthDialGrow(0.5f);
+        }
+
 		//trigger haptics here
 		if (GameObject.Find("HapticManager") != null && Initializer.save.versionLatest.rumble) {
 			HapticManager.PlayEffect(hapticEffects[0], this.transform.position);
@@ -847,11 +858,11 @@ public class PlayerController : MonoBehaviour {
 		if (frenzyTimer > 0) return;
 		if (currentAttack == Attacks.HeadThrow) return;
 		meter += Amount;
-		if (meter >= 1) {
-			
+		if (Amount >= 1) {
+			gameMan.MeterDialGrow(0.5f);
 		}
-		else {
-			
+		else if (Amount >= 0.1) {
+			gameMan.MeterDialGrow(0.2f);
 		}
 		if (meter < 0) { meter = 0; }
 	}

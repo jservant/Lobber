@@ -35,7 +35,7 @@ public class Necro : MonoBehaviour {
 	float attackCounter = 0;
 
 	const float MoveSpeed = 7.5f;
-	const float VerticalCorrectSpeed = 2.0f;
+	const float VerticalCorrectSpeed = 1.0f;
 	const float MoveTimeMax = 3f;
 	const float TurnSpeed = 360f / 1f;
 
@@ -79,7 +79,7 @@ public class Necro : MonoBehaviour {
 	void CheckHardMode() {
 		if (isHardMode) {
 			ReferenceAttackDelay = 4f;
-			comfortableDistance = 9f;
+			comfortableDistance = 12f;
 			barrageChance = 10f;
         }
     }

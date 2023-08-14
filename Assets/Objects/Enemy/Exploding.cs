@@ -468,9 +468,14 @@ public class Exploding : MonoBehaviour {
 						Vector3 flashSpot = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
 						if (!isHardMode) Util.SpawnFlash(gameMan, 3, flashSpot, false);
 						else Util.SpawnFlash(gameMan, 12, flashSpot, false);
+
 						float _distanceToPlayer = Vector3.Distance(this.transform.position, gameMan.player.position);
+						var _player = gameMan.player.GetComponent<PlayerController>();
 						if (_distanceToPlayer <= 10f) {
-							//triggerhaptics
+							if (GameObject.Find("HapticManager") != null) HapticManager.PlayEffect(_player.hapticEffects[1], this.transform.position);
+						}
+						else {
+							if (GameObject.Find("HapticManager") != null) HapticManager.PlayEffect(_player.hapticEffects[0], this.transform.position);
 						}
 						gameMan.ShakeCamera(5f, 0.5f);
 						Destroy(this.gameObject);

@@ -92,6 +92,10 @@ public class GameManager : MonoBehaviour {
 	public float barDrainTime = 0f;
 	public float previousHealth = 10f;
 	public float meterCostFlashTime = 0f;
+	public Transform healthDial;
+	public Transform meterDial;
+	private float healthDialScaleTime = 0f;
+	private float meterDialScaleTime = 0f;
 	public Image[] meterCostSegments;
 
 	/*public Transform healthBar;
@@ -918,6 +922,7 @@ public class GameManager : MonoBehaviour {
 			switch (currentObjective) {
 				case Objectives.KillTheEnemies:
 					enemyKillingGoal += 15;
+					if (_hardModeActive) enemyKillingGoal += 15;
 					break;
 
 				case Objectives.DestroyTheShrines:
@@ -1107,6 +1112,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void ShakeCamera(float intensity, float duration) {
+		intensity *= 2f;
 		cameraShake._ShakeCamera(intensity * (Initializer.save.versionLatest.screenshakePercentage / 100), duration);
 	}
 
@@ -1195,6 +1201,13 @@ public class GameManager : MonoBehaviour {
 			healthBarDrain.SetFloat("_RemovedSegments", drainValue);
 		}
 
+		if (healthDialScaleTime > 0) {
+			healthDialScaleTime -= Time.deltaTime;
+			float dialScale = Mathf.Lerp(1f, 1.2f, healthDialScaleTime / 0.5f);
+			healthDial.localScale = new Vector3(dialScale, dialScale, 1);
+		}
+		else healthDial.localScale = new Vector3(1, 1, 1);
+
 		/*float healthMax = playerController.healthMax;
 		float health = playerController.health;
 		healthBar.localScale = new Vector3((health / healthMax), 1f, 1f);*/ //Old Healthbar Logic
@@ -1223,8 +1236,24 @@ public class GameManager : MonoBehaviour {
 					meterCostSegments[i].color = temp;
 				}
             }
-
 		}
+
+		if (meterDialScaleTime > 0) {
+			meterDialScaleTime -= Time.deltaTime;
+			float dialScale = Mathf.Lerp(1f, 1.2f, meterDialScaleTime / 0.5f);
+			meterDial.localScale = new Vector3(dialScale, dialScale, 1);
+		}
+		else meterDial.localScale = new Vector3(1, 1, 1);
+	}
+
+	public void HealthDialGrow(float duration) {
+		healthDialScaleTime += duration;
+		if (healthDialScaleTime > 0.5f) healthDialScaleTime = 0.5f;
+    }
+
+	public void MeterDialGrow(float duration) {
+		meterDialScaleTime += duration;
+		if (meterDialScaleTime > 0.5f) meterDialScaleTime = 0.5f;
 	}
 
 	public void MeterSpendFail(int index) {

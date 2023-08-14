@@ -15,6 +15,7 @@ public class ExplosiveTrap : MonoBehaviour {
 	public Transform explosionPoint;
 
 	private GameManager gameMan;
+	private PlayerController player;
 
 	private bool check = true;
 
@@ -28,6 +29,7 @@ public class ExplosiveTrap : MonoBehaviour {
 		currentArmTime = armTime;
 		currentTriggerTime = 0f;
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
+		player = transform.Find("/Player").GetComponent<PlayerController>();
 	}
 
 	void Update() {
@@ -69,7 +71,8 @@ public class ExplosiveTrap : MonoBehaviour {
 		Vector3 newPoint = new Vector3(explosionPoint.position.x, explosionPoint.position.y + 0.5f, explosionPoint.position.z);
 		Util.SpawnFlash(gameMan, 4, newPoint, false);
 		Explosion_Sound();
-		gameMan.ShakeCamera(5f, 0.25f);
+		gameMan.ShakeCamera(5f, 0.5f);
+		if (GameObject.Find("HapticManager") != null) HapticManager.PlayEffect(player.hapticEffects[1], this.transform.position);
 	}
 
 	void Explosion_Sound() {

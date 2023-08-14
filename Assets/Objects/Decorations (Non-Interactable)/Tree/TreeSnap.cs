@@ -38,7 +38,7 @@ public class TreeSnap : MonoBehaviour
     {
         if (isChopped) {
             lifeTime -= Time.deltaTime;
-            if (lifeTime <= 0) {
+            if (lifeTime <= 0 && rb != null) {
                 rb.transform.localScale *= Mathf.Lerp(0, 1, shrinkTime / shrinkTimer);
                 shrinkTime -= Time.deltaTime;
             }

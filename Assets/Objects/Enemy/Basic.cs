@@ -328,6 +328,8 @@ public class Basic : MonoBehaviour {
 			bool playHitSound = false;
 			bool _extraStun = false;
 			bool triggerStunSphere = true;
+			bool interrupted = false;
+			if (directive == Directive.PerformAttack) interrupted = true;
 
 			if (other.gameObject.layer == (int)Layers.PlayerHitbox) {
 				HeadProjectile head = other.GetComponentInParent<HeadProjectile>();
@@ -365,7 +367,9 @@ public class Basic : MonoBehaviour {
 
 						case PlayerController.Attacks.Chop:
 							// @TODO(Roskuski): Different System to prevent headpickup spawns from chop. this current system will not work well if we implment enemies with healthpools that can surrive a chop
-							if (!isArmored && health <= 5) {
+							var chopThreshold = 5f;
+							if (interrupted) chopThreshold = 10f;
+							if (!isArmored && health <= chopThreshold) {
 								wasHitByChop = true;
 								gameMan.SpawnParticle(12, other.transform.position, 1.5f);
 								sounds.Sound_EnemyLob();
@@ -435,6 +439,11 @@ public class Basic : MonoBehaviour {
 				}
 			}
 
+			//Multiply damage if interrupted out of an attack
+			if (interrupted) {
+				damage *= 2f;
+            }
+
 			if (!isArmored) {
 				if (playHitSound) sounds.CharacterGetHit();
 				health -= damage;
@@ -458,6 +467,8 @@ public class Basic : MonoBehaviour {
 		sounds.Sound_EnemyCrystalShatter();
 		gameMan.SpawnParticle(13, armorPoint.position, 1f);
 		gameMan.SpawnParticle(14, armorPoint.position, 0.5f);
+		gameMan.ShakeCamera(5f, 0.15f);
+		if (GameObject.Find("HapticManager") != null) HapticManager.PlayEffect(gameMan.player.GetComponent<PlayerController>().hapticEffects[2], this.transform.position);
 		if (_stunSphere) Instantiate(stunSphere, armorPoint.position, Quaternion.identity);
 		Util.SpawnFlash(gameMan, 1, armorPoint.position, true);
 		health = 4;

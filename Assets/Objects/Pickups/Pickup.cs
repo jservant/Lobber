@@ -234,15 +234,18 @@ public class Pickup : MonoBehaviour {
 			switch(pickupType) {
 				case Type.Skull:
 					playerController.meter += meterValue;
+					gameMan.MeterDialGrow(0.5f);
 					Util.SpawnFlash(gameMan, 2, transform.position, true);
 					break;
 				case Type.GoldenSkull:
 					playerController.meter = gameMan.playerController.meterMax;
 					playerController.frenzyTimer = 8f;
+					gameMan.MeterDialGrow(0.5f);
 					Util.SpawnFlash(gameMan, 1, transform.position, true);
 					break;
 				case Type.Health:
 					playerController.health += healthValue;
+					gameMan.HealthDialGrow(0.5f);
 					Util.SpawnFlash(gameMan, 8, transform.position, true);
 					gameMan.SpawnParticle(16, transform.position, 0.4f);
 					break;
@@ -264,6 +267,7 @@ public class Pickup : MonoBehaviour {
 					break;
 				case Type.RedSkull:
 					playerController.meter += meterValue;
+					gameMan.MeterDialGrow(0.5f);
 					Util.SpawnFlash(gameMan, 8, transform.position, true);
 					break;
 
