@@ -884,8 +884,9 @@ public class PlayerController : MonoBehaviour {
 		// function below attempts to find the smallest delta (enemy closest to player) and home in on that
 		homingTargetDelta = Vector3.forward * 10;													//set to a really high value that anything in the sphere would beat
 
-		for (int index = 0; index < eColliders.Length; index += 1) {								// for every collider found...
-			// TODO: try adding weights to both ends of the capsule and see how it feels
+		for (int index = 0; index < eColliders.Length; index += 1) {                                // for every collider found...
+																									// TODO: try adding weights to both ends of the capsule and see how it feels
+			if (eColliders[index].transform.position.y < -5) return;
 			Vector3 distanceDelta = eColliders[index].transform.position - transform.position;		// calculate the delta between player and the enemy collider
 			//var target = eColliders[index].transform.gameObject.GetComponent<Basic>();				// debug ref to collider's enemy script
 			if (distanceDelta.magnitude < homingTargetDelta.magnitude) {							// if current delta is lower than the previous one...
@@ -941,16 +942,16 @@ public class PlayerController : MonoBehaviour {
 
 	Vector3 GetTargetCapsuleEndSphere() {
 		if (trueInput == Vector2.zero && rAimInput == Vector2.zero) {
-			if (currentAttack == Attacks.HeadThrow) { return transform.position + transform.rotation * new Vector3(0, 1.2f, 7f); }
-			else return transform.position + transform.rotation * new Vector3(0, 1.2f, tcr);
+			if (currentAttack == Attacks.HeadThrow) { return transform.position + transform.rotation * new Vector3(0, 0, tcr * 2.5f); }
+			else return transform.position + transform.rotation * new Vector3(0, 0, tcr);
 		}
 		else if (rAimInput.sqrMagnitude >= 0.1f) {
-			if (currentAttack == Attacks.HeadThrow) { return transform.position + Quaternion.LookRotation(new Vector3(rAimInput.x, 0, rAimInput.y), Vector3.up) * new Vector3(0, 1.2f, 7f); }
-			else return transform.position + Quaternion.LookRotation(new Vector3(rAimInput.x, 0, rAimInput.y), Vector3.up) * new Vector3(0, 1.2f, tcr * 0.95f);
+			if (currentAttack == Attacks.HeadThrow) { return transform.position + Quaternion.LookRotation(new Vector3(rAimInput.x, 0, rAimInput.y), Vector3.up) * new Vector3(0, 0, tcr * 2.5f); }
+			else return transform.position + Quaternion.LookRotation(new Vector3(rAimInput.x, 0, rAimInput.y), Vector3.up) * new Vector3(0, 0, tcr * 0.95f);
 		}
 		else {
-			if (currentAttack == Attacks.HeadThrow) { return transform.position + Quaternion.LookRotation(new Vector3(trueInput.x, 0, trueInput.y), Vector3.up) * new Vector3(0, 1.2f, 7f); }
-			else return transform.position + Quaternion.LookRotation(new Vector3(trueInput.x, 0, trueInput.y), Vector3.up) * new Vector3(0, 1.2f, tcr * 0.95f);
+			if (currentAttack == Attacks.HeadThrow) { return transform.position + Quaternion.LookRotation(new Vector3(trueInput.x, 0, trueInput.y), Vector3.up) * new Vector3(0, 0, tcr * 2.5f); }
+			else return transform.position + Quaternion.LookRotation(new Vector3(trueInput.x, 0, trueInput.y), Vector3.up) * new Vector3(0, 0, tcr * 0.95f);
 		}
 	}
 
