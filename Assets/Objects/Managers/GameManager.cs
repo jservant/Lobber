@@ -105,8 +105,11 @@ public class GameManager : MonoBehaviour {
 	// NOTE(Roskuski): These are in the same order PlayerController.AttackButton (Bottom, Right, Left, Top)
 	public Sprite[] attackIconSprites;
 	public GameObject[] inputDisplays;
+	public GameObject[] specialDisplays;
 	public Image[] attackIconObjects;
 	public TMP_Text[] iconText;
+	public TMP_Text shiftText;
+	
 
 	//public GameObject inputDisplayUI;
 	public float unlitTextOpacity; //0 = transparent, 1 = opaque;
@@ -1305,8 +1308,15 @@ public class GameManager : MonoBehaviour {
 				attackIconObjects[3] = child.GetComponent<Image>();
 				iconText[3] = child.GetComponentInChildren<TMP_Text>();
 			}
-		} 
-    }
+		}
+
+		foreach (Transform child in specialDisplays[display].transform) {
+			if (child.name == "SpecialText") {
+				attackIconObjects[4] = specialDisplays[display].GetComponent<Image>();
+				iconText[4] = child.GetComponentInChildren<TMP_Text>();
+			}
+		}
+	}
 
 	public void UpdateIcons() {
 		// NOTE(Roskuski): 4 is the index of the ui meter button 
@@ -1314,22 +1324,34 @@ public class GameManager : MonoBehaviour {
 			if (inputDisplays[0].activeInHierarchy) ResetIconObjects(1);
 			inputDisplays[1].SetActive(true);
 			inputDisplays[0].SetActive(false);
-        }
+
+			specialDisplays[1].SetActive(true);
+			specialDisplays[0].SetActive(false);
+		}
         else { //no controller detected
 			if (inputDisplays[1].activeInHierarchy) ResetIconObjects(0);
 			inputDisplays[1].SetActive(false);
 			inputDisplays[0].SetActive(true);
+
+			specialDisplays[0].SetActive(true);
+			specialDisplays[1].SetActive(false);
 		}
 
 		if (playerController.meter >= 0.2f) { //Can I use meter?
 			attackIconObjects[4].color = tempColorLit;
 			iconText[4].color = tempColorLit;
+			var shiftColorA = shiftText.color;
+			shiftColorA.a = 1f;
+			shiftText.color = shiftColorA;
 		}
 		else {
 			var tempColor = attackIconObjects[4].color;
 			tempColor.a = 0.15f;
 			attackIconObjects[4].color = tempColor;
 			iconText[4].color = tempColor;
+			var shiftColorA = shiftText.color;
+			shiftColorA.a = 0.15f;
+			shiftText.color = shiftColorA;
 		}
 		
 		PlayerController.QueueInfo[] availableQueueInfos = PlayerController.QueueInfoTable[(int)playerController.currentAttack];

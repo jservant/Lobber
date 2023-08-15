@@ -1189,7 +1189,7 @@ public class Basic : MonoBehaviour {
 	}
 
 	void OnDrawGizmos() {
-		Gizmos.color = Color.blue;
+		/*Gizmos.color = Color.blue;
 		Gizmos.DrawWireSphere(transform.position, enemyCommunicationRange);
 
 		Gizmos.DrawRay(transform.position + Vector3.up * 2.2f, moveDirection * Vector3.forward);
@@ -1208,6 +1208,6 @@ public class Basic : MonoBehaviour {
 
 			// NOTE(Roskuski): Advance the angle to the next index.
 			consideredDelta = angleStep * consideredDelta;
-		}
+		}*/
 	}
 }
