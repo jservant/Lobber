@@ -10,9 +10,8 @@ public class ConeCastTester : MonoBehaviour
     public Vector3 targetSphereLocation;
     public float targetSphereDistance = 5f;
     public float tsr = 3f;
-    public float coneAngle = 10f;
+    public float coneAngle = 0f;
     public Renderer[] cubeRenderers;
-    public Vector3[] coneWallPoints;
 
     private void Start() {
         cubeRenderers = transform.Find("/TestCubes").GetComponentsInChildren<Renderer>();
@@ -20,7 +19,9 @@ public class ConeCastTester : MonoBehaviour
 
     private void Update() {
         targetSphereLocation = new Vector3(transform.position.x, transform.position.y, transform.position.z + targetSphereDistance);
-        RaycastHit[] coneHits = Util.ConeCastAll(transform.position, tsr, Vector3.forward, targetSphereDistance + tsr, coneAngle);
+        RaycastHit[] coneHits = Util.ConeCastAll(transform.position, tsr, Vector3.forward, 0, coneAngle);
+        float hypotenuse = Mathf.Sqrt((tsr * tsr) + (targetSphereDistance * targetSphereDistance));
+        coneAngle = Mathf.Asin(tsr / hypotenuse) * Mathf.Rad2Deg;
 
         foreach (Renderer cube in cubeRenderers) {
             cube.material.color = Color.white;
@@ -31,13 +32,6 @@ public class ConeCastTester : MonoBehaviour
             }
         }
 
-        coneWallPoints = new Vector3[4] {
-            new Vector3(targetSphereLocation.x + tsr, targetSphereLocation.y, targetSphereLocation.z),
-            new Vector3(targetSphereLocation.x - tsr, targetSphereLocation.y, targetSphereLocation.z),
-            new Vector3(targetSphereLocation.x, targetSphereLocation.y + tsr, targetSphereLocation.z),
-            new Vector3(targetSphereLocation.x, targetSphereLocation.y - tsr, targetSphereLocation.z)
-        };
-
         if (Keyboard.current.rKey.wasPressedThisFrame) {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
@@ -46,17 +40,15 @@ public class ConeCastTester : MonoBehaviour
     private void OnDrawGizmos() {
         Gizmos.color = Color.red; // homing cone
         Gizmos.DrawWireSphere(targetSphereLocation, tsr);
-        /*Gizmos.DrawLine(transform.position, new Vector3(targetSphereLocation.x + tsr, targetSphereLocation.y, targetSphereLocation.z));
-        Gizmos.DrawLine(transform.position, new Vector3(targetSphereLocation.x - tsr, targetSphereLocation.y, targetSphereLocation.z));
-        Gizmos.DrawLine(transform.position, new Vector3(targetSphereLocation.x, targetSphereLocation.y + tsr, targetSphereLocation.z));
-        Gizmos.DrawLine(transform.position, new Vector3(targetSphereLocation.x, targetSphereLocation.y - tsr, targetSphereLocation.z));*/
 
         Gizmos.color = Color.blue; // bounds of the cone
-        for (int i = 0; i < coneWallPoints.Length; i++) {
-            Gizmos.DrawLine(transform.position, coneWallPoints[i]);
-        }
+        Gizmos.DrawLine(transform.position, new Vector3(targetSphereLocation.x + tsr, targetSphereLocation.y, targetSphereLocation.z));
+        Gizmos.DrawLine(transform.position, new Vector3(targetSphereLocation.x - tsr, targetSphereLocation.y, targetSphereLocation.z));
+        Gizmos.DrawLine(transform.position, new Vector3(targetSphereLocation.x, targetSphereLocation.y + tsr, targetSphereLocation.z));
+        Gizmos.DrawLine(transform.position, new Vector3(targetSphereLocation.x, targetSphereLocation.y - tsr, targetSphereLocation.z));
+
         Gizmos.color = Color.yellow; // max homing distance
         Gizmos.DrawLine(transform.position, targetSphereLocation);
-        //Gizmos.DrawLine(transform.position, new Vector3(targetSphereLocation.x, targetSphereLocation.y, targetSphereLocation.z + tsr));
+        Gizmos.DrawLine(targetSphereLocation, new Vector3(targetSphereLocation.x + tsr, targetSphereLocation.y, targetSphereLocation.z));
     }
 }

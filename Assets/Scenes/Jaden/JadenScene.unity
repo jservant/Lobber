@@ -3465,13 +3465,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1338366273}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d576a6b8033ac7f428577f32155af4f3, type: 3}
+  m_Script: {fileID: 11500000, guid: 28343a9a242e5be429dad66e46b0ef07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetSphereLocation: {x: 0, y: 0, z: 0}
-  targetSphereDistance: 5
-  tsr: 3
-  coneAngle: 10
+  capsuleEndPosition: {x: 0, y: 0, z: 0}
+  capsuleLength: 5
+  capsuleRadius: 1.5
+  homingTargetDeltaCap: 10
+  cubeRenderers: []
 --- !u!1 &1351469584
 GameObject:
   m_ObjectHideFlags: 0
