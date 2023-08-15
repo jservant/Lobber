@@ -396,7 +396,7 @@ public class PlayerController : MonoBehaviour {
 			homingTimer -= Time.fixedDeltaTime;
 			if (homingTimer < 0) {
 				doHoming = false;
-				gameMan.crystalCountText.text = "";
+				//gameMan.crystalCountText.text = "";
 			}
 		}
 		else {
@@ -887,10 +887,10 @@ public class PlayerController : MonoBehaviour {
 		for (int index = 0; index < eColliders.Length; index += 1) {								// for every collider found...
 			// TODO: try adding weights to both ends of the capsule and see how it feels
 			Vector3 distanceDelta = eColliders[index].transform.position - transform.position;		// calculate the delta between player and the enemy collider
-			var target = eColliders[index].transform.gameObject.GetComponent<Basic>();				// debug ref to collider's enemy script
+			//var target = eColliders[index].transform.gameObject.GetComponent<Basic>();				// debug ref to collider's enemy script
 			if (distanceDelta.magnitude < homingTargetDelta.magnitude) {							// if current delta is lower than the previous one...
 				homingTargetDelta = distanceDelta;													// make it the new delta
-				if (target != null && target.debugHoming == true) target.debugTargetTimer = 0.3f;	// (debug) if target is being homed, make them flash
+				//if (target != null && target.debugHoming == true) target.debugTargetTimer = 0.3f;	// (debug) if target is being homed, make them flash
 			}
 		}
 
@@ -936,7 +936,6 @@ public class PlayerController : MonoBehaviour {
 			homingTargetDelta = Quaternion.LookRotation(Location - transform.position, Vector3.up) * Vector3.forward * 2;
 		}
 
-		gameMan.crystalCountText.text = eColliders.Length.ToString();
 		transform.LookAt(homingTargetDelta + transform.position);									// finally, look at the enemy
 	}
 
