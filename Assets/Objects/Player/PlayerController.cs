@@ -260,7 +260,7 @@ public class PlayerController : MonoBehaviour {
 	public MeshRenderer[] headMesh;
 	Transform mainJoint;
 	HeadProjectile headProj;
-	Transform projSpawn;
+	public Transform projSpawn;
 	Transform[] shotgunProjSpawns;
 	Transform shotgunPoint;
 	Transform slamPoint;
