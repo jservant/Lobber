@@ -942,28 +942,28 @@ public class PlayerController : MonoBehaviour {
 
 	Vector3 GetTargetCapsuleEndSphere() {
 		if (trueInput == Vector2.zero && rAimInput == Vector2.zero) {
-			if (currentAttack == Attacks.HeadThrow) { return transform.position + transform.rotation * new Vector3(0, 0, tcr * 2.5f); }
-			else return transform.position + transform.rotation * new Vector3(0, 0, tcr);
+			if (currentAttack == Attacks.HeadThrow) { return transform.position + transform.rotation * new Vector3(0, 0, tcl * 2.5f); }
+			else return transform.position + transform.rotation * new Vector3(0, 0, tcl);
 		}
 		else if (rAimInput.sqrMagnitude >= 0.1f) {
-			if (currentAttack == Attacks.HeadThrow) { return transform.position + Quaternion.LookRotation(new Vector3(rAimInput.x, 0, rAimInput.y), Vector3.up) * new Vector3(0, 0, tcr * 2.5f); }
-			else return transform.position + Quaternion.LookRotation(new Vector3(rAimInput.x, 0, rAimInput.y), Vector3.up) * new Vector3(0, 0, tcr * 0.95f);
+			if (currentAttack == Attacks.HeadThrow) { return transform.position + Quaternion.LookRotation(new Vector3(rAimInput.x, 0, rAimInput.y), Vector3.up) * new Vector3(0, 0, tcl * 2.5f); }
+			else return transform.position + Quaternion.LookRotation(new Vector3(rAimInput.x, 0, rAimInput.y), Vector3.up) * new Vector3(0, 0, tcl * 0.95f);
 		}
 		else {
-			if (currentAttack == Attacks.HeadThrow) { return transform.position + Quaternion.LookRotation(new Vector3(trueInput.x, 0, trueInput.y), Vector3.up) * new Vector3(0, 0, tcr * 2.5f); }
-			else return transform.position + Quaternion.LookRotation(new Vector3(trueInput.x, 0, trueInput.y), Vector3.up) * new Vector3(0, 0, tcr * 0.95f);
+			if (currentAttack == Attacks.HeadThrow) { return transform.position + Quaternion.LookRotation(new Vector3(trueInput.x, 0, trueInput.y), Vector3.up) * new Vector3(0, 0, tcl * 2.5f); }
+			else return transform.position + Quaternion.LookRotation(new Vector3(trueInput.x, 0, trueInput.y), Vector3.up) * new Vector3(0, 0, tcl * 0.95f);
 		}
 	}
 
 	public void LobThrow() { // triggered in animator
-		SetupHoming(); // TODO: change length
+		SetupHoming();
         headProj.speed = 50f;
 		headProj.canStun = true;
 		Instantiate(headProj, projSpawn.position, transform.rotation);
 	}
 
 	public void ShotgunThrow() { // triggered in animator
-		SetupHoming(); // TODO: change length
+		SetupHoming();
 		headProj.speed = 50f;
 		headProj.canStun = true;
 		//headProj.canPierce = true; disabled for now
