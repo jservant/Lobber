@@ -319,7 +319,7 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField] float targetCapsuleRadius = 3f;	// how wide the homing zone is (publically editable)
 	float tcr = 0f;										// "						 " used internally
 	Vector3 homingInitalPosition;						// where player starts when homing
-	Vector3 homingTargetDelta;						// where player is going at end of homing
+	Vector3 homingTargetDelta;							// where player is going at end of homing
 	Vector3 homingPrevValue;
 	float homingTimer;									// keeps track of how long homing has been happening
 	float homingTimerMax;								// how long homing will happen
@@ -863,7 +863,7 @@ public class PlayerController : MonoBehaviour {
         if (trueInput.magnitude > 0.1f) {
             movement = new Vector3(trueInput.x, 0, trueInput.y);
         }
-        homingInitalPosition = this.transform.position;
+        homingInitalPosition = transform.position; // projspawn instead of t.pos so the capsule's a little further out
         homingTimer = time;
         homingTimerMax = time;
         doHoming = true;
@@ -877,7 +877,7 @@ public class PlayerController : MonoBehaviour {
 
 		Vector3 targetCapsuleEnd = GetTargetCapsuleEndSphere(); // find the ball with all the enemies in it
 		Vector3 targetingDirection = targetCapsuleEnd - transform.position;
-		RaycastHit[] eColliders = Physics.CapsuleCastAll(transform.position, targetCapsuleEnd, tcr, targetingDirection, 0, Mask.Get(Layers.EnemyHurtbox)); // scan for enemies in a cone in front of player
+		RaycastHit[] eColliders = Physics.CapsuleCastAll(projSpawn.position, targetCapsuleEnd, tcr, targetingDirection, 0, Mask.Get(Layers.EnemyHurtbox)); // scan for enemies in a cone in front of player
 		if (eColliders.Length > 0) sounds.Sound_CrystalPickup(); // if something's found play a debug sound
 
 		// homingTargetDelta is the delta (change) in location between the player and what's being homed in on.
@@ -888,7 +888,7 @@ public class PlayerController : MonoBehaviour {
 																									// TODO: try adding weights to both ends of the capsule and see how it feels
 			if (eColliders[index].transform.position.y < -5) return;
 			Vector3 distanceDelta = eColliders[index].transform.position - transform.position;		// calculate the delta between player and the enemy collider
-			//var target = eColliders[index].transform.gameObject.GetComponent<Basic>();				// debug ref to collider's enemy script
+			//var target = eColliders[index].transform.gameObject.GetComponent<Basic>();			// debug ref to collider's enemy script
 			if (distanceDelta.magnitude < homingTargetDelta.magnitude) {							// if current delta is lower than the previous one...
 				homingTargetDelta = distanceDelta;													// make it the new delta
 				//if (target != null && target.debugHoming == true) target.debugTargetTimer = 0.3f;	// (debug) if target is being homed, make them flash
@@ -942,16 +942,16 @@ public class PlayerController : MonoBehaviour {
 
 	Vector3 GetTargetCapsuleEndSphere() {
 		if (trueInput == Vector2.zero && rAimInput == Vector2.zero) {
-			if (currentAttack == Attacks.HeadThrow) { return transform.position + transform.rotation * new Vector3(0, 0, tcl * 2.5f); }
-			else return transform.position + transform.rotation * new Vector3(0, 0, tcl);
+			if (currentAttack == Attacks.HeadThrow) { return projSpawn.position + transform.rotation * new Vector3(0, 0, tcl * 2.5f); }
+			else return projSpawn.position + transform.rotation * new Vector3(0, 0, tcl);
 		}
-		else if (rAimInput.sqrMagnitude >= 0.1f) {
-			if (currentAttack == Attacks.HeadThrow) { return transform.position + Quaternion.LookRotation(new Vector3(rAimInput.x, 0, rAimInput.y), Vector3.up) * new Vector3(0, 0, tcl * 2.5f); }
-			else return transform.position + Quaternion.LookRotation(new Vector3(rAimInput.x, 0, rAimInput.y), Vector3.up) * new Vector3(0, 0, tcl * 0.95f);
-		}
+/*		else if (rAimInput.sqrMagnitude >= 0.1f) {
+			if (currentAttack == Attacks.HeadThrow) { return projSpawn.position + Quaternion.LookRotation(new Vector3(rAimInput.x, 0, rAimInput.y), Vector3.up) * new Vector3(0, 0, tcl * 2.5f); }
+			else return projSpawn.position + Quaternion.LookRotation(new Vector3(rAimInput.x, 0, rAimInput.y), Vector3.up) * new Vector3(0, 0, tcl * 0.95f);
+		}*/
 		else {
-			if (currentAttack == Attacks.HeadThrow) { return transform.position + Quaternion.LookRotation(new Vector3(trueInput.x, 0, trueInput.y), Vector3.up) * new Vector3(0, 0, tcl * 2.5f); }
-			else return transform.position + Quaternion.LookRotation(new Vector3(trueInput.x, 0, trueInput.y), Vector3.up) * new Vector3(0, 0, tcl * 0.95f);
+			if (currentAttack == Attacks.HeadThrow) { return projSpawn.position + Quaternion.LookRotation(new Vector3(trueInput.x, 0, trueInput.y), Vector3.up) * new Vector3(0, 0, tcl * 2.5f); }
+			else return projSpawn.position + Quaternion.LookRotation(new Vector3(trueInput.x, 0, trueInput.y), Vector3.up) * new Vector3(0, 0, tcl * 0.95f);
 		}
 	}
 
@@ -1046,17 +1046,17 @@ public class PlayerController : MonoBehaviour {
 	private void OnDrawGizmos() {
 		Gizmos.color = Color.red; // sphere base of cone
 		Vector3 capsuleEndPosition = GetTargetCapsuleEndSphere();
-        Gizmos.DrawWireSphere(transform.position, tcr);
+        Gizmos.DrawWireSphere(projSpawn.position, tcr);
         Gizmos.DrawWireSphere(capsuleEndPosition, tcr);
 
         Gizmos.color = Color.blue; // bounds of the capsule
-        Gizmos.DrawLine(new Vector3(transform.position.x + tcr, transform.position.y, transform.position.z), new Vector3(capsuleEndPosition.x + tcr, capsuleEndPosition.y, capsuleEndPosition.z));
-        Gizmos.DrawLine(new Vector3(transform.position.x - tcr, transform.position.y, transform.position.z), new Vector3(capsuleEndPosition.x - tcr, capsuleEndPosition.y, capsuleEndPosition.z));
-        Gizmos.DrawLine(new Vector3(transform.position.x, transform.position.y + tcr, transform.position.z), new Vector3(capsuleEndPosition.x, capsuleEndPosition.y + tcr, capsuleEndPosition.z));
-        Gizmos.DrawLine(new Vector3(transform.position.x, transform.position.y - tcr, transform.position.z), new Vector3(capsuleEndPosition.x, capsuleEndPosition.y - tcr, capsuleEndPosition.z));
+        Gizmos.DrawLine(new Vector3(projSpawn.position.x + tcr, projSpawn.position.y, projSpawn.position.z), new Vector3(capsuleEndPosition.x + tcr, capsuleEndPosition.y, capsuleEndPosition.z));
+        Gizmos.DrawLine(new Vector3(projSpawn.position.x - tcr, projSpawn.position.y, projSpawn.position.z), new Vector3(capsuleEndPosition.x - tcr, capsuleEndPosition.y, capsuleEndPosition.z));
+        Gizmos.DrawLine(new Vector3(projSpawn.position.x, projSpawn.position.y + tcr, projSpawn.position.z), new Vector3(capsuleEndPosition.x, capsuleEndPosition.y + tcr, capsuleEndPosition.z));
+        Gizmos.DrawLine(new Vector3(projSpawn.position.x, projSpawn.position.y - tcr, projSpawn.position.z), new Vector3(capsuleEndPosition.x, capsuleEndPosition.y - tcr, capsuleEndPosition.z));
 
         Gizmos.color = Color.yellow; // length + radius of capsule
-        Gizmos.DrawLine(transform.position, capsuleEndPosition);
+        Gizmos.DrawLine(projSpawn.position, capsuleEndPosition);
         Gizmos.DrawLine(capsuleEndPosition, new Vector3(capsuleEndPosition.x + tcr, capsuleEndPosition.y, capsuleEndPosition.z));
     }
     #endregion
