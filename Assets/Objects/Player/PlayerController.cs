@@ -878,7 +878,6 @@ public class PlayerController : MonoBehaviour {
 		Vector3 targetCapsuleEnd = GetTargetCapsuleEndSphere(); // find the ball with all the enemies in it
 		Vector3 targetingDirection = targetCapsuleEnd - transform.position;
 		RaycastHit[] eColliders = Physics.CapsuleCastAll(projSpawn.position, targetCapsuleEnd, tcr, targetingDirection, 0, Mask.Get(Layers.EnemyHurtbox)); // scan for enemies in a cone in front of player
-		if (eColliders.Length > 0) sounds.Sound_CrystalPickup(); // if something's found play a debug sound
 
 		// homingTargetDelta is the delta (change) in location between the player and what's being homed in on.
 		// function below attempts to find the smallest delta (enemy closest to player) and home in on that
