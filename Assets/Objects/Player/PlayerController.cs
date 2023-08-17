@@ -828,7 +828,7 @@ public class PlayerController : MonoBehaviour {
 			+ (GameManager.levelCount > Initializer.save.versionLatest.longestRun ? "\nNew Longest Run!" : "");
 		GameManager.enemiesKilledInRun = 0;
 		yield return new WaitForSeconds(deathTimer + 1);
-		StartCoroutine(gameMan.QuitTransition(false));
+		StartCoroutine(gameMan.QuitTransition(true));
 	}
 
 	public void Win() {
