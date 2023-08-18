@@ -813,6 +813,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	IEnumerator Death() {
+		Die();
 		animr.SetBool("isDead", true);
 		mInput = Vector2.zero; movement = Vector3.zero;
 		currentState = States.Death;
@@ -830,6 +831,14 @@ public class PlayerController : MonoBehaviour {
 		yield return new WaitForSeconds(deathTimer + 1);
 		StartCoroutine(gameMan.QuitTransition(true));
 	}
+
+	public void Die() {
+		foreach (Transform child in this.transform) {
+			child.gameObject.SetActive(false);
+        }
+
+		gameMan.SpawnCorpse(2, transform.position, Quaternion.identity, 1f, true);
+    }
 
 	public void Win() {
 		animr.SetBool("isTeleporting", true);
@@ -1012,7 +1021,11 @@ public class PlayerController : MonoBehaviour {
         for (int i = 0; i < headMesh.Length; i++) {
             if (meter >= i + 1) headMesh[i].enabled = true;
             else headMesh[i].enabled = false;
-        }
+
+			if (currentState == States.Death) {
+				headMesh[i].enabled = false;
+			}
+		}
     }
     #endregion
 

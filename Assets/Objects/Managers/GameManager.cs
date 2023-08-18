@@ -111,7 +111,7 @@ public class GameManager : MonoBehaviour {
 	public TMP_Text shiftText;
 	
 
-	//public GameObject inputDisplayUI;
+	public GameObject inputDisplayUI;
 	public float unlitTextOpacity; //0 = transparent, 1 = opaque;
 	public Color tempColorLit;
 	public Color tempColorUnlit;
@@ -244,7 +244,7 @@ public class GameManager : MonoBehaviour {
 		waypointMarker = transform.Find("/GameManager/MainUI/WaypointMarker").GetComponent<Image>();
 		crowdMan = transform.Find("/WwiseGlobal/CrowdManager").GetComponent<CrowdManager>();
 		//meterImage = transform.Find("MainUI/MeterBar").GetComponent<Image>();
-		//inputDisplayUI = transform.Find("MainUI/InputDisplay").gameObject;
+		inputDisplayUI = transform.Find("MainUI/Input").gameObject;
 		Time.timeScale = 1;
 		spawnTokens = TokenCost_BigSpawn;
 		objectiveFadeTimer = 5f;
@@ -443,7 +443,7 @@ public class GameManager : MonoBehaviour {
 		CheckForGamepad();
 		UpdateHealthBar();
 		UpdateMeter();
-		UpdateIcons(); //if (inputDisplayUI.activeSelf == true) {  }
+		if (Time.timeScale > 0.9) UpdateIcons();
 		UpdateKillCounter();
 		if (debugTextActive) debugText.text = "LevelCount: " + levelCount +
 			"\n" + "Tokens per Second: " + TokensPerSecond +
@@ -791,10 +791,10 @@ public class GameManager : MonoBehaviour {
 				}
 				else canSpawn = true;
 			}
-			/*if (playerController.pActions.Player.DEBUGDisableUI.WasPerformedThisFrame()) {
-				if (inputDisplayUI.activeSelf == true) { inputDisplayUI.SetActive(false); }
+			if (playerController.pActions.Player.DEBUGDisableUI.WasPerformedThisFrame()) {
+				if (inputDisplayUI.activeInHierarchy) { inputDisplayUI.SetActive(false); }
 				else { inputDisplayUI.SetActive(true); }
-			}*/
+			}
 			if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed && playerController.pActions.Player.DEBUGSlowTime.WasPerformedThisFrame()) {
 				if (Time.timeScale > 0) {
 					Time.timeScale -= 0.1f;
@@ -1140,6 +1140,12 @@ public class GameManager : MonoBehaviour {
 		if (forceMultiplier < 1f) forceMultiplier = 5f;
 		forceScript.force *= forceMultiplier;
 		forceScript.hasHead = hasHead;
+
+		if (corpseID == 2) {
+			var camPoint = transform.Find("/CameraPoint").GetComponent<Camera>();
+			var mainJoint = corpse.transform.Find("MAIN_JOINT");
+			camPoint.followTarget = mainJoint;
+        }
     }
 
 	// NOTE(@Jaden): Pickup determining function that's called on enemy death
