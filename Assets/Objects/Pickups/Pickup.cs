@@ -159,10 +159,8 @@ public class Pickup : MonoBehaviour {
 
 			headTrail.enabled = false;
 			if (gameMan.transitioningLevel) {
-				if (pickupType != Type.Crystal) {
-					gatherRadius = 300f;
-					followSpeed = 40f;
-				}
+				gatherRadius = 300f;
+				followSpeed = 40f;
 			}
             else {
 				if (pickupType == Type.RedSkull) Spawn();
@@ -212,6 +210,8 @@ public class Pickup : MonoBehaviour {
 	void Spawn() {
 		var enemyPrefab = gameMan.BasicPrefab[1];
 		var enemyInstance = Instantiate(enemyPrefab, transform.position, Quaternion.AngleAxis(180, Vector3.up));
+		var enemy = enemyInstance.GetComponent<Basic>();
+		enemy.health -= 5;
 		goldenSkullStop.Post(gameObject);
 		Util.SpawnFlash(gameMan, 8, transform.position, false);
 		gameMan.SpawnParticle(12, transform.position, 1f);
@@ -263,6 +263,10 @@ public class Pickup : MonoBehaviour {
                     playerController.crystalCount++;
 					if (playerController.crystalCount > 1) {
 						gameMan.crystalCountText.text = "x" + playerController.crystalCount;
+					}
+					if (gameMan.transitioningLevel) {
+						playerController.health += 1;
+						gameMan.HealthDialGrow(0.5f);
 					}
 					break;
 				case Type.RedSkull:

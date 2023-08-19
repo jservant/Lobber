@@ -13,8 +13,10 @@ public class Burn : MonoBehaviour
     float gravity = 4.9f;
 
     public float lifeTime;
+    private float shrinkTime = 1f;
 
     public MeshCollider mesh;
+    public Transform fire;
 
     public AK.Wwise.Event fireSound;
     public AK.Wwise.Event fireStop;
@@ -55,8 +57,12 @@ public class Burn : MonoBehaviour
             lifeTime -= Time.deltaTime;
         }
         else {
-            Destroy(transform.parent.gameObject);
+            transform.parent.localScale *= Mathf.Lerp(0, 1, shrinkTime / 1f);
+            fire.localScale *= Mathf.Lerp(0, 1, shrinkTime / 1f);
+            shrinkTime -= Time.deltaTime;
         }
+
+        if (shrinkTime <= 0) Destroy(transform.parent.gameObject);
 
         if (!Physics.Raycast(transform.position, Vector3.down, 0.6f)) {
             transform.parent.position += Vector3.down * gravity * Time.deltaTime;

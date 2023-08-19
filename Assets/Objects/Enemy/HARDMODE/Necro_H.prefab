@@ -91,6 +91,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameMan: {fileID: 0}
+  fire: {fileID: 4458502560610761815}
   damage: 1
   explosionSound:
     idInternal: 0
@@ -452,6 +453,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameMan: {fileID: 0}
+  fire: {fileID: 4005810761906771631}
   damage: 1
   explosionSound:
     idInternal: 0
@@ -4264,9 +4266,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2270079314234176219, guid: 93712be94ec86ba45ae4d9eb1da31a9e, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2773356168454728787, guid: 93712be94ec86ba45ae4d9eb1da31a9e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2773356168454728788, guid: 93712be94ec86ba45ae4d9eb1da31a9e, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7542190441628579119, guid: 93712be94ec86ba45ae4d9eb1da31a9e, type: 3}
       propertyPath: m_Name
       value: NecroProjectile
+      objectReference: {fileID: 0}
+    - target: {fileID: 7542190441628579119, guid: 93712be94ec86ba45ae4d9eb1da31a9e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -6043461900665182082, guid: 93712be94ec86ba45ae4d9eb1da31a9e, type: 3}

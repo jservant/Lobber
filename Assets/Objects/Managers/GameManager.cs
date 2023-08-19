@@ -740,7 +740,7 @@ public class GameManager : MonoBehaviour {
 						toSpawn = ExplodingPrefab[0];
 					}
 					if (dActions.DebugTools.SpawnNecro.WasPerformedThisFrame()) {
-						toSpawn = NecroPrefab[0];
+						toSpawn = NecroPrefab[1];
 					}
 					if (dActions.DebugTools.SummonSpawnPortal.WasPerformedThisFrame()) {
 						OrbSpawnPrefab.GetComponent<OrbSpawn>().basicAmount = 5;
@@ -869,6 +869,12 @@ public class GameManager : MonoBehaviour {
 		if (playerController.pActions.Player.Zoom.WasPerformedThisFrame() && pauseBG.enabled == false) { 
 			cameraShake._CameraZoom(playerController.pActions.Player.Zoom.ReadValue<float>());
 		}
+
+		//Cursor
+		if (pauseBG.enabled == false && debugTools == false) {
+			Cursor.visible = false;
+		}
+		else Cursor.visible = true;
 	}
 
 	public void CheckForGamepad() {

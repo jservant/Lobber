@@ -23,7 +23,8 @@ public class MusicManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (playOnSceneStart != 0 && playOnSceneStart != currentTrack) PlayMusic(playOnSceneStart);
+        
+        if (playOnSceneStart != 0 && playOnSceneStart != currentTrack && currentTrack != 1) PlayMusic(playOnSceneStart);
         currentScene = SceneManager.GetActiveScene().buildIndex;
         if (currentScene != 0 && currentTrack == 1) { PlayMusic(2); }
     }
