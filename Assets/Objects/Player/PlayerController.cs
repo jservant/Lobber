@@ -314,10 +314,8 @@ public class PlayerController : MonoBehaviour {
 	KnockbackInfo knockbackInfo = new KnockbackInfo(Quaternion.identity, 0, 0);
 	public float remainingKnockbackTime;
 	[Header("Homing:")]
-	[SerializeField] float targetCapsuleLength = 3f;	// how far away the player can home (publically editable)
-	float tcl = 0f;										// "							  " used internally
-	[SerializeField] float targetCapsuleRadius = 3f;	// how wide the homing zone is (publically editable)
-	float tcr = 0f;										// "						 " used internally
+	[SerializeField] float homingDistance = 3f;			// how far away the player can home (this x2 is the length of the capsule)
+	[SerializeField] float homingCapsuleRadius = 3f;	// how wide the homing zone is
 	Vector3 homingInitalPosition;						// where player starts when homing
 	Vector3 homingTargetDelta;							// where player is going at end of homing
 	Vector3 homingPrevValue;
@@ -363,8 +361,6 @@ public class PlayerController : MonoBehaviour {
 		dashCooldown = maxDashCooldown;
 		health = GameManager.storedPlayerHealth;
 		meter = GameManager.storedPlayerMeter;
-		tcl = targetCapsuleLength;
-		tcr = targetCapsuleRadius;
 		footStepCounter = 0;
 	}
 
@@ -586,8 +582,6 @@ public class PlayerController : MonoBehaviour {
 				if (queuedAttackInfo.nextAttack != Attacks.None && queuedAttackInfo.transitionStartPercent < Current.normalizedTime) {
 					bool setupHoming = true;                    
 					currentState = States.Attacking;
-                    tcr = targetCapsuleRadius;
-                    tcl = targetCapsuleLength;
                     doHoming = false;  // NOTE(Roskuski): Stop homing from the previous attack
 
                     animr.CrossFade(AttackToStateName[(int)queuedAttackInfo.nextAttack], queuedAttackInfo.transitionDurationPercent, -1, queuedAttackInfo.nextOffset);
@@ -598,9 +592,7 @@ public class PlayerController : MonoBehaviour {
 					switch (currentAttack) {
 						case Attacks.HeadThrow:
 						case Attacks.ShotgunThrow:
-							tcl = targetCapsuleLength * 2f;
-							tcr = targetCapsuleRadius * 2.5f;
-							speedTime = 0;
+						speedTime = 0;
 							break;
 
 						case Attacks.Chop:
@@ -627,18 +619,13 @@ public class PlayerController : MonoBehaviour {
 
 					if (pActions.Player.Aim.ReadValue<Vector2>().sqrMagnitude >= 0.02) {
 						movement = new Vector3(rAimInput.x, 0, rAimInput.y); // this and next line allow for movement between hits
-					}
-					else if (pActions.Player.Move.ReadValue<Vector2>().sqrMagnitude >= 0.02) {
+					} else if (pActions.Player.Move.ReadValue<Vector2>().sqrMagnitude >= 0.02) {
 						movement = new Vector3(trueInput.x, 0, trueInput.y);
 					}
 
-                    float hypotenuse = Mathf.Sqrt((tcr * tcr) + (tcl * tcl));
-                    float coneAngle = Mathf.Asin(tcl / hypotenuse) * Mathf.Rad2Deg;
-
                     if (setupHoming) {
 						SetupHoming();
-					}
-					else {
+					} else {
 						speedTime = 0; // stops player movement when throwing
 					}
 				}
@@ -757,8 +744,8 @@ public class PlayerController : MonoBehaviour {
 		}
     }
 
-	#region Combat functions
-	public void Hit(int damageTaken, Collider other) {
+    #region Combat functions
+    public void Hit(int damageTaken, Collider other) {
 		doHoming = false;
 		//currentAttack = Attacks.None;
 		//animr.SetBool("isWalking", false);
@@ -872,38 +859,44 @@ public class PlayerController : MonoBehaviour {
         if (trueInput.magnitude > 0.1f) {
             movement = new Vector3(trueInput.x, 0, trueInput.y);
         }
-        homingInitalPosition = transform.position; // projspawn instead of t.pos so the capsule's a little further out
+        homingInitalPosition = transform.position;
         homingTimer = time;
         homingTimerMax = time;
         doHoming = true;
         homingPrevValue = Vector3.zero;
     }
 
-    float maxHomingDistance;
 	void SetupHoming() { // attack homing function
 		// NOTE(Roskuski): If homing is currently taking place, cancel it.
 		doHoming = false;
 
+		Vector3 targetCapsuleStart = GetTargetCapsuleStartSphere(); // find the ball with all the enemies in it
 		Vector3 targetCapsuleEnd = GetTargetCapsuleEndSphere(); // find the ball with all the enemies in it
-		Vector3 targetingDirection = targetCapsuleEnd - transform.position;
-		RaycastHit[] eColliders = Physics.CapsuleCastAll(projSpawn.position, targetCapsuleEnd, tcr, targetingDirection, 0, Mask.Get(Layers.EnemyHurtbox)); // scan for enemies in a cone in front of player
+		Vector3 targetingDirection = targetCapsuleStart - transform.position;
+		RaycastHit[] eColliders = Physics.CapsuleCastAll(targetCapsuleStart, targetCapsuleEnd, homingCapsuleRadius, targetingDirection, 0, Mask.Get(Layers.EnemyHurtbox)); // scan for enemies in a cone in front of player
 
 		// homingTargetDelta is the delta (change) in location between the player and what's being homed in on.
 		// function below attempts to find the smallest delta (enemy closest to player) and home in on that
-		homingTargetDelta = Vector3.forward * 10;													//set to a really high value that anything in the sphere would beat
-
-		for (int index = 0; index < eColliders.Length; index += 1) {                                // for every collider found...
+		homingTargetDelta = Vector3.forward * 10;                                                   //set to a really high value that anything in the sphere would beat
+		int savedEnemy = 0;
+        for (int index = 0; index < eColliders.Length; index += 1) {                                // for every collider found...
 																									// TODO: try adding weights to both ends of the capsule and see how it feels
 			if (eColliders[index].transform.position.y < -5) return;
-			Vector3 distanceDelta = eColliders[index].transform.position - transform.position;		// calculate the delta between player and the enemy collider
+			Vector3 pointDelta = eColliders[index].transform.position - targetCapsuleStart;      // calculate the delta between player and the enemy collider
+			pointDelta.y = 0;
 			//var target = eColliders[index].transform.gameObject.GetComponent<Basic>();			// debug ref to collider's enemy script
-			if (distanceDelta.magnitude < homingTargetDelta.magnitude) {							// if current delta is lower than the previous one...
-				homingTargetDelta = distanceDelta;													// make it the new delta
+			if (pointDelta.magnitude < homingTargetDelta.magnitude) {							// if current delta is lower than the previous one...
+				savedEnemy = index;
+				homingTargetDelta = pointDelta;													// make it the new delta
 				//if (target != null && target.debugHoming == true) target.debugTargetTimer = 0.3f;	// (debug) if target is being homed, make them flash
 			}
 		}
+		if (eColliders.Length > 0) {
+            sounds.Sound_CrystalPickup();
+            homingTargetDelta = eColliders[savedEnemy].transform.position - transform.position;	// correct the htd to be based on where the player is instead of the capsule start point
+        }
 
-		if (homingTargetDelta != Vector3.forward * 10) {											// if homingtargetdelta is not the default value...
+        if (homingTargetDelta != Vector3.forward * 10) {											// if homingtargetdelta is not the default value...
 			switch (currentAttack) {																// multiply the target delta/distance amount specific to the attack
 				case Attacks.None:
 				default:
@@ -911,31 +904,22 @@ public class PlayerController : MonoBehaviour {
 					break;
 
 				case Attacks.LAttack:
-					homingTargetDelta *= 1f;
+                case Attacks.LAttack3:
+                    homingTargetDelta *= 1f;
 					break;
 
 				case Attacks.LAttack2:
 					homingTargetDelta *= 1.2f;
 					break;
 
-				case Attacks.LAttack3:
-					homingTargetDelta *= 1f;
-					break;
-
 				case Attacks.Chop:
-					homingTargetDelta *= 0.2f;
+                case Attacks.Slam:
+                    homingTargetDelta *= 0.2f;
 					break;
 
 				case Attacks.HeadThrow:
-					homingTargetDelta *= 0f;
-					break;
-
 				case Attacks.ShotgunThrow:
 					homingTargetDelta *= 0f;
-					break;
-
-				case Attacks.Slam:
-					homingTargetDelta *= 0.2f;
 					break;
 			}
 		}
@@ -948,18 +932,21 @@ public class PlayerController : MonoBehaviour {
 		transform.LookAt(homingTargetDelta + transform.position);									// finally, look at the enemy
 	}
 
-	Vector3 GetTargetCapsuleEndSphere() {
-		if (trueInput == Vector2.zero && rAimInput == Vector2.zero) {
-			if (currentAttack == Attacks.HeadThrow) { return projSpawn.position + transform.rotation * new Vector3(0, 0, tcl * 2.5f); }
-			else return projSpawn.position + transform.rotation * new Vector3(0, 0, tcl);
+	Vector3 GetTargetCapsuleStartSphere() {
+		if (trueInput == Vector2.zero) {
+			return transform.position + transform.rotation * new Vector3(0, 0, homingDistance);
 		}
-/*		else if (rAimInput.sqrMagnitude >= 0.1f) {
-			if (currentAttack == Attacks.HeadThrow) { return projSpawn.position + Quaternion.LookRotation(new Vector3(rAimInput.x, 0, rAimInput.y), Vector3.up) * new Vector3(0, 0, tcl * 2.5f); }
-			else return projSpawn.position + Quaternion.LookRotation(new Vector3(rAimInput.x, 0, rAimInput.y), Vector3.up) * new Vector3(0, 0, tcl * 0.95f);
-		}*/
 		else {
-			if (currentAttack == Attacks.HeadThrow) { return projSpawn.position + Quaternion.LookRotation(new Vector3(trueInput.x, 0, trueInput.y), Vector3.up) * new Vector3(0, 0, tcl * 2.5f); }
-			else return projSpawn.position + Quaternion.LookRotation(new Vector3(trueInput.x, 0, trueInput.y), Vector3.up) * new Vector3(0, 0, tcl * 0.95f);
+			return transform.position + Quaternion.LookRotation(new Vector3(trueInput.x, 0, trueInput.y), Vector3.up) * new Vector3(0, 0, homingDistance * 0.95f);
+		}
+	}
+
+	Vector3 GetTargetCapsuleEndSphere() {
+		if (trueInput == Vector2.zero) {
+			return transform.position + transform.rotation * new Vector3(0, 0, homingDistance * 2);
+		}
+		else {
+			return transform.position + Quaternion.LookRotation(new Vector3(trueInput.x, 0, trueInput.y), Vector3.up) * new Vector3(0, 0, homingDistance * 1.9f);
 		}
 	}
 
@@ -1057,19 +1044,21 @@ public class PlayerController : MonoBehaviour {
 
 	private void OnDrawGizmos() {
 		Gizmos.color = Color.red; // sphere base of cone
+		Vector3 capsuleStartPosition = GetTargetCapsuleStartSphere();
 		Vector3 capsuleEndPosition = GetTargetCapsuleEndSphere();
-        Gizmos.DrawWireSphere(projSpawn.position, tcr);
-        Gizmos.DrawWireSphere(capsuleEndPosition, tcr);
+		float capsuleLength = homingDistance * 2;
+        Gizmos.DrawWireSphere(capsuleStartPosition, homingCapsuleRadius);
+        Gizmos.DrawWireSphere(capsuleEndPosition, homingCapsuleRadius);
 
         Gizmos.color = Color.blue; // bounds of the capsule
-        Gizmos.DrawLine(new Vector3(projSpawn.position.x + tcr, projSpawn.position.y, projSpawn.position.z), new Vector3(capsuleEndPosition.x + tcr, capsuleEndPosition.y, capsuleEndPosition.z));
-        Gizmos.DrawLine(new Vector3(projSpawn.position.x - tcr, projSpawn.position.y, projSpawn.position.z), new Vector3(capsuleEndPosition.x - tcr, capsuleEndPosition.y, capsuleEndPosition.z));
-        Gizmos.DrawLine(new Vector3(projSpawn.position.x, projSpawn.position.y + tcr, projSpawn.position.z), new Vector3(capsuleEndPosition.x, capsuleEndPosition.y + tcr, capsuleEndPosition.z));
-        Gizmos.DrawLine(new Vector3(projSpawn.position.x, projSpawn.position.y - tcr, projSpawn.position.z), new Vector3(capsuleEndPosition.x, capsuleEndPosition.y - tcr, capsuleEndPosition.z));
+        Gizmos.DrawLine(new Vector3(capsuleStartPosition.x + capsuleLength, capsuleStartPosition.y, capsuleStartPosition.z), new Vector3(capsuleEndPosition.x + capsuleLength, capsuleEndPosition.y, capsuleEndPosition.z));
+        Gizmos.DrawLine(new Vector3(capsuleStartPosition.x - capsuleLength, capsuleStartPosition.y, capsuleStartPosition.z), new Vector3(capsuleEndPosition.x - capsuleLength, capsuleEndPosition.y, capsuleEndPosition.z));
+        Gizmos.DrawLine(new Vector3(capsuleStartPosition.x, capsuleStartPosition.y + capsuleLength, capsuleStartPosition.z), new Vector3(capsuleEndPosition.x, capsuleEndPosition.y + capsuleLength, capsuleEndPosition.z));
+        Gizmos.DrawLine(new Vector3(capsuleStartPosition.x, capsuleStartPosition.y - capsuleLength, capsuleStartPosition.z), new Vector3(capsuleEndPosition.x, capsuleEndPosition.y - capsuleLength, capsuleEndPosition.z));
 
         Gizmos.color = Color.yellow; // length + radius of capsule
-        Gizmos.DrawLine(projSpawn.position, capsuleEndPosition);
-        Gizmos.DrawLine(capsuleEndPosition, new Vector3(capsuleEndPosition.x + tcr, capsuleEndPosition.y, capsuleEndPosition.z));
+        Gizmos.DrawLine(capsuleStartPosition, capsuleEndPosition);
+        Gizmos.DrawLine(capsuleEndPosition, new Vector3(capsuleEndPosition.x + homingCapsuleRadius, capsuleEndPosition.y, capsuleEndPosition.z));
     }
     #endregion
 }
