@@ -489,7 +489,7 @@ public class PlayerController : MonoBehaviour {
 		CheckDeathResist();
 
 		//Input
-		if (currentState != States.Death && currentState != States.Win && gameMan.pauseBG.enabled == false && canMove) {
+		if (currentState != States.Death && currentState != States.Win && gameMan.pauseBG.enabled == false && canMove && Application.isFocused) {
 			if (currentState != States.Attacking) {
 				mInput = pActions.Player.Move.ReadValue<Vector2>();
 				if (pActions.Player.Move.WasReleasedThisFrame()) {

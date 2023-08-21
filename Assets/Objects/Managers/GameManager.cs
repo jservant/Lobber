@@ -727,7 +727,7 @@ public class GameManager : MonoBehaviour {
 			// Change the meter text to the distance with the meter unit 'm'
 		}
 
-		if (debugTools) {
+		if (debugTools && Application.isFocused) {
 			if (Time.timeScale > 0.9) { // if game is not paused
 				{ // Spawn at point
 					GameObject toSpawn = null;
@@ -804,7 +804,7 @@ public class GameManager : MonoBehaviour {
 
 		//Pause stuff
 		if (playerController.pActions.Player.Pause.WasPerformedThisFrame() && playerController.animr.GetBool("isDead") == false
-			&& pauseBG.enabled == false && playerController.canMove == true && transitioningLevel == false) {
+			&& pauseBG.enabled == false && playerController.canMove == true && transitioningLevel == false && Application.isFocused) {
 			if (SceneManager.GetActiveScene().buildIndex == (int)Scenes.Tutorial && Initializer.save.versionLatest.tutorialComplete == false) {
 				if (tutorialSkipUI.enabled) {
 					eSystem.SetSelectedGameObject(null);
@@ -832,12 +832,7 @@ public class GameManager : MonoBehaviour {
 					resumeButton.Select();
 				}
 				else if (pauseUI.enabled == false) {
-					updateTimeScale = false;
-					Time.timeScale = 0;
-					pauseBG.enabled = true;
-					pauseUI.enabled = true;
-					pauseGroup.interactable = true;
-					resumeButton.Select();
+					Pause();
 				}
 				else {
 					eSystem.SetSelectedGameObject(null);
@@ -851,7 +846,7 @@ public class GameManager : MonoBehaviour {
 		}
 
 		//Allows the B button to work in the menus
-		if (playerController.pActions.Player.Dash.WasPressedThisFrame() && pauseBG.enabled) {
+		if (playerController.pActions.Player.Dash.WasPressedThisFrame() && pauseBG.enabled && Application.isFocused) {
 			if (statsUI.enabled) { OnStatsBack(); }
             else if (cancelConfirmUI.enabled) { OnCancelConfirmBack(); }
             else if (creditsUI.enabled) { OnCreditsBack(); }
@@ -877,7 +872,16 @@ public class GameManager : MonoBehaviour {
 		else Cursor.visible = true;
 	}
 
-	public void CheckForGamepad() {
+    public void Pause() {
+        updateTimeScale = false;
+        Time.timeScale = 0;
+        pauseBG.enabled = true;
+        pauseUI.enabled = true;
+        pauseGroup.interactable = true;
+        resumeButton.Select();
+    }
+
+    public void CheckForGamepad() {
 		if (Gamepad.current != null) gamePadConnected = true;
 		else gamePadConnected = false;
     }
@@ -1576,7 +1580,7 @@ public class GameManager : MonoBehaviour {
 		optionsUI.enabled = true;
 		optionsGroup.interactable = true;
         Toggle fsToggle = transform.Find("OptionsUI/VisualSettings/Fullscreen/FullscreenToggle").GetComponent<Toggle>();
-        fsToggle.isOn = Screen.fullScreenMode == FullScreenMode.ExclusiveFullScreen;
+        fsToggle.isOn = Screen.fullScreenMode == FullScreenMode.FullScreenWindow;
         Toggle rumbleToggle = transform.Find("OptionsUI/VisualSettings/Rumble/RumbleToggle").GetComponent<Toggle>();
         rumbleToggle.isOn = Initializer.save.versionLatest.rumble;
         Slider screenshakeSlider = transform.Find("OptionsUI/VisualSettings/Screenshake/ScreenshakeSlider").GetComponent<Slider>();
@@ -1621,7 +1625,7 @@ public class GameManager : MonoBehaviour {
         optionsUI.enabled = true;
         optionsGroup.interactable = true;
         Toggle fsToggle = transform.Find("OptionsUI/VisualSettings/Fullscreen/FullscreenToggle").GetComponent<Toggle>();
-        fsToggle.isOn = Screen.fullScreenMode == FullScreenMode.ExclusiveFullScreen;
+        fsToggle.isOn = Screen.fullScreenMode == FullScreenMode.FullScreenWindow;
         Toggle rumbleToggle = transform.Find("OptionsUI/VisualSettings/Rumble/RumbleToggle").GetComponent<Toggle>();
         rumbleToggle.isOn = Initializer.save.versionLatest.rumble;
         Slider screenshakeSlider = transform.Find("OptionsUI/VisualSettings/Screenshake/ScreenshakeSlider").GetComponent<Slider>();
@@ -1714,7 +1718,7 @@ public class GameManager : MonoBehaviour {
         optionsUI.enabled = true;
         optionsGroup.interactable = true;
         Toggle fsToggle = transform.Find("OptionsUI/VisualSettings/Fullscreen/FullscreenToggle").GetComponent<Toggle>();
-        fsToggle.isOn = Screen.fullScreenMode == FullScreenMode.ExclusiveFullScreen;
+        fsToggle.isOn = Screen.fullScreenMode == FullScreenMode.FullScreenWindow;
         Toggle rumbleToggle = transform.Find("OptionsUI/VisualSettings/Rumble/RumbleToggle").GetComponent<Toggle>();
         rumbleToggle.isOn = Initializer.save.versionLatest.rumble;
         Slider screenshakeSlider = transform.Find("OptionsUI/VisualSettings/Screenshake/ScreenshakeSlider").GetComponent<Slider>();
