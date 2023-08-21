@@ -68,6 +68,7 @@ public class Exploding : MonoBehaviour {
 
 	public float fuseMin; //minimum fuse duration
 	public float fuseMax; //maximum fuse duration
+	private bool isFusePlaying;
 
 	// Internal References
 	NavMeshAgent navAgent;
@@ -192,7 +193,7 @@ public class Exploding : MonoBehaviour {
 		handMaterial = handModel.material;
 		bombMaterials = bombModel.materials;
 
-		sounds.PestBombFuse();
+		isFusePlaying = false;
 	}
 
 	void FixedUpdate() {
@@ -299,6 +300,11 @@ public class Exploding : MonoBehaviour {
 				break;
 
 			case Directive.WaitForFuse:
+				if (isFusePlaying == false) {
+					isFusePlaying = true;
+					sounds.PestBombFuse();
+				}
+
 				fuseDuration -= Time.deltaTime;
 				if (fuseDuration < 0 && movementBurstDuration < 0.0f) {
 					ChangeDirective_LaunchSelf(playerPosition);
@@ -506,7 +512,7 @@ public class Exploding : MonoBehaviour {
 			GameManager.enemiesKilledInRun += 1;
 			Initializer.save.versionLatest.explosiveEnemyKills++;
 			if (groundIndicatorInstance != null) Destroy(groundIndicatorInstance);
-			sounds.PestBombExplode();
+			if (isFusePlaying) sounds.PestBombExplode();
 		}
 	}
 

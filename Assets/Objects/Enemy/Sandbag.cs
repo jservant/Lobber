@@ -29,6 +29,9 @@ public class Sandbag : MonoBehaviour {
 	public Material hitflashMat;
 	float hitflashTimer = 0;
 	public Animator animator;
+	public GameObject killIndicator;
+
+	public bool showIndicator;
 
 	public AK.Wwise.Event Get_Hit_Sound;
 
@@ -37,6 +40,8 @@ public class Sandbag : MonoBehaviour {
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
 		materials = model.materials;
 		respawnPoint = transform.position;
+
+		if (showIndicator) killIndicator.SetActive(true);
 	}
 
 	void FixedUpdate() {
@@ -102,6 +107,7 @@ public class Sandbag : MonoBehaviour {
 		if (other.gameObject.layer == (int)Layers.PlayerHitbox) {
 			bool validHit = false;
 			Vector3 sourcePosition = Vector3.zero;
+			if (showIndicator) killIndicator.SetActive(false);
 
 			if (other.GetComponentInParent<PlayerController>() != null) {
 				int currentAttackBit = 1 << (int)gameMan.playerController.currentAttack;

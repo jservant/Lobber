@@ -137,6 +137,7 @@ public class Basic : MonoBehaviour {
 	public bool debugHoming;
 	float immunityTime = 0f;
 	public GameObject stunSphere;
+	public GameObject glow;
 
 	// NOTE(Roskuski): External references
 	GameManager gameMan;
@@ -534,6 +535,8 @@ public class Basic : MonoBehaviour {
 			health += 3;
 			for (int i = 0; i < armorMesh.Length; i++) armorMesh[i].enabled = true;
 		}
+
+		if (isCrystallized && glow != null) { glow.SetActive(true); }
 	}
 
 	void FixedUpdate() {

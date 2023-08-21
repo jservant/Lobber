@@ -271,6 +271,7 @@ public class PlayerController : MonoBehaviour {
 	MotionAudio_Player sounds;
 	public float footStepCounter;
 	Transform footStepParticlePoint;
+	public Transform portalPoint;
 
 	public HapticEffect[] hapticEffects;
 
@@ -647,6 +648,9 @@ public class PlayerController : MonoBehaviour {
 		if (currentState == States.Win) {
 			speedTime = 0f;
 			movement = new Vector3(0, 0, 0);
+			if (portalPoint != null) {
+				transform.position = portalPoint.position;
+            }
 		}
 
 	}
