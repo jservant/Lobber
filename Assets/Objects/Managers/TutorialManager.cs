@@ -39,14 +39,15 @@ public class TutorialManager : MonoBehaviour {
 		if (Initializer.save.versionLatest.tutorialComplete || skipTutorial) {
 			if (firstTimeSinceBoot == false) {
 				spawnChooser = playerRespawnPoints.Length - 2;
-				gameMan.playerController.transform.position = playerRespawnPoints[spawnChooser].position;
-			} // spawn in main hub at the end
+				gameMan.playerController.transform.position = playerRespawnPoints[spawnChooser].position; // spawn in main hub at the end	
+			} 
 			else {
 				spawnChooser = playerRespawnPoints.Length - 1;
                 gameMan.playerController.transform.position = playerRespawnPoints[playerRespawnPoints.Length - 1].position; // spawn in hub close to portal
 			}
             firstTimeSinceBoot = false;
-		}
+            areasCompleted = 6;
+        }
 		Debug.Log("Player is spawning at " + playerRespawnPoints[spawnChooser].gameObject.name);
 	}
 

@@ -446,7 +446,7 @@ public class PlayerController : MonoBehaviour {
 			isGrounded = Util.PerformCheckedVerticalMovement(gameObject, stepUp, 0.2f, 0.5f, fallingSpeed);
 		}
 
-		if (freeAim) {
+		if (freeAim) { // assigned in animator
 			if (rAimInput != Vector2.zero) {
 				transform.rotation = Quaternion.LookRotation(new Vector3(rAimInput.x, 0, rAimInput.y));
 			}

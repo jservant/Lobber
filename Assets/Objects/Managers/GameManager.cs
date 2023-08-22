@@ -299,11 +299,11 @@ public class GameManager : MonoBehaviour {
 			}
 			enemySpawnPoints = TempArray;
 
-			float[] objectiveChoices = new float[] { 0f, 6f, 0f, 4f };
-			objectiveChoices[(int)currentObjective] = 0;
+			float[] objectiveChoices = new float[] { 0f, 7f, 0f, 3f };
 			currentObjective = (Objectives)Util.RollWeightedChoice(objectiveChoices);
-		}
-		else {
+            if (levelCount == 1) { currentObjective = Objectives.KillTheEnemies; } // default to kill enemies on first level
+        }
+        else {
 			currentObjective = Objectives.None;
 			playerController.health = playerController.healthMax;
 			playerController.meter = 0;
@@ -443,7 +443,7 @@ public class GameManager : MonoBehaviour {
 		CheckForGamepad();
 		UpdateHealthBar();
 		UpdateMeter();
-		if (Time.timeScale > 0.9) UpdateIcons();
+		if (Time.timeScale > 0.9 && Application.isFocused) UpdateIcons();
 		UpdateKillCounter();
 		if (debugTextActive) debugText.text = "LevelCount: " + levelCount +
 			"\n" + "Tokens per Second: " + TokensPerSecond +
