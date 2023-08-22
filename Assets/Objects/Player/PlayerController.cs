@@ -896,7 +896,7 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 		if (eColliders.Length > 0) {
-            sounds.Sound_CrystalPickup();
+            //sounds.Sound_CrystalPickup();
             homingTargetDelta = eColliders[savedEnemy].transform.position - transform.position;	// correct the htd to be based on where the player is instead of the capsule start point
         }
 

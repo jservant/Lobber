@@ -19,6 +19,11 @@ public class OrbSpawn : MonoBehaviour {
 	public bool isPlayerPortal;
 	public bool isTutorialPortal;
 
+	public AK.Wwise.Event openSound;
+	public AK.Wwise.Event idleSound;
+	public AK.Wwise.Event closeSound;
+	public AK.Wwise.Event vanishSound;
+
 	void Start() {
 		anim = transform.Find("SpawnOrbV2").GetComponent<Animator>();
 		gameMan = transform.Find("/GameManager").GetComponent<GameManager>();
@@ -26,6 +31,9 @@ public class OrbSpawn : MonoBehaviour {
 		else if (isPlayerPortal) StartCoroutine(QuickPortal());
 		
 		Util.SpawnFlash(gameMan, 11, transform.position, true);
+
+		Sound_Open();
+		Sound_Idle();
 	}
 
 	public IEnumerator Spawning() {
@@ -100,6 +108,8 @@ public class OrbSpawn : MonoBehaviour {
 		yield return new WaitForSeconds(despawnTime / 2);
 
 		anim.SetBool("DeSpawn", true);
+		Sound_Close();
+
 		yield return new WaitForSeconds(0.4f);
 
 		gameMan.SpawnParticle(12, transform.position, 1.5f);
@@ -110,12 +120,27 @@ public class OrbSpawn : MonoBehaviour {
 	public IEnumerator QuickPortal() {
 		anim.SetBool("DeSpawn", false);
 		yield return new WaitForSeconds(0.6f);
+
 		anim.SetBool("DeSpawn", true);
+		Sound_Close();
+
 		yield return new WaitForSeconds(0.4f);
 
 		gameMan.SpawnParticle(12, transform.position, 1.5f);
 		Util.SpawnFlash(gameMan, 11, transform.position, false);
 		GameObject.Destroy(this.gameObject);
+	}
+
+	public void Sound_Open() {
+		openSound.Post(gameObject);
+	}
+
+	public void Sound_Idle() {
+		idleSound.Post(gameObject);
+	}
+
+	public void Sound_Close() {
+		closeSound.Post(gameObject);
 	}
 
 	void OnDrawGizmos() {
@@ -124,6 +149,6 @@ public class OrbSpawn : MonoBehaviour {
 	}
 
     private void OnDestroy() {
-		
-    }
+		closeSound.Post(gameObject);
+	}
 }

@@ -20,6 +20,7 @@ public class Sandbag : MonoBehaviour {
 	public float maxHealth;
 	public float health;
 	bool shouldDie = false;
+	bool wasHitByChop = false;
 
 	GameManager gameMan;
 
@@ -30,10 +31,12 @@ public class Sandbag : MonoBehaviour {
 	float hitflashTimer = 0;
 	public Animator animator;
 	public GameObject killIndicator;
+	public Transform corpsePos;
 
 	public bool showIndicator;
 
 	public AK.Wwise.Event Get_Hit_Sound;
+	public AK.Wwise.Event Destroy_Sound;
 
 	void Awake() {
 		health = maxHealth;
@@ -99,6 +102,11 @@ public class Sandbag : MonoBehaviour {
 
 				Instantiate(gameMan.SandbagPrefab, respawnPoint, transform.rotation);
 			}
+
+			if (!wasHitByChop) gameMan.SpawnCorpse(3, corpsePos.position, transform.rotation, 2f, true);
+			else gameMan.SpawnCorpse(3, corpsePos.position, transform.rotation, 2f, false);
+			gameMan.SpawnParticle(4, corpsePos.position, 1f);
+			Destroy_Sound.Post(gameObject);
 			Destroy(gameObject);
 		}
 	}
@@ -126,6 +134,7 @@ public class Sandbag : MonoBehaviour {
 				deltaNoY.y = 0f;
 				//this.transform.rotation = Quaternion.LookRotation(deltaNoY, Vector3.up);
 				gameMan.SpawnParticle(12, other.transform.position, 1.2f);
+				gameMan.SpawnParticle(15, other.transform.position, 0.7f);
 
 				if (canBeKnockedBack) {
 					GetKnockbackInfo getKnockbackInfo = other.gameObject.GetComponent<GetKnockbackInfo>();
@@ -139,6 +148,7 @@ public class Sandbag : MonoBehaviour {
 					if (gameMan.playerController.currentAttack == PlayerController.Attacks.Chop) {
 						gameMan.playerController.ChangeMeter(1f);
 						gameMan.SpawnParticle(12, other.transform.position, 1.6f);
+						wasHitByChop = true;
 						shouldDie = true;
 					}
 				}
