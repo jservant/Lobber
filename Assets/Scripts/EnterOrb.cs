@@ -9,16 +9,19 @@ public class EnterOrb : MonoBehaviour
 	PlayerController playerController;
 	TutorialManager tutorialManager;
 	Transform lobberPoint;
+	public GameObject orb;
 
     private void Start() {
         gameManager = transform.Find("/GameManager").GetComponent<GameManager>();
 		playerController = transform.Find("/Player").GetComponent<PlayerController>();
 		tutorialManager = transform.Find("/TutorialManager").GetComponent<TutorialManager>();
 		lobberPoint = transform.Find("LobberPoint");
+
+		if (Initializer.save.versionLatest.hardModeUnlocked == true) orb.SetActive(true);
     }
 
     private void OnTriggerEnter(Collider other) {
-		if (other.gameObject.layer == (int)Layers.PlayerHurtbox) {
+		if (other.gameObject.layer == (int)Layers.PlayerHurtbox && orb.activeInHierarchy) {
 			if (gameObject.name == "StartOrb") {
 				playerController.portalPoint = lobberPoint;
 				playerController.Win();

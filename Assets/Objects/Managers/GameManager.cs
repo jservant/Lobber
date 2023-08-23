@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour {
 	public static Objectives currentObjective = 0;
 
 	[Header("Persistent Variables:")]
+	public bool _hardModeUnlocked;
 	public Transform player;
 	public PlayerController playerController;
 	public CameraShake cameraShake;
@@ -251,6 +252,7 @@ public class GameManager : MonoBehaviour {
 		pickupTime = 0;
 
 		hardModeActive = _hardModeActive;
+		_hardModeUnlocked = Initializer.save.versionLatest.hardModeUnlocked;
 
 		int resolutionIndex = 0;
 		resolutions = Screen.resolutions;
@@ -912,9 +914,22 @@ public class GameManager : MonoBehaviour {
 		if (levelCount > Initializer.save.versionLatest.longestRun) { 
 			Initializer.save.versionLatest.longestRun = levelCount; 
 		}
+
+		bool hardModeUnlocked = false;
+		if (levelCount >= 18) {
+			if (Initializer.save.versionLatest.hardModeUnlocked == false) {
+				Initializer.save.versionLatest.hardModeUnlocked = true;
+				hardModeUnlocked = true;
+			}
+		}
 		Initializer.Save();
 		//Debug.Log("YOU WIN!! Next stage starting shortly...");
 		statusTextboxText.text = "Stage Clear!";
+		if (hardModeUnlocked) {
+			statusTextboxText.text = "HARD MODE UNLOCKED!";
+			statusTextboxText.color = Color.red;
+		}
+
 		float[] sceneChances = new float[] { 0, 1f, 1f, 1f, 1f, 1f, 1f };
 		sceneChances[SceneManager.GetActiveScene().buildIndex] = 0;
 		KillAll();
