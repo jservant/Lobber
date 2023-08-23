@@ -46,7 +46,7 @@ public class TutorialManager : MonoBehaviour {
                 gameMan.playerController.transform.position = playerRespawnPoints[playerRespawnPoints.Length - 1].position; // spawn in hub close to portal
 			}
             firstTimeSinceBoot = false;
-            areasCompleted = 6;
+            areasCompleted = 0;
         }
 		Debug.Log("Player is spawning at " + playerRespawnPoints[spawnChooser].gameObject.name);
 	}
@@ -56,12 +56,15 @@ public class TutorialManager : MonoBehaviour {
 		if (!targetsExist && (areasCompleted < 5)) {
 			areasCompleted += 1;
 			UpdateAreas();
+			if (areasCompleted == 5) {
+				Initializer.save.versionLatest.tutorialComplete = true;
+				Initializer.Save();
+			}
 		}
 
 		if (areasCompleted > 4) {
 			areasCompleted = 6;
-			Initializer.save.versionLatest.tutorialComplete = true;
-			Initializer.Save();
+			
 			UpdateSpawns();
 		}
 

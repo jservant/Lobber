@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EnterOrb : MonoBehaviour
 {
@@ -27,7 +28,9 @@ public class EnterOrb : MonoBehaviour
 			else if (gameObject.name == "ReplayTutorialOrb") {
 				Initializer.save.versionLatest.tutorialComplete = false;
 				Initializer.Save();
-                playerController.transform.position = tutorialManager.playerRespawnPoints[0].position;
+				playerController.portalPoint = lobberPoint;
+				playerController.Win();
+				StartCoroutine(StartDelay());
 			}
 			else if (gameObject.name == "HardModeOrb") {
 				playerController.portalPoint = lobberPoint;
@@ -45,6 +48,7 @@ public class EnterOrb : MonoBehaviour
 		yield return new WaitForSeconds(0.4f);
 		gameManager.SpawnParticle(12, transform.position, 1.5f);
 		Util.SpawnFlash(gameManager, 11, transform.position, true);
-		gameManager.OnRestartConfirm();
+		if (gameObject.name == "ReplayTutorialOrb") SceneManager.LoadScene((int)Scenes.Tutorial);
+		else gameManager.OnRestartConfirm();
 	}
 }

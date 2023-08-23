@@ -7,6 +7,8 @@ public class Sign : MonoBehaviour
     public GameObject[] inputDisplay;
     private GameManager gameMan;
 
+    public bool isHubSign;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -16,13 +18,15 @@ public class Sign : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gameMan.gamePadConnected) {
-            inputDisplay[0].SetActive(true);
-            inputDisplay[1].SetActive(false);
-        }
-        else {
-            inputDisplay[1].SetActive(true);
-            inputDisplay[0].SetActive(false);
+        if (!isHubSign) {
+            if (gameMan.gamePadConnected) {
+                inputDisplay[0].SetActive(true);
+                inputDisplay[1].SetActive(false);
+            }
+            else {
+                inputDisplay[1].SetActive(true);
+                inputDisplay[0].SetActive(false);
+            }
         }
     }
 }
