@@ -590,9 +590,10 @@ public class Necro : MonoBehaviour {
 			gameMan.enemiesAlive -= 1;
 			gameMan.enemiesKilledInLevel += 1;
 			GameManager.enemiesKilledInRun += 1;
-			Initializer.save.versionLatest.necroEnemyKills++;
-		}
+            if (isHardMode) Initializer.save.versionLatest.hardNecroEnemyKills++;
+            else Initializer.save.versionLatest.necroEnemyKills++;
+        }
 
-		if (fireballRing != null) Destroy(fireballRing.gameObject);
+        if (fireballRing != null) Destroy(fireballRing.gameObject);
 	}
 }

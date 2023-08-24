@@ -229,6 +229,7 @@ public class Pickup : MonoBehaviour {
 			meterValue += meterCatchBonus; 
 			healthValue += healthCatchBonus;
 			gameMan.AddToKillStreak(0, 1f);
+			Initializer.save.versionLatest.headsCaught++;
 		} 
 		if (collected) {
 			switch(pickupType) {

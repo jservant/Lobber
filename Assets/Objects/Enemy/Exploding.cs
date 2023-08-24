@@ -510,8 +510,9 @@ public class Exploding : MonoBehaviour {
 			gameMan.enemiesKilledInLevel += 1;
 			gameMan.AddToKillStreak(1, 2f);
 			GameManager.enemiesKilledInRun += 1;
-			Initializer.save.versionLatest.explosiveEnemyKills++;
-			if (groundIndicatorInstance != null) Destroy(groundIndicatorInstance);
+            if (isHardMode) Initializer.save.versionLatest.hardExplosiveEnemyKills++;
+            else Initializer.save.versionLatest.explosiveEnemyKills++;
+            if (groundIndicatorInstance != null) Destroy(groundIndicatorInstance);
 			if (isFusePlaying) sounds.PestBombExplode();
 		}
 	}

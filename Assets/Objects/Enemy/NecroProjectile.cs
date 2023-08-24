@@ -44,6 +44,7 @@ public class NecroProjectile : MonoBehaviour {
 						if (other.GetComponent<PlayerController>() != null && gameMan.playerController.currentAttack != PlayerController.Attacks.Dashing && gameMan.playerController.currentAttack != PlayerController.Attacks.LethalDash) {
 							GameObject.Destroy(this.gameObject);
 							Fireball.Post(gameObject);
+							Initializer.save.versionLatest.fireballsReflected++;
 						}
 					}
 					break;

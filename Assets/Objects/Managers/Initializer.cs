@@ -242,7 +242,7 @@ public class Initializer : MonoBehaviour {
         save.versionLatest.fireballsReflected = 0;
         save.versionLatest.headsCaught = 0;
         save.versionLatest.highestCombo = 0;
-        save.versionLatest.buttonsUI = false;
+        save.versionLatest.buttonsUI = true;
     }
 
     public static void Load() {

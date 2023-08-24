@@ -7,9 +7,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.Rendering;
-using UnityEngine.Rendering.Universal;
 using TMPro;
-using UnityEngine.ProBuilder.MeshOperations;
+using UnityEditor;
 
 public class GameManager : MonoBehaviour {
 	public enum Objectives : int {
@@ -98,10 +97,6 @@ public class GameManager : MonoBehaviour {
 	private float healthDialScaleTime = 0f;
 	private float meterDialScaleTime = 0f;
 	public Image[] meterCostSegments;
-
-	/*public Transform healthBar;
-	public Transform meterBar;
-	public Image meterImage;*/ //Old healthbar transforms
 
 	// NOTE(Roskuski): These are in the same order PlayerController.AttackButton (Bottom, Right, Left, Top)
 	public Sprite[] attackIconSprites;
@@ -244,8 +239,8 @@ public class GameManager : MonoBehaviour {
 		helperText.text = "";
 		waypointMarker = transform.Find("/GameManager/MainUI/WaypointMarker").GetComponent<Image>();
 		crowdMan = transform.Find("/WwiseGlobal/CrowdManager").GetComponent<CrowdManager>();
-		//meterImage = transform.Find("MainUI/MeterBar").GetComponent<Image>();
 		inputDisplayUI = transform.Find("MainUI/Input").gameObject;
+		if (Initializer.save.versionLatest.buttonsUI == false) { inputDisplayUI.SetActive(false); }
 		Time.timeScale = 1;
 		spawnTokens = TokenCost_BigSpawn;
 		objectiveFadeTimer = 5f;
@@ -442,10 +437,10 @@ public class GameManager : MonoBehaviour {
 			else PlayerDespawn();
         }
 
-		CheckForGamepad();
+		CheckForGamepad(); 
 		UpdateHealthBar();
 		UpdateMeter();
-		if (Time.timeScale > 0.9 && Application.isFocused) UpdateIcons();
+		if (Time.timeScale > 0.9 && Application.isFocused && Initializer.save.versionLatest.buttonsUI == true) UpdateIcons();
 		UpdateKillCounter();
 		if (debugTextActive) debugText.text = "LevelCount: " + levelCount +
 			"\n" + "Tokens per Second: " + TokensPerSecond +
@@ -793,10 +788,6 @@ public class GameManager : MonoBehaviour {
 				}
 				else canSpawn = true;
 			}
-			if (playerController.pActions.Player.DEBUGDisableUI.WasPerformedThisFrame()) {
-				if (inputDisplayUI.activeInHierarchy) { inputDisplayUI.SetActive(false); }
-				else { inputDisplayUI.SetActive(true); }
-			}
 			if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed && playerController.pActions.Player.DEBUGSlowTime.WasPerformedThisFrame()) {
 				if (Time.timeScale > 0) {
 					Time.timeScale -= 0.1f;
@@ -911,7 +902,9 @@ public class GameManager : MonoBehaviour {
 
 	public IEnumerator Win() {
 		transitioningLevel = true;
-		if (levelCount > Initializer.save.versionLatest.longestRun) { 
+		if (hardModeActive && levelCount > Initializer.save.versionLatest.longestHardRun) {
+			Initializer.save.versionLatest.longestHardRun = levelCount;
+		} else if (levelCount > Initializer.save.versionLatest.longestRun) { 
 			Initializer.save.versionLatest.longestRun = levelCount; 
 		}
 
@@ -1483,6 +1476,9 @@ public class GameManager : MonoBehaviour {
 			multiKillGrowTimer = 1f;
 			crowdMan.PlayCrowdSound(3);
 		}
+		if (currentKillStreak > Initializer.save.versionLatest.highestCombo) {
+			Initializer.save.versionLatest.highestCombo = currentKillStreak;
+		}
 
 		float randomRotation = Random.Range(-15f, 15f);
 		killCounter.transform.rotation = Quaternion.Euler(0, 0, randomRotation);
@@ -1594,12 +1590,7 @@ public class GameManager : MonoBehaviour {
 		pauseGroup.interactable = false;
 		optionsUI.enabled = true;
 		optionsGroup.interactable = true;
-        Toggle fsToggle = transform.Find("OptionsUI/VisualSettings/Fullscreen/FullscreenToggle").GetComponent<Toggle>();
-        fsToggle.isOn = Screen.fullScreenMode == FullScreenMode.FullScreenWindow;
-        Toggle rumbleToggle = transform.Find("OptionsUI/VisualSettings/Rumble/RumbleToggle").GetComponent<Toggle>();
-        rumbleToggle.isOn = Initializer.save.versionLatest.rumble;
-        Slider screenshakeSlider = transform.Find("OptionsUI/VisualSettings/Screenshake/ScreenshakeSlider").GetComponent<Slider>();
-        screenshakeSlider.value = Initializer.save.versionLatest.screenshakePercentage;
+        DisplaySavedOptions();
         optionsBackButton = transform.Find("OptionsUI/OptionsBackButton").GetComponent<Button>();
 		optionsBackButton.Select();
 	}
@@ -1639,14 +1630,20 @@ public class GameManager : MonoBehaviour {
 		optionsGroup.interactable = false;
         optionsUI.enabled = true;
         optionsGroup.interactable = true;
+		DisplaySavedOptions();
+        optionsBackButton = transform.Find("OptionsUI/OptionsBackButton").GetComponent<Button>();
+        optionsBackButton.Select();
+    }
+
+	public void DisplaySavedOptions() {
         Toggle fsToggle = transform.Find("OptionsUI/VisualSettings/Fullscreen/FullscreenToggle").GetComponent<Toggle>();
         fsToggle.isOn = Screen.fullScreenMode == FullScreenMode.FullScreenWindow;
         Toggle rumbleToggle = transform.Find("OptionsUI/VisualSettings/Rumble/RumbleToggle").GetComponent<Toggle>();
         rumbleToggle.isOn = Initializer.save.versionLatest.rumble;
+        Toggle inputUIToggle = transform.Find("OptionsUI/VisualSettings/InputUI/InputUIToggle").GetComponent<Toggle>();
+        inputUIToggle.isOn = Initializer.save.versionLatest.buttonsUI;
         Slider screenshakeSlider = transform.Find("OptionsUI/VisualSettings/Screenshake/ScreenshakeSlider").GetComponent<Slider>();
         screenshakeSlider.value = Initializer.save.versionLatest.screenshakePercentage;
-        optionsBackButton = transform.Find("OptionsUI/OptionsBackButton").GetComponent<Button>();
-        optionsBackButton.Select();
     }
 
     public void SetQuality(int qualityIndex) {
@@ -1668,7 +1665,11 @@ public class GameManager : MonoBehaviour {
 		Initializer.save.versionLatest.rumble = rumble;
 	}
 
-	//(TODO(@Jaden)): Make corpse limit function
+	public void SetInputUI(bool inputUI) {
+		Initializer.save.versionLatest.buttonsUI = inputUI;
+		if (Initializer.save.versionLatest.buttonsUI == false) inputDisplayUI.SetActive(false);
+		else inputDisplayUI.SetActive(true);
+    }
 
 	public void OnStats() {
 		optionsUI.enabled = false;
@@ -1681,18 +1682,27 @@ public class GameManager : MonoBehaviour {
 		statsText2 = transform.Find("StatsUI/StatsText2").GetComponent<TMP_Text>();
 		statsBackButton = transform.Find("StatsUI/StatsBackButton").GetComponent<Button>();
 		statsText.text =
-			"<b>KILLS:</b>" +
+			"<b>ENEMIES:</b>" +
 			"\n" +
-			"\nTotal: " + (Initializer.save.versionLatest.basicEnemyKills + Initializer.save.versionLatest.explosiveEnemyKills + Initializer.save.versionLatest.necroEnemyKills + Initializer.save.versionLatest.bruteEnemyKills)
+			"\nTotal: " + (Initializer.save.versionLatest.basicEnemyKills + Initializer.save.versionLatest.explosiveEnemyKills + Initializer.save.versionLatest.necroEnemyKills + Initializer.save.versionLatest.bruteEnemyKills
+			+ Initializer.save.versionLatest.hardBasicEnemyKills + Initializer.save.versionLatest.hardExplosiveEnemyKills + Initializer.save.versionLatest.hardNecroEnemyKills + Initializer.save.versionLatest.hardBruteEnemyKills)
+			+ ("\nHighest Killstreak: " + Initializer.save.versionLatest.highestCombo)
+			+ (Initializer.save.versionLatest.headsCaught > 0 ? "\nHeads Caught: " + Initializer.save.versionLatest.headsCaught : "\n??? : ???")
 			+ (Initializer.save.versionLatest.basicEnemyKills > 0 ? "\nSkeletons: " + Initializer.save.versionLatest.basicEnemyKills : "\n??? : ???")
 			+ (Initializer.save.versionLatest.explosiveEnemyKills > 0 ? "\nBomb Pests: " + Initializer.save.versionLatest.explosiveEnemyKills : "\n??? : ???")
-			+ (Initializer.save.versionLatest.necroEnemyKills > 0 ? "\nNecromancers: " + Initializer.save.versionLatest.necroEnemyKills : "\n??? : ???");
-			//+ (Initializer.save.versionLatest.bruteEnemyKills > 0 ? "\nBrutes: " + Initializer.save.versionLatest.bruteEnemyKills : "\n??? : ???");
+			+ (Initializer.save.versionLatest.necroEnemyKills > 0 ? "\nNecromancers: " + Initializer.save.versionLatest.necroEnemyKills : "\n??? : ???")
+			+ (Initializer.save.versionLatest.fireballsReflected > 0 ? "\nFireballs Reflected: " + Initializer.save.versionLatest.fireballsReflected : "\n??? : ???")
+			+ "\n" 
+			+ (Initializer.save.versionLatest.hardModeUnlocked ? "\n<b>HARD KILLS:</b>" : "\n???:")
+			+ (Initializer.save.versionLatest.hardBasicEnemyKills > 0 ? "\nRed Skeletons: " + Initializer.save.versionLatest.basicEnemyKills : "\n??? : ???")
+			+ (Initializer.save.versionLatest.hardExplosiveEnemyKills > 0 ? "\nRed Bomb Pests: " + Initializer.save.versionLatest.explosiveEnemyKills : "\n??? : ???")
+			+ (Initializer.save.versionLatest.hardNecroEnemyKills > 0 ? "\nRed Necromancers: " + Initializer.save.versionLatest.necroEnemyKills : "\n??? : ???");
 		statsText2.text =
 			"<b>RUNS:</b>" +
 			"\n"
 			+ "\nRuns started: " + Initializer.save.versionLatest.runsStarted
-			+ (Initializer.save.versionLatest.longestRun > 0 ? "\nLongest run: " + Initializer.save.versionLatest.longestRun + " Levels" : "\n??? : ???");
+			+ (Initializer.save.versionLatest.longestRun > 0 ? "\nLongest run: " + Initializer.save.versionLatest.longestRun + " Levels" : "\n??? : ???")
+			+ (Initializer.save.versionLatest.longestHardRun > 0 ? "\nLongest Hard run: " + Initializer.save.versionLatest.longestHardRun + " Levels" : "\n??? : ???");
 		//+ (Initializer.save.versionLatest.timesWon > 0 ? "\nWins: " + Initializer.save.versionLatest.timesWon : "\n??? : ???");
 		Button deleteSaveButton = statsUI.transform.Find("DeleteSaveButton").GetComponent<Button>();
 		if (SceneManager.GetActiveScene().buildIndex != (int)Scenes.Tutorial) deleteSaveButton.gameObject.SetActive(false);
@@ -1706,6 +1716,7 @@ public class GameManager : MonoBehaviour {
 		statsGroup.interactable = false;
 		optionsUI.enabled = true;
 		optionsGroup.interactable = true;
+        DisplaySavedOptions();
         optionsBackButton = transform.Find("OptionsUI/OptionsBackButton").GetComponent<Button>();
         optionsBackButton.Select();
 	}
@@ -1732,12 +1743,7 @@ public class GameManager : MonoBehaviour {
         creditsAnimator.enabled = false;
         optionsUI.enabled = true;
         optionsGroup.interactable = true;
-        Toggle fsToggle = transform.Find("OptionsUI/VisualSettings/Fullscreen/FullscreenToggle").GetComponent<Toggle>();
-        fsToggle.isOn = Screen.fullScreenMode == FullScreenMode.FullScreenWindow;
-        Toggle rumbleToggle = transform.Find("OptionsUI/VisualSettings/Rumble/RumbleToggle").GetComponent<Toggle>();
-        rumbleToggle.isOn = Initializer.save.versionLatest.rumble;
-        Slider screenshakeSlider = transform.Find("OptionsUI/VisualSettings/Screenshake/ScreenshakeSlider").GetComponent<Slider>();
-        screenshakeSlider.value = Initializer.save.versionLatest.screenshakePercentage;
+        DisplaySavedOptions();
         optionsBackButton = transform.Find("OptionsUI/OptionsBackButton").GetComponent<Button>();
         optionsBackButton.Select();
     }

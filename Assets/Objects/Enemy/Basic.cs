@@ -1187,7 +1187,8 @@ public class Basic : MonoBehaviour {
 				gameMan.isCrystalEnemyAlive = false;
 				sounds.Sound_EnemyCrystalShatter();
 			}
-			Initializer.save.versionLatest.basicEnemyKills++;
+			if (isHardMode) Initializer.save.versionLatest.hardBasicEnemyKills++;
+			else Initializer.save.versionLatest.basicEnemyKills++;
 		}
 	}
 
