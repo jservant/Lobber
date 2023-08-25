@@ -44,7 +44,6 @@ public class NecroProjectile : MonoBehaviour {
 						if (other.GetComponent<PlayerController>() != null && gameMan.playerController.currentAttack != PlayerController.Attacks.Dashing && gameMan.playerController.currentAttack != PlayerController.Attacks.LethalDash) {
 							GameObject.Destroy(this.gameObject);
 							Fireball.Post(gameObject);
-							Initializer.save.versionLatest.fireballsReflected++;
 						}
 					}
 					break;
@@ -129,7 +128,8 @@ public class NecroProjectile : MonoBehaviour {
 		Util.SpawnFlash(gameMan, 7, transform.position, true);
 		Deflect.Post(gameObject);
 		lifeTime = 4f;
-    }
+		Initializer.save.versionLatest.fireballsReflected++;
+	}
 
 	void Explode() {
 		var _stunSphere = Instantiate(stunSphere, transform.position, Quaternion.identity);
