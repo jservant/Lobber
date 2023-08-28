@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour {
 	public static int levelCount = 0;
 	public int levelIncrement;
 	public bool hardModeActive;
+	public static int screenshotsTaken = 0;
 
 	[Header("Non-static objective variables:")]
 	public int enemiesKilledInLevel = 0;
@@ -792,6 +793,11 @@ public class GameManager : MonoBehaviour {
 				if (Time.timeScale > 0) {
 					Time.timeScale -= 0.1f;
                 }
+			}
+			if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed && playerController.pActions.Player.DEBUGScreenshot.WasPerformedThisFrame()) {
+				string filepath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop);
+				ScreenCapture.CaptureScreenshot(filepath + "/screenshot" + screenshotsTaken + 1 +".png");
+				screenshotsTaken++;
 			}
 		}
 

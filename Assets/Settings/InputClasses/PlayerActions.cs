@@ -136,7 +136,7 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""DEBUGDisableUI"",
+                    ""name"": ""DEBUGScreenshot"",
                     ""type"": ""Button"",
                     ""id"": ""76b50d9c-0423-4682-86c1-6b0ee2da37de"",
                     ""expectedControlType"": ""Button"",
@@ -444,7 +444,7 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""DEBUGDisableUI"",
+                    ""action"": ""DEBUGScreenshot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -455,7 +455,7 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""DEBUGDisableUI"",
+                    ""action"": ""DEBUGScreenshot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -715,7 +715,7 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
         m_Player_MeterModifier = m_Player.FindAction("MeterModifier", throwIfNotFound: true);
         m_Player_DEBUGHeal = m_Player.FindAction("DEBUGHeal", throwIfNotFound: true);
         m_Player_DEBUGLevelSkip = m_Player.FindAction("DEBUGLevelSkip", throwIfNotFound: true);
-        m_Player_DEBUGDisableUI = m_Player.FindAction("DEBUGDisableUI", throwIfNotFound: true);
+        m_Player_DEBUGScreenshot = m_Player.FindAction("DEBUGScreenshot", throwIfNotFound: true);
         m_Player_DEBUGGodmode = m_Player.FindAction("DEBUGGodmode", throwIfNotFound: true);
         m_Player_DEBUGKillAll = m_Player.FindAction("DEBUGKillAll", throwIfNotFound: true);
         m_Player_DEBUGSlowTime = m_Player.FindAction("DEBUGSlowTime", throwIfNotFound: true);
@@ -792,7 +792,7 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_MeterModifier;
     private readonly InputAction m_Player_DEBUGHeal;
     private readonly InputAction m_Player_DEBUGLevelSkip;
-    private readonly InputAction m_Player_DEBUGDisableUI;
+    private readonly InputAction m_Player_DEBUGScreenshot;
     private readonly InputAction m_Player_DEBUGGodmode;
     private readonly InputAction m_Player_DEBUGKillAll;
     private readonly InputAction m_Player_DEBUGSlowTime;
@@ -812,7 +812,7 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
         public InputAction @MeterModifier => m_Wrapper.m_Player_MeterModifier;
         public InputAction @DEBUGHeal => m_Wrapper.m_Player_DEBUGHeal;
         public InputAction @DEBUGLevelSkip => m_Wrapper.m_Player_DEBUGLevelSkip;
-        public InputAction @DEBUGDisableUI => m_Wrapper.m_Player_DEBUGDisableUI;
+        public InputAction @DEBUGScreenshot => m_Wrapper.m_Player_DEBUGScreenshot;
         public InputAction @DEBUGGodmode => m_Wrapper.m_Player_DEBUGGodmode;
         public InputAction @DEBUGKillAll => m_Wrapper.m_Player_DEBUGKillAll;
         public InputAction @DEBUGSlowTime => m_Wrapper.m_Player_DEBUGSlowTime;
@@ -861,9 +861,9 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
             @DEBUGLevelSkip.started += instance.OnDEBUGLevelSkip;
             @DEBUGLevelSkip.performed += instance.OnDEBUGLevelSkip;
             @DEBUGLevelSkip.canceled += instance.OnDEBUGLevelSkip;
-            @DEBUGDisableUI.started += instance.OnDEBUGDisableUI;
-            @DEBUGDisableUI.performed += instance.OnDEBUGDisableUI;
-            @DEBUGDisableUI.canceled += instance.OnDEBUGDisableUI;
+            @DEBUGScreenshot.started += instance.OnDEBUGScreenshot;
+            @DEBUGScreenshot.performed += instance.OnDEBUGScreenshot;
+            @DEBUGScreenshot.canceled += instance.OnDEBUGScreenshot;
             @DEBUGGodmode.started += instance.OnDEBUGGodmode;
             @DEBUGGodmode.performed += instance.OnDEBUGGodmode;
             @DEBUGGodmode.canceled += instance.OnDEBUGGodmode;
@@ -913,9 +913,9 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
             @DEBUGLevelSkip.started -= instance.OnDEBUGLevelSkip;
             @DEBUGLevelSkip.performed -= instance.OnDEBUGLevelSkip;
             @DEBUGLevelSkip.canceled -= instance.OnDEBUGLevelSkip;
-            @DEBUGDisableUI.started -= instance.OnDEBUGDisableUI;
-            @DEBUGDisableUI.performed -= instance.OnDEBUGDisableUI;
-            @DEBUGDisableUI.canceled -= instance.OnDEBUGDisableUI;
+            @DEBUGScreenshot.started -= instance.OnDEBUGScreenshot;
+            @DEBUGScreenshot.performed -= instance.OnDEBUGScreenshot;
+            @DEBUGScreenshot.canceled -= instance.OnDEBUGScreenshot;
             @DEBUGGodmode.started -= instance.OnDEBUGGodmode;
             @DEBUGGodmode.performed -= instance.OnDEBUGGodmode;
             @DEBUGGodmode.canceled -= instance.OnDEBUGGodmode;
@@ -1001,7 +1001,7 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
         void OnMeterModifier(InputAction.CallbackContext context);
         void OnDEBUGHeal(InputAction.CallbackContext context);
         void OnDEBUGLevelSkip(InputAction.CallbackContext context);
-        void OnDEBUGDisableUI(InputAction.CallbackContext context);
+        void OnDEBUGScreenshot(InputAction.CallbackContext context);
         void OnDEBUGGodmode(InputAction.CallbackContext context);
         void OnDEBUGKillAll(InputAction.CallbackContext context);
         void OnDEBUGSlowTime(InputAction.CallbackContext context);
