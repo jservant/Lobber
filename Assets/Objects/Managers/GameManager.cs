@@ -794,7 +794,7 @@ public class GameManager : MonoBehaviour {
 					Time.timeScale -= 0.1f;
                 }
 			}
-			if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed && playerController.pActions.Player.DEBUGScreenshot.WasPerformedThisFrame()) {
+			if (playerController.pActions.Player.DEBUGScreenshot.WasPerformedThisFrame()) {
 				string filepath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop);
 				ScreenCapture.CaptureScreenshot(filepath + "/screenshot" + screenshotsTaken + 1 +".png");
 				screenshotsTaken++;
