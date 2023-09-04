@@ -257,15 +257,13 @@ public class GameManager : MonoBehaviour {
 		for (int i = 0; i < resolutions.Length; i++) {
 			string resolutionOption = resolutions[i].width + " x " + resolutions[i].height + " @ " + resolutions[i].refreshRate + "hz";
 			resolutionOptions.Add(resolutionOption);
-
-			if (Initializer.save.versionLatest.resolutionOption != 0) { resolutionIndex = Initializer.save.versionLatest.resolutionOption; }
-			else {
-				resolutionIndex = resolutions.Length;
-				Initializer.save.versionLatest.resolutionOption = resolutionIndex;
-			}
 		}
-
-		resolutionDropdown.AddOptions(resolutionOptions);
+        if (Initializer.save.versionLatest.resolutionOption != 0) { resolutionIndex = Initializer.save.versionLatest.resolutionOption; }
+        else {
+            resolutionIndex = resolutions.Length;
+            Initializer.save.versionLatest.resolutionOption = resolutionIndex;
+        }
+        resolutionDropdown.AddOptions(resolutionOptions);
 		resolutionDropdown.value = resolutionIndex;
 		resolutionDropdown.RefreshShownValue();
 
@@ -442,8 +440,9 @@ public class GameManager : MonoBehaviour {
 
 		if (SceneManager.GetActiveScene().buildIndex == (int)Scenes.Tutorial) {
 			Canvas titleCanvas = transform.Find("/TutorialManager/Intro").GetComponent<Canvas>();
-            if (!Application.isFocused && !transitioningLevel && playerController.animr.GetBool("isDead") == false && !pauseBG.enabled && !titleCanvas.enabled) Pause();
-        }
+			if (!Application.isFocused && !transitioningLevel && playerController.animr.GetBool("isDead") == false && !pauseBG.enabled && !titleCanvas.enabled) Pause();
+		}
+		else if (!Application.isFocused && !transitioningLevel && playerController.animr.GetBool("isDead") == false && !pauseBG.enabled) Pause();
         CheckForGamepad(); 
 		UpdateHealthBar();
 		UpdateMeter();
