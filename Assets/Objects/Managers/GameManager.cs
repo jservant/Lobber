@@ -257,11 +257,11 @@ public class GameManager : MonoBehaviour {
 		for (int i = 0; i < resolutions.Length; i++) {
 			string resolutionOption = resolutions[i].width + " x " + resolutions[i].height + " @ " + resolutions[i].refreshRate + "hz";
 			resolutionOptions.Add(resolutionOption);
-		}
-        if (Initializer.save.versionLatest.resolutionOption != 0) { resolutionIndex = Initializer.save.versionLatest.resolutionOption; }
-        else {
-            resolutionIndex = resolutions.Length;
-            Initializer.save.versionLatest.resolutionOption = resolutionIndex;
+
+			if (resolutions[i].width == Screen.currentResolution.width && resolutions[i].height == Screen.currentResolution.height) {
+				resolutionIndex = i;
+                Initializer.save.versionLatest.resolutionOption = resolutionIndex;
+            }
         }
         resolutionDropdown.AddOptions(resolutionOptions);
 		resolutionDropdown.value = resolutionIndex;
