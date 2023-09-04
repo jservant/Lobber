@@ -259,8 +259,8 @@ public class GameManager : MonoBehaviour {
 			resolutionOptions.Add(resolutionOption);
 
 			if (Initializer.save.versionLatest.resolutionOption != 0) { resolutionIndex = Initializer.save.versionLatest.resolutionOption; }
-			else if (resolutions[i].width == Screen.currentResolution.width && resolutions[i].height == Screen.currentResolution.height) {
-				resolutionIndex = i;
+			else {
+				resolutionIndex = resolutions.Length;
 				Initializer.save.versionLatest.resolutionOption = resolutionIndex;
 			}
 		}
@@ -1688,29 +1688,25 @@ public class GameManager : MonoBehaviour {
 		statsText2 = transform.Find("StatsUI/StatsText2").GetComponent<TMP_Text>();
 		statsBackButton = transform.Find("StatsUI/StatsBackButton").GetComponent<Button>();
 		statsText.text =
-			"<b>ENEMIES:</b>" +
-			"\n" +
-			"\nTotal: " + (Initializer.save.versionLatest.basicEnemyKills + Initializer.save.versionLatest.explosiveEnemyKills + Initializer.save.versionLatest.necroEnemyKills + Initializer.save.versionLatest.bruteEnemyKills
+			"Total Kills: " + (Initializer.save.versionLatest.basicEnemyKills + Initializer.save.versionLatest.explosiveEnemyKills + Initializer.save.versionLatest.necroEnemyKills + Initializer.save.versionLatest.bruteEnemyKills
 			+ Initializer.save.versionLatest.hardBasicEnemyKills + Initializer.save.versionLatest.hardExplosiveEnemyKills + Initializer.save.versionLatest.hardNecroEnemyKills + Initializer.save.versionLatest.hardBruteEnemyKills)
 			+ ("\nHighest Killstreak: " + Initializer.save.versionLatest.highestCombo)
-			+ (Initializer.save.versionLatest.headsCaught > 0 ? "\nHeads Caught: " + Initializer.save.versionLatest.headsCaught : "\n??? : ???")
 			+ (Initializer.save.versionLatest.basicEnemyKills > 0 ? "\nSkeletons: " + Initializer.save.versionLatest.basicEnemyKills : "\n??? : ???")
 			+ (Initializer.save.versionLatest.explosiveEnemyKills > 0 ? "\nBomb Pests: " + Initializer.save.versionLatest.explosiveEnemyKills : "\n??? : ???")
 			+ (Initializer.save.versionLatest.necroEnemyKills > 0 ? "\nNecromancers: " + Initializer.save.versionLatest.necroEnemyKills : "\n??? : ???")
-			+ (Initializer.save.versionLatest.fireballsReflected > 0 ? "\nFireballs Reflected: " + Initializer.save.versionLatest.fireballsReflected : "\n??? : ???")
 			+ "\n" 
-			+ (Initializer.save.versionLatest.hardModeUnlocked ? "\n<b>HARD KILLS:</b>" : "\n???:")
 			+ (Initializer.save.versionLatest.hardBasicEnemyKills > 0 ? "\nRed Skeletons: " + Initializer.save.versionLatest.basicEnemyKills : "\n??? : ???")
 			+ (Initializer.save.versionLatest.hardExplosiveEnemyKills > 0 ? "\nRed Bomb Pests: " + Initializer.save.versionLatest.explosiveEnemyKills : "\n??? : ???")
 			+ (Initializer.save.versionLatest.hardNecroEnemyKills > 0 ? "\nRed Necromancers: " + Initializer.save.versionLatest.necroEnemyKills : "\n??? : ???");
 		statsText2.text =
-			"<b>RUNS:</b>" +
-			"\n"
-			+ "\nRuns started: " + Initializer.save.versionLatest.runsStarted
+			"Runs started: " + Initializer.save.versionLatest.runsStarted
 			+ (Initializer.save.versionLatest.longestRun > 0 ? "\nLongest run: " + Initializer.save.versionLatest.longestRun + " Levels" : "\n??? : ???")
-			+ (Initializer.save.versionLatest.longestHardRun > 0 ? "\nLongest Hard run: " + Initializer.save.versionLatest.longestHardRun + " Levels" : "\n??? : ???");
-		//+ (Initializer.save.versionLatest.timesWon > 0 ? "\nWins: " + Initializer.save.versionLatest.timesWon : "\n??? : ???");
-		Button deleteSaveButton = statsUI.transform.Find("DeleteSaveButton").GetComponent<Button>();
+			+ (Initializer.save.versionLatest.longestHardRun > 0 ? "\nLongest Hard run: " + Initializer.save.versionLatest.longestHardRun + " Levels" : "\n??? : ???")
+			+ "\n"
+			+ (Initializer.save.versionLatest.headsCaught > 0 ? "\nHeads Caught: " + Initializer.save.versionLatest.headsCaught : "\n??? : ???")
+            + (Initializer.save.versionLatest.fireballsReflected > 0 ? "\nFireballs Reflected: " + Initializer.save.versionLatest.fireballsReflected : "\n??? : ???");
+        //+ (Initializer.save.versionLatest.timesWon > 0 ? "\nWins: " + Initializer.save.versionLatest.timesWon : "\n??? : ???");
+        Button deleteSaveButton = statsUI.transform.Find("DeleteSaveButton").GetComponent<Button>();
 		if (SceneManager.GetActiveScene().buildIndex != (int)Scenes.Tutorial) deleteSaveButton.gameObject.SetActive(false);
         statsBackButton.Select();
 	}
