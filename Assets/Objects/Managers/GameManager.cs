@@ -51,6 +51,7 @@ public class GameManager : MonoBehaviour {
 	private float maxScaleFactor = 2f;
 
 	[Header("UI")]
+	public Canvas titleCanvas;
 	public Canvas mainUI;
 	public Image crystalPickupImage;
 	public TMP_Text crystalCountText;
@@ -207,7 +208,8 @@ public class GameManager : MonoBehaviour {
 		vignette = transform.Find("/CameraPoint").GetComponentInChildren<VignetteEffect>();
 		dActions = new DebugActions();
 		eSystem = GetComponent<EventSystem>();
-		mainUI = transform.Find("MainUI").GetComponent<Canvas>();
+        titleCanvas = transform.Find("Intro").GetComponent<Canvas>();
+        mainUI = transform.Find("MainUI").GetComponent<Canvas>();
 		crystalPickupImage = transform.Find("MainUI/HasCrystalImage").GetComponent<Image>();
 		crystalCountText = transform.Find("MainUI/CrystalCountText").GetComponent<TMP_Text>();
 		crystalCountText.text = "";
@@ -355,8 +357,7 @@ public class GameManager : MonoBehaviour {
 				waypointTracking = false;
 				break;
 		}
-
-        //cameraShake._CameraZoom(Initializer.save.versionLatest.cameraFOV);
+		if (!Application.isFocused && !titleCanvas.enabled) Pause();
 
         tempColorLit.a = 1f;
 		tempColorUnlit.a = unlitTextOpacity;
@@ -442,6 +443,7 @@ public class GameManager : MonoBehaviour {
 		UpdateHealthBar();
 		UpdateMeter();
 		if (Time.timeScale > 0.9 && Application.isFocused && Initializer.save.versionLatest.buttonsUI == true) UpdateIcons();
+		if (!Application.isFocused && !transitioningLevel && playerController.animr.GetBool("isDead") == false && !pauseBG.enabled && !titleCanvas.enabled) Pause();
 		UpdateKillCounter();
 		if (debugTextActive) debugText.text = "LevelCount: " + levelCount +
 			"\n" + "Tokens per Second: " + TokensPerSecond +
@@ -764,7 +766,7 @@ public class GameManager : MonoBehaviour {
 				}
 			}
 
-			if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed && playerController.pActions.Player.DEBUGRestart.WasPerformedThisFrame()) {
+			if (playerController.pActions.Player.MeterModifier.phase == InputActionPhase.Performed && playerController.pActions.Player.SkipTutorial.WasPerformedThisFrame()) {
 				Debug.Log("Restart called");
 				ResetSpawnerValues();
 				SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -803,53 +805,49 @@ public class GameManager : MonoBehaviour {
 
 		//Pause stuff
 		if (playerController.pActions.Player.Pause.WasPerformedThisFrame() && playerController.animr.GetBool("isDead") == false
-			&& pauseBG.enabled == false && playerController.canMove == true && transitioningLevel == false && Application.isFocused) {
-			if (SceneManager.GetActiveScene().buildIndex == (int)Scenes.Tutorial && Initializer.save.versionLatest.tutorialComplete == false) {
-				if (tutorialSkipUI.enabled) {
-					eSystem.SetSelectedGameObject(null);
-					updateTimeScale = true;
-					Time.timeScale = 1;
-					pauseBG.enabled = false;
-					tutorialSkipUI.enabled = false;
-					tutorialSkipGroup.interactable = false;
-				}
-				else {
-					tutorialSkipButton.Select();
-					updateTimeScale = false;
-					Time.timeScale = 0;
-					pauseBG.enabled = true;
-					tutorialSkipUI.enabled = true;
-					tutorialSkipGroup.interactable = true;
-				}
+			&& pauseBG.enabled == false && transitioningLevel == false && Application.isFocused) {
+			if (optionsUI.enabled == true) {
+				pauseGroup.interactable = true;
+				pauseUI.enabled = true;
+				optionsUI.enabled = false;
+				optionsGroup.interactable = false;
+				resumeButton.Select();
+			}
+			else if (pauseUI.enabled == false) {
+				Pause();
 			}
 			else {
-				if (optionsUI.enabled == true) {
-					pauseGroup.interactable = true;
-					pauseUI.enabled = true;
-					optionsUI.enabled = false;
-					optionsGroup.interactable = false;
-					resumeButton.Select();
-				}
-				else if (pauseUI.enabled == false) {
-					Pause();
-				}
-				else {
-					eSystem.SetSelectedGameObject(null);
-					updateTimeScale = true;
-					Time.timeScale = 1;
-					pauseUI.enabled = false;
-					pauseGroup.interactable = false;
-					pauseBG.enabled = false;
-				}
+				eSystem.SetSelectedGameObject(null);
+				updateTimeScale = true;
+				Time.timeScale = 1;
+				pauseUI.enabled = false;
+				pauseGroup.interactable = false;
+				pauseBG.enabled = false;
+            }
+        }
+		if (playerController.pActions.Player.SkipTutorial.WasPerformedThisFrame() && playerController.animr.GetBool("isDead") == false
+		   && pauseBG.enabled == false && transitioningLevel == false && Application.isFocused &&
+           SceneManager.GetActiveScene().buildIndex == (int)Scenes.Tutorial && Initializer.save.versionLatest.tutorialComplete == false) {
+			if (tutorialSkipUI.enabled) {
+				TutorialSkipBack(); 
+			}
+			else {
+				tutorialSkipButton.Select();
+				updateTimeScale = false;
+				Time.timeScale = 0;
+				pauseBG.enabled = true;
+				tutorialSkipUI.enabled = true;
+				tutorialSkipGroup.interactable = true;
 			}
 		}
 
-		//Allows the B button to work in the menus
-		if (playerController.pActions.Player.Dash.WasPressedThisFrame() && pauseBG.enabled && Application.isFocused) {
+        //Allows the B button to work in the menus
+        if (playerController.pActions.Player.Dash.WasPressedThisFrame() && pauseBG.enabled && Application.isFocused) {
 			if (statsUI.enabled) { OnStatsBack(); }
             else if (cancelConfirmUI.enabled) { OnCancelConfirmBack(); }
             else if (creditsUI.enabled) { OnCreditsBack(); }
 			else if (optionsUI.enabled || audioUI.enabled) { OnOptionsBack(); }
+			else if (tutorialSkipUI.enabled) { TutorialSkipBack(); }
             else {
 				eSystem.SetSelectedGameObject(null);
 				updateTimeScale = true;
@@ -878,6 +876,15 @@ public class GameManager : MonoBehaviour {
         pauseUI.enabled = true;
         pauseGroup.interactable = true;
         resumeButton.Select();
+    }
+
+	public void TutorialSkipBack() {
+        eSystem.SetSelectedGameObject(null);
+        updateTimeScale = true;
+        Time.timeScale = 1;
+        pauseBG.enabled = false;
+        tutorialSkipUI.enabled = false;
+        tutorialSkipGroup.interactable = false;
     }
 
     public void CheckForGamepad() {

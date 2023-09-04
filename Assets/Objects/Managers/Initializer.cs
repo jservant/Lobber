@@ -199,7 +199,7 @@ public class Initializer : MonoBehaviour {
         DefaultSave.versionLatest.fireballsReflected = 0;
         DefaultSave.versionLatest.headsCaught = 0;
         DefaultSave.versionLatest.highestCombo = 0;
-        DefaultSave.versionLatest.buttonsUI = false;
+        DefaultSave.versionLatest.buttonsUI = true;
 
         fileName = Application.persistentDataPath + @"/options.dat";
 

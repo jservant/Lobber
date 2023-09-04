@@ -73,7 +73,7 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""DEBUGRestart"",
+                    ""name"": ""SkipTutorial"",
                     ""type"": ""Button"",
                     ""id"": ""bec019d2-7494-4fba-accd-5b5719840ea3"",
                     ""expectedControlType"": ""Button"",
@@ -312,7 +312,7 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""DEBUGRestart"",
+                    ""action"": ""SkipTutorial"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -323,7 +323,7 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""DEBUGRestart"",
+                    ""action"": ""SkipTutorial"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -708,7 +708,7 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
         m_Player_HeavyAttack = m_Player.FindAction("HeavyAttack", throwIfNotFound: true);
         m_Player_Throw = m_Player.FindAction("Throw", throwIfNotFound: true);
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
-        m_Player_DEBUGRestart = m_Player.FindAction("DEBUGRestart", throwIfNotFound: true);
+        m_Player_SkipTutorial = m_Player.FindAction("SkipTutorial", throwIfNotFound: true);
         m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
         m_Player_Zoom = m_Player.FindAction("Zoom", throwIfNotFound: true);
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
@@ -785,7 +785,7 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_HeavyAttack;
     private readonly InputAction m_Player_Throw;
     private readonly InputAction m_Player_Dash;
-    private readonly InputAction m_Player_DEBUGRestart;
+    private readonly InputAction m_Player_SkipTutorial;
     private readonly InputAction m_Player_Aim;
     private readonly InputAction m_Player_Zoom;
     private readonly InputAction m_Player_Pause;
@@ -805,7 +805,7 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
         public InputAction @HeavyAttack => m_Wrapper.m_Player_HeavyAttack;
         public InputAction @Throw => m_Wrapper.m_Player_Throw;
         public InputAction @Dash => m_Wrapper.m_Player_Dash;
-        public InputAction @DEBUGRestart => m_Wrapper.m_Player_DEBUGRestart;
+        public InputAction @SkipTutorial => m_Wrapper.m_Player_SkipTutorial;
         public InputAction @Aim => m_Wrapper.m_Player_Aim;
         public InputAction @Zoom => m_Wrapper.m_Player_Zoom;
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
@@ -840,9 +840,9 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
             @Dash.started += instance.OnDash;
             @Dash.performed += instance.OnDash;
             @Dash.canceled += instance.OnDash;
-            @DEBUGRestart.started += instance.OnDEBUGRestart;
-            @DEBUGRestart.performed += instance.OnDEBUGRestart;
-            @DEBUGRestart.canceled += instance.OnDEBUGRestart;
+            @SkipTutorial.started += instance.OnSkipTutorial;
+            @SkipTutorial.performed += instance.OnSkipTutorial;
+            @SkipTutorial.canceled += instance.OnSkipTutorial;
             @Aim.started += instance.OnAim;
             @Aim.performed += instance.OnAim;
             @Aim.canceled += instance.OnAim;
@@ -892,9 +892,9 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
             @Dash.started -= instance.OnDash;
             @Dash.performed -= instance.OnDash;
             @Dash.canceled -= instance.OnDash;
-            @DEBUGRestart.started -= instance.OnDEBUGRestart;
-            @DEBUGRestart.performed -= instance.OnDEBUGRestart;
-            @DEBUGRestart.canceled -= instance.OnDEBUGRestart;
+            @SkipTutorial.started -= instance.OnSkipTutorial;
+            @SkipTutorial.performed -= instance.OnSkipTutorial;
+            @SkipTutorial.canceled -= instance.OnSkipTutorial;
             @Aim.started -= instance.OnAim;
             @Aim.performed -= instance.OnAim;
             @Aim.canceled -= instance.OnAim;
@@ -994,7 +994,7 @@ public partial class @DefaultPlayerActions: IInputActionCollection2, IDisposable
         void OnHeavyAttack(InputAction.CallbackContext context);
         void OnThrow(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
-        void OnDEBUGRestart(InputAction.CallbackContext context);
+        void OnSkipTutorial(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
         void OnZoom(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
