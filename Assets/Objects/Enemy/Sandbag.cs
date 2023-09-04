@@ -44,7 +44,7 @@ public class Sandbag : MonoBehaviour {
 		materials = model.materials;
 		respawnPoint = transform.position;
 
-		if (showIndicator) killIndicator.SetActive(true);
+		//if (showIndicator) killIndicator.SetActive(true);
 	}
 
 	void FixedUpdate() {

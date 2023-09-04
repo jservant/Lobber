@@ -51,7 +51,6 @@ public class GameManager : MonoBehaviour {
 	private float maxScaleFactor = 2f;
 
 	[Header("UI")]
-	public Canvas titleCanvas;
 	public Canvas mainUI;
 	public Image crystalPickupImage;
 	public TMP_Text crystalCountText;
@@ -208,7 +207,6 @@ public class GameManager : MonoBehaviour {
 		vignette = transform.Find("/CameraPoint").GetComponentInChildren<VignetteEffect>();
 		dActions = new DebugActions();
 		eSystem = GetComponent<EventSystem>();
-        titleCanvas = transform.Find("Intro").GetComponent<Canvas>();
         mainUI = transform.Find("MainUI").GetComponent<Canvas>();
 		crystalPickupImage = transform.Find("MainUI/HasCrystalImage").GetComponent<Image>();
 		crystalCountText = transform.Find("MainUI/CrystalCountText").GetComponent<TMP_Text>();
@@ -357,7 +355,10 @@ public class GameManager : MonoBehaviour {
 				waypointTracking = false;
 				break;
 		}
-		if (!Application.isFocused && !titleCanvas.enabled) Pause();
+		if (SceneManager.GetActiveScene().buildIndex == (int)Scenes.Tutorial) {
+			Canvas titleCanvas = transform.Find("/TutorialManager/Intro").GetComponent<Canvas>();
+            if (!Application.isFocused && !titleCanvas.enabled) Pause();
+        }
 
         tempColorLit.a = 1f;
 		tempColorUnlit.a = unlitTextOpacity;
@@ -439,11 +440,14 @@ public class GameManager : MonoBehaviour {
 			else PlayerDespawn();
         }
 
-		CheckForGamepad(); 
+		if (SceneManager.GetActiveScene().buildIndex == (int)Scenes.Tutorial) {
+			Canvas titleCanvas = transform.Find("/TutorialManager/Intro").GetComponent<Canvas>();
+            if (!Application.isFocused && !transitioningLevel && playerController.animr.GetBool("isDead") == false && !pauseBG.enabled && !titleCanvas.enabled) Pause();
+        }
+        CheckForGamepad(); 
 		UpdateHealthBar();
 		UpdateMeter();
 		if (Time.timeScale > 0.9 && Application.isFocused && Initializer.save.versionLatest.buttonsUI == true) UpdateIcons();
-		if (!Application.isFocused && !transitioningLevel && playerController.animr.GetBool("isDead") == false && !pauseBG.enabled && !titleCanvas.enabled) Pause();
 		UpdateKillCounter();
 		if (debugTextActive) debugText.text = "LevelCount: " + levelCount +
 			"\n" + "Tokens per Second: " + TokensPerSecond +
