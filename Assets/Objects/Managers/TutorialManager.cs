@@ -15,7 +15,6 @@ public class TutorialManager : MonoBehaviour {
 
 	public int areasCompleted = 0;
 	public bool targetsExist;
-	public bool skipTutorial;
     public static bool firstTimeSinceBoot = true;
 
     private void Awake() {
@@ -35,8 +34,7 @@ public class TutorialManager : MonoBehaviour {
 	void Start() {
 		gameMan.playerController.health = gameMan.playerController.healthMax;
 		int spawnChooser = 0;
-		if (skipTutorial) { Initializer.save.versionLatest.tutorialComplete = true; }
-		if (Initializer.save.versionLatest.tutorialComplete || skipTutorial) {
+		if (Initializer.save.versionLatest.tutorialComplete) {
 			if (firstTimeSinceBoot == false) {
 				spawnChooser = playerRespawnPoints.Length - 2;
 				gameMan.playerController.transform.position = playerRespawnPoints[spawnChooser].position; // spawn in main hub at the end	
@@ -46,7 +44,7 @@ public class TutorialManager : MonoBehaviour {
                 gameMan.playerController.transform.position = playerRespawnPoints[playerRespawnPoints.Length - 1].position; // spawn in hub close to portal
 			}
             firstTimeSinceBoot = false;
-            areasCompleted = 0;
+            areasCompleted = 6;
         }
 		Debug.Log("Player is spawning at " + playerRespawnPoints[spawnChooser].gameObject.name);
 	}

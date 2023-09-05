@@ -589,7 +589,8 @@ public class Necro : MonoBehaviour {
 		if (shouldAddToKillTotal) {
 			gameMan.enemiesAlive -= 1;
 			gameMan.enemiesKilledInLevel += 1;
-			GameManager.enemiesKilledInRun += 1;
+            if (!gameMan.transitioningLevel) { gameMan.AddToKillStreak(1, 2f); }
+            GameManager.enemiesKilledInRun += 1;
             if (isHardMode) Initializer.save.versionLatest.hardNecroEnemyKills++;
             else Initializer.save.versionLatest.necroEnemyKills++;
         }

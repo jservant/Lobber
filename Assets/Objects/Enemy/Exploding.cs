@@ -508,7 +508,7 @@ public class Exploding : MonoBehaviour {
 		if (shouldAddToKillTotal) {
 			gameMan.enemiesAlive -= 1;
 			gameMan.enemiesKilledInLevel += 1;
-			gameMan.AddToKillStreak(1, 2f);
+			if (!gameMan.transitioningLevel) { gameMan.AddToKillStreak(1, 2f); }
 			GameManager.enemiesKilledInRun += 1;
             if (isHardMode) Initializer.save.versionLatest.hardExplosiveEnemyKills++;
             else Initializer.save.versionLatest.explosiveEnemyKills++;

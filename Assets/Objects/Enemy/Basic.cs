@@ -1181,7 +1181,7 @@ public class Basic : MonoBehaviour {
 		if (shouldAddToKillTotal) {
 			gameMan.enemiesAlive -= 1;
 			gameMan.enemiesKilledInLevel += 1;
-			gameMan.AddToKillStreak(1, 1f);
+			if (!gameMan.transitioningLevel) { gameMan.AddToKillStreak(1, 1f); }
 			GameManager.enemiesKilledInRun += 1;
 			if (isCrystallized) {
 				gameMan.isCrystalEnemyAlive = false;

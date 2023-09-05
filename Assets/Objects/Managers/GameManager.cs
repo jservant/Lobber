@@ -1442,7 +1442,7 @@ public class GameManager : MonoBehaviour {
 	public void UpdateKillCounter() {
 		if (transitioningLevel) killStreakTimer = 5f;
 
-		if (killStreakTimer > 0) {
+		if (killStreakTimer > 0 && !transitioningLevel) {
 			killStreakTimer -= Time.deltaTime;
 		}
 		else currentKillStreak = 0;
@@ -1470,55 +1470,55 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void AddToKillStreak(int value, float time) {
-		currentKillStreak += value;
-		killStreakTimer += time;
-		if (killStreakTimer > 5f) killStreakTimer = 5f;
-		if (killStreakTimer < 0f) killStreakTimer = 0f;
+        currentKillStreak += value;
+        killStreakTimer += time;
+        if (killStreakTimer > 5f) killStreakTimer = 5f;
+        if (killStreakTimer < 0f) killStreakTimer = 0f;
 
-		float multiKill = 5f;
-		bool isMultiKill;
-		if (currentKillStreak % multiKill == 0) isMultiKill = true;
-		else isMultiKill = false;
-		if (isMultiKill && value > 0) {
-			multiKillGrowTimer = 0.5f;
-			crowdMan.PlayCrowdSound(2);
-		}
+        float multiKill = 5f;
+        bool isMultiKill;
+        if (currentKillStreak % multiKill == 0) isMultiKill = true;
+        else isMultiKill = false;
+        if (isMultiKill && value > 0) {
+            multiKillGrowTimer = 0.5f;
+            crowdMan.PlayCrowdSound(2);
+        }
 
-		float largeMultiKill = 10f;
-		bool isLargeMultiKill;
-		if (currentKillStreak % largeMultiKill == 0) isLargeMultiKill = true;
-		else isLargeMultiKill = false;
-		if (isLargeMultiKill && value > 0) {
-			multiKillGrowTimer = 1f;
-			crowdMan.PlayCrowdSound(3);
-		}
-		if (currentKillStreak > Initializer.save.versionLatest.highestCombo) {
-			Initializer.save.versionLatest.highestCombo = currentKillStreak;
-		}
+        float largeMultiKill = 10f;
+        bool isLargeMultiKill;
+        if (currentKillStreak % largeMultiKill == 0) isLargeMultiKill = true;
+        else isLargeMultiKill = false;
+        if (isLargeMultiKill && value > 0) {
+            multiKillGrowTimer = 1f;
+            crowdMan.PlayCrowdSound(3);
+        }
+        if (currentKillStreak > Initializer.save.versionLatest.highestCombo) {
+            Initializer.save.versionLatest.highestCombo = currentKillStreak;
+        }
 
-		float randomRotation = Random.Range(-15f, 15f);
-		killCounter.transform.rotation = Quaternion.Euler(0, 0, randomRotation);
-		multikillText.transform.rotation = Quaternion.Euler(0, 0, randomRotation);
+        float randomRotation = Random.Range(-15f, 15f);
+        killCounter.transform.rotation = Quaternion.Euler(0, 0, randomRotation);
+        multikillText.transform.rotation = Quaternion.Euler(0, 0, randomRotation);
 
-		if (currentKillStreak >= 5) multikillText.text = "MULTIKILL";
-		if (currentKillStreak >= 10) multikillText.text = "KILLTASTIC";
-		if (currentKillStreak >= 20) multikillText.text = "BONESPLITTING";
-		if (currentKillStreak >= 50) {
-			multikillText.text = "RAMPAGE";
-			multikillText.color = Color.red;
-		}
-		if (currentKillStreak >= 70) {
-			multikillText.text = "UNSTOPPABLE";
-			multikillText.color = new Color(1.0f, 0.64f, 0.0f);
-		}
-		if (currentKillStreak >= 100) {
-			multikillText.text = "LOBBIN'";
-			multikillText.color = Color.yellow;
-			maxScaleFactor = 4f;
-			multikillText.transform.localScale = new Vector3(2f, 2f, 1f);
-		}
-		if (currentKillStreak >= 1000) multikillText.text = "JUST WIN ALREADY";
-	}
+        if (currentKillStreak >= 5) multikillText.text = "MULTIKILL";
+        if (currentKillStreak >= 10) multikillText.text = "KILLTASTIC";
+        if (currentKillStreak >= 20) multikillText.text = "BONESPLITTING";
+        if (currentKillStreak >= 50) {
+            multikillText.text = "RAMPAGE";
+            multikillText.color = Color.red;
+        }
+        if (currentKillStreak >= 70) {
+            multikillText.text = "UNSTOPPABLE";
+            multikillText.color = new Color(1.0f, 0.64f, 0.0f);
+        }
+        if (currentKillStreak >= 100) {
+            multikillText.text = "LOBBIN'";
+            multikillText.color = Color.yellow;
+            maxScaleFactor = 4f;
+            multikillText.transform.localScale = new Vector3(2f, 2f, 1f);
+        }
+        if (currentKillStreak >= 1000) multikillText.text = "JUST WIN ALREADY";
+    }
 
 	public void KillAll() {
 		OrbSpawn[] allOrbs = FindObjectsOfType<OrbSpawn>();
@@ -1562,6 +1562,7 @@ public class GameManager : MonoBehaviour {
 		Initializer.Save();
 		TutorialManager t = transform.Find("/TutorialManager").GetComponent<TutorialManager>();
 		playerController.transform.position = t.playerRespawnPoints[t.playerRespawnPoints.Length-1].position;
+		t.areasCompleted = 6;
         eSystem.SetSelectedGameObject(null);
         updateTimeScale = true;
         Time.timeScale = 1;
@@ -1582,7 +1583,7 @@ public class GameManager : MonoBehaviour {
         Button quitToDesktopButton = cancelConfirmUI.transform.Find("QuitToDesktopButton").GetComponent<Button>();
         cancelConfirmText.text = "Restart?"; 
 		quitConfirmButton.gameObject.SetActive(false);
-		deleteSaveConfirmButton.gameObject.SetActive(false); ;
+		deleteSaveConfirmButton.gameObject.SetActive(false);
 		quitToDesktopButton.gameObject.SetActive(false);
         restartConfirmButton.Select();
     }
@@ -1592,10 +1593,12 @@ public class GameManager : MonoBehaviour {
 		storedPlayerMeter = 3;
 		levelCount = 1;
 		enemyKillingGoal = 15;
-		if (hardModeActive) enemyKillingGoal = 30;
 		crystalHarvestingGoal = 2;
-		if (hardModeActive) crystalHarvestingGoal = 3;
-		enemiesKilledInRun = 0;
+		if (hardModeActive) {
+			crystalHarvestingGoal = 3;
+			enemyKillingGoal = 30;
+		}
+        enemiesKilledInRun = 0;
 		ResetSpawnerValues();
 		Initializer.save.versionLatest.runsStarted++;
         StartCoroutine(QuitTransition(false));
@@ -1660,6 +1663,8 @@ public class GameManager : MonoBehaviour {
         inputUIToggle.isOn = Initializer.save.versionLatest.buttonsUI;
         Slider screenshakeSlider = transform.Find("OptionsUI/VisualSettings/Screenshake/ScreenshakeSlider").GetComponent<Slider>();
         screenshakeSlider.value = Initializer.save.versionLatest.screenshakePercentage;
+		TMP_Text versionNumText = transform.Find("OptionsUI/VersionNumberText").GetComponent<TMP_Text>();
+		versionNumText.text = "v " + Application.version;
     }
 
     public void SetQuality(int qualityIndex) {
@@ -1839,12 +1844,21 @@ public class GameManager : MonoBehaviour {
 
 	public IEnumerator QuitTransition(bool quitOrRestart) {
 		//Time.timeScale = 0;
-		levelTransitionAnimator.SetTrigger("MenuEnd");
+		transitioningLevel = true;
+		Debug.Log("quit transition fired with intent to quit? " + quitOrRestart);
 		playerController.pActions.Disable();
-		yield return new WaitForSeconds(0.5f); //should be length of wipe anim
-		if (quitOrRestart) SceneManager.LoadScene((int)Scenes.Tutorial);
-		else SceneManager.LoadScene((int)Scenes.GrassBridge);
-	}
+		if (quitOrRestart == true) { // if quitting
+            levelTransitionAnimator.SetTrigger("MenuEnd");
+            yield return new WaitForSeconds(0.5f); //should be length of wipe anim
+            levelTransitionAnimator.enabled = false;
+            Debug.Log("should be going to tutorial");
+            SceneManager.LoadScene((int)Scenes.Tutorial);
+		}
+		if (quitOrRestart == false) { // if restarting
+            Debug.Log("should be going to level 1");
+            SceneManager.LoadScene((int)Scenes.GrassBridge);
+        }
+    }
     #endregion
 
     void OnEnable() { dActions.Enable(); }
