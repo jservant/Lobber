@@ -168,6 +168,8 @@ public class GameManager : MonoBehaviour {
 	public static float armorChanceHigh = 0f;
 	public static bool _hardModeActive;
 	public static float redChance = 50f;
+	public static int killEnemiesCount = 0;
+	public static int crystalTaskCount = 0;
 
 	[Header("Bools:")]
 	public bool updateTimeScale = true;
@@ -295,10 +297,21 @@ public class GameManager : MonoBehaviour {
 			}
 			enemySpawnPoints = TempArray;
 
-			float[] objectiveChoices = new float[] { 0f, 7f, 0f, 3f };
+			float[] objectiveChoices = new float[] { 0f, 6f, 0f, 4f };
 			currentObjective = (Objectives)Util.RollWeightedChoice(objectiveChoices);
             if (levelCount == 1) { currentObjective = Objectives.KillTheEnemies; } // default to kill enemies on first level
-        }
+			if (killEnemiesCount > 1) { currentObjective = Objectives.HarvestTheCrystals; }
+			if (crystalTaskCount > 0) { currentObjective = Objectives.KillTheEnemies; }
+
+			if (currentObjective == Objectives.KillTheEnemies) {
+				killEnemiesCount += 1;
+				crystalTaskCount = 0;
+			}
+			if (currentObjective == Objectives.HarvestTheCrystals) {
+				crystalTaskCount += 1;
+				killEnemiesCount = 0;
+			}
+		}
         else {
 			currentObjective = Objectives.None;
 			playerController.health = playerController.healthMax;
@@ -925,7 +938,7 @@ public class GameManager : MonoBehaviour {
 		}
 
 		bool hardModeUnlocked = false;
-		if (levelCount >= 18) {
+		if (levelCount >= 15) {
 			if (Initializer.save.versionLatest.hardModeUnlocked == false) {
 				Initializer.save.versionLatest.hardModeUnlocked = true;
 				hardModeUnlocked = true;
@@ -1140,6 +1153,10 @@ public class GameManager : MonoBehaviour {
 			TargetEnemies = 8;
 			HighEnemies = 12;
         }
+
+		//Objective Counts
+		killEnemiesCount = 0;
+		crystalTaskCount = 0;
 	}
 
 	// NOTE(Ryan): Can be called to freeze the game for the time specified.
