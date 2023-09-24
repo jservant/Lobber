@@ -1055,12 +1055,6 @@ public class PlayerController : MonoBehaviour {
         Gizmos.DrawWireSphere(capsuleStartPosition, homingCapsuleRadius);
         Gizmos.DrawWireSphere(capsuleEndPosition, homingCapsuleRadius);
 
-        Gizmos.color = Color.blue; // bounds of the capsule
-        Gizmos.DrawLine(new Vector3(capsuleStartPosition.x + capsuleLength, capsuleStartPosition.y, capsuleStartPosition.z), new Vector3(capsuleEndPosition.x + capsuleLength, capsuleEndPosition.y, capsuleEndPosition.z));
-        Gizmos.DrawLine(new Vector3(capsuleStartPosition.x - capsuleLength, capsuleStartPosition.y, capsuleStartPosition.z), new Vector3(capsuleEndPosition.x - capsuleLength, capsuleEndPosition.y, capsuleEndPosition.z));
-        Gizmos.DrawLine(new Vector3(capsuleStartPosition.x, capsuleStartPosition.y + capsuleLength, capsuleStartPosition.z), new Vector3(capsuleEndPosition.x, capsuleEndPosition.y + capsuleLength, capsuleEndPosition.z));
-        Gizmos.DrawLine(new Vector3(capsuleStartPosition.x, capsuleStartPosition.y - capsuleLength, capsuleStartPosition.z), new Vector3(capsuleEndPosition.x, capsuleEndPosition.y - capsuleLength, capsuleEndPosition.z));
-
         Gizmos.color = Color.yellow; // length + radius of capsule
         Gizmos.DrawLine(capsuleStartPosition, capsuleEndPosition);
         Gizmos.DrawLine(capsuleEndPosition, new Vector3(capsuleEndPosition.x + homingCapsuleRadius, capsuleEndPosition.y, capsuleEndPosition.z));
