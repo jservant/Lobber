@@ -1,3 +1,7 @@
+// Player controller script for Lobber, shipped September 2023
+// Mostly handled by Jaden Servant, with some contributions/assistance from Michael Roskuski and Ryan Pratt
+// Last update 3/30/2025: Jaden going in, giving attribution and clarifying some comments
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +11,7 @@ using TMPro;
 public class PlayerController : MonoBehaviour {
 
 	#region Combo tree
-	readonly public static QueueInfo[][] QueueInfoTable = {
+	readonly public static QueueInfo[][] QueueInfoTable = { // entire region designed by Mike R
 		// When in None
 		new QueueInfo[]{ NoQueueInfo, // None
 			               new QueueInfo(0.0f, 1.0f, 0.0f, 0.0f, 0.0f, Attacks.LAttack), // Light Attack
@@ -207,7 +211,7 @@ public class PlayerController : MonoBehaviour {
 	#endregion
 
 	#region State machines
-
+	// Mike R
 	public enum States { Idle = 0, Walking, Attacking, Death, Win };
 	public States currentState = 0;
 
@@ -278,15 +282,15 @@ public class PlayerController : MonoBehaviour {
 	public Vector2 trueInput;							// movement vector read from left stick
 	float trueAngle = 0f;								// movement angle float generated from trueInput
 	public Vector2 mInput;								// processed movement vector read from input
-	public Vector3 movement;					// actual movement vector used. mInput(x, y) = movement(x, z)
+	public Vector3 movement;							// actual movement vector used. mInput(x, y) = movement(x, z)
 	public bool freeAim = false;
 	public Vector2 rAimInput;                           // aiming vector read from right stick
 	bool isGrounded;
 	public bool canMove = true;
 	[Header("Speed:")]
 	[SerializeField] AnimationCurve movementCurve;
-	public float topSpeed = 10f;				// top player speed
-	public float speedTime = 0f;				// how long has player been moving for?
+	public float topSpeed = 10f;						// top player speed
+	public float speedTime = 0f;						// how long has player been moving for?
 	[SerializeField] float maxSpeedTime = 0.2f;			// how long does it take for player to reach max speed?
 	[SerializeField] float attackDecelModifier = 5f;	// modifier that makes player decelerate slower when attacking (moves them out further)
 	[SerializeField] float turnSpeed = 0.05f;
@@ -323,7 +327,7 @@ public class PlayerController : MonoBehaviour {
 	float homingTimerMax;								// how long homing will happen
 	bool doHoming = false;								// bool that controls homing function in FixedUpdate
 
-	private void Awake() {
+	private void Awake() { // Jaden
 		capCol = GetComponent<CapsuleCollider>();
 		rb = GetComponent<Rigidbody>();
 		sounds = GetComponent<MotionAudio_Player>();
@@ -364,7 +368,8 @@ public class PlayerController : MonoBehaviour {
 		footStepCounter = 0;
 	}
 
-	private void FixedUpdate() { // calculate movement here
+	private void FixedUpdate() { // Jaden
+		// calculate movement here
 		// accel/decel for movement
 		if (mInput != Vector2.zero && currentState == States.Attacking) { speedTime -= (Time.fixedDeltaTime / attackDecelModifier); }
 		// if attacking, reduce movement at half speed to produce sliding effect
@@ -455,7 +460,8 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-	private void Update() { // calculate time and input here
+	private void Update() { // mostly Jaden
+		// calculate time and input here
 		trueInput = pActions.Player.Move.ReadValue<Vector2>();
 		rAimInput = pActions.Player.Aim.ReadValue<Vector2>();
 		if (dashCooldown > 0) { dashCooldown -= Time.deltaTime; }
@@ -654,7 +660,7 @@ public class PlayerController : MonoBehaviour {
 
 	}
 
-	private void OnTriggerEnter(Collider other) {
+	private void OnTriggerEnter(Collider other) { // Jaden with adjustments from Ryan
 		if (immunityTime <= 0 && currentAttack != Attacks.Slam && currentAttack != Attacks.Spin && currentAttack != Attacks.LethalDash&& currentAttack != Attacks.ShotgunThrow && !godMode) {
 			if (other.gameObject.layer == (int)Layers.EnemyHitbox && remainingKnockbackTime <= 0) { // player is getting hit
 				Basic otherBasic = other.GetComponentInParent<Basic>();
@@ -725,7 +731,7 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-	void DropCrystals() {
+	void DropCrystals() { // Jaden
 		if (crystalCount > 0) {
 			for (int i = 0; i < crystalCount; i++) {
 				Vector3 pos = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
@@ -748,7 +754,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     #region Combat functions
-    public void Hit(int damageTaken, Collider other) {
+    public void Hit(int damageTaken, Collider other) { // jaden
 		doHoming = false;
 		//currentAttack = Attacks.None;
 		//animr.SetBool("isWalking", false);
@@ -790,7 +796,7 @@ public class PlayerController : MonoBehaviour {
 			gameMan.HealthDialGrow(0.5f);
         }
 
-		//trigger haptics here
+		//trigger haptics here (Ryan)
 		if (GameObject.Find("HapticManager") != null && Initializer.save.versionLatest.rumble) {
 			HapticManager.PlayEffect(hapticEffects[0], this.transform.position);
 		}
@@ -802,7 +808,7 @@ public class PlayerController : MonoBehaviour {
 		immunityTime = 0.25f;
 	}
 
-	IEnumerator Death() {
+	IEnumerator Death() { // jaden
 		Die();
 		animr.SetBool("isDead", true);
 		mInput = Vector2.zero; movement = Vector3.zero;
@@ -824,7 +830,7 @@ public class PlayerController : MonoBehaviour {
 		StartCoroutine(gameMan.QuitTransition(true));
 	}
 
-	public void Die() {
+	public void Die() { // jaden
 		foreach (Transform child in this.transform) {
 			child.gameObject.SetActive(false);
         }
@@ -832,7 +838,7 @@ public class PlayerController : MonoBehaviour {
 		gameMan.SpawnCorpse(2, transform.position, Quaternion.identity, 1f, true);
     }
 
-	public void Win() {
+	public void Win() { // jaden
 		animr.SetBool("isTeleporting", true);
 		currentState = States.Win;
 		mInput = Vector2.zero; movement = Vector3.zero;
@@ -841,7 +847,7 @@ public class PlayerController : MonoBehaviour {
 		rb.isKinematic = true;
 	}
 
-	public void ChangeMeter(float Amount) {
+	public void ChangeMeter(float Amount) { // ryan
 		if (frenzyTimer > 0) return;
 		if (currentAttack == Attacks.HeadThrow) return;
 		meter += Amount;
@@ -860,7 +866,8 @@ public class PlayerController : MonoBehaviour {
 		if (meter < 0) meter = 0;
 	}
 
-    public void StartHoming(float time) { // called in animator; starts the homing lerp in FixedUpdate()
+    public void StartHoming(float time) { // jaden
+		// called in animator; starts the homing lerp in FixedUpdate()
         if (trueInput.magnitude > 0.1f) {
             movement = new Vector3(trueInput.x, 0, trueInput.y);
         }
@@ -871,29 +878,29 @@ public class PlayerController : MonoBehaviour {
         homingPrevValue = Vector3.zero;
     }
 
-	void SetupHoming() { // attack homing function
-		// NOTE(Roskuski): If homing is currently taking place, cancel it.
+	void SetupHoming() { // attack homing function from Jaden
+		// if homing is currently taking place, cancel it.
 		doHoming = false;
 
 		Vector3 targetCapsuleStart = GetTargetCapsuleStartSphere(); // find the ball with all the enemies in it
 		Vector3 targetCapsuleEnd = GetTargetCapsuleEndSphere(); // find the ball with all the enemies in it
 		Vector3 targetingDirection = targetCapsuleStart - transform.position;
-		RaycastHit[] eColliders = Physics.CapsuleCastAll(targetCapsuleStart, targetCapsuleEnd, homingCapsuleRadius, targetingDirection, 0, Mask.Get(Layers.EnemyHurtbox)); // scan for enemies in a cone in front of player
+		RaycastHit[] eColliders = Physics.CapsuleCastAll(targetCapsuleStart, targetCapsuleEnd, homingCapsuleRadius, targetingDirection, 0, Mask.Get(Layers.EnemyHurtbox)); // scan for enemies in a capsule in front of player
 
 		// homingTargetDelta is the delta (change) in location between the player and what's being homed in on.
 		// function below attempts to find the smallest delta (enemy closest to player) and home in on that
-		homingTargetDelta = Vector3.forward * 10;                                                   //set to a really high value that anything in the sphere would beat
+		homingTargetDelta = Vector3.forward * 10;                                                   //set to an impossibly high temp value that anything in the sphere would beat
 		int savedEnemy = 0;
         for (int index = 0; index < eColliders.Length; index += 1) {                                // for every collider found...
 																									// TODO: try adding weights to both ends of the capsule and see how it feels
 			if (eColliders[index].transform.position.y < -5) return;
 			Vector3 pointDelta = eColliders[index].transform.position - targetCapsuleStart;      // calculate the delta between player and the enemy collider
 			pointDelta.y = 0;
-			//var target = eColliders[index].transform.gameObject.GetComponent<Basic>();			// debug ref to collider's enemy script
+			var target = eColliders[index].transform.gameObject.GetComponent<Basic>();			// debug ref to collider's enemy script
 			if (pointDelta.magnitude < homingTargetDelta.magnitude) {							// if current delta is lower than the previous one...
 				savedEnemy = index;
 				homingTargetDelta = pointDelta;													// make it the new delta
-				//if (target != null && target.debugHoming == true) target.debugTargetTimer = 0.3f;	// (debug) if target is being homed, make them flash
+				if (target != null && target.debugHoming == true) target.debugTargetTimer = 0.3f;	// (debug) if target is being homed, make them flash
 			}
 		}
 		if (eColliders.Length > 0) {
@@ -928,7 +935,7 @@ public class PlayerController : MonoBehaviour {
 					break;
 			}
 		}
-		else {																						// if nothing was detected, just go forward using position of the orb
+		else {																						// if nothing was detected, just go forward using position of the capsule
 			Vector3 Location = GetTargetCapsuleEndSphere();
 			Location = new Vector3(Location.x, transform.position.y, Location.z);
 			homingTargetDelta = Quaternion.LookRotation(Location - transform.position, Vector3.up) * Vector3.forward * 2;
@@ -955,14 +962,16 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-	public void LobThrow() { // triggered in animator
+	public void LobThrow() { // jaden
+		// triggered in animator
 		SetupHoming();
         headProj.speed = 50f;
 		headProj.canStun = true;
 		Instantiate(headProj, projSpawn.position, transform.rotation);
 	}
 
-	public void ShotgunThrow() { // triggered in animator
+	public void ShotgunThrow() { // jaden
+		// triggered in animator
 		SetupHoming();
 		headProj.speed = 50f;
 		headProj.canStun = true;
@@ -991,14 +1000,14 @@ public class PlayerController : MonoBehaviour {
 		else return false;
 	}
 
-	public void Slam() {
+	public void Slam() { // jaden
 		gameMan.SpawnParticle(1, slamPoint.position, 1f);
 		Util.SpawnFlash(gameMan, 10, slamPoint.position, false);
 		if (GameObject.Find("HapticManager") != null) HapticManager.PlayEffect(hapticEffects[1], this.transform.position);
 		gameMan.ShakeCamera(5f, 0.75f);
 	}
 
-	public void Shotgun() {
+	public void Shotgun() { // jaden
 		gameMan.SpawnParticle(0, shotgunPoint.position, 1.5f);
 		sounds.CharacterSpin();
 		if (GameObject.Find("HapticManager") != null) HapticManager.PlayEffect(hapticEffects[2], this.transform.position);
@@ -1044,10 +1053,12 @@ public class PlayerController : MonoBehaviour {
     }
 
 	#region Minor utility functions
+	// jaden
 	void OnEnable() { pActions.Enable(); }
 	void OnDisable() { pActions.Disable(); }
 
 	private void OnDrawGizmos() {
+		// mostly drawing shapes for the homing capsule
 		Gizmos.color = Color.red; // sphere base of cone
 		Vector3 capsuleStartPosition = GetTargetCapsuleStartSphere();
 		Vector3 capsuleEndPosition = GetTargetCapsuleEndSphere();
