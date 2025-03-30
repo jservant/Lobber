@@ -896,11 +896,11 @@ public class PlayerController : MonoBehaviour {
 			if (eColliders[index].transform.position.y < -5) return;
 			Vector3 pointDelta = eColliders[index].transform.position - targetCapsuleStart;      // calculate the delta between player and the enemy collider
 			pointDelta.y = 0;
-			var target = eColliders[index].transform.gameObject.GetComponent<Basic>();			// debug ref to collider's enemy script
+			//var target = eColliders[index].transform.gameObject.GetComponent<Basic>();			// debug ref to collider's enemy script
 			if (pointDelta.magnitude < homingTargetDelta.magnitude) {							// if current delta is lower than the previous one...
 				savedEnemy = index;
 				homingTargetDelta = pointDelta;													// make it the new delta
-				if (target != null && target.debugHoming == true) target.debugTargetTimer = 0.3f;	// (debug) if target is being homed, make them flash
+				//if (target != null && target.debugHoming == true) target.debugTargetTimer = 0.3f;	// (debug) if target is being homed, make them flash
 			}
 		}
 		if (eColliders.Length > 0) {
